@@ -1,0 +1,603 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E0B27CA0FFE00467A0C /* AppDelegate.swift */; };
+		47E74E0E27CA0FFE00467A0C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E0D27CA0FFE00467A0C /* SceneDelegate.swift */; };
+		47E74E1027CA0FFE00467A0C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E0F27CA0FFE00467A0C /* ViewController.swift */; };
+		47E74E1327CA0FFE00467A0C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47E74E1127CA0FFE00467A0C /* Main.storyboard */; };
+		47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47E74E1427CA0FFF00467A0C /* Assets.xcassets */; };
+		47E74E1827CA0FFF00467A0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47E74E1627CA0FFF00467A0C /* LaunchScreen.storyboard */; };
+		47E74E2327CA100000467A0C /* mist_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E2227CA100000467A0C /* mist_iosTests.swift */; };
+		47E74E2D27CA100000467A0C /* mist_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E2C27CA100000467A0C /* mist_iosUITests.swift */; };
+		47E74E2F27CA100000467A0C /* mist_iosUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E2E27CA100000467A0C /* mist_iosUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		47E74E1F27CA100000467A0C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 47E74E0027CA0FFE00467A0C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 47E74E0727CA0FFE00467A0C;
+			remoteInfo = "mist-ios";
+		};
+		47E74E2927CA100000467A0C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 47E74E0027CA0FFE00467A0C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 47E74E0727CA0FFE00467A0C;
+			remoteInfo = "mist-ios";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		47E74E0827CA0FFE00467A0C /* mist-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mist-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		47E74E0B27CA0FFE00467A0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		47E74E0D27CA0FFE00467A0C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		47E74E0F27CA0FFE00467A0C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		47E74E1227CA0FFE00467A0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		47E74E1427CA0FFF00467A0C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		47E74E1727CA0FFF00467A0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		47E74E1927CA0FFF00467A0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		47E74E1E27CA100000467A0C /* mist-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mist-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		47E74E2227CA100000467A0C /* mist_iosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mist_iosTests.swift; sourceTree = "<group>"; };
+		47E74E2827CA100000467A0C /* mist-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mist-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		47E74E2C27CA100000467A0C /* mist_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mist_iosUITests.swift; sourceTree = "<group>"; };
+		47E74E2E27CA100000467A0C /* mist_iosUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mist_iosUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		47E74E0527CA0FFE00467A0C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		47E74E1B27CA100000467A0C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		47E74E2527CA100000467A0C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		47E74DFF27CA0FFE00467A0C = {
+			isa = PBXGroup;
+			children = (
+				47E74E0A27CA0FFE00467A0C /* mist-ios */,
+				47E74E2127CA100000467A0C /* mist-iosTests */,
+				47E74E2B27CA100000467A0C /* mist-iosUITests */,
+				47E74E0927CA0FFE00467A0C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		47E74E0927CA0FFE00467A0C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				47E74E0827CA0FFE00467A0C /* mist-ios.app */,
+				47E74E1E27CA100000467A0C /* mist-iosTests.xctest */,
+				47E74E2827CA100000467A0C /* mist-iosUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		47E74E0A27CA0FFE00467A0C /* mist-ios */ = {
+			isa = PBXGroup;
+			children = (
+				47E74E0B27CA0FFE00467A0C /* AppDelegate.swift */,
+				47E74E0D27CA0FFE00467A0C /* SceneDelegate.swift */,
+				47E74E0F27CA0FFE00467A0C /* ViewController.swift */,
+				47E74E1127CA0FFE00467A0C /* Main.storyboard */,
+				47E74E1427CA0FFF00467A0C /* Assets.xcassets */,
+				47E74E1627CA0FFF00467A0C /* LaunchScreen.storyboard */,
+				47E74E1927CA0FFF00467A0C /* Info.plist */,
+			);
+			path = "mist-ios";
+			sourceTree = "<group>";
+		};
+		47E74E2127CA100000467A0C /* mist-iosTests */ = {
+			isa = PBXGroup;
+			children = (
+				47E74E2227CA100000467A0C /* mist_iosTests.swift */,
+			);
+			path = "mist-iosTests";
+			sourceTree = "<group>";
+		};
+		47E74E2B27CA100000467A0C /* mist-iosUITests */ = {
+			isa = PBXGroup;
+			children = (
+				47E74E2C27CA100000467A0C /* mist_iosUITests.swift */,
+				47E74E2E27CA100000467A0C /* mist_iosUITestsLaunchTests.swift */,
+			);
+			path = "mist-iosUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		47E74E0727CA0FFE00467A0C /* mist-ios */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 47E74E3227CA100000467A0C /* Build configuration list for PBXNativeTarget "mist-ios" */;
+			buildPhases = (
+				47E74E0427CA0FFE00467A0C /* Sources */,
+				47E74E0527CA0FFE00467A0C /* Frameworks */,
+				47E74E0627CA0FFE00467A0C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "mist-ios";
+			productName = "mist-ios";
+			productReference = 47E74E0827CA0FFE00467A0C /* mist-ios.app */;
+			productType = "com.apple.product-type.application";
+		};
+		47E74E1D27CA100000467A0C /* mist-iosTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 47E74E3527CA100000467A0C /* Build configuration list for PBXNativeTarget "mist-iosTests" */;
+			buildPhases = (
+				47E74E1A27CA100000467A0C /* Sources */,
+				47E74E1B27CA100000467A0C /* Frameworks */,
+				47E74E1C27CA100000467A0C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				47E74E2027CA100000467A0C /* PBXTargetDependency */,
+			);
+			name = "mist-iosTests";
+			productName = "mist-iosTests";
+			productReference = 47E74E1E27CA100000467A0C /* mist-iosTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		47E74E2727CA100000467A0C /* mist-iosUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 47E74E3827CA100000467A0C /* Build configuration list for PBXNativeTarget "mist-iosUITests" */;
+			buildPhases = (
+				47E74E2427CA100000467A0C /* Sources */,
+				47E74E2527CA100000467A0C /* Frameworks */,
+				47E74E2627CA100000467A0C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				47E74E2A27CA100000467A0C /* PBXTargetDependency */,
+			);
+			name = "mist-iosUITests";
+			productName = "mist-iosUITests";
+			productReference = 47E74E2827CA100000467A0C /* mist-iosUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		47E74E0027CA0FFE00467A0C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1320;
+				LastUpgradeCheck = 1320;
+				TargetAttributes = {
+					47E74E0727CA0FFE00467A0C = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
+					47E74E1D27CA100000467A0C = {
+						CreatedOnToolsVersion = 13.2.1;
+						TestTargetID = 47E74E0727CA0FFE00467A0C;
+					};
+					47E74E2727CA100000467A0C = {
+						CreatedOnToolsVersion = 13.2.1;
+						TestTargetID = 47E74E0727CA0FFE00467A0C;
+					};
+				};
+			};
+			buildConfigurationList = 47E74E0327CA0FFE00467A0C /* Build configuration list for PBXProject "mist-ios" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 47E74DFF27CA0FFE00467A0C;
+			productRefGroup = 47E74E0927CA0FFE00467A0C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				47E74E0727CA0FFE00467A0C /* mist-ios */,
+				47E74E1D27CA100000467A0C /* mist-iosTests */,
+				47E74E2727CA100000467A0C /* mist-iosUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		47E74E0627CA0FFE00467A0C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47E74E1827CA0FFF00467A0C /* LaunchScreen.storyboard in Resources */,
+				47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */,
+				47E74E1327CA0FFE00467A0C /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		47E74E1C27CA100000467A0C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		47E74E2627CA100000467A0C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		47E74E0427CA0FFE00467A0C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47E74E1027CA0FFE00467A0C /* ViewController.swift in Sources */,
+				47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */,
+				47E74E0E27CA0FFE00467A0C /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		47E74E1A27CA100000467A0C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47E74E2327CA100000467A0C /* mist_iosTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		47E74E2427CA100000467A0C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47E74E2F27CA100000467A0C /* mist_iosUITestsLaunchTests.swift in Sources */,
+				47E74E2D27CA100000467A0C /* mist_iosUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		47E74E2027CA100000467A0C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 47E74E0727CA0FFE00467A0C /* mist-ios */;
+			targetProxy = 47E74E1F27CA100000467A0C /* PBXContainerItemProxy */;
+		};
+		47E74E2A27CA100000467A0C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 47E74E0727CA0FFE00467A0C /* mist-ios */;
+			targetProxy = 47E74E2927CA100000467A0C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		47E74E1127CA0FFE00467A0C /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				47E74E1227CA0FFE00467A0C /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		47E74E1627CA0FFF00467A0C /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				47E74E1727CA0FFF00467A0C /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		47E74E3027CA100000467A0C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		47E74E3127CA100000467A0C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		47E74E3327CA100000467A0C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "mist-ios/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mist.mist-ios";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		47E74E3427CA100000467A0C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "mist-ios/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mist.mist-ios";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		47E74E3627CA100000467A0C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mist.mist-iosTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mist-ios.app/mist-ios";
+			};
+			name = Debug;
+		};
+		47E74E3727CA100000467A0C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mist.mist-iosTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mist-ios.app/mist-ios";
+			};
+			name = Release;
+		};
+		47E74E3927CA100000467A0C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mist.mist-iosUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "mist-ios";
+			};
+			name = Debug;
+		};
+		47E74E3A27CA100000467A0C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mist.mist-iosUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "mist-ios";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		47E74E0327CA0FFE00467A0C /* Build configuration list for PBXProject "mist-ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				47E74E3027CA100000467A0C /* Debug */,
+				47E74E3127CA100000467A0C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		47E74E3227CA100000467A0C /* Build configuration list for PBXNativeTarget "mist-ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				47E74E3327CA100000467A0C /* Debug */,
+				47E74E3427CA100000467A0C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		47E74E3527CA100000467A0C /* Build configuration list for PBXNativeTarget "mist-iosTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				47E74E3627CA100000467A0C /* Debug */,
+				47E74E3727CA100000467A0C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		47E74E3827CA100000467A0C /* Build configuration list for PBXNativeTarget "mist-iosUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				47E74E3927CA100000467A0C /* Debug */,
+				47E74E3A27CA100000467A0C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 47E74E0027CA0FFE00467A0C /* Project object */;
+}
