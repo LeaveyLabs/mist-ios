@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4746508527D83F3E0014217C /* UITextViewFixed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746508427D83F3E0014217C /* UITextViewFixed.swift */; };
 		47A3D70027D50CF1003DBEA5 /* FeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D6FF27D50CF1003DBEA5 /* FeedTableViewController.swift */; };
 		47A3D70227D524F4003DBEA5 /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70127D524F4003DBEA5 /* NewPostViewController.swift */; };
 		47A3D70627D54F3C003DBEA5 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70527D54F3C003DBEA5 /* Post.swift */; };
@@ -50,6 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4746508427D83F3E0014217C /* UITextViewFixed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewFixed.swift; sourceTree = "<group>"; };
 		47A3D6FF27D50CF1003DBEA5 /* FeedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewController.swift; sourceTree = "<group>"; };
 		47A3D70127D524F4003DBEA5 /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
 		47A3D70527D54F3C003DBEA5 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				47A3D71727D58E3B003DBEA5 /* PostTableViewCell.swift */,
 				47A3D71E27D598B6003DBEA5 /* TabBarController.swift */,
 				47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */,
+				4746508427D83F3E0014217C /* UITextViewFixed.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				47A3D71D27D5940D003DBEA5 /* UITextViewExtension.swift in Sources */,
 				47A3D70627D54F3C003DBEA5 /* Post.swift in Sources */,
 				47A3D71227D57A6D003DBEA5 /* UserService.swift in Sources */,
+				4746508527D83F3E0014217C /* UITextViewFixed.swift in Sources */,
 				47A3D70227D524F4003DBEA5 /* NewPostViewController.swift in Sources */,
 				47A3D70E27D55BB3003DBEA5 /* Time.swift in Sources */,
 				47A3D70027D50CF1003DBEA5 /* FeedTableViewController.swift in Sources */,

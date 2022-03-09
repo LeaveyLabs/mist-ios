@@ -22,7 +22,7 @@ class UserService: NSObject {
     //private initializer because there will only be one singleton of UserService
     private override init(){
         super.init()
-        
+        user = User(id: "userid", username: "username", email: "eemeyeel", firstName: "fname", lastName: "lname", authoredPosts: [])
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         self.myAccountFileLocation = documentsDirectory.appendingPathComponent("myaccount.json")
         

@@ -76,7 +76,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5H0-Xv-Q83" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-700" y="621"/>
+            <point key="canvasLocation" x="-701" y="621"/>
         </scene>
         <!--New Post View Controller-->
         <scene sceneID="oiY-Xi-lSz">
@@ -86,33 +86,89 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="new post" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cm2-Kg-Tho">
-                                <rect key="frame" x="179" y="452.66666666666669" width="70" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon" translatesAutoresizingMaskIntoConstraints="NO" id="TaC-ha-jda">
-                                <rect key="frame" x="94" y="237" width="240" height="128"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="9Ee-cR-b6D"/>
-                                    <constraint firstAttribute="width" constant="240" id="Vyd-G4-m6q"/>
-                                </constraints>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uZL-oT-ATa">
+                                <rect key="frame" x="260" y="99" width="148" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Content Guidelines"/>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="envelope.open" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="SdU-1U-4ZL">
+                                <rect key="frame" x="21" y="209.66666666666652" width="36" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="location" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="w6U-Af-yOt">
+                                <rect key="frame" x="22" y="148.99999999999977" width="34" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Doheny Library" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rEO-Uv-AZ8">
+                                <rect key="frame" x="71" y="146" width="219" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" text="To the boy who..." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="07D-Yu-0NW" customClass="UITextViewFixed" customModule="mist_ios" customModuleProvider="target">
+                                <rect key="frame" x="71" y="214" width="333" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="textColor" systemColor="placeholderTextColor"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="sK2-95-fO6"/>
-                        <color key="backgroundColor" systemColor="systemBrownColor"/>
-                        <constraints>
-                            <constraint firstItem="Cm2-Kg-Tho" firstAttribute="centerY" secondItem="ym2-wj-uGy" secondAttribute="centerY" id="5gQ-bb-D5J"/>
-                            <constraint firstItem="Cm2-Kg-Tho" firstAttribute="top" secondItem="TaC-ha-jda" secondAttribute="bottom" constant="87.666666666666686" id="7nT-Hr-GBC"/>
-                            <constraint firstItem="Cm2-Kg-Tho" firstAttribute="centerX" secondItem="ym2-wj-uGy" secondAttribute="centerX" id="X7z-0x-gcY"/>
-                            <constraint firstItem="TaC-ha-jda" firstAttribute="leading" secondItem="sK2-95-fO6" secondAttribute="leading" constant="94" id="kmo-tf-2s1"/>
-                        </constraints>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="KEc-K3-cNr" appends="YES" id="rHE-jp-hwI"/>
+                        </connections>
                     </view>
+                    <navigationItem key="navigationItem" id="MLH-Rq-MVM">
+                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="8fb-bF-AdP">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="deleteDidPressed:" destination="FZV-ZC-LhO" id="EHN-IW-jX6"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="5nM-vY-f5q">
+                            <view key="customView" contentMode="scaleToFill" id="Z1b-ZB-Q0h">
+                                <rect key="frame" x="313" y="5.6666666666666679" width="95" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zts-1m-Ps6">
+                                        <rect key="frame" x="34" y="0.0" width="61" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled">
+                                            <attributedString key="attributedTitle">
+                                                <fragment content="Post">
+                                                    <attributes>
+                                                        <font key="NSFont" size="16" name="Avenir-Medium"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="userDidTappedSaveButton:" destination="FZV-ZC-LhO" eventType="touchUpInside" id="tAN-LF-jyO"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="messageTextView" destination="07D-Yu-0NW" id="g6G-T1-ETG"/>
+                        <outlet property="postButton" destination="Zts-1m-Ps6" id="gww-wt-gc6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d8v-LU-xHV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="KEc-K3-cNr">
+                    <connections>
+                        <action selector="outerViewGestureDidTapped:" destination="FZV-ZC-LhO" id="y2P-Gb-P2D"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="184" y="621"/>
+            <point key="canvasLocation" x="1191.5887850467288" y="620.086393088553"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="PLu-W2-ENU">
@@ -195,22 +251,47 @@
             </objects>
             <point key="canvasLocation" x="-700" y="1359"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="kO0-iY-x10">
+            <objects>
+                <navigationController storyboardIdentifier="NewPostNav" automaticallyAdjustsScrollViewInsets="NO" id="SMy-vf-ALy" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="9Ut-pk-aIY">
+                        <rect key="frame" x="0.0" y="44" width="428" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <navigationBarAppearance key="standardAppearance"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="FZV-ZC-LhO" kind="relationship" relationship="rootViewController" id="Uiz-um-LZL"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hyn-bO-MMg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="244" y="621"/>
+        </scene>
     </scenes>
+    <designables>
+        <designable name="07D-Yu-0NW">
+            <size key="intrinsicContentSize" width="156.66666666666666" height="27.333333333333332"/>
+        </designable>
+    </designables>
     <color key="tintColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>
-        <image name="Icon" width="83.5" height="83.5"/>
+        <image name="envelope.open" catalog="system" width="128" height="122"/>
         <image name="house" catalog="system" width="128" height="106"/>
         <image name="house.fill" catalog="system" width="128" height="106"/>
+        <image name="location" catalog="system" width="128" height="118"/>
         <image name="mist-heart" width="190" height="176"/>
         <image name="pencil.circle" catalog="system" width="128" height="121"/>
         <image name="pencil.circle.fill" catalog="system" width="128" height="121"/>
         <image name="person" catalog="system" width="128" height="117"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
+        <systemColor name="placeholderTextColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemBrownColor">
-            <color red="0.63529411764705879" green="0.51764705882352946" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

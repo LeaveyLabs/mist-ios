@@ -54,7 +54,7 @@ class PostService: NSObject {
     }
     
     //TODO: these two function should be moved elsewhere... does it really fit with postservice?
-    func uploadPost(message: String, completion: (Bool) -> Void) {
+    func uploadPost(message: String, completion: (Post?) -> Void) {
         //TODO: database call plus callback
         
         let uuid = NSUUID().uuidString;
@@ -62,7 +62,7 @@ class PostService: NSObject {
         PostService.homePosts.insert(post: newPost, at: 0)
         PostService.myPosts.insert(post: newPost, at: 0)
         UserService.myAccount.addPost(post: newPost)
-        completion(true)
+        completion(newPost);
     }
     
     func deletePost(at index: Int, userID: String) {
