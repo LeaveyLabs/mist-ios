@@ -19,9 +19,6 @@ class FeedTableViewController: UITableViewController {
         
         //for when going to comments
         navigationController!.hidesBottomBarWhenPushed = true
-
-        // Uncomment the following line to preserve selection between presentations ? Adam: What does this mean
-        // self.clearsSelectionOnViewWillAppear = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,26 +39,22 @@ class FeedTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10;
-        //return PostService.homePosts.numberOfPosts();
+        return PostService.homePosts.numberOfPosts();
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //tableview goes to look at the "reuse pool" for eligible cells to reuse
         //No -> create a brand new UITableViewCell
         //yes -> reuse it
-        //let cell = postsTableView.dequeueReusableCell(withIdentifier: "PostTableCell")!
-        //force casting with "as!" gives us access to its properties
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath) as! PostTableViewCell
         cell.parentViewController = self
-        //let post = PostService.homePosts.getPost(at: indexPath.row)!
+        let post = PostService.homePosts.getPost(at: indexPath.row)!
         
-//        cell.timestampLabel.text = getFormattedTimeString(postTimestamp: post.getTimestamp())
-//        cell.wordLabel.text = post.getWord()
-//        cell.usernameLabel.text = "@" + post.getUsername()
-//        cell.definitionLabel.text = post.getDefinition()
-//        cell.quoteLabel.text = post.getQuote()
-//        cell.upvoteButton.setTitle(" \(post.getUpvotes()) 개", for: .normal)
+        cell.timestampLabel.text = getFormattedTimeString(postTimestamp: post.timestamp)
+        cell.locationLabel.text = post.location
+        cell.messageLabel.text = post.message
+        cell.titleLabel.text = post.title
+        cell.upvoteButton.setTitle(" \(post.upvotes) k", for: .normal)
         
         //TODO: handle when there is not a post
 

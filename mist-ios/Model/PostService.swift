@@ -53,16 +53,20 @@ class PostService: NSObject {
         self.posts.insert(post, at: index)
     }
     
-    //TODO: these two function should be moved elsewhere... does it really fit with postservice?
-    func uploadPost(message: String, completion: (Post?) -> Void) {
-        //TODO: database call plus callback
-        
+    static func uploadPost(title: String, location: String, message: String, completion: (Post?) -> Void) {
         let uuid = NSUUID().uuidString;
-        let newPost = Post(id: uuid, message: message, authorId: UserService.myAccount.getId(), timestamp: currentTimeMillis(), upvotes: 0, downvotes: 0, flags: 0);
-        PostService.homePosts.insert(post: newPost, at: 0)
-        PostService.myPosts.insert(post: newPost, at: 0)
-        UserService.myAccount.addPost(post: newPost)
-        completion(newPost);
+        let newPost = Post(id: uuid, title: title, message: message, authorId: UserService.myAccount.getId(), timestamp: currentTimeMillis(), location: location, upvotes: 0, downvotes: 0, flags: 0);
+        
+        //TODO: database call plus callback
+        if (true) {
+            //change the calling objects below from PostService to Feed?
+            PostService.homePosts.insert(post: newPost, at: 0)
+            PostService.myPosts.insert(post: newPost, at: 0)
+            //UserService.myAccount.addPost(post: newPost)
+            completion(newPost);
+        } else {
+            completion(nil);
+        }
     }
     
     func deletePost(at index: Int, userID: String) {

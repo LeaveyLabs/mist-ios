@@ -9,8 +9,8 @@ import Foundation
 
 
 struct Post: Codable {
-    public let id, message, authorId: String;
+    public let id, title, message, authorId: String;
     public let timestamp: Double
-    //public let geotag: [geotag]
+    public let location: String
     public var upvotes, downvotes, flags: Int
 }

@@ -13,10 +13,12 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
     
     @IBOutlet weak var postButton: UIButton!
     @IBOutlet weak var messageTextView: UITextView!
+    @IBOutlet weak var locationTextField: UITextField!
+    @IBOutlet weak var titleTextField: UITextField!
     
     var completionHandler: NewPostCompletionHandler? //for if presented by segue
     let MESSAGE_PLACEHOLDER_TEXT = "Spill your heart out"
-    let GEOTAG_PLACEHOLDER_TEXT = "Doheny Library"
+    let LOCATION_PLACEHOLDER_TEXT = "Doheny Library"
     
     @objc func tapDone(sender: Any) {
         self.view.endEditing(true)
@@ -26,16 +28,24 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
        super.viewDidLoad();
         disablePostButton();
         messageTextView.textColor = UIColor.placeholderText;
-        messageTextView.becomeFirstResponder();
+        titleTextField.becomeFirstResponder();
         messageTextView.delegate = self;
+        locationTextField.delegate = self;
+        titleTextField.delegate = self;
         messageTextView.selectedTextRange = messageTextView.textRange(from: messageTextView.beginningOfDocument, to: messageTextView.beginningOfDocument) //puts cursor infront of plcaeholder text
         messageTextView.addDoneButton(title: "Done", target: self, selector: #selector(tapDone(sender:)))
    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+    }
     
     // MARK: -Buttons
     
     @IBAction func outerViewGestureDidTapped(_ sender: UITapGestureRecognizer) {
         messageTextView.resignFirstResponder();
+        titleTextField.resignFirstResponder();
+        locationTextField.resignFirstResponder();
     }
     
     @IBAction func deleteDidPressed(_ sender: UIBarButtonItem) {
@@ -44,17 +54,20 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         self.dismiss(animated: true)
     }
     
-    @IBAction func userDidTappedSaveButton(_ sender: UIButton) {
+    @IBAction func userDidTappedPostButton(_ sender: UIButton) {
         if !validateAllFields() {
             return;
         }
-        PostService.homePosts.uploadPost(message: messageTextView.text!) { newPost in
+        
+        PostService.uploadPost(title: titleTextField.text!, location: locationTextField.text!, message: messageTextView.text!) { newPost in
             if let newPost = newPost {
                 clearAllFields();
                 self.dismiss(animated: true) {
                     //TODO: send to home view controller
                 }
-                if let completionHandler = completionHandler{
+                
+                //this "completion handler" code below is not currently used
+                if let completionHandler = completionHandler {
                     completionHandler(newPost);
                 }
             } else {
@@ -64,8 +77,22 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         return;
     }
     
-    //MARK: -TextViewDelegate
+    //MARK: -TextField
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+    }
+    @IBAction func textFieldEditingChanged(_ sender: UITextField) {
+        if validateAllFields() {
+            postButton.isEnabled = true
+        } else {
+            postButton.isEnabled = false;
+        }
+    }
+    
+    //MARK: -TextView
+    
+    //TODO: better understand this function vs the one below it
     func textViewDidChange(_ textView: UITextView) {
         if validateAllFields() {
             enablePostButton();
@@ -77,6 +104,7 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
     //detect changes in textView
     //source: https://stackoverflow.com/questions/27652227/add-placeholder-text-inside-uitextview-in-swift
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
         // Combine the textView text and the replacement text to
         // create the updated text string
         let currentText:String = textView.text
@@ -88,7 +116,7 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
             textView.text = MESSAGE_PLACEHOLDER_TEXT
             textView.textColor = UIColor.placeholderText;
             textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
-            disablePostButton()
+
         }
 
         // Else if the text view's placeholder is showing and the
@@ -98,12 +126,24 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
          else if textView.textColor == UIColor.placeholderText && !text.isEmpty {
             textView.textColor = UIColor.black
             textView.text = text
-             enablePostButton()
+
         }
 
         // For every other case, the text should change with the usual behavior...
         else {
+            if validateAllFields() {
+                enablePostButton();
+            } else {
+                disablePostButton()
+            }
             return true
+        }
+        
+        //TODO: is this code below ever actually reached?
+        if validateAllFields() {
+            enablePostButton();
+        } else {
+            disablePostButton()
         }
 
         // ...otherwise return false since the updates have already been made
@@ -124,10 +164,12 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
     
     func clearAllFields() {
         messageTextView.text! = ""
+        titleTextField.text! = "";
+        locationTextField.text! = "";
     }
     
     func validateAllFields() -> Bool {
-        if (messageTextView.textColor == UIColor.placeholderText || messageTextView.text! == "" ) {
+        if (messageTextView.textColor == UIColor.placeholderText || messageTextView.text! == "" || locationTextField.text! == "" || titleTextField.text! == "" ) {
             return false
         } else {
             return true;

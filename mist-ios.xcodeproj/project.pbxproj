@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4746508527D83F3E0014217C /* UITextViewFixed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746508427D83F3E0014217C /* UITextViewFixed.swift */; };
+		4746508727D8735B0014217C /* RulesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746508627D8735B0014217C /* RulesViewController.swift */; };
 		47A3D70027D50CF1003DBEA5 /* FeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D6FF27D50CF1003DBEA5 /* FeedTableViewController.swift */; };
 		47A3D70227D524F4003DBEA5 /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70127D524F4003DBEA5 /* NewPostViewController.swift */; };
 		47A3D70627D54F3C003DBEA5 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70527D54F3C003DBEA5 /* Post.swift */; };
@@ -52,6 +53,7 @@
 
 /* Begin PBXFileReference section */
 		4746508427D83F3E0014217C /* UITextViewFixed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewFixed.swift; sourceTree = "<group>"; };
+		4746508627D8735B0014217C /* RulesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesViewController.swift; sourceTree = "<group>"; };
 		47A3D6FF27D50CF1003DBEA5 /* FeedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewController.swift; sourceTree = "<group>"; };
 		47A3D70127D524F4003DBEA5 /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
 		47A3D70527D54F3C003DBEA5 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				47A3D71E27D598B6003DBEA5 /* TabBarController.swift */,
 				47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */,
 				4746508427D83F3E0014217C /* UITextViewFixed.swift */,
+				4746508627D8735B0014217C /* RulesViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -372,6 +375,7 @@
 				47A3D71427D58546003DBEA5 /* Feed.swift in Sources */,
 				47A3D71927D58E3B003DBEA5 /* PostTableViewCell.swift in Sources */,
 				47A3D71F27D598B6003DBEA5 /* TabBarController.swift in Sources */,
+				4746508727D8735B0014217C /* RulesViewController.swift in Sources */,
 				47E74E1027CA0FFE00467A0C /* ViewController.swift in Sources */,
 				47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */,
 				47A3D72327D5A0D2003DBEA5 /* ProfileViewController.swift in Sources */,

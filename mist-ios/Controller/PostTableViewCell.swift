@@ -10,7 +10,7 @@ import Social
 
 class PostTableViewCell: UITableViewCell {
 
-    @IBOutlet var geostampLabel: UILabel!
+    @IBOutlet var locationLabel: UILabel!
     @IBOutlet var timestampLabel: UILabel!
     @IBOutlet var messageLabel: UILabel!
     @IBOutlet var upvoteButton: UIButton!
@@ -18,6 +18,7 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet var favoriteButton: UIButton!
     @IBOutlet var moreButton: UIButton!
     @IBOutlet var shareButton: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
     var parentViewController: UIViewController?
     
     override func awakeFromNib() {
