@@ -55,9 +55,29 @@ class PostService: NSObject {
     
     static func uploadPost(title: String, location: String, message: String, completion: (Post?) -> Void) {
         let uuid = NSUUID().uuidString;
-        let newPost = Post(id: uuid, title: title, message: message, authorId: UserService.myAccount.getId(), timestamp: currentTimeMillis(), location: location, upvotes: 0, downvotes: 0, flags: 0);
+        let newPost = Post(id: String(uuid.prefix(10)),
+                           title: title,
+                           text: message,
+                           location: location,
+                           timestamp: currentTimeMillis(),
+                           votes: [],
+                           author: "kevinsun");
         
         //TODO: database call plus callback
+        // Database call
+        guard let serviceUrl = URL(string: "https://mist-backend.herokuapp.com/api/posts/") else { return; }
+        var request = URLRequest(url: serviceUrl);
+        let jsonEncoder = JSONEncoder()
+        let jsonData = try? jsonEncoder.encode(newPost);
+        request.httpMethod = "POST";
+        request.httpBody = jsonData;
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type");
+        URLSession.shared.dataTask(with: request) {
+            (data: Data?, response: URLResponse?, error: Error?) in
+            let outputStr = String(data: data!, encoding: String.Encoding.utf8);
+            print(outputStr);
+        }.resume();
+        // Modify user
         if (true) {
             //change the calling objects below from PostService to Feed?
             PostService.homePosts.insert(post: newPost, at: 0)
@@ -69,28 +89,53 @@ class PostService: NSObject {
         }
     }
     
-    func deletePost(at index: Int, userID: String) {
-        if (isValidIndex(index)) {
-            posts.remove(at: index) //all elements after are automatically re-indexed to close the gap
-            //TODO: update database
+//    func deletePost(at index: Int, userID: String) {
+//        if (isValidIndex(index)) {
+//            posts.remove(at: index) //all elements after are automatically re-indexed to close the gap
+//            //TODO: update database
+//        }
+//    }
+//
+//    func toggleUpvotePost(at index: Int) {
+//        if (isValidIndex(index)) {
+//            //if is upvoted, unupvote
+//
+//            //else if is downvoted, undownvote and upvote
+//
+//            //else just upvote
+//            posts[index].upvotes = posts[index].upvotes + 1
+//
+//            //TODO: db calls
+//        } else { print("Not a valid index") }
+//    }
+//
+//    func toggleDownvotePost(at index: Int) {
+//
+//    }
+//
+    // Acquires posts from the datbase
+    func fetchPosts() async throws -> [Post] {
+        guard let url = URL(string: "https://mist-backend.herokuapp.com/api/posts/") else {
+            return [];
         }
+        let (data, _) = try await URLSession.shared.data(from: url);
+        let result = try JSONDecoder().decode([Post].self, from: data);
+        return result
     }
     
-    func toggleUpvotePost(at index: Int) {
-        if (isValidIndex(index)) {
-            //if is upvoted, unupvote
-
-            //else if is downvoted, undownvote and upvote
-
-            //else just upvote
-            posts[index].upvotes = posts[index].upvotes + 1
-
-            //TODO: db calls
-        } else { print("Not a valid index") }
-    }
-    
-    func toggleDownvotePost(at index: Int) {
-        
+    // Creates post in the database
+    private static func createPost(post:Post) async throws -> Bool {
+        guard let serviceUrl = URL(string: "https://mist-backend.herokuapp.com/api/posts/") else {
+            return false;
+        }
+        var request = URLRequest(url: serviceUrl);
+        let jsonEncoder = JSONEncoder()
+        let jsonData = try jsonEncoder.encode(post)
+        request.httpMethod = "POST";
+        request.httpBody = jsonData;
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type");
+        let (data, _) = try await URLSession.shared.data(for: request);
+        return true;
     }
     
     //user has scrolled far down enough, so fetch 10 more posts

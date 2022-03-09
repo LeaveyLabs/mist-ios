@@ -52,9 +52,9 @@ class FeedTableViewController: UITableViewController {
         
         cell.timestampLabel.text = getFormattedTimeString(postTimestamp: post.timestamp)
         cell.locationLabel.text = post.location
-        cell.messageLabel.text = post.message
+        cell.messageLabel.text = post.text
         cell.titleLabel.text = post.title
-        cell.upvoteButton.setTitle(" \(post.upvotes) k", for: .normal)
+//        cell.upvoteButton.setTitle(" \(post.upvotes) k", for: .normal)
         
         //TODO: handle when there is not a post
 

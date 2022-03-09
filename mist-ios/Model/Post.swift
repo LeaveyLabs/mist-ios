@@ -9,8 +9,11 @@ import Foundation
 
 
 struct Post: Codable {
-    public let id, title, message, authorId: String;
-    public let timestamp: Double
-    public let location: String
-    public var upvotes, downvotes, flags: Int
+    public let id: String;
+    public let title: String;
+    public let text: String;
+    public let location: String;
+    public let timestamp: Double;
+    public let votes: [String];
+    public let author: String;
 }
