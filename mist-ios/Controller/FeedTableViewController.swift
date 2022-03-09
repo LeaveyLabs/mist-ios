@@ -8,7 +8,7 @@
 import UIKit
 
 class FeedTableViewController: UITableViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad();
         self.tableView.estimatedRowHeight = 100;
@@ -19,16 +19,24 @@ class FeedTableViewController: UITableViewController {
         
         //for when going to comments
         navigationController!.hidesBottomBarWhenPushed = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) { // Change `2.0` to the desired number of seconds.
+           // Code you want to be delayed
+            self.refreshPosts();
+        }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated);
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated);
+//        refreshPosts();
+//    }
+//    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated);
         refreshPosts();
     }
     
-    
     func refreshPosts() {
-        //use DispatchQueue.main.async somehow
+        PostService.homePosts.newPosts();
         self.tableView.reloadData();
     }
 

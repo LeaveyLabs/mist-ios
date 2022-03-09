@@ -29,7 +29,18 @@ class PostService: NSObject {
     }
     
     func getPosts() -> [Post] {
-        return posts
+        return posts;
+    }
+    
+    func newPosts() -> Void {
+        Task {
+            do {
+                let request_posts = try await fetchPosts();
+                self.posts = request_posts;
+            } catch {
+                
+            }
+        }
     }
     
     func changeSortBy(to newSortBy: SortBy) {
@@ -62,7 +73,7 @@ class PostService: NSObject {
                            timestamp: currentTimeMillis(),
                            votes: [],
                            author: "kevinsun");
-        
+        print(newPost.timestamp)
         //TODO: database call plus callback
         // Database call
         guard let serviceUrl = URL(string: "https://mist-backend.herokuapp.com/api/posts/") else { return; }
@@ -114,7 +125,7 @@ class PostService: NSObject {
 //    }
 //
     // Acquires posts from the datbase
-    func fetchPosts() async throws -> [Post] {
+    private func fetchPosts() async throws -> [Post] {
         guard let url = URL(string: "https://mist-backend.herokuapp.com/api/posts/") else {
             return [];
         }
