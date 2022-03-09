@@ -12,9 +12,10 @@ typealias NewPostCompletionHandler = ((Post) -> Void)
 class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     
     @IBOutlet weak var postButton: UIButton!
-    @IBOutlet weak var messageTextView: UITextView!
+    @IBOutlet weak var messageTextView: UITextViewFixed!
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var titleTextField: UITextField!
+    var messagePlaceholderLabel : UILabel!
     
     var completionHandler: NewPostCompletionHandler? //for if presented by segue
     let MESSAGE_PLACEHOLDER_TEXT = "Spill your heart out"
@@ -27,13 +28,22 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
     override func viewDidLoad() {
        super.viewDidLoad();
         disablePostButton();
-        messageTextView.textColor = UIColor.placeholderText;
+        
         titleTextField.becomeFirstResponder();
         messageTextView.delegate = self;
         locationTextField.delegate = self;
         titleTextField.delegate = self;
-        messageTextView.selectedTextRange = messageTextView.textRange(from: messageTextView.beginningOfDocument, to: messageTextView.beginningOfDocument) //puts cursor infront of plcaeholder text
         messageTextView.addDoneButton(title: "Done", target: self, selector: #selector(tapDone(sender:)))
+        
+        //add placeholder text to messageTextView
+        //reference: https://stackoverflow.com/questions/27652227/add-placeholder-text-inside-uitextview-in-swift
+        messagePlaceholderLabel = UILabel()
+        messagePlaceholderLabel.text = "to the boy who..."
+        messagePlaceholderLabel.font = messageTextView.font;
+        messagePlaceholderLabel.sizeToFit()
+        messageTextView.addSubview(messagePlaceholderLabel)
+        messagePlaceholderLabel.textColor = UIColor.placeholderText
+        messagePlaceholderLabel.isHidden = !messageTextView.text.isEmpty
    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -94,69 +104,11 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
     
     //TODO: better understand this function vs the one below it
     func textViewDidChange(_ textView: UITextView) {
+        messagePlaceholderLabel.isHidden = !messageTextView.text.isEmpty
         if validateAllFields() {
             enablePostButton();
         } else {
             disablePostButton()
-        }
-    }
-    
-    //detect changes in textView
-    //source: https://stackoverflow.com/questions/27652227/add-placeholder-text-inside-uitextview-in-swift
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        
-        // Combine the textView text and the replacement text to
-        // create the updated text string
-        let currentText:String = textView.text
-        let updatedText = (currentText as NSString).replacingCharacters(in: range, with: text)
-
-        // If updated text view will be empty, add the placeholder
-        // and set the cursor to the beginning of the text view
-        if updatedText.isEmpty {
-            textView.text = MESSAGE_PLACEHOLDER_TEXT
-            textView.textColor = UIColor.placeholderText;
-            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
-
-        }
-
-        // Else if the text view's placeholder is showing and the
-        // length of the replacement string is greater than 0, set
-        // the text color to black then set its text to the
-        // replacement string
-         else if textView.textColor == UIColor.placeholderText && !text.isEmpty {
-            textView.textColor = UIColor.black
-            textView.text = text
-
-        }
-
-        // For every other case, the text should change with the usual behavior...
-        else {
-            if validateAllFields() {
-                enablePostButton();
-            } else {
-                disablePostButton()
-            }
-            return true
-        }
-        
-        //TODO: is this code below ever actually reached?
-        if validateAllFields() {
-            enablePostButton();
-        } else {
-            disablePostButton()
-        }
-
-        // ...otherwise return false since the updates have already been made
-        return false
-    }
-    
-    //prevent user from changing cursor position while placeholder text is visible
-    func textViewDidChangeSelection(_ textView: UITextView) {
-        //textViewDidChangeSelection is called before the view loads so only check the text view's color if the window is visible
-        if self.view.window != nil {
-            if textView.textColor == UIColor.placeholderText {
-                textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
-            }
         }
     }
     
