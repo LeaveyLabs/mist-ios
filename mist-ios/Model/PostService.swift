@@ -124,7 +124,7 @@ class PostService: NSObject {
 //
 //    }
 //
-    // Acquires posts from the datbase
+    // TO DO: delete this ... (refactor exists in the APIs folder)
     private func fetchPosts() async throws -> [Post] {
         guard let url = URL(string: "https://mist-backend.herokuapp.com/api/posts/") else {
             return [];
