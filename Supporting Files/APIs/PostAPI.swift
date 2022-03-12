@@ -8,30 +8,23 @@ enum PostError: Error {
 }
 
 class PostAPI {
+    // Fetches all posts from database
     static func fetchPosts() async throws -> [Post] {
-        guard let url = URL(string: "https://mist-backend.herokuapp.com/api/posts/") else {
-            throw PostError.badAPIEndPoint
-        }
-        let (data, response) = try await URLSession.shared.data(from: url)
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            throw PostError.badId
-        }
-        let result = try JSONDecoder().decode([Post].self, from: data)
-        return result
+        let url = "https://mist-backend.herokuapp.com/api/posts/"
+        let data = try await BasicAPI.fetch(url:url, jsonData:Data())
+        return try JSONDecoder().decode([Post].self, from: data)
     }
 
     // Creates post in the database
     static func createPost(post:Post) async throws {
-        guard let serviceUrl = URL(string: "https://mist-backend.herokuapp.com/api/posts/") else {
-            throw PostError.badAPIEndPoint
-        }
-        var request = URLRequest(url: serviceUrl)
-        let jsonEncoder = JSONEncoder()
-        let jsonData = try jsonEncoder.encode(post)
-        request.httpMethod = "POST"
-        request.httpBody = jsonData
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        try await URLSession.shared.data(for: request)
+        let url = "https://mist-backend.herokuapp.com/api/posts/"
+        let json = try JSONEncoder().encode(post)
+        try await BasicAPI.post(url:url, jsonData:json)
     }
-
+    
+    // Deletes post from the database
+    static func deletePost(id:String) async throws {
+        let url = "https://mist-backend.herokuapp.com/api/posts/\(id)"
+        try await BasicAPI.delete(url:url,jsonData:Data())
+    }
 }
