@@ -9,35 +9,40 @@ import UIKit
 
 class FeedTableViewController: UITableViewController {
     
+    var selectedPostIndex: Int?
+        
     override func viewDidLoad() {
         super.viewDidLoad();
         self.tableView.estimatedRowHeight = 100;
         self.tableView.rowHeight = UITableView.automaticDimension; // is this necessary?
 
-        let nib = UINib(nibName: "PostTableViewCell", bundle: nil);
-        self.tableView.register(nib, forCellReuseIdentifier: "PostTableViewCell");
+        let nib = UINib(nibName: "PostCell", bundle: nil);
+        self.tableView.register(nib, forCellReuseIdentifier: "PostCell");
         
-        //for when going to comments
-        navigationController!.hidesBottomBarWhenPushed = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) { // Change `2.0` to the desired number of seconds.
-           // Code you want to be delayed
-            self.refreshPosts();
-        }
+        refreshControl = UIRefreshControl()
+        refreshControl!.addTarget(self, action: #selector(refreshFeed), for: .valueChanged)
+
+        refreshFeed();
     }
     
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated);
-//        refreshPosts();
-//    }
-//    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);
-        refreshPosts();
+        self.tableView.reloadData()
     }
     
-    func refreshPosts() {
-        PostService.homePosts.newPosts();
-        self.tableView.reloadData();
+    @objc func refreshFeed() {
+        //good notes on managing Tasks:
+        //https://www.swiftbysundell.com/articles/the-role-tasks-play-in-swift-concurrency/
+        Task {
+            do {
+                try await PostService.homePosts.newPosts();
+                self.tableView.reloadData();
+                self.refreshControl!.endRefreshing()
+                print("loaded")
+            } catch {
+                print(error)
+            }
+        }
     }
 
     // MARK: -TableView Data Source
@@ -54,7 +59,7 @@ class FeedTableViewController: UITableViewController {
         //tableview goes to look at the "reuse pool" for eligible cells to reuse
         //No -> create a brand new UITableViewCell
         //yes -> reuse it
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath) as! PostTableViewCell
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! PostCell
         cell.parentViewController = self
         let post = PostService.homePosts.getPost(at: indexPath.row)!
         
@@ -62,7 +67,6 @@ class FeedTableViewController: UITableViewController {
         cell.locationLabel.text = post.location
         cell.messageLabel.text = post.text
         cell.titleLabel.text = post.title
-//        cell.upvoteButton.setTitle(" \(post.upvotes) k", for: .normal)
         
         //TODO: handle when there is not a post
 
@@ -73,6 +77,13 @@ class FeedTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("post was tapped")
+        selectedPostIndex = indexPath.row;
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //TODO: how to know which comment button was pressed and correctly set selectedPostIndex?
+        let postViewController = segue.destination as! PostViewController
+        print("selected post index in feed:" + String(selectedPostIndex!))
+        postViewController.post = PostService.homePosts.getPost(at: selectedPostIndex!)
+    }
 }

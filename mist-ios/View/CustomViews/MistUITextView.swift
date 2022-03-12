@@ -8,12 +8,21 @@
 import Foundation
 import UIKit
 
-@IBDesignable class UITextViewFixed: UITextView {
+@IBDesignable
+class MistUITextView: UITextView {
+    
+    override func prepareForInterfaceBuilder() {
+        super.prepareForInterfaceBuilder()
+        setup()
+    }
+
     override func layoutSubviews() {
         super.layoutSubviews()
         setup()
     }
+    
     func setup() {
+        font = UIFont(name: Constants.defaultFont, size: self.font!.pointSize)
         textContainerInset = UIEdgeInsets.zero
         textContainer.lineFragmentPadding = 0
     }

@@ -12,7 +12,7 @@ typealias NewPostCompletionHandler = ((Post) -> Void)
 class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     
     @IBOutlet weak var postButton: UIButton!
-    @IBOutlet weak var messageTextView: UITextViewFixed!
+    @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var titleTextField: UITextField!
     var messagePlaceholderLabel : UILabel!
@@ -69,21 +69,40 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
             return;
         }
         
-        PostService.uploadPost(title: titleTextField.text!, location: locationTextField.text!, message: messageTextView.text!) { newPost in
-            if let newPost = newPost {
-                clearAllFields();
-                self.dismiss(animated: true) {
-                    //TODO: send to home view controller
+        let handle = Task {
+            do {
+                try await PostService.uploadPost(title: titleTextField.text!, location: locationTextField.text!, message: messageTextView.text!)
+                DispatchQueue.main.async {
+                    self.clearAllFields()
+                    self.dismiss(animated: true) {
+                        //TODO: send to home view controller
+                    }
                 }
-                
-                //this "completion handler" code below is not currently used
-                if let completionHandler = completionHandler {
-                    completionHandler(newPost);
-                }
-            } else {
+            } catch {
+                //handle post service failed to upload
                 print("upload failed!");
             }
         }
+        //let result = await handle.value do i even need this?
+        
+        
+        
+        
+//        PostService.uploadPost(title: titleTextField.text!, location: locationTextField.text!, message: messageTextView.text!) { newPost in
+//            if let newPost = newPost {
+//                clearAllFields();
+//                self.dismiss(animated: true) {
+//                    //TODO: send to home view controller
+//                }
+//
+//                //this "completion handler" code below is not currently used
+//                if let completionHandler = completionHandler {
+//                    completionHandler(newPost);
+//                }
+//            } else {
+//                print("upload failed!");
+//            }
+//        }
         return;
     }
     

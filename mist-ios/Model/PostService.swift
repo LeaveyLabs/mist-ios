@@ -32,15 +32,9 @@ class PostService: NSObject {
         return posts;
     }
     
-    func newPosts() -> Void {
-        Task {
-            do {
-                let request_posts = try await fetchPosts();
-                self.posts = request_posts;
-            } catch {
-                
-            }
-        }
+    func newPosts() async throws -> Void {
+        let request_posts = try await PostAPI.fetchPosts();
+        self.posts = request_posts;
     }
     
     func changeSortBy(to newSortBy: SortBy) {
@@ -64,40 +58,18 @@ class PostService: NSObject {
         self.posts.insert(post, at: index)
     }
     
-    static func uploadPost(title: String, location: String, message: String, completion: (Post?) -> Void) {
+    static func uploadPost(title: String, location: String, message: String) async throws {
         let uuid = NSUUID().uuidString;
         let newPost = Post(id: String(uuid.prefix(10)),
                            title: title,
                            text: message,
                            location: location,
                            timestamp: currentTimeMillis(),
-                           votes: [],
                            author: "kevinsun");
-        print(newPost.timestamp)
-        //TODO: database call plus callback
-        // Database call
-        guard let serviceUrl = URL(string: "https://mist-backend.herokuapp.com/api/posts/") else { return; }
-        var request = URLRequest(url: serviceUrl);
-        let jsonEncoder = JSONEncoder()
-        let jsonData = try? jsonEncoder.encode(newPost);
-        request.httpMethod = "POST";
-        request.httpBody = jsonData;
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type");
-        URLSession.shared.dataTask(with: request) {
-            (data: Data?, response: URLResponse?, error: Error?) in
-            let outputStr = String(data: data!, encoding: String.Encoding.utf8);
-            print(outputStr);
-        }.resume();
-        // Modify user
-        if (true) {
-            //change the calling objects below from PostService to Feed?
-            PostService.homePosts.insert(post: newPost, at: 0)
-            PostService.myPosts.insert(post: newPost, at: 0)
-            //UserService.myAccount.addPost(post: newPost)
-            completion(newPost);
-        } else {
-            completion(nil);
-        }
+        try await PostAPI.createPost(post: newPost);
+        PostService.homePosts.insert(post: newPost, at: 0)
+        PostService.myPosts.insert(post: newPost, at: 0)
+        //UserService.myAccount.addPost(post: newPost)
     }
     
 //    func deletePost(at index: Int, userID: String) {
@@ -124,30 +96,6 @@ class PostService: NSObject {
 //
 //    }
 //
-    // TO DO: delete this ... (refactor exists in the APIs folder)
-    private func fetchPosts() async throws -> [Post] {
-        guard let url = URL(string: "https://mist-backend.herokuapp.com/api/posts/") else {
-            return [];
-        }
-        let (data, _) = try await URLSession.shared.data(from: url);
-        let result = try JSONDecoder().decode([Post].self, from: data);
-        return result
-    }
-    
-    // Creates post in the database
-    private static func createPost(post:Post) async throws -> Bool {
-        guard let serviceUrl = URL(string: "https://mist-backend.herokuapp.com/api/posts/") else {
-            return false;
-        }
-        var request = URLRequest(url: serviceUrl);
-        let jsonEncoder = JSONEncoder()
-        let jsonData = try jsonEncoder.encode(post)
-        request.httpMethod = "POST";
-        request.httpBody = jsonData;
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type");
-        let (data, _) = try await URLSession.shared.data(for: request);
-        return true;
-    }
     
     //user has scrolled far down enough, so fetch 10 more posts
 //    func fetchNewPosts(completion: @escaping () -> Void) {

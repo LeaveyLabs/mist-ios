@@ -8,50 +8,47 @@
 import UIKit
 import Social
 
-class PostTableViewCell: UITableViewCell {
+class PostCell: UITableViewCell {
 
     @IBOutlet var locationLabel: UILabel!
     @IBOutlet var timestampLabel: UILabel!
-    @IBOutlet var messageLabel: UILabel!
-    @IBOutlet var upvoteButton: UIButton!
-    @IBOutlet var downvoteButton: UIButton!
-    @IBOutlet var favoriteButton: UIButton!
-    @IBOutlet var moreButton: UIButton!
-    @IBOutlet var shareButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet var messageLabel: UILabel!
+    
+    @IBOutlet var moreButton: UIButton!
+    @IBOutlet weak var favoriteButton: UIButton!
+    @IBOutlet var shareButton: UIButton!
+    @IBOutlet weak var commentButton: UIButton!
+    
     var parentViewController: UIViewController?
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
     }
     
-    @IBAction func shareButtonClicked(sender: UIButton) {
-        let textToShare = "이거 너무 재밌지 않아? 얼론 찾아봐!"
-        /*
-        let vc = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-        parentViewController?.present(vc!, animated: true)
-
-        let asdf = SLComposeViewController()
-
-        let asdf2 = SLComposeServiceViewController()
-        
-        */
-        
-        //use a universal link. it looks like a URL but launches the app in safari
-        
-        //use Open Graph for a Rich imessage experience
-        if let myWebsite = NSURL(string: "http://www.inssajeon.com/") {
-            let postToTwitter = UIActivity.ActivityType.postToTwitter
+    @IBAction func commentButtonDidPressed(_ sender: UIButton) {
+        if let parentViewController = parentViewController as? FeedTableViewController {
+            parentViewController.selectedPostIndex = parentViewController.tableView.indexPath(for: self)!.row
+            print(parentViewController.selectedPostIndex!)
+            parentViewController.performSegue(withIdentifier: "FeedToPost", sender: parentViewController)
+        } else if (true) {
             
+        }
+    }
+    
+    @IBAction func shareButtonClicked(sender: UIButton) {
+        //use a universal link. it looks like a URL but launches the app in safari
+        //use Open Graph for a Rich imessage experience
+        
+        let textToShare = "mist: find your missed connection"
+
+        //https://developer.apple.com/library/archive/technotes/tn2444/_index.html
+        if let myWebsite = NSURL(string: "http://www.getmist.app") {
+            let postToTwitter = UIActivity.ActivityType.postToTwitter
             let postToFacebook = UIActivity.ActivityType.postToFacebook
-            let image = UIImage(named: "inssajeonWideLogo")
+            let image = UIImage(named: "AppIcon")
             
             let objectsToShare: [Any] = [textToShare, image!]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
