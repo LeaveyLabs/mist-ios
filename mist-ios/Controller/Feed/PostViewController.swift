@@ -63,6 +63,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         commentPlaceholderLabel.textColor = UIColor.placeholderText
         commentPlaceholderLabel.isHidden = !commentTextView.text.isEmpty
         
+        
         loadComments();
         
         let labelTap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
@@ -86,19 +87,10 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
 
         if let sheet = sortByVC.sheetPresentationController {
             sheet.detents = [.medium()]
-
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
 
             //below line allows you to scroll behind the vc
 //            sheet.largestUndimmedDetentIdentifier = .medium
-            
-//            sortByVC.containingView.layer.cornerRadius = 24
-            sheet.preferredCornerRadius = 40
-        
-//        WAIT isntead of doing below, just set background view to be clear, then add a view on top of it
-            //allows you to customize width
-            sheet.prefersEdgeAttachedInCompactHeight = true
-            sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
         }
         
         present(sortByVC, animated: true, completion: nil)
@@ -157,10 +149,12 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
                 cell.locationLabel.text = post.location
                 cell.messageLabel.text = post.text
                 cell.titleLabel.text = post.title
+                cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
                 return cell
             }
         } else if (indexPath.row == 1) {
             let cell = postTableView.dequeueReusableCell(withIdentifier: "sortButton", for: indexPath)
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             return cell;
         }
         
@@ -171,6 +165,8 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         cell.authorLabel.text = comment.author
         cell.commentLabel.text = comment.text
         cell.authorProfileImageView.image = UIImage(named: "pic4")
+        cell.authorProfileImageView.layer.cornerRadius = commentProfileImage.frame.size.height / 2
+        cell.authorProfileImageView.layer.cornerCurve = .continuous
         return cell
     }
     
