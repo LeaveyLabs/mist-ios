@@ -65,7 +65,9 @@ class PostService: NSObject {
                            text: message,
                            location: location,
                            timestamp: currentTimeMillis(),
-                           author: "kevinsun");
+                           author: "kevinsun",
+                           averagerating: 0,
+                           commentcount: 0)
         try await PostAPI.createPost(post: newPost);
         PostService.homePosts.insert(post: newPost, at: 0)
         PostService.myPosts.insert(post: newPost, at: 0)

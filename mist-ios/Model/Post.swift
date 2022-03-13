@@ -8,10 +8,13 @@
 import Foundation
 
 struct Post: Codable {
-    public let id: String;
-    public let title: String;
-    public let text: String;
-    public let location: String;
-    public let timestamp: Double;
-    public let author: String;
+    public let id: String
+    public let title: String
+    public let text: String
+    public let location: String
+    public let timestamp: Double
+    public let author: String
+    public let averagerating: Int
+    public let commentcount: Int
+//    public let voteCount: Int
 }

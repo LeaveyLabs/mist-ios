@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4700F8B427DD7BBA006C2E08 /* FlagAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B027DD7BB9006C2E08 /* FlagAPI.swift */; };
+		4700F8B527DD7BBA006C2E08 /* CommentAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B127DD7BB9006C2E08 /* CommentAPI.swift */; };
+		4700F8B627DD7BBA006C2E08 /* BasicAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B227DD7BB9006C2E08 /* BasicAPI.swift */; };
+		4700F8B727DD7BBA006C2E08 /* VoteAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B327DD7BB9006C2E08 /* VoteAPI.swift */; };
+		4700F8BA27DD7BE3006C2E08 /* Flag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B827DD7BE3006C2E08 /* Flag.swift */; };
+		4700F8BB27DD7BE3006C2E08 /* Vote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B927DD7BE3006C2E08 /* Vote.swift */; };
+		4700F8BE27DD807C006C2E08 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8BC27DD807C006C2E08 /* CommentCell.swift */; };
+		4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4700F8BD27DD807C006C2E08 /* CommentCell.xib */; };
+		4700F8C327DE1EA6006C2E08 /* SortByViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8C227DE1EA6006C2E08 /* SortByViewController.swift */; };
 		4746508527D83F3E0014217C /* MistUITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746508427D83F3E0014217C /* MistUITextView.swift */; };
 		4746508727D8735B0014217C /* RulesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746508627D8735B0014217C /* RulesViewController.swift */; };
 		479AA1F027DCE9A700EA0DFC /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479AA1EE27DCE9A700EA0DFC /* PostCell.swift */; };
@@ -62,6 +71,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4700F8B027DD7BB9006C2E08 /* FlagAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlagAPI.swift; sourceTree = "<group>"; };
+		4700F8B127DD7BB9006C2E08 /* CommentAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentAPI.swift; sourceTree = "<group>"; };
+		4700F8B227DD7BB9006C2E08 /* BasicAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicAPI.swift; sourceTree = "<group>"; };
+		4700F8B327DD7BB9006C2E08 /* VoteAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteAPI.swift; sourceTree = "<group>"; };
+		4700F8B827DD7BE3006C2E08 /* Flag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flag.swift; sourceTree = "<group>"; };
+		4700F8B927DD7BE3006C2E08 /* Vote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vote.swift; sourceTree = "<group>"; };
+		4700F8BC27DD807C006C2E08 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		4700F8BD27DD807C006C2E08 /* CommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
+		4700F8C227DE1EA6006C2E08 /* SortByViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortByViewController.swift; sourceTree = "<group>"; };
 		4746508427D83F3E0014217C /* MistUITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistUITextView.swift; sourceTree = "<group>"; };
 		4746508627D8735B0014217C /* RulesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesViewController.swift; sourceTree = "<group>"; };
 		479AA1EE27DCE9A700EA0DFC /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
@@ -143,6 +161,8 @@
 			children = (
 				479AA1EE27DCE9A700EA0DFC /* PostCell.swift */,
 				479AA1EF27DCE9A700EA0DFC /* PostCell.xib */,
+				4700F8BC27DD807C006C2E08 /* CommentCell.swift */,
+				4700F8BD27DD807C006C2E08 /* CommentCell.xib */,
 			);
 			path = Xibs;
 			sourceTree = "<group>";
@@ -229,6 +249,8 @@
 		47E74E3B27CA14B800467A0C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4700F8B827DD7BE3006C2E08 /* Flag.swift */,
+				4700F8B927DD7BE3006C2E08 /* Vote.swift */,
 				47A3D70527D54F3C003DBEA5 /* Post.swift */,
 				47A3D70B27D55A3A003DBEA5 /* PostService.swift */,
 				47A3D70727D54F6F003DBEA5 /* User.swift */,
@@ -277,6 +299,10 @@
 		47E74E3F27CA152100467A0C /* APIs */ = {
 			isa = PBXGroup;
 			children = (
+				4700F8B227DD7BB9006C2E08 /* BasicAPI.swift */,
+				4700F8B127DD7BB9006C2E08 /* CommentAPI.swift */,
+				4700F8B027DD7BB9006C2E08 /* FlagAPI.swift */,
+				4700F8B327DD7BB9006C2E08 /* VoteAPI.swift */,
 				47FF869727DB1F470076A1CA /* PostAPI.swift */,
 			);
 			path = APIs;
@@ -296,6 +322,7 @@
 			children = (
 				47A3D6FF27D50CF1003DBEA5 /* FeedTableViewController.swift */,
 				479AA1F227DCF2BD00EA0DFC /* PostViewController.swift */,
+				4700F8C227DE1EA6006C2E08 /* SortByViewController.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -424,6 +451,7 @@
 				47E74E1827CA0FFF00467A0C /* LaunchScreen.storyboard in Resources */,
 				47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */,
 				479AA1F727DD0D3800EA0DFC /* Auth.storyboard in Resources */,
+				4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */,
 				47E74E1327CA0FFE00467A0C /* Main.storyboard in Resources */,
 				479AA1F127DCE9A700EA0DFC /* PostCell.xib in Resources */,
 			);
@@ -459,24 +487,32 @@
 				4746508727D8735B0014217C /* RulesViewController.swift in Sources */,
 				479AA20327DD4AA900EA0DFC /* KUIViewController.swift in Sources */,
 				47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */,
+				4700F8BE27DD807C006C2E08 /* CommentCell.swift in Sources */,
 				47A3D72327D5A0D2003DBEA5 /* ProfileViewController.swift in Sources */,
+				4700F8BB27DD7BE3006C2E08 /* Vote.swift in Sources */,
 				47E74E0E27CA0FFE00467A0C /* SceneDelegate.swift in Sources */,
 				47FF86A127DC712F0076A1CA /* Comment.swift in Sources */,
 				479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */,
 				47A3D70C27D55A3A003DBEA5 /* PostService.swift in Sources */,
 				47A3D71D27D5940D003DBEA5 /* UITextView+DoneButton.swift in Sources */,
 				47FF869D27DB87A70076A1CA /* UIImage+Thumbnail.swift in Sources */,
+				4700F8B427DD7BBA006C2E08 /* FlagAPI.swift in Sources */,
 				479AA1FB27DD0F0E00EA0DFC /* MistUILabel.swift in Sources */,
 				47A3D70627D54F3C003DBEA5 /* Post.swift in Sources */,
+				4700F8B627DD7BBA006C2E08 /* BasicAPI.swift in Sources */,
 				47A3D71227D57A6D003DBEA5 /* UserService.swift in Sources */,
 				4746508527D83F3E0014217C /* MistUITextView.swift in Sources */,
+				4700F8B527DD7BBA006C2E08 /* CommentAPI.swift in Sources */,
+				4700F8C327DE1EA6006C2E08 /* SortByViewController.swift in Sources */,
 				47A3D70227D524F4003DBEA5 /* NewPostViewController.swift in Sources */,
+				4700F8B727DD7BBA006C2E08 /* VoteAPI.swift in Sources */,
 				47A3D70E27D55BB3003DBEA5 /* Time.swift in Sources */,
 				479AA1F027DCE9A700EA0DFC /* PostCell.swift in Sources */,
 				47A3D70027D50CF1003DBEA5 /* FeedTableViewController.swift in Sources */,
 				47A3D70827D54F6F003DBEA5 /* User.swift in Sources */,
 				479AA20127DD3F5500EA0DFC /* MistUIButton.swift in Sources */,
 				479AA1FD27DD109F00EA0DFC /* Constants.swift in Sources */,
+				4700F8BA27DD7BE3006C2E08 /* Flag.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -21,6 +21,7 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var commentButton: UIButton!
     
     var parentViewController: UIViewController?
+    var post: Post?
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -33,14 +34,13 @@ class PostCell: UITableViewCell {
             parentViewController.selectedPostIndex = parentViewController.tableView.indexPath(for: self)!.row
             print(parentViewController.selectedPostIndex!)
             parentViewController.performSegue(withIdentifier: "FeedToPost", sender: parentViewController)
-        } else if (true) {
+        } else {
             
         }
     }
     
     @IBAction func shareButtonClicked(sender: UIButton) {
-        //use a universal link. it looks like a URL but launches the app in safari
-        //TODO: use Open Graph for a Rich imessage experience
+        //TODO: use Open Graph protocols on our website for a Rich imessage display
         //https://developer.apple.com/library/archive/technotes/tn2444/_index.html
         if let url = NSURL(string: "https://www.getmist.app")  {
             let objectsToShare: [Any] = [url]

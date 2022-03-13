@@ -67,6 +67,9 @@ class FeedTableViewController: UITableViewController {
         cell.locationLabel.text = post.location
         cell.messageLabel.text = post.text
         cell.titleLabel.text = post.title
+        cell.commentButton.setTitle(" " + String(post.commentcount), for: .normal)
+
+        print(post.commentcount)
         
         //TODO: handle when there is not a post
 

@@ -15,7 +15,7 @@ class PostAPI {
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
-    // Fetches all posts from database (with the right text)
+    // Fetches all posts from database (searching for the below text)
     static func fetchPosts(text:String) async throws -> [Post] {
         let url = "https://mist-backend.herokuapp.com/api/posts?text=\(text)/"
         let data = try await BasicAPI.fetch(url:url)

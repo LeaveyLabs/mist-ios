@@ -9,15 +9,6 @@ import UIKit
 
 let COMMENT_PLACEHOLDER_TEXT = "wait this is so..."
 
-//https://stackoverflow.com/questions/29219688/present-modal-view-controller-in-half-size-parent-controller
-class HalfSizePresentationController: UIPresentationController {
-    override var frameOfPresentedViewInContainerView: CGRect {
-        guard let bounds = containerView?.bounds else { return .zero }
-        return CGRect(x: 0, y: bounds.height / 2, width: bounds.width, height: bounds.height / 2)
-    }
-}
-
-
 class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIViewControllerTransitioningDelegate {
     
     @IBOutlet weak var commentView: UIView!
@@ -47,6 +38,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         postTableView.dataSource = self;
         commentTextView.delegate = self;
         commentProfileImage.layer.cornerRadius = commentProfileImage.frame.size.height / 2
+        commentProfileImage.layer.cornerCurve = .continuous
         commentView.borders(for: [UIRectEdge.top])
         
         disableCommentButton()
@@ -56,8 +48,10 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         commentTextView.textContainer.lineFragmentPadding = 0
         commentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
 
-        let nib = UINib(nibName: "PostCell", bundle: nil);
-        postTableView.register(nib, forCellReuseIdentifier: "PostCell");
+        let postNib = UINib(nibName: "PostCell", bundle: nil);
+        postTableView.register(postNib, forCellReuseIdentifier: "PostCell");
+        let commentNib = UINib(nibName: "CommentCell", bundle: nil);
+        postTableView.register(commentNib, forCellReuseIdentifier: "CommentCell");
         
         //add placeholder text to messageTextView
         commentPlaceholderLabel = UILabel()
@@ -75,36 +69,40 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         view.addGestureRecognizer(labelTap)
     }
     
-    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-        print("tap2")
-        pvc?.dismiss(animated: true)
-    }
-    
-    @IBAction func sortButtonDidPressed(sender: AnyObject) {
-        commentTextView.resignFirstResponder()
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        pvc = storyboard.instantiateViewController(withIdentifier: "asdf")
-        pvc!.modalPresentationStyle = .custom
-        pvc!.transitioningDelegate = self
-        pvc!.view.backgroundColor = .red
-        present(pvc!, animated: true)
-    }
-    
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return HalfSizePresentationController(presentedViewController: presented, presenting: presentingViewController)
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);
     }
     
-//    @IBAction func sortButtonDidPressed(_ sender: UIBarButtonItem) {
-//        commentTextView.resignFirstResponder();
-//        let vc = storyboard!.instantiateViewController(withIdentifier: "myVCID")
-//        vc.modalPresentationStyle = UIModalPresentationStyle;
-//        present(vc, animated: true)
-//        }
-//    }
+    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+        print("tap2")
+//        commentTextView.resignFirstResponder()
+        pvc?.dismiss(animated: true)
+    }
+    
+    @IBAction func sortButtonDidPressed(_ sender: UIButton) {
+        //customize sheet size before presenting
+        //https://developer.apple.com/videos/play/wwdc2021/10063/
+        let sortByVC = self.storyboard!.instantiateViewController(withIdentifier: "sortByVC") as! SortByViewController
+
+        if let sheet = sortByVC.sheetPresentationController {
+            sheet.detents = [.medium()]
+
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+
+            //below line allows you to scroll behind the vc
+//            sheet.largestUndimmedDetentIdentifier = .medium
+            
+//            sortByVC.containingView.layer.cornerRadius = 24
+            sheet.preferredCornerRadius = 40
+        
+//        WAIT isntead of doing below, just set background view to be clear, then add a view on top of it
+            //allows you to customize width
+            sheet.prefersEdgeAttachedInCompactHeight = true
+            sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+        }
+        
+        present(sortByVC, animated: true, completion: nil)
+    }
     
     func textViewDidChange(_ textView: UITextView) {
         commentPlaceholderLabel.isHidden = !commentTextView.text.isEmpty
@@ -125,16 +123,14 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func loadComments() {
-        //good notes on managing Tasks:
-        //https://www.swiftbysundell.com/articles/the-role-tasks-play-in-swift-concurrency/
-//        Task {
-//            do {
-//                try await PostService.homePosts.newPosts();
-//                self.tableView.reloadData();
-//            } catch {
-//                print(error)
-//            }
-//        }
+        Task {
+            do {
+                comments = try await CommentAPI.fetchComments(postID: post!.id)
+                postTableView.reloadData();
+            } catch {
+                print(error)
+            }
+        }
     }
 
     // MARK: -TableView Data Source
@@ -144,8 +140,12 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //return post.number
-        return 2;
+        if let comments = comments {
+            return comments.count + 2
+        }
+        else {
+            return 2;
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -164,22 +164,38 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
             return cell;
         }
         
-        //TODO: handle when there is not a post
-        let cell = postTableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! PostCell
+        //else the cell is a comment
+        let cell = postTableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentCell
+        let comment = comments![indexPath.row-2]
+        cell.timestampLabel.text = getFormattedTimeString(postTimestamp: comment.timestamp)
+        cell.authorLabel.text = comment.author
+        cell.commentLabel.text = comment.text
+        cell.authorProfileImageView.image = UIImage(named: "pic4")
         return cell
     }
+    
+    @IBAction func submitButtonDidPressed(_ sender: UIButton) {
+        print("submti!")
+        Task {
+            do {
+                let newComment = Comment(id: String(NSUUID().uuidString.prefix(10)), text: commentTextView!.text, timestamp: currentTimeMillis(), post: post!.id, author: "kevinsun")
+                try await CommentAPI.postComment(comment: newComment)
+                comments?.append(newComment)
+                commentTextView!.text = ""
+                
+                postTableView.reloadData()
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
     
     // MARK: - TableView Delegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("post was tapped")
     }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        let postViewController = segue.destination as! PostTableViewController
-//        postViewController.post = PostService.homePosts.getPost(at: selectedPostIndex)
-//        //postViewController.completionHandler = { Flashcard in self.quotesTableView.reloadData() }
-//    }
     
     func validateAllFields() -> Bool {
         if (commentTextView.text! == "" ) {
