@@ -14,7 +14,7 @@ enum APIError: Error {
 
 class BasicAPI {
     // GET from the URL (url) with the HTTP body (data)
-    static func fetch(url:String, jsonData:Data) async throws -> Data {
+    static func fetch(url:String) async throws -> Data {
         // Initialize API endpoint
         guard let serviceUrl = URL(string:url) else {
             throw APIError.badAPIEndPoint
@@ -22,7 +22,6 @@ class BasicAPI {
         // Initialize API request
         var request = URLRequest(url: serviceUrl)
         request.httpMethod = "GET"
-        request.httpBody = jsonData
         // Run API request
         let (data, response) = try await URLSession.shared.data(for: request)
         // Throw if unsuccessful

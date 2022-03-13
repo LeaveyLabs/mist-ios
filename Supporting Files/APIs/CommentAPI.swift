@@ -15,9 +15,8 @@ enum CommentError: Error {
 class CommentAPI {
     // Fetch comments from database with the given postID
     static func fetchComments(postID:String) async throws -> [Comment] {
-        let url = "https://mist-backend.herokuapp.com/api/comments/"
-        let json = try JSONEncoder().encode(["post_id":postID])
-        let data = try await BasicAPI.fetch(url:url, jsonData:json)
+        let url = "https://mist-backend.herokuapp.com/api/comments?post_id=\(postID)"
+        let data = try await BasicAPI.fetch(url:url)
         return try JSONDecoder().decode([Comment].self, from: data)
     }
 

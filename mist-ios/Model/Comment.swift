@@ -11,5 +11,6 @@ struct Comment: Codable {
     let id: String;
     let text: String;
     let timestamp: Double;
+    let post: String;
     let author: String;
 }
