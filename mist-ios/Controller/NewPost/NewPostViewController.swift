@@ -8,6 +8,8 @@
 import UIKit
 
 typealias NewPostCompletionHandler = ((Post) -> Void)
+let MESSAGE_PLACEHOLDER_TEXT = "spill your heart out"
+let LOCATION_PLACEHOLDER_TEXT = "doheny Library"
 
 class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     
@@ -18,8 +20,6 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
     var messagePlaceholderLabel : UILabel!
     
     var completionHandler: NewPostCompletionHandler? //for if presented by segue
-    let MESSAGE_PLACEHOLDER_TEXT = "Spill your heart out"
-    let LOCATION_PLACEHOLDER_TEXT = "Doheny Library"
     
     @objc func tapDone(sender: Any) {
         self.view.endEditing(true)
@@ -39,7 +39,7 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         //reference: https://stackoverflow.com/questions/27652227/add-placeholder-text-inside-uitextview-in-swift
         messagePlaceholderLabel = UILabel()
         messagePlaceholderLabel.text = "to the boy who..."
-        messagePlaceholderLabel.font = messageTextView.font;
+        messagePlaceholderLabel.font = messageTextView.font
         messagePlaceholderLabel.sizeToFit()
         messageTextView.addSubview(messagePlaceholderLabel)
         messagePlaceholderLabel.textColor = UIColor.placeholderText
@@ -83,26 +83,6 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
                 print("upload failed!");
             }
         }
-        //let result = await handle.value do i even need this?
-        
-        
-        
-        
-//        PostService.uploadPost(title: titleTextField.text!, location: locationTextField.text!, message: messageTextView.text!) { newPost in
-//            if let newPost = newPost {
-//                clearAllFields();
-//                self.dismiss(animated: true) {
-//                    //TODO: send to home view controller
-//                }
-//
-//                //this "completion handler" code below is not currently used
-//                if let completionHandler = completionHandler {
-//                    completionHandler(newPost);
-//                }
-//            } else {
-//                print("upload failed!");
-//            }
-//        }
         return;
     }
     
@@ -111,6 +91,7 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
     }
+    
     @IBAction func textFieldEditingChanged(_ sender: UITextField) {
         if validateAllFields() {
             postButton.isEnabled = true
@@ -121,7 +102,6 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
     
     //MARK: -TextView
     
-    //TODO: better understand this function vs the one below it
     func textViewDidChange(_ textView: UITextView) {
         messagePlaceholderLabel.isHidden = !messageTextView.text.isEmpty
         if validateAllFields() {
@@ -140,7 +120,7 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
     }
     
     func validateAllFields() -> Bool {
-        if (messageTextView.textColor == UIColor.placeholderText || messageTextView.text! == "" || locationTextField.text! == "" || titleTextField.text! == "" ) {
+        if (messageTextView.text! == "" || locationTextField.text! == "" || titleTextField.text! == "" ) {
             return false
         } else {
             return true;

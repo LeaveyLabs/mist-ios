@@ -17,6 +17,8 @@
 		479AA1FB27DD0F0E00EA0DFC /* MistUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479AA1FA27DD0F0E00EA0DFC /* MistUILabel.swift */; };
 		479AA1FD27DD109F00EA0DFC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479AA1FC27DD109F00EA0DFC /* Constants.swift */; };
 		479AA1FF27DD223600EA0DFC /* MistUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479AA1FE27DD223600EA0DFC /* MistUITextField.swift */; };
+		479AA20127DD3F5500EA0DFC /* MistUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479AA20027DD3F5500EA0DFC /* MistUIButton.swift */; };
+		479AA20327DD4AA900EA0DFC /* KUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479AA20227DD4AA900EA0DFC /* KUIViewController.swift */; };
 		47A3D70027D50CF1003DBEA5 /* FeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D6FF27D50CF1003DBEA5 /* FeedTableViewController.swift */; };
 		47A3D70227D524F4003DBEA5 /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70127D524F4003DBEA5 /* NewPostViewController.swift */; };
 		47A3D70627D54F3C003DBEA5 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70527D54F3C003DBEA5 /* Post.swift */; };
@@ -70,6 +72,8 @@
 		479AA1FA27DD0F0E00EA0DFC /* MistUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistUILabel.swift; sourceTree = "<group>"; };
 		479AA1FC27DD109F00EA0DFC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		479AA1FE27DD223600EA0DFC /* MistUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistUITextField.swift; sourceTree = "<group>"; };
+		479AA20027DD3F5500EA0DFC /* MistUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistUIButton.swift; sourceTree = "<group>"; };
+		479AA20227DD4AA900EA0DFC /* KUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KUIViewController.swift; sourceTree = "<group>"; };
 		47A3D6FF27D50CF1003DBEA5 /* FeedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewController.swift; sourceTree = "<group>"; };
 		47A3D70127D524F4003DBEA5 /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
 		47A3D70527D54F3C003DBEA5 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -157,6 +161,7 @@
 				4746508427D83F3E0014217C /* MistUITextView.swift */,
 				479AA1FA27DD0F0E00EA0DFC /* MistUILabel.swift */,
 				479AA1FE27DD223600EA0DFC /* MistUITextField.swift */,
+				479AA20027DD3F5500EA0DFC /* MistUIButton.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -164,6 +169,7 @@
 		47A3D71B27D593F0003DBEA5 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				479AA20227DD4AA900EA0DFC /* KUIViewController.swift */,
 				47A3D71C27D5940D003DBEA5 /* UITextView+DoneButton.swift */,
 				47FF869C27DB87A70076A1CA /* UIImage+Thumbnail.swift */,
 				479AA1F427DCFFCB00EA0DFC /* UIVIew+TopBorder.swift */,
@@ -195,9 +201,9 @@
 		47E74E0A27CA0FFE00467A0C /* mist-ios */ = {
 			isa = PBXGroup;
 			children = (
+				47E74E1927CA0FFF00467A0C /* Info.plist */,
 				47E74E3B27CA14B800467A0C /* Model */,
 				47E74E3C27CA14BF00467A0C /* View */,
-				47E74E1927CA0FFF00467A0C /* Info.plist */,
 				47E74E3D27CA14C600467A0C /* Controller */,
 			);
 			path = "mist-ios";
@@ -451,6 +457,7 @@
 				47A3D71F27D598B6003DBEA5 /* TabBarController.swift in Sources */,
 				479AA1FF27DD223600EA0DFC /* MistUITextField.swift in Sources */,
 				4746508727D8735B0014217C /* RulesViewController.swift in Sources */,
+				479AA20327DD4AA900EA0DFC /* KUIViewController.swift in Sources */,
 				47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */,
 				47A3D72327D5A0D2003DBEA5 /* ProfileViewController.swift in Sources */,
 				47E74E0E27CA0FFE00467A0C /* SceneDelegate.swift in Sources */,
@@ -468,6 +475,7 @@
 				479AA1F027DCE9A700EA0DFC /* PostCell.swift in Sources */,
 				47A3D70027D50CF1003DBEA5 /* FeedTableViewController.swift in Sources */,
 				47A3D70827D54F6F003DBEA5 /* User.swift in Sources */,
+				479AA20127DD3F5500EA0DFC /* MistUIButton.swift in Sources */,
 				479AA1FD27DD109F00EA0DFC /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

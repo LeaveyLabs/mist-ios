@@ -40,23 +40,12 @@ class PostCell: UITableViewCell {
     
     @IBAction func shareButtonClicked(sender: UIButton) {
         //use a universal link. it looks like a URL but launches the app in safari
-        //use Open Graph for a Rich imessage experience
-        
-        let textToShare = "mist: find your missed connection"
-
+        //TODO: use Open Graph for a Rich imessage experience
         //https://developer.apple.com/library/archive/technotes/tn2444/_index.html
-        if let myWebsite = NSURL(string: "http://www.getmist.app") {
-            let postToTwitter = UIActivity.ActivityType.postToTwitter
-            let postToFacebook = UIActivity.ActivityType.postToFacebook
-            let image = UIImage(named: "AppIcon")
-            
-            let objectsToShare: [Any] = [textToShare, image!]
+        if let url = NSURL(string: "https://www.getmist.app")  {
+            let objectsToShare: [Any] = [url]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
             activityVC.popoverPresentationController?.sourceView = parentViewController?.view // so that iPads won't crash
-        
-            //New Excluded Activities Code
-            //activityVC.excludedActivityTypes = []
-            //
             parentViewController!.present(activityVC, animated: true, completion: nil)
         }
     }
