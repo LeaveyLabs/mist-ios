@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		439E44F427DFB71300E244D6 /* ProfileAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F327DFB71300E244D6 /* ProfileAPI.swift */; };
+		439E44F627DFB76200E244D6 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F527DFB76200E244D6 /* Profile.swift */; };
+		439E44F827DFE11F00E244D6 /* WordAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F727DFE11F00E244D6 /* WordAPI.swift */; };
+		439E44FA27DFE20600E244D6 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F927DFE20600E244D6 /* Word.swift */; };
 		4700F8B427DD7BBA006C2E08 /* FlagAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B027DD7BB9006C2E08 /* FlagAPI.swift */; };
 		4700F8B527DD7BBA006C2E08 /* CommentAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B127DD7BB9006C2E08 /* CommentAPI.swift */; };
 		4700F8B627DD7BBA006C2E08 /* BasicAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B227DD7BB9006C2E08 /* BasicAPI.swift */; };
@@ -82,6 +86,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		439E44F327DFB71300E244D6 /* ProfileAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAPI.swift; sourceTree = "<group>"; };
+		439E44F527DFB76200E244D6 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		439E44F727DFE11F00E244D6 /* WordAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordAPI.swift; sourceTree = "<group>"; };
+		439E44F927DFE20600E244D6 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		4700F8B027DD7BB9006C2E08 /* FlagAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlagAPI.swift; sourceTree = "<group>"; };
 		4700F8B127DD7BB9006C2E08 /* CommentAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentAPI.swift; sourceTree = "<group>"; };
 		4700F8B227DD7BB9006C2E08 /* BasicAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicAPI.swift; sourceTree = "<group>"; };
@@ -311,6 +319,8 @@
 				47A3D71127D57A6D003DBEA5 /* UserService.swift */,
 				47A3D71327D58546003DBEA5 /* Feed.swift */,
 				47FF86A027DC712F0076A1CA /* Comment.swift */,
+				439E44F527DFB76200E244D6 /* Profile.swift */,
+				439E44F927DFE20600E244D6 /* Word.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -361,6 +371,8 @@
 				4700F8B027DD7BB9006C2E08 /* FlagAPI.swift */,
 				4700F8B327DD7BB9006C2E08 /* VoteAPI.swift */,
 				47FF869727DB1F470076A1CA /* PostAPI.swift */,
+				439E44F327DFB71300E244D6 /* ProfileAPI.swift */,
+				439E44F727DFE11F00E244D6 /* WordAPI.swift */,
 			);
 			path = APIs;
 			sourceTree = "<group>";
@@ -554,6 +566,7 @@
 				4700F8BB27DD7BE3006C2E08 /* Vote.swift in Sources */,
 				47E74E0E27CA0FFE00467A0C /* SceneDelegate.swift in Sources */,
 				47FF86A127DC712F0076A1CA /* Comment.swift in Sources */,
+				439E44F627DFB76200E244D6 /* Profile.swift in Sources */,
 				479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */,
 				47A3D70C27D55A3A003DBEA5 /* PostService.swift in Sources */,
 				47A3D71D27D5940D003DBEA5 /* UITextView+DoneButton.swift in Sources */,
@@ -563,7 +576,9 @@
 				47FF869D27DB87A70076A1CA /* UIImage+Thumbnail.swift in Sources */,
 				4700F8B427DD7BBA006C2E08 /* FlagAPI.swift in Sources */,
 				479AA1FB27DD0F0E00EA0DFC /* MistUILabel.swift in Sources */,
+				439E44F827DFE11F00E244D6 /* WordAPI.swift in Sources */,
 				47A3D70627D54F3C003DBEA5 /* Post.swift in Sources */,
+				439E44FA27DFE20600E244D6 /* Word.swift in Sources */,
 				4700F8B627DD7BBA006C2E08 /* BasicAPI.swift in Sources */,
 				477A6FD627DFB0450020F864 /* Color.swift in Sources */,
 				47A3D71227D57A6D003DBEA5 /* UserService.swift in Sources */,
@@ -576,6 +591,7 @@
 				479AA1F027DCE9A700EA0DFC /* PostCell.swift in Sources */,
 				47A3D70027D50CF1003DBEA5 /* FeedTableViewController.swift in Sources */,
 				47A3D70827D54F6F003DBEA5 /* User.swift in Sources */,
+				439E44F427DFB71300E244D6 /* ProfileAPI.swift in Sources */,
 				4700F8C627DE4652006C2E08 /* ExploreViewController.swift in Sources */,
 				479AA20127DD3F5500EA0DFC /* MistUIButton.swift in Sources */,
 				479AA1FD27DD109F00EA0DFC /* Constants.swift in Sources */,
