@@ -24,8 +24,8 @@ struct Constants {
         struct Cell {
             static let Post = "PostCell"
             static let Comment = "CommentCell"
-            static let PostResult = "PostResult"
-            static let UserResult = "UserResult"
+            static let WordResult = "WordResultCell"
+            static let UserResult = "UserResultCell"
             static let Query = "QueryCell"
             static let Sort = "SortCell"
         }

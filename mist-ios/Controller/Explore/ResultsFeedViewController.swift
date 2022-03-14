@@ -86,24 +86,25 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
     }
         
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print(indexPath)
         if (indexPath.row == 0) {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Query, for: indexPath) as! QueryCell
             cell.queryLabel.text = query
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             return cell
-        } else if (indexPath.row == 1) {
+        } else  if (indexPath.row == 1) {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Sort, for: indexPath)
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             return cell;
         }
-        
         let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
         cell.configurePostCell(post: posts[indexPath.row-2], parent: self)
         return cell
+        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count + 2
+        return 2 + posts.count
     }
     
     class func resultsFeedViewControllerForQuery(_ query: String) -> UIViewController {

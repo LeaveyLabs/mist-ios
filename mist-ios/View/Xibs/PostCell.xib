@@ -32,24 +32,27 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20.5" id="Iik-78-LAO"/>
+                        </constraints>
                     </stackView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a7y-a8-nTM">
-                        <rect key="frame" x="20" y="64.333333333333329" width="62" height="41"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a7y-a8-nTM">
+                        <rect key="frame" x="20" y="86" width="388" height="41"/>
                         <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="30"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="To the boy with the green hat on at 10am in Starbucks yesterday.... you seem super cool!" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t3O-N2-KZ5">
-                        <rect key="frame" x="20" y="124.33333333333331" width="388" height="89.666666666666686"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To the boy with the green hat on at 10am in Starbucks yesterday.... you seem super cool!" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t3O-N2-KZ5">
+                        <rect key="frame" x="20" y="157" width="388" height="90"/>
                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="25"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="zGT-qy-eNr" userLabel="InteractionStackView">
-                        <rect key="frame" x="20" y="264" width="388" height="20"/>
+                        <rect key="frame" x="0.0" y="282" width="428" height="20"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VI3-C6-GFy" userLabel="Comment Button">
-                                <rect key="frame" x="0.0" y="0.0" width="124" height="20"/>
+                                <rect key="frame" x="0.0" y="0.0" width="137.5" height="20"/>
                                 <state key="normal" title=" 24" image="message" catalog="system">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -58,7 +61,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2DM-7z-6H2">
-                                <rect key="frame" x="132" y="0.0" width="124" height="20"/>
+                                <rect key="frame" x="145.5" y="0.0" width="137" height="20"/>
                                 <state key="normal" image="square.and.arrow.up" catalog="system">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -67,13 +70,13 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ebx-yW-GZJ" userLabel="Favorite Button">
-                                <rect key="frame" x="264" y="0.0" width="124" height="20"/>
+                                <rect key="frame" x="290.5" y="0.0" width="137.5" height="20"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="bookmark" catalog="system" title=""/>
                             </button>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="height" constant="20" id="3kd-Px-t1m"/>
+                            <constraint firstAttribute="height" constant="20" id="ww6-tT-ZmM"/>
                         </constraints>
                     </stackView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dmp-d9-CyM" userLabel="MoreButton">
@@ -86,21 +89,21 @@
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="n8o-JP-5oD" firstAttribute="top" secondItem="gGS-gG-AEq" secondAttribute="top" constant="17" id="5OV-aI-btS"/>
-                    <constraint firstItem="t3O-N2-KZ5" firstAttribute="trailing" secondItem="dmp-d9-CyM" secondAttribute="trailing" id="BQK-h8-DfN"/>
-                    <constraint firstItem="a7y-a8-nTM" firstAttribute="top" secondItem="n8o-JP-5oD" secondAttribute="bottom" constant="27" id="DmD-VV-TZ2"/>
-                    <constraint firstAttribute="trailing" secondItem="dmp-d9-CyM" secondAttribute="trailing" constant="20" symbolic="YES" id="HuZ-Fm-rmS"/>
-                    <constraint firstItem="zGT-qy-eNr" firstAttribute="leading" secondItem="gGS-gG-AEq" secondAttribute="leadingMargin" id="NBA-j4-qoO"/>
-                    <constraint firstItem="n8o-JP-5oD" firstAttribute="leading" secondItem="gGS-gG-AEq" secondAttribute="leadingMargin" id="OS8-lt-U7O"/>
-                    <constraint firstItem="zGT-qy-eNr" firstAttribute="centerX" secondItem="gGS-gG-AEq" secondAttribute="centerX" id="QeH-7B-2Zv"/>
-                    <constraint firstAttribute="bottom" secondItem="zGT-qy-eNr" secondAttribute="bottom" constant="38" id="W8H-Ew-iLq"/>
-                    <constraint firstItem="t3O-N2-KZ5" firstAttribute="leading" secondItem="n8o-JP-5oD" secondAttribute="leading" id="XeV-SA-rSD"/>
-                    <constraint firstItem="a7y-a8-nTM" firstAttribute="leading" secondItem="n8o-JP-5oD" secondAttribute="leading" id="lPu-I5-jKx"/>
-                    <constraint firstItem="t3O-N2-KZ5" firstAttribute="top" secondItem="a7y-a8-nTM" secondAttribute="bottom" constant="19" id="p7I-4g-m0y"/>
-                    <constraint firstItem="zGT-qy-eNr" firstAttribute="top" secondItem="t3O-N2-KZ5" secondAttribute="bottom" constant="50" id="pn6-y3-huW"/>
-                    <constraint firstItem="zGT-qy-eNr" firstAttribute="trailing" secondItem="gGS-gG-AEq" secondAttribute="trailingMargin" id="qgr-8Y-puM"/>
-                    <constraint firstItem="t3O-N2-KZ5" firstAttribute="leading" secondItem="a7y-a8-nTM" secondAttribute="leading" id="sDj-Rs-fVk"/>
-                    <constraint firstItem="dmp-d9-CyM" firstAttribute="top" secondItem="n8o-JP-5oD" secondAttribute="top" id="tpx-hZ-CYR"/>
+                    <constraint firstItem="n8o-JP-5oD" firstAttribute="top" secondItem="gGS-gG-AEq" secondAttribute="top" constant="17" id="5CK-Z0-G51"/>
+                    <constraint firstAttribute="bottom" secondItem="zGT-qy-eNr" secondAttribute="bottom" constant="20" id="Btu-0a-Zjx"/>
+                    <constraint firstItem="t3O-N2-KZ5" firstAttribute="trailing" secondItem="gGS-gG-AEq" secondAttribute="trailingMargin" id="EIq-5j-dML"/>
+                    <constraint firstItem="zGT-qy-eNr" firstAttribute="leading" secondItem="gGS-gG-AEq" secondAttribute="leading" id="Fce-lg-LjY"/>
+                    <constraint firstItem="a7y-a8-nTM" firstAttribute="leading" secondItem="gGS-gG-AEq" secondAttribute="leading" constant="20" id="Hbb-HN-bxH"/>
+                    <constraint firstItem="dmp-d9-CyM" firstAttribute="top" secondItem="gGS-gG-AEq" secondAttribute="top" constant="17" id="IE6-ju-buF"/>
+                    <constraint firstItem="n8o-JP-5oD" firstAttribute="leading" secondItem="gGS-gG-AEq" secondAttribute="leading" constant="20" id="LHP-O4-Xbe"/>
+                    <constraint firstAttribute="trailing" secondItem="dmp-d9-CyM" secondAttribute="trailing" constant="20" id="Vp1-yb-AIF"/>
+                    <constraint firstItem="a7y-a8-nTM" firstAttribute="trailing" secondItem="gGS-gG-AEq" secondAttribute="trailingMargin" id="e5o-5O-BT4"/>
+                    <constraint firstAttribute="trailing" secondItem="zGT-qy-eNr" secondAttribute="trailing" id="hd3-2U-Pts"/>
+                    <constraint firstItem="zGT-qy-eNr" firstAttribute="centerX" secondItem="gGS-gG-AEq" secondAttribute="centerX" id="kMB-mg-G4C"/>
+                    <constraint firstItem="t3O-N2-KZ5" firstAttribute="top" secondItem="a7y-a8-nTM" secondAttribute="bottom" constant="30" id="l7z-wJ-9pu"/>
+                    <constraint firstItem="zGT-qy-eNr" firstAttribute="top" secondItem="t3O-N2-KZ5" secondAttribute="bottom" constant="35" id="lts-1W-tzA"/>
+                    <constraint firstItem="a7y-a8-nTM" firstAttribute="top" secondItem="3MG-v5-ysu" secondAttribute="bottom" constant="48.5" id="o4a-8q-Yvm"/>
+                    <constraint firstItem="t3O-N2-KZ5" firstAttribute="leading" secondItem="a7y-a8-nTM" secondAttribute="leading" id="paN-EF-BLX"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

@@ -19,6 +19,7 @@ class FeedTableViewController: UITableViewController {
         self.tableView.estimatedRowHeight = 100;
         self.tableView.rowHeight = UITableView.automaticDimension; // is this necessary?
 
+
         navigationItem.titleView = mistTitle
         let nib = UINib(nibName: Constants.SBID.Cell.Post, bundle: nil);
         self.tableView.register(nib, forCellReuseIdentifier: Constants.SBID.Cell.Post);

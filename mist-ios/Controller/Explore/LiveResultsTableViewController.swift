@@ -13,8 +13,7 @@ class LiveResultsTableViewController: UITableViewController {
         
     /// Data models for the table view.
     var selectedScope = 0
-    //var users = [User]()
-    var postResults = [Post]()
+    var liveResults = [Any]()
     
     @IBOutlet weak var resultsLabel: UILabel!
     
@@ -23,37 +22,29 @@ class LiveResultsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        resultsLabel.isHidden = true;
+        //resultsLabel.isHidden = true;
 
-        let nib = UINib(nibName: Constants.SBID.Cell.PostResult, bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: Constants.SBID.Cell.PostResult)
+        let nib = UINib(nibName: Constants.SBID.Cell.WordResult, bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: Constants.SBID.Cell.WordResult)
+        let nib2 = UINib(nibName: Constants.SBID.Cell.UserResult, bundle: nil)
+        tableView.register(nib2, forCellReuseIdentifier: Constants.SBID.Cell.UserResult)
     }
     
     // MARK: - UITableViewDataSource
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return postResults.count
+        return liveResults.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.PostResult, for: indexPath)
-        let post = postResults[indexPath.row]
-        
-        cell.textLabel?.text = post.title
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedPost = postResults[indexPath.row]
-        
-        switch selectedScope {
-        case 0:
-            break
-        case 1:
-            break
-        default: break
+        if selectedScope == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.WordResult, for: indexPath) as! WordResultCell
+            cell.configureWordCell(word: liveResults[indexPath.row] as! Word, parent: self)
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.UserResult, for: indexPath) as! UserResultCell
+            cell.configureUserCell(profile: liveResults[indexPath.row] as! Profile, parent: self)
+            return cell
         }
-        
-        tableView.deselectRow(at: indexPath, animated: false)
     }
 }

@@ -8,7 +8,12 @@
 import UIKit
 
 class UserResultCell: UITableViewCell {
-
+    
+    var parentVC: UIViewController!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var profileImageView: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -16,8 +21,15 @@ class UserResultCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    }
+    
+    func configureUserCell(profile: Profile, parent: UIViewController) {
+        parentVC = parent
+        nameLabel.text = profile.first_name + " " +  profile.last_name
+        usernameLabel.text = profile.username
+        profileImageView.image = UIImage(named: "adam")
+        profileImageView.layer.cornerRadius = profileImageView.frame.size.height / 2
+        profileImageView.layer.cornerCurve = .continuous
     }
     
 }

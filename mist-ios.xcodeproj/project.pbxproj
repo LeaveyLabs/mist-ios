@@ -23,10 +23,10 @@
 		4700F8C327DE1EA6006C2E08 /* SortByViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8C227DE1EA6006C2E08 /* SortByViewController.swift */; };
 		4700F8C627DE4652006C2E08 /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8C527DE4652006C2E08 /* ExploreViewController.swift */; };
 		470F271327DE6F5800C6DDAF /* LiveResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */; };
-		470F271827DE758100C6DDAF /* PostResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271627DE758100C6DDAF /* PostResultCell.swift */; };
-		470F271927DE758100C6DDAF /* PostResultsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 470F271727DE758100C6DDAF /* PostResultsCell.xib */; };
+		470F271827DE758100C6DDAF /* WordResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271627DE758100C6DDAF /* WordResultCell.swift */; };
+		470F271927DE758100C6DDAF /* WordResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 470F271727DE758100C6DDAF /* WordResultCell.xib */; };
 		470F271C27DE764F00C6DDAF /* UserResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271A27DE764F00C6DDAF /* UserResultCell.swift */; };
-		470F271D27DE764F00C6DDAF /* UserResultsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 470F271B27DE764F00C6DDAF /* UserResultsCell.xib */; };
+		470F271D27DE764F00C6DDAF /* UserResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 470F271B27DE764F00C6DDAF /* UserResultCell.xib */; };
 		470F271F27DE9ABE00C6DDAF /* ResultsFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271E27DE9ABE00C6DDAF /* ResultsFeedViewController.swift */; };
 		4746508527D83F3E0014217C /* MistUITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746508427D83F3E0014217C /* MistUITextView.swift */; };
 		4746508727D8735B0014217C /* RulesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746508627D8735B0014217C /* RulesViewController.swift */; };
@@ -103,10 +103,10 @@
 		4700F8C227DE1EA6006C2E08 /* SortByViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortByViewController.swift; sourceTree = "<group>"; };
 		4700F8C527DE4652006C2E08 /* ExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
 		470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveResultsTableViewController.swift; sourceTree = "<group>"; };
-		470F271627DE758100C6DDAF /* PostResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostResultCell.swift; sourceTree = "<group>"; };
-		470F271727DE758100C6DDAF /* PostResultsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostResultsCell.xib; sourceTree = "<group>"; };
+		470F271627DE758100C6DDAF /* WordResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordResultCell.swift; sourceTree = "<group>"; };
+		470F271727DE758100C6DDAF /* WordResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WordResultCell.xib; sourceTree = "<group>"; };
 		470F271A27DE764F00C6DDAF /* UserResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResultCell.swift; sourceTree = "<group>"; };
-		470F271B27DE764F00C6DDAF /* UserResultsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserResultsCell.xib; sourceTree = "<group>"; };
+		470F271B27DE764F00C6DDAF /* UserResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserResultCell.xib; sourceTree = "<group>"; };
 		470F271E27DE9ABE00C6DDAF /* ResultsFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsFeedViewController.swift; sourceTree = "<group>"; };
 		4746508427D83F3E0014217C /* MistUITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistUITextView.swift; sourceTree = "<group>"; };
 		4746508627D8735B0014217C /* RulesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesViewController.swift; sourceTree = "<group>"; };
@@ -203,8 +203,8 @@
 			children = (
 				479AA1EF27DCE9A700EA0DFC /* PostCell.xib */,
 				4700F8BD27DD807C006C2E08 /* CommentCell.xib */,
-				470F271727DE758100C6DDAF /* PostResultsCell.xib */,
-				470F271B27DE764F00C6DDAF /* UserResultsCell.xib */,
+				470F271727DE758100C6DDAF /* WordResultCell.xib */,
+				470F271B27DE764F00C6DDAF /* UserResultCell.xib */,
 				47C2834E27DED77500A19128 /* QueryCell.xib */,
 			);
 			path = Xibs;
@@ -223,7 +223,7 @@
 			children = (
 				479AA1EE27DCE9A700EA0DFC /* PostCell.swift */,
 				4700F8BC27DD807C006C2E08 /* CommentCell.swift */,
-				470F271627DE758100C6DDAF /* PostResultCell.swift */,
+				470F271627DE758100C6DDAF /* WordResultCell.swift */,
 				470F271A27DE764F00C6DDAF /* UserResultCell.swift */,
 				47C2834D27DED77500A19128 /* QueryCell.swift */,
 			);
@@ -524,9 +524,9 @@
 				47E74E1827CA0FFF00467A0C /* Launch.storyboard in Resources */,
 				47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */,
 				479AA1F727DD0D3800EA0DFC /* Auth.storyboard in Resources */,
-				470F271927DE758100C6DDAF /* PostResultsCell.xib in Resources */,
+				470F271927DE758100C6DDAF /* WordResultCell.xib in Resources */,
 				4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */,
-				470F271D27DE764F00C6DDAF /* UserResultsCell.xib in Resources */,
+				470F271D27DE764F00C6DDAF /* UserResultCell.xib in Resources */,
 				47E74E1327CA0FFE00467A0C /* Main.storyboard in Resources */,
 				479AA1F127DCE9A700EA0DFC /* PostCell.xib in Resources */,
 			);
@@ -563,7 +563,7 @@
 				470F271C27DE764F00C6DDAF /* UserResultCell.swift in Sources */,
 				4746508727D8735B0014217C /* RulesViewController.swift in Sources */,
 				479AA20327DD4AA900EA0DFC /* KUIViewController.swift in Sources */,
-				470F271827DE758100C6DDAF /* PostResultCell.swift in Sources */,
+				470F271827DE758100C6DDAF /* WordResultCell.swift in Sources */,
 				47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */,
 				4700F8BE27DD807C006C2E08 /* CommentCell.swift in Sources */,
 				47A3D72327D5A0D2003DBEA5 /* ProfileViewController.swift in Sources */,
@@ -785,7 +785,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = mist;
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = Launch;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -818,7 +818,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = mist;
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = Launch;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

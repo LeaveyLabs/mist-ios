@@ -13,7 +13,7 @@ import MapKit
 ///https://developer.apple.com/documentation/uikit/view_controllers/using_suggested_searches_with_a_search_controller
 ///https://developer.apple.com/documentation/uikit/view_controllers/displaying_searchable_content_by_using_a_search_controller
 
-class ExploreViewController: UIViewController, UITableViewDelegate {
+class ExploreViewController: UIViewController {
     
     // MARK: - Properties
     
@@ -42,7 +42,7 @@ class ExploreViewController: UIViewController, UITableViewDelegate {
         annotation.subtitle = "Ok so we met in the dining hall and then.."
         annotation.coordinate = CLLocationCoordinate2D(latitude: 34.0204, longitude: -118.2861)
         mapView.addAnnotation(annotation)
-    
+            
         resultsTableController =
         self.storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.LiveResults) as? LiveResultsTableViewController
         // This view controller is interested in table view row selections.
@@ -125,7 +125,30 @@ extension ExploreViewController: UISearchBarDelegate {
         //TODO: add a modal transition for mapCoverView
         return true
     }
-    
+}
+
+// MARK: - UITableViewDelegate
+
+extension ExploreViewController: UITableViewDelegate {
+        
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("selected!")
+        switch resultsTableController.selectedScope {
+        case 0:
+            print("word selected!")
+            let word = resultsTableController.liveResults[indexPath.row] as! Word
+            let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewControllerForQuery(word.text)
+            navigationController?.pushViewController(newQueryFeedViewController, animated: true)
+            navigationController?.navigationItem.searchController?.searchBar.resignFirstResponder()
+        case 1:
+            break
+            //let profile = liveResults[indexPath.row] as! Profile
+            //TODO: navigate to profile page
+        default: break
+        }
+        
+        tableView.deselectRow(at: indexPath, animated: false)
+    }
 }
 
 // MARK: - UISearchControllerDelegate
@@ -161,34 +184,31 @@ extension ExploreViewController: UISearchResultsUpdating {
     
     //Update the filtered array based on the search text.
     func updateSearchResults(for searchController: UISearchController) {
-        
-        return
-        
-        // Handle the scoping.
-        let selectedScopeButtonIndex = searchController.searchBar.selectedScopeButtonIndex
-        switch selectedScopeButtonIndex {
-        case 0:
-            break
-        case 1:
-            break
-        default: break
-        }
-        
         //ensure there is text within the search bar
         guard let text = searchController.searchBar.text else {
-            //? what to do here
+            return
+            //TODO: remove this return? 
         }
-        print("text: " + text)
+
+        print("updating search results")
         // Apply the database results to the search results table.
         if let resultsController = searchController.searchResultsController as? LiveResultsTableViewController {
             Task {
                 do {
-                    resultsController.postResults = try await PostAPI.fetchPosts(text: text)
+                    switch searchController.searchBar.selectedScopeButtonIndex {
+                    case 0:
+                        let result = try await WordAPI.fetchWords(text: text)
+                        print(result)
+                        resultsController.liveResults = result
+                    case 1:
+                        resultsController.liveResults = try await ProfileAPI.fetchProfiles(text: text)
+                    default: break
+                    }
+                    print(resultsController.liveResults)
                     resultsController.tableView.reloadData()
-                    resultsController.resultsLabel.text = resultsController.postResults.isEmpty ?
+                    resultsController.resultsLabel.text = resultsController.liveResults.isEmpty ?
                         "No items found":
-                        String(format:"Items found: %d",resultsController.postResults.count)
-                    print("explore view content loaded")
+                        String(format:"Items found: %d",resultsController.liveResults.count)
                 } catch {
                     print(error)
                 }

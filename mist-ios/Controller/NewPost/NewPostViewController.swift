@@ -69,15 +69,11 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
             return;
         }
         
-        let handle = Task {
+        Task {
             do {
                 try await PostService.uploadPost(title: titleTextField.text!, location: locationTextField.text!, message: messageTextView.text!)
-                DispatchQueue.main.async {
-                    self.clearAllFields()
-                    self.dismiss(animated: true) {
-                        //TODO: send to home view controller
-                    }
-                }
+                self.clearAllFields()
+                self.dismiss(animated: true)
             } catch {
                 //handle post service failed to upload
                 print("upload failed!");
