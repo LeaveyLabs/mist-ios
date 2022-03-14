@@ -8,20 +8,22 @@
 import UIKit
 
 let COMMENT_PLACEHOLDER_TEXT = "wait this is so..."
+typealias UpdatedPostCompletionHandler = ((Post) -> Void)
 
-class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIViewControllerTransitioningDelegate {
+class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIViewControllerTransitioningDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var commentView: UIView!
     @IBOutlet weak var commentProfileImage: UIImageView!
     @IBOutlet weak var commentTextView: UITextView!
     @IBOutlet weak var commentButton: UIButton!
-    var commentPlaceholderLabel : UILabel!
+    var commentPlaceholderLabel: UILabel!
 
     @IBOutlet weak var postTableView: UITableView!
-    var post: Post?
-    var comments: [Comment]?
-    var pvc: UIViewController?
+    var completionHandler: UpdatedPostCompletionHandler?
     
+    //postVC should never be created without a post
+    var post: Post!
+    var comments: [Comment]?
     
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -41,6 +43,9 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         commentProfileImage.layer.cornerCurve = .continuous
         commentView.borders(for: [UIRectEdge.top])
         
+        //(1 of 2) for enabling swipe left to go back with a bar button item
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
+        
         disableCommentButton()
         commentTextView.layer.borderWidth = 1
         commentTextView.layer.borderColor = UIColor.lightGray.cgColor
@@ -48,10 +53,10 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         commentTextView.textContainer.lineFragmentPadding = 0
         commentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
 
-        let postNib = UINib(nibName: "PostCell", bundle: nil);
-        postTableView.register(postNib, forCellReuseIdentifier: "PostCell");
-        let commentNib = UINib(nibName: "CommentCell", bundle: nil);
-        postTableView.register(commentNib, forCellReuseIdentifier: "CommentCell");
+        let postNib = UINib(nibName: Constants.SBID.Cell.Post, bundle: nil);
+        postTableView.register(postNib, forCellReuseIdentifier: Constants.SBID.Cell.Post);
+        let commentNib = UINib(nibName: Constants.SBID.Cell.Comment, bundle: nil);
+        postTableView.register(commentNib, forCellReuseIdentifier: Constants.SBID.Cell.Comment);
         
         //add placeholder text to messageTextView
         commentPlaceholderLabel = UILabel()
@@ -70,29 +75,51 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         view.addGestureRecognizer(labelTap)
     }
     
+    //create a postVC for a given post. postVC should never exist without a post
+    class func createPostVCForPost(_ post: Post) -> PostViewController {
+        let postVC =
+        UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
+        postVC.post = post
+        return postVC
+    }
+    
+    //(2 of 2) for enabling swipe left to go back with a bar button item
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
+        navigationController?.popViewController(animated: true)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if isBeingDismissed {
+            commentTextView.text = ""
+            if let completionHandler = completionHandler{
+                completionHandler(post)
+            }
+        }
+    }
+    
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
-        print("tap2")
-//        commentTextView.resignFirstResponder()
-        pvc?.dismiss(animated: true)
+        commentTextView.resignFirstResponder()
     }
     
     @IBAction func sortButtonDidPressed(_ sender: UIButton) {
         //customize sheet size before presenting
         //https://developer.apple.com/videos/play/wwdc2021/10063/
-        let sortByVC = self.storyboard!.instantiateViewController(withIdentifier: "sortByVC") as! SortByViewController
-
+        let sortByVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.SortBy) as! SortByViewController
         if let sheet = sortByVC.sheetPresentationController {
             sheet.detents = [.medium()]
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-
             //below line allows you to scroll behind the vc
 //            sheet.largestUndimmedDetentIdentifier = .medium
         }
-        
         present(sortByVC, animated: true, completion: nil)
     }
     
@@ -117,7 +144,8 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     func loadComments() {
         Task {
             do {
-                comments = try await CommentAPI.fetchComments(postID: post!.id)
+                comments = try await CommentAPI.fetchComments(postID: post.id)
+                print("loaded comments")
                 postTableView.reloadData();
             } catch {
                 print(error)
@@ -143,30 +171,19 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (indexPath.row == 0) {
             if let post = post {
-                let cell = postTableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! PostCell
-                cell.parentViewController = self
-                cell.timestampLabel.text = getFormattedTimeString(postTimestamp: post.timestamp)
-                cell.locationLabel.text = post.location
-                cell.messageLabel.text = post.text
-                cell.titleLabel.text = post.title
+                let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
+                cell.configurePostCell(post: post, parent: self)
                 cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
                 return cell
             }
         } else if (indexPath.row == 1) {
-            let cell = postTableView.dequeueReusableCell(withIdentifier: "sortButton", for: indexPath)
+            let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Sort, for: indexPath)
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             return cell;
         }
-        
         //else the cell is a comment
-        let cell = postTableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentCell
-        let comment = comments![indexPath.row-2]
-        cell.timestampLabel.text = getFormattedTimeString(postTimestamp: comment.timestamp)
-        cell.authorLabel.text = comment.author
-        cell.commentLabel.text = comment.text
-        cell.authorProfileImageView.image = UIImage(named: "pic4")
-        cell.authorProfileImageView.layer.cornerRadius = commentProfileImage.frame.size.height / 2
-        cell.authorProfileImageView.layer.cornerCurve = .continuous
+        let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Comment, for: indexPath) as! CommentCell
+        cell.configureCommentCell(comment: comments![indexPath.row-2], parent: self)
         return cell
     }
     
@@ -174,11 +191,11 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         print("submti!")
         Task {
             do {
-                let newComment = Comment(id: String(NSUUID().uuidString.prefix(10)), text: commentTextView!.text, timestamp: currentTimeMillis(), post: post!.id, author: "kevinsun")
+                let newComment = Comment(id: String(NSUUID().uuidString.prefix(10)), text: commentTextView!.text, timestamp: currentTimeMillis(), post: post.id, author: "kevinsun")
                 try await CommentAPI.postComment(comment: newComment)
                 comments?.append(newComment)
                 commentTextView!.text = ""
-                
+                post.commentcount += 1
                 postTableView.reloadData()
             } catch {
                 print(error)

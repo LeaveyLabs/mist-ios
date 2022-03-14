@@ -9,5 +9,4 @@ import Foundation
 
 struct Feed {
     var posts = [Post]();
-    
 }

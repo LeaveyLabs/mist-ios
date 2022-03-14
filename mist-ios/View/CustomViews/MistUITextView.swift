@@ -22,7 +22,7 @@ class MistUITextView: UITextView {
     }
     
     func setup() {
-        font = UIFont(name: Constants.defaultFont, size: self.font!.pointSize)
+        font = UIFont(name: Constants.DefaultFont, size: self.font!.pointSize)
         textContainerInset = UIEdgeInsets.zero
         textContainer.lineFragmentPadding = 0
     }

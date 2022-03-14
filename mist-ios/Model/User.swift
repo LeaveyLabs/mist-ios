@@ -8,9 +8,9 @@
 import Foundation
 
 struct User: Codable {
-    public let id: String;
-    public var username, email, firstName, lastName: String;
-    public var authoredPosts: [Post];
+    let id, email: String;
+    var username, firstName, lastName: String;
+    var authoredPosts: [Post];
 
 //    //creating a new user
 //    init(id: String, username: String, email: String, first_name: String, last_name: String) {

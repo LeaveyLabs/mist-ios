@@ -19,8 +19,9 @@ class SortByViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        containingView.layer.cornerRadius = 10
-        containingView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner] // Only curve top corners
+        closeButton.layer.cornerRadius = 5
+        containingView.layer.cornerRadius = 15
+        //containingView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner] // Only curve top corners
     }
     
     @IBAction func closeButtonDidPressed(_ sender: UIButton) {

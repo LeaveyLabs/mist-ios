@@ -10,19 +10,33 @@ import UIKit
 class FeedTableViewController: UITableViewController {
     
     var selectedPostIndex: Int?
+    @IBOutlet weak var mistTitle: UIView!
+    var posts: [Post] = []
+    var indicator = UIActivityIndicatorView()
         
     override func viewDidLoad() {
         super.viewDidLoad();
         self.tableView.estimatedRowHeight = 100;
         self.tableView.rowHeight = UITableView.automaticDimension; // is this necessary?
 
-        let nib = UINib(nibName: "PostCell", bundle: nil);
-        self.tableView.register(nib, forCellReuseIdentifier: "PostCell");
+        navigationItem.titleView = mistTitle
+        let nib = UINib(nibName: Constants.SBID.Cell.Post, bundle: nil);
+        self.tableView.register(nib, forCellReuseIdentifier: Constants.SBID.Cell.Post);
         
         refreshControl = UIRefreshControl()
         refreshControl!.addTarget(self, action: #selector(refreshFeed), for: .valueChanged)
 
+        initActivityIndicator()
         refreshFeed();
+    }
+    
+    func initActivityIndicator() {
+        indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        indicator.style = UIActivityIndicatorView.Style.medium
+        indicator.center = CGPoint(x: UIScreen.main.bounds.size.width*0.5,y: UIScreen.main.bounds.size.height*0.4)
+        indicator.hidesWhenStopped = true
+        self.view.addSubview(indicator)
+        indicator.startAnimating()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -33,11 +47,13 @@ class FeedTableViewController: UITableViewController {
     @objc func refreshFeed() {
         //good notes on managing Tasks:
         //https://www.swiftbysundell.com/articles/the-role-tasks-play-in-swift-concurrency/
+        //TODO: cancel task if it takes too long. that way the user can refresh and try again
         Task {
             do {
-                try await PostService.homePosts.newPosts();
+                posts = try await PostAPI.fetchPosts();
                 self.tableView.reloadData();
-                self.refreshControl!.endRefreshing()
+                refreshControl!.endRefreshing()
+                indicator.stopAnimating()
                 print("loaded")
             } catch {
                 print(error)
@@ -52,27 +68,12 @@ class FeedTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return PostService.homePosts.numberOfPosts();
+        return posts.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //tableview goes to look at the "reuse pool" for eligible cells to reuse
-        //No -> create a brand new UITableViewCell
-        //yes -> reuse it
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! PostCell
-        cell.parentViewController = self
-        let post = PostService.homePosts.getPost(at: indexPath.row)!
-        
-        cell.timestampLabel.text = getFormattedTimeString(postTimestamp: post.timestamp)
-        cell.locationLabel.text = post.location
-        cell.messageLabel.text = post.text
-        cell.titleLabel.text = post.title
-        cell.commentButton.setTitle(" " + String(post.commentcount), for: .normal)
-
-        print(post.commentcount)
-        
-        //TODO: handle when there is not a post
-
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
+        cell.configurePostCell(post: posts[indexPath.row], parent: self)
         return cell
     }
     
@@ -81,12 +82,5 @@ class FeedTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("post was tapped")
         selectedPostIndex = indexPath.row;
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //TODO: how to know which comment button was pressed and correctly set selectedPostIndex?
-        let postViewController = segue.destination as! PostViewController
-        print("selected post index in feed:" + String(selectedPostIndex!))
-        postViewController.post = PostService.homePosts.getPost(at: selectedPostIndex!)
     }
 }

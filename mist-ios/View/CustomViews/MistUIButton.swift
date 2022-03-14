@@ -22,6 +22,6 @@ class MistUIButton: UIButton {
     }
     
     func setup() {
-        self.titleLabel!.font = UIFont(name: Constants.defaultFont, size: self.titleLabel!.font.pointSize)
+        self.titleLabel!.font = UIFont(name: Constants.DefaultFont, size: self.titleLabel!.font.pointSize)
     }
 }

@@ -11,6 +11,6 @@ struct Vote: Codable {
     let id: String;
     let voter: String;
     let post: String;
-    let timestamp: Double;
-    let rating: Int;
+    var timestamp: Double;
+    var rating: Int;
 }

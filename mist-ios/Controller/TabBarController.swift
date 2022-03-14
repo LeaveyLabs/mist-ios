@@ -16,7 +16,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         if viewController.title == "dummy" {
             print("dummy");
 //           let vc =  ProfileViewController() this code was not working for some reason
-            let vc = self.storyboard!.instantiateViewController(withIdentifier: "NewPostNav")
+            let vc = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewPostNavigation)
             vc.modalPresentationStyle = .fullScreen
            self.present(vc, animated: true, completion: nil)
            return false

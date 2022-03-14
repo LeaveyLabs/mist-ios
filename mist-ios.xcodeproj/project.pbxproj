@@ -16,6 +16,13 @@
 		4700F8BE27DD807C006C2E08 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8BC27DD807C006C2E08 /* CommentCell.swift */; };
 		4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4700F8BD27DD807C006C2E08 /* CommentCell.xib */; };
 		4700F8C327DE1EA6006C2E08 /* SortByViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8C227DE1EA6006C2E08 /* SortByViewController.swift */; };
+		4700F8C627DE4652006C2E08 /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8C527DE4652006C2E08 /* ExploreViewController.swift */; };
+		470F271327DE6F5800C6DDAF /* LiveResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */; };
+		470F271827DE758100C6DDAF /* PostResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271627DE758100C6DDAF /* PostResultCell.swift */; };
+		470F271927DE758100C6DDAF /* PostResultsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 470F271727DE758100C6DDAF /* PostResultsCell.xib */; };
+		470F271C27DE764F00C6DDAF /* UserResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271A27DE764F00C6DDAF /* UserResultCell.swift */; };
+		470F271D27DE764F00C6DDAF /* UserResultsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 470F271B27DE764F00C6DDAF /* UserResultsCell.xib */; };
+		470F271F27DE9ABE00C6DDAF /* ResultsFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271E27DE9ABE00C6DDAF /* ResultsFeedViewController.swift */; };
 		4746508527D83F3E0014217C /* MistUITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746508427D83F3E0014217C /* MistUITextView.swift */; };
 		4746508727D8735B0014217C /* RulesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746508627D8735B0014217C /* RulesViewController.swift */; };
 		479AA1F027DCE9A700EA0DFC /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479AA1EE27DCE9A700EA0DFC /* PostCell.swift */; };
@@ -40,11 +47,14 @@
 		47A3D71D27D5940D003DBEA5 /* UITextView+DoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D71C27D5940D003DBEA5 /* UITextView+DoneButton.swift */; };
 		47A3D71F27D598B6003DBEA5 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D71E27D598B6003DBEA5 /* TabBarController.swift */; };
 		47A3D72327D5A0D2003DBEA5 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */; };
+		47C1D49127DF00B200970B3D /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C1D49027DF00B200970B3D /* MoreViewController.swift */; };
+		47C2834F27DED77500A19128 /* QueryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C2834D27DED77500A19128 /* QueryCell.swift */; };
+		47C2835027DED77500A19128 /* QueryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C2834E27DED77500A19128 /* QueryCell.xib */; };
 		47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E0B27CA0FFE00467A0C /* AppDelegate.swift */; };
 		47E74E0E27CA0FFE00467A0C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E0D27CA0FFE00467A0C /* SceneDelegate.swift */; };
 		47E74E1327CA0FFE00467A0C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47E74E1127CA0FFE00467A0C /* Main.storyboard */; };
 		47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47E74E1427CA0FFF00467A0C /* Assets.xcassets */; };
-		47E74E1827CA0FFF00467A0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47E74E1627CA0FFF00467A0C /* LaunchScreen.storyboard */; };
+		47E74E1827CA0FFF00467A0C /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47E74E1627CA0FFF00467A0C /* Launch.storyboard */; };
 		47E74E2327CA100000467A0C /* mist_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E2227CA100000467A0C /* mist_iosTests.swift */; };
 		47E74E2D27CA100000467A0C /* mist_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E2C27CA100000467A0C /* mist_iosUITests.swift */; };
 		47E74E2F27CA100000467A0C /* mist_iosUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E2E27CA100000467A0C /* mist_iosUITestsLaunchTests.swift */; };
@@ -80,6 +90,13 @@
 		4700F8BC27DD807C006C2E08 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		4700F8BD27DD807C006C2E08 /* CommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
 		4700F8C227DE1EA6006C2E08 /* SortByViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortByViewController.swift; sourceTree = "<group>"; };
+		4700F8C527DE4652006C2E08 /* ExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
+		470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveResultsTableViewController.swift; sourceTree = "<group>"; };
+		470F271627DE758100C6DDAF /* PostResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostResultCell.swift; sourceTree = "<group>"; };
+		470F271727DE758100C6DDAF /* PostResultsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostResultsCell.xib; sourceTree = "<group>"; };
+		470F271A27DE764F00C6DDAF /* UserResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResultCell.swift; sourceTree = "<group>"; };
+		470F271B27DE764F00C6DDAF /* UserResultsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserResultsCell.xib; sourceTree = "<group>"; };
+		470F271E27DE9ABE00C6DDAF /* ResultsFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsFeedViewController.swift; sourceTree = "<group>"; };
 		4746508427D83F3E0014217C /* MistUITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistUITextView.swift; sourceTree = "<group>"; };
 		4746508627D8735B0014217C /* RulesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesViewController.swift; sourceTree = "<group>"; };
 		479AA1EE27DCE9A700EA0DFC /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
@@ -104,12 +121,15 @@
 		47A3D71C27D5940D003DBEA5 /* UITextView+DoneButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextView+DoneButton.swift"; sourceTree = "<group>"; };
 		47A3D71E27D598B6003DBEA5 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		47C1D49027DF00B200970B3D /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
+		47C2834D27DED77500A19128 /* QueryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryCell.swift; sourceTree = "<group>"; };
+		47C2834E27DED77500A19128 /* QueryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QueryCell.xib; sourceTree = "<group>"; };
 		47E74E0827CA0FFE00467A0C /* mist-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mist-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47E74E0B27CA0FFE00467A0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		47E74E0D27CA0FFE00467A0C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		47E74E1227CA0FFE00467A0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		47E74E1427CA0FFF00467A0C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		47E74E1727CA0FFF00467A0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		47E74E1727CA0FFF00467A0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Launch.storyboard; sourceTree = "<group>"; };
 		47E74E1927CA0FFF00467A0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47E74E1E27CA100000467A0C /* mist-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mist-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47E74E2227CA100000467A0C /* mist_iosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mist_iosTests.swift; sourceTree = "<group>"; };
@@ -146,11 +166,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4700F8C427DE4641006C2E08 /* Explore */ = {
+			isa = PBXGroup;
+			children = (
+				4700F8C527DE4652006C2E08 /* ExploreViewController.swift */,
+				470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */,
+				470F271E27DE9ABE00C6DDAF /* ResultsFeedViewController.swift */,
+			);
+			path = Explore;
+			sourceTree = "<group>";
+		};
 		470BD12D27DB1D8700DD4622 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
 				47E74E1127CA0FFE00467A0C /* Main.storyboard */,
-				47E74E1627CA0FFF00467A0C /* LaunchScreen.storyboard */,
+				47E74E1627CA0FFF00467A0C /* Launch.storyboard */,
 				479AA1F627DD0D3800EA0DFC /* Auth.storyboard */,
 			);
 			path = Storyboards;
@@ -159,10 +189,11 @@
 		470BD12E27DB1D9A00DD4622 /* Xibs */ = {
 			isa = PBXGroup;
 			children = (
-				479AA1EE27DCE9A700EA0DFC /* PostCell.swift */,
 				479AA1EF27DCE9A700EA0DFC /* PostCell.xib */,
-				4700F8BC27DD807C006C2E08 /* CommentCell.swift */,
 				4700F8BD27DD807C006C2E08 /* CommentCell.xib */,
+				470F271727DE758100C6DDAF /* PostResultsCell.xib */,
+				470F271B27DE764F00C6DDAF /* UserResultsCell.xib */,
+				47C2834E27DED77500A19128 /* QueryCell.xib */,
 			);
 			path = Xibs;
 			sourceTree = "<group>";
@@ -173,6 +204,18 @@
 				47A3D70F27D55BDD003DBEA5 /* SortBy.swift */,
 			);
 			path = Enums;
+			sourceTree = "<group>";
+		};
+		477A6FD427DF86260020F864 /* Xibs */ = {
+			isa = PBXGroup;
+			children = (
+				479AA1EE27DCE9A700EA0DFC /* PostCell.swift */,
+				4700F8BC27DD807C006C2E08 /* CommentCell.swift */,
+				470F271627DE758100C6DDAF /* PostResultCell.swift */,
+				470F271A27DE764F00C6DDAF /* UserResultCell.swift */,
+				47C2834D27DED77500A19128 /* QueryCell.swift */,
+			);
+			path = Xibs;
 			sourceTree = "<group>";
 		};
 		479AA1F927DD0EC000EA0DFC /* CustomViews */ = {
@@ -195,6 +238,15 @@
 				479AA1F427DCFFCB00EA0DFC /* UIVIew+TopBorder.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		47C1D48F27DF008B00970B3D /* Modals */ = {
+			isa = PBXGroup;
+			children = (
+				4700F8C227DE1EA6006C2E08 /* SortByViewController.swift */,
+				47C1D49027DF00B200970B3D /* MoreViewController.swift */,
+			);
+			path = Modals;
 			sourceTree = "<group>";
 		};
 		47E74DFF27CA0FFE00467A0C = {
@@ -275,6 +327,9 @@
 		47E74E3D27CA14C600467A0C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				477A6FD427DF86260020F864 /* Xibs */,
+				47C1D48F27DF008B00970B3D /* Modals */,
+				4700F8C427DE4641006C2E08 /* Explore */,
 				47A3D71E27D598B6003DBEA5 /* TabBarController.swift */,
 				47FF86A427DC76000076A1CA /* NewPost */,
 				47FF86A327DC75F00076A1CA /* Account */,
@@ -322,7 +377,6 @@
 			children = (
 				47A3D6FF27D50CF1003DBEA5 /* FeedTableViewController.swift */,
 				479AA1F227DCF2BD00EA0DFC /* PostViewController.swift */,
-				4700F8C227DE1EA6006C2E08 /* SortByViewController.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -448,10 +502,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47E74E1827CA0FFF00467A0C /* LaunchScreen.storyboard in Resources */,
+				47C2835027DED77500A19128 /* QueryCell.xib in Resources */,
+				47E74E1827CA0FFF00467A0C /* Launch.storyboard in Resources */,
 				47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */,
 				479AA1F727DD0D3800EA0DFC /* Auth.storyboard in Resources */,
+				470F271927DE758100C6DDAF /* PostResultsCell.xib in Resources */,
 				4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */,
+				470F271D27DE764F00C6DDAF /* UserResultsCell.xib in Resources */,
 				47E74E1327CA0FFE00467A0C /* Main.storyboard in Resources */,
 				479AA1F127DCE9A700EA0DFC /* PostCell.xib in Resources */,
 			);
@@ -484,8 +541,10 @@
 				47FF869827DB1F470076A1CA /* PostAPI.swift in Sources */,
 				47A3D71F27D598B6003DBEA5 /* TabBarController.swift in Sources */,
 				479AA1FF27DD223600EA0DFC /* MistUITextField.swift in Sources */,
+				470F271C27DE764F00C6DDAF /* UserResultCell.swift in Sources */,
 				4746508727D8735B0014217C /* RulesViewController.swift in Sources */,
 				479AA20327DD4AA900EA0DFC /* KUIViewController.swift in Sources */,
+				470F271827DE758100C6DDAF /* PostResultCell.swift in Sources */,
 				47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */,
 				4700F8BE27DD807C006C2E08 /* CommentCell.swift in Sources */,
 				47A3D72327D5A0D2003DBEA5 /* ProfileViewController.swift in Sources */,
@@ -495,6 +554,9 @@
 				479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */,
 				47A3D70C27D55A3A003DBEA5 /* PostService.swift in Sources */,
 				47A3D71D27D5940D003DBEA5 /* UITextView+DoneButton.swift in Sources */,
+				47C2834F27DED77500A19128 /* QueryCell.swift in Sources */,
+				470F271327DE6F5800C6DDAF /* LiveResultsTableViewController.swift in Sources */,
+				47C1D49127DF00B200970B3D /* MoreViewController.swift in Sources */,
 				47FF869D27DB87A70076A1CA /* UIImage+Thumbnail.swift in Sources */,
 				4700F8B427DD7BBA006C2E08 /* FlagAPI.swift in Sources */,
 				479AA1FB27DD0F0E00EA0DFC /* MistUILabel.swift in Sources */,
@@ -510,9 +572,11 @@
 				479AA1F027DCE9A700EA0DFC /* PostCell.swift in Sources */,
 				47A3D70027D50CF1003DBEA5 /* FeedTableViewController.swift in Sources */,
 				47A3D70827D54F6F003DBEA5 /* User.swift in Sources */,
+				4700F8C627DE4652006C2E08 /* ExploreViewController.swift in Sources */,
 				479AA20127DD3F5500EA0DFC /* MistUIButton.swift in Sources */,
 				479AA1FD27DD109F00EA0DFC /* Constants.swift in Sources */,
 				4700F8BA27DD7BE3006C2E08 /* Flag.swift in Sources */,
+				470F271F27DE9ABE00C6DDAF /* ResultsFeedViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,12 +621,12 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		47E74E1627CA0FFF00467A0C /* LaunchScreen.storyboard */ = {
+		47E74E1627CA0FFF00467A0C /* Launch.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				47E74E1727CA0FFF00467A0C /* Base */,
 			);
-			name = LaunchScreen.storyboard;
+			name = Launch.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -695,6 +759,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mist-ios/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = mist;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -708,7 +773,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mist.mist-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mist.mist-ios2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -727,6 +792,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mist-ios/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = mist;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -740,7 +806,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mist.mist-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mist.mist-ios2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

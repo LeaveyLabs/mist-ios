@@ -1,20 +1,16 @@
 //
-//  CommentCell.swift
+//  QueryCell.swift
 //  mist-ios
 //
-//  Created by Adam Novak on 2022/03/12.
+//  Created by Adam Novak on 2022/03/13.
 //
 
 import UIKit
 
-class CommentCell: UITableViewCell {
-
-    @IBOutlet weak var authorLabel: UILabel!
-    @IBOutlet weak var authorProfileImageView: UIImageView!
-    @IBOutlet weak var timestampLabel: UILabel!
-    @IBOutlet weak var commentLabel: UILabel!
-    var comment: Comment?
+class QueryCell: UITableViewCell {
     
+    @IBOutlet weak var queryLabel: UILabel!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

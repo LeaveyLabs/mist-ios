@@ -12,7 +12,7 @@ import Foundation
 
 class UserService: NSObject {
 
-    private let loggedOutUser: User = User(id: "", username: "", email: "", firstName: "", lastName: "", authoredPosts: [])
+    private let loggedOutUser: User = User(id: "",email: "",  username: "", firstName: "", lastName: "", authoredPosts: [])
     private var user: User!
     private var myAccountFileLocation: URL!
     
@@ -22,7 +22,7 @@ class UserService: NSObject {
     //private initializer because there will only be one singleton of UserService
     private override init(){
         super.init()
-        user = User(id: "userid", username: "username", email: "eemeyeel", firstName: "fname", lastName: "lname", authoredPosts: [])
+        user = User(id: "userid", email: "eemeyeel", username: "username", firstName: "fname", lastName: "lname", authoredPosts: [])
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         self.myAccountFileLocation = documentsDirectory.appendingPathComponent("myaccount.json")
         
@@ -41,7 +41,7 @@ class UserService: NSObject {
     
     //might need to change these parameters
     func createAccount(userId: String, username: String, email: String, firstName: String, lastName: String) {
-        let newUser = User(id: userId, username: username, email: email, firstName: firstName, lastName: lastName, authoredPosts: []);
+        let newUser = User(id: userId,  email: email, username: username, firstName: firstName, lastName: lastName, authoredPosts: []);
         UserService.isLoggedIn = true;
         self.user = newUser;
         saveUserToFilesystem();
@@ -85,12 +85,6 @@ class UserService: NSObject {
     func updateLastName(to newLastName: String) {
         //TODO: db calls
         user.lastName = newLastName;
-        saveUserToFilesystem();
-    }
-    
-    func updateEmail(to newEmail: String) {
-        //TODO: db calls (first check they own the email)
-        user.email = newEmail;
         saveUserToFilesystem();
     }
     

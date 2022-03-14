@@ -20,7 +20,7 @@ class MistUILabel: UILabel {
     }
 
     func setup() {
-        font = UIFont(name: Constants.defaultFont, size: font.pointSize)
+        font = UIFont(name: Constants.DefaultFont, size: font.pointSize)
     }
 
 }
