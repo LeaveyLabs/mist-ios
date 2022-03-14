@@ -45,6 +45,7 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
     
     @objc override func refreshFeed() {
         //TODO: cancel task if it takes too long. that way the user can refresh and try again
+        //comment
         Task {
             do {
                 posts = try await PostAPI.fetchPosts(text: query)
