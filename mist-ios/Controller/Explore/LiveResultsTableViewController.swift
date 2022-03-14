@@ -40,10 +40,6 @@ class LiveResultsTableViewController: UITableViewController {
         let post = postResults[indexPath.row]
         
         cell.textLabel?.text = post.title
-        
-//        let priceString = product.formattedIntroPrice()
-//        cell.detailTextLabel?.text = "\(priceString!) | \(product.yearIntroduced)"
-        
         return cell
     }
     

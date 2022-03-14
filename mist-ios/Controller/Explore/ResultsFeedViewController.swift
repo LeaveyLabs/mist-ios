@@ -7,22 +7,14 @@
 
 import UIKit
 
-class ResultsFeedViewController: FeedTableViewController, UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating, UIGestureRecognizerDelegate {
+class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDelegate {
     
     // MARK: -Properties
     var query: String!
     @IBOutlet weak var mistTitleView: UIView!
-    var searchController: UISearchController!
+    var initialContentOffset: CGFloat!
 
     override func viewDidLoad() {
-        searchController = UISearchController()
-        searchController.searchBar.searchBarStyle = .minimal
-        searchController.searchBar.placeholder = "Search"
-        searchController.searchBar.scopeButtonTitles = ["Posts", "Users"]
-        searchController.delegate = self
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.autocapitalizationType = .none
-        searchController.searchBar.delegate = self // Monitor when the search button is tapped.
         
         //(1 of 2) for enabling swipe left to go back with a bar button item
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
@@ -30,13 +22,9 @@ class ResultsFeedViewController: FeedTableViewController, UISearchControllerDele
         let queryNib = UINib(nibName: Constants.SBID.Cell.Query, bundle: nil);
         self.tableView.register(queryNib, forCellReuseIdentifier: Constants.SBID.Cell.Query);
         
-        navigationItem.titleView = mistTitleView
-//        navigationController?.hidesBarsOnSwipe = true
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
-        definesPresentationContext = true
+        navigationItem.title = query
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:))))
-        
+                                            
         super.viewDidLoad()
     }
     
@@ -48,11 +36,26 @@ class ResultsFeedViewController: FeedTableViewController, UISearchControllerDele
     // MARK: -Actions
     
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
-        searchController.dismiss(animated: true)
+        //
     }
     
     @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc override func refreshFeed() {
+        //TODO: cancel task if it takes too long. that way the user can refresh and try again
+        Task {
+            do {
+                posts = try await PostAPI.fetchPosts(text: query)
+                self.tableView.reloadData();
+                refreshControl!.endRefreshing()
+                indicator.stopAnimating()
+                print("loaded")
+            } catch {
+                print(error)
+            }
+        }
     }
     
     @IBAction func sortButtonDidPressed(_ sender: UIButton) {
@@ -65,6 +68,21 @@ class ResultsFeedViewController: FeedTableViewController, UISearchControllerDele
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
         }
         present(sortByVC, animated: true, completion: nil)
+    }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        //TODO: dynamically set starting offset so it works for all screen sizes, not just the 12
+        let startingOffset: CGFloat = 50
+        var offset = (tableView.contentOffset.y + startingOffset) / 100
+        if (offset > 1) {
+            offset = 1
+//            navigationController?.navigationBar.standardAppearance.backgroundColor = hexStringToUIColor(hex: "CDABE1", alpha: offset/2)
+            navigationController?.navigationBar.standardAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(white: 0, alpha: offset)]
+        } else {
+//            navigationController?.navigationBar.standardAppearance.backgroundColor = hexStringToUIColor(hex: "CDABE1", alpha: offset/2)
+            navigationController?.navigationBar.scrollEdgeAppearance?.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(white: 0, alpha: offset)]
+            navigationController?.navigationBar.standardAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(white: 0, alpha: offset)]
+        }
     }
         
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -89,10 +107,6 @@ class ResultsFeedViewController: FeedTableViewController, UISearchControllerDele
         UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ResultsFeed) as! ResultsFeedViewController
         viewController.query = query
         return viewController
-    }
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        //
     }
     
 }
