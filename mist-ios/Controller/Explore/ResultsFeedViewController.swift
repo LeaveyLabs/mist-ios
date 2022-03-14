@@ -12,7 +12,6 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
     // MARK: -Properties
     var query: String!
     @IBOutlet weak var mistTitleView: UIView!
-    var initialContentOffset: CGFloat!
 
     override func viewDidLoad() {
         
@@ -24,7 +23,8 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
         
         navigationItem.title = query
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:))))
-                                            
+        //navigationController?.navigationBar.standardAppearance.backgroundColor = hexStringToUIColor(hex: "CDABE1", alpha: offset/2)
+
         super.viewDidLoad()
     }
     
@@ -98,8 +98,12 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
         }
         
         let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-        cell.configurePostCell(post: posts[indexPath.row], parent: self)
+        cell.configurePostCell(post: posts[indexPath.row-2], parent: self)
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return posts.count + 2
     }
     
     class func resultsFeedViewControllerForQuery(_ query: String) -> UIViewController {

@@ -58,7 +58,7 @@ class ExploreViewController: UIViewController, UITableViewDelegate {
         searchController.searchBar.delegate = self // Monitor when the search button is tapped.
     
         //navigationController?.navigationBar.backgroundColor = .green
-        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = true
         navigationItem.searchController = searchController
         navigationItem.titleView = mistTitle
         navigationItem.hidesSearchBarWhenScrolling = false
