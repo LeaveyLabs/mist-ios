@@ -28,6 +28,9 @@ class PostAPI {
         let data = try await BasicAPI.fetch(url:url)
         return try JSONDecoder().decode([Post].self, from: data)
     }
+    
+    // Fetches all posts from database (searching with location description)
+    // TODO: Rewrite the function earlier signatures so that we can do this
 
     // Posts post in the database
     static func createPost(post:Post) async throws {
