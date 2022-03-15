@@ -9,18 +9,16 @@ import UIKit
 import SwiftUI
 import MapKit
 
-///reference
+///reference for search controllers
 ///https://developer.apple.com/documentation/uikit/view_controllers/using_suggested_searches_with_a_search_controller
 ///https://developer.apple.com/documentation/uikit/view_controllers/displaying_searchable_content_by_using_a_search_controller
 
-class ExploreViewController: UIViewController {
+class ExploreViewController: MapViewController {
     
     // MARK: - Properties
-    
     @IBOutlet weak var mistTitle: UIView!
-    @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var mapCoverView: UIView!
-
+    
     /// Search controller to help us with filtering items in the table view.
     var searchController: UISearchController!
     
@@ -31,17 +29,7 @@ class ExploreViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let coordinate = CLLocationCoordinate2D(latitude: 34.0204, longitude: -118.2861)
-        let region = mapView.regionThatFits(MKCoordinateRegion(center: coordinate, latitudinalMeters: 1200, longitudinalMeters: 1200))
-        mapView.setRegion(region, animated: true)
-        mapView.pointOfInterestFilter = .excludingAll
         view.sendSubviewToBack(mapCoverView)
-        
-        let annotation = MKPointAnnotation()
-        annotation.title = "Omg this guy named kevin in my history class"
-        annotation.subtitle = "Ok so we met in the dining hall and then.."
-        annotation.coordinate = CLLocationCoordinate2D(latitude: 34.0204, longitude: -118.2861)
-        mapView.addAnnotation(annotation)
             
         resultsTableController =
         self.storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.LiveResults) as? LiveResultsTableViewController
@@ -57,7 +45,6 @@ class ExploreViewController: UIViewController {
         searchController.searchBar.autocapitalizationType = .none
         searchController.searchBar.delegate = self // Monitor when the search button is tapped.
     
-        //navigationController?.navigationBar.backgroundColor = .green
         searchController.hidesNavigationBarDuringPresentation = true
         navigationItem.searchController = searchController
         navigationItem.titleView = mistTitle
@@ -73,25 +60,44 @@ class ExploreViewController: UIViewController {
         */
         definesPresentationContext = true
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        //present(searchController, animated: true)
-        //Here you can optionally add "restore" functionality in appdelegate for this code below to work.
-        //Reference Apple's example xcode project for more details
+
+    override func viewWillAppear(_ animated: Bool) {
+//        print("can?")
+//        print(self.definesPresentationContext)
+//        print(searchController.canBecomeFirstResponder)
+//        print(searchController.isFirstResponder)
+//        print(searchController.isActive)
+        //TODO: pull up search bar when returning to this VC after search via search button click
+        //https://stackoverflow.com/questions/27951965/cannot-set-searchbar-as-firstresponder
     }
     
-    // MARK: - IBActions
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("prepare for sender")
+        self.definesPresentationContext = false
+    }
+    
+    // MARK: - User Interaction
+    
+    func mapAnnotationDidTouched(_ sender: UIButton) {
+        let mapModalVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.SortBy) as! SortByViewController
+        if let sheet = mapModalVC.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            sheet.prefersGrabberVisible = true
+            //allows scrolling behind the modal
+            sheet.largestUndimmedDetentIdentifier = .medium
+            //TODO: add little top slider line?
+        }
+        present(mapModalVC, animated: true, completion: nil)
+    }
     
     @IBAction func outerViewDidTapped(_ sender: UITapGestureRecognizer) {
         print("outer view tapped")
         searchController.dismiss(animated: true)
     }
-
 }
 
-
-// MARK: - UISearchBarDelegate
+    // MARK: - UISearchBarDelegate
 
 extension ExploreViewController: UISearchBarDelegate {
     
@@ -102,17 +108,16 @@ extension ExploreViewController: UISearchBarDelegate {
             case 0:
                 let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewControllerForQuery(text)
                 navigationController?.pushViewController(newQueryFeedViewController, animated: true)
-                searchBar.resignFirstResponder()
             case 1:
                 break
             default: break
         }
-        
     }
     
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        updateSearchResults(for: searchController)
         resultsTableController.selectedScope = selectedScope
+        resultsTableController.liveResults = []
+        updateSearchResults(for: searchController)
     }
 
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
@@ -127,19 +132,16 @@ extension ExploreViewController: UISearchBarDelegate {
     }
 }
 
-// MARK: - UITableViewDelegate
+    // MARK: - UITableViewDelegate
 
 extension ExploreViewController: UITableViewDelegate {
         
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("selected!")
         switch resultsTableController.selectedScope {
         case 0:
-            print("word selected!")
             let word = resultsTableController.liveResults[indexPath.row] as! Word
             let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewControllerForQuery(word.text)
             navigationController?.pushViewController(newQueryFeedViewController, animated: true)
-            navigationController?.navigationItem.searchController?.searchBar.resignFirstResponder()
         case 1:
             break
             //let profile = liveResults[indexPath.row] as! Profile
@@ -162,8 +164,8 @@ extension ExploreViewController: UISearchControllerDelegate {
     }
     
     func willPresentSearchController(_ searchController: UISearchController) {
+        navigationController?.hideHairline()
         //Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-        updateSearchResults(for: searchController)
     }
     
     func didPresentSearchController(_ searchController: UISearchController) {
@@ -171,6 +173,7 @@ extension ExploreViewController: UISearchControllerDelegate {
     }
     
     func willDismissSearchController(_ searchController: UISearchController) {
+        navigationController?.restoreHairline()
         //Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
     }
     
@@ -184,27 +187,28 @@ extension ExploreViewController: UISearchResultsUpdating {
     
     //Update the filtered array based on the search text.
     func updateSearchResults(for searchController: UISearchController) {
-        //ensure there is text within the search bar
-        guard let text = searchController.searchBar.text else {
+        guard let text = searchController.searchBar.text else { return }
+        guard !text.isEmpty else {
+            //User might have typed a word into the searchbar, but then deleted it. so lets reset the live results.
+            //We dont reset live results normally because we want the previous search results to stay visible
+            //until the new db call returns.
+            resultsTableController.liveResults = []
+            resultsTableController.tableView.reloadData()
             return
-            //TODO: remove this return? 
         }
-
-        print("updating search results")
-        // Apply the database results to the search results table.
+        
         if let resultsController = searchController.searchResultsController as? LiveResultsTableViewController {
             Task {
                 do {
-                    switch searchController.searchBar.selectedScopeButtonIndex {
+                    resultsTableController.resultsLabel.text = "Searching..."
+                    switch resultsController.selectedScope {
                     case 0:
-                        let result = try await WordAPI.fetchWords(text: text)
-                        print(result)
-                        resultsController.liveResults = result
+                        resultsController.liveResults = try await WordAPI.fetchWords(text: text)
                     case 1:
+                        print("doing a profile search with: " + text)
                         resultsController.liveResults = try await ProfileAPI.fetchProfiles(text: text)
                     default: break
                     }
-                    print(resultsController.liveResults)
                     resultsController.tableView.reloadData()
                     resultsController.resultsLabel.text = resultsController.liveResults.isEmpty ?
                         "No items found":

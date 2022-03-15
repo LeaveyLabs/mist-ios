@@ -41,6 +41,7 @@ struct Constants {
             static let Explore = "ExploreViewController"
             static let LiveResults = "LiveResultsTableViewController"
             static let ResultsFeed = "ResultsFeedViewController"
+            static let PinMapModal = "PinMapModalViewController"
         }
     }
 }

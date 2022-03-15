@@ -8,6 +8,10 @@
 import Foundation
 import UIKit
 
+func mistUIColor () -> UIColor {
+    return hexStringToUIColor(hex: "CDABE1", alpha: 1)
+}
+
 func hexStringToUIColor (hex:String, alpha:CGFloat) -> UIColor {
     var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
 

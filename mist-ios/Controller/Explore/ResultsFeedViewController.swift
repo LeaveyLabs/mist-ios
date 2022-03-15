@@ -21,6 +21,7 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
         let queryNib = UINib(nibName: Constants.SBID.Cell.Query, bundle: nil);
         self.tableView.register(queryNib, forCellReuseIdentifier: Constants.SBID.Cell.Query);
         
+        navigationController?.restoreHairline()
         navigationItem.title = query
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:))))
         //navigationController?.navigationBar.standardAppearance.backgroundColor = hexStringToUIColor(hex: "CDABE1", alpha: offset/2)
@@ -30,6 +31,7 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
     
     //(2 of 2) for enabling swipe left to go back with a bar button item
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        navigationController?.hideHairline()
         return true
     }
     
@@ -40,6 +42,7 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
     }
     
     @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
+        navigationController?.hideHairline()
         navigationController?.popViewController(animated: true)
     }
     

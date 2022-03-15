@@ -117,8 +117,6 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         if let sheet = sortByVC.sheetPresentationController {
             sheet.detents = [.medium()]
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-            //below line allows you to scroll behind the vc
-//            sheet.largestUndimmedDetentIdentifier = .medium
         }
         present(sortByVC, animated: true, completion: nil)
     }
@@ -209,6 +207,8 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("post was tapped")
     }
+    
+    //MARK: -Helpers
     
     func validateAllFields() -> Bool {
         if (commentTextView.text! == "" ) {

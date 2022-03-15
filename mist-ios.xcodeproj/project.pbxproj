@@ -56,6 +56,8 @@
 		47C1D49127DF00B200970B3D /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C1D49027DF00B200970B3D /* MoreViewController.swift */; };
 		47C2834F27DED77500A19128 /* QueryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C2834D27DED77500A19128 /* QueryCell.swift */; };
 		47C2835027DED77500A19128 /* QueryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C2834E27DED77500A19128 /* QueryCell.xib */; };
+		47CE900A27E058090004B756 /* PinMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900927E058090004B756 /* PinMapViewController.swift */; };
+		47CE900C27E059DC0004B756 /* PinMapModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */; };
 		47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E0B27CA0FFE00467A0C /* AppDelegate.swift */; };
 		47E74E0E27CA0FFE00467A0C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E0D27CA0FFE00467A0C /* SceneDelegate.swift */; };
 		47E74E1327CA0FFE00467A0C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47E74E1127CA0FFE00467A0C /* Main.storyboard */; };
@@ -64,6 +66,12 @@
 		47E74E2327CA100000467A0C /* mist_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E2227CA100000467A0C /* mist_iosTests.swift */; };
 		47E74E2D27CA100000467A0C /* mist_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E2C27CA100000467A0C /* mist_iosUITests.swift */; };
 		47E74E2F27CA100000467A0C /* mist_iosUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E2E27CA100000467A0C /* mist_iosUITestsLaunchTests.swift */; };
+		47EA3DFB27E0098F00381218 /* UINavigationController+Hairline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3DFA27E0098F00381218 /* UINavigationController+Hairline.swift */; };
+		47EA3DFD27E00BDE00381218 /* MapModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3DFC27E00BDE00381218 /* MapModalViewController.swift */; };
+		47EA3E0027E013EB00381218 /* BridgeAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3DFF27E013EB00381218 /* BridgeAnnotation.swift */; };
+		47EA3E0227E0151200381218 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3E0127E0151200381218 /* MapViewController.swift */; };
+		47EA3E0427E0165900381218 /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3E0327E0165900381218 /* CustomAnnotationView.swift */; };
+		47EA3E0627E0174300381218 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3E0527E0174300381218 /* CustomAnnotation.swift */; };
 		47FF869827DB1F470076A1CA /* PostAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF869727DB1F470076A1CA /* PostAPI.swift */; };
 		47FF869D27DB87A70076A1CA /* UIImage+Thumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF869C27DB87A70076A1CA /* UIImage+Thumbnail.swift */; };
 		47FF86A127DC712F0076A1CA /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF86A027DC712F0076A1CA /* Comment.swift */; };
@@ -136,6 +144,8 @@
 		47C1D49027DF00B200970B3D /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		47C2834D27DED77500A19128 /* QueryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryCell.swift; sourceTree = "<group>"; };
 		47C2834E27DED77500A19128 /* QueryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QueryCell.xib; sourceTree = "<group>"; };
+		47CE900927E058090004B756 /* PinMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinMapViewController.swift; sourceTree = "<group>"; };
+		47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinMapModalViewController.swift; sourceTree = "<group>"; };
 		47E74E0827CA0FFE00467A0C /* mist-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mist-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47E74E0B27CA0FFE00467A0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		47E74E0D27CA0FFE00467A0C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -148,6 +158,12 @@
 		47E74E2827CA100000467A0C /* mist-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mist-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47E74E2C27CA100000467A0C /* mist_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mist_iosUITests.swift; sourceTree = "<group>"; };
 		47E74E2E27CA100000467A0C /* mist_iosUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mist_iosUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		47EA3DFA27E0098F00381218 /* UINavigationController+Hairline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Hairline.swift"; sourceTree = "<group>"; };
+		47EA3DFC27E00BDE00381218 /* MapModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModalViewController.swift; sourceTree = "<group>"; };
+		47EA3DFF27E013EB00381218 /* BridgeAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeAnnotation.swift; sourceTree = "<group>"; };
+		47EA3E0127E0151200381218 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		47EA3E0327E0165900381218 /* CustomAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotationView.swift; sourceTree = "<group>"; };
+		47EA3E0527E0174300381218 /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		47FF869727DB1F470076A1CA /* PostAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostAPI.swift; sourceTree = "<group>"; };
 		47FF869C27DB87A70076A1CA /* UIImage+Thumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Thumbnail.swift"; sourceTree = "<group>"; };
 		47FF86A027DC712F0076A1CA /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -181,6 +197,7 @@
 		4700F8C427DE4641006C2E08 /* Explore */ = {
 			isa = PBXGroup;
 			children = (
+				47EA3DFE27E013DD00381218 /* Map */,
 				4700F8C527DE4652006C2E08 /* ExploreViewController.swift */,
 				470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */,
 				470F271E27DE9ABE00C6DDAF /* ResultsFeedViewController.swift */,
@@ -248,6 +265,7 @@
 				47A3D71C27D5940D003DBEA5 /* UITextView+DoneButton.swift */,
 				47FF869C27DB87A70076A1CA /* UIImage+Thumbnail.swift */,
 				479AA1F427DCFFCB00EA0DFC /* UIVIew+TopBorder.swift */,
+				47EA3DFA27E0098F00381218 /* UINavigationController+Hairline.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -257,6 +275,8 @@
 			children = (
 				4700F8C227DE1EA6006C2E08 /* SortByViewController.swift */,
 				47C1D49027DF00B200970B3D /* MoreViewController.swift */,
+				47EA3DFC27E00BDE00381218 /* MapModalViewController.swift */,
+				47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */,
 			);
 			path = Modals;
 			sourceTree = "<group>";
@@ -390,6 +410,17 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		47EA3DFE27E013DD00381218 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				47EA3DFF27E013EB00381218 /* BridgeAnnotation.swift */,
+				47EA3E0127E0151200381218 /* MapViewController.swift */,
+				47EA3E0327E0165900381218 /* CustomAnnotationView.swift */,
+				47EA3E0527E0174300381218 /* CustomAnnotation.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 		47FF86A227DC75DB0076A1CA /* Feed */ = {
 			isa = PBXGroup;
 			children = (
@@ -412,6 +443,7 @@
 			children = (
 				4746508627D8735B0014217C /* RulesViewController.swift */,
 				47A3D70127D524F4003DBEA5 /* NewPostViewController.swift */,
+				47CE900927E058090004B756 /* PinMapViewController.swift */,
 			);
 			path = NewPost;
 			sourceTree = "<group>";
@@ -566,14 +598,18 @@
 				470F271827DE758100C6DDAF /* WordResultCell.swift in Sources */,
 				47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */,
 				4700F8BE27DD807C006C2E08 /* CommentCell.swift in Sources */,
+				47EA3E0627E0174300381218 /* CustomAnnotation.swift in Sources */,
 				47A3D72327D5A0D2003DBEA5 /* ProfileViewController.swift in Sources */,
 				4700F8BB27DD7BE3006C2E08 /* Vote.swift in Sources */,
 				47E74E0E27CA0FFE00467A0C /* SceneDelegate.swift in Sources */,
 				47FF86A127DC712F0076A1CA /* Comment.swift in Sources */,
+				47EA3E0227E0151200381218 /* MapViewController.swift in Sources */,
 				439E44F627DFB76200E244D6 /* Profile.swift in Sources */,
 				479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */,
 				47A3D70C27D55A3A003DBEA5 /* PostService.swift in Sources */,
 				47A3D71D27D5940D003DBEA5 /* UITextView+DoneButton.swift in Sources */,
+				47EA3DFD27E00BDE00381218 /* MapModalViewController.swift in Sources */,
+				47CE900A27E058090004B756 /* PinMapViewController.swift in Sources */,
 				47C2834F27DED77500A19128 /* QueryCell.swift in Sources */,
 				470F271327DE6F5800C6DDAF /* LiveResultsTableViewController.swift in Sources */,
 				47C1D49127DF00B200970B3D /* MoreViewController.swift in Sources */,
@@ -586,6 +622,8 @@
 				4700F8B627DD7BBA006C2E08 /* BasicAPI.swift in Sources */,
 				477A6FD627DFB0450020F864 /* Color.swift in Sources */,
 				47A3D71227D57A6D003DBEA5 /* UserService.swift in Sources */,
+				47CE900C27E059DC0004B756 /* PinMapModalViewController.swift in Sources */,
+				47EA3E0427E0165900381218 /* CustomAnnotationView.swift in Sources */,
 				4746508527D83F3E0014217C /* MistUITextView.swift in Sources */,
 				4700F8B527DD7BBA006C2E08 /* CommentAPI.swift in Sources */,
 				4700F8C327DE1EA6006C2E08 /* SortByViewController.swift in Sources */,
@@ -595,10 +633,12 @@
 				479AA1F027DCE9A700EA0DFC /* PostCell.swift in Sources */,
 				47A3D70027D50CF1003DBEA5 /* FeedTableViewController.swift in Sources */,
 				47A3D70827D54F6F003DBEA5 /* User.swift in Sources */,
+				47EA3DFB27E0098F00381218 /* UINavigationController+Hairline.swift in Sources */,
 				439E44F427DFB71300E244D6 /* ProfileAPI.swift in Sources */,
 				4700F8C627DE4652006C2E08 /* ExploreViewController.swift in Sources */,
 				479AA20127DD3F5500EA0DFC /* MistUIButton.swift in Sources */,
 				479AA1FD27DD109F00EA0DFC /* Constants.swift in Sources */,
+				47EA3E0027E013EB00381218 /* BridgeAnnotation.swift in Sources */,
 				4700F8BA27DD7BE3006C2E08 /* Flag.swift in Sources */,
 				470F271F27DE9ABE00C6DDAF /* ResultsFeedViewController.swift in Sources */,
 			);

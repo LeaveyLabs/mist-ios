@@ -6,21 +6,21 @@
 //
 
 import UIKit
+import CoreLocation
+import MapKit
 
-typealias NewPostCompletionHandler = ((Post) -> Void)
-let MESSAGE_PLACEHOLDER_TEXT = "spill your heart out"
-let LOCATION_PLACEHOLDER_TEXT = "doheny Library"
+let MESSAGE_PLACEHOLDER_TEXT = "To the boy who..."
+let LOCATION_PLACEHOLDER_TEXT = "Drop a pin"
 
 class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     
     @IBOutlet weak var postButton: UIButton!
     @IBOutlet weak var messageTextView: UITextView!
-    @IBOutlet weak var locationTextField: UITextField!
+    @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var titleTextField: UITextField!
     var messagePlaceholderLabel : UILabel!
-    
-    var completionHandler: NewPostCompletionHandler? //for if presented by segue
-    
+    var currentlyPinnedAnnotation: MKPointAnnotation?
+        
     @objc func tapDone(sender: Any) {
         self.view.endEditing(true)
     }
@@ -28,17 +28,22 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
     override func viewDidLoad() {
        super.viewDidLoad();
         disablePostButton();
-        
+        //TODO: fix button positioning
+//        locationButton.configuration?.imagePadding = .greatestFiniteMagnitude
+//        locationButton.configuration?.imagePadding = CGFloat(180)
+//        NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+                
+        locationButton.titleLabel!.adjustsFontSizeToFitWidth = false
+        locationButton.titleLabel!.lineBreakMode = .byTruncatingTail
         titleTextField.becomeFirstResponder();
         messageTextView.delegate = self;
-        locationTextField.delegate = self;
         titleTextField.delegate = self;
         messageTextView.addDoneButton(title: "Done", target: self, selector: #selector(tapDone(sender:)))
         
         //add placeholder text to messageTextView
         //reference: https://stackoverflow.com/questions/27652227/add-placeholder-text-inside-uitextview-in-swift
         messagePlaceholderLabel = UILabel()
-        messagePlaceholderLabel.text = "to the boy who..."
+        messagePlaceholderLabel.text = MESSAGE_PLACEHOLDER_TEXT
         messagePlaceholderLabel.font = messageTextView.font
         messagePlaceholderLabel.sizeToFit()
         messageTextView.addSubview(messagePlaceholderLabel)
@@ -46,16 +51,11 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         messagePlaceholderLabel.isHidden = !messageTextView.text.isEmpty
    }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-    }
-    
     // MARK: -Buttons
     
     @IBAction func outerViewGestureDidTapped(_ sender: UITapGestureRecognizer) {
         messageTextView.resignFirstResponder();
         titleTextField.resignFirstResponder();
-        locationTextField.resignFirstResponder();
     }
     
     @IBAction func deleteDidPressed(_ sender: UIBarButtonItem) {
@@ -71,7 +71,7 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         
         Task {
             do {
-                try await PostService.uploadPost(title: titleTextField.text!, location: locationTextField.text!, message: messageTextView.text!)
+                try await PostService.uploadPost(title: titleTextField.text!, location: locationButton.titleLabel!.text!, message: messageTextView.text!)
                 self.clearAllFields()
                 self.dismiss(animated: true)
             } catch {
@@ -80,6 +80,17 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
             }
         }
         return;
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let pinMapVC = segue.destination as! PinMapViewController
+        //get the coordinates from the pin that the user just dropped
+        pinMapVC.pinnedAnnotation = currentlyPinnedAnnotation
+        pinMapVC.completionHandler = { [self] (newAnnotation, newDescription) in
+            currentlyPinnedAnnotation = newAnnotation
+            locationButton!.setTitle(newDescription, for: .normal)
+            locationButton!.setTitleColor(.black, for: .normal)
+        }
     }
     
     //MARK: -TextField
@@ -112,11 +123,11 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
     func clearAllFields() {
         messageTextView.text! = ""
         titleTextField.text! = "";
-        locationTextField.text! = "";
+        locationButton.titleLabel!.text! = LOCATION_PLACEHOLDER_TEXT;
     }
     
     func validateAllFields() -> Bool {
-        if (messageTextView.text! == "" || locationTextField.text! == "" || titleTextField.text! == "" ) {
+        if (messageTextView.text! == "" || locationButton.titleLabel!.text! == "" || titleTextField.text! == "" ) {
             return false
         } else {
             return true;
