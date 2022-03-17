@@ -23,7 +23,7 @@ class PostAPI {
     }
     
     // Fetches all posts from database (searching with latitude + longitude)
-    static func fetchPosts(latitude:Decimal, longitude:Decimal) async throws -> [Post] {
+    static func fetchPosts(latitude:Double, longitude:Double) async throws -> [Post] {
         let url = "https://mist-backend.herokuapp.com/api/posts?latitude=\(latitude)?longitude=\(longitude)"
         let data = try await BasicAPI.fetch(url:url)
         return try JSONDecoder().decode([Post].self, from: data)

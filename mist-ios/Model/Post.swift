@@ -12,8 +12,8 @@ struct Post: Codable {
     let title: String
     let text: String
     let location_description: String?
-    let latitude: String
-    let longitude: String
+    let latitude: Double?
+    let longitude: Double?
     let timestamp: Double
     let author: String
     var averagerating: Int

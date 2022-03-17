@@ -30,6 +30,7 @@ class ExploreViewController: MapViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.sendSubviewToBack(mapCoverView)
+        loadExploreMapView()
             
         resultsTableController =
         self.storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.LiveResults) as? LiveResultsTableViewController
@@ -60,6 +61,26 @@ class ExploreViewController: MapViewController {
         */
         definesPresentationContext = true
     }
+    
+    //MARK: -Setup
+    
+    func loadExploreMapView() {
+        Task {
+            do {
+                let nearbyPosts = try await PostAPI.fetchPosts(latitude: Constants.USC_LAT_LONG.latitude, longitude: Constants.USC_LAT_LONG.longitude)
+                //turn the first ten posts returned into PostAnnotations and add them to the map
+                for index in 0...min(9, nearbyPosts.count-1) {
+                    let postAnnotation = BridgeAnnotation(withPost: nearbyPosts[index])
+                    allAnnotations?.append(postAnnotation)
+                }
+                showAllAnnotations(self)
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    //MARK: -Navigation
 
     override func viewWillAppear(_ animated: Bool) {
 //        print("can?")
@@ -78,23 +99,27 @@ class ExploreViewController: MapViewController {
     
     // MARK: - User Interaction
     
+    @IBAction func outerViewDidTapped(_ sender: UITapGestureRecognizer) {
+        print("outer view tapped")
+        searchController.dismiss(animated: true)
+    }
+}
+
+//MARK: -Map
+
+extension ExploreViewController {
+    
     func mapAnnotationDidTouched(_ sender: UIButton) {
         let mapModalVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.SortBy) as! SortByViewController
         if let sheet = mapModalVC.sheetPresentationController {
             sheet.detents = [.medium()]
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
             sheet.prefersGrabberVisible = true
-            //allows scrolling behind the modal
             sheet.largestUndimmedDetentIdentifier = .medium
-            //TODO: add little top slider line?
         }
         present(mapModalVC, animated: true, completion: nil)
     }
     
-    @IBAction func outerViewDidTapped(_ sender: UITapGestureRecognizer) {
-        print("outer view tapped")
-        searchController.dismiss(animated: true)
-    }
 }
 
     // MARK: - UISearchBarDelegate

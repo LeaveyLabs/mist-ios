@@ -31,6 +31,7 @@ extension TimeInterval{
     }
 }
 
+//TODO: fix this function
 //TODO check for more cases if time was even longer
 func getFormattedTimeString(postTimestamp: Double) -> String {
     let elapsedTimeSincePost = NSDate().timeIntervalSince1970.getElapsedTime(since: postTimestamp)

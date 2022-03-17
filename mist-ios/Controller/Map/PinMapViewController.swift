@@ -8,13 +8,13 @@
 import UIKit
 import MapKit
 
-typealias PinMapCompletionHandler = ((MKPointAnnotation, String) -> Void)
+typealias PinMapCompletionHandler = ((BridgeAnnotation, String) -> Void)
 
 class PinMapViewController: MapViewController {
 
     var pinMapModal: PinMapModalViewController?
     var completionHandler: PinMapCompletionHandler!
-    var pinnedAnnotation: MKPointAnnotation?
+    var pinnedAnnotation: BridgeAnnotation?
     @IBOutlet weak var topBannerView: UIView!
     
     override func viewDidLoad() {
@@ -32,6 +32,7 @@ class PinMapViewController: MapViewController {
         pinMapModal?.dismiss(animated: false)
     }
     
+    //TODO: edit this function to make it the proper type of pin
     @IBAction func addAnnotation(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
             if let mapView = sender.view as? MKMapView {
@@ -41,14 +42,10 @@ class PinMapViewController: MapViewController {
                 }
                 let point = sender.location(in: mapView)
                 let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
-                pinnedAnnotation = MKPointAnnotation()
-                pinnedAnnotation!.coordinate = coordinate
-                mapView.addAnnotation(pinnedAnnotation!)
+                pinnedAnnotation = BridgeAnnotation(justWithCoordinate: coordinate)
                 displayedAnnotations?.append(pinnedAnnotation!)
                 
-                let coordinateAdjustedView = CLLocationCoordinate2D(latitude: coordinate.latitude - 0.00075, longitude: coordinate.longitude)
-                let region = mapView.regionThatFits(MKCoordinateRegion(center: coordinateAdjustedView, latitudinalMeters: 200, longitudinalMeters: 200))
-                mapView.setRegion(region, animated: true)
+                centerMapAboveModalFor(lat: coordinate.latitude, long: coordinate.longitude)
                 presentModal()
             }
         }

@@ -7,12 +7,14 @@
 
 import Foundation
 import UIKit
+import MapKit
 
 struct Constants {
     static let DefaultFont: String = "Avenir-Medium";
     static let DefaultFontSize: CGFloat = 20
     
-    
+    static let USC_LAT_LONG =  CLLocationCoordinate2D(latitude: 34.0184, longitude: -118.2861)
+
     // MARK: -Storyboard Identifiers (SBID)
     //note: all nib names should be the same ss their storyboard ID
     struct SBID {
@@ -42,6 +44,7 @@ struct Constants {
             static let LiveResults = "LiveResultsTableViewController"
             static let ResultsFeed = "ResultsFeedViewController"
             static let PinMapModal = "PinMapModalViewController"
+            static let MapModal = "MapModalViewController"
         }
     }
 }

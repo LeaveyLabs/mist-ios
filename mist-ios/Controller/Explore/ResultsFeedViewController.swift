@@ -29,6 +29,15 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
         super.viewDidLoad()
     }
     
+    //MARK: -Custom Constructors
+    
+    class func resultsFeedViewControllerForQuery(_ query: String) -> UIViewController {
+        let viewController =
+        UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ResultsFeed) as! ResultsFeedViewController
+        viewController.query = query
+        return viewController
+    }
+    
     //(2 of 2) for enabling swipe left to go back with a bar button item
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         navigationController?.hideHairline()
@@ -108,13 +117,6 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2 + posts.count
-    }
-    
-    class func resultsFeedViewControllerForQuery(_ query: String) -> UIViewController {
-        let viewController =
-        UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ResultsFeed) as! ResultsFeedViewController
-        viewController.query = query
-        return viewController
     }
     
 }

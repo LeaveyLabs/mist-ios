@@ -58,16 +58,9 @@ class PostService: NSObject {
         self.posts.insert(post, at: index)
     }
     
-    static func uploadPost(title: String, location: String, message: String) async throws {
+    static func uploadPost(title: String, locationDescription: String?, latitude: Double?, longitude: Double?, message: String) async throws {
         let uuid = NSUUID().uuidString;
-        let newPost = Post(id: String(uuid.prefix(10)),
-                           title: title,
-                           text: message,
-                           location: location,
-                           timestamp: currentTimeMillis(),
-                           author: "kevinsun",
-                           averagerating: 0,
-                           commentcount: 0)
+        let newPost = Post(id: String(uuid.prefix(10)), title: title, text: message, location_description: locationDescription, latitude: latitude, longitude: longitude, timestamp: currentTimeMillis(), author: "kevinsun", averagerating: 0, commentcount: 0)
         try await PostAPI.createPost(post: newPost);
         PostService.homePosts.insert(post: newPost, at: 0)
         PostService.myPosts.insert(post: newPost, at: 0)

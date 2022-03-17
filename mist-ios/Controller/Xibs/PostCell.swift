@@ -23,6 +23,22 @@ class PostCell: UITableViewCell {
     var parentVC: UIViewController!
     var post: Post!
     
+//    let cellView: UIView = {
+//            let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+//            view.layer.cornerRadius  = 15
+//            view.backgroundColor     = UIColor.white
+//            view.layer.shadowColor   = UIColor.black.cgColor
+//            view.layer.shadowOpacity = 1
+//            view.layer.shadowOffset  = CGSize.zero
+//            view.layer.shadowRadius  = 5
+//            return view
+//        }()
+//
+//        override func awakeFromNib() {
+//            super.awakeFromNib()
+//            addSubview(cellView)
+//        }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -32,10 +48,16 @@ class PostCell: UITableViewCell {
     }
     
     func configurePostCell(post: Post, parent: UIViewController) {
+//        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+//        backgroundImage.image = UIImage(named: "textbox")
+//        backgroundImage.contentMode = .scaleToFill
+//        backgroundImage.clipsToBounds = false
+//        contentView.insertSubview(backgroundImage, at: 0)
+//
         parentVC = parent
         self.post = post
         timestampLabel.text = getFormattedTimeString(postTimestamp: post.timestamp)
-        locationLabel.text = post.location
+        locationLabel.text = post.location_description
         messageLabel.text = post.text
         titleLabel.text = post.title
         commentButton.setTitle(" " + String(post.commentcount), for: .normal)

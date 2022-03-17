@@ -19,7 +19,7 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var titleTextField: UITextField!
     var messagePlaceholderLabel : UILabel!
-    var currentlyPinnedAnnotation: MKPointAnnotation?
+    var currentlyPinnedAnnotation: BridgeAnnotation?
         
     @objc func tapDone(sender: Any) {
         self.view.endEditing(true)
@@ -71,9 +71,14 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         
         Task {
             do {
-                try await PostService.uploadPost(title: titleTextField.text!, location: locationButton.titleLabel!.text!, message: messageTextView.text!)
+                if locationButton.titleLabel!.text!.isEmpty {
+                    try await PostService.uploadPost(title: titleTextField.text!, locationDescription: nil, latitude: nil, longitude: nil, message: messageTextView.text!)
+                } else {
+                    try await PostService.uploadPost(title: titleTextField.text!, locationDescription: locationButton.titleLabel!.text!, latitude: currentlyPinnedAnnotation!.coordinate.latitude, longitude: currentlyPinnedAnnotation!.coordinate.longitude, message: messageTextView.text!)
+                }
                 self.clearAllFields()
                 self.dismiss(animated: true)
+                self.navigationController
             } catch {
                 //handle post service failed to upload
                 print("upload failed!");
@@ -83,14 +88,17 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let pinMapVC = segue.destination as! PinMapViewController
-        //get the coordinates from the pin that the user just dropped
-        pinMapVC.pinnedAnnotation = currentlyPinnedAnnotation
-        pinMapVC.completionHandler = { [self] (newAnnotation, newDescription) in
-            currentlyPinnedAnnotation = newAnnotation
-            locationButton!.setTitle(newDescription, for: .normal)
-            locationButton!.setTitleColor(.black, for: .normal)
+        //if segueing to map, prepare for it
+        if let pinMapVC = segue.destination as? PinMapViewController {
+            //get the coordinates from the pin that the user just dropped
+            pinMapVC.pinnedAnnotation = currentlyPinnedAnnotation
+            pinMapVC.completionHandler = { [self] (newAnnotation, newDescription) in
+                currentlyPinnedAnnotation = newAnnotation
+                locationButton!.setTitle(newDescription, for: .normal)
+                locationButton!.setTitleColor(.black, for: .normal)
+            }
         }
+        //dont do any segue prep for rules controller
     }
     
     //MARK: -TextField
