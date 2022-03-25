@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43770C3E27EE819300F31CCF /* apiTests in Resources */ = {isa = PBXBuildFile; fileRef = 43770C3D27EE819300F31CCF /* apiTests */; };
+		43770C4627EE856300F31CCF /* CommentAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43770C4527EE856300F31CCF /* CommentAPITest.swift */; };
+		43770C4827EE857100F31CCF /* ProfileAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43770C4727EE857100F31CCF /* ProfileAPITest.swift */; };
 		439E44F427DFB71300E244D6 /* ProfileAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F327DFB71300E244D6 /* ProfileAPI.swift */; };
 		439E44F627DFB76200E244D6 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F527DFB76200E244D6 /* Profile.swift */; };
 		439E44F827DFE11F00E244D6 /* WordAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F727DFE11F00E244D6 /* WordAPI.swift */; };
@@ -93,6 +96,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		43770C3D27EE819300F31CCF /* apiTests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = apiTests; sourceTree = "<group>"; };
+		43770C4527EE856300F31CCF /* CommentAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAPITest.swift; sourceTree = "<group>"; };
+		43770C4727EE857100F31CCF /* ProfileAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAPITest.swift; sourceTree = "<group>"; };
 		439E44F327DFB71300E244D6 /* ProfileAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAPI.swift; sourceTree = "<group>"; };
 		439E44F527DFB76200E244D6 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		439E44F727DFE11F00E244D6 /* WordAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordAPI.swift; sourceTree = "<group>"; };
@@ -300,6 +306,9 @@
 		47E74E2127CA100000467A0C /* mist-iosTests */ = {
 			isa = PBXGroup;
 			children = (
+				43770C4727EE857100F31CCF /* ProfileAPITest.swift */,
+				43770C4527EE856300F31CCF /* CommentAPITest.swift */,
+				43770C3D27EE819300F31CCF /* apiTests */,
 				47E74E2227CA100000467A0C /* mist_iosTests.swift */,
 			);
 			path = "mist-iosTests";
@@ -562,6 +571,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43770C3E27EE819300F31CCF /* apiTests in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -640,6 +650,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43770C4827EE857100F31CCF /* ProfileAPITest.swift in Sources */,
+				43770C4627EE856300F31CCF /* CommentAPITest.swift in Sources */,
 				47E74E2327CA100000467A0C /* mist_iosTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -811,7 +823,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5JEM6D7V78;
+				DEVELOPMENT_TEAM = 6BUL9SXRK5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mist-ios/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = mist;
@@ -844,7 +856,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5JEM6D7V78;
+				DEVELOPMENT_TEAM = 6BUL9SXRK5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mist-ios/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = mist;
