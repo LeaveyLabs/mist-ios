@@ -10,6 +10,7 @@
 		43770C3E27EE819300F31CCF /* apiTests in Resources */ = {isa = PBXBuildFile; fileRef = 43770C3D27EE819300F31CCF /* apiTests */; };
 		43770C4627EE856300F31CCF /* CommentAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43770C4527EE856300F31CCF /* CommentAPITest.swift */; };
 		43770C4827EE857100F31CCF /* ProfileAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43770C4727EE857100F31CCF /* ProfileAPITest.swift */; };
+		43770C4B27EE8C0F00F31CCF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */; };
 		439E44F427DFB71300E244D6 /* ProfileAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F327DFB71300E244D6 /* ProfileAPI.swift */; };
 		439E44F627DFB76200E244D6 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F527DFB76200E244D6 /* Profile.swift */; };
 		439E44F827DFE11F00E244D6 /* WordAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F727DFE11F00E244D6 /* WordAPI.swift */; };
@@ -99,6 +100,7 @@
 		43770C3D27EE819300F31CCF /* apiTests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = apiTests; sourceTree = "<group>"; };
 		43770C4527EE856300F31CCF /* CommentAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAPITest.swift; sourceTree = "<group>"; };
 		43770C4727EE857100F31CCF /* ProfileAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAPITest.swift; sourceTree = "<group>"; };
+		43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		439E44F327DFB71300E244D6 /* ProfileAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAPI.swift; sourceTree = "<group>"; };
 		439E44F527DFB76200E244D6 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		439E44F727DFE11F00E244D6 /* WordAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordAPI.swift; sourceTree = "<group>"; };
@@ -196,6 +198,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		43770C4927EE8BED00F31CCF /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		4700F8C427DE4641006C2E08 /* Explore */ = {
 			isa = PBXGroup;
 			children = (
@@ -354,6 +364,7 @@
 		47E74E3D27CA14C600467A0C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				43770C4927EE8BED00F31CCF /* Auth */,
 				47A3D71E27D598B6003DBEA5 /* TabBarController.swift */,
 				47F4EFD127E10C1300861F30 /* Post */,
 				47EA3DFE27E013DD00381218 /* Map */,
@@ -632,6 +643,7 @@
 				47A3D70227D524F4003DBEA5 /* NewPostViewController.swift in Sources */,
 				4700F8B727DD7BBA006C2E08 /* VoteAPI.swift in Sources */,
 				47A3D70E27D55BB3003DBEA5 /* Time.swift in Sources */,
+				43770C4B27EE8C0F00F31CCF /* LoginViewController.swift in Sources */,
 				479AA1F027DCE9A700EA0DFC /* PostCell.swift in Sources */,
 				47A3D70027D50CF1003DBEA5 /* FeedTableViewController.swift in Sources */,
 				47A3D70827D54F6F003DBEA5 /* User.swift in Sources */,
