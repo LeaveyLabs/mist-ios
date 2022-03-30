@@ -16,6 +16,7 @@ class LiveResultsTableViewController: UITableViewController {
     var liveResults = [Any]()
     
     @IBOutlet weak var resultsLabel: UILabel!
+    @IBOutlet weak var resultsLabelView: UIView!
     
     //MARK: -Life Cycle
     

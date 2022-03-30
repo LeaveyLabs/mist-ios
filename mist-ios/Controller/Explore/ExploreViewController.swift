@@ -17,7 +17,6 @@ class ExploreViewController: MapViewController {
     
     // MARK: - Properties
     @IBOutlet weak var mistTitle: UIView!
-    @IBOutlet weak var mapCoverView: UIView!
     @IBOutlet weak var myProfileButton: UIBarButtonItem!
     @IBOutlet weak var dmButton: UIBarButtonItem!
     @IBOutlet weak var searchButton: UIBarButtonItem!
@@ -33,64 +32,35 @@ class ExploreViewController: MapViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.sendSubviewToBack(mapCoverView)
         loadExploreMapView()
-                
-        resultsTableController =
-        self.storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.LiveResults) as? LiveResultsTableViewController
-        // This view controller is interested in table view row selections.
-        resultsTableController.tableView.delegate = self
-        
-        searchController = UISearchController(searchResultsController: resultsTableController)
-        searchController.isActive = false
-        searchController.searchBar.searchBarStyle = .minimal
-        searchController.searchBar.placeholder = "Search"
-        searchController.searchBar.scopeButtonTitles = ["Posts", "Users"]
-        searchController.delegate = self
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.autocapitalizationType = .none
-        searchController.searchBar.delegate = self // Monitor when the search button is tapped.
-    
-//        searchController.hidesNavigationBarDuringPresentation = true creates weird animation
-//        navigationItem.searchController = searchController
-//        navigationItem.titleView = searchController.searchBar
+        setupSearchBar()
         navigationItem.titleView = mistTitle
-//        navigationItem.hidesSearchBarWhenScrolling = false
-        
-//        searchController.definesPresentationContext = true
-//        searchController.hidesNavigationBarDuringPresentation = false //dont make the existing navigation bar fly upwards
-        
-        /** Search presents a view controller by applying normal view controller presentation semantics.
-            This means that the presentation moves up the view controller hierarchy until it finds the root
-            view controller or one that defines a presentation context.
-        */
-        
-        /** Specify that this view controller determines how the search controller is presented.
-            The search controller should be presented modally and match the physical size of this view controller.
-        */
         definesPresentationContext = true
     }
     
-    @IBAction func searchButtonDidPressed(_ sender: UIBarButtonItem) {
-        // Create the search results view controller and use it for the UISearchController.
-
-        // Create the search controller and make it perform the results updating.
-        self.searchController.hidesNavigationBarDuringPresentation = false;
-
-        // Present the view controller.
-//        presentSearchController(searchController)
-        present(searchController, animated: true)
-        
-        
-        
-        
-//        navigationController?.present(searchController, animated: true)
-//        present(searchController, animated: true)
-//        searchController.searchBar.becomeFirstResponder()
-//        searchController.isActive = true
-    }
-    
     //MARK: -Setup
+    
+    func setupSearchBar() {
+        //resultsTableViewController
+        resultsTableController =
+        self.storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.LiveResults) as? LiveResultsTableViewController
+        resultsTableController.tableView.delegate = self // This view controller is interested in table view row selections.
+        resultsTableController.tableView.contentInsetAdjustmentBehavior = .never //removes strange whitespace https://stackoverflow.com/questions/1703023/is-it-possible-to-access-a-uitableviews-scrollview-in-code-from-a-nib
+        resultsTableController.resultsLabelView.isHidden = true
+
+        //searchController
+        searchController = UISearchController(searchResultsController: resultsTableController)
+        searchController.delegate = self
+        searchController.searchResultsUpdater = self
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.showsSearchResultsController = true //means that we don't need "map cover view" anymore
+        
+        //searchController.searchBar
+        searchController.searchBar.delegate = self // Monitor when the search button is tapped.
+        searchController.searchBar.autocapitalizationType = .none
+        searchController.searchBar.searchBarStyle = .prominent //when setting to .minimal, the background disappears and you can see nav bar underneath. if using .minimal, add a background color to searchBar to fix this.
+        searchController.searchBar.placeholder = "Search"
+    }
     
     func loadExploreMapView() {
         Task {
@@ -111,7 +81,7 @@ class ExploreViewController: MapViewController {
     //MARK: -Navigation
 
     override func viewWillAppear(_ animated: Bool) {
-        searchController.dismiss(animated: true)
+//        searchController.dismiss(animated: true)
 //        print("can?")
 //        print(self.definesPresentationContext)
 //        print(searchController.canBecomeFirstResponder)
@@ -123,14 +93,18 @@ class ExploreViewController: MapViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         print("prepare for sender")
-        self.definesPresentationContext = false
+//        searchController.dismiss(animated: false)
+        self.definesPresentationContext = true
     }
     
     // MARK: - User Interaction
     
+    @IBAction func searchButtonDidPressed(_ sender: UIBarButtonItem) {
+        navigationController?.present(searchController, animated: true)
+    }
+    
     @IBAction func outerViewDidTapped(_ sender: UITapGestureRecognizer) {
-        print("outer view tapped")
-        searchController.dismiss(animated: true)
+        
     }
     
     @IBAction func createPostButtonDidTapped(_ sender: UIBarButtonItem) {
@@ -194,13 +168,10 @@ extension ExploreViewController: UISearchBarDelegate {
     }
 
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        view.bringSubviewToFront(mapCoverView)
         return true
     }
     
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
-        view.sendSubviewToBack(mapCoverView)
-        //TODO: add a modal transition for mapCoverView
         return true
     }
 }
@@ -267,8 +238,10 @@ extension ExploreViewController: UISearchResultsUpdating {
             //until the new db call returns.
             resultsTableController.liveResults = []
             resultsTableController.tableView.reloadData()
+            resultsTableController.resultsLabelView.isHidden = true
             return
         }
+        resultsTableController.resultsLabelView.isHidden = false
         
         if let resultsController = searchController.searchResultsController as? LiveResultsTableViewController {
             Task {
@@ -283,9 +256,7 @@ extension ExploreViewController: UISearchResultsUpdating {
                     default: break
                     }
                     resultsController.tableView.reloadData()
-                    resultsController.resultsLabel.text = resultsController.liveResults.isEmpty ?
-                        "No items found":
-                        String(format:"Items found: %d",resultsController.liveResults.count)
+                    resultsController.resultsLabel.text = resultsController.liveResults.isEmpty ? "No items found": String(format:"Items found: %d",resultsController.liveResults.count)
                 } catch {
                     print(error)
                 }

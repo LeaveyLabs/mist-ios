@@ -11,10 +11,8 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
     
     // MARK: -Properties
     var query: String!
-    @IBOutlet weak var mistTitleView: UIView!
 
     override func viewDidLoad() {
-        
         //(1 of 2) for enabling swipe left to go back with a bar button item
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
         

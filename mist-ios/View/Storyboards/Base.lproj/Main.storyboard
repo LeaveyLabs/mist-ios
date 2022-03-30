@@ -905,26 +905,18 @@ We take our rules seriously. Any users who post about others in a hurtful or neg
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qYq-0K-AqP" userLabel="MapCoverView">
-                                <rect key="frame" x="0.0" y="88" width="390" height="695"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </view>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="qJZ-mq-Xrs">
-                                <rect key="frame" x="0.0" y="88" width="390" height="844"/>
+                                <rect key="frame" x="0.0" y="88" width="390" height="756"/>
                             </mapView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="xEQ-d3-pfE"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="qYq-0K-AqP" firstAttribute="top" secondItem="xEQ-d3-pfE" secondAttribute="top" id="44A-d7-81X"/>
+                            <constraint firstItem="qJZ-mq-Xrs" firstAttribute="height" secondItem="xEQ-d3-pfE" secondAttribute="height" multiplier="1.21154" id="08u-r9-QB7"/>
                             <constraint firstItem="qJZ-mq-Xrs" firstAttribute="top" secondItem="xEQ-d3-pfE" secondAttribute="top" id="7x0-eG-eTi"/>
-                            <constraint firstItem="qJZ-mq-Xrs" firstAttribute="height" secondItem="AVO-3E-m1q" secondAttribute="height" id="GPD-nB-A66"/>
-                            <constraint firstItem="qYq-0K-AqP" firstAttribute="bottom" secondItem="xEQ-d3-pfE" secondAttribute="bottom" constant="71" id="LFc-qy-KfL"/>
                             <constraint firstItem="qJZ-mq-Xrs" firstAttribute="leading" secondItem="xEQ-d3-pfE" secondAttribute="leading" id="Y3A-He-WvX"/>
                             <constraint firstItem="qJZ-mq-Xrs" firstAttribute="trailing" secondItem="xEQ-d3-pfE" secondAttribute="trailing" id="lt7-H9-kW5"/>
-                            <constraint firstItem="xEQ-d3-pfE" firstAttribute="trailing" secondItem="qYq-0K-AqP" secondAttribute="trailing" id="pRu-0J-TjL"/>
-                            <constraint firstItem="qYq-0K-AqP" firstAttribute="leading" secondItem="xEQ-d3-pfE" secondAttribute="leading" id="v09-Mx-nYi"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="eFC-1f-BRB" appends="YES" id="SJc-nz-lsj"/>
@@ -960,7 +952,6 @@ We take our rules seriously. Any users who post about others in a hurtful or neg
                     <connections>
                         <outlet property="createPostButton" destination="QfU-kX-dnp" id="do4-Nz-apY"/>
                         <outlet property="dmButton" destination="aTR-j8-RE1" id="IMU-tA-bFM"/>
-                        <outlet property="mapCoverView" destination="qYq-0K-AqP" id="Wag-RM-SYN"/>
                         <outlet property="mapView" destination="qJZ-mq-Xrs" id="wLs-bn-eYM"/>
                         <outlet property="mistTitle" destination="rMy-5M-haD" id="eP0-dh-m0X"/>
                         <outlet property="myProfileButton" destination="aJG-By-eh4" id="zhf-0g-OkA"/>
@@ -995,7 +986,7 @@ We take our rules seriously. Any users who post about others in a hurtful or neg
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="337" y="2064"/>
+            <point key="canvasLocation" x="336.92307692307691" y="2063.7440758293837"/>
         </scene>
         <!--Results Feed View Controller-->
         <scene sceneID="yhj-Eh-XEO">
@@ -1006,16 +997,8 @@ We take our rules seriously. Any users who post about others in a hurtful or neg
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="86" id="5iE-M1-3Qq">
-                                <rect key="frame" x="0.0" y="44.666666030883789" width="390" height="86"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5iE-M1-3Qq" id="icv-y0-MMT">
-                                    <rect key="frame" x="0.0" y="0.0" width="390" height="86"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SortCell" rowHeight="41" id="NVU-8f-hi5">
-                                <rect key="frame" x="0.0" y="130.66666603088379" width="390" height="41"/>
+                                <rect key="frame" x="0.0" y="44.666666030883789" width="390" height="41"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NVU-8f-hi5" id="7U6-9s-z2h">
                                     <rect key="frame" x="0.0" y="0.0" width="390" height="41"/>
@@ -1060,37 +1043,14 @@ We take our rules seriously. Any users who post about others in a hurtful or neg
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="SW7-7e-IyE">
-                        <barButtonItem key="leftBarButtonItem" image="arrow.backward" catalog="system" id="tAM-ky-VI8">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="tAM-ky-VI8">
                             <connections>
                                 <action selector="backButtonDidPressed:" destination="Wah-wS-GOo" id="WXY-hQ-FIo"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <outlet property="mistTitleView" destination="hY0-Xx-jet" id="fh2-8v-6gY"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WV6-VO-Oh8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <view contentMode="scaleToFill" id="hY0-Xx-jet" userLabel="mist nav title">
-                    <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="mist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hth-MT-A0I">
-                            <rect key="frame" x="38" y="-5" width="61" height="44"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="32"/>
-                            <color key="textColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mist-heart" translatesAutoresizingMaskIntoConstraints="NO" id="gs7-i4-6Hi">
-                            <rect key="frame" x="2" y="0.0" width="30" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
-                        </imageView>
-                    </subviews>
-                    <viewLayoutGuide key="safeArea" id="4u3-tK-wxw"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                </view>
             </objects>
             <point key="canvasLocation" x="1311" y="2576"/>
         </scene>
@@ -1102,12 +1062,12 @@ We take our rules seriously. Any users who post about others in a hurtful or neg
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="eo0-P8-zII">
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="uQO-EH-J6i">
                             <rect key="frame" x="0.0" y="0.0" width="390" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uwy-5D-q0z">
-                                    <rect key="frame" x="18" y="22" width="359" height="0.0"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Searching..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zm6-3L-bmq">
+                                    <rect key="frame" x="18" y="13.666666666666664" width="359" height="17"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" systemColor="systemGrayColor"/>
                                     <nil key="highlightedColor"/>
@@ -1115,28 +1075,19 @@ We take our rules seriously. Any users who post about others in a hurtful or neg
                             </subviews>
                             <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                             <constraints>
-                                <constraint firstAttribute="trailing" secondItem="uwy-5D-q0z" secondAttribute="trailing" constant="13" id="Gfn-sy-sYE"/>
-                                <constraint firstItem="uwy-5D-q0z" firstAttribute="leading" secondItem="eo0-P8-zII" secondAttribute="leading" constant="18" id="IXO-aw-rIR"/>
-                                <constraint firstItem="uwy-5D-q0z" firstAttribute="centerY" secondItem="eo0-P8-zII" secondAttribute="centerY" id="Wky-Xi-m0W"/>
+                                <constraint firstItem="zm6-3L-bmq" firstAttribute="leading" secondItem="uQO-EH-J6i" secondAttribute="leading" constant="18" id="bUm-og-7xf"/>
+                                <constraint firstAttribute="trailing" secondItem="zm6-3L-bmq" secondAttribute="trailing" constant="13" id="cVY-FA-QUv"/>
+                                <constraint firstItem="zm6-3L-bmq" firstAttribute="centerY" secondItem="uQO-EH-J6i" secondAttribute="centerY" id="eJI-aB-IuW"/>
                             </constraints>
                         </view>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="oIC-ag-5G9">
-                                <rect key="frame" x="0.0" y="88.666666030883789" width="390" height="43.666667938232422"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oIC-ag-5G9" id="WZn-kC-HFX">
-                                    <rect key="frame" x="0.0" y="0.0" width="390" height="43.666667938232422"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="h7b-ZC-RvC" id="CJN-CS-wik"/>
                             <outlet property="delegate" destination="h7b-ZC-RvC" id="Y17-y5-7fC"/>
                         </connections>
                     </tableView>
                     <connections>
-                        <outlet property="resultsLabel" destination="uwy-5D-q0z" id="6qV-Hk-WN8"/>
+                        <outlet property="resultsLabel" destination="zm6-3L-bmq" id="yUg-6I-X3P"/>
+                        <outlet property="resultsLabelView" destination="uQO-EH-J6i" id="CIf-Bc-ozx"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Ig-Wa-BCh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1354,6 +1305,7 @@ We take our rules seriously. Any users who post about others in a hurtful or neg
         <image name="arrow.upright.circle" catalog="system" width="128" height="121"/>
         <image name="bookmark" catalog="system" width="112" height="128"/>
         <image name="chevron.down" catalog="system" width="128" height="72"/>
+        <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
         <image name="cup.and.saucer" catalog="system" width="128" height="91"/>
         <image name="cup.and.saucer.fill" catalog="system" width="128" height="91"/>
