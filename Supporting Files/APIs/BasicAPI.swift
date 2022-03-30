@@ -33,7 +33,7 @@ class BasicAPI {
     }
     
     // POST to the URL (url) with the HTTP body (data)
-    static func post(url:String, jsonData:Data) async throws {
+    static func post(url:String, jsonData:Data) async throws -> Data {
         // Intiailize API endpoint
         guard let serviceUrl = URL(string:url) else {
             throw APIError.badAPIEndPoint
@@ -45,11 +45,12 @@ class BasicAPI {
         request.httpBody = jsonData
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         // Run the request
-        try await URLSession.shared.data(for: request)
+        let (data, response) = try await URLSession.shared.data(for: request)
+        return data
     }
     
     // DELETE from the URL (url) with the HTTP body (data)
-    static func delete(url:String, jsonData:Data) async throws {
+    static func delete(url:String, jsonData:Data) async throws -> Data {
         // Intiailize API endpoint
         guard let serviceUrl = URL(string:url) else {
             throw APIError.badAPIEndPoint
@@ -61,6 +62,7 @@ class BasicAPI {
         request.httpBody = jsonData
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         // Run the request
-        try await URLSession.shared.data(for: request)
+        let (data, response) = try await URLSession.shared.data(for: request)
+        return data
     }
 }
