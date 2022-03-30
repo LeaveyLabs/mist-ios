@@ -51,13 +51,14 @@ class ExploreViewController: MapViewController {
         searchController.searchBar.autocapitalizationType = .none
         searchController.searchBar.delegate = self // Monitor when the search button is tapped.
     
-        searchController.hidesNavigationBarDuringPresentation = true
+//        searchController.hidesNavigationBarDuringPresentation = true creates weird animation
 //        navigationItem.searchController = searchController
+//        navigationItem.titleView = searchController.searchBar
         navigationItem.titleView = mistTitle
-        navigationItem.hidesSearchBarWhenScrolling = false
+//        navigationItem.hidesSearchBarWhenScrolling = false
         
-        searchController.definesPresentationContext = true
-        searchController.hidesNavigationBarDuringPresentation = false //dont make the existing navigation bar fly upwards
+//        searchController.definesPresentationContext = true
+//        searchController.hidesNavigationBarDuringPresentation = false //dont make the existing navigation bar fly upwards
         
         /** Search presents a view controller by applying normal view controller presentation semantics.
             This means that the presentation moves up the view controller hierarchy until it finds the root
@@ -68,6 +69,25 @@ class ExploreViewController: MapViewController {
             The search controller should be presented modally and match the physical size of this view controller.
         */
         definesPresentationContext = true
+    }
+    
+    @IBAction func searchButtonDidPressed(_ sender: UIBarButtonItem) {
+        // Create the search results view controller and use it for the UISearchController.
+
+        // Create the search controller and make it perform the results updating.
+        self.searchController.hidesNavigationBarDuringPresentation = false;
+
+        // Present the view controller.
+//        presentSearchController(searchController)
+        present(searchController, animated: true)
+        
+        
+        
+        
+//        navigationController?.present(searchController, animated: true)
+//        present(searchController, animated: true)
+//        searchController.searchBar.becomeFirstResponder()
+//        searchController.isActive = true
     }
     
     //MARK: -Setup
@@ -111,12 +131,6 @@ class ExploreViewController: MapViewController {
     @IBAction func outerViewDidTapped(_ sender: UITapGestureRecognizer) {
         print("outer view tapped")
         searchController.dismiss(animated: true)
-    }
-    
-    @IBAction func searchButtonDidPressed(_ sender: UIBarButtonItem) {
-        navigationController?.present(searchController, animated: true)
-//        searchController.searchBar.becomeFirstResponder()
-//        searchController.isActive = true
     }
     
     @IBAction func createPostButtonDidTapped(_ sender: UIBarButtonItem) {
