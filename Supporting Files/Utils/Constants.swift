@@ -45,6 +45,7 @@ struct Constants {
             static let ResultsFeed = "ResultsFeedViewController"
             static let PinMapModal = "PinMapModalViewController"
             static let MapModal = "MapModalViewController"
+            static let MyProfile = "MyProfileViewController"
         }
     }
 }

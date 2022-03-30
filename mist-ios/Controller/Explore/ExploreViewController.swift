@@ -18,6 +18,10 @@ class ExploreViewController: MapViewController {
     // MARK: - Properties
     @IBOutlet weak var mistTitle: UIView!
     @IBOutlet weak var mapCoverView: UIView!
+    @IBOutlet weak var myProfileButton: UIBarButtonItem!
+    @IBOutlet weak var dmButton: UIBarButtonItem!
+    @IBOutlet weak var searchButton: UIBarButtonItem!
+    @IBOutlet weak var createPostButton: UIBarButtonItem!
     
     /// Search controller to help us with filtering items in the table view.
     var searchController: UISearchController!
@@ -31,13 +35,14 @@ class ExploreViewController: MapViewController {
         super.viewDidLoad()
         view.sendSubviewToBack(mapCoverView)
         loadExploreMapView()
-            
+                
         resultsTableController =
         self.storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.LiveResults) as? LiveResultsTableViewController
         // This view controller is interested in table view row selections.
         resultsTableController.tableView.delegate = self
         
         searchController = UISearchController(searchResultsController: resultsTableController)
+        searchController.isActive = false
         searchController.searchBar.searchBarStyle = .minimal
         searchController.searchBar.placeholder = "Search"
         searchController.searchBar.scopeButtonTitles = ["Posts", "Users"]
@@ -47,9 +52,12 @@ class ExploreViewController: MapViewController {
         searchController.searchBar.delegate = self // Monitor when the search button is tapped.
     
         searchController.hidesNavigationBarDuringPresentation = true
-        navigationItem.searchController = searchController
+//        navigationItem.searchController = searchController
         navigationItem.titleView = mistTitle
         navigationItem.hidesSearchBarWhenScrolling = false
+        
+        searchController.definesPresentationContext = true
+        searchController.hidesNavigationBarDuringPresentation = false //dont make the existing navigation bar fly upwards
         
         /** Search presents a view controller by applying normal view controller presentation semantics.
             This means that the presentation moves up the view controller hierarchy until it finds the root
@@ -83,6 +91,7 @@ class ExploreViewController: MapViewController {
     //MARK: -Navigation
 
     override func viewWillAppear(_ animated: Bool) {
+        searchController.dismiss(animated: true)
 //        print("can?")
 //        print(self.definesPresentationContext)
 //        print(searchController.canBecomeFirstResponder)
@@ -103,6 +112,31 @@ class ExploreViewController: MapViewController {
         print("outer view tapped")
         searchController.dismiss(animated: true)
     }
+    
+    @IBAction func searchButtonDidPressed(_ sender: UIBarButtonItem) {
+        navigationController?.present(searchController, animated: true)
+//        searchController.searchBar.becomeFirstResponder()
+//        searchController.isActive = true
+    }
+    
+    @IBAction func createPostButtonDidTapped(_ sender: UIBarButtonItem) {
+        let vc = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewPostNavigation)
+        vc.modalPresentationStyle = .fullScreen
+       self.present(vc, animated: true, completion: nil)
+    }
+    
+    //TODO: add custom animations
+    //https://stackoverflow.com/questions/51675063/how-to-present-view-controller-from-left-to-right-in-ios
+    //https://github.com/HeroTransitions/Hero
+    @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
+        let myProfileVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyProfile) as! MyProfileViewController
+        DispatchQueue.main.async { //make sure all UI updates are on the main thread.
+//            self.navigationController?.view.layer.add(CATransition().segueFromLeft(), forKey: nil)
+            self.navigationController?.pushViewController(myProfileVC, animated: true)
+        }
+    }
+    
+    
 }
 
 //MARK: -Map

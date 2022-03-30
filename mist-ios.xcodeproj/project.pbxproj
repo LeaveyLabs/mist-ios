@@ -30,6 +30,10 @@
 		470F271F27DE9ABE00C6DDAF /* ResultsFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271E27DE9ABE00C6DDAF /* ResultsFeedViewController.swift */; };
 		4746508527D83F3E0014217C /* MistUITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746508427D83F3E0014217C /* MistUITextView.swift */; };
 		4746508727D8735B0014217C /* RulesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746508627D8735B0014217C /* RulesViewController.swift */; };
+		474A5DA327F4042F004215F9 /* UIImageView+Inspectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474A5DA227F4042F004215F9 /* UIImageView+Inspectable.swift */; };
+		474A5DA527F40606004215F9 /* RoundedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474A5DA427F40606004215F9 /* RoundedImageView.swift */; };
+		474A5DA827F4079D004215F9 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474A5DA727F4079D004215F9 /* MyProfileViewController.swift */; };
+		474A5DAA27F40CB1004215F9 /* UISegmentedControl+Twitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474A5DA927F40CB1004215F9 /* UISegmentedControl+Twitter.swift */; };
 		477A6FD627DFB0450020F864 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477A6FD527DFB0450020F864 /* Color.swift */; };
 		479AA1F027DCE9A700EA0DFC /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479AA1EE27DCE9A700EA0DFC /* PostCell.swift */; };
 		479AA1F127DCE9A700EA0DFC /* PostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 479AA1EF27DCE9A700EA0DFC /* PostCell.xib */; };
@@ -53,6 +57,7 @@
 		47A3D71D27D5940D003DBEA5 /* UITextView+DoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D71C27D5940D003DBEA5 /* UITextView+DoneButton.swift */; };
 		47A3D71F27D598B6003DBEA5 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D71E27D598B6003DBEA5 /* TabBarController.swift */; };
 		47A3D72327D5A0D2003DBEA5 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */; };
+		47B265C227EEDC9A00E367EB /* TestSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B265C127EEDC9A00E367EB /* TestSearchViewController.swift */; };
 		47C1D49127DF00B200970B3D /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C1D49027DF00B200970B3D /* MoreViewController.swift */; };
 		47C2834F27DED77500A19128 /* QueryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C2834D27DED77500A19128 /* QueryCell.swift */; };
 		47C2835027DED77500A19128 /* QueryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C2834E27DED77500A19128 /* QueryCell.xib */; };
@@ -116,6 +121,10 @@
 		470F271E27DE9ABE00C6DDAF /* ResultsFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsFeedViewController.swift; sourceTree = "<group>"; };
 		4746508427D83F3E0014217C /* MistUITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistUITextView.swift; sourceTree = "<group>"; };
 		4746508627D8735B0014217C /* RulesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesViewController.swift; sourceTree = "<group>"; };
+		474A5DA227F4042F004215F9 /* UIImageView+Inspectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Inspectable.swift"; sourceTree = "<group>"; };
+		474A5DA427F40606004215F9 /* RoundedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedImageView.swift; sourceTree = "<group>"; };
+		474A5DA727F4079D004215F9 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
+		474A5DA927F40CB1004215F9 /* UISegmentedControl+Twitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl+Twitter.swift"; sourceTree = "<group>"; };
 		477A6FD527DFB0450020F864 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		479AA1EE27DCE9A700EA0DFC /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		479AA1EF27DCE9A700EA0DFC /* PostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostCell.xib; sourceTree = "<group>"; };
@@ -139,6 +148,7 @@
 		47A3D71C27D5940D003DBEA5 /* UITextView+DoneButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextView+DoneButton.swift"; sourceTree = "<group>"; };
 		47A3D71E27D598B6003DBEA5 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		47B265C127EEDC9A00E367EB /* TestSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSearchViewController.swift; sourceTree = "<group>"; };
 		47C1D49027DF00B200970B3D /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		47C2834D27DED77500A19128 /* QueryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryCell.swift; sourceTree = "<group>"; };
 		47C2834E27DED77500A19128 /* QueryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QueryCell.xib; sourceTree = "<group>"; };
@@ -206,6 +216,7 @@
 				47E74E1127CA0FFE00467A0C /* Main.storyboard */,
 				47E74E1627CA0FFF00467A0C /* Launch.storyboard */,
 				479AA1F627DD0D3800EA0DFC /* Auth.storyboard */,
+				47B265C127EEDC9A00E367EB /* TestSearchViewController.swift */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -249,6 +260,7 @@
 				479AA1FA27DD0F0E00EA0DFC /* MistUILabel.swift */,
 				479AA1FE27DD223600EA0DFC /* MistUITextField.swift */,
 				479AA20027DD3F5500EA0DFC /* MistUIButton.swift */,
+				474A5DA427F40606004215F9 /* RoundedImageView.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -261,6 +273,8 @@
 				47FF869C27DB87A70076A1CA /* UIImage+Thumbnail.swift */,
 				479AA1F427DCFFCB00EA0DFC /* UIVIew+TopBorder.swift */,
 				47EA3DFA27E0098F00381218 /* UINavigationController+Hairline.swift */,
+				474A5DA227F4042F004215F9 /* UIImageView+Inspectable.swift */,
+				474A5DA927F40CB1004215F9 /* UISegmentedControl+Twitter.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -429,6 +443,7 @@
 			isa = PBXGroup;
 			children = (
 				47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */,
+				474A5DA727F4079D004215F9 /* MyProfileViewController.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -581,9 +596,11 @@
 			files = (
 				479AA1F527DCFFCB00EA0DFC /* UIVIew+TopBorder.swift in Sources */,
 				47A3D71027D55BDD003DBEA5 /* SortBy.swift in Sources */,
+				474A5DA327F4042F004215F9 /* UIImageView+Inspectable.swift in Sources */,
 				47A3D71427D58546003DBEA5 /* Feed.swift in Sources */,
 				47FF869827DB1F470076A1CA /* PostAPI.swift in Sources */,
 				439E44FC27E01D4900E244D6 /* AuthAPI.swift in Sources */,
+				47B265C227EEDC9A00E367EB /* TestSearchViewController.swift in Sources */,
 				47A3D71F27D598B6003DBEA5 /* TabBarController.swift in Sources */,
 				479AA1FF27DD223600EA0DFC /* MistUITextField.swift in Sources */,
 				470F271C27DE764F00C6DDAF /* UserResultCell.swift in Sources */,
@@ -591,6 +608,7 @@
 				479AA20327DD4AA900EA0DFC /* KUIViewController.swift in Sources */,
 				470F271827DE758100C6DDAF /* WordResultCell.swift in Sources */,
 				47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */,
+				474A5DA527F40606004215F9 /* RoundedImageView.swift in Sources */,
 				4700F8BE27DD807C006C2E08 /* CommentCell.swift in Sources */,
 				47A3D72327D5A0D2003DBEA5 /* ProfileViewController.swift in Sources */,
 				4700F8BB27DD7BE3006C2E08 /* Vote.swift in Sources */,
@@ -620,6 +638,8 @@
 				4700F8B527DD7BBA006C2E08 /* CommentAPI.swift in Sources */,
 				4700F8C327DE1EA6006C2E08 /* SortByViewController.swift in Sources */,
 				47A3D70227D524F4003DBEA5 /* NewPostViewController.swift in Sources */,
+				474A5DAA27F40CB1004215F9 /* UISegmentedControl+Twitter.swift in Sources */,
+				474A5DA827F4079D004215F9 /* MyProfileViewController.swift in Sources */,
 				4700F8B727DD7BBA006C2E08 /* VoteAPI.swift in Sources */,
 				47A3D70E27D55BB3003DBEA5 /* Time.swift in Sources */,
 				479AA1F027DCE9A700EA0DFC /* PostCell.swift in Sources */,
@@ -829,7 +849,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mist.mist-ios2";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mist.mist-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -862,7 +882,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mist.mist-ios2";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mist.mist-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

@@ -12,6 +12,11 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         delegate = self;
     }
     
+    /*
+     Send up a "NewPostNavigation" modal view when the middle "plus" tab bar button is pressed.
+     The view controller which is connected to the middle "plus" button should be called "dummy"
+     This function is not currently used
+    */
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController.title == "dummy" {
             print("dummy");

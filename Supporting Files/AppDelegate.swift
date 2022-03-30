@@ -13,6 +13,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //brings bar button items closer together
+        //https://stackoverflow.com/questions/22741824/how-to-adjust-space-between-two-uibarbuttonitem-in-rightbarbuttonitems
+        let stackViewAppearance = UIStackView.appearance(whenContainedInInstancesOf: [UINavigationBar.self])
+        stackViewAppearance.spacing = -10
+        
         return true
     }
 

@@ -446,7 +446,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oVa-Gt-se8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2787.6923076923076" y="393.8388625592417"/>
+            <point key="canvasLocation" x="3690.7692307692305" y="927.7251184834123"/>
         </scene>
         <!--Map Modal View Controller-->
         <scene sceneID="5AX-cY-YOD">
@@ -506,38 +506,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5ft-Ix-FaW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1136.9230769230769" y="1572.5118483412321"/>
-        </scene>
-        <!--dummy-->
-        <scene sceneID="k2t-ta-cfd">
-            <objects>
-                <viewController title="dummy" id="OqF-Tp-g2m" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8Rm-le-3zp">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dummy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kPl-Eu-1v7">
-                                <rect key="frame" x="166.66666666666666" y="411.66666666666669" width="57" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="ixe-vS-Dcr"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="kPl-Eu-1v7" firstAttribute="centerX" secondItem="8Rm-le-3zp" secondAttribute="centerX" id="5HF-zM-AGB"/>
-                            <constraint firstItem="kPl-Eu-1v7" firstAttribute="centerY" secondItem="8Rm-le-3zp" secondAttribute="centerY" id="cYh-5r-LHb"/>
-                        </constraints>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="" image="circle-pencil" selectedImage="circle-pencil" id="wAa-Kx-zzJ">
-                        <inset key="imageInsets" minX="0.0" minY="45" maxX="0.0" maxY="47"/>
-                        <color key="badgeColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </tabBarItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="5H0-Xv-Q83" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-701" y="621"/>
+            <point key="canvasLocation" x="2120" y="1369"/>
         </scene>
         <!--New Post View Controller-->
         <scene sceneID="oiY-Xi-lSz">
@@ -693,7 +662,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1190.7692307692307" y="619.19431279620846"/>
+            <point key="canvasLocation" x="2120" y="619.19431279620846"/>
         </scene>
         <!--Pin Map View Controller-->
         <scene sceneID="f0X-bo-jnd">
@@ -758,7 +727,7 @@
                     </connections>
                 </pongPressGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2064.6153846153848" y="393.8388625592417"/>
+            <point key="canvasLocation" x="2960" y="927.7251184834123"/>
         </scene>
         <!--Rules View Controller-->
         <scene sceneID="KH2-3P-Vpl">
@@ -800,12 +769,16 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uAx-Ut-Qd9">
-                                <rect key="frame" x="30" y="135" width="330" height="136.66666666666663"/>
-                                <string key="text">1. Be uplifting
+                                <rect key="frame" x="30" y="135.00000000000003" width="330" height="382.66666666666674"/>
+                                <string key="text">Help us keep Mist a welcoming, wholesome, and uplifting space.
+
+1. Be uplifting
 
 2. Be kind.
 
-3. Be wholesome</string>
+3. Be wholesome
+
+We take our rules seriously. Any users who post about others in a hurtful or negative light will be immediately and permanently banned from Mist.l</string>
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -829,7 +802,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pYP-c2-Wso" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="UkW-Qo-P11" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2065" y="1064"/>
+            <point key="canvasLocation" x="2031" y="299"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="PLu-W2-ENU">
@@ -850,13 +823,79 @@
                     </tabBar>
                     <connections>
                         <segue destination="1YG-3w-9zr" kind="relationship" relationship="viewControllers" id="57b-ae-HPo"/>
-                        <segue destination="OqF-Tp-g2m" kind="relationship" relationship="viewControllers" id="Lqk-yU-gnf"/>
                         <segue destination="iiA-aL-URl" kind="relationship" relationship="viewControllers" id="I0L-In-3pl"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gr3-Po-7tM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1808" y="973"/>
+        </scene>
+        <!--My Profile-->
+        <scene sceneID="YjE-XJ-d6h">
+            <objects>
+                <viewController storyboardIdentifier="MyProfileViewController" hidesBottomBarWhenPushed="YES" id="lDn-Mg-oMk" customClass="MyProfileViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GFY-LR-pzY">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="vtm-gG-b78" customClass="RoundedImageView" customModule="mist_ios" customModuleProvider="target">
+                                <rect key="frame" x="95" y="124" width="200" height="200"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Adam Novak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pVC-pC-muI">
+                                <rect key="frame" x="104" y="332" width="182" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="@adamvnovak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dfh-yU-mxG">
+                                <rect key="frame" x="137" y="381" width="116" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="k9s-Uu-wdH">
+                                <rect key="frame" x="36" y="430" width="319" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <segments>
+                                    <segment title="Submissions"/>
+                                    <segment title="Mentions"/>
+                                    <segment title="Favorites"/>
+                                </segments>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="selectedSegmentTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="segmentedControlValueDidChanged:" destination="lDn-Mg-oMk" eventType="valueChanged" id="Crb-cM-yb9"/>
+                                </connections>
+                            </segmentedControl>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="32N-IJ-wer"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="My Profile" id="ce7-Ms-yar">
+                        <leftBarButtonItems>
+                            <barButtonItem image="gearshape" catalog="system" id="TJM-yL-x8i"/>
+                            <barButtonItem image="person.2" catalog="system" id="9RU-Yh-EjM"/>
+                        </leftBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" image="chevron.right" catalog="system" id="4Yk-Q0-UTj">
+                            <connections>
+                                <action selector="onBackButtonPressed:" destination="lDn-Mg-oMk" id="mDe-4I-Ilc"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="backBarButton" destination="4Yk-Q0-UTj" id="dGs-N4-5yj"/>
+                        <outlet property="friendsBarButton" destination="9RU-Yh-EjM" id="mEn-9H-7qf"/>
+                        <outlet property="postsUISegmentedControl" destination="k9s-Uu-wdH" id="xs2-3m-h6W"/>
+                        <outlet property="settingsBarButton" destination="TJM-yL-x8i" id="lDl-c0-4cL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QX2-RS-QeR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1310.7692307692307" y="1820.6161137440758"/>
         </scene>
         <!--Explore View Controller-->
         <scene sceneID="O37-p6-qJH">
@@ -866,13 +905,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="qJZ-mq-Xrs">
-                                <rect key="frame" x="0.0" y="88" width="390" height="759.66666666666663"/>
-                            </mapView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qYq-0K-AqP" userLabel="MapCoverView">
                                 <rect key="frame" x="0.0" y="88" width="390" height="695"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="qJZ-mq-Xrs">
+                                <rect key="frame" x="0.0" y="88" width="390" height="844"/>
+                            </mapView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="xEQ-d3-pfE"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -880,7 +919,7 @@
                         <constraints>
                             <constraint firstItem="qYq-0K-AqP" firstAttribute="top" secondItem="xEQ-d3-pfE" secondAttribute="top" id="44A-d7-81X"/>
                             <constraint firstItem="qJZ-mq-Xrs" firstAttribute="top" secondItem="xEQ-d3-pfE" secondAttribute="top" id="7x0-eG-eTi"/>
-                            <constraint firstItem="qJZ-mq-Xrs" firstAttribute="height" secondItem="AVO-3E-m1q" secondAttribute="height" multiplier="0.900079" id="GPD-nB-A66"/>
+                            <constraint firstItem="qJZ-mq-Xrs" firstAttribute="height" secondItem="AVO-3E-m1q" secondAttribute="height" id="GPD-nB-A66"/>
                             <constraint firstItem="qYq-0K-AqP" firstAttribute="bottom" secondItem="xEQ-d3-pfE" secondAttribute="bottom" constant="71" id="LFc-qy-KfL"/>
                             <constraint firstItem="qJZ-mq-Xrs" firstAttribute="leading" secondItem="xEQ-d3-pfE" secondAttribute="leading" id="Y3A-He-WvX"/>
                             <constraint firstItem="qJZ-mq-Xrs" firstAttribute="trailing" secondItem="xEQ-d3-pfE" secondAttribute="trailing" id="lt7-H9-kW5"/>
@@ -892,12 +931,40 @@
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" id="Shy-Vc-wh8">
-                        <nil key="title"/>
+                        <leftBarButtonItems>
+                            <barButtonItem title="Item" image="person.circle" catalog="system" style="plain" id="aJG-By-eh4">
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="myProfileButtonDidTapped:" destination="Uc1-dx-vje" id="Cd5-FB-okw"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Item" image="envelope" catalog="system" id="aTR-j8-RE1">
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </barButtonItem>
+                        </leftBarButtonItems>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Item" image="plus.bubble" catalog="system" style="plain" id="QfU-kX-dnp">
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="createPostButtonDidTapped:" destination="Uc1-dx-vje" id="IUF-zE-phE"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="magnifyingglass" catalog="system" id="aTE-B8-UUR">
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="searchButtonDidPressed:" destination="Uc1-dx-vje" id="Lma-d7-1Jk"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="createPostButton" destination="QfU-kX-dnp" id="do4-Nz-apY"/>
+                        <outlet property="dmButton" destination="aTR-j8-RE1" id="IMU-tA-bFM"/>
                         <outlet property="mapCoverView" destination="qYq-0K-AqP" id="Wag-RM-SYN"/>
                         <outlet property="mapView" destination="qJZ-mq-Xrs" id="wLs-bn-eYM"/>
                         <outlet property="mistTitle" destination="rMy-5M-haD" id="eP0-dh-m0X"/>
+                        <outlet property="myProfileButton" destination="aJG-By-eh4" id="zhf-0g-OkA"/>
+                        <outlet property="searchButton" destination="aTE-B8-UUR" id="n1L-WR-QfJ"/>
                         <segue destination="Wah-wS-GOo" kind="show" identifier="PushToResultsFeed" id="iBi-jq-cBI"/>
                     </connections>
                 </viewController>
@@ -1025,7 +1092,7 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="1137" y="2288"/>
+            <point key="canvasLocation" x="1311" y="2576"/>
         </scene>
         <!--Live Results Table View Controller-->
         <scene sceneID="8EU-Mb-n2Q">
@@ -1076,11 +1143,11 @@
             </objects>
             <point key="canvasLocation" x="337" y="2787"/>
         </scene>
-        <!--Home-->
+        <!--Navigation Controller-->
         <scene sceneID="B0b-vf-o9k">
             <objects>
                 <navigationController id="1YG-3w-9zr" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" selectedImage="house.fill" id="g9p-9C-TAM">
+                    <tabBarItem key="tabBarItem" title="" image="list-grey" selectedImage="list-filled" id="g9p-9C-TAM">
                         <color key="badgeColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
@@ -1102,34 +1169,6 @@
             </objects>
             <point key="canvasLocation" x="-700" y="-175"/>
         </scene>
-        <!--Profile-->
-        <scene sceneID="pqR-9I-Eeo">
-            <objects>
-                <viewController storyboardIdentifier="ProfileViewController" id="nxo-7Z-jC5" customClass="ProfileViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="OAg-H6-oxj">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="coming soon" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N7g-oo-MNA">
-                                <rect key="frame" x="136.66666666666666" y="408" width="117" height="28"/>
-                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
-                                <color key="textColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="xOJ-iu-uu6"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="N7g-oo-MNA" firstAttribute="centerX" secondItem="OAg-H6-oxj" secondAttribute="centerX" id="0o5-Qg-Us4"/>
-                            <constraint firstItem="N7g-oo-MNA" firstAttribute="centerY" secondItem="OAg-H6-oxj" secondAttribute="centerY" id="VNF-iJ-ZyM"/>
-                        </constraints>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Profile" image="person" catalog="system" selectedImage="person.fill" id="WR4-b1-seR"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="UOE-Lb-rfj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-703" y="3282"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="kO0-iY-x10">
             <objects>
@@ -1147,13 +1186,15 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hyn-bO-MMg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="383" y="621"/>
+            <point key="canvasLocation" x="1310.7692307692307" y="620.61611374407585"/>
         </scene>
-        <!--Explore-->
+        <!--Navigation Controller-->
         <scene sceneID="qHu-7i-MZ6">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="iiA-aL-URl" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Explore" image="magnifyingglass.circle" catalog="system" selectedImage="magnifyingglass.circle.fill" id="WiN-al-YOd"/>
+                    <tabBarItem key="tabBarItem" title="" image="map-grey" selectedImage="map-filled" id="WiN-al-YOd">
+                        <inset key="largeContentSizeImageInsets" minX="0.0" minY="1" maxX="0.0" maxY="1"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="pXF-72-eqT">
                         <rect key="frame" x="0.0" y="44" width="390" height="44"/>
@@ -1172,7 +1213,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WfB-11-6FE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-703" y="2064"/>
+            <point key="canvasLocation" x="-648" y="2064"/>
         </scene>
         <!--More View Controller-->
         <scene sceneID="pXH-hB-BTt">
@@ -1298,6 +1339,9 @@
         <designable name="uZL-oT-ATa">
             <size key="intrinsicContentSize" width="60.333333333333336" height="34.666666666666664"/>
         </designable>
+        <designable name="vtm-gG-b78">
+            <size key="intrinsicContentSize" width="893" height="880"/>
+        </designable>
     </designables>
     <inferredMetricsTieBreakers>
         <segue reference="LFb-qL-aap"/>
@@ -1311,19 +1355,22 @@
         <image name="bookmark" catalog="system" width="112" height="128"/>
         <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
-        <image name="circle-pencil" width="160" height="160"/>
         <image name="cup.and.saucer" catalog="system" width="128" height="91"/>
         <image name="cup.and.saucer.fill" catalog="system" width="128" height="91"/>
+        <image name="envelope" catalog="system" width="128" height="93"/>
         <image name="envelope.open" catalog="system" width="128" height="122"/>
         <image name="flag" catalog="system" width="128" height="121"/>
-        <image name="house" catalog="system" width="128" height="106"/>
-        <image name="house.fill" catalog="system" width="128" height="106"/>
+        <image name="gearshape" catalog="system" width="128" height="121"/>
+        <image name="list-filled" width="26" height="26"/>
+        <image name="list-grey" width="26" height="26"/>
         <image name="location" catalog="system" width="128" height="118"/>
-        <image name="magnifyingglass.circle" catalog="system" width="128" height="121"/>
-        <image name="magnifyingglass.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="map-filled" width="30" height="30"/>
+        <image name="map-grey" width="30" height="30"/>
         <image name="mist-heart" width="190" height="176"/>
-        <image name="person" catalog="system" width="128" height="117"/>
-        <image name="person.fill" catalog="system" width="128" height="120"/>
+        <image name="person.2" catalog="system" width="128" height="81"/>
+        <image name="person.circle" catalog="system" width="128" height="121"/>
+        <image name="plus.bubble" catalog="system" width="128" height="110"/>
         <image name="sparkles" catalog="system" width="112" height="128"/>
         <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
