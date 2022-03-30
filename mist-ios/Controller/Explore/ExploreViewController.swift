@@ -13,7 +13,7 @@ import MapKit
 ///https://developer.apple.com/documentation/uikit/view_controllers/using_suggested_searches_with_a_search_controller
 ///https://developer.apple.com/documentation/uikit/view_controllers/displaying_searchable_content_by_using_a_search_controller
 
-class ExploreViewController: MapViewController {
+class ExploreViewController: MapViewController, UISearchControllerDelegate {
     
     // MARK: - Properties
     @IBOutlet weak var mistTitle: UIView!
@@ -22,10 +22,7 @@ class ExploreViewController: MapViewController {
     @IBOutlet weak var searchButton: UIBarButtonItem!
     @IBOutlet weak var createPostButton: UIBarButtonItem!
     
-    /// Search controller to help us with filtering items in the table view.
-    var searchController: UISearchController!
-    
-    /// Search results table view.
+    var mySearchController: UISearchController!
     private var resultsTableController: LiveResultsTableViewController!
     
     // MARK: - View Life Cycle
@@ -35,7 +32,19 @@ class ExploreViewController: MapViewController {
         loadExploreMapView()
         setupSearchBar()
         navigationItem.titleView = mistTitle
-        definesPresentationContext = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        //TODO: pull up search bar when returning to this VC after search via search button click
+        //https://stackoverflow.com/questions/27951965/cannot-set-searchbar-as-firstresponder
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        print("view will disappear")
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("prepare for sender")
     }
     
     //MARK: -Setup
@@ -45,21 +54,31 @@ class ExploreViewController: MapViewController {
         resultsTableController =
         self.storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.LiveResults) as? LiveResultsTableViewController
         resultsTableController.tableView.delegate = self // This view controller is interested in table view row selections.
-        resultsTableController.tableView.contentInsetAdjustmentBehavior = .never //removes strange whitespace https://stackoverflow.com/questions/1703023/is-it-possible-to-access-a-uitableviews-scrollview-in-code-from-a-nib
+        resultsTableController.tableView.contentInsetAdjustmentBehavior = .automatic //removes strange whitespace https://stackoverflow.com/questions/1703023/is-it-possible-to-access-a-uitableviews-scrollview-in-code-from-a-nib
+        
         resultsTableController.resultsLabelView.isHidden = true
 
         //searchController
-        searchController = UISearchController(searchResultsController: resultsTableController)
-        searchController.delegate = self
-        searchController.searchResultsUpdater = self
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.showsSearchResultsController = true //means that we don't need "map cover view" anymore
+        mySearchController = UISearchController(searchResultsController: resultsTableController)
+        mySearchController.delegate = self
+        mySearchController.searchResultsUpdater = self
+        mySearchController.showsSearchResultsController = true //means that we don't need "map cover view" anymore
         
-        //searchController.searchBar
-        searchController.searchBar.delegate = self // Monitor when the search button is tapped.
-        searchController.searchBar.autocapitalizationType = .none
-        searchController.searchBar.searchBarStyle = .prominent //when setting to .minimal, the background disappears and you can see nav bar underneath. if using .minimal, add a background color to searchBar to fix this.
-        searchController.searchBar.placeholder = "Search"
+        //https://stackoverflow.com/questions/68106036/presenting-uisearchcontroller-programmatically
+        //this creates unideal ui, but im not going to spend more time trying to fix this right now.
+        //mySearchController.hidesNavigationBarDuringPresentation = false //true by default
+
+        //todo later: TWO WAYS OF MAKING SEARCH BAR PRETTY
+        //definePresentationContext = false (plus) self.present(searchcontroller)
+        //definePresentationContext = true (plus) navigationController?.present(searchController)
+        definesPresentationContext = true //false by default
+        
+        //searchBar
+        mySearchController.searchBar.tintColor = .darkGray
+        mySearchController.searchBar.delegate = self // Monitor when the search button is tapped.
+        mySearchController.searchBar.autocapitalizationType = .none
+        mySearchController.searchBar.searchBarStyle = .prominent //when setting to .minimal, the background disappears and you can see nav bar underneath. if using .minimal, add a background color to searchBar to fix this.
+        mySearchController.searchBar.placeholder = "Search"
     }
     
     func loadExploreMapView() {
@@ -80,27 +99,12 @@ class ExploreViewController: MapViewController {
     
     //MARK: -Navigation
 
-    override func viewWillAppear(_ animated: Bool) {
-//        searchController.dismiss(animated: true)
-//        print("can?")
-//        print(self.definesPresentationContext)
-//        print(searchController.canBecomeFirstResponder)
-//        print(searchController.isFirstResponder)
-//        print(searchController.isActive)
-        //TODO: pull up search bar when returning to this VC after search via search button click
-        //https://stackoverflow.com/questions/27951965/cannot-set-searchbar-as-firstresponder
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("prepare for sender")
-//        searchController.dismiss(animated: false)
-        self.definesPresentationContext = true
-    }
+
     
     // MARK: - User Interaction
     
     @IBAction func searchButtonDidPressed(_ sender: UIBarButtonItem) {
-        navigationController?.present(searchController, animated: true)
+        present(mySearchController, animated: true)
     }
     
     @IBAction func outerViewDidTapped(_ sender: UITapGestureRecognizer) {
@@ -123,8 +127,6 @@ class ExploreViewController: MapViewController {
             self.navigationController?.pushViewController(myProfileVC, animated: true)
         }
     }
-    
-    
 }
 
 //MARK: -Map
@@ -149,8 +151,8 @@ extension ExploreViewController {
 extension ExploreViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let text = searchController.searchBar.text else { return }
-        
+        guard let text = mySearchController.searchBar.text else { return }
+
         switch resultsTableController.selectedScope {
             case 0:
                 let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewControllerForQuery(text)
@@ -164,7 +166,7 @@ extension ExploreViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         resultsTableController.selectedScope = selectedScope
         resultsTableController.liveResults = []
-        updateSearchResults(for: searchController)
+        updateSearchResults(for: mySearchController)
     }
 
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
@@ -201,24 +203,27 @@ extension ExploreViewController: UITableViewDelegate {
 
 // Use these delegate functions for additional control over the search controller.
 
-extension ExploreViewController: UISearchControllerDelegate {
+extension ExploreViewController {
     
     func presentSearchController(_ searchController: UISearchController) {
-        //Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
     }
     
     func willPresentSearchController(_ searchController: UISearchController) {
         navigationController?.hideHairline()
-        //Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
     }
     
     func didPresentSearchController(_ searchController: UISearchController) {
-        //Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+        navigationItem.searchController = searchController
     }
     
     func willDismissSearchController(_ searchController: UISearchController) {
+        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+        print("will dismiss sc")
         navigationController?.restoreHairline()
-        //Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+        navigationItem.searchController = .none
     }
     
     func didDismissSearchController(_ searchController: UISearchController) {

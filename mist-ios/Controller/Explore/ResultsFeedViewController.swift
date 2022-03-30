@@ -11,8 +11,23 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
     
     // MARK: -Properties
     var query: String!
+    
+    // MARK: -Life Cycle
 
     override func viewDidLoad() {
+        
+        
+        //something to do with edge insets.....
+//        self.edgesForExtendedLayout = UIRectEdge()
+//        self.extendedLayoutIncludesOpaqueBars = false
+        
+//        tableView.tableFooterView = UIView()
+//        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNonzeroMagnitude))
+//        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0);
+        
+//        tableView.estimatedRowHeight = 80
+//        tableView.rowHeight = UITableView.automaticDimension
+        
         //(1 of 2) for enabling swipe left to go back with a bar button item
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
         
@@ -36,13 +51,7 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
         return viewController
     }
     
-    //(2 of 2) for enabling swipe left to go back with a bar button item
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        navigationController?.hideHairline()
-        return true
-    }
-    
-    // MARK: -Actions
+    // MARK: -User Interaction
     
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         //
@@ -52,6 +61,26 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
         navigationController?.hideHairline()
         navigationController?.popViewController(animated: true)
     }
+    
+    //(2 of 2) for enabling swipe left to go back with a bar button item
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        navigationController?.hideHairline()
+        return true
+    }
+    
+    @IBAction func sortButtonDidPressed(_ sender: UIButton) {
+        //customize sheet size before presenting
+        //https://developer.apple.com/videos/play/wwdc2021/10063/
+        let sortByVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.SortBy) as! SortByViewController
+
+        if let sheet = sortByVC.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+        }
+        present(sortByVC, animated: true, completion: nil)
+    }
+    
+    // MARK: -API calls
     
     @objc override func refreshFeed() {
         //TODO: cancel task if it takes too long. that way the user can refresh and try again
@@ -68,18 +97,8 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
         }
     }
     
-    @IBAction func sortButtonDidPressed(_ sender: UIButton) {
-        //customize sheet size before presenting
-        //https://developer.apple.com/videos/play/wwdc2021/10063/
-        let sortByVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.SortBy) as! SortByViewController
+    // MARK: -..?
 
-        if let sheet = sortByVC.sheetPresentationController {
-            sheet.detents = [.medium()]
-            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-        }
-        present(sortByVC, animated: true, completion: nil)
-    }
-    
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         //TODO: dynamically set starting offset so it works for all screen sizes, not just the 12
         let startingOffset: CGFloat = 50
@@ -94,6 +113,8 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
             navigationController?.navigationBar.standardAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(white: 0, alpha: offset)]
         }
     }
+    
+    // MARK: -TableView Delegate & Data Source
         
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         print(indexPath)
@@ -102,7 +123,8 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
             cell.queryLabel.text = query
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             return cell
-        } else  if (indexPath.row == 1) {
+        }
+        else  if (indexPath.row == 1) {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Sort, for: indexPath)
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             return cell;

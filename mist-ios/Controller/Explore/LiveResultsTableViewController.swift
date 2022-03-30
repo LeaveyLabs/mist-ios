@@ -22,9 +22,6 @@ class LiveResultsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //resultsLabel.isHidden = true;
-
         let nib = UINib(nibName: Constants.SBID.Cell.WordResult, bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: Constants.SBID.Cell.WordResult)
         let nib2 = UINib(nibName: Constants.SBID.Cell.UserResult, bundle: nil)
