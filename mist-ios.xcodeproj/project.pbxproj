@@ -74,6 +74,7 @@
 		47EA3DFB27E0098F00381218 /* UINavigationController+Hairline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3DFA27E0098F00381218 /* UINavigationController+Hairline.swift */; };
 		47EA3E0027E013EB00381218 /* BridgeAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3DFF27E013EB00381218 /* BridgeAnnotation.swift */; };
 		47EA3E0227E0151200381218 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3E0127E0151200381218 /* MapViewController.swift */; };
+		47EE95FA27F64C00003B351E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE95F927F64C00003B351E /* SettingsViewController.swift */; };
 		47F4EFD327E118DD00861F30 /* MapModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F4EFD227E118DD00861F30 /* MapModalViewController.swift */; };
 		47FF869827DB1F470076A1CA /* PostAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF869727DB1F470076A1CA /* PostAPI.swift */; };
 		47FF869D27DB87A70076A1CA /* UIImage+Thumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF869C27DB87A70076A1CA /* UIImage+Thumbnail.swift */; };
@@ -169,6 +170,7 @@
 		47EA3DFA27E0098F00381218 /* UINavigationController+Hairline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Hairline.swift"; sourceTree = "<group>"; };
 		47EA3DFF27E013EB00381218 /* BridgeAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeAnnotation.swift; sourceTree = "<group>"; };
 		47EA3E0127E0151200381218 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		47EE95F927F64C00003B351E /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		47F4EFD227E118DD00861F30 /* MapModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModalViewController.swift; sourceTree = "<group>"; };
 		47FF869727DB1F470076A1CA /* PostAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostAPI.swift; sourceTree = "<group>"; };
 		47FF869C27DB87A70076A1CA /* UIImage+Thumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Thumbnail.swift"; sourceTree = "<group>"; };
@@ -444,6 +446,7 @@
 			children = (
 				47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */,
 				474A5DA727F4079D004215F9 /* MyProfileViewController.swift */,
+				47EE95F927F64C00003B351E /* SettingsViewController.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -617,6 +620,7 @@
 				47EA3E0227E0151200381218 /* MapViewController.swift in Sources */,
 				439E44F627DFB76200E244D6 /* Profile.swift in Sources */,
 				479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */,
+				47EE95FA27F64C00003B351E /* SettingsViewController.swift in Sources */,
 				47A3D70C27D55A3A003DBEA5 /* PostService.swift in Sources */,
 				47A3D71D27D5940D003DBEA5 /* UITextView+DoneButton.swift in Sources */,
 				47CE900A27E058090004B756 /* PinMapViewController.swift in Sources */,

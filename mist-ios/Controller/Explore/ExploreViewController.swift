@@ -114,7 +114,7 @@ class ExploreViewController: MapViewController, UISearchControllerDelegate {
     @IBAction func createPostButtonDidTapped(_ sender: UIBarButtonItem) {
         let vc = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewPostNavigation)
         vc.modalPresentationStyle = .fullScreen
-       self.present(vc, animated: true, completion: nil)
+        self.present(vc, animated: true, completion: nil)
     }
     
     //TODO: add custom animations

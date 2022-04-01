@@ -25,11 +25,22 @@ class MyProfileViewController: UIViewController {
 
     }
     
-    // MARK: - Navigation
+    // MARK: - UserInteraction
     
     @IBAction func onBackButtonPressed(_ sender: UIBarButtonItem) {
         self.navigationController?.popViewController(animated: true)
     }
+    
+    @IBAction func settingsButtonDidtapped(_ sender: UIBarButtonItem) {
+        print("presenting")
+        //TODO: change from push to full screen show
+        let vc = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Settings)
+//        vc.modalPresentationStyle = .fullScreen
+//        self.present(vc, animated: true, completion: nil)
+        self.show(vc, sender: self)
+    }
+    
+    // MARK: - ViewUpdates
     
     @IBAction func segmentedControlValueDidChanged(_ sender: UISegmentedControl) {
         postsUISegmentedControl.changeUnderlinePosition()

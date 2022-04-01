@@ -32,20 +32,25 @@ struct Constants {
             static let Sort = "SortCell"
         }
         struct VC {
+            //Post
+            static let Post = "PostViewController"
             static let SortBy = "SortByViewController"
             static let More = "MoreViewController"
-            static let Rules = "RulesViewController"
+            //NewPost
             static let NewPost = "NewPostViewController"
             static let NewPostNavigation = "NewPostNavigationController"
+            static let Rules = "RulesViewController"
+            //Account
             static let Profile = "ProfileViewController"
             static let Feed = "FeedTableViewController"
-            static let Post = "PostViewController"
+            static let MyProfile = "MyProfileViewController"
+            static let Settings = "SettingsViewController"
+            //Explore
             static let Explore = "ExploreViewController"
             static let LiveResults = "LiveResultsTableViewController"
             static let ResultsFeed = "ResultsFeedViewController"
             static let PinMapModal = "PinMapModalViewController"
             static let MapModal = "MapModalViewController"
-            static let MyProfile = "MyProfileViewController"
         }
     }
 }
