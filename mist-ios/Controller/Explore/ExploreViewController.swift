@@ -111,21 +111,13 @@ class ExploreViewController: MapViewController, UISearchControllerDelegate {
         
     }
     
-    @IBAction func createPostButtonDidTapped(_ sender: UIBarButtonItem) {
-        let vc = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewPostNavigation)
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true, completion: nil)
-    }
-    
     //TODO: add custom animations
     //https://stackoverflow.com/questions/51675063/how-to-present-view-controller-from-left-to-right-in-ios
     //https://github.com/HeroTransitions/Hero
     @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
         let myProfileVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyProfile) as! MyProfileViewController
-        DispatchQueue.main.async { //make sure all UI updates are on the main thread.
 //            self.navigationController?.view.layer.add(CATransition().segueFromLeft(), forKey: nil)
             self.navigationController?.pushViewController(myProfileVC, animated: true)
-        }
     }
 }
 
@@ -155,6 +147,7 @@ extension ExploreViewController: UISearchBarDelegate {
 
         switch resultsTableController.selectedScope {
             case 0:
+                //TODO: idea: what if you present a new navigation controller , with its root view controller as the newQueryFeedViewController. will this fix aesthetic issues?
                 let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewControllerForQuery(text)
                 navigationController?.pushViewController(newQueryFeedViewController, animated: true)
             case 1:

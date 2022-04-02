@@ -57,6 +57,7 @@
 		47A3D71D27D5940D003DBEA5 /* UITextView+DoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D71C27D5940D003DBEA5 /* UITextView+DoneButton.swift */; };
 		47A3D71F27D598B6003DBEA5 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D71E27D598B6003DBEA5 /* TabBarController.swift */; };
 		47A3D72327D5A0D2003DBEA5 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */; };
+		47AE72AA27F77B0B00A5E94C /* UsernameSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AE72A927F77B0B00A5E94C /* UsernameSettingViewController.swift */; };
 		47B265C227EEDC9A00E367EB /* TestSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B265C127EEDC9A00E367EB /* TestSearchViewController.swift */; };
 		47C1D49127DF00B200970B3D /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C1D49027DF00B200970B3D /* MoreViewController.swift */; };
 		47C2834F27DED77500A19128 /* QueryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C2834D27DED77500A19128 /* QueryCell.swift */; };
@@ -149,6 +150,7 @@
 		47A3D71C27D5940D003DBEA5 /* UITextView+DoneButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextView+DoneButton.swift"; sourceTree = "<group>"; };
 		47A3D71E27D598B6003DBEA5 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		47AE72A927F77B0B00A5E94C /* UsernameSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameSettingViewController.swift; sourceTree = "<group>"; };
 		47B265C127EEDC9A00E367EB /* TestSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSearchViewController.swift; sourceTree = "<group>"; };
 		47C1D49027DF00B200970B3D /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		47C2834D27DED77500A19128 /* QueryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryCell.swift; sourceTree = "<group>"; };
@@ -279,6 +281,15 @@
 				474A5DA927F40CB1004215F9 /* UISegmentedControl+Twitter.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		47AE72A827F77AF400A5E94C /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				47EE95F927F64C00003B351E /* SettingsViewController.swift */,
+				47AE72A927F77B0B00A5E94C /* UsernameSettingViewController.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		47E74DFF27CA0FFE00467A0C = {
@@ -444,9 +455,9 @@
 		47FF86A327DC75F00076A1CA /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				47AE72A827F77AF400A5E94C /* Settings */,
 				47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */,
 				474A5DA727F4079D004215F9 /* MyProfileViewController.swift */,
-				47EE95F927F64C00003B351E /* SettingsViewController.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -621,6 +632,7 @@
 				439E44F627DFB76200E244D6 /* Profile.swift in Sources */,
 				479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */,
 				47EE95FA27F64C00003B351E /* SettingsViewController.swift in Sources */,
+				47AE72AA27F77B0B00A5E94C /* UsernameSettingViewController.swift in Sources */,
 				47A3D70C27D55A3A003DBEA5 /* PostService.swift in Sources */,
 				47A3D71D27D5940D003DBEA5 /* UITextView+DoneButton.swift in Sources */,
 				47CE900A27E058090004B756 /* PinMapViewController.swift in Sources */,

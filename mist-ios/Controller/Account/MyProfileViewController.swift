@@ -32,12 +32,14 @@ class MyProfileViewController: UIViewController {
     }
     
     @IBAction func settingsButtonDidtapped(_ sender: UIBarButtonItem) {
-        print("presenting")
-        //TODO: change from push to full screen show
-        let vc = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Settings)
-//        vc.modalPresentationStyle = .fullScreen
-//        self.present(vc, animated: true, completion: nil)
-        self.show(vc, sender: self)
+//        print("presenting")
+//        //TODO: change from push to full screen show
+//        let settingsVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Settings)
+//        settingsVC.modalPresentationStyle = .fullScreen
+//        self.present(settingsVC, animated: true, completion: nil)
+//        navigationController?.pushViewController(settingsVC, animated: true)
+
+//        self.show(vc, sender: self)
     }
     
     // MARK: - ViewUpdates

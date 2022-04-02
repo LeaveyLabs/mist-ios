@@ -11,15 +11,14 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBOutlet weak var settingsTableView: UITableView!
     
-    //cells
-    @IBOutlet weak var profilePictureImageView: UIImageView!
-    @IBOutlet weak var logoutButton: UIButton!
-    
     var sections = [[String]]()
     
     //MARK: -Life Cycle
     
     override func viewDidLoad() {
+//        profilePictureImageView.layer.cornerRadius = profilePictureImageView.frame.size.height / 2
+//        profilePictureImageView.layer.cornerCurve = .continuous
+        
         super.viewDidLoad()
         configureSettings()
         setupTableView()
@@ -48,11 +47,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     //MARK: -User Interaction
      
     @IBAction func cancelButtonDidPressed(_ sender: UIBarButtonItem) {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    @IBAction func logoutButtonDidPressed(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
+        //settings view controller is the root view controller of the navigation controller
+        //so instead of popping from the stack, just dismiss self
+        self.dismiss(animated: true, completion: nil)
     }
     
     //MARK: -Table View DataSource
@@ -142,8 +139,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             case 1:
                 cell = settingsTableView.dequeueReusableCell(withIdentifier: "SettingsSettingCell", for: indexPath)
                 cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-                cell.imageView?.image = UIImage(systemName: "square.and.arrow.up")
-                cell.textLabel?.text = "Share Mist"
+                cell.imageView?.image = UIImage(systemName: "link")
+                cell.textLabel?.text = "getmist.app/adamvnovak"
                 cell.detailTextLabel?.text = ""
             case 2:
                 cell = settingsTableView.dequeueReusableCell(withIdentifier: "SettingsSettingCell", for: indexPath)
@@ -154,7 +151,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             case 3:
                 cell = settingsTableView.dequeueReusableCell(withIdentifier: "SettingsSettingCell", for: indexPath)
                 cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-                cell.imageView?.image = UIImage(systemName: "doc")
+                cell.imageView?.image = UIImage(systemName: "doc.plaintext")
                 cell.textLabel?.text = "Legal"
                 cell.detailTextLabel?.text = ""
             case 4:
