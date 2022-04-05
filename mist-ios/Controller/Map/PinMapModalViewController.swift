@@ -10,6 +10,9 @@ import MapKit
 
 typealias PinMapModalCompletionHandler = ((String?) -> Void)
 
+//modal with a custom size
+//https://stackoverflow.com/questions/54737884/changing-the-size-of-a-modal-view-controller
+
 class PinMapModalViewController: UIViewController, UITextFieldDelegate {
 
     var completionHandler: PinMapModalCompletionHandler!

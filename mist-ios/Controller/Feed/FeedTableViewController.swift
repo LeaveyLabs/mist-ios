@@ -75,6 +75,7 @@ class FeedTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
         cell.configurePostCell(post: posts[indexPath.row], parent: self)
+        cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
         return cell
     }
     
@@ -84,4 +85,33 @@ class FeedTableViewController: UITableViewController {
         print("post was tapped")
         selectedPostIndex = indexPath.row;
     }
+    
+//    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        if let tableCell = cell as? PostCell {
+//            tableCell.backgroundBubbleView.layer.addSublayer(tableCell.getLeftTriangleSublayer())
+//        }
+//    }
+//    
+//    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        cell.layer.sublayers?.removeLast()
+//    }
+    
+//    //https://stackoverflow.com/questions/30650343/triangle-uiview-swift
+//    func getLeftTriangleSublayer() -> CALayer {
+//        let heightWidth = backgroundBubbleView.frame.size.width / 6
+//        let bottom = backgroundBubbleView.frame.size.height
+//
+//        let path = CGMutablePath()
+//        path.move(to: CGPoint(x: -10, y: bottom))
+//        path.addLine(to: CGPoint(x:0, y: bottom - heightWidth))
+//        path.addLine(to: CGPoint(x:20, y:bottom))
+//        path.addLine(to: CGPoint(x:-10, y:bottom))
+//        let shape = CAShapeLayer()
+//        shape.path = path
+//        shape.fillColor = mistSecondaryUIColor().cgColor
+//
+//        return shape
+//     }
 }
+
+

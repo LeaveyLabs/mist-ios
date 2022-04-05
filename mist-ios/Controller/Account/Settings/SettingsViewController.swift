@@ -106,13 +106,15 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
                 cell.textLabel?.text = "Email"
                 cell.detailTextLabel?.text = "adamnova@usc.edu"
-                cell.accessoryType = .none
+                cell.accessoryType = .none //phone number cant be changed
+                cell.selectionStyle = .none // **
             case 1:
                 cell = settingsTableView.dequeueReusableCell(withIdentifier: "SettingsSettingCell", for: indexPath)
                 cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
                 cell.textLabel?.text = "Phone Number"
                 cell.detailTextLabel?.text = "(615) 975-4270"
-                cell.accessoryType = .none
+                cell.accessoryType = .none //phone number cant be changed
+                cell.selectionStyle = .none // **
             case 2:
                 cell = settingsTableView.dequeueReusableCell(withIdentifier: "SettingsSettingCell", for: indexPath)
                 cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
@@ -178,17 +180,38 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     //MARK: -Table View Delegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.row {
-            case 0:
-                break;
-//                let settingViewController = ResultsFeedViewController.resultsFeedViewControllerForQuery(word.text)
-//                navigationController?.pushViewController(newQueryFeedViewController, animated: true)
-            case 1:
-                break
-            default:
-                break
-        }
         tableView.deselectRow(at: indexPath, animated: false)
+
+        switch indexPath.section {
+        case 0:
+            switch indexPath.row {
+            case 0:
+                break //they must click on the actual image
+            case 1:
+                performSegue(withIdentifier: Constants.SBID.Segue.ToUsernameSetting, sender: nil)
+            default:
+                //TODO: change sender?
+                //TODO: performSegue via nav controller vs self? via navcontroller not working
+                performSegue(withIdentifier: Constants.SBID.Segue.ToNameSetting, sender: nil)
+            }
+        case 1:
+            switch indexPath.row {
+            case 0:
+                break; //email
+            case 1:
+                break; //phone number
+            case 2:
+                performSegue(withIdentifier: Constants.SBID.Segue.ToPasswordSetting, sender: nil)
+            default: //case 3
+                performSegue(withIdentifier: Constants.SBID.Segue.ToNotificationsSetting, sender: nil)
+            }
+            break; //imageview
+        default: //case 2
+            switch indexPath.row {
+            default:
+                break //nothing fofr now
+            }
+        }
     }
 
 }

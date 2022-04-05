@@ -20,8 +20,12 @@ class PostCell: UITableViewCell {
     @IBOutlet var shareButton: UIButton!
     @IBOutlet weak var commentButton: UIButton!
     
+    @IBOutlet weak var backgroundBubbleView: UIView!
+    
     var parentVC: UIViewController!
     var post: Post!
+    var triangleSublayer: CALayer?
+    var firstLoad: Bool = true
     
 //    let cellView: UIView = {
 //            let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
@@ -39,8 +43,49 @@ class PostCell: UITableViewCell {
 //            addSubview(cellView)
 //        }
     
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+//        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+//        backgroundImage.image = UIImage(named: "textbox")
+//        backgroundImage.contentMode = .scaleToFill
+//        backgroundImage.clipsToBounds = false
+//        contentView.insertSubview(backgroundImage, at: 0)
+//
+//        backgroundColor = mistUIColor()
+        backgroundBubbleView.layer.cornerRadius = 20
+        backgroundBubbleView.layer.cornerCurve = .continuous
+        applyShadowOnView(backgroundBubbleView)
+
+//        backgroundBubbleView.clipsToBounds = true we dont want this because then the triangle cant extend beyond
+        
+        for constraint in contentView.constraints {
+            if constraint.identifier == "leftBubbleConstraint" {
+               constraint.constant = 25
+            }
+        }
+        contentView.layoutIfNeeded()
+        print("awake from nib")
+    }
+    
+    override func prepareForReuse() {
+        print("prepare for reuse")
+        triangleSublayer?.removeFromSuperlayer()
+    }
+    
+    override func layoutSubviews() {
+        print("layout Subviews")
+        triangleSublayer = getLeftTriangleSublayer()
+        backgroundBubbleView.layer.insertSublayer(triangleSublayer!, at: 0)
+
+//        if (firstLoad) {
+//            firstLoad = false
+//            backgroundBubbleView.layer.insertSublayer(triangleSublayer!, at: 0)
+//        } else {
+//            let oldTriangleSublayer = triangleSublayer!
+//            triangleSublayer = getLeftTriangleSublayer()
+//            contentView.layer.replaceSublayer(oldTriangleSublayer, with: triangleSublayer!)
+//        }
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -48,12 +93,6 @@ class PostCell: UITableViewCell {
     }
     
     func configurePostCell(post: Post, parent: UIViewController) {
-//        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
-//        backgroundImage.image = UIImage(named: "textbox")
-//        backgroundImage.contentMode = .scaleToFill
-//        backgroundImage.clipsToBounds = false
-//        contentView.insertSubview(backgroundImage, at: 0)
-//
         parentVC = parent
         self.post = post
         timestampLabel.text = getFormattedTimeString(postTimestamp: post.timestamp)
@@ -62,6 +101,23 @@ class PostCell: UITableViewCell {
         titleLabel.text = post.title
         commentButton.setTitle(" " + String(post.commentcount), for: .normal)
     }
+    
+    //https://stackoverflow.com/questions/30650343/triangle-uiview-swift
+    func getLeftTriangleSublayer() -> CALayer {
+        let heightWidth = backgroundBubbleView.frame.size.width / 6
+        let bottom = backgroundBubbleView.frame.size.height
+        
+        let path = CGMutablePath()
+        path.move(to: CGPoint(x: -10, y: bottom))
+        path.addLine(to: CGPoint(x:0, y: bottom - heightWidth))
+        path.addLine(to: CGPoint(x:20, y:bottom))
+        path.addLine(to: CGPoint(x:-10, y:bottom))
+        let shape = CAShapeLayer()
+        shape.path = path
+        shape.fillColor = mistSecondaryUIColor().cgColor
+        
+        return shape
+     }
     
     @IBAction func commentButtonDidPressed(_ sender: UIButton) {
         if let feedVC = parentVC as? FeedTableViewController {

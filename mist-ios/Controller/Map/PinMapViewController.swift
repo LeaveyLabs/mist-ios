@@ -45,7 +45,7 @@ class PinMapViewController: MapViewController {
                 pinnedAnnotation = BridgeAnnotation(justWithCoordinate: coordinate)
                 displayedAnnotations?.append(pinnedAnnotation!)
                 
-                centerMapAboveModalFor(lat: coordinate.latitude, long: coordinate.longitude)
+                centerMapUnderPostAt(lat: coordinate.latitude, long: coordinate.longitude)
                 presentModal()
             }
         }

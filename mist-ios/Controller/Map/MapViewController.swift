@@ -12,6 +12,7 @@ class MapViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
     var mapModal: MapModalViewController?
+    var postView: UIView?
 
     var allAnnotations: [BridgeAnnotation]?
     
@@ -76,27 +77,71 @@ class MapViewController: UIViewController {
         displayedAnnotations = allAnnotations
     }
     
-    func presentModal(annotation: BridgeAnnotation) {
-        if let mapModal = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MapModal) as? MapModalViewController {
-            self.mapModal = mapModal
-            mapModal.annotation = annotation
-            if let sheet = mapModal.sheetPresentationController {
-                sheet.detents = [.medium(),]
-                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-                sheet.prefersGrabberVisible = true
-                sheet.largestUndimmedDetentIdentifier = .medium
-            }
-            present(mapModal, animated: true)
-        }
-    }
+//    func presentModal(annotation: BridgeAnnotation) {
+//        if let mapModal = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MapModal) as? MapModalViewController {
+//            self.mapModal = mapModal
+//            mapModal.annotation = annotation
+//            if let sheet = mapModal.sheetPresentationController {
+//                sheet.detents = [.medium(),]
+//                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+//                sheet.prefersGrabberVisible = true
+//                sheet.largestUndimmedDetentIdentifier = .medium
+//            }
+//            present(mapModal, animated: true)
+//        }
+//    }
 }
 
 //https://developer.apple.com/documentation/mapkit/mkmapviewdelegate
 extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        centerMapAboveModalFor(lat: view.annotation!.coordinate.latitude, long: view.annotation!.coordinate.longitude)
-        presentModal(annotation: view.annotation! as! BridgeAnnotation)
+        //presentModal(annotation: view.annotation! as! BridgeAnnotation) //not using anymore
+                
+        //TODO: increase latitudeOffset if the post is really long
+        let latitudeOffset = 0.001
+        centerMapUnderPostAt(lat: view.annotation!.coordinate.latitude + latitudeOffset, long: view.annotation!.coordinate.longitude)
+        mapView.isZoomEnabled = false
+        mapView.isScrollEnabled = false
+        loadPostViewFor(annotation: view.annotation! as! BridgeAnnotation)
+    }
+    
+    func loadPostViewFor(annotation: BridgeAnnotation) {
+        let cell = Bundle.main.loadNibNamed(Constants.SBID.Cell.Post, owner: self, options: nil)?[0] as! PostCell
+        if let mapModalPost = annotation.post {
+            cell.locationLabel.text = mapModalPost.location_description
+            cell.titleLabel.text = mapModalPost.title
+            cell.messageLabel.text = mapModalPost.text
+            cell.commentButton.titleLabel!.text = String(mapModalPost.commentcount)
+            cell.timestampLabel.text = getFormattedTimeString(postTimestamp: mapModalPost.timestamp)
+        }
+        
+        postView = cell.contentView
+        if let newPostView = postView {
+            newPostView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
+            view.addSubview(newPostView)
+            let constraints = [
+                newPostView.centerYAnchor.constraint(equalTo: mapView.centerYAnchor, constant: -100),
+//                newPostView.topAnchor.constraint(equalTo: mapView.topAnchor, constant: 10),
+                newPostView.rightAnchor.constraint(equalTo: mapView.rightAnchor, constant: 0),
+                newPostView.leftAnchor.constraint(equalTo: mapView.leftAnchor, constant: 0),
+            ]
+            NSLayoutConstraint.activate(constraints)
+            newPostView.alpha = 0
+            newPostView.isHidden = true
+            
+            //TODO: adjust fadeIn time based on how long the fly will take
+            newPostView.fadeIn()
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        postView?.fadeOut(duration: 0.1, delay: 0, completion: { [self] Bool in
+            postView?.isHidden = true
+            postView?.removeFromSuperview()
+            mapView.isScrollEnabled = true
+            mapView.isZoomEnabled = true
+        })
     }
     
     func mapViewWillStartLoadingMap(_ mapView: MKMapView) {
@@ -143,8 +188,9 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     //MARK: -Helpers
-    func centerMapAboveModalFor(lat: Double, long: Double) {
-        let region = mapView.regionThatFits(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: lat - 0.0007, longitude: long), latitudinalMeters: 200, longitudinalMeters: 200))
+    
+    func centerMapUnderPostAt(lat: Double, long: Double) {
+        let region = mapView.regionThatFits(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: lat, longitude: long), latitudinalMeters: 200, longitudinalMeters: 200))
         mapView.setRegion(region, animated: true)
     }
 }

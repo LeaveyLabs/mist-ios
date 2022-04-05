@@ -13,7 +13,7 @@ struct Constants {
     static let DefaultFont: String = "Avenir-Medium";
     static let DefaultFontSize: CGFloat = 20
     
-    static let USC_LAT_LONG =  CLLocationCoordinate2D(latitude: 34.0184, longitude: -118.2861)
+    static let USC_LAT_LONG =  CLLocationCoordinate2D(latitude: 34.0191, longitude: -118.2861)
 
     // MARK: -Storyboard Identifiers (SBID)
     //note: all nib names should be the same ss their storyboard ID
@@ -51,6 +51,12 @@ struct Constants {
             static let ResultsFeed = "ResultsFeedViewController"
             static let PinMapModal = "PinMapModalViewController"
             static let MapModal = "MapModalViewController"
+        }
+        struct Segue {
+            static let ToUsernameSetting = "ToUsernameSetting"
+            static let ToNameSetting = "ToNameSetting"
+            static let ToPasswordSetting = "ToPasswordSetting"
+            static let ToNotificationsSetting = "ToNotificationsSetting"
         }
     }
 }
