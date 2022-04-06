@@ -13,7 +13,7 @@ func mistUIColor () -> UIColor {
 }
 
 func mistSecondaryUIColor () -> UIColor {
-    return hexStringToUIColor(hex: "CDABE1", alpha: 1)
+    return hexStringToUIColor(hex: "F5F0F9", alpha: 1)
 }
 
 func hexStringToUIColor (hex:String, alpha:CGFloat) -> UIColor {

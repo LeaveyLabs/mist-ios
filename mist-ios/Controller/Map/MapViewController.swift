@@ -99,7 +99,7 @@ extension MapViewController: MKMapViewDelegate {
         //presentModal(annotation: view.annotation! as! BridgeAnnotation) //not using anymore
                 
         //TODO: increase latitudeOffset if the post is really long
-        let latitudeOffset = 0.001
+        let latitudeOffset = 0.0008
         centerMapUnderPostAt(lat: view.annotation!.coordinate.latitude + latitudeOffset, long: view.annotation!.coordinate.longitude)
         mapView.isZoomEnabled = false
         mapView.isScrollEnabled = false
@@ -109,11 +109,7 @@ extension MapViewController: MKMapViewDelegate {
     func loadPostViewFor(annotation: BridgeAnnotation) {
         let cell = Bundle.main.loadNibNamed(Constants.SBID.Cell.Post, owner: self, options: nil)?[0] as! PostCell
         if let mapModalPost = annotation.post {
-            cell.locationLabel.text = mapModalPost.location_description
-            cell.titleLabel.text = mapModalPost.title
-            cell.messageLabel.text = mapModalPost.text
-            cell.commentButton.titleLabel!.text = String(mapModalPost.commentcount)
-            cell.timestampLabel.text = getFormattedTimeString(postTimestamp: mapModalPost.timestamp)
+            cell.configurePostCell(post: mapModalPost, parent: self, bubbleArrowPosition: .bottom)
         }
         
         postView = cell.contentView
@@ -142,6 +138,10 @@ extension MapViewController: MKMapViewDelegate {
             mapView.isScrollEnabled = true
             mapView.isZoomEnabled = true
         })
+    }
+        //TODO: on scroll/zoom, deselectannotation and remove postview
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        
     }
     
     func mapViewWillStartLoadingMap(_ mapView: MKMapView) {

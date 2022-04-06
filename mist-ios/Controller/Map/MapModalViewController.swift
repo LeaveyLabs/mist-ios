@@ -22,7 +22,7 @@ class MapModalViewController: UIViewController, UITextFieldDelegate {
             cell.locationLabel.text = mapModalPost.location_description
             cell.titleLabel.text = mapModalPost.title
             cell.messageLabel.text = mapModalPost.text
-            cell.commentButton.titleLabel!.text = String(mapModalPost.commentcount)
+            cell.likeButton.titleLabel!.text = String(mapModalPost.commentcount)
             cell.timestampLabel.text = getFormattedTimeString(postTimestamp: mapModalPost.timestamp)
         }
         let postView = cell.contentView

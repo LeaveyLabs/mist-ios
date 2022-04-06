@@ -10,6 +10,7 @@ import UIKit
 let COMMENT_PLACEHOLDER_TEXT = "wait this is so..."
 typealias UpdatedPostCompletionHandler = ((Post) -> Void)
 
+//TODO: set KUIViewController to bottom of safe area, rather than bottom of the view
 class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIViewControllerTransitioningDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var commentView: UIView!
@@ -17,13 +18,14 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var commentTextView: UITextView!
     @IBOutlet weak var commentButton: UIButton!
     var commentPlaceholderLabel: UILabel!
-
+    
     @IBOutlet weak var postTableView: UITableView!
     var completionHandler: UpdatedPostCompletionHandler?
     
     //postVC should never be created without a post
     var post: Post!
     var comments: [Comment]?
+    var shouldStartWithRaisedKeyboard: Bool!
     
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -73,6 +75,10 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         
         let labelTap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         view.addGestureRecognizer(labelTap)
+        
+        if shouldStartWithRaisedKeyboard {
+            commentTextView.becomeFirstResponder()
+        }
     }
     
     //create a postVC for a given post. postVC should never exist without a post
@@ -83,6 +89,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         return postVC
     }
     
+    //TODO: do we need to implement this in all VCs throughout the app?
     //(2 of 2) for enabling swipe left to go back with a bar button item
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
@@ -159,10 +166,10 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let comments = comments {
-            return comments.count + 2
+            return comments.count + 1
         }
         else {
-            return 2;
+            return 1;
         }
     }
     
@@ -170,18 +177,14 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         if (indexPath.row == 0) {
             if let post = post {
                 let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-                cell.configurePostCell(post: post, parent: self)
+                cell.configurePostCell(post: post, parent: self, bubbleArrowPosition: .left)
                 cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
                 return cell
             }
-        } else if (indexPath.row == 1) {
-            let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Sort, for: indexPath)
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-            return cell;
         }
         //else the cell is a comment
         let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Comment, for: indexPath) as! CommentCell
-        cell.configureCommentCell(comment: comments![indexPath.row-2], parent: self)
+        cell.configureCommentCell(comment: comments![indexPath.row-1], parent: self)
         return cell
     }
     

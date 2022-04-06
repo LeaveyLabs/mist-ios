@@ -130,7 +130,7 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
             return cell;
         }
         let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-        cell.configurePostCell(post: posts[indexPath.row-2], parent: self)
+        cell.configurePostCell(post: posts[indexPath.row-2], parent: self, bubbleArrowPosition: .left)
         return cell
         
     }

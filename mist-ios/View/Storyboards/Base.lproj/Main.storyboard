@@ -29,7 +29,6 @@
                             <barButtonItem title="Item" image="person.circle" catalog="system" style="plain" id="CC6-7S-G3I">
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
-                                    <action selector="myProfileButtonDidTapped:" destination="Uc1-dx-vje" id="v2q-6i-uFV"/>
                                     <segue destination="lDn-Mg-oMk" kind="show" id="JYn-V1-rsO"/>
                                 </connections>
                             </barButtonItem>
@@ -49,9 +48,6 @@
                             </barButtonItem>
                             <barButtonItem image="magnifyingglass" catalog="system" id="vQI-J9-USo">
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <action selector="searchButtonDidPressed:" destination="Uc1-dx-vje" id="wyA-Yq-QLr"/>
-                                </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
@@ -150,54 +146,8 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SortCell" rowHeight="40" id="vjx-aI-uUk">
-                                        <rect key="frame" x="0.0" y="288.66666603088379" width="390" height="40"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vjx-aI-uUk" id="gD4-HF-PmV">
-                                            <rect key="frame" x="0.0" y="0.0" width="390" height="40"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ScN-W5-jUH">
-                                                    <rect key="frame" x="0.0" y="4.6666666666666661" width="134.33333333333334" height="30.666666666666671"/>
-                                                    <color key="tintColor" systemColor="systemGray2Color"/>
-                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                    <state key="normal" title=" Best Comments" image="cup.and.saucer" catalog="system"/>
-                                                    <buttonConfiguration key="configuration" style="plain" title=" Best Comments">
-                                                        <imageReference key="image" image="cup.and.saucer" catalog="system" symbolScale="medium"/>
-                                                        <fontDescription key="titleFontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
-                                                    </buttonConfiguration>
-                                                    <connections>
-                                                        <action selector="sortButtonDidPressed:" destination="L6U-1B-3Sc" eventType="touchUpInside" id="tWZ-2z-V41"/>
-                                                    </connections>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KEU-qt-q7g">
-                                                    <rect key="frame" x="126" y="10" width="20" height="20"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" secondItem="KEU-qt-q7g" secondAttribute="height" multiplier="1:1" id="Bc0-NJ-4Ic"/>
-                                                        <constraint firstAttribute="height" constant="20" id="bRb-4O-oOX"/>
-                                                    </constraints>
-                                                    <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="plain">
-                                                        <imageReference key="image" image="chevron.down" catalog="system" symbolScale="medium"/>
-                                                    </buttonConfiguration>
-                                                    <connections>
-                                                        <action selector="sortButtonDidPressed:" destination="L6U-1B-3Sc" eventType="touchUpInside" id="4Yv-Hd-9je"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <color key="backgroundColor" systemColor="systemGray6Color"/>
-                                            <constraints>
-                                                <constraint firstItem="ScN-W5-jUH" firstAttribute="centerY" secondItem="gD4-HF-PmV" secondAttribute="centerY" id="Vg4-Q4-QAm"/>
-                                                <constraint firstItem="ScN-W5-jUH" firstAttribute="leading" secondItem="gD4-HF-PmV" secondAttribute="leading" id="Yb0-Vv-tfE"/>
-                                                <constraint firstItem="KEU-qt-q7g" firstAttribute="centerY" secondItem="ScN-W5-jUH" secondAttribute="centerY" id="Ynp-24-GFo"/>
-                                                <constraint firstItem="KEU-qt-q7g" firstAttribute="leading" secondItem="ScN-W5-jUH" secondAttribute="trailing" constant="-8.3333333333333428" id="spo-Fd-F5p"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="53" id="A09-rL-twY" userLabel="comment">
-                                        <rect key="frame" x="0.0" y="328.66666603088379" width="390" height="53"/>
+                                        <rect key="frame" x="0.0" y="288.66666603088379" width="390" height="53"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="A09-rL-twY" id="6Ry-eN-4Wu">
                                             <rect key="frame" x="0.0" y="0.0" width="390" height="53"/>
@@ -885,7 +835,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="1YG-3w-9zr" kind="relationship" relationship="viewControllers" id="57b-ae-HPo"/>
-                        <segue destination="iiA-aL-URl" kind="relationship" relationship="viewControllers" id="I0L-In-3pl"/>
+                        <segue destination="wFi-Ri-Whx" kind="relationship" relationship="viewControllers" id="ZSP-dg-atn"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gr3-Po-7tM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1211,96 +1161,6 @@
             </objects>
             <point key="canvasLocation" x="2641.5384615384614" y="-794.07582938388623"/>
         </scene>
-        <!--Explore View Controller-->
-        <scene sceneID="O37-p6-qJH">
-            <objects>
-                <viewController storyboardIdentifier="ExploreViewController" id="Uc1-dx-vje" customClass="ExploreViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="AVO-3E-m1q">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="qJZ-mq-Xrs">
-                                <rect key="frame" x="0.0" y="88" width="390" height="756"/>
-                            </mapView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="xEQ-d3-pfE"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <gestureRecognizers/>
-                        <constraints>
-                            <constraint firstItem="qJZ-mq-Xrs" firstAttribute="height" secondItem="xEQ-d3-pfE" secondAttribute="height" multiplier="1.21154" id="08u-r9-QB7"/>
-                            <constraint firstItem="qJZ-mq-Xrs" firstAttribute="top" secondItem="xEQ-d3-pfE" secondAttribute="top" id="7x0-eG-eTi"/>
-                            <constraint firstItem="qJZ-mq-Xrs" firstAttribute="leading" secondItem="xEQ-d3-pfE" secondAttribute="leading" id="Y3A-He-WvX"/>
-                            <constraint firstItem="qJZ-mq-Xrs" firstAttribute="trailing" secondItem="xEQ-d3-pfE" secondAttribute="trailing" id="lt7-H9-kW5"/>
-                        </constraints>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="eFC-1f-BRB" appends="YES" id="SJc-nz-lsj"/>
-                        </connections>
-                    </view>
-                    <navigationItem key="navigationItem" id="Etj-uC-XdN">
-                        <leftBarButtonItems>
-                            <barButtonItem title="Item" image="person.circle" catalog="system" style="plain" id="dEU-g8-h9G">
-                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <action selector="myProfileButtonDidTapped:" destination="Uc1-dx-vje" id="Gwn-ly-KxF"/>
-                                    <segue destination="lDn-Mg-oMk" kind="show" id="qtb-ui-lzw"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Item" image="envelope" catalog="system" id="vng-Sy-CPR">
-                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <segue destination="09Y-Iq-VUN" kind="presentation" modalPresentationStyle="fullScreen" id="zqR-nB-4jh"/>
-                                </connections>
-                            </barButtonItem>
-                        </leftBarButtonItems>
-                        <rightBarButtonItems>
-                            <barButtonItem title="Item" image="plus.bubble" catalog="system" style="plain" id="JlP-Lc-XLC">
-                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <segue destination="SMy-vf-ALy" kind="presentation" modalPresentationStyle="fullScreen" id="i4B-Xy-2vU"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem image="magnifyingglass" catalog="system" id="FW9-YH-kcN">
-                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <action selector="searchButtonDidPressed:" destination="Uc1-dx-vje" id="HRV-Ca-yqO"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="mapView" destination="qJZ-mq-Xrs" id="wLs-bn-eYM"/>
-                        <outlet property="mistTitle" destination="rMy-5M-haD" id="eP0-dh-m0X"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VfP-UO-z9v" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <view contentMode="scaleToFill" id="rMy-5M-haD">
-                    <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="mist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IFN-ed-IfV">
-                            <rect key="frame" x="38" y="-5" width="61" height="44"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="32"/>
-                            <color key="textColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mist-heart" translatesAutoresizingMaskIntoConstraints="NO" id="oaw-MD-1YE">
-                            <rect key="frame" x="2" y="0.0" width="30" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
-                        </imageView>
-                    </subviews>
-                    <viewLayoutGuide key="safeArea" id="uT3-jd-OOa"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                </view>
-                <tapGestureRecognizer id="eFC-1f-BRB">
-                    <connections>
-                        <action selector="outerViewDidTapped:" destination="Uc1-dx-vje" id="bw6-IB-Ul8"/>
-                    </connections>
-                </tapGestureRecognizer>
-            </objects>
-            <point key="canvasLocation" x="45" y="1275"/>
-        </scene>
         <!--Results Feed View Controller-->
         <scene sceneID="yhj-Eh-XEO">
             <objects>
@@ -1368,6 +1228,103 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WV6-VO-Oh8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1734" y="1995"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="gBN-5c-fZo">
+            <objects>
+                <navigationController id="wFi-Ri-Whx" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="map-grey" selectedImage="map-filled" id="qzf-Mi-VWD"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="xk5-cg-NcZ">
+                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="oJQ-b2-Es1" kind="relationship" relationship="rootViewController" id="VfV-4Z-Spj"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SsV-IN-FRa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-789" y="1275"/>
+        </scene>
+        <!--Explore View Controller-->
+        <scene sceneID="TZO-up-DfC">
+            <objects>
+                <viewController id="oJQ-b2-Es1" customClass="ExploreViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="K85-Np-RZT">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="4Ti-Yh-6iG">
+                                <rect key="frame" x="0.0" y="88" width="390" height="673"/>
+                            </mapView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="PwX-9i-D1c"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="4Ti-Yh-6iG" secondAttribute="trailing" id="8r7-k1-G5u"/>
+                            <constraint firstItem="PwX-9i-D1c" firstAttribute="bottom" secondItem="4Ti-Yh-6iG" secondAttribute="bottom" id="Lpe-Pd-ULU"/>
+                            <constraint firstItem="4Ti-Yh-6iG" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" id="Xj8-ql-Hva"/>
+                            <constraint firstItem="4Ti-Yh-6iG" firstAttribute="top" secondItem="PwX-9i-D1c" secondAttribute="top" id="jwx-tL-MTK"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="RBw-gp-2Gi">
+                        <leftBarButtonItems>
+                            <barButtonItem title="Item" image="person.circle" catalog="system" style="plain" id="wZX-uF-b3Y">
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="myProfileButtonDidTapped:" destination="oJQ-b2-Es1" id="oiZ-7A-bNL"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Item" image="envelope" catalog="system" id="cxX-KT-eQB">
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <segue destination="09Y-Iq-VUN" kind="presentation" modalPresentationStyle="fullScreen" id="NJ2-fl-H22"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Item" image="plus.bubble" catalog="system" style="plain" id="Ofj-ZH-XqR">
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <segue destination="SMy-vf-ALy" kind="presentation" modalPresentationStyle="fullScreen" id="lgs-vL-nw9"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="magnifyingglass" catalog="system" id="Axq-QY-16B">
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="searchButtonDidPressed:" destination="oJQ-b2-Es1" id="rtP-lt-q6y"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="mapView" destination="4Ti-Yh-6iG" id="wqV-X2-Kw7"/>
+                        <outlet property="mistTitle" destination="n6J-U1-lxs" id="ucb-FW-J48"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="alN-Hu-vhD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="n6J-U1-lxs">
+                    <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="mist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i17-YO-BOb">
+                            <rect key="frame" x="38" y="-5" width="61" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="32"/>
+                            <color key="textColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mist-heart" translatesAutoresizingMaskIntoConstraints="NO" id="NbB-LS-bQr">
+                            <rect key="frame" x="2" y="0.0" width="30" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                        </imageView>
+                    </subviews>
+                    <viewLayoutGuide key="safeArea" id="Y7X-ai-iRJ"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </view>
+            </objects>
+            <point key="canvasLocation" x="45" y="1275"/>
         </scene>
         <!--Live Results Table View Controller-->
         <scene sceneID="8EU-Mb-n2Q">
@@ -1598,6 +1555,7 @@ You can message people in two ways: 
             <objects>
                 <navigationController storyboardIdentifier="NewPostNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="SMy-vf-ALy" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="MLM-CM-Ld6"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="9Ut-pk-aIY">
                         <rect key="frame" x="0.0" y="44" width="390" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1611,33 +1569,6 @@ You can message people in two ways: 
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hyn-bO-MMg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="862" y="2728"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="qHu-7i-MZ6">
-            <objects>
-                <navigationController hidesBottomBarWhenPushed="YES" toolbarHidden="NO" id="iiA-aL-URl" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="map-grey" selectedImage="map-filled" id="WiN-al-YOd">
-                        <inset key="largeContentSizeImageInsets" minX="0.0" minY="1" maxX="0.0" maxY="1"/>
-                    </tabBarItem>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="pXF-72-eqT">
-                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <navigationBarAppearance key="standardAppearance">
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </navigationBarAppearance>
-                        <navigationBarAppearance key="scrollEdgeAppearance">
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </navigationBarAppearance>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Uc1-dx-vje" kind="relationship" relationship="rootViewController" id="LW0-wy-seR"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="WfB-11-6FE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-788" y="1275"/>
         </scene>
         <!--More View Controller-->
         <scene sceneID="pXH-hB-BTt">
@@ -2558,9 +2489,8 @@ You can message people in two ways: 
         </designable>
     </designables>
     <inferredMetricsTieBreakers>
-        <segue reference="zqR-nB-4jh"/>
-        <segue reference="i4B-Xy-2vU"/>
-        <segue reference="qtb-ui-lzw"/>
+        <segue reference="NJ2-fl-H22"/>
+        <segue reference="lgs-vL-nw9"/>
         <segue reference="AdB-Ox-SBJ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

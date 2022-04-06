@@ -13,7 +13,7 @@ struct Constants {
     static let DefaultFont: String = "Avenir-Medium";
     static let DefaultFontSize: CGFloat = 20
     
-    static let USC_LAT_LONG =  CLLocationCoordinate2D(latitude: 34.0191, longitude: -118.2861)
+    static let USC_LAT_LONG =  CLLocationCoordinate2D(latitude: 34.0209, longitude: -118.2861)
 
     // MARK: -Storyboard Identifiers (SBID)
     //note: all nib names should be the same ss their storyboard ID

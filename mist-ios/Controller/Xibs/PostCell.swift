@@ -8,128 +8,103 @@
 import UIKit
 import Social
 
+enum BubbleArrowPosition {
+    case left
+    case bottom
+    case right
+}
+
 class PostCell: UITableViewCell {
 
-    @IBOutlet var locationLabel: UILabel!
-    @IBOutlet var timestampLabel: UILabel!
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet var messageLabel: UILabel!
+    @IBOutlet weak var messageLabel: UILabel!
     
-    @IBOutlet var moreButton: UIButton!
+    @IBOutlet weak var moreButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
-    @IBOutlet var shareButton: UIButton!
-    @IBOutlet weak var commentButton: UIButton!
+    @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var likeLabel: UILabel!
     
     @IBOutlet weak var backgroundBubbleView: UIView!
     
+    var isLiked: Bool = false
+    var isSaved: Bool = false
+    var isFlagged: Bool = false
+    
     var parentVC: UIViewController!
     var post: Post!
-    var triangleSublayer: CALayer?
-    var firstLoad: Bool = true
-    
-//    let cellView: UIView = {
-//            let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-//            view.layer.cornerRadius  = 15
-//            view.backgroundColor     = UIColor.white
-//            view.layer.shadowColor   = UIColor.black.cgColor
-//            view.layer.shadowOpacity = 1
-//            view.layer.shadowOffset  = CGSize.zero
-//            view.layer.shadowRadius  = 5
-//            return view
-//        }()
-//
-//        override func awakeFromNib() {
-//            super.awakeFromNib()
-//            addSubview(cellView)
-//        }
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
-//        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
-//        backgroundImage.image = UIImage(named: "textbox")
-//        backgroundImage.contentMode = .scaleToFill
-//        backgroundImage.clipsToBounds = false
-//        contentView.insertSubview(backgroundImage, at: 0)
-//
-//        backgroundColor = mistUIColor()
-        backgroundBubbleView.layer.cornerRadius = 20
-        backgroundBubbleView.layer.cornerCurve = .continuous
-        applyShadowOnView(backgroundBubbleView)
-
-//        backgroundBubbleView.clipsToBounds = true we dont want this because then the triangle cant extend beyond
-        
-        for constraint in contentView.constraints {
-            if constraint.identifier == "leftBubbleConstraint" {
-               constraint.constant = 25
-            }
-        }
-        contentView.layoutIfNeeded()
         print("awake from nib")
     }
     
     override func prepareForReuse() {
         print("prepare for reuse")
-        triangleSublayer?.removeFromSuperlayer()
     }
     
     override func layoutSubviews() {
         print("layout Subviews")
-        triangleSublayer = getLeftTriangleSublayer()
-        backgroundBubbleView.layer.insertSublayer(triangleSublayer!, at: 0)
-
-//        if (firstLoad) {
-//            firstLoad = false
-//            backgroundBubbleView.layer.insertSublayer(triangleSublayer!, at: 0)
-//        } else {
-//            let oldTriangleSublayer = triangleSublayer!
-//            triangleSublayer = getLeftTriangleSublayer()
-//            contentView.layer.replaceSublayer(oldTriangleSublayer, with: triangleSublayer!)
-//        }
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
-    func configurePostCell(post: Post, parent: UIViewController) {
+    //MARK: -Constructor
+    
+    func configurePostCell(post: Post, parent: UIViewController, bubbleArrowPosition: BubbleArrowPosition) {
         parentVC = parent
         self.post = post
         timestampLabel.text = getFormattedTimeString(postTimestamp: post.timestamp)
         locationLabel.text = post.location_description
         messageLabel.text = post.text
         titleLabel.text = post.title
-        commentButton.setTitle(" " + String(post.commentcount), for: .normal)
+        likeLabel.text = " " + String(post.averagerating)
+        
+        setupBubbleArrow(at: bubbleArrowPosition)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
+        backgroundBubbleView.addGestureRecognizer(tapGesture)
     }
     
-    //https://stackoverflow.com/questions/30650343/triangle-uiview-swift
-    func getLeftTriangleSublayer() -> CALayer {
-        let heightWidth = backgroundBubbleView.frame.size.width / 6
-        let bottom = backgroundBubbleView.frame.size.height
-        
-        let path = CGMutablePath()
-        path.move(to: CGPoint(x: -10, y: bottom))
-        path.addLine(to: CGPoint(x:0, y: bottom - heightWidth))
-        path.addLine(to: CGPoint(x:20, y:bottom))
-        path.addLine(to: CGPoint(x:-10, y:bottom))
-        let shape = CAShapeLayer()
-        shape.path = path
-        shape.fillColor = mistSecondaryUIColor().cgColor
-        
-        return shape
-     }
+    //MARK: -User Interaction
+    
+    @objc func tapAction() {
+        sendToPost(withRaisedKeyboard: false)
+    }
+    
+    @IBAction func likeButtonDidPressed(_ sender: UIButton) {
+        //like
+        if (isLiked) {
+            var config = UIButton.Configuration.plain()
+            config.image = UIImage(systemName: "heart.fill")
+            likeButton.configuration = config
+//            UIButtonConfigu
+//            likeButton.configuration =
+//            likeButton.image = UIImage(systemName: "heart.fill")
+        }
+        //unlike
+        else {
+//            likeButton.image = UIImage(systemName: "heart")
+            var config = UIButton.Configuration.plain()
+            config.image = UIImage(systemName: "heart")
+            likeButton.configuration = config
+        }
+        isLiked = !isLiked
+    }
     
     @IBAction func commentButtonDidPressed(_ sender: UIButton) {
-        if let feedVC = parentVC as? FeedTableViewController {
-            let postVC = feedVC.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
-            postVC.post = post
-            postVC.completionHandler = {
-                Post in feedVC.tableView.reloadData()
-            }
-            feedVC.navigationController!.pushViewController(postVC, animated: true)
-        } else {
-            //parentViewController is a PostViewController, so don't do anything
-        }
+        sendToPost(withRaisedKeyboard: true)
+    }
+    
+    @IBAction func dmButtonDidPressed(_ sender: UIButton) {
+        
+    }
+    
+    @IBAction func saveButtonDidPressed(_ sender: UIButton) {
+        
     }
     
     @IBAction func moreButtonDidPressed(_ sender: UIButton) {
@@ -143,6 +118,119 @@ class PostCell: UITableViewCell {
         parentVC.present(moreVC, animated: true, completion: nil)
     }
     
+    //MARK: -Setup
+    
+    func setupBubbleArrow(at bubbleArrowPosition: BubbleArrowPosition) {
+        let triangleView = UIView()
+        triangleView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
+        backgroundBubbleView.addSubview(triangleView)
+        backgroundBubbleView.sendSubviewToBack(triangleView)
+        switch bubbleArrowPosition {
+        case .left:
+            addLeftTriangleLayer(to: triangleView)
+        case .bottom:
+            addBottomTriangleLayer(to: triangleView)
+        case .right:
+            addRightTriangleLayer(to: triangleView)
+        }
+        backgroundBubbleView.layer.cornerRadius = 20 //TODO: how do i add a corner radius to the triangle, too?
+        backgroundBubbleView.layer.cornerCurve = .continuous
+        applyShadowOnView(backgroundBubbleView)
+    }
+    
+    //https://stackoverflow.com/questions/30650343/triangle-uiview-swift
+    func addLeftTriangleLayer(to triangleView: UIView) {
+        //set constraints for triangle view
+        let constraints = [
+            triangleView.heightAnchor.constraint(equalToConstant: 80),
+            triangleView.widthAnchor.constraint(equalToConstant: 80),
+            triangleView.bottomAnchor.constraint(equalTo: backgroundBubbleView.bottomAnchor, constant: 0),
+            triangleView.leftAnchor.constraint(equalTo: backgroundBubbleView.leftAnchor, constant: -10),
+        ]
+        //fix the width constraint of the bubble
+        for constraint in contentView.constraints {
+            if constraint.identifier == "leftBubbleConstraint" {
+               constraint.constant = 20
+            }
+        }
+        NSLayoutConstraint.activate(constraints)
+        contentView.layoutIfNeeded()
+        
+        let heightWidth = triangleView.frame.size.height
+        let path = CGMutablePath()
+        path.move(to: CGPoint(x: 0, y: heightWidth))
+        path.addLine(to: CGPoint(x:heightWidth/2, y: -30))
+        path.addLine(to: CGPoint(x:heightWidth/2, y:heightWidth))
+        path.addLine(to: CGPoint(x:0, y:heightWidth))
+        
+        let shape = CAShapeLayer()
+        shape.path = path
+        shape.fillColor = mistSecondaryUIColor().cgColor
+        triangleView.layer.insertSublayer(shape, at: 0)
+     }
+    
+    func addRightTriangleLayer(to triangleView: UIView) {
+        //set constraints for triangle view
+        let constraints = [
+            triangleView.heightAnchor.constraint(equalToConstant: 80),
+            triangleView.widthAnchor.constraint(equalToConstant: 80),
+            triangleView.bottomAnchor.constraint(equalTo: backgroundBubbleView.bottomAnchor, constant: 0),
+            triangleView.rightAnchor.constraint(equalTo: backgroundBubbleView.rightAnchor, constant: 10),
+        ]
+        //fix the width constraint of the bubble
+        for constraint in contentView.constraints {
+            if constraint.identifier == "rightBubbleConstraint" {
+               constraint.constant = 20
+            }
+        }
+        NSLayoutConstraint.activate(constraints)
+        contentView.layoutIfNeeded()
+        
+        let heightWidth = triangleView.frame.size.height
+        let path = CGMutablePath()
+        path.move(to: CGPoint(x: 0, y: heightWidth))
+        path.addLine(to: CGPoint(x:heightWidth/2, y: -30))
+        path.addLine(to: CGPoint(x:heightWidth, y:heightWidth))
+        path.addLine(to: CGPoint(x:0, y:heightWidth))
+        
+        let shape = CAShapeLayer()
+        shape.path = path
+        shape.fillColor = mistSecondaryUIColor().cgColor
+        triangleView.layer.insertSublayer(shape, at: 0)
+     }
+    
+    func addBottomTriangleLayer(to triangleView: UIView) {
+        //set constraints for triangle view
+        let constraints = [
+            triangleView.heightAnchor.constraint(equalToConstant: 80),
+            triangleView.widthAnchor.constraint(equalToConstant: 80),
+            triangleView.bottomAnchor.constraint(equalTo: backgroundBubbleView.bottomAnchor, constant: 0),
+            triangleView.centerXAnchor.constraint(equalTo: backgroundBubbleView.centerXAnchor, constant: 0),
+        ]
+        //fix the HEIGHT constraint of the bubble
+        for constraint in contentView.constraints {
+            if constraint.identifier == "bottomBubbleConstraint" {
+               constraint.constant = 35
+            }
+        }
+        NSLayoutConstraint.activate(constraints)
+        contentView.layoutIfNeeded()
+        
+        let heightWidth = triangleView.frame.size.height
+        let path = CGMutablePath()
+        path.move(to: CGPoint(x: 0, y: heightWidth))
+        path.addLine(to: CGPoint(x:heightWidth/2, y: heightWidth + 30))
+        path.addLine(to: CGPoint(x:heightWidth, y:heightWidth))
+        path.addLine(to: CGPoint(x:0, y:heightWidth))
+        
+        let shape = CAShapeLayer()
+        shape.path = path
+        shape.fillColor = mistSecondaryUIColor().cgColor
+        triangleView.layer.insertSublayer(shape, at: 0)
+     }
+    
+    //MARK: -Decomissioned
+    
     @IBAction func shareButtonClicked(sender: UIButton) {
         //TODO: use Open Graph protocols on our website for a Rich imessage display
         //https://developer.apple.com/library/archive/technotes/tn2444/_index.html
@@ -151,6 +239,22 @@ class PostCell: UITableViewCell {
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
             activityVC.popoverPresentationController?.sourceView = parentVC.view // so that iPads won't crash
             parentVC.present(activityVC, animated: true, completion: nil)
+        }
+    }
+    
+    //MARK: -Helpers
+    
+    func sendToPost(withRaisedKeyboard: Bool) {
+        if let feedVC = parentVC as? FeedTableViewController {
+            let postVC = feedVC.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
+            postVC.post = post
+            postVC.shouldStartWithRaisedKeyboard = withRaisedKeyboard
+            postVC.completionHandler = {
+                Post in feedVC.tableView.reloadData()
+            }
+            feedVC.navigationController!.pushViewController(postVC, animated: true)
+        } else {
+            //parentViewController is a PostViewController, so don't do anything
         }
     }
 }
