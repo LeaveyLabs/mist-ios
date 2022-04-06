@@ -28,6 +28,8 @@ class EnterCodeViewController: UIViewController {
                     // Check if the code's valid
                     if(try await AuthAPI.validateEmail(email: email, code: code)) {
                         // If so, move onto the next screen
+                        let vc = WelcomeTutorialViewController(nibName: "WelcomeTutorialViewController", bundle: nil)
+                        navigationController?.pushViewController(vc, animated: true)
                     }
                 } catch {
                     print(error);
