@@ -13,6 +13,8 @@ class MapViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     var mapModal: MapModalViewController?
     var postView: UIView?
+    @IBOutlet weak var dateSliderOuterView: UIView!
+    @IBOutlet weak var dateSliderView: UIView!
 
     var allAnnotations: [BridgeAnnotation]?
     
@@ -34,6 +36,10 @@ class MapViewController: UIViewController {
         navigationController?.restoreHairline()
         centerMapOnUSC()
         registerMapAnnotationViews()
+        
+        dateSliderView.layer.cornerRadius = 10
+        dateSliderOuterView.layer.cornerRadius = 10
+        applyShadowOnView(dateSliderOuterView)
 
         mapView.delegate = self
         allAnnotations = []
@@ -99,11 +105,12 @@ extension MapViewController: MKMapViewDelegate {
         //presentModal(annotation: view.annotation! as! BridgeAnnotation) //not using anymore
                 
         //TODO: increase latitudeOffset if the post is really long
+        loadPostViewFor(annotation: view.annotation! as! BridgeAnnotation)
+
         let latitudeOffset = 0.0008
         centerMapUnderPostAt(lat: view.annotation!.coordinate.latitude + latitudeOffset, long: view.annotation!.coordinate.longitude)
         mapView.isZoomEnabled = false
         mapView.isScrollEnabled = false
-        loadPostViewFor(annotation: view.annotation! as! BridgeAnnotation)
     }
     
     func loadPostViewFor(annotation: BridgeAnnotation) {
@@ -117,8 +124,8 @@ extension MapViewController: MKMapViewDelegate {
             newPostView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
             view.addSubview(newPostView)
             let constraints = [
-                newPostView.centerYAnchor.constraint(equalTo: mapView.centerYAnchor, constant: -100),
-//                newPostView.topAnchor.constraint(equalTo: mapView.topAnchor, constant: 10),
+//                newPostView.topAnchor.constraint(equalTo: dateSliderOuterView.bottomAnchor, constant: 0),
+                newPostView.centerYAnchor.constraint(equalTo: mapView.centerYAnchor, constant: -50),
                 newPostView.rightAnchor.constraint(equalTo: mapView.rightAnchor, constant: 0),
                 newPostView.leftAnchor.constraint(equalTo: mapView.leftAnchor, constant: 0),
             ]
@@ -147,19 +154,23 @@ extension MapViewController: MKMapViewDelegate {
     func mapViewWillStartLoadingMap(_ mapView: MKMapView) {
         print("will start loading")
     }
-
-    //TODO: this isnt doing anything right now
+    
     /// The map view asks `mapView(_:viewFor:)` for an appropiate annotation view for a specific annotation.
     /// - Tag: CreateAnnotationViews
-    func mapView(_ mapView: MKMapView, viewFor annotation: BridgeAnnotation) -> MKAnnotationView? {
-
-        guard !annotation.isKind(of: MKUserLocation.self) else {
-            // Make a fast exit if the annotation is the `MKUserLocation`, as it's not an annotation view we wish to customize.
-            return nil
-        }
-
-        return setupBridgeAnnotationView(for: annotation, on: mapView)
-    }
+//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+//        guard !annotation.isKind(of: MKUserLocation.self) else {
+//            // Make a fast exit if the annotation is the `MKUserLocation`, as it's not an annotation view we wish to customize.
+//            return nil
+//        }
+//        
+//        var annotationView: MKAnnotationView?
+//        
+//        if let annotation = annotation as? BridgeAnnotation {
+//            annotationView = setupBridgeAnnotationView(for: annotation, on: mapView)
+//        }
+//        
+//        return annotationView
+//    }
     
     /// Create an annotation view for the Golden Gate Bridge, customize the color, and add a button to the callout.
     /// - Tag: CalloutButton
@@ -169,19 +180,10 @@ extension MapViewController: MKMapViewDelegate {
         print("out")
         if let markerAnnotationView = view as? MKMarkerAnnotationView {
             print("in")
+            //TODO: add constraints to post view
             markerAnnotationView.animatesWhenAdded = true
-            markerAnnotationView.canShowCallout = true
+            markerAnnotationView.canShowCallout = false
             markerAnnotationView.markerTintColor = mistUIColor()
-            
-            /*
-             Add a detail disclosure button to the callout, which will open a new view controller or a popover.
-             When the detail disclosure button is tapped, use mapView(_:annotationView:calloutAccessoryControlTapped:)
-             to determine which annotation was tapped.
-             If you need to handle additional UIControl events, such as `.touchUpOutside`, you can call
-             `addTarget(_:action:for:)` on the button to add those events.
-             */
-            let rightButton = UIButton(type: .detailDisclosure)
-            markerAnnotationView.rightCalloutAccessoryView = rightButton
         }
         
         return view

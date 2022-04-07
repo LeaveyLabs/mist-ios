@@ -204,14 +204,14 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nbi-SG-dhF">
                                 <rect key="frame" x="10" y="44" width="370" height="818.66666666666663"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sort By" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z4u-6D-uaQ" customClass="MistUILabel" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="22" y="20" width="56" height="23.333333333333329"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Sort By" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z4u-6D-uaQ" customClass="MistUILabel" customModule="mist_ios" customModuleProvider="target">
+                                        <rect key="frame" x="22" y="20" width="73" height="23"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BYY-YZ-JHs">
-                                        <rect key="frame" x="5" y="160.33333333333334" width="89.666666666666671" height="31"/>
+                                        <rect key="frame" x="5" y="160" width="89.666666666666671" height="31"/>
                                         <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
                                         <state key="normal" title="New" image="sparkles" catalog="system"/>
@@ -221,7 +221,7 @@
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c83-0E-8pA">
-                                        <rect key="frame" x="21.666666666666657" y="51.333333333333329" width="327" height="1"/>
+                                        <rect key="frame" x="21.666666666666657" y="51" width="327" height="1"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <rect key="contentStretch" x="0.0" y="0.0" width="0.59999999999999998" height="0.65000000000000002"/>
                                         <constraints>
@@ -230,7 +230,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C85-Yf-PR7">
-                                        <rect key="frame" x="5" y="66.333333333333329" width="85.333333333333329" height="31"/>
+                                        <rect key="frame" x="5" y="66" width="85.333333333333329" height="31"/>
                                         <color key="tintColor" systemColor="labelColor"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
                                         <state key="normal" title=" Best" image="cup.and.saucer" catalog="system"/>
@@ -257,7 +257,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V4s-RN-ZbC">
-                                        <rect key="frame" x="5" y="113.33333333333334" width="85.333333333333329" height="31"/>
+                                        <rect key="frame" x="5" y="113" width="85.333333333333329" height="31"/>
                                         <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
                                         <state key="normal" title="Top" image="arrow.upright.circle" catalog="system"/>
@@ -307,7 +307,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IJq-lj-jQC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4271" y="631"/>
+            <point key="canvasLocation" x="4270.7692307692305" y="630.56872037914684"/>
         </scene>
         <!--Pin Map Modal View Controller-->
         <scene sceneID="vuc-nS-kaA">
@@ -1257,14 +1257,62 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="4Ti-Yh-6iG">
                                 <rect key="frame" x="0.0" y="88" width="390" height="673"/>
                             </mapView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LQe-yl-aWL">
+                                <rect key="frame" x="10" y="98" width="370" height="84"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yesterday morning" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6UK-Av-qLn">
+                                        <rect key="frame" x="155" y="7" width="176" height="28"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JS3-0M-HMC">
+                                        <rect key="frame" x="8" y="37" width="354" height="40"/>
+                                        <subviews>
+                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="9Tu-yc-phv">
+                                                <rect key="frame" x="6" y="5" width="342" height="31"/>
+                                                <color key="tintColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </slider>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="9Tu-yc-phv" secondAttribute="trailing" constant="8" id="8fk-js-Lu8"/>
+                                            <constraint firstAttribute="bottom" secondItem="9Tu-yc-phv" secondAttribute="bottom" constant="5" id="95W-5e-i8T"/>
+                                            <constraint firstAttribute="height" constant="40" id="C1Y-oD-e6G"/>
+                                            <constraint firstItem="9Tu-yc-phv" firstAttribute="leading" secondItem="JS3-0M-HMC" secondAttribute="leading" constant="8" id="OMD-9b-fTL"/>
+                                            <constraint firstItem="9Tu-yc-phv" firstAttribute="top" secondItem="JS3-0M-HMC" secondAttribute="top" constant="5" id="kIH-Yw-Tux"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Missed connections from:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rFB-pD-sk9">
+                                        <rect key="frame" x="10" y="15" width="140" height="17"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="12"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="JS3-0M-HMC" secondAttribute="trailing" constant="8" id="3ja-F5-vx3"/>
+                                    <constraint firstItem="JS3-0M-HMC" firstAttribute="leading" secondItem="LQe-yl-aWL" secondAttribute="leading" constant="8" id="4Xt-gR-UYD"/>
+                                    <constraint firstAttribute="bottom" secondItem="JS3-0M-HMC" secondAttribute="bottom" constant="7" id="6bV-05-dxN"/>
+                                    <constraint firstItem="6UK-Av-qLn" firstAttribute="firstBaseline" secondItem="rFB-pD-sk9" secondAttribute="firstBaseline" id="AV9-dM-aOK"/>
+                                    <constraint firstItem="rFB-pD-sk9" firstAttribute="leading" secondItem="LQe-yl-aWL" secondAttribute="leading" constant="10" id="Vjw-vT-y0S"/>
+                                    <constraint firstItem="6UK-Av-qLn" firstAttribute="leading" secondItem="rFB-pD-sk9" secondAttribute="trailing" constant="5" id="Z22-uG-g5E"/>
+                                    <constraint firstItem="rFB-pD-sk9" firstAttribute="top" secondItem="LQe-yl-aWL" secondAttribute="top" constant="15" id="ikK-DG-y85"/>
+                                    <constraint firstItem="JS3-0M-HMC" firstAttribute="top" secondItem="rFB-pD-sk9" secondAttribute="bottom" constant="5" id="nDW-l0-bjI"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="PwX-9i-D1c"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="4Ti-Yh-6iG" secondAttribute="trailing" id="8r7-k1-G5u"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="bottom" secondItem="4Ti-Yh-6iG" secondAttribute="bottom" id="Lpe-Pd-ULU"/>
+                            <constraint firstItem="LQe-yl-aWL" firstAttribute="top" secondItem="PwX-9i-D1c" secondAttribute="top" constant="10" id="UA8-Rb-DIO"/>
                             <constraint firstItem="4Ti-Yh-6iG" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" id="Xj8-ql-Hva"/>
                             <constraint firstItem="4Ti-Yh-6iG" firstAttribute="top" secondItem="PwX-9i-D1c" secondAttribute="top" id="jwx-tL-MTK"/>
+                            <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="LQe-yl-aWL" secondAttribute="trailing" constant="10" id="km3-oS-SH3"/>
+                            <constraint firstItem="LQe-yl-aWL" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" constant="10" id="ptI-NM-b4h"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="RBw-gp-2Gi">
@@ -1298,6 +1346,8 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="dateSliderOuterView" destination="LQe-yl-aWL" id="Gs9-hD-nhM"/>
+                        <outlet property="dateSliderView" destination="JS3-0M-HMC" id="LuN-Wh-kch"/>
                         <outlet property="mapView" destination="4Ti-Yh-6iG" id="wqV-X2-Kw7"/>
                         <outlet property="mistTitle" destination="n6J-U1-lxs" id="ucb-FW-J48"/>
                     </connections>
@@ -1324,7 +1374,7 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="45" y="1275"/>
+            <point key="canvasLocation" x="44.615384615384613" y="1274.6445497630332"/>
         </scene>
         <!--Live Results Table View Controller-->
         <scene sceneID="8EU-Mb-n2Q">
@@ -1581,25 +1631,25 @@ You can message people in two ways: 
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T1P-lH-LRg">
                                 <rect key="frame" x="10" y="44" width="370" height="793.33333333333337"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="77k-qe-emv">
-                                        <rect key="frame" x="5" y="109" width="93" height="31"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="77k-qe-emv">
+                                        <rect key="frame" x="5" y="113" width="97" height="31"/>
                                         <color key="tintColor" systemColor="labelColor"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
                                         <state key="normal" title="New" image="sparkles" catalog="system"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="flag" catalog="system" title="Report" imagePadding="5"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="flag" catalog="system" title="Report" imagePadding="9"/>
                                         <connections>
                                             <action selector="reportButton:" destination="T5e-wC-mjN" eventType="touchUpInside" id="qBG-Je-h3m"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cdv-h6-88r">
-                                        <rect key="frame" x="5" y="15" width="88.666666666666671" height="31"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cdv-h6-88r">
+                                        <rect key="frame" x="5" y="15" width="97" height="31"/>
                                         <color key="tintColor" systemColor="labelColor"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
-                                        <state key="normal" title=" Best" image="cup.and.saucer" catalog="system"/>
+                                        <state key="normal" title="Share" image="square.and.arrow.up" catalog="system"/>
                                         <state key="selected" title="Best" image="cup.and.saucer.fill" catalog="system">
                                             <color key="titleColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
-                                        <buttonConfiguration key="configuration" style="plain" image="square.and.arrow.up" catalog="system" title="Share" imagePadding="5"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="square.and.arrow.up" catalog="system" title="Share" imagePadding="8"/>
                                         <connections>
                                             <action selector="shareButton:" destination="T5e-wC-mjN" eventType="touchUpInside" id="vBv-N3-DhE"/>
                                         </connections>
@@ -1618,42 +1668,30 @@ You can message people in two ways: 
                                             <action selector="closeButtonDidPressed:" destination="T5e-wC-mjN" eventType="touchUpInside" id="H57-0t-WdV"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOI-fF-YuU">
-                                        <rect key="frame" x="5" y="62" width="88.666666666666671" height="31"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOI-fF-YuU">
+                                        <rect key="frame" x="5" y="64" width="97" height="31"/>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
-                                        <state key="normal" title="Top" image="arrow.upright.circle" catalog="system"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="bookmark" catalog="system" title="Save" imagePadding="7"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="7" maxY="0.0"/>
+                                        <state key="normal" title="Save" image="bookmark" catalog="system"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="bookmark" catalog="system" title="Save" imagePadding="10"/>
                                         <connections>
                                             <action selector="saveButton:" destination="T5e-wC-mjN" eventType="touchUpInside" id="kua-Cd-C1L"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Il3-7P-Mii">
-                                        <rect key="frame" x="5" y="156" width="117.66666666666667" height="31"/>
-                                        <color key="tintColor" systemColor="labelColor"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
-                                        <state key="normal" title="New" image="sparkles" catalog="system"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="xmark" catalog="system" title="Block User" imagePadding="5"/>
-                                        <connections>
-                                            <action selector="blockUserButtonDidPressed:" destination="T5e-wC-mjN" eventType="touchUpInside" id="kTA-qd-m4H"/>
                                         </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="Hzi-0y-WHM" firstAttribute="leading" secondItem="T1P-lH-LRg" secondAttribute="leading" constant="10" id="3dF-75-5Jj"/>
-                                    <constraint firstItem="Il3-7P-Mii" firstAttribute="leading" secondItem="cdv-h6-88r" secondAttribute="leading" id="55D-N6-x8h"/>
                                     <constraint firstItem="77k-qe-emv" firstAttribute="leading" secondItem="cdv-h6-88r" secondAttribute="leading" id="5Ls-bf-AEo"/>
                                     <constraint firstItem="dOI-fF-YuU" firstAttribute="width" secondItem="cdv-h6-88r" secondAttribute="width" id="5k0-zc-BbV"/>
                                     <constraint firstAttribute="trailing" secondItem="Hzi-0y-WHM" secondAttribute="trailing" constant="10" id="I52-GB-zDI"/>
                                     <constraint firstItem="cdv-h6-88r" firstAttribute="leading" secondItem="T1P-lH-LRg" secondAttribute="leading" constant="5" id="S0t-Ve-WpR"/>
-                                    <constraint firstItem="dOI-fF-YuU" firstAttribute="top" secondItem="cdv-h6-88r" secondAttribute="bottom" constant="16" id="X4l-mf-mwo"/>
-                                    <constraint firstItem="77k-qe-emv" firstAttribute="width" secondItem="cdv-h6-88r" secondAttribute="width" multiplier="1.05" id="a1d-8Y-JdP"/>
+                                    <constraint firstItem="dOI-fF-YuU" firstAttribute="top" secondItem="cdv-h6-88r" secondAttribute="bottom" constant="18" id="X4l-mf-mwo"/>
+                                    <constraint firstItem="77k-qe-emv" firstAttribute="width" secondItem="cdv-h6-88r" secondAttribute="width" id="a1d-8Y-JdP"/>
                                     <constraint firstItem="dOI-fF-YuU" firstAttribute="leading" secondItem="cdv-h6-88r" secondAttribute="leading" id="bDl-UW-wFc"/>
                                     <constraint firstItem="cdv-h6-88r" firstAttribute="top" secondItem="T1P-lH-LRg" secondAttribute="top" constant="15" id="duc-T2-dnT"/>
                                     <constraint firstAttribute="bottom" secondItem="Hzi-0y-WHM" secondAttribute="bottom" constant="15" id="jTn-ug-AKc"/>
-                                    <constraint firstItem="77k-qe-emv" firstAttribute="top" secondItem="dOI-fF-YuU" secondAttribute="bottom" constant="16" id="sBv-Eo-xoE"/>
-                                    <constraint firstItem="Il3-7P-Mii" firstAttribute="top" secondItem="77k-qe-emv" secondAttribute="bottom" constant="16" id="uJg-Hi-juU"/>
+                                    <constraint firstItem="77k-qe-emv" firstAttribute="top" secondItem="dOI-fF-YuU" secondAttribute="bottom" constant="18" id="sBv-Eo-xoE"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -1668,17 +1706,13 @@ You can message people in two ways: 
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="blockUserButton" destination="Il3-7P-Mii" id="hrc-Wl-bSB"/>
                         <outlet property="closeButton" destination="Hzi-0y-WHM" id="hzX-RQ-UOK"/>
                         <outlet property="containingView" destination="T1P-lH-LRg" id="SHN-UT-i01"/>
-                        <outlet property="reportButton" destination="77k-qe-emv" id="jBl-Bf-bZL"/>
-                        <outlet property="saveButton" destination="dOI-fF-YuU" id="ydd-Kx-mOB"/>
-                        <outlet property="shareButton" destination="cdv-h6-88r" id="s3C-uk-T2a"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q8w-RR-S7I" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4992" y="630"/>
+            <point key="canvasLocation" x="4990.7692307692305" y="629.8578199052132"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="FWv-WR-Vcd">

@@ -12,12 +12,7 @@ class MoreViewController: UIViewController {
     //TODO: make drop down arrow image go completely behind sortbybutton in postviewcontroller
     
     @IBOutlet weak var containingView: UIView!
-    
     @IBOutlet weak var closeButton: UIButton!
-    @IBOutlet weak var shareButton: UIButton!
-    @IBOutlet weak var saveButton: UIButton!
-    @IBOutlet weak var reportButton: UIButton!
-    @IBOutlet weak var blockUserButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,11 +34,6 @@ class MoreViewController: UIViewController {
     }
     
     @IBAction func reportButton(_ sender: UIButton) {
-        dismiss(animated: true)
-
-    }
-    
-    @IBAction func blockUserButtonDidPressed(_ sender: UIButton) {
         dismiss(animated: true)
 
     }

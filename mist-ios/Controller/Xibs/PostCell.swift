@@ -28,10 +28,6 @@ class PostCell: UITableViewCell {
     
     @IBOutlet weak var backgroundBubbleView: UIView!
     
-    var isLiked: Bool = false
-    var isSaved: Bool = false
-    var isFlagged: Bool = false
-    
     var parentVC: UIViewController!
     var post: Post!
     
@@ -61,9 +57,12 @@ class PostCell: UITableViewCell {
         locationLabel.text = post.location_description
         messageLabel.text = post.text
         titleLabel.text = post.title
-        likeLabel.text = " " + String(post.averagerating)
+        likeLabel.text = String(post.averagerating)
         
         setupBubbleArrow(at: bubbleArrowPosition)
+        
+        likeButton.isSelected = false
+        favoriteButton.isSelected = false
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
         backgroundBubbleView.addGestureRecognizer(tapGesture)
@@ -76,23 +75,15 @@ class PostCell: UITableViewCell {
     }
     
     @IBAction func likeButtonDidPressed(_ sender: UIButton) {
-        //like
-        if (isLiked) {
-            var config = UIButton.Configuration.plain()
-            config.image = UIImage(systemName: "heart.fill")
-            likeButton.configuration = config
-//            UIButtonConfigu
-//            likeButton.configuration =
-//            likeButton.image = UIImage(systemName: "heart.fill")
+        //if not liked, then like
+        if (!likeButton.isSelected) {
+            likeLabel.text = String(Int(likeLabel.text!)! + 1)
         }
-        //unlike
+        //if liked, then unlike
         else {
-//            likeButton.image = UIImage(systemName: "heart")
-            var config = UIButton.Configuration.plain()
-            config.image = UIImage(systemName: "heart")
-            likeButton.configuration = config
+            likeLabel.text = String(Int(likeLabel.text!)! - 1)
         }
-        isLiked = !isLiked
+        likeButton.isSelected = !likeButton.isSelected
     }
     
     @IBAction func commentButtonDidPressed(_ sender: UIButton) {
@@ -103,8 +94,16 @@ class PostCell: UITableViewCell {
         
     }
     
-    @IBAction func saveButtonDidPressed(_ sender: UIButton) {
-        
+    @IBAction func favoriteButtonDidpressed(_ sender: UIButton) {
+        //if not liked, then like
+        if (!favoriteButton.isSelected) {
+            
+        }
+        //if liked, then unlike
+        else {
+
+        }
+        favoriteButton.isSelected = !favoriteButton.isSelected
     }
     
     @IBAction func moreButtonDidPressed(_ sender: UIButton) {

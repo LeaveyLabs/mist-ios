@@ -13,7 +13,7 @@ class BridgeAnnotation: NSObject, MKAnnotation {
     // This property must be key-value observable, which the `@objc dynamic` attributes provide.
     @objc dynamic var coordinate: CLLocationCoordinate2D
     
-    // Required if you set the annotation view's `canShowCallout` property to `true`
+    // Title is required if you set the annotation view's `canShowCallout` property to `true`
     var title: String?
     var post: Post?
     

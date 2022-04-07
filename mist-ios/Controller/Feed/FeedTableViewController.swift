@@ -18,7 +18,7 @@ class FeedTableViewController: UITableViewController {
         super.viewDidLoad();
         self.tableView.estimatedRowHeight = 100;
         self.tableView.rowHeight = UITableView.automaticDimension; // is this necessary?
-
+        tableView.showsVerticalScrollIndicator = false
 
         navigationItem.titleView = mistTitle
         let nib = UINib(nibName: Constants.SBID.Cell.Post, bundle: nil);
@@ -26,7 +26,7 @@ class FeedTableViewController: UITableViewController {
         
         refreshControl = UIRefreshControl()
         refreshControl!.addTarget(self, action: #selector(refreshFeed), for: .valueChanged)
-
+        
         initActivityIndicator()
         refreshFeed();
     }
