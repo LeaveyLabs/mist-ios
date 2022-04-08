@@ -13,7 +13,7 @@ class FeedTableViewController: UITableViewController {
     @IBOutlet weak var mistTitle: UIView!
     var posts: [Post] = []
     var indicator = UIActivityIndicatorView()
-        
+
     override func viewDidLoad() {
         super.viewDidLoad();
         self.tableView.estimatedRowHeight = 100;
@@ -27,17 +27,13 @@ class FeedTableViewController: UITableViewController {
         refreshControl = UIRefreshControl()
         refreshControl!.addTarget(self, action: #selector(refreshFeed), for: .valueChanged)
         
-        initActivityIndicator()
+        indicator = initActivityIndicator(onView: view)
         refreshFeed();
-    }
-    
-    func initActivityIndicator() {
-        indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-        indicator.style = UIActivityIndicatorView.Style.medium
-        indicator.center = CGPoint(x: UIScreen.main.bounds.size.width*0.5,y: UIScreen.main.bounds.size.height*0.4)
-        indicator.hidesWhenStopped = true
-        self.view.addSubview(indicator)
-        indicator.startAnimating()
+        navigationController?.restoreHairline()
+//        navigationController?.shad
+//        self.navigationBar.shadowColor = UIColor.blackColor().CGColor
+//        self.navigationBar.shadowOffset = CGSizeMake(5, 5)
+//        self.navigationBar.shadowRadius = 5
     }
     
     override func viewWillAppear(_ animated: Bool) {

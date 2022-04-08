@@ -203,7 +203,7 @@ extension ExploreViewController {
     }
     
     func willPresentSearchController(_ searchController: UISearchController) {
-        navigationController?.hideHairline()
+//        navigationController?.hideHairline()
         Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
     }
     
@@ -215,7 +215,7 @@ extension ExploreViewController {
     func willDismissSearchController(_ searchController: UISearchController) {
         Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
         print("will dismiss sc")
-        navigationController?.restoreHairline()
+//        navigationController?.restoreHairline()
         navigationItem.searchController = .none
     }
     

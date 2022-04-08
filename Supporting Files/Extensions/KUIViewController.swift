@@ -32,6 +32,7 @@ class KUIViewController: UIViewController {
     }
 
     @objc func clearKeyboard() {
+        print("tap gesture recognized")
         view.endEditing(true)
         // (subtle iOS bug/problem in obscure cases: see note below
         // you may prefer to add a short delay here)
@@ -53,6 +54,7 @@ class KUIViewController: UIViewController {
         keyboardNotifications()
         let t = UITapGestureRecognizer(target: self, action: #selector(clearKeyboard))
         view.addGestureRecognizer(t)
-        t.cancelsTouchesInView = false
+        //this line below prevents the submit button tap from being registered while keyboard is up. do not uncomment it. i repeat do not uncomment
+//        t.cancelsTouchesInView = false
     }
 }

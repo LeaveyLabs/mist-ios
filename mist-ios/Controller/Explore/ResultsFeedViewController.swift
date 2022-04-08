@@ -34,7 +34,7 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
         let queryNib = UINib(nibName: Constants.SBID.Cell.Query, bundle: nil);
         self.tableView.register(queryNib, forCellReuseIdentifier: Constants.SBID.Cell.Query);
         
-        navigationController?.restoreHairline()
+        navigationController?.restoreHairline() //TODO: does nothing
         navigationItem.title = query
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:))))
         //navigationController?.navigationBar.standardAppearance.backgroundColor = hexStringToUIColor(hex: "CDABE1", alpha: offset/2)

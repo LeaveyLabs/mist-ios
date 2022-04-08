@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rpu-Fr-VCm">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
@@ -1229,10 +1230,10 @@
             </objects>
             <point key="canvasLocation" x="1734" y="1995"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Shadow Navigation Controller-->
         <scene sceneID="gBN-5c-fZo">
             <objects>
-                <navigationController id="wFi-Ri-Whx" sceneMemberID="viewController">
+                <navigationController id="wFi-Ri-Whx" customClass="ShadowNavigationController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="map-grey" selectedImage="map-filled" id="qzf-Mi-VWD"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xk5-cg-NcZ">
                         <rect key="frame" x="0.0" y="44" width="390" height="44"/>
@@ -1574,10 +1575,10 @@ You can message people in two ways: 
             </objects>
             <point key="canvasLocation" x="2562" y="891"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Shadow Navigation Controller-->
         <scene sceneID="B0b-vf-o9k">
             <objects>
-                <navigationController hidesBottomBarWhenPushed="YES" id="1YG-3w-9zr" sceneMemberID="viewController">
+                <navigationController hidesBottomBarWhenPushed="YES" id="1YG-3w-9zr" customClass="ShadowNavigationController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="list-grey" selectedImage="list-filled" id="g9p-9C-TAM">
                         <color key="badgeColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
@@ -1585,12 +1586,6 @@ You can message people in two ways: 
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Gsd-95-zEB">
                         <rect key="frame" x="0.0" y="44" width="390" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <navigationBarAppearance key="standardAppearance">
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </navigationBarAppearance>
-                        <navigationBarAppearance key="scrollEdgeAppearance">
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </navigationBarAppearance>
                     </navigationBar>
                     <connections>
                         <segue destination="PIG-aq-dDv" kind="relationship" relationship="rootViewController" id="igI-tK-Y3p"/>
@@ -2055,6 +2050,7 @@ You can message people in two ways: 
                         </navigationBarAppearance>
                         <navigationBarAppearance key="scrollEdgeAppearance">
                             <color key="backgroundColor" red="0.96078431369999995" green="0.94117647059999998" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </navigationBarAppearance>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -2523,8 +2519,8 @@ You can message people in two ways: 
         </designable>
     </designables>
     <inferredMetricsTieBreakers>
-        <segue reference="NJ2-fl-H22"/>
-        <segue reference="lgs-vL-nw9"/>
+        <segue reference="s4S-FT-yxD"/>
+        <segue reference="ezH-Q5-kjf"/>
         <segue reference="AdB-Ox-SBJ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
