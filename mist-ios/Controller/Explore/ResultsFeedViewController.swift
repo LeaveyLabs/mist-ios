@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDelegate {
+class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate {
     
     // MARK: -Properties
     var query: String!
@@ -88,7 +88,7 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
             do {
                 posts = try await PostAPI.fetchPosts(text: query)
                 self.tableView.reloadData();
-                refreshControl!.endRefreshing()
+                tableView.refreshControl!.endRefreshing()
                 indicator.stopAnimating()
                 print("loaded")
             } catch {
@@ -99,7 +99,7 @@ class ResultsFeedViewController: FeedTableViewController, UIGestureRecognizerDel
     
     // MARK: -..?
 
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         //TODO: dynamically set starting offset so it works for all screen sizes, not just the 12
         let startingOffset: CGFloat = 50
         var offset = (tableView.contentOffset.y + startingOffset) / 100

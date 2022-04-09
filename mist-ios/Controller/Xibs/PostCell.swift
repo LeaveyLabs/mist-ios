@@ -244,7 +244,7 @@ class PostCell: UITableViewCell {
     //MARK: -Helpers
     
     func sendToPost(withRaisedKeyboard: Bool) {
-        if let feedVC = parentVC as? FeedTableViewController {
+        if let feedVC = parentVC as? FeedViewController {
             let postVC = feedVC.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
             postVC.post = post
             postVC.shouldStartWithRaisedKeyboard = withRaisedKeyboard

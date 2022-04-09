@@ -10,19 +10,12 @@ import UIKit
 //TODO: badges
 //https://github.com/jogendra/BadgeHub
 
-class MyProfileViewController: UIViewController {
+class MyProfileViewController: FeedViewController {
     
-    @IBOutlet weak var backBarButton: UIBarButtonItem!
-    @IBOutlet weak var friendsBarButton: UIBarButtonItem!
-    @IBOutlet weak var settingsBarButton: UIBarButtonItem!
-    @IBOutlet weak var postsUISegmentedControl: UISegmentedControl!
+    var selectedFeedIndex: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        //check UISegmentedControl+Twitter file
-        postsUISegmentedControl.setupSegment()
-
     }
     
     // MARK: - UserInteraction
@@ -30,24 +23,57 @@ class MyProfileViewController: UIViewController {
     @IBAction func onBackButtonPressed(_ sender: UIBarButtonItem) {
         self.navigationController?.popViewController(animated: true)
     }
+        
+    //MARK: -- Overrides
     
-    @IBAction func settingsButtonDidtapped(_ sender: UIBarButtonItem) {
-//        print("presenting")
-//        //TODO: change from push to full screen show
-//        let settingsVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Settings)
-//        settingsVC.modalPresentationStyle = .fullScreen
-//        self.present(settingsVC, animated: true, completion: nil)
-//        navigationController?.pushViewController(settingsVC, animated: true)
+    
+    //good notes on managing Tasks:
+    //https://www.swiftbysundell.com/articles/the-role-tasks-play-in-swift-concurrency/
+    @objc override func refreshFeed() {
+        //TODO: cancel task if it takes too long. that way the user can refresh and try again
+        Task {
+            do {
+                //TODO: change postAPI call based on the selectedFeedIndex
+                switch selectedFeedIndex {
+                case 0:
+                    posts = try await PostAPI.fetchPosts();
+                case 1:
+                    posts = try await PostAPI.fetchPosts();
+                default:
+                    posts = try await PostAPI.fetchPosts();
+                }
+                tableView.reloadData();
+                tableView.refreshControl!.endRefreshing()
+                indicator.stopAnimating()
+            } catch {
+                print(error)
+            }
+        }
+    }
 
-//        self.show(vc, sender: self)
+    dynamic override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //+2 is for the profile cell and the segmented control cell
+        return posts.count + 2
     }
     
-    // MARK: - ViewUpdates
-    
-    @IBAction func segmentedControlValueDidChanged(_ sender: UISegmentedControl) {
-        postsUISegmentedControl.changeUnderlinePosition()
-        if sender.selectedSegmentIndex == 0 {
-            print("0")
+    dynamic override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch indexPath.row {
+        case 0:
+            let cell = self.tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath)
+            cell.selectionStyle = .none
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+            return cell
+        case 1:
+            let cell = self.tableView.dequeueReusableCell(withIdentifier: "SegmentedControlCell", for: indexPath) as! SegmentedControlCell
+            cell.configureSegmentedControlCell(parent: self)
+            cell.selectionStyle = .none
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+            return cell
+        default:
+            let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
+            cell.configurePostCell(post: posts[indexPath.row], parent: self, bubbleArrowPosition: .left)
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+            return cell
         }
     }
     

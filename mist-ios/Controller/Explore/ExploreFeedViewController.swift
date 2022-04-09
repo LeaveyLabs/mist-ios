@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ExploreFeedViewController: FeedTableViewController {
+class ExploreFeedViewController: FeedViewController {
     
     @IBOutlet weak var mistTitle: UIView!
     

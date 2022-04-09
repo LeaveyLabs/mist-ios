@@ -30,7 +30,6 @@
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <action selector="myProfileButtonDidTapped:" destination="PIG-aq-dDv" id="ONE-MW-Ih0"/>
-                                    <segue destination="lDn-Mg-oMk" kind="show" id="JYn-V1-rsO"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="Item" image="envelope" catalog="system" id="CZ1-FK-Wng">
@@ -57,7 +56,9 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mistTitle" destination="W4H-CD-eWB" id="oKU-yZ-T1H"/>
+                        <outlet property="tableView" destination="vQU-P0-Nw6" id="pMF-Bw-ali"/>
                         <segue destination="L6U-1B-3Sc" kind="show" identifier="FeedToPost" id="KrS-cs-hMW"/>
+                        <segue destination="O8q-XE-hed" kind="show" id="87S-Hb-uWB"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E9N-pf-Mh3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -847,55 +848,104 @@
             <point key="canvasLocation" x="-1808" y="973"/>
         </scene>
         <!--My Profile-->
-        <scene sceneID="YjE-XJ-d6h">
+        <scene sceneID="jSd-WA-Eft">
             <objects>
-                <viewController storyboardIdentifier="MyProfileViewController" hidesBottomBarWhenPushed="YES" id="lDn-Mg-oMk" customClass="MyProfileViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="GFY-LR-pzY">
+                <viewController storyboardIdentifier="MyProfileViewController" hidesBottomBarWhenPushed="YES" id="O8q-XE-hed" customClass="MyProfileViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nAu-Wu-vYg">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="vtm-gG-b78" customClass="RoundedImageView" customModule="mist_ios" customModuleProvider="target">
-                                <rect key="frame" x="95" y="124" width="200" height="200"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Adam Novak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pVC-pC-muI">
-                                <rect key="frame" x="104" y="332" width="182" height="41"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="30"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="@adamvnovak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dfh-yU-mxG">
-                                <rect key="frame" x="137" y="381" width="116" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="k9s-Uu-wdH">
-                                <rect key="frame" x="16" y="430" width="358" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <segments>
-                                    <segment title="Submissions"/>
-                                    <segment title="Mentions"/>
-                                    <segment title="Favorites"/>
-                                </segments>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="selectedSegmentTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <action selector="segmentedControlValueDidChanged:" destination="lDn-Mg-oMk" eventType="valueChanged" id="Crb-cM-yb9"/>
-                                </connections>
-                            </segmentedControl>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="qTU-ta-dPk">
+                                <rect key="frame" x="0.0" y="88" width="390" height="722"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ProfileCell" rowHeight="326" id="QdO-ll-ysh">
+                                        <rect key="frame" x="0.0" y="44.666666030883789" width="390" height="326"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="ProfileCell" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="QdO-ll-ysh" id="9FX-ey-9yQ">
+                                            <rect key="frame" x="0.0" y="0.0" width="390" height="326"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z1p-8h-uvS">
+                                                    <rect key="frame" x="95" y="11" width="200" height="304"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="vtm-gG-b78" customClass="RoundedImageView" customModule="mist_ios" customModuleProvider="target">
+                                                            <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Adam Novak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pVC-pC-muI">
+                                                            <rect key="frame" x="9" y="208" width="182" height="41"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="30"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="@adamvnovak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dfh-yU-mxG">
+                                                            <rect key="frame" x="42" y="257" width="116" height="25"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="282" id="mQC-i1-mbz"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="z1p-8h-uvS" firstAttribute="leading" secondItem="9FX-ey-9yQ" secondAttribute="leadingMargin" constant="75" id="Lyi-Uz-TzU"/>
+                                                <constraint firstItem="z1p-8h-uvS" firstAttribute="top" secondItem="9FX-ey-9yQ" secondAttribute="topMargin" id="NwL-4e-XLo"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="z1p-8h-uvS" secondAttribute="bottom" id="hHb-FY-buV"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="z1p-8h-uvS" secondAttribute="trailing" constant="75" id="zs6-i7-Ja4"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SegmentedControlCell" rowHeight="53" id="NkT-x6-gab" customClass="SegmentedControlCell" customModule="mist_ios" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="370.66666603088379" width="390" height="53"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NkT-x6-gab" id="5WN-TJ-59e">
+                                            <rect key="frame" x="0.0" y="0.0" width="390" height="53"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="k9s-Uu-wdH">
+                                                    <rect key="frame" x="16" y="11" width="358" height="32"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <segments>
+                                                        <segment title="Submissions"/>
+                                                        <segment title="Mentions"/>
+                                                        <segment title="Favorites"/>
+                                                    </segments>
+                                                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="selectedSegmentTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <connections>
+                                                        <action selector="segmentedControlValueDidChanged:" destination="NkT-x6-gab" eventType="valueChanged" id="HCc-gI-ZrN"/>
+                                                    </connections>
+                                                </segmentedControl>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="postsSegmentedControl" destination="k9s-Uu-wdH" id="1Fd-Nj-SlY"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="32N-IJ-wer"/>
+                        <viewLayoutGuide key="safeArea" id="bZr-y3-oac"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="qTU-ta-dPk" firstAttribute="leading" secondItem="bZr-y3-oac" secondAttribute="leading" id="OhB-lB-3g1"/>
+                            <constraint firstItem="qTU-ta-dPk" firstAttribute="bottom" secondItem="bZr-y3-oac" secondAttribute="bottom" id="eMJ-qc-oF4"/>
+                            <constraint firstItem="qTU-ta-dPk" firstAttribute="trailing" secondItem="bZr-y3-oac" secondAttribute="trailing" id="mTM-CT-G5e"/>
+                            <constraint firstItem="qTU-ta-dPk" firstAttribute="top" secondItem="bZr-y3-oac" secondAttribute="top" id="rXB-J3-wsQ"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="My Profile" id="ce7-Ms-yar">
                         <leftBarButtonItems>
                             <barButtonItem image="gearshape" catalog="system" id="TJM-yL-x8i">
                                 <connections>
-                                    <action selector="settingsButtonDidtapped:" destination="lDn-Mg-oMk" id="ZnS-PO-NNE"/>
                                     <segue destination="6mh-ua-qjq" kind="presentation" modalPresentationStyle="fullScreen" id="3T9-2H-4ZP"/>
                                 </connections>
                             </barButtonItem>
@@ -903,20 +953,17 @@
                         </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" image="chevron.right" catalog="system" id="4Yk-Q0-UTj">
                             <connections>
-                                <action selector="onBackButtonPressed:" destination="lDn-Mg-oMk" id="mDe-4I-Ilc"/>
+                                <action selector="onBackButtonPressed:" destination="O8q-XE-hed" id="MS9-8J-k6H"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="backBarButton" destination="4Yk-Q0-UTj" id="dGs-N4-5yj"/>
-                        <outlet property="friendsBarButton" destination="9RU-Yh-EjM" id="mEn-9H-7qf"/>
-                        <outlet property="postsUISegmentedControl" destination="k9s-Uu-wdH" id="xs2-3m-h6W"/>
-                        <outlet property="settingsBarButton" destination="TJM-yL-x8i" id="lDl-c0-4cL"/>
+                        <outlet property="tableView" destination="qTU-ta-dPk" id="ntU-PQ-3Mu"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="QX2-RS-QeR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AJx-pr-tDd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="45" y="-820"/>
+            <point key="canvasLocation" x="-20" y="-820.37914691943126"/>
         </scene>
         <!--Settings-->
         <scene sceneID="MmO-ha-Hcx">
@@ -1228,6 +1275,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="tableView" destination="mtG-TT-mGY" id="3Hf-2b-wwk"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WV6-VO-Oh8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
