@@ -25,6 +25,7 @@ class CommentCell: UITableViewCell {
     func configureCommentCell(comment: Comment, parent: PostViewController) {
 //        timestampLabel.text = getFormattedTimeString(postTimestamp: comment.timestamp)
         parentVC = parent
+        self.comment = comment
         authorLabel.text = comment.author
         commentLabel.text = comment.text
 //        authorProfileImageView.image = UIImage(named: "adam")
@@ -39,7 +40,11 @@ class CommentCell: UITableViewCell {
     //MARK: -User Interaction
         
     @IBAction func didPressedAuthorProfilePic(_ sender: UIButton) {
-        //presnet profile modal
+        if let postVC = parentVC as? PostViewController {
+            let profileVC = postVC.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Profile) as! ProfileViewController
+            profileVC.username = comment.author
+            postVC.navigationController!.present(profileVC, animated: true)
+        }
     }
     
     

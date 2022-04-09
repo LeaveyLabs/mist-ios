@@ -21,13 +21,14 @@
 		4700F8BE27DD807C006C2E08 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8BC27DD807C006C2E08 /* CommentCell.swift */; };
 		4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4700F8BD27DD807C006C2E08 /* CommentCell.xib */; };
 		4700F8C327DE1EA6006C2E08 /* SortByViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8C227DE1EA6006C2E08 /* SortByViewController.swift */; };
-		4700F8C627DE4652006C2E08 /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8C527DE4652006C2E08 /* ExploreViewController.swift */; };
+		4700F8C627DE4652006C2E08 /* ExploreMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8C527DE4652006C2E08 /* ExploreMapViewController.swift */; };
 		470F271327DE6F5800C6DDAF /* LiveResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */; };
 		470F271827DE758100C6DDAF /* WordResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271627DE758100C6DDAF /* WordResultCell.swift */; };
 		470F271927DE758100C6DDAF /* WordResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 470F271727DE758100C6DDAF /* WordResultCell.xib */; };
 		470F271C27DE764F00C6DDAF /* UserResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271A27DE764F00C6DDAF /* UserResultCell.swift */; };
 		470F271D27DE764F00C6DDAF /* UserResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 470F271B27DE764F00C6DDAF /* UserResultCell.xib */; };
 		470F271F27DE9ABE00C6DDAF /* ResultsFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271E27DE9ABE00C6DDAF /* ResultsFeedViewController.swift */; };
+		471F92CF28013F9B0079F8CA /* ExploreFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471F92CE28013F9B0079F8CA /* ExploreFeedViewController.swift */; };
 		47266AD227FF5531005DEDB1 /* UIView+LoadFromNib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47266AD127FF5531005DEDB1 /* UIView+LoadFromNib.swift */; };
 		47266AD427FF69C9005DEDB1 /* UIViewController+Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47266AD327FF69C9005DEDB1 /* UIViewController+Loading.swift */; };
 		4746508527D83F3E0014217C /* MistUITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746508427D83F3E0014217C /* MistUITextView.swift */; };
@@ -63,7 +64,6 @@
 		47A3D71F27D598B6003DBEA5 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D71E27D598B6003DBEA5 /* TabBarController.swift */; };
 		47A3D72327D5A0D2003DBEA5 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */; };
 		47AE72AA27F77B0B00A5E94C /* UsernameSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AE72A927F77B0B00A5E94C /* UsernameSettingViewController.swift */; };
-		47B265C227EEDC9A00E367EB /* TestSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B265C127EEDC9A00E367EB /* TestSearchViewController.swift */; };
 		47C1D49127DF00B200970B3D /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C1D49027DF00B200970B3D /* MoreViewController.swift */; };
 		47C2834F27DED77500A19128 /* QueryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C2834D27DED77500A19128 /* QueryCell.swift */; };
 		47C2835027DED77500A19128 /* QueryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C2834E27DED77500A19128 /* QueryCell.xib */; };
@@ -71,6 +71,8 @@
 		47CE900C27E059DC0004B756 /* PinMapModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */; };
 		47E2B1BD27FFC52900131B8D /* ShadowNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */; };
 		47E2B1BF2800C1CD00131B8D /* UITextView+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E2B1BE2800C1CD00131B8D /* UITextView+Placeholder.swift */; };
+		47E2B1C22800E9EB00131B8D /* MyCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E2B1C02800E9EB00131B8D /* MyCommentCell.swift */; };
+		47E2B1C32800E9EB00131B8D /* MyCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47E2B1C12800E9EB00131B8D /* MyCommentCell.xib */; };
 		47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E0B27CA0FFE00467A0C /* AppDelegate.swift */; };
 		47E74E0E27CA0FFE00467A0C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E0D27CA0FFE00467A0C /* SceneDelegate.swift */; };
 		47E74E1327CA0FFE00467A0C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47E74E1127CA0FFE00467A0C /* Main.storyboard */; };
@@ -123,13 +125,14 @@
 		4700F8BC27DD807C006C2E08 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		4700F8BD27DD807C006C2E08 /* CommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
 		4700F8C227DE1EA6006C2E08 /* SortByViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortByViewController.swift; sourceTree = "<group>"; };
-		4700F8C527DE4652006C2E08 /* ExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
+		4700F8C527DE4652006C2E08 /* ExploreMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapViewController.swift; sourceTree = "<group>"; };
 		470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveResultsTableViewController.swift; sourceTree = "<group>"; };
 		470F271627DE758100C6DDAF /* WordResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordResultCell.swift; sourceTree = "<group>"; };
 		470F271727DE758100C6DDAF /* WordResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WordResultCell.xib; sourceTree = "<group>"; };
 		470F271A27DE764F00C6DDAF /* UserResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResultCell.swift; sourceTree = "<group>"; };
 		470F271B27DE764F00C6DDAF /* UserResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserResultCell.xib; sourceTree = "<group>"; };
 		470F271E27DE9ABE00C6DDAF /* ResultsFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsFeedViewController.swift; sourceTree = "<group>"; };
+		471F92CE28013F9B0079F8CA /* ExploreFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreFeedViewController.swift; sourceTree = "<group>"; };
 		47266AD127FF5531005DEDB1 /* UIView+LoadFromNib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+LoadFromNib.swift"; sourceTree = "<group>"; };
 		47266AD327FF69C9005DEDB1 /* UIViewController+Loading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Loading.swift"; sourceTree = "<group>"; };
 		4746508427D83F3E0014217C /* MistUITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistUITextView.swift; sourceTree = "<group>"; };
@@ -165,7 +168,6 @@
 		47A3D71E27D598B6003DBEA5 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		47AE72A927F77B0B00A5E94C /* UsernameSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameSettingViewController.swift; sourceTree = "<group>"; };
-		47B265C127EEDC9A00E367EB /* TestSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSearchViewController.swift; sourceTree = "<group>"; };
 		47C1D49027DF00B200970B3D /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		47C2834D27DED77500A19128 /* QueryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryCell.swift; sourceTree = "<group>"; };
 		47C2834E27DED77500A19128 /* QueryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QueryCell.xib; sourceTree = "<group>"; };
@@ -173,6 +175,8 @@
 		47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinMapModalViewController.swift; sourceTree = "<group>"; };
 		47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowNavigationController.swift; sourceTree = "<group>"; };
 		47E2B1BE2800C1CD00131B8D /* UITextView+Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Placeholder.swift"; sourceTree = "<group>"; };
+		47E2B1C02800E9EB00131B8D /* MyCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommentCell.swift; sourceTree = "<group>"; };
+		47E2B1C12800E9EB00131B8D /* MyCommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyCommentCell.xib; sourceTree = "<group>"; };
 		47E74E0827CA0FFE00467A0C /* mist-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mist-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47E74E0B27CA0FFE00467A0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		47E74E0D27CA0FFE00467A0C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -225,7 +229,8 @@
 		4700F8C427DE4641006C2E08 /* Explore */ = {
 			isa = PBXGroup;
 			children = (
-				4700F8C527DE4652006C2E08 /* ExploreViewController.swift */,
+				4700F8C527DE4652006C2E08 /* ExploreMapViewController.swift */,
+				471F92CE28013F9B0079F8CA /* ExploreFeedViewController.swift */,
 				470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */,
 				470F271E27DE9ABE00C6DDAF /* ResultsFeedViewController.swift */,
 			);
@@ -238,7 +243,6 @@
 				47E74E1127CA0FFE00467A0C /* Main.storyboard */,
 				47E74E1627CA0FFF00467A0C /* Launch.storyboard */,
 				479AA1F627DD0D3800EA0DFC /* Auth.storyboard */,
-				47B265C127EEDC9A00E367EB /* TestSearchViewController.swift */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -248,10 +252,10 @@
 			children = (
 				479AA1EF27DCE9A700EA0DFC /* PostCell.xib */,
 				4700F8BD27DD807C006C2E08 /* CommentCell.xib */,
+				47E2B1C12800E9EB00131B8D /* MyCommentCell.xib */,
 				470F271727DE758100C6DDAF /* WordResultCell.xib */,
 				470F271B27DE764F00C6DDAF /* UserResultCell.xib */,
 				47C2834E27DED77500A19128 /* QueryCell.xib */,
-				47F45FCC27FF51DF00F2187A /* PostView.swift */,
 				47F45FCE27FF51EB00F2187A /* PostView.xib */,
 			);
 			path = Xibs;
@@ -278,9 +282,11 @@
 			children = (
 				479AA1EE27DCE9A700EA0DFC /* PostCell.swift */,
 				4700F8BC27DD807C006C2E08 /* CommentCell.swift */,
+				47E2B1C02800E9EB00131B8D /* MyCommentCell.swift */,
 				470F271627DE758100C6DDAF /* WordResultCell.swift */,
 				470F271A27DE764F00C6DDAF /* UserResultCell.swift */,
 				47C2834D27DED77500A19128 /* QueryCell.swift */,
+				47F45FCC27FF51DF00F2187A /* PostView.swift */,
 			);
 			path = Xibs;
 			sourceTree = "<group>";
@@ -490,8 +496,8 @@
 		47FF86A327DC75F00076A1CA /* Account */ = {
 			isa = PBXGroup;
 			children = (
-				47AE72A827F77AF400A5E94C /* Settings */,
 				47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */,
+				47AE72A827F77AF400A5E94C /* Settings */,
 				474A5DA727F4079D004215F9 /* MyProfileViewController.swift */,
 			);
 			path = Account;
@@ -617,6 +623,7 @@
 				479AA1F727DD0D3800EA0DFC /* Auth.storyboard in Resources */,
 				470F271927DE758100C6DDAF /* WordResultCell.xib in Resources */,
 				4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */,
+				47E2B1C32800E9EB00131B8D /* MyCommentCell.xib in Resources */,
 				470F271D27DE764F00C6DDAF /* UserResultCell.xib in Resources */,
 				47E74E1327CA0FFE00467A0C /* Main.storyboard in Resources */,
 				479AA1F127DCE9A700EA0DFC /* PostCell.xib in Resources */,
@@ -649,8 +656,8 @@
 				474A5DA327F4042F004215F9 /* UIImageView+Inspectable.swift in Sources */,
 				47A3D71427D58546003DBEA5 /* Feed.swift in Sources */,
 				47FF869827DB1F470076A1CA /* PostAPI.swift in Sources */,
+				47E2B1C22800E9EB00131B8D /* MyCommentCell.swift in Sources */,
 				439E44FC27E01D4900E244D6 /* AuthAPI.swift in Sources */,
-				47B265C227EEDC9A00E367EB /* TestSearchViewController.swift in Sources */,
 				47A3D71F27D598B6003DBEA5 /* TabBarController.swift in Sources */,
 				479AA1FF27DD223600EA0DFC /* MistUITextField.swift in Sources */,
 				470F271C27DE764F00C6DDAF /* UserResultCell.swift in Sources */,
@@ -669,6 +676,7 @@
 				47EA3E0227E0151200381218 /* MapViewController.swift in Sources */,
 				439E44F627DFB76200E244D6 /* Profile.swift in Sources */,
 				479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */,
+				471F92CF28013F9B0079F8CA /* ExploreFeedViewController.swift in Sources */,
 				47EE95FA27F64C00003B351E /* SettingsViewController.swift in Sources */,
 				47266AD427FF69C9005DEDB1 /* UIViewController+Loading.swift in Sources */,
 				47AE72AA27F77B0B00A5E94C /* UsernameSettingViewController.swift in Sources */,
@@ -705,7 +713,7 @@
 				47A3D70827D54F6F003DBEA5 /* User.swift in Sources */,
 				47EA3DFB27E0098F00381218 /* UINavigationController+Hairline.swift in Sources */,
 				439E44F427DFB71300E244D6 /* ProfileAPI.swift in Sources */,
-				4700F8C627DE4652006C2E08 /* ExploreViewController.swift in Sources */,
+				4700F8C627DE4652006C2E08 /* ExploreMapViewController.swift in Sources */,
 				475B1F8B27FB86C000ED59CD /* MessagesViewController.swift in Sources */,
 				479AA20127DD3F5500EA0DFC /* MistUIButton.swift in Sources */,
 				479AA1FD27DD109F00EA0DFC /* Constants.swift in Sources */,

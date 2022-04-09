@@ -9,8 +9,6 @@ import UIKit
 
 class FeedTableViewController: UITableViewController {
     
-    var selectedPostIndex: Int?
-    @IBOutlet weak var mistTitle: UIView!
     var posts: [Post] = []
     var indicator = UIActivityIndicatorView()
 
@@ -20,7 +18,6 @@ class FeedTableViewController: UITableViewController {
         self.tableView.rowHeight = UITableView.automaticDimension; // is this necessary?
         tableView.showsVerticalScrollIndicator = false
 
-        navigationItem.titleView = mistTitle
         let nib = UINib(nibName: Constants.SBID.Cell.Post, bundle: nil);
         self.tableView.register(nib, forCellReuseIdentifier: Constants.SBID.Cell.Post);
         
@@ -30,10 +27,6 @@ class FeedTableViewController: UITableViewController {
         indicator = initActivityIndicator(onView: view)
         refreshFeed();
         navigationController?.restoreHairline()
-//        navigationController?.shad
-//        self.navigationBar.shadowColor = UIColor.blackColor().CGColor
-//        self.navigationBar.shadowOffset = CGSizeMake(5, 5)
-//        self.navigationBar.shadowRadius = 5
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,36 +71,8 @@ class FeedTableViewController: UITableViewController {
     // MARK: - TableView Delegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("post was tapped")
-        selectedPostIndex = indexPath.row;
+        //do nothing
     }
-    
-//    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        if let tableCell = cell as? PostCell {
-//            tableCell.backgroundBubbleView.layer.addSublayer(tableCell.getLeftTriangleSublayer())
-//        }
-//    }
-//    
-//    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        cell.layer.sublayers?.removeLast()
-//    }
-    
-//    //https://stackoverflow.com/questions/30650343/triangle-uiview-swift
-//    func getLeftTriangleSublayer() -> CALayer {
-//        let heightWidth = backgroundBubbleView.frame.size.width / 6
-//        let bottom = backgroundBubbleView.frame.size.height
-//
-//        let path = CGMutablePath()
-//        path.move(to: CGPoint(x: -10, y: bottom))
-//        path.addLine(to: CGPoint(x:0, y: bottom - heightWidth))
-//        path.addLine(to: CGPoint(x:20, y:bottom))
-//        path.addLine(to: CGPoint(x:-10, y:bottom))
-//        let shape = CAShapeLayer()
-//        shape.path = path
-//        shape.fillColor = mistSecondaryUIColor().cgColor
-//
-//        return shape
-//     }
 }
 
 

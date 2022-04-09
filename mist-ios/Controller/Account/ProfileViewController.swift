@@ -8,22 +8,36 @@
 import UIKit
 
 class ProfileViewController: UIViewController {
+    
+    var username: String!
+    var profile: Profile?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    //MARK: User Interaction
+    
+    @IBAction func cancelButtonDidPressed(_ sender: UIButton) {
+        dismiss(animated: true)
     }
-    */
+    
+    @IBAction func moreButtonDidPressed(_ sender: UIButton) {
+        
+    }
+    
+    //MARK: -Db Calls
+    
+    //TODO: need to load if this user is friends with current user
+    func loadProfile() {
+        Task {
+            do {
+                let profiles = try await ProfileAPI.fetchProfiles(text: username)
+                profile = profiles[0]
+            } catch {
+                print(error)
+            }
+        }
+    }
 
 }

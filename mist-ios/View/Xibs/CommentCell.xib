@@ -17,10 +17,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PKG-OD-T7w">
-                        <rect key="frame" x="61" y="27.5" width="314" height="71.5"/>
+                        <rect key="frame" x="66" y="27.5" width="309" height="71.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="omg so cute @kevinsun did you dm them" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cd9-6T-PPr">
-                                <rect key="frame" x="12" y="5" width="290" height="52"/>
+                                <rect key="frame" x="12" y="5" width="285" height="52"/>
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="19"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -35,15 +35,15 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="@adamvnovak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Miy-mz-pTZ">
-                        <rect key="frame" x="73" y="4.5" width="93.5" height="20"/>
+                        <rect key="frame" x="78" y="4.5" width="93.5" height="20"/>
                         <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="14"/>
                         <color key="textColor" systemColor="systemGrayColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IXa-b6-del">
-                        <rect key="frame" x="15" y="64" width="35" height="35"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IXa-b6-del">
+                        <rect key="frame" x="15" y="56" width="40" height="40"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="35" id="4cL-Uh-zOV"/>
+                            <constraint firstAttribute="width" constant="40" id="4cL-Uh-zOV"/>
                             <constraint firstAttribute="width" secondItem="IXa-b6-del" secondAttribute="height" id="kWA-k9-wm9"/>
                         </constraints>
                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -60,7 +60,7 @@
                     <constraint firstAttribute="trailing" secondItem="PKG-OD-T7w" secondAttribute="trailing" constant="15" id="cq8-sj-h09"/>
                     <constraint firstItem="Miy-mz-pTZ" firstAttribute="top" secondItem="41s-gV-vCI" secondAttribute="top" constant="4.5" id="hQd-ct-Cql"/>
                     <constraint firstAttribute="bottom" secondItem="PKG-OD-T7w" secondAttribute="bottom" constant="7" id="hXY-9y-dWQ"/>
-                    <constraint firstItem="IXa-b6-del" firstAttribute="bottom" secondItem="PKG-OD-T7w" secondAttribute="bottom" id="k8i-lG-01o"/>
+                    <constraint firstItem="IXa-b6-del" firstAttribute="bottom" secondItem="PKG-OD-T7w" secondAttribute="bottom" constant="-3" id="k8i-lG-01o"/>
                     <constraint firstItem="Miy-mz-pTZ" firstAttribute="leading" secondItem="cd9-6T-PPr" secondAttribute="leading" id="kqc-xM-FX7"/>
                 </constraints>
             </tableViewCellContentView>

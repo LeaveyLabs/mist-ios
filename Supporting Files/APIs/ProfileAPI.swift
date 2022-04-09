@@ -14,4 +14,5 @@ class ProfileAPI {
         let data = try await BasicAPI.fetch(url:url)
         return try JSONDecoder().decode([Profile].self, from: data)
     }
+    
 }

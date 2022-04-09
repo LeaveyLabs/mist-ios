@@ -23,6 +23,7 @@ class PinMapViewController: MapViewController {
         if let previousAnnotation = pinnedAnnotation {
             displayedAnnotations = [previousAnnotation]
         }
+        applyShadowOnView(topBannerView)
     }
     
     //MARK: -Navigation
@@ -45,7 +46,7 @@ class PinMapViewController: MapViewController {
                 pinnedAnnotation = BridgeAnnotation(justWithCoordinate: coordinate)
                 displayedAnnotations?.append(pinnedAnnotation!)
                 
-                centerMapUnderPostAt(lat: coordinate.latitude, long: coordinate.longitude)
+                centerMapUnderPostAt(lat: coordinate.latitude - 0.0007, long: coordinate.longitude)
                 presentModal()
             }
         }

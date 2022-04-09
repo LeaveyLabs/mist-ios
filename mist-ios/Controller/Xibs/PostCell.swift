@@ -252,8 +252,6 @@ class PostCell: UITableViewCell {
                 Post in feedVC.tableView.reloadData()
             }
             feedVC.navigationController!.pushViewController(postVC, animated: true)
-        } else {
-            //parentViewController is a PostViewController, so don't do anything
         }
     }
 }

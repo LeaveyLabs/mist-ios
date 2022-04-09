@@ -13,8 +13,6 @@ class MapViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     var mapModal: MapModalViewController?
     var postView: UIView?
-    @IBOutlet weak var dateSliderOuterView: UIView!
-    @IBOutlet weak var dateSliderView: UIView!
 
     var allAnnotations: [BridgeAnnotation]?
     
@@ -36,10 +34,6 @@ class MapViewController: UIViewController {
         navigationController?.restoreHairline()
         centerMapOnUSC()
         registerMapAnnotationViews()
-        
-        dateSliderView.layer.cornerRadius = 10
-        dateSliderOuterView.layer.cornerRadius = 10
-        applyShadowOnView(dateSliderOuterView)
 
         mapView.delegate = self
         allAnnotations = []

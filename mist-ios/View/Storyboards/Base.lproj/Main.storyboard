@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rpu-Fr-VCm">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
@@ -11,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Feed Table View Controller-->
+        <!--Explore Feed View Controller-->
         <scene sceneID="5af-xZ-j76">
             <objects>
-                <tableViewController storyboardIdentifier="FeedTableViewController" id="PIG-aq-dDv" customClass="FeedTableViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="FeedTableViewController" id="PIG-aq-dDv" customClass="ExploreFeedViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="vQU-P0-Nw6">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -30,6 +29,7 @@
                             <barButtonItem title="Item" image="person.circle" catalog="system" style="plain" id="CC6-7S-G3I">
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
+                                    <action selector="myProfileButtonDidTapped:" destination="PIG-aq-dDv" id="ONE-MW-Ih0"/>
                                     <segue destination="lDn-Mg-oMk" kind="show" id="JYn-V1-rsO"/>
                                 </connections>
                             </barButtonItem>
@@ -49,6 +49,9 @@
                             </barButtonItem>
                             <barButtonItem image="magnifyingglass" catalog="system" id="vQI-J9-USo">
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="searchButtonDidPressed:" destination="PIG-aq-dDv" id="WJ5-Jp-2NZ"/>
+                                </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
@@ -174,7 +177,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="TKg-Ef-Yxd">
-                        <barButtonItem key="leftBarButtonItem" image="arrow.backward" catalog="system" id="feH-Dn-bHc">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="feH-Dn-bHc">
                             <connections>
                                 <action selector="backButtonDidPressed:" destination="L6U-1B-3Sc" id="Fv1-8p-pJD"/>
                             </connections>
@@ -192,7 +195,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yu9-Lz-qJX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1689" y="891"/>
+            <point key="canvasLocation" x="1686" y="882"/>
         </scene>
         <!--Sort By View Controller-->
         <scene sceneID="fBY-5v-0Ea">
@@ -642,10 +645,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aku-Al-M1Y">
-                                <rect key="frame" x="28.333333333333343" y="107" width="333.33333333333326" height="52"/>
+                                <rect key="frame" x="29" y="107" width="332.33333333333331" height="52"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="📍 Drop a pin for your missed connection" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZN2-2s-P5g">
-                                        <rect key="frame" x="8" y="14" width="317.33333333333331" height="24"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="📍 Drop a pin on your missed connection" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZN2-2s-P5g">
+                                        <rect key="frame" x="8" y="14" width="316.33333333333331" height="24"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -1247,10 +1250,10 @@
             </objects>
             <point key="canvasLocation" x="-789" y="1275"/>
         </scene>
-        <!--Explore View Controller-->
+        <!--Explore Map View Controller-->
         <scene sceneID="TZO-up-DfC">
             <objects>
-                <viewController id="oJQ-b2-Es1" customClass="ExploreViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="oJQ-b2-Es1" customClass="ExploreMapViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="K85-Np-RZT">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1514,66 +1517,83 @@ You can message people in two ways: 
             </objects>
             <point key="canvasLocation" x="1633.8461538461538" y="-127.25118483412322"/>
         </scene>
-        <!--View Controller-->
+        <!--Profile View Controller-->
         <scene sceneID="KxK-kh-BBG">
             <objects>
-                <viewController id="KKi-Sx-eAl" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileViewController" id="KKi-Sx-eAl" customClass="ProfileViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zDM-BA-NN5">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="onp-GH-hco" customClass="RoundedImageView" customModule="mist_ios" customModuleProvider="target">
-                                <rect key="frame" x="95" y="44" width="200" height="200"/>
+                                <rect key="frame" x="124" y="66" width="143" height="158"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Adam Novak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDh-hd-9ul">
-                                <rect key="frame" x="104" y="257" width="182" height="41"/>
+                                <rect key="frame" x="104" y="222" width="182" height="41"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="@adamvnovak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W3a-GG-5aG">
-                                <rect key="frame" x="137" y="306" width="116" height="25"/>
+                                <rect key="frame" x="137" y="266" width="116" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iaB-dd-3Tv">
-                                <rect key="frame" x="6" y="13" width="75" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="ellipsis" catalog="system"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iaB-dd-3Tv">
+                                <rect key="frame" x="335" y="59" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="iaB-dd-3Tv" secondAttribute="height" multiplier="1:1" id="4TX-Xj-1ce"/>
+                                    <constraint firstAttribute="height" constant="40" id="784-dP-hCJ"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="ellipsis" catalog="system"/>
+                                <connections>
+                                    <action selector="moreButtonDidPressed:" destination="KKi-Sx-eAl" eventType="touchUpInside" id="xQ1-C2-dqT"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ytd-X7-2hj">
-                                <rect key="frame" x="315" y="13" width="75" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="xmark" catalog="system"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ytd-X7-2hj">
+                                <rect key="frame" x="15" y="59" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="T6R-qW-tFv"/>
+                                    <constraint firstAttribute="width" secondItem="Ytd-X7-2hj" secondAttribute="height" multiplier="1:1" id="faK-d4-dxB"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="xmark" catalog="system">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="cancelButtonDidPressed:" destination="KKi-Sx-eAl" eventType="touchUpInside" id="3PM-uu-MBo"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iYr-eL-glx">
-                                <rect key="frame" x="211" y="362" width="103" height="39"/>
+                                <rect key="frame" x="116" y="320" width="158" height="46"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="gray" title="Ignore"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cfd-yt-3RE">
-                                <rect key="frame" x="74" y="367" width="105" height="39"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Accept"/>
+                                <buttonConfiguration key="configuration" style="tinted" image="person.crop.circle.badge.plus" catalog="system" title="Add Friend" imagePadding="6">
+                                    <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
+                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="sJV-Uf-tOy"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Ytd-X7-2hj" firstAttribute="leading" secondItem="sJV-Uf-tOy" secondAttribute="leading" constant="15" id="27W-Nd-rOY"/>
+                            <constraint firstItem="iaB-dd-3Tv" firstAttribute="top" secondItem="sJV-Uf-tOy" secondAttribute="top" constant="15" id="UKh-tl-4F5"/>
+                            <constraint firstItem="Ytd-X7-2hj" firstAttribute="top" secondItem="zDM-BA-NN5" secondAttribute="topMargin" constant="15" id="nQr-Nr-Lrb"/>
+                            <constraint firstAttribute="trailing" secondItem="iaB-dd-3Tv" secondAttribute="trailing" constant="15" id="x1r-tE-ezi"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Mk0-Kw-vGC"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EmX-wU-zZ9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2562" y="891"/>
+            <point key="canvasLocation" x="2561.5384615384614" y="890.75829383886253"/>
         </scene>
         <!--Shadow Navigation Controller-->
         <scene sceneID="B0b-vf-o9k">
@@ -2526,7 +2546,6 @@ You can message people in two ways: 
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
     <resources>
         <image name="adam" width="893" height="880"/>
-        <image name="arrow.backward" catalog="system" width="128" height="98"/>
         <image name="arrow.turn.right.up" catalog="system" width="120" height="128"/>
         <image name="arrow.upright.circle" catalog="system" width="128" height="121"/>
         <image name="at" catalog="system" width="128" height="124"/>
@@ -2555,6 +2574,7 @@ You can message people in two ways: 
         <image name="mist-heart" width="190" height="176"/>
         <image name="person.2" catalog="system" width="128" height="81"/>
         <image name="person.circle" catalog="system" width="128" height="121"/>
+        <image name="person.crop.circle.badge.plus" catalog="system" width="128" height="113"/>
         <image name="plus.bubble" catalog="system" width="128" height="110"/>
         <image name="sparkles" catalog="system" width="112" height="128"/>
         <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
