@@ -26,10 +26,11 @@ class EnterCodeViewController: UIViewController {
             Task {
                 do {
                     // Check if the code's valid
-                    if(try await AuthAPI.validateEmail(email: email, code: code)) {
+                    if(try await AuthAPI.validateEmail(email: AuthContext.AuthVariables.email, code: code)) {
+                        print("attempting to proceed")
                         // If so, move onto the next screen
-                        let vc = WelcomeTutorialViewController(nibName: "WelcomeTutorialViewController", bundle: nil)
-                        navigationController?.pushViewController(vc, animated: true)
+                        let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: "WelcomeTutorialViewController");
+                        self.navigationController?.pushViewController(vc, animated: true)
                     }
                 } catch {
                     print(error);

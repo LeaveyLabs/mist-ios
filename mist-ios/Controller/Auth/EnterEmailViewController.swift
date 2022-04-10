@@ -7,6 +7,16 @@
 
 import UIKit
 
+class AuthContext {
+    struct AuthVariables : Codable {
+        static var username: String = "";
+        static var email: String = "";
+        static var password: String = "";
+        static var firstName: String = "";
+        static var lastName: String = "";
+    }
+}
+
 class EnterEmailViewController: UIViewController {
 
     @IBOutlet weak var enterEmailField: UITextField!
@@ -31,9 +41,7 @@ class EnterEmailViewController: UIViewController {
                     // Send a validation email
                     if(try await AuthAPI.registerEmail(email: email)) {
                         // Move to the next code view
-                        let vc = EnterCodeViewController(nibName: "EnterCodeViewController", bundle: nil)
-                        vc.email = email
-                        navigationController?.pushViewController(vc, animated: true)
+                        AuthContext.AuthVariables.email = email
                     }
                 } catch {
                     print(error);
