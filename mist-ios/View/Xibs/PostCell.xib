@@ -121,36 +121,47 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <stackView opaque="NO" contentMode="scaleToFill" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="n8o-JP-5oD" userLabel="MetaDataStackView">
-                        <rect key="frame" x="32" y="30" width="259.5" height="20"/>
+                        <rect key="frame" x="27" y="30" width="301" height="20"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mappin" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="nDH-C7-6Wh">
-                                <rect key="frame" x="0.0" y="-0.5" width="16.5" height="20"/>
+                                <rect key="frame" x="0.0" y="-0.5" width="20" height="20"/>
                                 <color key="tintColor" systemColor="systemGrayColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="nDH-C7-6Wh" secondAttribute="height" id="Ia6-ub-U6w"/>
+                                    <constraint firstAttribute="width" constant="20" id="d60-Go-BZX"/>
+                                </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Doheny Library" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3MG-v5-ysu">
-                                <rect key="frame" x="19.5" y="0.0" width="117.5" height="20"/>
-                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Doheny Library" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3MG-v5-ysu">
+                                <rect key="frame" x="23" y="0.0" width="104" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="9MP-qA-ahg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
                                 <color key="textColor" systemColor="systemGrayColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3va-dU-rZN">
-                                <rect key="frame" x="140" y="0.0" width="10" height="20"/>
+                                <rect key="frame" x="130" y="0.0" width="5" height="20"/>
                                 <color key="backgroundColor" red="0.96078431369999995" green="0.94117647059999998" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="10" id="yrM-Dk-bVw"/>
+                                    <constraint firstAttribute="width" constant="5" id="yrM-Dk-bVw"/>
                                 </constraints>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="hN0-M6-jdi">
-                                <rect key="frame" x="153" y="0.5" width="20" height="19"/>
+                                <rect key="frame" x="138" y="0.5" width="20" height="19"/>
                                 <color key="tintColor" systemColor="systemGrayColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="74j-rd-JPw"/>
+                                    <constraint firstAttribute="width" secondItem="hN0-M6-jdi" secondAttribute="height" multiplier="1:1" id="dg8-Vy-5Y1"/>
                                 </constraints>
                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="regular"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 days ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="haP-wb-gH9">
-                                <rect key="frame" x="176" y="0.0" width="83.5" height="20"/>
-                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
+                                <rect key="frame" x="161" y="0.0" width="140" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="140" id="6wc-qS-NNZ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
                                 <color key="textColor" systemColor="systemGrayColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -173,7 +184,8 @@
                     <constraint firstItem="dmp-d9-CyM" firstAttribute="leading" secondItem="3D0-wG-HoM" secondAttribute="trailing" constant="-36" id="7yM-zd-SEU"/>
                     <constraint firstItem="a7y-a8-nTM" firstAttribute="top" secondItem="n8o-JP-5oD" secondAttribute="bottom" constant="20" id="Ehb-Ep-QOU"/>
                     <constraint firstItem="3D0-wG-HoM" firstAttribute="top" secondItem="gGS-gG-AEq" secondAttribute="top" constant="15" id="GtA-Oo-BXU"/>
-                    <constraint firstItem="n8o-JP-5oD" firstAttribute="leading" secondItem="a7y-a8-nTM" secondAttribute="leading" id="S9h-Nw-ktC"/>
+                    <constraint firstItem="n8o-JP-5oD" firstAttribute="leading" secondItem="a7y-a8-nTM" secondAttribute="leading" constant="-5" id="S9h-Nw-ktC"/>
+                    <constraint firstItem="dmp-d9-CyM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="n8o-JP-5oD" secondAttribute="trailing" id="SVn-0Y-v8u"/>
                     <constraint firstItem="3D0-wG-HoM" firstAttribute="top" secondItem="n8o-JP-5oD" secondAttribute="bottom" constant="-35" id="WAu-sl-4eh"/>
                     <constraint firstAttribute="trailing" secondItem="3D0-wG-HoM" secondAttribute="trailing" constant="15" identifier="rightBubbleConstraint" id="WKM-VY-2im"/>
                     <constraint firstItem="3D0-wG-HoM" firstAttribute="leading" secondItem="gGS-gG-AEq" secondAttribute="leading" constant="15" identifier="leftBubbleConstraint" id="a3x-SK-nuN"/>

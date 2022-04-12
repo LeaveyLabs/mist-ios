@@ -35,29 +35,75 @@ extension TimeInterval{
 //TODO check for more cases if time was even longer
 func getFormattedTimeString(postTimestamp: Double) -> String {
     let elapsedTimeSincePost = NSDate().timeIntervalSince1970.getElapsedTime(since: postTimestamp)
-    var timeToPrint = ""
+    
+    //if the post happened very recently
     if elapsedTimeSincePost.days == 0 && elapsedTimeSincePost.hours == 0 && elapsedTimeSincePost.minutes == 0 {
-        timeToPrint = "Just seconds"
+        return "Seconds ago"
     } else if elapsedTimeSincePost.hours == 0 {
         if (elapsedTimeSincePost.minutes == 1) {
-            timeToPrint = String(elapsedTimeSincePost.minutes) + " minute"
+            return String(elapsedTimeSincePost.minutes) + " minute ago"
         } else {
-            timeToPrint = String(elapsedTimeSincePost.minutes) + " minutes"
+            return String(elapsedTimeSincePost.minutes) + " minutes ago"
         }
-    } else if elapsedTimeSincePost.days == 0 {
-        timeToPrint = String(elapsedTimeSincePost.hours) + " hours"
-    } else if elapsedTimeSincePost.days > 30 {
+    }
+    //if the post happened today
+    else if getDayOfWeek(currentTimeMillis: postTimestamp) == getDayOfWeek(currentTimeMillis: currentTimeMillis()) {
+        if (elapsedTimeSincePost.hours == 0) {
+            return String(elapsedTimeSincePost.hours) + " hour ago"
+        } else {
+            return String(elapsedTimeSincePost.hours) + " hours ago"
+        }
+    }
+    //if the post happened within the last week
+    else if elapsedTimeSincePost.days < 7 {
+        return getRecentFormattedDate(currentTimeMillis: postTimestamp)
+    }
+    //if the post happened longer than a week ago
+    else {
         return getFormattedDate(currentTimeMillis: postTimestamp)
     }
-    return timeToPrint + " ago"
 }
 
+//types of dates:
+//45 seconds ago
+//10 minutes ago
+//2 hours ago
+//Yesterday, 4:59pm
+//Last Sun, 4:59pm
+//Last Fri, 4:59pm
+//Apr 4 at 4:59pm
 
+//date formatting reference: https://stackoverflow.com/questions/35700281/date-format-in-swift
 func getFormattedDate(currentTimeMillis: Double) -> String {
     let myTimeInterval = TimeInterval(currentTimeMillis)
     let thedate = Date(timeIntervalSince1970: myTimeInterval)
-    
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "dd-MM-yyyy"
+    dateFormatter.locale = Locale(identifier: "en_US")
+    dateFormatter.dateFormat = "MMM d"
+    
+    let timeFormatter = DateFormatter()
+    timeFormatter.locale = Locale(identifier: "en_US")
+    timeFormatter.dateFormat = "h:mma"
+    
+    return dateFormatter.string(from: thedate) + ", " + timeFormatter.string(from: thedate).replacingOccurrences(of: "AM", with: "am").replacingOccurrences(of: "PM", with: "pm")
+}
+
+func getRecentFormattedDate(currentTimeMillis: Double) -> String {
+    let myTimeInterval = TimeInterval(currentTimeMillis)
+    let thedate = Date(timeIntervalSince1970: myTimeInterval)
+    let dateFormatter = DateFormatter()
+    dateFormatter.locale = Locale(identifier: "en_US")
+    dateFormatter.dateFormat = "E, h:mma"
+    
+    return "Last " + dateFormatter.string(from: thedate).replacingOccurrences(of: "AM", with: "am").replacingOccurrences(of: "PM", with: "pm")
+}
+
+func getDayOfWeek(currentTimeMillis: Double) -> String {
+    let myTimeInterval = TimeInterval(currentTimeMillis)
+    let thedate = Date(timeIntervalSince1970: myTimeInterval)
+    let dateFormatter = DateFormatter()
+    dateFormatter.locale = Locale(identifier: "en_US")
+    dateFormatter.dateFormat = "E"
+    
     return dateFormatter.string(from: thedate)
 }

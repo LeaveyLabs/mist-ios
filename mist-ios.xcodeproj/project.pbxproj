@@ -451,8 +451,8 @@
 			isa = PBXGroup;
 			children = (
 				47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */,
-				43770C4927EE8BED00F31CCF /* Auth */,
 				47A3D71E27D598B6003DBEA5 /* TabBarController.swift */,
+				43770C4927EE8BED00F31CCF /* Auth */,
 				475B1F8927FB868300ED59CD /* Messages */,
 				47F4EFD127E10C1300861F30 /* Post */,
 				47EA3DFE27E013DD00381218 /* Map */,
