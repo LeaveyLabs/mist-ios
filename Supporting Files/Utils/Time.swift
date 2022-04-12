@@ -103,7 +103,30 @@ func getDayOfWeek(currentTimeMillis: Double) -> String {
     let thedate = Date(timeIntervalSince1970: myTimeInterval)
     let dateFormatter = DateFormatter()
     dateFormatter.locale = Locale(identifier: "en_US")
-    dateFormatter.dateFormat = "E"
+    dateFormatter.dateFormat = "EEEE"
     
     return dateFormatter.string(from: thedate)
 }
+
+//UISlider
+func getDateFromSlider(indexFromOneToSeven index: Float) -> String {
+    if index >= 6 {
+        return "Today"
+    }
+    if index >= 5 {
+        return "Yesterday"
+    }
+    let millisecondsAgo: Double = Double(floor(7 - index) * 86400000.0)
+    let dateString = getDayOfWeek(currentTimeMillis: currentTimeMillis() + millisecondsAgo)
+    
+//    let timeofday = index.truncatingRemainder(dividingBy: 1)
+//    if timeofday < 0.33 {
+//        dateString += " morning"
+//    } else if timeofday < 0.67 {
+//        dateString += " afternoon"
+//    } else {
+//        dateString += " evening"
+//    }
+    return dateString
+}
+

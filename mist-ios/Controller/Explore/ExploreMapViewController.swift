@@ -19,6 +19,7 @@ class ExploreMapViewController: MapViewController {
     @IBOutlet weak var mistTitle: UIView!
     @IBOutlet weak var dateSliderOuterView: UIView!
     @IBOutlet weak var dateSliderView: UIView!
+    @IBOutlet weak var dateLabel: UILabel!
     
     //ExploreViewController
     var mySearchController: UISearchController!
@@ -48,6 +49,13 @@ class ExploreMapViewController: MapViewController {
         dateSliderOuterView.layer.cornerRadius = 10
         applyShadowOnView(dateSliderOuterView)
     }
+    
+    //MARK: -User Interaction
+    
+    @IBAction func sliderValueDidChanged(_ sender: UISlider) {
+        dateLabel.text = getDateFromSlider(indexFromOneToSeven: sender.value)
+    }
+    
     
     //MARK: -Map
     

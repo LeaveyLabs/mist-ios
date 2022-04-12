@@ -1314,8 +1314,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LQe-yl-aWL">
                                 <rect key="frame" x="10" y="98" width="370" height="84"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yesterday morning" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6UK-Av-qLn">
-                                        <rect key="frame" x="155" y="7" width="176" height="28"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6UK-Av-qLn">
+                                        <rect key="frame" x="155" y="7" width="55.333333333333343" height="28"/>
                                         <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -1323,9 +1323,12 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JS3-0M-HMC">
                                         <rect key="frame" x="8" y="37" width="354" height="40"/>
                                         <subviews>
-                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="9Tu-yc-phv">
+                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="7" minValue="1" maxValue="7" translatesAutoresizingMaskIntoConstraints="NO" id="9Tu-yc-phv">
                                                 <rect key="frame" x="6" y="5" width="342" height="31"/>
                                                 <color key="tintColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <connections>
+                                                    <action selector="sliderValueDidChanged:" destination="oJQ-b2-Es1" eventType="valueChanged" id="AOo-mN-QMl"/>
+                                                </connections>
                                             </slider>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemGray6Color"/>
@@ -1400,6 +1403,7 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="dateLabel" destination="6UK-Av-qLn" id="nVX-sE-hG7"/>
                         <outlet property="dateSliderOuterView" destination="LQe-yl-aWL" id="Gs9-hD-nhM"/>
                         <outlet property="dateSliderView" destination="JS3-0M-HMC" id="LuN-Wh-kch"/>
                         <outlet property="mapView" destination="4Ti-Yh-6iG" id="wqV-X2-Kw7"/>
@@ -2589,8 +2593,8 @@ You can message people in two ways: 
         </designable>
     </designables>
     <inferredMetricsTieBreakers>
-        <segue reference="s4S-FT-yxD"/>
-        <segue reference="ezH-Q5-kjf"/>
+        <segue reference="NJ2-fl-H22"/>
+        <segue reference="lgs-vL-nw9"/>
         <segue reference="AdB-Ox-SBJ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
