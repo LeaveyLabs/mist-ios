@@ -192,11 +192,70 @@
                         <outlet property="commentView" destination="CrT-TW-jr0" id="Cdx-cb-h2C"/>
                         <outlet property="postTableView" destination="aTY-DU-uzZ" id="D7P-C8-6Md"/>
                         <segue destination="KKi-Sx-eAl" kind="presentation" id="zGy-DJ-zRX"/>
+                        <segue destination="mRf-M6-X1Q" kind="presentation" modalPresentationStyle="fullScreen" id="FkL-fc-A0k"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yu9-Lz-qJX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1686" y="882"/>
+        </scene>
+        <!--Direct Message-->
+        <scene sceneID="sct-Dt-BWV">
+            <objects>
+                <viewController storyboardIdentifier="NewMessageViewController" id="Mdt-Lg-LrC" customClass="NewMessageViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="63H-L2-JQq">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="0HP-h1-CwR" customClass="RoundedImageView" customModule="mist_ios" customModuleProvider="target">
+                                <rect key="frame" x="36" y="112" width="100" height="100"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="*********" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="st2-j7-9nT">
+                                <rect key="frame" x="23" y="226" width="126" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="@*******" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b47-Hq-NIu">
+                                <rect key="frame" x="51" y="259" width="71" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="The author can see your profile, but you can't see theirs until they choose to reveal themselves. " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="53B-ST-Neq">
+                                <rect key="frame" x="45" y="292" width="300" height="53"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="13"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Sh0-T0-t6I"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Direct Message" id="Pe0-Tw-iI1">
+                        <barButtonItem key="leftBarButtonItem" image="xmark" catalog="system" id="6Xw-SX-yS4">
+                            <connections>
+                                <action selector="xButtonDidPressed:" destination="Mdt-Lg-LrC" id="nUh-kF-SUq"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="ellipsis" catalog="system" id="a5T-Jf-zjD">
+                            <connections>
+                                <action selector="sendButtonDidPressed:" destination="Mdt-Lg-LrC" id="n3M-Rd-aJ8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="authorProfilePic" destination="0HP-h1-CwR" id="I4G-G1-P9f"/>
+                        <outlet property="moreButton" destination="a5T-Jf-zjD" id="qIh-uL-9kB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rij-Yr-z4d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3450.7692307692305" y="1333.649289099526"/>
         </scene>
         <!--Sort By View Controller-->
         <scene sceneID="fBY-5v-0Ea">
@@ -1647,7 +1706,7 @@ You can message people in two ways: 
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EmX-wU-zZ9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2561.5384615384614" y="890.75829383886253"/>
+            <point key="canvasLocation" x="2642" y="657"/>
         </scene>
         <!--Shadow Navigation Controller-->
         <scene sceneID="B0b-vf-o9k">
@@ -2544,10 +2603,31 @@ You can message people in two ways: 
             </objects>
             <point key="canvasLocation" x="2375" y="-127"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="apN-2O-ZVT">
+            <objects>
+                <navigationController storyboardIdentifier="NewMessageNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="mRf-M6-X1Q" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="L2W-df-MfG">
+                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Mdt-Lg-LrC" kind="relationship" relationship="rootViewController" id="zhe-jC-tRj"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ied-jL-EOb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2640" y="1334.3601895734596"/>
+        </scene>
     </scenes>
     <designables>
         <designable name="07D-Yu-0NW">
             <size key="intrinsicContentSize" width="0.0" height="27.333333333333332"/>
+        </designable>
+        <designable name="0HP-h1-CwR">
+            <size key="intrinsicContentSize" width="893" height="880"/>
         </designable>
         <designable name="1NX-Qr-vPe">
             <size key="intrinsicContentSize" width="60.333333333333336" height="34.666666666666664"/>

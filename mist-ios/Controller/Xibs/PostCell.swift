@@ -14,8 +14,15 @@ enum BubbleArrowPosition {
     case right
 }
 
+protocol PostCellDelegate{
+    func likeDidTapped(post: Post)
+    
+}
+
 class PostCell: UITableViewCell {
 
+    
+    
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
@@ -28,6 +35,7 @@ class PostCell: UITableViewCell {
     
     @IBOutlet weak var backgroundBubbleView: UIView!
     
+    var delegate: PostCellDelegate?
     var parentVC: UIViewController!
     var post: Post!
     
@@ -91,7 +99,9 @@ class PostCell: UITableViewCell {
     }
     
     @IBAction func dmButtonDidPressed(_ sender: UIButton) {
-        
+        let newMessageNavVC = parentVC.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewMessageNavigation) as! UINavigationController
+        newMessageNavVC.modalPresentationStyle = .fullScreen
+        parentVC.present(newMessageNavVC, animated: true, completion: nil)
     }
     
     @IBAction func favoriteButtonDidpressed(_ sender: UIButton) {
@@ -104,6 +114,8 @@ class PostCell: UITableViewCell {
 
         }
         favoriteButton.isSelected = !favoriteButton.isSelected
+        
+        delegate?.likeDidTapped(post: post)
     }
     
     @IBAction func moreButtonDidPressed(_ sender: UIButton) {

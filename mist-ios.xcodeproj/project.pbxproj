@@ -40,6 +40,7 @@
 		470F271F27DE9ABE00C6DDAF /* ResultsFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271E27DE9ABE00C6DDAF /* ResultsFeedViewController.swift */; };
 		471F92CF28013F9B0079F8CA /* ExploreFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471F92CE28013F9B0079F8CA /* ExploreFeedViewController.swift */; };
 		471F92D1280159430079F8CA /* SegmentedControlCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471F92D0280159430079F8CA /* SegmentedControlCell.swift */; };
+		47234BED28063D9C0031D7A5 /* NewMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47234BEC28063D9C0031D7A5 /* NewMessageViewController.swift */; };
 		47266AD227FF5531005DEDB1 /* UIView+LoadFromNib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47266AD127FF5531005DEDB1 /* UIView+LoadFromNib.swift */; };
 		47266AD427FF69C9005DEDB1 /* UIViewController+Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47266AD327FF69C9005DEDB1 /* UIViewController+Loading.swift */; };
 		4746508527D83F3E0014217C /* MistUITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746508427D83F3E0014217C /* MistUITextView.swift */; };
@@ -155,6 +156,7 @@
 		470F271E27DE9ABE00C6DDAF /* ResultsFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsFeedViewController.swift; sourceTree = "<group>"; };
 		471F92CE28013F9B0079F8CA /* ExploreFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreFeedViewController.swift; sourceTree = "<group>"; };
 		471F92D0280159430079F8CA /* SegmentedControlCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlCell.swift; sourceTree = "<group>"; };
+		47234BEC28063D9C0031D7A5 /* NewMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageViewController.swift; sourceTree = "<group>"; };
 		47266AD127FF5531005DEDB1 /* UIView+LoadFromNib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+LoadFromNib.swift"; sourceTree = "<group>"; };
 		47266AD327FF69C9005DEDB1 /* UIViewController+Loading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Loading.swift"; sourceTree = "<group>"; };
 		4746508427D83F3E0014217C /* MistUITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistUITextView.swift; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 			isa = PBXGroup;
 			children = (
 				475B1F8A27FB86C000ED59CD /* MessagesViewController.swift */,
+				47234BEC28063D9C0031D7A5 /* NewMessageViewController.swift */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
@@ -317,12 +320,12 @@
 			isa = PBXGroup;
 			children = (
 				479AA1EE27DCE9A700EA0DFC /* PostCell.swift */,
+				47F45FCC27FF51DF00F2187A /* PostView.swift */,
 				4700F8BC27DD807C006C2E08 /* CommentCell.swift */,
 				47E2B1C02800E9EB00131B8D /* MyCommentCell.swift */,
 				470F271627DE758100C6DDAF /* WordResultCell.swift */,
 				470F271A27DE764F00C6DDAF /* UserResultCell.swift */,
 				47C2834D27DED77500A19128 /* QueryCell.swift */,
-				47F45FCC27FF51DF00F2187A /* PostView.swift */,
 			);
 			path = Xibs;
 			sourceTree = "<group>";
@@ -739,6 +742,7 @@
 				4700F8B627DD7BBA006C2E08 /* BasicAPI.swift in Sources */,
 				471F92D1280159430079F8CA /* SegmentedControlCell.swift in Sources */,
 				477A6FD627DFB0450020F864 /* Color.swift in Sources */,
+				47234BED28063D9C0031D7A5 /* NewMessageViewController.swift in Sources */,
 				47A3D71227D57A6D003DBEA5 /* UserService.swift in Sources */,
 				475B1F8F27FBC2D400ED59CD /* UIView+Shadow.swift in Sources */,
 				475B1F8D27FBAB2F00ED59CD /* UIView+Animations.swift in Sources */,

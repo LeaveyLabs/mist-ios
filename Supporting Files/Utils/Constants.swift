@@ -38,7 +38,6 @@ struct Constants {
             static let More = "MoreViewController"
             //NewPost
             static let NewPost = "NewPostViewController"
-            static let NewPostNavigation = "NewPostNavigationController"
             static let Rules = "RulesViewController"
             //Account
             static let Profile = "ProfileViewController"
@@ -51,6 +50,12 @@ struct Constants {
             static let ResultsFeed = "ResultsFeedViewController"
             static let PinMapModal = "PinMapModalViewController"
             static let MapModal = "MapModalViewController"
+            //Messages
+            static let NewMessage = "NewMessageViewController"
+            //Navigation Controllers
+            static let NewMessageNavigation = "NewMessageNavigationController"
+            static let NewPostNavigation = "NewPostNavigationController"
+
         }
         struct Segue {
             static let ToUsernameSetting = "ToUsernameSetting"
