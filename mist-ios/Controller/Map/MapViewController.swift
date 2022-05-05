@@ -34,12 +34,15 @@ class MapViewController: UIViewController {
         navigationController?.restoreHairline()
         centerMapOnUSC()
         registerMapAnnotationViews()
+        
+        //set iniital pitch
+        mapView.camera = MKMapCamera(lookingAtCenter: mapView.centerCoordinate, fromDistance: 4000, pitch: 20, heading: mapView.camera.heading)
 
         mapView.delegate = self
         allAnnotations = []
         showAllAnnotations(self)
 
-        mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: []))
+//        mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: [MKPointOfInterestCategory.cafe, MKPointOfInterestCategory.fitnessCenter, MKPointOfInterestCategory.bakery, MKPointOfInterestCategory.university]))
     }
     
     func registerMapAnnotationViews() {
@@ -99,12 +102,22 @@ extension MapViewController: MKMapViewDelegate {
         //presentModal(annotation: view.annotation! as! BridgeAnnotation) //not using anymore
                 
         //TODO: increase latitudeOffset if the post is really long
+        
         loadPostViewFor(annotation: view.annotation! as! BridgeAnnotation)
 
-        let latitudeOffset = 0.0008
-        centerMapUnderPostAt(lat: view.annotation!.coordinate.latitude + latitudeOffset, long: view.annotation!.coordinate.longitude)
-        mapView.isZoomEnabled = false
-        mapView.isScrollEnabled = false
+        let latitudeOffset = 0.0009
+//        centerMapUnderPostAt(lat: view.annotation!.coordinate.latitude + latitudeOffset, long: view.annotation!.coordinate.longitude)
+//        mapView.isZoomEnabled = false
+//        mapView.isScrollEnabled = false
+        
+        
+        //https://stackoverflow.com/questions/21125573/mkmapcamera-pitch-altitude-function
+        let pinLocation = CLLocationCoordinate2D(latitude: view.annotation!.coordinate.latitude + latitudeOffset, longitude: view.annotation!.coordinate.longitude)
+//        mapView.camera = MKMapCamera(lookingAtCenter: pinLocation, fromDistance: 500, pitch: 0, heading: 0)
+        let rotationCamera = MKMapCamera(lookingAtCenter: pinLocation, fromDistance: 500, pitch: 50, heading: mapView.camera.heading)
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.mapView.camera = rotationCamera
+        }, completion: nil)
     }
     
     func loadPostViewFor(annotation: BridgeAnnotation) {
@@ -128,7 +141,9 @@ extension MapViewController: MKMapViewDelegate {
             newPostView.isHidden = true
             
             //TODO: adjust fadeIn time based on how long the fly will take
-            newPostView.fadeIn()
+            newPostView.fadeIn(duration: 0.1, delay: 0.4) { Bool in
+                
+            }
         }
     }
     

@@ -10,9 +10,12 @@ import UIKit
 class MessagesViewController: UIViewController {
     
     @IBOutlet weak var messagesTableView: UITableView!
+    
+    @IBOutlet weak var mistTitle: UIView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.titleView = mistTitle
 
         // Do any additional setup after loading the view.
     }

@@ -31,6 +31,8 @@ class ExploreMapViewController: MapViewController {
         super.viewDidLoad()
         navigationItem.titleView = mistTitle
         
+
+        
         //ExploreViewController
         loadExploreMapView()
         setupSearchBar()
@@ -75,7 +77,7 @@ class ExploreMapViewController: MapViewController {
             do {
                 let nearbyPosts = try await PostAPI.fetchPosts(latitude: Constants.USC_LAT_LONG.latitude, longitude: Constants.USC_LAT_LONG.longitude)
                 //turn the first ten posts returned into PostAnnotations and add them to the map
-                for index in 0...min(9, nearbyPosts.count-1) {
+                for index in 0...min(10000, nearbyPosts.count-1) {
                     let postAnnotation = BridgeAnnotation(withPost: nearbyPosts[index])
                     allAnnotations?.append(postAnnotation)
                 }
@@ -84,6 +86,26 @@ class ExploreMapViewController: MapViewController {
                 print(error)
             }
         }
+    }
+    
+    //transition from standard to satellite view on zoom in
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        let zoomWidth = mapView.visibleMapRect.size.width
+        let zoomFactor = Int(log2(zoomWidth)) - 9
+        print("...REGION DID CHANGE: ZOOM FACTOR \(zoomFactor)")
+    }
+
+    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        print(mapView.camera.pitch)
+
+//        mapView.alpha = mapView.camera.altitude / 1000 - 0.7
+
+        //        if (mapView.alpha < 0.3) {
+//            mapView.alpha = 1 - mapView.alpha - 0.2
+//            mapView.mapType = MKMapType.satellite
+//        } else {
+//            mapView.mapType = MKMapType.standard
+//        }
     }
     
 }
