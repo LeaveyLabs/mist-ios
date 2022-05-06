@@ -48,7 +48,14 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
       let heightdif: CGFloat = buttonImage.size.height - (self.tabBar.frame.size.height);
 
       if (heightdif < 0){
-          self.centerButton?.center = (self.tabBar.center)
+          //the line below wasnt working...
+//          self.centerButton?.center = (self.tabBar.center)
+          
+          //... so i copied these three lines from the else block below
+          var center: CGPoint = (self.tabBar.center)
+          center.y = center.y - 50
+          self.centerButton?.center = center
+          
       }
       else{
           var center: CGPoint = (self.tabBar.center)

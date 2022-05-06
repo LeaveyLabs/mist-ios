@@ -1609,10 +1609,9 @@
                         <viewLayoutGuide key="safeArea" id="Bm2-uk-dae"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Post" image="submitbutton" id="e0l-3A-dlF">
+                    <tabBarItem key="tabBarItem" title="Post" id="e0l-3A-dlF">
                         <inset key="imageInsets" minX="0.0" minY="45" maxX="0.0" maxY="60"/>
                         <color key="badgeColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <imageReference key="selectedImage" image="submitbutton" symbolScale="default"/>
                     </tabBarItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MSZ-qm-kNZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2490,10 +2489,10 @@ You can message people in two ways: 
                         <barButtonItem key="leftBarButtonItem" image="person.crop.circle" catalog="system" id="KDG-He-KhI">
                             <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <action selector="exitButtonDidPressed:" destination="TZq-b6-4xZ" id="Kr7-uO-b4e"/>
+                                <action selector="myProfileButtonDidTapped:" destination="TZq-b6-4xZ" id="gCb-Al-FGF"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="questionmark.circle" catalog="system" id="fQf-8Z-OUW">
+                        <barButtonItem key="rightBarButtonItem" image="ellipsis" catalog="system" id="fQf-8Z-OUW">
                             <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </barButtonItem>
                     </navigationItem>
@@ -2718,10 +2717,8 @@ You can message people in two ways: 
         <image name="person.2" catalog="system" width="128" height="81"/>
         <image name="person.crop.circle" catalog="system" width="128" height="121"/>
         <image name="person.crop.circle.badge.plus" catalog="system" width="128" height="113"/>
-        <image name="questionmark.circle" catalog="system" width="128" height="121"/>
         <image name="sparkles" catalog="system" width="112" height="128"/>
         <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
-        <image name="submitbutton" width="58" height="57"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

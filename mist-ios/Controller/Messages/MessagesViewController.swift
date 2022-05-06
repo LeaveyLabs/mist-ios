@@ -20,9 +20,12 @@ class MessagesViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    @IBAction func exitButtonDidPressed(_ sender: UIBarButtonItem) {
-        self.dismiss(animated: true)
+    @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
+        let myAccountNavigation = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation)
+        myAccountNavigation.modalPresentationStyle = .fullScreen
+        self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
     }
+    
 }
 
 extension MessagesViewController: UITableViewDelegate {
