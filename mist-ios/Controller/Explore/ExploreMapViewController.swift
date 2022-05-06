@@ -31,8 +31,6 @@ class ExploreMapViewController: MapViewController {
         super.viewDidLoad()
         navigationItem.titleView = mistTitle
         
-
-        
         //ExploreViewController
         loadExploreMapView()
         setupSearchBar()
@@ -88,24 +86,15 @@ class ExploreMapViewController: MapViewController {
         }
     }
     
-    //transition from standard to satellite view on zoom in
+    //updates after each view change is completed
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         let zoomWidth = mapView.visibleMapRect.size.width
-        let zoomFactor = Int(log2(zoomWidth)) - 9
-        print("...REGION DID CHANGE: ZOOM FACTOR \(zoomFactor)")
+//        let zoomFactor = Int(log2(zoomWidth)) - 9
     }
 
+    //updates continuously throughout user drag
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-        print(mapView.camera.pitch)
 
-//        mapView.alpha = mapView.camera.altitude / 1000 - 0.7
-
-        //        if (mapView.alpha < 0.3) {
-//            mapView.alpha = 1 - mapView.alpha - 0.2
-//            mapView.mapType = MKMapType.satellite
-//        } else {
-//            mapView.mapType = MKMapType.standard
-//        }
     }
     
 }
@@ -131,9 +120,9 @@ extension ExploreMapViewController {
     //https://stackoverflow.com/questions/51675063/how-to-present-view-controller-from-left-to-right-in-ios
     //https://github.com/HeroTransitions/Hero
     @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
-        let myProfileVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyProfile) as! MyProfileViewController
-//            self.navigationController?.view.layer.add(CATransition().segueFromLeft(), forKey: nil)
-            self.navigationController?.pushViewController(myProfileVC, animated: true)
+        let myAccountNavigation = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation)
+        myAccountNavigation.modalPresentationStyle = .fullScreen
+        self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
     }
 }
 

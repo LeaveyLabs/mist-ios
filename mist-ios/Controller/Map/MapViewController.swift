@@ -32,28 +32,32 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.restoreHairline()
+        setupMapView()
+
+        allAnnotations = []
+        showAllAnnotations(self)
+    }
+    
+    // MARK: - Setup
+    
+    func setupMapView() {
         centerMapOnUSC()
         registerMapAnnotationViews()
         
         //set iniital pitch
         mapView.camera = MKMapCamera(lookingAtCenter: mapView.centerCoordinate, fromDistance: 4000, pitch: 20, heading: mapView.camera.heading)
-
         mapView.delegate = self
-        allAnnotations = []
-        showAllAnnotations(self)
-
-//        mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: [MKPointOfInterestCategory.cafe, MKPointOfInterestCategory.fitnessCenter, MKPointOfInterestCategory.bakery, MKPointOfInterestCategory.university]))
+        
+        //        mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: [MKPointOfInterestCategory.cafe, MKPointOfInterestCategory.fitnessCenter, MKPointOfInterestCategory.bakery, MKPointOfInterestCategory.university]))
     }
-    
-    func registerMapAnnotationViews() {
-        mapView.register(MKAnnotationView.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(BridgeAnnotation.self))
-    }
-    
-    // MARK: - Setup
     
     func centerMapOnUSC() {
         let region = mapView.regionThatFits(MKCoordinateRegion(center: Constants.USC_LAT_LONG, latitudinalMeters: 1200, longitudinalMeters: 1200))
         mapView.setRegion(region, animated: true)
+    }
+    
+    func registerMapAnnotationViews() {
+        mapView.register(MKAnnotationView.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(BridgeAnnotation.self))
     }
     
     // MARK: - Button Actions

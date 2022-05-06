@@ -55,6 +55,7 @@ struct Constants {
             //Navigation Controllers
             static let NewMessageNavigation = "NewMessageNavigationController"
             static let NewPostNavigation = "NewPostNavigationController"
+            static let MyAccountNavigation = "MyAccountNavigationController"
 
         }
         struct Segue {
@@ -62,6 +63,7 @@ struct Constants {
             static let ToNameSetting = "ToNameSetting"
             static let ToPasswordSetting = "ToPasswordSetting"
             static let ToNotificationsSetting = "ToNotificationsSetting"
+            static let ToListView = "ToListView"
         }
     }
 }
