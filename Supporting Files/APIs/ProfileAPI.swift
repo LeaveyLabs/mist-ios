@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Alamofire
 
 extension NSMutableData {
   func appendString(_ string: String) {
@@ -26,61 +27,27 @@ class ProfileAPI {
         return try JSONDecoder().decode([Profile].self, from: data)
     }
     
-    static func postProfilePic(image:UIImage, profile:Profile) async throws -> Void {
-        /*
-         Taken from: https://www.donnywals.com/uploading-images-and-forms-to-a-server-using-urlsession/
-         */
-        let imageData = image.pngData()!
-        let boundary = "Boundary-\(UUID().uuidString)"
+    static func postProfilePic(image:UIImage, profile:Profile) async throws -> Profile {
+        let imgData = image.pngData()
 
-        var request = URLRequest(url: URL(string: "https://mist-backend.herokuapp.com/api/profiles/\(profile.username)/")!)
-        request.httpMethod = "POST"
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        
-        let httpBody = NSMutableData()
+        let parameters = [
+            "username": profile.username,
+            "first_name": profile.first_name,
+            "last_name": profile.last_name,
+            "user": String(profile.user),
+        ]
 
-        httpBody.appendString(convertFormField(named: "username", value: profile.username, using: boundary))
-        httpBody.appendString(convertFormField(named: "first_name", value: profile.first_name, using: boundary))
-        httpBody.appendString(convertFormField(named: "last_name", value: profile.last_name, using: boundary))
-
-        httpBody.append(convertFileData(fieldName: "picture",
-                                        fileName: "\(profile.username).png",
-                                        mimeType: "image/png",
-                                        fileData: imageData,
-                                        using: boundary))
-
-        httpBody.appendString("--\(boundary)--")
-
-        request.httpBody = httpBody as Data
-
-        print(String(data: httpBody as Data, encoding: .utf8)!)
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-          // handle the response here
-        }.resume()
-        
+        let request = AF.upload(
+            multipartFormData:
+                { multipartFormData in
+                    multipartFormData.append(imgData!, withName: "picture", fileName: "\(profile.username).png", mimeType: "image/png")
+                       for (key, value) in parameters {
+                            multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
+                        }
+                },
+            to: "http://127.0.0.1:8000/api/profiles/kevinsun/",
+            method: .put
+        )
+        return try await request.serializingDecodable(Profile.self).value
     }
-    
-    private static func convertFormField(named name: String, value: String, using boundary: String) -> String {
-        var fieldString = "--\(boundary)\r\n"
-        fieldString += "Content-Disposition: form-data; name=\"\(name)\"\r\n"
-        fieldString += "\r\n"
-        fieldString += "\(value)\r\n"
-
-      return fieldString
-    }
-    
-    private static func convertFileData(fieldName: String, fileName: String, mimeType: String, fileData: Data, using boundary: String) -> Data {
-        let data = NSMutableData()
-
-        data.appendString("--\(boundary)\r\n")
-        data.appendString("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(fileName)\"\r\n")
-        data.appendString("Content-Type: \(mimeType)\r\n\r\n")
-        data.append(fileData)
-        data.appendString("\r\n")
-
-        return data as Data
-    }
-
-    
 }
