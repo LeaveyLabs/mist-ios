@@ -22,7 +22,7 @@ class PinMapModalViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var reselectButton: UIButton!
     @IBOutlet weak var locationDescriptionTextField: UITextField!
     
-    var annotation: BridgeAnnotation!
+    var annotation: PostAnnotation!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +34,7 @@ class PinMapModalViewController: UIViewController, UITextFieldDelegate {
     }
     
     //create a postVC for a given post. postVC should never exist without a post
-    class func createPinMapModalVCFor(_ annotation: BridgeAnnotation) -> PinMapModalViewController {
+    class func createPinMapModalVCFor(_ annotation: PostAnnotation) -> PinMapModalViewController {
         let pinMapModalVC =
         UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.PinMapModal) as! PinMapModalViewController
         pinMapModalVC.annotation = annotation

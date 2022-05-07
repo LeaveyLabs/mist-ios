@@ -13,7 +13,7 @@ class MapModalViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var containingView: UIView!
     @IBOutlet weak var goToPostButton: UIButton!
     
-    var annotation: BridgeAnnotation!
+    var annotation: PostAnnotation!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +47,7 @@ class MapModalViewController: UIViewController, UITextFieldDelegate {
     }
     
     //create a postVC for a given post. postVC should never exist without a post
-    class func createMapModalVCFor(_ annotation: BridgeAnnotation) -> MapModalViewController {
+    class func createMapModalVCFor(_ annotation: PostAnnotation) -> MapModalViewController {
         let mapModalVC =
         UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.MapModal) as! MapModalViewController
         mapModalVC.annotation = annotation

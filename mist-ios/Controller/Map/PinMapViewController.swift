@@ -8,13 +8,13 @@
 import UIKit
 import MapKit
 
-typealias PinMapCompletionHandler = ((BridgeAnnotation, String) -> Void)
+typealias PinMapCompletionHandler = ((PostAnnotation, String) -> Void)
 
 class PinMapViewController: MapViewController {
 
     var pinMapModal: PinMapModalViewController?
     var completionHandler: PinMapCompletionHandler!
-    var pinnedAnnotation: BridgeAnnotation?
+    var pinnedAnnotation: PostAnnotation?
     @IBOutlet weak var topBannerView: UIView!
     
     override func viewDidLoad() {
@@ -43,10 +43,10 @@ class PinMapViewController: MapViewController {
                 }
                 let point = sender.location(in: mapView)
                 let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
-                pinnedAnnotation = BridgeAnnotation(justWithCoordinate: coordinate)
+                pinnedAnnotation = PostAnnotation(justWithCoordinate: coordinate)
                 displayedAnnotations?.append(pinnedAnnotation!)
                 
-                centerMapUnderPostAt(lat: coordinate.latitude - 0.0007, long: coordinate.longitude)
+                centerMapAt(lat: coordinate.latitude - 0.0007, long: coordinate.longitude)
                 presentModal()
             }
         }

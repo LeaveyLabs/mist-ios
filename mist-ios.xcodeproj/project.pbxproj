@@ -94,7 +94,7 @@
 		47E74E2D27CA100000467A0C /* mist_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E2C27CA100000467A0C /* mist_iosUITests.swift */; };
 		47E74E2F27CA100000467A0C /* mist_iosUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E2E27CA100000467A0C /* mist_iosUITestsLaunchTests.swift */; };
 		47EA3DFB27E0098F00381218 /* UINavigationController+Hairline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3DFA27E0098F00381218 /* UINavigationController+Hairline.swift */; };
-		47EA3E0027E013EB00381218 /* BridgeAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3DFF27E013EB00381218 /* BridgeAnnotation.swift */; };
+		47EA3E0027E013EB00381218 /* PostAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3DFF27E013EB00381218 /* PostAnnotation.swift */; };
 		47EA3E0227E0151200381218 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3E0127E0151200381218 /* MapViewController.swift */; };
 		47EE95FA27F64C00003B351E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE95F927F64C00003B351E /* SettingsViewController.swift */; };
 		47F45FCD27FF51DF00F2187A /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F45FCC27FF51DF00F2187A /* PostView.swift */; };
@@ -214,7 +214,7 @@
 		47E74E2C27CA100000467A0C /* mist_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mist_iosUITests.swift; sourceTree = "<group>"; };
 		47E74E2E27CA100000467A0C /* mist_iosUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mist_iosUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		47EA3DFA27E0098F00381218 /* UINavigationController+Hairline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Hairline.swift"; sourceTree = "<group>"; };
-		47EA3DFF27E013EB00381218 /* BridgeAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeAnnotation.swift; sourceTree = "<group>"; };
+		47EA3DFF27E013EB00381218 /* PostAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAnnotation.swift; sourceTree = "<group>"; };
 		47EA3E0127E0151200381218 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		47EE95F927F64C00003B351E /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		47F45FCC27FF51DF00F2187A /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
@@ -289,12 +289,12 @@
 			isa = PBXGroup;
 			children = (
 				479AA1EF27DCE9A700EA0DFC /* PostCell.xib */,
+				47F45FCE27FF51EB00F2187A /* PostView.xib */,
 				4700F8BD27DD807C006C2E08 /* CommentCell.xib */,
 				47E2B1C12800E9EB00131B8D /* MyCommentCell.xib */,
 				470F271727DE758100C6DDAF /* WordResultCell.xib */,
 				470F271B27DE764F00C6DDAF /* UserResultCell.xib */,
 				47C2834E27DED77500A19128 /* QueryCell.xib */,
-				47F45FCE27FF51EB00F2187A /* PostView.xib */,
 			);
 			path = Xibs;
 			sourceTree = "<group>";
@@ -513,7 +513,7 @@
 				47F4EFD227E118DD00861F30 /* MapModalViewController.swift */,
 				47CE900927E058090004B756 /* PinMapViewController.swift */,
 				47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */,
-				47EA3DFF27E013EB00381218 /* BridgeAnnotation.swift */,
+				47EA3DFF27E013EB00381218 /* PostAnnotation.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -771,7 +771,7 @@
 				43483BB6280251B1001C7C6A /* EnterNameViewController.swift in Sources */,
 				479AA20127DD3F5500EA0DFC /* MistUIButton.swift in Sources */,
 				479AA1FD27DD109F00EA0DFC /* Constants.swift in Sources */,
-				47EA3E0027E013EB00381218 /* BridgeAnnotation.swift in Sources */,
+				47EA3E0027E013EB00381218 /* PostAnnotation.swift in Sources */,
 				4700F8BA27DD7BE3006C2E08 /* Flag.swift in Sources */,
 				47F45FCD27FF51DF00F2187A /* PostView.swift in Sources */,
 				470F271F27DE9ABE00C6DDAF /* ResultsFeedViewController.swift in Sources */,

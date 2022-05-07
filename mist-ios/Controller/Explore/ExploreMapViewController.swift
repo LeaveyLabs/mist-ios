@@ -20,7 +20,7 @@ class ExploreMapViewController: MapViewController {
     @IBOutlet weak var dateSliderOuterView: UIView!
     @IBOutlet weak var dateSliderView: UIView!
     @IBOutlet weak var dateLabel: UILabel!
-    
+        
     //ExploreViewController
     var mySearchController: UISearchController!
     private var resultsTableController: LiveResultsTableViewController!
@@ -74,27 +74,15 @@ class ExploreMapViewController: MapViewController {
         Task {
             do {
                 let nearbyPosts = try await PostAPI.fetchPosts(latitude: Constants.USC_LAT_LONG.latitude, longitude: Constants.USC_LAT_LONG.longitude)
-                //turn the first ten posts returned into PostAnnotations and add them to the map
+                //turn the first 10000..?? lol posts returned into PostAnnotations and add them to the map
                 for index in 0...min(10000, nearbyPosts.count-1) {
-                    let postAnnotation = BridgeAnnotation(withPost: nearbyPosts[index])
-                    allAnnotations?.append(postAnnotation)
+                    let postAnnotation = PostAnnotation(withPost: nearbyPosts[index])
+                    displayedAnnotations?.append(postAnnotation)
                 }
-                showAllAnnotations(self)
             } catch {
                 print(error)
             }
         }
-    }
-    
-    //updates after each view change is completed
-    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        let zoomWidth = mapView.visibleMapRect.size.width
-//        let zoomFactor = Int(log2(zoomWidth)) - 9
-    }
-
-    //updates continuously throughout user drag
-    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-
     }
     
 }
