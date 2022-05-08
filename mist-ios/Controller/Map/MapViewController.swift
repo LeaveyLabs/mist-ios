@@ -11,6 +11,11 @@ import MapKit
 class MapViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
+    private var userTrackingButton: MKUserTrackingButton!
+    
+    // Create a location manager to trigger user tracking
+    private let locationManager = CLLocationManager()
+    
     var mapModal: MapModalViewController?
     var prevZoomFactor: Int = 4
     var prevZoomWidth: Double!
@@ -34,7 +39,8 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.restoreHairline()
         setupMapView()
-        displayedAnnotations = []
+        setupMapButtons()
+        setupLocationManager()
     }
     
     // MARK: - Setup
@@ -43,24 +49,57 @@ class MapViewController: UIViewController {
         mapView.delegate = self
         centerMapOnUSC()
         registerMapAnnotationViews()
+        displayedAnnotations = []
         
-        //set iniital camera pitch (aka camera angle)
+        // Set iniital camera pitch (aka camera angle)
         mapView.camera = MKMapCamera(lookingAtCenter: mapView.centerCoordinate, fromDistance: 4000, pitch: 20, heading: mapView.camera.heading)
         prevZoomWidth = mapView.visibleMapRect.size.width
         prevZoom = mapView.camera.centerCoordinateDistance
-        //remove default pointsOfInterest
+        
+        // Remove default pointsOfInterest
         //mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: [MKPointOfInterestCategory.cafe, MKPointOfInterestCategory.fitnessCenter, MKPointOfInterestCategory.bakery, MKPointOfInterestCategory.university]))
     }
     
     func registerMapAnnotationViews() {
-        mapView.register(PostMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(PostAnnotation.self))
+        mapView.register(PostMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        mapView.register(ClusterAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
+    }
+    
+    private func setupMapButtons() {
+        userTrackingButton = MKUserTrackingButton(mapView: mapView)
+        userTrackingButton.isHidden = false // Unhides when location authorization is given.
+        userTrackingButton.translatesAutoresizingMaskIntoConstraints = false
+        userTrackingButton.tintColor = .blue
+        mapView.tintColor = .blue
+        view.addSubview(userTrackingButton)
+        
+        NSLayoutConstraint.activate(
+            [userTrackingButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -30),
+             userTrackingButton.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -10),
+            ])
+    }
+    
+    private func setupLocationManager(){
+        mapView.showsUserLocation = true
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
     }
 }
 
 //https://developer.apple.com/documentation/mapkit/mkmapviewdelegate
 extension MapViewController: MKMapViewDelegate {
-    
+        
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if view.annotation is MKUserLocation {
+            mapView.userLocation.title = "bro what the fuck are you doing"
+            mapView.userLocation.subtitle = "mepp"
+            mapView.deselectAnnotation(view.annotation, animated: false)
+            //TODO: add a jab to the user when clicking on current location. it seems like "title" no longer works
+            print(mapView.userLocation.title)
+            return
+         }
+        
         if let view = view as? PostMarkerAnnotationView {
             view.glyphTintColor = mistUIColor() //this is needed bc for some reason the glyph tint color turns grey even with the mist-heart-pink icon
             view.markerTintColor = mistSecondaryUIColor()
@@ -71,16 +110,17 @@ extension MapViewController: MKMapViewDelegate {
         }
     }
     
-    
     func loadPostViewFor(annotationView: PostMarkerAnnotationView) {
         let annotation = annotationView.annotation as! PostAnnotation
         let cell = Bundle.main.loadNibNamed(Constants.SBID.Cell.Post, owner: self, options: nil)?[0] as! PostCell
         if let mapModalPost = annotation.post {
             cell.configurePostCell(post: mapModalPost, parent: self, bubbleArrowPosition: .bottom)
         }
-        
-        
         let postView: UIView? = cell.contentView
+
+        //extract post from PostView.xib
+//        let postViewFromViewNib = Bundle.main.loadNibNamed(Constants.SBID.View.Post, owner: self, options: nil)?[0] as? PostView
+        
         if let newPostView = postView {
             newPostView.tag = 999
             newPostView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
@@ -93,7 +133,8 @@ extension MapViewController: MKMapViewDelegate {
             ])
             newPostView.alpha = 0
             newPostView.isHidden = true
-            
+
+            //this duration of delay + transition is probably where the problem is
             //this duration should be .1 seconds longer than the zoom-in, that way the camera surely does not move anymore once hasPostRendered = true
             newPostView.fadeIn(duration: 0.11, delay: Double(prevZoomFactor)/10 ) { [self] Bool in
                 hasPostRendered = true
@@ -120,31 +161,13 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     // The map view asks `mapView(_:viewFor:)` for an appropiate annotation view (the little mist heart) for a specific annotation.
+    // This function is not actually needed, since annotationView setup is now taken care of within the annotationView subclass
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard !annotation.isKind(of: MKUserLocation.self) else {
-            // Make a fast exit if the annotation is the `MKUserLocation`, as it's not an annotation view we wish to customize.
+        if annotation is MKUserLocation {
+            return nil
+        } else {
             return nil
         }
-        
-        var annotationView: MKAnnotationView?
-        if let annotation = annotation as? PostAnnotation {
-            annotationView = setupPostAnnotationView(for: annotation, on: mapView)
-        }
-        return annotationView
-    }
-    
-    // Create an annotation view for the Golden Gate Bridge, customize the color, and add a button to the callout.
-    func setupPostAnnotationView(for annotation: PostAnnotation, on mapView: MKMapView) -> MKAnnotationView {
-        let identifier = NSStringFromClass(PostAnnotation.self)
-        let view = mapView.dequeueReusableAnnotationView(withIdentifier: identifier, for: annotation)
-        if let markerAnnotationView = view as? PostMarkerAnnotationView {
-            markerAnnotationView.animatesWhenAdded = true
-            markerAnnotationView.canShowCallout = false
-            markerAnnotationView.markerTintColor = mistUIColor()
-            markerAnnotationView.glyphImage = UIImage(named: "mist-heart-pink-padded")
-//            markerAnnotationView.selectedGlyphImage = UIImage(named: "mist-pink-heart")
-        }
-        return view
     }
     
     //updates after each view change is completed
@@ -169,7 +192,7 @@ extension MapViewController: MKMapViewDelegate {
         prevZoomWidth = zoomWidth
         prevZoom = zoom
     }
-    
+        
 }
     
 extension MapViewController {
@@ -197,14 +220,37 @@ extension MapViewController {
     }
 }
 
+extension MapViewController: CLLocationManagerDelegate {
+ 
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        let locationAuthorized = status == .authorizedWhenInUse
+        userTrackingButton.isHidden = !locationAuthorized
+    }
+    
+}
+
+
 //was trying to intercept the animation for MKMarkerAnnotationView to slow it down
 final class PostMarkerAnnotationView: MKMarkerAnnotationView {
   var onSelect: (() -> Void)?
     
+    override var annotation: MKAnnotation? {
+        willSet {
+            animatesWhenAdded = true
+            canShowCallout = false
+            markerTintColor = mistUIColor()
+            glyphImage = UIImage(named: "mist-heart-pink-padded")
+            displayPriority = .required
+        }
+    }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
 //    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
 //        super.setSelected(false, animated: false)
 //    }
   }
+}
+
+final class ClusterAnnotationView: MKMarkerAnnotationView {
+    
 }

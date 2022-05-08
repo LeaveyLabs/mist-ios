@@ -18,6 +18,10 @@ struct Constants {
     // MARK: -Storyboard Identifiers (SBID)
     //note: all nib names should be the same ss their storyboard ID
     struct SBID {
+        struct View {
+            //Post
+            static let Post = "PostView"
+        }
         struct SB {
             static let Main = "Main"
             static let Launch = "Launch"
