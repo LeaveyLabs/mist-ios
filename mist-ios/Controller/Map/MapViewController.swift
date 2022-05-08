@@ -8,6 +8,12 @@
 import UIKit
 import MapKit
 
+//problems:
+//TODO: why does the annotation bounce on deselect even when animated: false below?
+//TODO: clustering just doesnt work on my phone after zooming in/out sometimes
+//TODO: sometimes when you click on a post marker, the post appears, and then immediately the post is deselected
+//TODO: add a jab to the user when clicking on current location. it seems like "title" no longer works
+
 class MapViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
@@ -21,6 +27,8 @@ class MapViewController: UIViewController {
     var prevZoomWidth: Double!
     var prevZoom: Double!
     var hasPostRendered: Bool = false
+    var modifyingMap: Bool = false
+    let latitudeOffset: Double = 0.0010
     
     var displayedAnnotations: [PostAnnotation]? {
         willSet {
@@ -56,8 +64,9 @@ class MapViewController: UIViewController {
         prevZoomWidth = mapView.visibleMapRect.size.width
         prevZoom = mapView.camera.centerCoordinateDistance
         
-        // Remove default pointsOfInterest
-        //mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: [MKPointOfInterestCategory.cafe, MKPointOfInterestCategory.fitnessCenter, MKPointOfInterestCategory.bakery, MKPointOfInterestCategory.university]))
+        //including categories is more ideal, bc there are some markers like "shared bikes" which wont be excluded no matter what
+        let includeCategories:[MKPointOfInterestCategory] = [.cafe, .airport, .amusementPark, .aquarium, .bakery, .beach, .brewery, .campground, .foodMarket, .fitnessCenter, .hotel, .hospital, .library, .marina, .movieTheater, .museum, .nationalPark, .nightlife, .park, .pharmacy, .postOffice, .restaurant, .school, .stadium, .store, .theater, .university, .zoo, .winery]
+        mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: includeCategories))
     }
     
     func registerMapAnnotationViews() {
@@ -69,8 +78,8 @@ class MapViewController: UIViewController {
         userTrackingButton = MKUserTrackingButton(mapView: mapView)
         userTrackingButton.isHidden = false // Unhides when location authorization is given.
         userTrackingButton.translatesAutoresizingMaskIntoConstraints = false
-        userTrackingButton.tintColor = .blue
-        mapView.tintColor = .blue
+        userTrackingButton.tintColor = .systemBlue
+        mapView.tintColor = .systemBlue
         view.addSubview(userTrackingButton)
         
         NSLayoutConstraint.activate(
@@ -92,21 +101,23 @@ extension MapViewController: MKMapViewDelegate {
         
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if view.annotation is MKUserLocation {
-            mapView.userLocation.title = "bro what the fuck are you doing"
-            mapView.userLocation.subtitle = "mepp"
+            mapView.userLocation.title = "Hey cutie"
             mapView.deselectAnnotation(view.annotation, animated: false)
-            //TODO: add a jab to the user when clicking on current location. it seems like "title" no longer works
-            print(mapView.userLocation.title)
             return
-         }
-        
-        if let view = view as? PostMarkerAnnotationView {
+         } else if let annotation = view.annotation as? MKClusterAnnotation {
+            mapView.deselectAnnotation(view.annotation, animated: false)
+            if annotation.isHotspot {
+                
+            } else {
+                //slowFlyTo(lat: view.annotation!.coordinate.latitude, long: view.annotation!.coordinate.longitude, zoomIn: true)
+                slowFlyTo(lat: view.annotation!.coordinate.latitude, long: view.annotation!.coordinate.longitude)
+            }
+        } else if let view = view as? PostMarkerAnnotationView {
             view.glyphTintColor = mistUIColor() //this is needed bc for some reason the glyph tint color turns grey even with the mist-heart-pink icon
             view.markerTintColor = mistSecondaryUIColor()
             
-            let latitudeOffset = 0.0010
             slowFlyTo(lat: view.annotation!.coordinate.latitude + latitudeOffset, long: view.annotation!.coordinate.longitude)
-            loadPostViewFor(annotationView: view)
+//            loadPostViewFor(annotationView: view)
         }
     }
     
@@ -136,7 +147,7 @@ extension MapViewController: MKMapViewDelegate {
 
             //this duration of delay + transition is probably where the problem is
             //this duration should be .1 seconds longer than the zoom-in, that way the camera surely does not move anymore once hasPostRendered = true
-            newPostView.fadeIn(duration: 0.11, delay: Double(prevZoomFactor)/10 ) { [self] Bool in
+            newPostView.fadeIn(duration: 0.2, delay: Double(prevZoomFactor)/10 ) { [self] Bool in
                 hasPostRendered = true
             }
         }
@@ -177,6 +188,14 @@ extension MapViewController: MKMapViewDelegate {
 
     //updates continuously throughout user drag
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        
+        // Limit max zoom https://stackoverflow.com/questions/1636868/is-there-way-to-limit-mkmapview-maximum-zoom-level
+        if (mapView.camera.centerCoordinateDistance < 400 && !modifyingMap) {
+            modifyingMap = true
+            mapView.camera.centerCoordinateDistance = 400
+            modifyingMap = false
+        }
+        
         let zoomWidth = mapView.visibleMapRect.size.width
         let zoomFactor = Int(log2(zoomWidth)) - 9
         let zoom = mapView.camera.centerCoordinateDistance
@@ -191,8 +210,22 @@ extension MapViewController: MKMapViewDelegate {
         prevZoomFactor = zoomFactor
         prevZoomWidth = zoomWidth
         prevZoom = zoom
-    }
         
+        //make cluster annotation a clickable hotspot
+        for annotation in mapView.annotations {
+            if let clusterAnnotation = annotation as? MKClusterAnnotation {
+                if mapView.camera.centerCoordinateDistance < 600 {
+                    if !clusterAnnotation.isHotspot {
+                        clusterAnnotation.isHotspot = true
+                    }
+                } else {
+                    if clusterAnnotation.isHotspot {
+                        clusterAnnotation.isHotspot = false
+                    }
+                }
+            }
+        }
+    }
 }
     
 extension MapViewController {
@@ -200,13 +233,25 @@ extension MapViewController {
     //MARK: -Helpers
 
     //https://stackoverflow.com/questions/21125573/mkmapcamera-pitch-altitude-function
-    func slowFlyTo(lat: Double, long: Double) {
+    func slowFlyTo(lat: Double, long: Double, zoomIn: Bool? = nil) {
         let pinLocation = CLLocationCoordinate2D(latitude: lat, longitude: long)
-        let rotationCamera = MKMapCamera(lookingAtCenter: pinLocation, fromDistance: 500, pitch: 50, heading: mapView.camera.heading)
+        var newCLLDistance: Double = 500
+        if zoomIn != nil {
+            
+//            if mapView.camera.centerCoordinateDistance >
+            newCLLDistance = mapView.camera.centerCoordinateDistance / 3
+        }
+        newCLLDistance = mapView.camera.centerCoordinateDistance / 3
 
-        UIView.animate(withDuration: Double(prevZoomFactor+1)/10, delay: 0, options: .curveEaseInOut, animations: {
-            self.mapView.camera = rotationCamera
-        }, completion: nil)
+        let rotationCamera = MKMapCamera(lookingAtCenter: pinLocation, fromDistance: newCLLDistance, pitch: 50, heading: mapView.camera.heading)
+        self.mapView.camera = rotationCamera
+
+//        print("should become: "); print(pinLocation)
+//        UIView.animate(withDuration: Double(prevZoomFactor+1)/10, delay: 0, options: .curveEaseInOut, animations: {
+//            self.mapView.camera = rotationCamera
+//        }, completion: {_ in
+//            print("after ");print(self.mapView.camera.centerCoordinate)
+//        })
     }
     
     func centerMapAt(lat: Double, long: Double) {
@@ -226,31 +271,5 @@ extension MapViewController: CLLocationManagerDelegate {
         let locationAuthorized = status == .authorizedWhenInUse
         userTrackingButton.isHidden = !locationAuthorized
     }
-    
-}
-
-
-//was trying to intercept the animation for MKMarkerAnnotationView to slow it down
-final class PostMarkerAnnotationView: MKMarkerAnnotationView {
-  var onSelect: (() -> Void)?
-    
-    override var annotation: MKAnnotation? {
-        willSet {
-            animatesWhenAdded = true
-            canShowCallout = false
-            markerTintColor = mistUIColor()
-            glyphImage = UIImage(named: "mist-heart-pink-padded")
-            displayPriority = .required
-        }
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-//    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//        super.setSelected(false, animated: false)
-//    }
-  }
-}
-
-final class ClusterAnnotationView: MKMarkerAnnotationView {
     
 }

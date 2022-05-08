@@ -54,6 +54,9 @@
 		475B1F8F27FBC2D400ED59CD /* UIView+Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475B1F8E27FBC2D400ED59CD /* UIView+Shadow.swift */; };
 		477A6FD627DFB0450020F864 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477A6FD527DFB0450020F864 /* Color.swift */; };
 		479683F32826494100CA23BA /* UIColor+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479683F22826494100CA23BA /* UIColor+Theme.swift */; };
+		479683F5282817CC00CA23BA /* PostMarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479683F4282817CC00CA23BA /* PostMarkerAnnotationView.swift */; };
+		479683F82828180C00CA23BA /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479683F72828180C00CA23BA /* ClusterAnnotationView.swift */; };
+		479683FA28283ED700CA23BA /* MKClusterAnnotation+*.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479683F928283ED700CA23BA /* MKClusterAnnotation+*.swift */; };
 		479AA1F027DCE9A700EA0DFC /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479AA1EE27DCE9A700EA0DFC /* PostCell.swift */; };
 		479AA1F127DCE9A700EA0DFC /* PostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 479AA1EF27DCE9A700EA0DFC /* PostCell.xib */; };
 		479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479AA1F227DCF2BD00EA0DFC /* PostViewController.swift */; };
@@ -171,6 +174,9 @@
 		475B1F8E27FBC2D400ED59CD /* UIView+Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shadow.swift"; sourceTree = "<group>"; };
 		477A6FD527DFB0450020F864 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		479683F22826494100CA23BA /* UIColor+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Theme.swift"; sourceTree = "<group>"; };
+		479683F4282817CC00CA23BA /* PostMarkerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMarkerAnnotationView.swift; sourceTree = "<group>"; };
+		479683F72828180C00CA23BA /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
+		479683F928283ED700CA23BA /* MKClusterAnnotation+*.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKClusterAnnotation+*.swift"; sourceTree = "<group>"; };
 		479AA1EE27DCE9A700EA0DFC /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		479AA1EF27DCE9A700EA0DFC /* PostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostCell.xib; sourceTree = "<group>"; };
 		479AA1F227DCF2BD00EA0DFC /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
@@ -330,6 +336,17 @@
 				47C2834D27DED77500A19128 /* QueryCell.swift */,
 			);
 			path = Xibs;
+			sourceTree = "<group>";
+		};
+		479683F6282817F900CA23BA /* Annotations */ = {
+			isa = PBXGroup;
+			children = (
+				47EA3DFF27E013EB00381218 /* PostAnnotation.swift */,
+				479683F4282817CC00CA23BA /* PostMarkerAnnotationView.swift */,
+				479683F928283ED700CA23BA /* MKClusterAnnotation+*.swift */,
+				479683F72828180C00CA23BA /* ClusterAnnotationView.swift */,
+			);
+			path = Annotations;
 			sourceTree = "<group>";
 		};
 		479AA1F927DD0EC000EA0DFC /* CustomViews */ = {
@@ -512,11 +529,11 @@
 		47EA3DFE27E013DD00381218 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				479683F6282817F900CA23BA /* Annotations */,
 				47EA3E0127E0151200381218 /* MapViewController.swift */,
 				47F4EFD227E118DD00861F30 /* MapModalViewController.swift */,
 				47CE900927E058090004B756 /* PinMapViewController.swift */,
 				47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */,
-				47EA3DFF27E013EB00381218 /* PostAnnotation.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -720,6 +737,7 @@
 				47E2B1BD27FFC52900131B8D /* ShadowNavigationController.swift in Sources */,
 				47E74E0E27CA0FFE00467A0C /* SceneDelegate.swift in Sources */,
 				47E2B1BF2800C1CD00131B8D /* UITextView+Placeholder.swift in Sources */,
+				479683FA28283ED700CA23BA /* MKClusterAnnotation+*.swift in Sources */,
 				47FF86A127DC712F0076A1CA /* Comment.swift in Sources */,
 				47EA3E0227E0151200381218 /* MapViewController.swift in Sources */,
 				43483BB228025179001C7C6A /* EnterUsernameViewController.swift in Sources */,
@@ -773,6 +791,8 @@
 				4700F8C627DE4652006C2E08 /* ExploreMapViewController.swift in Sources */,
 				475B1F8B27FB86C000ED59CD /* MessagesViewController.swift in Sources */,
 				43483BB6280251B1001C7C6A /* EnterNameViewController.swift in Sources */,
+				479683F82828180C00CA23BA /* ClusterAnnotationView.swift in Sources */,
+				479683F5282817CC00CA23BA /* PostMarkerAnnotationView.swift in Sources */,
 				479AA20127DD3F5500EA0DFC /* MistUIButton.swift in Sources */,
 				479AA1FD27DD109F00EA0DFC /* Constants.swift in Sources */,
 				47EA3E0027E013EB00381218 /* PostAnnotation.swift in Sources */,
