@@ -109,16 +109,57 @@ extension MapViewController: MKMapViewDelegate {
             if annotation.isHotspot {
                 
             } else {
-                //slowFlyTo(lat: view.annotation!.coordinate.latitude, long: view.annotation!.coordinate.longitude, zoomIn: true)
-                slowFlyTo(lat: view.annotation!.coordinate.latitude, long: view.annotation!.coordinate.longitude)
+                slowFlyTo(lat: view.annotation!.coordinate.latitude, long: view.annotation!.coordinate.longitude, zoomIn: true)
             }
         } else if let view = view as? PostMarkerAnnotationView {
             view.glyphTintColor = mistUIColor() //this is needed bc for some reason the glyph tint color turns grey even with the mist-heart-pink icon
             view.markerTintColor = mistSecondaryUIColor()
             
-            slowFlyTo(lat: view.annotation!.coordinate.latitude + latitudeOffset, long: view.annotation!.coordinate.longitude)
-//            loadPostViewFor(annotationView: view)
+            slowFlyTo(lat: view.annotation!.coordinate.latitude, long: view.annotation!.coordinate.longitude)
+            loadPostViewFor(annotationView: view)
         }
+    }
+    
+    //for some reason, when it's a cluster annotation, slowfly works properly
+    //but for post annotations, slowfly does not work after a rotation
+    
+    //https://stackoverflow.com/questions/21125573/mkmapcamera-pitch-altitude-function
+    func slowFlyTo(lat: Double, long: Double, zoomIn: Bool? = nil) {
+        print("""
+                I Lowkey Location:
+                lat is: 34.02049638568392
+                long is: -118.29077072594401
+                """)
+        print("NEW POST BABY")
+        print("lat is: " + String(lat))
+        print("long is: " + String(long))
+        let pinLocation = CLLocationCoordinate2D(latitude: lat, longitude: long)
+        print("lat is: " + String(pinLocation.latitude))
+        print("long is: " + String(pinLocation.longitude))
+        
+//        centerMapAt(lat: pinLocation.latitude, long: pinLocation.longitude)
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
+//                print("lat is: " + String(mapView.camera.centerCoordinate.latitude))
+//                print("long is: " + String(mapView.camera.centerCoordinate.longitude))
+//        }
+        
+        var newCLLDistance: Double = 500
+        if zoomIn != nil {
+            // Handle conditions to zoom in based on how zoomed in the camera already is
+            newCLLDistance = mapView.camera.centerCoordinateDistance / 3
+        }
+        
+        let newcam = MKMapCamera(lookingAtCenter: pinLocation, fromDistance: newCLLDistance, pitch: 50, heading: mapView.camera.heading)
+        mapView.setCamera(newcam, animated: true)
+
+        let rotationCamera = MKMapCamera(lookingAtCenter: pinLocation, fromDistance: 500, pitch: 50, heading: mapView.camera.heading)
+        UIView.animate(withDuration: Double(prevZoomFactor+1)/10, delay: 0, options: .curveEaseInOut, animations: {
+            self.mapView.camera = rotationCamera
+        }, completion: { [self]_ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
+                print("lat is: " + String(mapView.camera.centerCoordinate.latitude))
+                print("long is: " + String(mapView.camera.centerCoordinate.longitude))            }
+        })
     }
     
     func loadPostViewFor(annotationView: PostMarkerAnnotationView) {
@@ -231,28 +272,6 @@ extension MapViewController: MKMapViewDelegate {
 extension MapViewController {
 
     //MARK: -Helpers
-
-    //https://stackoverflow.com/questions/21125573/mkmapcamera-pitch-altitude-function
-    func slowFlyTo(lat: Double, long: Double, zoomIn: Bool? = nil) {
-        let pinLocation = CLLocationCoordinate2D(latitude: lat, longitude: long)
-        var newCLLDistance: Double = 500
-        if zoomIn != nil {
-            
-//            if mapView.camera.centerCoordinateDistance >
-            newCLLDistance = mapView.camera.centerCoordinateDistance / 3
-        }
-        newCLLDistance = mapView.camera.centerCoordinateDistance / 3
-
-        let rotationCamera = MKMapCamera(lookingAtCenter: pinLocation, fromDistance: newCLLDistance, pitch: 50, heading: mapView.camera.heading)
-        self.mapView.camera = rotationCamera
-
-//        print("should become: "); print(pinLocation)
-//        UIView.animate(withDuration: Double(prevZoomFactor+1)/10, delay: 0, options: .curveEaseInOut, animations: {
-//            self.mapView.camera = rotationCamera
-//        }, completion: {_ in
-//            print("after ");print(self.mapView.camera.centerCoordinate)
-//        })
-    }
     
     func centerMapAt(lat: Double, long: Double) {
         let region = mapView.regionThatFits(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: lat, longitude: long), latitudinalMeters: 200, longitudinalMeters: 200))
