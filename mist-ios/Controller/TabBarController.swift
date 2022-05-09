@@ -9,12 +9,26 @@ import UIKit
 
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
-    var centerButton: UIButton?
+    var centerButton: UIButton!
     
     override func viewDidLoad(){
+        super.viewDidLoad()
         delegate = self;
-        if let submitButtonImage = UIImage(named: "submitbutton") {
-            self.addCenterButton(withImage: submitButtonImage, highlightImage: submitButtonImage)
+        addCenterButton(withImage: UIImage(named: "submitbutton")!)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        print("TAB BAR DID APPEAR")
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if tabBar.isHidden {
+            centerButton.isHidden = true
+        } else {
+            centerButton.isHidden = false
+            view.bringSubviewToFront(centerButton)
         }
     }
     
@@ -37,13 +51,12 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
 
     //https://stackoverflow.com/questions/30527738/how-do-we-create-a-bigger-center-uitabbar-item
-    func addCenterButton(withImage buttonImage : UIImage, highlightImage: UIImage) {
-      self.centerButton = UIButton(type: .custom)
-      self.centerButton?.autoresizingMask = [.flexibleRightMargin, .flexibleTopMargin, .flexibleLeftMargin, .flexibleBottomMargin]
-      self.centerButton?.frame = CGRect(x: 0.0, y: 0.0, width: buttonImage.size.width, height: buttonImage.size.height)
-      self.centerButton?.setBackgroundImage(buttonImage, for: .normal)
-      self.centerButton?.setBackgroundImage(highlightImage, for: .highlighted)
-      self.centerButton?.isUserInteractionEnabled = true
+    func addCenterButton(withImage buttonImage : UIImage) {
+      centerButton = UIButton(type: .custom)
+      centerButton.autoresizingMask = [.flexibleRightMargin, .flexibleTopMargin, .flexibleLeftMargin, .flexibleBottomMargin]
+      centerButton.frame = CGRect(x: 0.0, y: 0.0, width: buttonImage.size.width, height: buttonImage.size.height)
+      centerButton.setBackgroundImage(buttonImage, for: .normal)
+      centerButton.isUserInteractionEnabled = true
 
       let heightdif: CGFloat = buttonImage.size.height - (self.tabBar.frame.size.height);
 
@@ -52,21 +65,22 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
 //          self.centerButton?.center = (self.tabBar.center)
           
           //... so i copied these three lines from the else block below
-          var center: CGPoint = (self.tabBar.center)
+          var center: CGPoint = (tabBar.center)
           center.y = center.y - 50
-          self.centerButton?.center = center
+          centerButton.center = center
           
-      }
-      else{
-          var center: CGPoint = (self.tabBar.center)
+      } else {
+          var center: CGPoint = (tabBar.center)
           center.y = center.y - 50
-          self.centerButton?.center = center
+          centerButton.center = center
       }
+        
+        centerButton.center = tabBar.center
 
-      self.view.addSubview(self.centerButton!)
-      self.tabBar.bringSubviewToFront(self.centerButton!)
+      tabBar.addSubview(centerButton)
+      tabBar.bringSubviewToFront(centerButton)
 
-      self.centerButton?.addTarget(self, action: #selector(handleTouchTabbarCenter), for: .touchUpInside)
+      centerButton.addTarget(self, action: #selector(handleTouchTabbarCenter), for: .touchUpInside)
   }
 
 }

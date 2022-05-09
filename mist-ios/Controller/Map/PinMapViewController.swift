@@ -46,7 +46,7 @@ class PinMapViewController: MapViewController {
                 pinnedAnnotation = PostAnnotation(justWithCoordinate: coordinate)
                 displayedAnnotations?.append(pinnedAnnotation!)
                 
-                centerMapAt(lat: coordinate.latitude - 0.0007, long: coordinate.longitude)
+                slowFlyTo(lat: coordinate.latitude - 0.0007, long: coordinate.longitude, incrementalZoom: false, completion: {_ in })
                 presentModal()
             }
         }

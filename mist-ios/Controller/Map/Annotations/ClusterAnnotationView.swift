@@ -15,7 +15,7 @@ final class ClusterAnnotationView: MKMarkerAnnotationView {
             animatesWhenAdded = true
             canShowCallout = false
             markerTintColor = mistUIColor()
-            displayPriority = .required
+            displayPriority = .defaultHigh
         }
     }
     

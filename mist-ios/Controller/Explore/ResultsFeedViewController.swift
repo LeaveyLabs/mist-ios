@@ -29,10 +29,10 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
 //        tableView.rowHeight = UITableView.automaticDimension
         
         //(1 of 2) for enabling swipe left to go back with a bar button item
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
+        navigationController?.interactivePopGestureRecognizer?.delegate = self;
         
         let queryNib = UINib(nibName: Constants.SBID.Cell.Query, bundle: nil);
-        self.tableView.register(queryNib, forCellReuseIdentifier: Constants.SBID.Cell.Query);
+        tableView.register(queryNib, forCellReuseIdentifier: Constants.SBID.Cell.Query);
         
         navigationController?.restoreHairline() //TODO: does nothing
         navigationItem.title = query
@@ -87,7 +87,7 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
         Task {
             do {
                 posts = try await PostAPI.fetchPosts(text: query)
-                self.tableView.reloadData();
+                tableView.reloadData();
                 tableView.refreshControl!.endRefreshing()
                 indicator.stopAnimating()
                 print("loaded")

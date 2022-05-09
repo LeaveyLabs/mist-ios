@@ -14,7 +14,6 @@ extension MKClusterAnnotation {
     @IBInspectable var isHotspot : Bool {
         set {
             if newValue == true {
-                title = "Click to see missed connections near this hotspot"
                 if let postAnnotation = memberAnnotations[0] as? PostAnnotation {
                     title = postAnnotation.post!.location_description!
                 }
@@ -30,9 +29,4 @@ extension MKClusterAnnotation {
             return !(subtitle![subtitle!.startIndex] == "+")
         }
     }
-    
-    //not needed
-//    func setTitle(newTitle: String) {
-//        title = newTitle
-//    }
 }

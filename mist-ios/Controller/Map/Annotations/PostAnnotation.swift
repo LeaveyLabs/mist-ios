@@ -15,7 +15,7 @@ class PostAnnotation: NSObject, MKAnnotation {
     
     // Title is required if you set the annotation view's `canShowCallout` property to `true`
     var title: String?
-    var post: Post?
+    var post: Post!
     
     init(withPost post: Post) {
         self.post = post

@@ -8,6 +8,9 @@
 import Foundation
 import MapKit
 
+// Customize annotaiton view
+//https://stackoverflow.com/questions/56311852/mkmapview-not-clustering-annotation-on-zooming-out-map-in-swift
+
 final class PostMarkerAnnotationView: MKMarkerAnnotationView {
     
     var onSelect: (() -> Void)?
@@ -19,7 +22,7 @@ final class PostMarkerAnnotationView: MKMarkerAnnotationView {
             markerTintColor = mistUIColor()
             glyphImage = UIImage(named: "mist-heart-pink-padded")
             displayPriority = .defaultLow
-            displayPriority = .required
+            clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
         }
     }
     
@@ -34,6 +37,7 @@ final class PostMarkerAnnotationView: MKMarkerAnnotationView {
     }
     
     // Was trying to intercept the animation for MKMarkerAnnotationView to slow it down... to now avail
+    // The best solution is probably to just make your own custom anotation view and own custom animations along with it
     override func setSelected(_ selected: Bool, animated: Bool) {
 //    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
 //        super.setSelected(false, animated: false)

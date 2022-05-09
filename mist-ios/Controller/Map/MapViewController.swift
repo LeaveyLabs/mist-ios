@@ -9,26 +9,30 @@ import UIKit
 import MapKit
 
 //problems:
-//TODO: why does the annotation bounce on deselect even when animated: false below?
-//TODO: clustering just doesnt work on my phone after zooming in/out sometimes
-//TODO: sometimes when you click on a post marker, the post appears, and then immediately the post is deselected
+//TODO: why does the cluster annotation bounce on deselect even its deselect is animated: false?
 //TODO: add a jab to the user when clicking on current location. it seems like "title" no longer works
 
 class MapViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
-    private var userTrackingButton: MKUserTrackingButton!
+    @IBOutlet weak var userTrackingButton: UIButton!
     
     // Create a location manager to trigger user tracking
     private let locationManager = CLLocationManager()
     
     var mapModal: MapModalViewController?
+    var postIsBeingRendered: Bool = false
+    var modifyingMap: Bool = false
+    let latitudeOffset: Double = 0.0010
+    
+    //remove one of these three
     var prevZoomFactor: Int = 4
     var prevZoomWidth: Double!
     var prevZoom: Double!
-    var hasPostRendered: Bool = false
-    var modifyingMap: Bool = false
-    let latitudeOffset: Double = 0.0010
+    
+    var cameraAnimationDuration: Double {
+        return Double(prevZoomFactor+2)/10 + ((180-fabs(180.0 - mapView.camera.heading)) / 180 * 0.3) //add up to 0.3 seconds to rotate the heading of the camera
+    }
     
     var displayedAnnotations: [PostAnnotation]? {
         willSet {
@@ -46,15 +50,17 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.restoreHairline()
-        setupMapView()
         setupMapButtons()
+        setupMapView()
         setupLocationManager()
+        applyGradientUnderneathNavbar()
     }
     
     // MARK: - Setup
     
     func setupMapView() {
         mapView.delegate = self
+        mapView.tintColor = .systemBlue //sets user puck color
         centerMapOnUSC()
         registerMapAnnotationViews()
         displayedAnnotations = []
@@ -75,17 +81,9 @@ class MapViewController: UIViewController {
     }
     
     private func setupMapButtons() {
-        userTrackingButton = MKUserTrackingButton(mapView: mapView)
-        userTrackingButton.isHidden = false // Unhides when location authorization is given.
-        userTrackingButton.translatesAutoresizingMaskIntoConstraints = false
-        userTrackingButton.tintColor = .systemBlue
-        mapView.tintColor = .systemBlue
-        view.addSubview(userTrackingButton)
-        
-        NSLayoutConstraint.activate(
-            [userTrackingButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -30),
-             userTrackingButton.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -10),
-            ])
+        // For more customizaiton later on: https://stackoverflow.com/questions/27029854/custom-button-to-track-mkusertrackingmode
+        userTrackingButton.layer.cornerRadius = 10
+        userTrackingButton.layer.cornerCurve = .continuous
     }
     
     private func setupLocationManager(){
@@ -94,6 +92,36 @@ class MapViewController: UIViewController {
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
     }
+    
+    private func applyGradientUnderneathNavbar() {
+        // Folllow this code next time: https://stackoverflow.com/questions/34269399/how-to-control-shadow-spread-and-blur
+        
+//        let gradient: CAGradientLayer = CAGradientLayer()
+//        gradient.colors = [UIColor.gray.cgColor, UIColor.white.cgColor, UIColor.white.cgColor, UIColor.white.cgColor]
+//        gradient.locations = [0.0 , 1.0, 2.0, 3.0]
+//        gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
+//        gradient.endPoint = CGPoint(x: 0.0, y: 3.0)
+//        gradient.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: mapView.frame.size.height / 3)
+//        gradient.opacity = 0.3
+////        mapView.layer.insertSublayer(gradient, at: 1)
+//
+//        var gradientView = UIView(frame: CGRect(x: 0, y: 0, width: mapView.frame.size.width, height: mapView.frame.size.height / 3))
+//        let gradientLayer:CAGradientLayer = CAGradientLayer()
+//        gradientLayer.frame.size = gradientView.frame.size
+//        gradientLayer.colors = [UIColor.black.cgColor,UIColor.white.cgColor]
+//        gradientLayer.opacity = 0.2
+//        gradientView.layer.addSublayer(gradientLayer)
+//        mapView.addSubview(gradientView)
+
+    }
+
+    
+    //MARK: --User Interaction
+    
+    @IBAction func userTrackingButtonDidPressed(_ sender: UIButton) {
+        slowFlyTo(lat: mapView.userLocation.coordinate.latitude, long: mapView.userLocation.coordinate.longitude, incrementalZoom: false, completion: {_ in })
+    }
+    
 }
 
 //https://developer.apple.com/documentation/mapkit/mkmapviewdelegate
@@ -101,102 +129,60 @@ extension MapViewController: MKMapViewDelegate {
         
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if view.annotation is MKUserLocation {
+//            print(mapView.userLocation.image)
+            mapView.deselectAnnotation(view.annotation, animated: false)
             mapView.userLocation.title = "Hey cutie"
+        } else if let clusterAnnotation = view.annotation as? MKClusterAnnotation {
             mapView.deselectAnnotation(view.annotation, animated: false)
-            return
-         } else if let annotation = view.annotation as? MKClusterAnnotation {
-            mapView.deselectAnnotation(view.annotation, animated: false)
-            if annotation.isHotspot {
-                
+            if clusterAnnotation.isHotspot {
+                var posts = [Post]()
+                for annotation in clusterAnnotation.memberAnnotations {
+                    if let annotation = annotation as? PostAnnotation {
+                        posts.append(annotation.post)
+                    }
+                }
+//                let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewControllerForQuery(posts)
+//                navigationController?.pushViewController(newQueryFeedViewController, animated: true)
             } else {
-                slowFlyTo(lat: view.annotation!.coordinate.latitude, long: view.annotation!.coordinate.longitude, zoomIn: true)
+                slowFlyTo(lat: view.annotation!.coordinate.latitude, long: view.annotation!.coordinate.longitude, incrementalZoom: true, completion: {_ in })
             }
         } else if let view = view as? PostMarkerAnnotationView {
             view.glyphTintColor = mistUIColor() //this is needed bc for some reason the glyph tint color turns grey even with the mist-heart-pink icon
             view.markerTintColor = mistSecondaryUIColor()
             
-            slowFlyTo(lat: view.annotation!.coordinate.latitude, long: view.annotation!.coordinate.longitude)
-            loadPostViewFor(annotationView: view)
+            slowFlyTo(lat: view.annotation!.coordinate.latitude + latitudeOffset, long: view.annotation!.coordinate.longitude, incrementalZoom: false, completion: {_ in })
+            loadPostViewFor(postAnnotationView: view)
         }
     }
     
-    //for some reason, when it's a cluster annotation, slowfly works properly
-    //but for post annotations, slowfly does not work after a rotation
-    
-    //https://stackoverflow.com/questions/21125573/mkmapcamera-pitch-altitude-function
-    func slowFlyTo(lat: Double, long: Double, zoomIn: Bool? = nil) {
-        print("""
-                I Lowkey Location:
-                lat is: 34.02049638568392
-                long is: -118.29077072594401
-                """)
-        print("NEW POST BABY")
-        print("lat is: " + String(lat))
-        print("long is: " + String(long))
-        let pinLocation = CLLocationCoordinate2D(latitude: lat, longitude: long)
-        print("lat is: " + String(pinLocation.latitude))
-        print("long is: " + String(pinLocation.longitude))
-        
-//        centerMapAt(lat: pinLocation.latitude, long: pinLocation.longitude)
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
-//                print("lat is: " + String(mapView.camera.centerCoordinate.latitude))
-//                print("long is: " + String(mapView.camera.centerCoordinate.longitude))
-//        }
-        
-        var newCLLDistance: Double = 500
-        if zoomIn != nil {
-            // Handle conditions to zoom in based on how zoomed in the camera already is
-            newCLLDistance = mapView.camera.centerCoordinateDistance / 3
-        }
-        
-        let newcam = MKMapCamera(lookingAtCenter: pinLocation, fromDistance: newCLLDistance, pitch: 50, heading: mapView.camera.heading)
-        mapView.setCamera(newcam, animated: true)
-
-        let rotationCamera = MKMapCamera(lookingAtCenter: pinLocation, fromDistance: 500, pitch: 50, heading: mapView.camera.heading)
-        UIView.animate(withDuration: Double(prevZoomFactor+1)/10, delay: 0, options: .curveEaseInOut, animations: {
-            self.mapView.camera = rotationCamera
-        }, completion: { [self]_ in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
-                print("lat is: " + String(mapView.camera.centerCoordinate.latitude))
-                print("long is: " + String(mapView.camera.centerCoordinate.longitude))            }
-        })
-    }
-    
-    func loadPostViewFor(annotationView: PostMarkerAnnotationView) {
-        let annotation = annotationView.annotation as! PostAnnotation
+    func loadPostViewFor(postAnnotationView: PostMarkerAnnotationView) {
         let cell = Bundle.main.loadNibNamed(Constants.SBID.Cell.Post, owner: self, options: nil)?[0] as! PostCell
-        if let mapModalPost = annotation.post {
-            cell.configurePostCell(post: mapModalPost, parent: self, bubbleArrowPosition: .bottom)
+        if let postAnnotation = postAnnotationView.annotation as? PostAnnotation {
+            cell.configurePostCell(post: postAnnotation.post, parent: self, bubbleArrowPosition: .bottom)
         }
         let postView: UIView? = cell.contentView
 
-        //extract post from PostView.xib
+        // Or, alternatively, instead of extracting from the PostCell.xib,, extract post from PostView.xib
 //        let postViewFromViewNib = Bundle.main.loadNibNamed(Constants.SBID.View.Post, owner: self, options: nil)?[0] as? PostView
         
         if let newPostView = postView {
             newPostView.tag = 999
+            newPostView.tintColor = .black
             newPostView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
-            annotationView.addSubview(newPostView)
+            postAnnotationView.addSubview(newPostView)
             NSLayoutConstraint.activate([
-                newPostView.bottomAnchor.constraint(equalTo: annotationView.bottomAnchor, constant: -70),
-                newPostView.widthAnchor.constraint(equalTo: mapView.widthAnchor, constant: -10),
-                newPostView.heightAnchor.constraint(lessThanOrEqualTo: mapView.heightAnchor, multiplier: 0.57, constant: 0),
-                newPostView.centerXAnchor.constraint(equalTo: annotationView.centerXAnchor, constant: 0),
+                newPostView.bottomAnchor.constraint(equalTo: postAnnotationView.bottomAnchor, constant: -70),
+                newPostView.widthAnchor.constraint(equalTo: mapView.widthAnchor, constant: 0),
+                newPostView.heightAnchor.constraint(lessThanOrEqualTo: mapView.heightAnchor, multiplier: 0.60, constant: 0),
+                newPostView.centerXAnchor.constraint(equalTo: postAnnotationView.centerXAnchor, constant: 0),
             ])
             newPostView.alpha = 0
             newPostView.isHidden = true
-
-            //this duration of delay + transition is probably where the problem is
-            //this duration should be .1 seconds longer than the zoom-in, that way the camera surely does not move anymore once hasPostRendered = true
-            newPostView.fadeIn(duration: 0.2, delay: Double(prevZoomFactor)/10 ) { [self] Bool in
-                hasPostRendered = true
-            }
+            newPostView.fadeIn(duration: 0.2, delay: cameraAnimationDuration-0.15)
         }
     }
     
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        hasPostRendered = false
-        
         if let view = view as? PostMarkerAnnotationView {
             view.glyphTintColor = .white
             view.markerTintColor = mistUIColor()
@@ -212,19 +198,11 @@ extension MapViewController: MKMapViewDelegate {
         }
     }
     
-    // The map view asks `mapView(_:viewFor:)` for an appropiate annotation view (the little mist heart) for a specific annotation.
-    // This function is not actually needed, since annotationView setup is now taken care of within the annotationView subclass
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if annotation is MKUserLocation {
-            return nil
-        } else {
-            return nil
-        }
-    }
-    
     //updates after each view change is completed
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-
+        if (postIsBeingRendered) {
+            postIsBeingRendered = false //so that when the user starts dragging again, the post will disappear
+        }
     }
 
     //updates continuously throughout user drag
@@ -237,26 +215,35 @@ extension MapViewController: MKMapViewDelegate {
             modifyingMap = false
         }
         
+        // Limit minimum pitch. Doing this because of weird behavior with clicking on posts from a pitch less than 50
+        if (mapView.camera.pitch > 50 && !modifyingMap) {
+            modifyingMap = true
+            mapView.camera.pitch = 50
+            modifyingMap = false
+        }
+        
+        // Deselect selected annotation.
+        if !postIsBeingRendered {
+            if (mapView.selectedAnnotations.count > 0) {
+                mapView.deselectAnnotation(mapView.selectedAnnotations[0], animated: true)
+            }
+        }
+        
+        
         let zoomWidth = mapView.visibleMapRect.size.width
         let zoomFactor = Int(log2(zoomWidth)) - 9
         let zoom = mapView.camera.centerCoordinateDistance
         
-        if hasPostRendered {
-            if zoom != prevZoom {
-                if (mapView.selectedAnnotations.count > 0) {
-                    mapView.deselectAnnotation(mapView.selectedAnnotations[0], animated: true)
-                }
-            }
-        }
         prevZoomFactor = zoomFactor
         prevZoomWidth = zoomWidth
         prevZoom = zoom
         
-        //make cluster annotation a clickable hotspot
+        //make cluster annotation a clickable hotspot when zoomed in close enough
         for annotation in mapView.annotations {
             if let clusterAnnotation = annotation as? MKClusterAnnotation {
                 if mapView.camera.centerCoordinateDistance < 600 {
                     if !clusterAnnotation.isHotspot {
+                        //for some reason, some clusters aren't always set to hotspots
                         clusterAnnotation.isHotspot = true
                     }
                 } else {
@@ -268,21 +255,6 @@ extension MapViewController: MKMapViewDelegate {
         }
     }
 }
-    
-extension MapViewController {
-
-    //MARK: -Helpers
-    
-    func centerMapAt(lat: Double, long: Double) {
-        let region = mapView.regionThatFits(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: lat, longitude: long), latitudinalMeters: 200, longitudinalMeters: 200))
-        mapView.setRegion(region, animated: true)
-    }
-    
-    func centerMapOnUSC() {
-        let region = mapView.regionThatFits(MKCoordinateRegion(center: Constants.USC_LAT_LONG, latitudinalMeters: 1200, longitudinalMeters: 1200))
-        mapView.setRegion(region, animated: true)
-    }
-}
 
 extension MapViewController: CLLocationManagerDelegate {
  
@@ -290,5 +262,30 @@ extension MapViewController: CLLocationManagerDelegate {
         let locationAuthorized = status == .authorizedWhenInUse
         userTrackingButton.isHidden = !locationAuthorized
     }
+}
     
+extension MapViewController {
+
+    //MARK: -Helpers
+    
+    func centerMapOnUSC() {
+        let region = mapView.regionThatFits(MKCoordinateRegion(center: Constants.USC_LAT_LONG, latitudinalMeters: 1200, longitudinalMeters: 1200))
+        mapView.setRegion(region, animated: true)
+    }
+    
+    // Custom camera transition https://stackoverflow.com/questions/21125573/mkmapcamera-pitch-altitude-function
+    func slowFlyTo(lat: Double, long: Double, incrementalZoom: Bool, completion: @escaping (Bool) -> Void) {
+        let pinLocation = CLLocationCoordinate2D(latitude: lat, longitude: long)
+        var newCLLDistance: Double = 500
+        if incrementalZoom {
+            // TODO: Handle conditions to zoom in based on how zoomed in the camera already is
+            newCLLDistance = mapView.camera.centerCoordinateDistance / 3
+        }
+
+        let rotationCamera = MKMapCamera(lookingAtCenter: pinLocation, fromDistance: newCLLDistance, pitch: 50, heading: 0)
+        UIView.animate(withDuration: cameraAnimationDuration, delay: 0, options: .curveEaseInOut, animations: {
+            self.mapView.camera = rotationCamera
+        }, completion: completion)
+        postIsBeingRendered = true
+    }
 }
