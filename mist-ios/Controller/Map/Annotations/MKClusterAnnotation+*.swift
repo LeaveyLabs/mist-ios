@@ -13,7 +13,7 @@ extension MKClusterAnnotation {
 
     @IBInspectable var isHotspot : Bool {
         set {
-            if newValue == true {
+            if newValue {
                 if let postAnnotation = memberAnnotations[0] as? PostAnnotation {
                     title = postAnnotation.post!.location_description!
                 }
@@ -27,6 +27,18 @@ extension MKClusterAnnotation {
 
         get {
             return !(subtitle![subtitle!.startIndex] == "+")
+        }
+    }
+    
+    func updateIsHotspot(cameraDistance: Double) {
+        if cameraDistance < 600 {
+            if !isHotspot {
+                isHotspot = true
+            }
+        } else {
+            if isHotspot {
+                isHotspot = false
+            }
         }
     }
 }

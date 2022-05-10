@@ -15,10 +15,10 @@ final class ClusterAnnotationView: MKMarkerAnnotationView {
             animatesWhenAdded = true
             canShowCallout = false
             markerTintColor = mistUIColor()
-            displayPriority = .defaultHigh
+            displayPriority = .required
         }
     }
-    
+        
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         displayPriority = .defaultHigh

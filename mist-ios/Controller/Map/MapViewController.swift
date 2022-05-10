@@ -9,8 +9,9 @@ import UIKit
 import MapKit
 
 //problems:
-//TODO: why does the cluster annotation bounce on deselect even its deselect is animated: false?
+//TODO: cluster annotation bounce on deselect even its deselect is animated: false?
 //TODO: add a jab to the user when clicking on current location. it seems like "title" no longer works
+//TODO: setting the clusters to hotspots after zooming in closer enough isnt working quite right
 
 class MapViewController: UIViewController {
 
@@ -84,6 +85,7 @@ class MapViewController: UIViewController {
         // For more customizaiton later on: https://stackoverflow.com/questions/27029854/custom-button-to-track-mkusertrackingmode
         userTrackingButton.layer.cornerRadius = 10
         userTrackingButton.layer.cornerCurve = .continuous
+        applyShadowOnView(userTrackingButton)
     }
     
     private func setupLocationManager(){
@@ -238,21 +240,25 @@ extension MapViewController: MKMapViewDelegate {
         prevZoomWidth = zoomWidth
         prevZoom = zoom
         
-        //make cluster annotation a clickable hotspot when zoomed in close enough
+        
+        //RIP This is still not working 100%... oh well i'll fix it later
+        // Toggle cluster hotspot, 1 of 2
+        // Updates all clusters already rendered
         for annotation in mapView.annotations {
             if let clusterAnnotation = annotation as? MKClusterAnnotation {
-                if mapView.camera.centerCoordinateDistance < 600 {
-                    if !clusterAnnotation.isHotspot {
-                        //for some reason, some clusters aren't always set to hotspots
-                        clusterAnnotation.isHotspot = true
-                    }
-                } else {
-                    if clusterAnnotation.isHotspot {
-                        clusterAnnotation.isHotspot = false
-                    }
-                }
+                clusterAnnotation.updateIsHotspot(cameraDistance: mapView.camera.centerCoordinateDistance)
             }
         }
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        // Toggle cluster hotspot, 2 of 2
+        // Updates new clusters created if user zooms in even more after already rendered clusters are udpated
+        // This can't go into MKClusterAnnotation because it depends on the camera distance
+        if let clusterAnnotation = annotation as? MKClusterAnnotation {
+            clusterAnnotation.updateIsHotspot(cameraDistance: mapView.camera.centerCoordinateDistance)
+        }
+        return nil
     }
 }
 
