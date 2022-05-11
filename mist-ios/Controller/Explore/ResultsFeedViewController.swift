@@ -7,16 +7,21 @@
 
 import UIKit
 
+enum FeedType {
+    case query
+    case mine
+    case hotspot
+}
+
 class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate {
     
     // MARK: -Properties
-    var query: String!
+    var feedType: FeedType!
+    var feedValue: String!
     
     // MARK: -Life Cycle
 
     override func viewDidLoad() {
-        
-        
         //something to do with edge insets.....
 //        self.edgesForExtendedLayout = UIRectEdge()
 //        self.extendedLayoutIncludesOpaqueBars = false
@@ -29,13 +34,15 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
 //        tableView.rowHeight = UITableView.automaticDimension
         
         //(1 of 2) for enabling swipe left to go back with a bar button item
-        navigationController?.interactivePopGestureRecognizer?.delegate = self;
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
         
-        let queryNib = UINib(nibName: Constants.SBID.Cell.Query, bundle: nil);
-        tableView.register(queryNib, forCellReuseIdentifier: Constants.SBID.Cell.Query);
+        tableView.refreshControl = nil //disable pull down top refresh
+        
+        let feedHeader = UINib(nibName: Constants.SBID.Cell.FeedHeader, bundle: nil)
+        tableView.register(feedHeader, forCellReuseIdentifier: Constants.SBID.Cell.FeedHeader)
         
         navigationController?.restoreHairline() //TODO: does nothing
-        navigationItem.title = query
+        navigationItem.title = feedValue
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:))))
         //navigationController?.navigationBar.standardAppearance.backgroundColor = hexStringToUIColor(hex: "CDABE1", alpha: offset/2)
 
@@ -44,10 +51,11 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
     
     //MARK: -Custom Constructors
     
-    class func resultsFeedViewControllerForQuery(_ query: String) -> UIViewController {
+    class func resultsFeedViewController(feedType: FeedType, feedValue: String) -> ResultsFeedViewController {
         let viewController =
         UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ResultsFeed) as! ResultsFeedViewController
-        viewController.query = query
+        viewController.feedValue = feedValue
+        viewController.feedType = feedType
         return viewController
     }
     
@@ -68,32 +76,42 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
         return true
     }
     
-    @IBAction func sortButtonDidPressed(_ sender: UIButton) {
-        //customize sheet size before presenting
-        //https://developer.apple.com/videos/play/wwdc2021/10063/
-        let sortByVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.SortBy) as! SortByViewController
-
-        if let sheet = sortByVC.sheetPresentationController {
-            sheet.detents = [.medium()]
-            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-        }
-        present(sortByVC, animated: true, completion: nil)
-    }
-    
+//    @IBAction func sortButtonDidPressed(_ sender: UIButton) {
+//        //customize sheet size before presenting
+//        //https://developer.apple.com/videos/play/wwdc2021/10063/
+//        let sortByVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.SortBy) as! SortByViewController
+//
+//        if let sheet = sortByVC.sheetPresentationController {
+//            sheet.detents = [.medium()]
+//            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+//        }
+//        present(sortByVC, animated: true, completion: nil)
+//    }
+//
     // MARK: -API calls
     
+    // Defines how the list brings in posts
     @objc override func refreshFeed() {
         //TODO: cancel task if it takes too long. that way the user can refresh and try again
-        Task {
-            do {
-                posts = try await PostAPI.fetchPosts(text: query)
-                tableView.reloadData();
-                tableView.refreshControl!.endRefreshing()
-                indicator.stopAnimating()
-                print("loaded")
-            } catch {
-                print(error)
+        switch feedType {
+        case .hotspot: //if hotspot, the posts will have already been set beforehand, so do nothing
+            return
+        case .mine: //if mine, just set posts to authed user's posts
+            return
+        case .query: //if query, query those posts
+            Task {
+                do {
+                    posts = try await PostAPI.fetchPosts(text: feedValue)
+                    tableView.reloadData();
+    //                tableView.refreshControl!.endRefreshing() //remove because disallowing refresh now
+                    indicator.stopAnimating()
+                    print("loaded")
+                } catch {
+                    print(error)
+                }
             }
+        case .none:
+            return
         }
     }
     
@@ -117,26 +135,26 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
     // MARK: -TableView Delegate & Data Source
         
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print(indexPath)
         if (indexPath.row == 0) {
-            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Query, for: indexPath) as! QueryCell
-            cell.queryLabel.text = query
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.FeedHeader, for: indexPath) as! FeedHeaderCell
+            cell.feedHeaderLabel.text = feedValue
+            cell.feedType = feedType
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             return cell
         }
-        else  if (indexPath.row == 1) {
-            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Sort, for: indexPath)
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-            return cell;
-        }
+//        else  if (indexPath.row == 1) {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Sort, for: indexPath)
+//            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+//            return cell;
+//        }
         let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-        cell.configurePostCell(post: posts[indexPath.row-2], parent: self, bubbleArrowPosition: .left)
+        cell.configurePostCell(post: posts[indexPath.row-1], parent: self, bubbleArrowPosition: .left)
         return cell
         
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2 + posts.count
+        return 1 + posts.count
     }
     
 }

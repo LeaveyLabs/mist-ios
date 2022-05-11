@@ -1,5 +1,5 @@
 //
-//  QueryCell.swift
+//  FeedHeaderCell.swift
 //  mist-ios
 //
 //  Created by Adam Novak on 2022/03/13.
@@ -7,9 +7,10 @@
 
 import UIKit
 
-class QueryCell: UITableViewCell {
+class FeedHeaderCell: UITableViewCell {
     
-    @IBOutlet weak var queryLabel: UILabel!
+    @IBOutlet weak var feedHeaderLabel: UILabel!
+    var feedType: FeedType?
 
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -118,7 +118,7 @@ class MapViewController: UIViewController {
     }
 
     
-    //MARK: --User Interaction
+    //MARK: - User Interaction
     
     @IBAction func userTrackingButtonDidPressed(_ sender: UIButton) {
         slowFlyTo(lat: mapView.userLocation.coordinate.latitude, long: mapView.userLocation.coordinate.longitude, incrementalZoom: false, completion: {_ in })
@@ -131,24 +131,30 @@ extension MapViewController: MKMapViewDelegate {
         
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if view.annotation is MKUserLocation {
-//            print(mapView.userLocation.image)
             mapView.deselectAnnotation(view.annotation, animated: false)
             mapView.userLocation.title = "Hey cutie"
-        } else if let clusterAnnotation = view.annotation as? MKClusterAnnotation {
+        }
+        else if let clusterAnnotation = view.annotation as? MKClusterAnnotation {
             mapView.deselectAnnotation(view.annotation, animated: false)
             if clusterAnnotation.isHotspot {
                 var posts = [Post]()
                 for annotation in clusterAnnotation.memberAnnotations {
                     if let annotation = annotation as? PostAnnotation {
                         posts.append(annotation.post)
+                        
                     }
                 }
-//                let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewControllerForQuery(posts)
-//                navigationController?.pushViewController(newQueryFeedViewController, animated: true)
+                let newVC = ResultsFeedViewController.resultsFeedViewController(feedType: .hotspot, feedValue: clusterAnnotation.title!)
+                newVC.posts = posts
+                navigationController?.pushViewController(newVC, animated: true)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in //wait 0.5 seconds
+                    centerMapOn(lat: view.annotation!.coordinate.latitude, long: view.annotation!.coordinate.longitude)
+                }
             } else {
                 slowFlyTo(lat: view.annotation!.coordinate.latitude, long: view.annotation!.coordinate.longitude, incrementalZoom: true, completion: {_ in })
             }
-        } else if let view = view as? PostMarkerAnnotationView {
+        }
+        else if let view = view as? PostMarkerAnnotationView {
             view.glyphTintColor = mistUIColor() //this is needed bc for some reason the glyph tint color turns grey even with the mist-heart-pink icon
             view.markerTintColor = mistSecondaryUIColor()
             
@@ -272,11 +278,16 @@ extension MapViewController: CLLocationManagerDelegate {
     
 extension MapViewController {
 
-    //MARK: -Helpers
+    //MARK: - Helpers
     
     func centerMapOnUSC() {
         let region = mapView.regionThatFits(MKCoordinateRegion(center: Constants.USC_LAT_LONG, latitudinalMeters: 1200, longitudinalMeters: 1200))
         mapView.setRegion(region, animated: true)
+    }
+    
+    func centerMapOn(lat: Double, long: Double) {
+        let newCamera = MKMapCamera(lookingAtCenter: CLLocationCoordinate2D.init(latitude: lat, longitude: long), fromDistance: mapView.camera.centerCoordinateDistance, pitch: 50, heading: 0)
+        mapView.camera = newCamera
     }
     
     // Custom camera transition https://stackoverflow.com/questions/21125573/mkmapcamera-pitch-altitude-function

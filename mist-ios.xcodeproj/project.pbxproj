@@ -81,8 +81,8 @@
 		47A3D72327D5A0D2003DBEA5 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */; };
 		47AE72AA27F77B0B00A5E94C /* UsernameSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AE72A927F77B0B00A5E94C /* UsernameSettingViewController.swift */; };
 		47C1D49127DF00B200970B3D /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C1D49027DF00B200970B3D /* MoreViewController.swift */; };
-		47C2834F27DED77500A19128 /* QueryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C2834D27DED77500A19128 /* QueryCell.swift */; };
-		47C2835027DED77500A19128 /* QueryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C2834E27DED77500A19128 /* QueryCell.xib */; };
+		47C2834F27DED77500A19128 /* FeedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C2834D27DED77500A19128 /* FeedHeaderCell.swift */; };
+		47C2835027DED77500A19128 /* FeedHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C2834E27DED77500A19128 /* FeedHeaderCell.xib */; };
 		47CE900A27E058090004B756 /* PinMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900927E058090004B756 /* PinMapViewController.swift */; };
 		47CE900C27E059DC0004B756 /* PinMapModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */; };
 		47E2B1BD27FFC52900131B8D /* ShadowNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */; };
@@ -201,8 +201,8 @@
 		47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		47AE72A927F77B0B00A5E94C /* UsernameSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameSettingViewController.swift; sourceTree = "<group>"; };
 		47C1D49027DF00B200970B3D /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
-		47C2834D27DED77500A19128 /* QueryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryCell.swift; sourceTree = "<group>"; };
-		47C2834E27DED77500A19128 /* QueryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QueryCell.xib; sourceTree = "<group>"; };
+		47C2834D27DED77500A19128 /* FeedHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedHeaderCell.swift; sourceTree = "<group>"; };
+		47C2834E27DED77500A19128 /* FeedHeaderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedHeaderCell.xib; sourceTree = "<group>"; };
 		47CE900927E058090004B756 /* PinMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinMapViewController.swift; sourceTree = "<group>"; };
 		47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinMapModalViewController.swift; sourceTree = "<group>"; };
 		47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowNavigationController.swift; sourceTree = "<group>"; };
@@ -223,7 +223,7 @@
 		47E74E2E27CA100000467A0C /* mist_iosUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mist_iosUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		47EA3DFA27E0098F00381218 /* UINavigationController+Hairline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Hairline.swift"; sourceTree = "<group>"; };
 		47EA3DFF27E013EB00381218 /* PostAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAnnotation.swift; sourceTree = "<group>"; };
-		47EA3E0127E0151200381218 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		47EA3E0127E0151200381218 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		47EE95F927F64C00003B351E /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		47F45FCC27FF51DF00F2187A /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		47F45FCE27FF51EB00F2187A /* PostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostView.xib; sourceTree = "<group>"; };
@@ -302,7 +302,7 @@
 				47E2B1C12800E9EB00131B8D /* MyCommentCell.xib */,
 				470F271727DE758100C6DDAF /* WordResultCell.xib */,
 				470F271B27DE764F00C6DDAF /* UserResultCell.xib */,
-				47C2834E27DED77500A19128 /* QueryCell.xib */,
+				47C2834E27DED77500A19128 /* FeedHeaderCell.xib */,
 			);
 			path = Xibs;
 			sourceTree = "<group>";
@@ -333,7 +333,7 @@
 				47E2B1C02800E9EB00131B8D /* MyCommentCell.swift */,
 				470F271627DE758100C6DDAF /* WordResultCell.swift */,
 				470F271A27DE764F00C6DDAF /* UserResultCell.swift */,
-				47C2834D27DED77500A19128 /* QueryCell.swift */,
+				47C2834D27DED77500A19128 /* FeedHeaderCell.swift */,
 			);
 			path = Xibs;
 			sourceTree = "<group>";
@@ -680,7 +680,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47C2835027DED77500A19128 /* QueryCell.xib in Resources */,
+				47C2835027DED77500A19128 /* FeedHeaderCell.xib in Resources */,
 				47E74E1827CA0FFF00467A0C /* Launch.storyboard in Resources */,
 				47F45FCF27FF51EB00F2187A /* PostView.xib in Resources */,
 				47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */,
@@ -751,7 +751,7 @@
 				47A3D70C27D55A3A003DBEA5 /* PostService.swift in Sources */,
 				47A3D71D27D5940D003DBEA5 /* UITextView+DoneButton.swift in Sources */,
 				47CE900A27E058090004B756 /* PinMapViewController.swift in Sources */,
-				47C2834F27DED77500A19128 /* QueryCell.swift in Sources */,
+				47C2834F27DED77500A19128 /* FeedHeaderCell.swift in Sources */,
 				470F271327DE6F5800C6DDAF /* LiveResultsTableViewController.swift in Sources */,
 				47C1D49127DF00B200970B3D /* MoreViewController.swift in Sources */,
 				47FF869D27DB87A70076A1CA /* UIImage+Thumbnail.swift in Sources */,

@@ -158,7 +158,7 @@ extension ExploreMapViewController: UISearchBarDelegate {
         switch resultsTableController.selectedScope {
             case 0:
                 //TODO: idea: what if you present a new navigation controller , with its root view controller as the newQueryFeedViewController. will this fix aesthetic issues?
-                let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewControllerForQuery(text)
+            let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewController(feedType: .query, feedValue: text)
                 navigationController?.pushViewController(newQueryFeedViewController, animated: true)
             case 1:
                 break
@@ -189,7 +189,7 @@ extension ExploreMapViewController: UITableViewDelegate {
         switch resultsTableController.selectedScope {
         case 0:
             let word = resultsTableController.liveResults[indexPath.row] as! Word
-            let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewControllerForQuery(word.text)
+            let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewController(feedType: .query, feedValue: word.text)
             navigationController?.pushViewController(newQueryFeedViewController, animated: true)
         case 1:
             break

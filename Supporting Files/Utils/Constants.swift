@@ -32,7 +32,7 @@ struct Constants {
             static let Comment = "CommentCell"
             static let WordResult = "WordResultCell"
             static let UserResult = "UserResultCell"
-            static let Query = "QueryCell"
+            static let FeedHeader = "FeedHeaderCell"
             static let Sort = "SortCell"
         }
         struct VC {
