@@ -20,7 +20,7 @@ class ExploreMapViewController: MapViewController {
     @IBOutlet weak var dateSliderOuterView: UIView!
     @IBOutlet weak var dateSliderView: UIView!
     @IBOutlet weak var dateLabel: UILabel!
-    
+        
     //ExploreViewController
     var mySearchController: UISearchController!
     private var resultsTableController: LiveResultsTableViewController!
@@ -30,8 +30,6 @@ class ExploreMapViewController: MapViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.titleView = mistTitle
-        
-
         
         //ExploreViewController
         loadExploreMapView()
@@ -76,36 +74,15 @@ class ExploreMapViewController: MapViewController {
         Task {
             do {
                 let nearbyPosts = try await PostAPI.fetchPosts(latitude: Constants.USC_LAT_LONG.latitude, longitude: Constants.USC_LAT_LONG.longitude)
-                //turn the first ten posts returned into PostAnnotations and add them to the map
+                //turn the first 10000..?? lol posts returned into PostAnnotations and add them to the map
                 for index in 0...min(10000, nearbyPosts.count-1) {
-                    let postAnnotation = BridgeAnnotation(withPost: nearbyPosts[index])
-                    allAnnotations?.append(postAnnotation)
+                    let postAnnotation = PostAnnotation(withPost: nearbyPosts[index])
+                    displayedAnnotations?.append(postAnnotation)
                 }
-                showAllAnnotations(self)
             } catch {
                 print(error)
             }
         }
-    }
-    
-    //transition from standard to satellite view on zoom in
-    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        let zoomWidth = mapView.visibleMapRect.size.width
-        let zoomFactor = Int(log2(zoomWidth)) - 9
-        print("...REGION DID CHANGE: ZOOM FACTOR \(zoomFactor)")
-    }
-
-    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-        print(mapView.camera.pitch)
-
-//        mapView.alpha = mapView.camera.altitude / 1000 - 0.7
-
-        //        if (mapView.alpha < 0.3) {
-//            mapView.alpha = 1 - mapView.alpha - 0.2
-//            mapView.mapType = MKMapType.satellite
-//        } else {
-//            mapView.mapType = MKMapType.standard
-//        }
     }
     
 }
@@ -131,9 +108,9 @@ extension ExploreMapViewController {
     //https://stackoverflow.com/questions/51675063/how-to-present-view-controller-from-left-to-right-in-ios
     //https://github.com/HeroTransitions/Hero
     @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
-        let myProfileVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyProfile) as! MyProfileViewController
-//            self.navigationController?.view.layer.add(CATransition().segueFromLeft(), forKey: nil)
-            self.navigationController?.pushViewController(myProfileVC, animated: true)
+        let myAccountNavigation = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation)
+        myAccountNavigation.modalPresentationStyle = .fullScreen
+        self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
     }
 }
 
@@ -181,7 +158,7 @@ extension ExploreMapViewController: UISearchBarDelegate {
         switch resultsTableController.selectedScope {
             case 0:
                 //TODO: idea: what if you present a new navigation controller , with its root view controller as the newQueryFeedViewController. will this fix aesthetic issues?
-                let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewControllerForQuery(text)
+            let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewController(feedType: .query, feedValue: text)
                 navigationController?.pushViewController(newQueryFeedViewController, animated: true)
             case 1:
                 break
@@ -212,7 +189,7 @@ extension ExploreMapViewController: UITableViewDelegate {
         switch resultsTableController.selectedScope {
         case 0:
             let word = resultsTableController.liveResults[indexPath.row] as! Word
-            let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewControllerForQuery(word.text)
+            let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewController(feedType: .query, feedValue: word.text)
             navigationController?.pushViewController(newQueryFeedViewController, animated: true)
         case 1:
             break

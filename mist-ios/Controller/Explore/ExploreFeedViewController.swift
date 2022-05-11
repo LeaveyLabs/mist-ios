@@ -7,10 +7,19 @@
 
 import UIKit
 
+enum Filter {
+    case trending
+    case recent
+    case featured
+    case friends
+    case matches
+}
+
 class ExploreFeedViewController: FeedViewController {
     
     @IBOutlet weak var mistTitle: UIView!
-    
+    var filter: Filter = .trending
+        
     //ExploreViewController
     var mySearchController: UISearchController!
     private var resultsTableController: LiveResultsTableViewController!
@@ -22,13 +31,40 @@ class ExploreFeedViewController: FeedViewController {
         //ExploreViewController
         setupSearchBar()
     }
+    
+    @objc override func refreshFeed() {
+        Task {
+            do {
+                posts = try await PostAPI.fetchPosts();
+                self.tableView.reloadData();
+                tableView.refreshControl!.endRefreshing()
+                indicator.stopAnimating()
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return posts.count
+    }
 }
 
+//MARK: - FeedHeaderCellDelegate
 
+extension ExploreFeedViewController: FeedHeaderCellDelegate {
+    func handleFilterButtonPress() {
+        //customize sheet size before presenting
+        //https://developer.apple.com/videos/play/wwdc2021/10063/
+        let sortByVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.SortBy) as! SortByViewController
 
-
-
-
+        if let sheet = sortByVC.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+        }
+        present(sortByVC, animated: true, completion: nil)
+    }
+}
 
 //MARK: --------------ExploreViewController
 
@@ -40,13 +76,17 @@ extension ExploreFeedViewController {
         present(mySearchController, animated: true)
     }
     
+    @IBAction func mapButtonDidPressed(_ sender: UIBarButtonItem) {
+        navigationController?.popViewController(animated: false)
+    }
+    
     //TODO: add custom animations
     //https://stackoverflow.com/questions/51675063/how-to-present-view-controller-from-left-to-right-in-ios
     //https://github.com/HeroTransitions/Hero
     @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
-        let myProfileVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyProfile) as! MyProfileViewController
-//            self.navigationController?.view.layer.add(CATransition().segueFromLeft(), forKey: nil)
-            self.navigationController?.pushViewController(myProfileVC, animated: true)
+        let myAccountNavigation = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation)
+        myAccountNavigation.modalPresentationStyle = .fullScreen
+        self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
     }
 }
 
@@ -94,7 +134,7 @@ extension ExploreFeedViewController: UISearchBarDelegate {
         switch resultsTableController.selectedScope {
             case 0:
                 //TODO: idea: what if you present a new navigation controller , with its root view controller as the newQueryFeedViewController. will this fix aesthetic issues?
-                let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewControllerForQuery(text)
+            let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewController(feedType: .query, feedValue: text)
                 navigationController?.pushViewController(newQueryFeedViewController, animated: true)
             case 1:
                 break
@@ -121,23 +161,42 @@ extension ExploreFeedViewController: UISearchBarDelegate {
 
 extension ExploreFeedViewController {
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
 
-        // Check to see which table view cell was selected.
-        if tableView === self.tableView {
-            //do nothing
-        } else {
+        // We only care about the ResultsTableView and not the FeedTableView
+        if tableView === resultsTableController.tableView {
             switch resultsTableController.selectedScope {
             case 0:
                 let word = resultsTableController.liveResults[indexPath.row] as! Word
-                let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewControllerForQuery(word.text)
+                let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewController(feedType: .query, feedValue: word.text)
                 navigationController?.pushViewController(newQueryFeedViewController, animated: true)
             default: break
             }
         }
     }
 }
+
+    // MARK: - UITableViewDataSource
+
+extension ExploreFeedViewController {
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if (indexPath.row == 0) {
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.FeedHeader, for: indexPath) as! FeedHeaderCell
+            cell.feedHeaderLabel.text = "\(filter)"
+            cell.feedType = .home
+            cell.delegate = self
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+            return cell
+        }
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
+        cell.configurePostCell(post: posts[indexPath.row], parent: self, bubbleArrowPosition: .left)
+        cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+        return cell
+    }
+}
+
 
     // MARK: - UISearchControllerDelegate
 

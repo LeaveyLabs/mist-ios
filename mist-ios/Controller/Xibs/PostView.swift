@@ -8,6 +8,11 @@
 import UIKit
 
 class PostView: UIView {
+    
+    @IBAction func backgroundButtonDidPressed(_ sender: UIButton) {
+        print("pressed")
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.configureView()
@@ -19,9 +24,9 @@ class PostView: UIView {
     }
     
     private func configureView() {
-        guard let view = self.loadViewFromNib(nibName: "PostView") else {return}
-        view.frame = self.bounds
-        self.addSubview(view)
+//        guard let view = self.loadViewFromNib(nibName: "PostView") else {return}
+//        view.frame = self.bounds
+//        self.addSubview(view)
     }
     
     func configurePost() {
