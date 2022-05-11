@@ -22,7 +22,7 @@ class EnterUsernameViewController: UIViewController {
         if let username = usernameField.text {
             AuthContext.AuthVariables.username = username
             // Move onto the next screen
-            let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: "EnterPasswordViewController");
+            let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterPasswordViewController);
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

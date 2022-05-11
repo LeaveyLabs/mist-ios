@@ -259,7 +259,7 @@ extension ExploreMapViewController: UISearchResultsUpdating {
                         resultsController.liveResults = try await WordAPI.fetchWords(text: text)
                     case 1:
                         print("doing a profile search with: " + text)
-                        resultsController.liveResults = try await ProfileAPI.fetchProfiles(text: text)
+                        resultsController.liveResults = try await ProfileAPI.fetchProfilesByText(text: text)
                     default: break
                     }
                     resultsController.tableView.reloadData()

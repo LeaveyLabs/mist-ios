@@ -33,11 +33,11 @@ class ProfileAPITest: XCTestCase {
         if let imgData = try? Data(contentsOf: url) {
             let image = UIImage(data: imgData)
             Task {
-                let testProfiles = try? await ProfileAPI.fetchProfiles(text: "kevinsun")
+                let testProfiles = try? await ProfileAPI.fetchProfilesByText(text: "kevinsun")
                 let testProfile = testProfiles?[0]
                 if let testProfile = testProfile {
                     if let image = image {
-                        let _ = try? await ProfileAPI.postProfilePic(image: image, profile:testProfile)
+                        let _ = try? await ProfileAPI.putProfilePic(image: image, profile:testProfile)
                         expectation.fulfill()
                     }
                 }

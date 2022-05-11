@@ -20,11 +20,21 @@ class EnterProfilePictureViewController: UIViewController {
         // Do any additional setup after loading the view.
         self.imagePicker = ImagePicker(presentationController: self, delegate: self)
     }
+    
     @IBAction func didPressedChoosePhotoButton(_ sender: UIButton) {
         self.imagePicker.present(from: sender)
     }
-    
 
+    @IBAction func didPressedContinue(_ sender: Any) {
+        Task {
+            if let selectedProfilePic = self.profilePictureView.image {
+                let currProfile = try await ProfileAPI.fetchProfilesByUsername(username: AuthContext.AuthVariables.username)[0]
+                let _ = try await ProfileAPI.putProfilePic(image: selectedProfilePic, profile: currProfile)
+                let vc = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.TabBarController)
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+    }
     /*
     // MARK: - Navigation
 

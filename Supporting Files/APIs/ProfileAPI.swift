@@ -21,13 +21,19 @@ extension NSMutableData {
 
 class ProfileAPI {
     // Fetches all profiles from database (searching for the below text)
-    static func fetchProfiles(text:String) async throws -> [Profile] {
+    static func fetchProfilesByText(text:String) async throws -> [Profile] {
         let url = "https://mist-backend.herokuapp.com/api/profiles?text=\(text)"
         let data = try await BasicAPI.fetch(url:url)
         return try JSONDecoder().decode([Profile].self, from: data)
     }
     
-    static func postProfilePic(image:UIImage, profile:Profile) async throws -> Profile {
+    static func fetchProfilesByUsername(username:String) async throws -> [Profile] {
+        let url = "https://mist-backend.herokuapp.com/api/profiles?username=\(username)"
+        let data = try await BasicAPI.fetch(url:url)
+        return try JSONDecoder().decode([Profile].self, from: data)
+    }
+    
+    static func putProfilePic(image:UIImage, profile:Profile) async throws -> Profile {
         let imgData = image.pngData()
 
         let parameters = [
@@ -45,7 +51,7 @@ class ProfileAPI {
                             multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
                         }
                 },
-            to: "http://127.0.0.1:8000/api/profiles/kevinsun/",
+            to: "https://mist-backend.herokuapp.com/api/profiles/\(profile.username)/",
             method: .put
         )
         return try await request.serializingDecodable(Profile.self).value

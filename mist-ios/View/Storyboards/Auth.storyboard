@@ -190,7 +190,6 @@
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="didPressedContinue:" destination="2yy-YR-CED" eventType="touchUpInside" id="Mcr-vo-UxN"/>
-                                    <segue destination="Pws-6u-IWJ" kind="show" id="0uF-F4-b91"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -841,6 +840,9 @@
                                         </fragment>
                                     </attributedString>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="didPressedContinue:" destination="J96-3x-Kpy" eventType="touchUpInside" id="Qmu-J4-2a7"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Finish your profile" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j9J-41-L9Z">
                                 <rect key="frame" x="77" y="110" width="261" height="43"/>

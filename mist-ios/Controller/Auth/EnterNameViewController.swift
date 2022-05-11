@@ -34,12 +34,20 @@ class EnterNameViewController: UIViewController {
                 AuthContext.AuthVariables.firstName = firstName
                 AuthContext.AuthVariables.lastName = lastName
                 Task {
-                    print("HELLO")
-                    let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: "EnterProfilePictureViewController")
-                    print("NAH")
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    let createSuccess = try await AuthAPI.createUser(email: AuthContext.AuthVariables.email,
+                                                                     username: AuthContext.AuthVariables.username,
+                                                                     password: AuthContext.AuthVariables.password,
+                                                                     first_name: AuthContext.AuthVariables.firstName,
+                                                                     last_name: AuthContext.AuthVariables.lastName)
+                    
+                    if(createSuccess) {
+                        let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterProfilePictureViewController)
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                    else {
+                        print("Error: Account Creation Failed.")
+                    }
                 }
-                
             }
         }
     }
