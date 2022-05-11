@@ -16,12 +16,9 @@ enum BubbleArrowPosition {
 
 protocol PostCellDelegate{
     func likeDidTapped(post: Post)
-    
 }
 
 class PostCell: UITableViewCell {
-
-    
     
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!

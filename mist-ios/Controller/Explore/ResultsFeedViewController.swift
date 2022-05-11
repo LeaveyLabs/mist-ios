@@ -8,6 +8,7 @@
 import UIKit
 
 enum FeedType {
+    case home
     case query
     case mine
     case hotspot
@@ -15,11 +16,11 @@ enum FeedType {
 
 class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate {
     
-    // MARK: -Properties
+    // MARK: - Properties
     var feedType: FeedType!
     var feedValue: String!
     
-    // MARK: -Life Cycle
+    // MARK: - Life Cycle
 
     override func viewDidLoad() {
         //something to do with edge insets.....
@@ -38,18 +39,14 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
         
         tableView.refreshControl = nil //disable pull down top refresh
         
-        let feedHeader = UINib(nibName: Constants.SBID.Cell.FeedHeader, bundle: nil)
-        tableView.register(feedHeader, forCellReuseIdentifier: Constants.SBID.Cell.FeedHeader)
-        
-        navigationController?.restoreHairline() //TODO: does nothing
+//        navigationController?.restoreHairline() //TODO: does nothing
         navigationItem.title = feedValue
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:))))
         //navigationController?.navigationBar.standardAppearance.backgroundColor = hexStringToUIColor(hex: "CDABE1", alpha: offset/2)
 
         super.viewDidLoad()
     }
     
-    //MARK: -Custom Constructors
+    //MARK: - Custom Constructors
     
     class func resultsFeedViewController(feedType: FeedType, feedValue: String) -> ResultsFeedViewController {
         let viewController =
@@ -59,11 +56,7 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
         return viewController
     }
     
-    // MARK: -User Interaction
-    
-    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-        //
-    }
+    // MARK: - User Interaction
     
     @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
         navigationController?.hideHairline()
@@ -75,41 +68,31 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
         navigationController?.hideHairline()
         return true
     }
-    
-//    @IBAction func sortButtonDidPressed(_ sender: UIButton) {
-//        //customize sheet size before presenting
-//        //https://developer.apple.com/videos/play/wwdc2021/10063/
-//        let sortByVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.SortBy) as! SortByViewController
-//
-//        if let sheet = sortByVC.sheetPresentationController {
-//            sheet.detents = [.medium()]
-//            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-//        }
-//        present(sortByVC, animated: true, completion: nil)
-//    }
-//
-    // MARK: -API calls
+
+    // MARK: - API calls
     
     // Defines how the list brings in posts
     @objc override func refreshFeed() {
         //TODO: cancel task if it takes too long. that way the user can refresh and try again
         switch feedType {
         case .hotspot: //if hotspot, the posts will have already been set beforehand, so do nothing
+            indicator.stopAnimating()
             return
         case .mine: //if mine, just set posts to authed user's posts
+            indicator.stopAnimating()
             return
         case .query: //if query, query those posts
             Task {
                 do {
                     posts = try await PostAPI.fetchPosts(text: feedValue)
                     tableView.reloadData();
-    //                tableView.refreshControl!.endRefreshing() //remove because disallowing refresh now
                     indicator.stopAnimating()
-                    print("loaded")
                 } catch {
                     print(error)
                 }
             }
+        case .home:
+            return
         case .none:
             return
         }
@@ -132,8 +115,10 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
         }
     }
     
-    // MARK: -TableView Delegate & Data Source
-        
+    // MARK: - UITableViewDelegate
+    
+    // MARK: - UITableViewDataSource
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (indexPath.row == 0) {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.FeedHeader, for: indexPath) as! FeedHeaderCell
@@ -142,15 +127,9 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             return cell
         }
-//        else  if (indexPath.row == 1) {
-//            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Sort, for: indexPath)
-//            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-//            return cell;
-//        }
         let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
         cell.configurePostCell(post: posts[indexPath.row-1], parent: self, bubbleArrowPosition: .left)
         return cell
-        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

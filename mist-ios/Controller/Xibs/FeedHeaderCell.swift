@@ -7,20 +7,24 @@
 
 import UIKit
 
+protocol FeedHeaderCellDelegate {
+    func handleFilterButtonPress()
+}
+
 class FeedHeaderCell: UITableViewCell {
     
+    var delegate: FeedHeaderCellDelegate?
+
     @IBOutlet weak var feedHeaderLabel: UILabel!
+    @IBOutlet weak var feedHeaderPreLabel: UILabel!
     var feedType: FeedType?
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    @IBAction func filterButtonDidPressed(_ sender: UIButton) {
+        delegate?.handleFilterButtonPress()
     }
     
 }

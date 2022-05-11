@@ -7,10 +7,19 @@
 
 import UIKit
 
+enum Filter {
+    case trending
+    case recent
+    case featured
+    case friends
+    case matches
+}
+
 class ExploreFeedViewController: FeedViewController {
     
     @IBOutlet weak var mistTitle: UIView!
-    
+    var filter: Filter = .trending
+        
     //ExploreViewController
     var mySearchController: UISearchController!
     private var resultsTableController: LiveResultsTableViewController!
@@ -22,13 +31,40 @@ class ExploreFeedViewController: FeedViewController {
         //ExploreViewController
         setupSearchBar()
     }
+    
+    @objc override func refreshFeed() {
+        Task {
+            do {
+                posts = try await PostAPI.fetchPosts();
+                self.tableView.reloadData();
+                tableView.refreshControl!.endRefreshing()
+                indicator.stopAnimating()
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return posts.count
+    }
 }
 
+//MARK: - FeedHeaderCellDelegate
 
+extension ExploreFeedViewController: FeedHeaderCellDelegate {
+    func handleFilterButtonPress() {
+        //customize sheet size before presenting
+        //https://developer.apple.com/videos/play/wwdc2021/10063/
+        let sortByVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.SortBy) as! SortByViewController
 
-
-
-
+        if let sheet = sortByVC.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+        }
+        present(sortByVC, animated: true, completion: nil)
+    }
+}
 
 //MARK: --------------ExploreViewController
 
@@ -125,13 +161,11 @@ extension ExploreFeedViewController: UISearchBarDelegate {
 
 extension ExploreFeedViewController {
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
 
-        // Check to see which table view cell was selected.
-        if tableView === self.tableView {
-            //do nothing
-        } else {
+        // We only care about the ResultsTableView and not the FeedTableView
+        if tableView === resultsTableController.tableView {
             switch resultsTableController.selectedScope {
             case 0:
                 let word = resultsTableController.liveResults[indexPath.row] as! Word
@@ -142,6 +176,27 @@ extension ExploreFeedViewController {
         }
     }
 }
+
+    // MARK: - UITableViewDataSource
+
+extension ExploreFeedViewController {
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if (indexPath.row == 0) {
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.FeedHeader, for: indexPath) as! FeedHeaderCell
+            cell.feedHeaderLabel.text = "\(filter)"
+            cell.feedType = .home
+            cell.delegate = self
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+            return cell
+        }
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
+        cell.configurePostCell(post: posts[indexPath.row], parent: self, bubbleArrowPosition: .left)
+        cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+        return cell
+    }
+}
+
 
     // MARK: - UISearchControllerDelegate
 
