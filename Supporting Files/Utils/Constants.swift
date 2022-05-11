@@ -13,11 +13,15 @@ struct Constants {
     static let DefaultFont: String = "Avenir-Medium";
     static let DefaultFontSize: CGFloat = 20
     
-    static let USC_LAT_LONG =  CLLocationCoordinate2D(latitude: 34.0209, longitude: -118.2861)
+    static let USC_LAT_LONG =  CLLocationCoordinate2D(latitude: 34.0209 + 0.0019, longitude: -118.2861)
 
     // MARK: -Storyboard Identifiers (SBID)
     //note: all nib names should be the same ss their storyboard ID
     struct SBID {
+        struct View {
+            //Post
+            static let Post = "PostView"
+        }
         struct SB {
             static let Main = "Main"
             static let Launch = "Launch"
@@ -28,7 +32,7 @@ struct Constants {
             static let Comment = "CommentCell"
             static let WordResult = "WordResultCell"
             static let UserResult = "UserResultCell"
-            static let Query = "QueryCell"
+            static let FeedHeader = "FeedHeaderCell"
             static let Sort = "SortCell"
         }
         struct VC {
@@ -55,6 +59,7 @@ struct Constants {
             //Navigation Controllers
             static let NewMessageNavigation = "NewMessageNavigationController"
             static let NewPostNavigation = "NewPostNavigationController"
+            static let MyAccountNavigation = "MyAccountNavigationController"
 
         }
         struct Segue {
@@ -62,6 +67,7 @@ struct Constants {
             static let ToNameSetting = "ToNameSetting"
             static let ToPasswordSetting = "ToPasswordSetting"
             static let ToNotificationsSetting = "ToNotificationsSetting"
+            static let ToListView = "ToListView"
         }
     }
 }

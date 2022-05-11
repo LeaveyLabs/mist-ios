@@ -19,7 +19,7 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var titleTextField: UITextField!
     var messagePlaceholderLabel : UILabel!
-    var currentlyPinnedAnnotation: BridgeAnnotation?
+    var currentlyPinnedAnnotation: PostAnnotation?
         
     @objc func tapDone(sender: Any) {
         self.view.endEditing(true)

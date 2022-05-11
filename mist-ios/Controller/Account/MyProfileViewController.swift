@@ -20,8 +20,9 @@ class MyProfileViewController: FeedViewController {
     
     // MARK: - UserInteraction
     
-    @IBAction func onBackButtonPressed(_ sender: UIBarButtonItem) {
-        self.navigationController?.popViewController(animated: true)
+    @IBAction func onExitButtonPressed(_ sender: UIBarButtonItem) {
+//        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true)
     }
         
     //MARK: -- Overrides
