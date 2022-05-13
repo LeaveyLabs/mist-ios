@@ -7,11 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		348E0B0A234058EB2F072597 /* Pods_mist_iosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B74530B0E6D970FA027DB1C /* Pods_mist_iosTests.framework */; };
 		4329571C27F4008300FA48A9 /* EnterEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */; };
 		433970DF27FE501700876026 /* WelcomeTutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */; };
 		43483BB228025179001C7C6A /* EnterUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB128025179001C7C6A /* EnterUsernameViewController.swift */; };
 		43483BB42802519C001C7C6A /* EnterPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB32802519C001C7C6A /* EnterPasswordViewController.swift */; };
 		43483BB6280251B1001C7C6A /* EnterNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB5280251B1001C7C6A /* EnterNameViewController.swift */; };
+		4369DB0A282EC436009215D4 /* MessageThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB09282EC436009215D4 /* MessageThread.swift */; };
+		4369DB0C282EC465009215D4 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB0B282EC465009215D4 /* Message.swift */; };
 		436EE80927F40CEA000D2887 /* EnterCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436EE80827F40CEA000D2887 /* EnterCodeViewController.swift */; };
 		43770C3E27EE819300F31CCF /* apiTests in Resources */ = {isa = PBXBuildFile; fileRef = 43770C3D27EE819300F31CCF /* apiTests */; };
 		43770C4B27EE8C0F00F31CCF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */; };
@@ -106,6 +109,8 @@
 		47FF869827DB1F470076A1CA /* PostAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF869727DB1F470076A1CA /* PostAPI.swift */; };
 		47FF869D27DB87A70076A1CA /* UIImage+Thumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF869C27DB87A70076A1CA /* UIImage+Thumbnail.swift */; };
 		47FF86A127DC712F0076A1CA /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF86A027DC712F0076A1CA /* Comment.swift */; };
+		CC3A086E5D4E54DA1896B7DD /* Pods_mist_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4893CE667EE01F9F03584E80 /* Pods_mist_ios.framework */; };
+		DC6E7981A3B43BBF141FF74C /* Pods_mist_ios_mist_iosUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 793ACEEFAFF3E83BBE6B0E38 /* Pods_mist_ios_mist_iosUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,11 +131,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		158ADE2D0B64EB1425AC3E39 /* Pods-mist-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mist-ios.debug.xcconfig"; path = "Target Support Files/Pods-mist-ios/Pods-mist-ios.debug.xcconfig"; sourceTree = "<group>"; };
+		1B74530B0E6D970FA027DB1C /* Pods_mist_iosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mist_iosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D5D831B7FDC3EA9A744A636 /* Pods-mist-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mist-iosTests.release.xcconfig"; path = "Target Support Files/Pods-mist-iosTests/Pods-mist-iosTests.release.xcconfig"; sourceTree = "<group>"; };
 		4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterEmailViewController.swift; sourceTree = "<group>"; };
 		433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeTutorialViewController.swift; sourceTree = "<group>"; };
 		43483BB128025179001C7C6A /* EnterUsernameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterUsernameViewController.swift; sourceTree = "<group>"; };
 		43483BB32802519C001C7C6A /* EnterPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPasswordViewController.swift; sourceTree = "<group>"; };
 		43483BB5280251B1001C7C6A /* EnterNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameViewController.swift; sourceTree = "<group>"; };
+		4369DB09282EC436009215D4 /* MessageThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageThread.swift; sourceTree = "<group>"; };
+		4369DB0B282EC465009215D4 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		436EE80827F40CEA000D2887 /* EnterCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterCodeViewController.swift; sourceTree = "<group>"; };
 		43770C3D27EE819300F31CCF /* apiTests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = apiTests; sourceTree = "<group>"; };
 		43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -229,6 +239,12 @@
 		47FF869727DB1F470076A1CA /* PostAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostAPI.swift; sourceTree = "<group>"; };
 		47FF869C27DB87A70076A1CA /* UIImage+Thumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Thumbnail.swift"; sourceTree = "<group>"; };
 		47FF86A027DC712F0076A1CA /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		4893CE667EE01F9F03584E80 /* Pods_mist_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mist_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		793ACEEFAFF3E83BBE6B0E38 /* Pods_mist_ios_mist_iosUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mist_ios_mist_iosUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8913D8A3F9FB8B907EE29B57 /* Pods-mist-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mist-ios.release.xcconfig"; path = "Target Support Files/Pods-mist-ios/Pods-mist-ios.release.xcconfig"; sourceTree = "<group>"; };
+		C5E91B2F7EF8756B423D4A02 /* Pods-mist-ios-mist-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mist-ios-mist-iosUITests.debug.xcconfig"; path = "Target Support Files/Pods-mist-ios-mist-iosUITests/Pods-mist-ios-mist-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		C7D638E8584ABAFF58B73816 /* Pods-mist-iosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mist-iosTests.debug.xcconfig"; path = "Target Support Files/Pods-mist-iosTests/Pods-mist-iosTests.debug.xcconfig"; sourceTree = "<group>"; };
+		FAF0AF1457C74ADA0AFCAB08 /* Pods-mist-ios-mist-iosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mist-ios-mist-iosUITests.release.xcconfig"; path = "Target Support Files/Pods-mist-ios-mist-iosUITests/Pods-mist-ios-mist-iosUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,6 +252,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC3A086E5D4E54DA1896B7DD /* Pods_mist_ios.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,6 +260,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				348E0B0A234058EB2F072597 /* Pods_mist_iosTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,12 +268,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC6E7981A3B43BBF141FF74C /* Pods_mist_ios_mist_iosUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4369DB08282EC413009215D4 /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				4369DB09282EC436009215D4 /* MessageThread.swift */,
+			);
+			path = Socket;
+			sourceTree = "<group>";
+		};
 		43770C4927EE8BED00F31CCF /* Auth */ = {
 			isa = PBXGroup;
 			children = (
@@ -396,6 +423,8 @@
 				47E74E2127CA100000467A0C /* mist-iosTests */,
 				47E74E2B27CA100000467A0C /* mist-iosUITests */,
 				47E74E0927CA0FFE00467A0C /* Products */,
+				77E0FC5ECECAF4AE94EF1D59 /* Pods */,
+				DE57BD2A308B800271AAD60C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -452,6 +481,7 @@
 				47FF86A027DC712F0076A1CA /* Comment.swift */,
 				439E44F527DFB76200E244D6 /* Profile.swift */,
 				439E44F927DFE20600E244D6 /* Word.swift */,
+				4369DB0B282EC465009215D4 /* Message.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -488,6 +518,7 @@
 		47E74E3E27CA14CE00467A0C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4369DB08282EC413009215D4 /* Socket */,
 				47E74E0B27CA0FFE00467A0C /* AppDelegate.swift */,
 				47E74E0D27CA0FFE00467A0C /* SceneDelegate.swift */,
 				47A3D71B27D593F0003DBEA5 /* Extensions */,
@@ -573,6 +604,29 @@
 			path = NewPost;
 			sourceTree = "<group>";
 		};
+		77E0FC5ECECAF4AE94EF1D59 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				158ADE2D0B64EB1425AC3E39 /* Pods-mist-ios.debug.xcconfig */,
+				8913D8A3F9FB8B907EE29B57 /* Pods-mist-ios.release.xcconfig */,
+				C5E91B2F7EF8756B423D4A02 /* Pods-mist-ios-mist-iosUITests.debug.xcconfig */,
+				FAF0AF1457C74ADA0AFCAB08 /* Pods-mist-ios-mist-iosUITests.release.xcconfig */,
+				C7D638E8584ABAFF58B73816 /* Pods-mist-iosTests.debug.xcconfig */,
+				3D5D831B7FDC3EA9A744A636 /* Pods-mist-iosTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		DE57BD2A308B800271AAD60C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4893CE667EE01F9F03584E80 /* Pods_mist_ios.framework */,
+				793ACEEFAFF3E83BBE6B0E38 /* Pods_mist_ios_mist_iosUITests.framework */,
+				1B74530B0E6D970FA027DB1C /* Pods_mist_iosTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -580,9 +634,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 47E74E3227CA100000467A0C /* Build configuration list for PBXNativeTarget "mist-ios" */;
 			buildPhases = (
+				52EF686593393392E79D2F03 /* [CP] Check Pods Manifest.lock */,
 				47E74E0427CA0FFE00467A0C /* Sources */,
 				47E74E0527CA0FFE00467A0C /* Frameworks */,
 				47E74E0627CA0FFE00467A0C /* Resources */,
+				C27C07002FC5758A4BD590DE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -597,6 +653,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 47E74E3527CA100000467A0C /* Build configuration list for PBXNativeTarget "mist-iosTests" */;
 			buildPhases = (
+				2538B296E869854D0DFDB08C /* [CP] Check Pods Manifest.lock */,
 				47E74E1A27CA100000467A0C /* Sources */,
 				47E74E1B27CA100000467A0C /* Frameworks */,
 				47E74E1C27CA100000467A0C /* Resources */,
@@ -615,9 +672,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 47E74E3827CA100000467A0C /* Build configuration list for PBXNativeTarget "mist-iosUITests" */;
 			buildPhases = (
+				D68CD88A00FDD6E913EE0586 /* [CP] Check Pods Manifest.lock */,
 				47E74E2427CA100000467A0C /* Sources */,
 				47E74E2527CA100000467A0C /* Frameworks */,
 				47E74E2627CA100000467A0C /* Resources */,
+				AD1134C0A8FB46E7F439D855 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -708,6 +767,109 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2538B296E869854D0DFDB08C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-mist-iosTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		52EF686593393392E79D2F03 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-mist-ios-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AD1134C0A8FB46E7F439D855 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mist-ios-mist-iosUITests/Pods-mist-ios-mist-iosUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mist-ios-mist-iosUITests/Pods-mist-ios-mist-iosUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mist-ios-mist-iosUITests/Pods-mist-ios-mist-iosUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C27C07002FC5758A4BD590DE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mist-ios/Pods-mist-ios-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mist-ios/Pods-mist-ios-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mist-ios/Pods-mist-ios-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D68CD88A00FDD6E913EE0586 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-mist-ios-mist-iosUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		47E74E0427CA0FFE00467A0C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -750,6 +912,7 @@
 				47CE900A27E058090004B756 /* PinMapViewController.swift in Sources */,
 				47C2834F27DED77500A19128 /* FeedHeaderCell.swift in Sources */,
 				470F271327DE6F5800C6DDAF /* LiveResultsTableViewController.swift in Sources */,
+				4369DB0C282EC465009215D4 /* Message.swift in Sources */,
 				47C1D49127DF00B200970B3D /* MoreViewController.swift in Sources */,
 				47FF869D27DB87A70076A1CA /* UIImage+Thumbnail.swift in Sources */,
 				47266AD227FF5531005DEDB1 /* UIView+LoadFromNib.swift in Sources */,
@@ -796,6 +959,7 @@
 				4700F8BA27DD7BE3006C2E08 /* Flag.swift in Sources */,
 				47F45FCD27FF51DF00F2187A /* PostView.swift in Sources */,
 				470F271F27DE9ABE00C6DDAF /* ResultsFeedViewController.swift in Sources */,
+				4369DB0A282EC436009215D4 /* MessageThread.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -970,6 +1134,7 @@
 		};
 		47E74E3327CA100000467A0C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 158ADE2D0B64EB1425AC3E39 /* Pods-mist-ios.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1003,6 +1168,7 @@
 		};
 		47E74E3427CA100000467A0C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8913D8A3F9FB8B907EE29B57 /* Pods-mist-ios.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1036,6 +1202,7 @@
 		};
 		47E74E3627CA100000467A0C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C7D638E8584ABAFF58B73816 /* Pods-mist-iosTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1056,6 +1223,7 @@
 		};
 		47E74E3727CA100000467A0C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3D5D831B7FDC3EA9A744A636 /* Pods-mist-iosTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1076,6 +1244,7 @@
 		};
 		47E74E3927CA100000467A0C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C5E91B2F7EF8756B423D4A02 /* Pods-mist-ios-mist-iosUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1093,6 +1262,7 @@
 		};
 		47E74E3A27CA100000467A0C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FAF0AF1457C74ADA0AFCAB08 /* Pods-mist-ios-mist-iosUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
