@@ -11,5 +11,5 @@ struct Message: Codable {
     let from_user: String;
     let to_user: String;
     let text: String;
-    let timestamp: Int;
+    let timestamp: Int?;
 }
