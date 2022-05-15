@@ -29,7 +29,7 @@ class EnterCodeViewController: UIViewController {
                     if(try await AuthAPI.validateEmail(email: AuthContext.AuthVariables.email, code: code)) {
                         print("attempting to proceed")
                         // If so, move onto the next screen
-                        let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: "WelcomeTutorialViewController");
+                        let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.WelcomeTutorialViewController);
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
                 } catch {

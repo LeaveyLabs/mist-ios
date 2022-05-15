@@ -32,7 +32,7 @@ class ProfileViewController: UIViewController {
     func loadProfile() {
         Task {
             do {
-                let profiles = try await ProfileAPI.fetchProfiles(text: username)
+                let profiles = try await ProfileAPI.fetchProfilesByText(text: username)
                 profile = profiles[0]
             } catch {
                 print(error)
