@@ -12,4 +12,5 @@ struct Profile: Codable {
     let first_name: String;
     let last_name: String;
     let picture: String?;
+    let user: Int;
 }
