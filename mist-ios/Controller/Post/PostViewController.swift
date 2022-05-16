@@ -137,6 +137,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
         }
         present(sortByVC, animated: true, completion: nil)
+        
     }
     
     @IBAction func submitButtonDidPressed(_ sender: UIButton) {

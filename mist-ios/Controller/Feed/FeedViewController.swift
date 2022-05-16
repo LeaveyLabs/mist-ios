@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol ShareActivityDelegate {
+    func presentShareActivityVC()
+}
+
 // FeedViewController is an Abstract Class. Probably should change this to a protocol later on
 class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -19,6 +23,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         setupTableView()
         indicator = initActivityIndicator(onView: view)
         refreshFeed();
+        
 //        navigationController?.restoreHairline() //dont think this does anything...
     }
     
