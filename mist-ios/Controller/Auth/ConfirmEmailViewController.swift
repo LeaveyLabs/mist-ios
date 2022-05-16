@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EnterCodeViewController: UIViewController {
+class ConfirmEmailViewController: UIViewController {
 
     @IBOutlet weak var codeField: UITextField!
     @IBOutlet weak var continueButton: UIButton!

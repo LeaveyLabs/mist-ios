@@ -1,1 +1,21 @@
+# Mac OS
 .DS_Store
+
+# Xcode
+xcuserdata/
+*~.nib
+*.swp
+*.xcuserstate
+
+# Carthage
+# read more: https://github.com/Carthage/Carthage/blob/83bbffd25172df767cf578ca17b0cfbbbf913d35/Documentation/Artifacts.md
+Carthage/
+
+#Python modules
+MANIFEST
+dist/
+build/
+
+# Generated files
+*.o
+*.pyc
