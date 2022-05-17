@@ -68,18 +68,23 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         if !validateAllFields() { return }
         
         Task {
-            var errorMessage: String?
-            if locationButton.titleLabel!.text!.isEmpty {
-                errorMessage = await UserService.singleton.uploadPost(title: titleTextField.text!, locationDescription: nil, latitude: nil, longitude: nil, message: messageTextView.text!)
-            } else {
-                errorMessage = await UserService.singleton.uploadPost(title: titleTextField.text!, locationDescription: locationButton.titleLabel!.text!, latitude: currentlyPinnedAnnotation!.coordinate.latitude, longitude: currentlyPinnedAnnotation!.coordinate.longitude, message: messageTextView.text!)
-            }
-            if let errorMessage = errorMessage {
-                print(errorMessage)
-            }
-            else {
+            do {
+                var syncedPost: Post
+                if locationButton.titleLabel!.text!.isEmpty {
+                    syncedPost = try await UserService.singleton.uploadPost(title: titleTextField.text!, locationDescription: nil, latitude: nil, longitude: nil, message: messageTextView.text!)
+                } else {
+                    syncedPost = try await UserService.singleton.uploadPost(title: titleTextField.text!, locationDescription: locationButton.titleLabel!.text!, latitude: currentlyPinnedAnnotation!.coordinate.latitude, longitude: currentlyPinnedAnnotation!.coordinate.longitude, message: messageTextView.text!)
+                }
+                PostService.homePosts.insert(post: syncedPost, at: 0)
+                //TODO: navigate to the post on the map
                 self.clearAllFields()
-                self.dismiss(animated: true)
+                self.dismiss(animated: true) {
+                    //nav to explore
+                    //zoom in on homePosts.at 0
+                }
+            }
+            catch {
+                print(error)
             }
         }
     }

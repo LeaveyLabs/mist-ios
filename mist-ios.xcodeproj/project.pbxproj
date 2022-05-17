@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4316238228341F5F00169AA9 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4316238128341F5F00169AA9 /* MessageKit */; };
 		4329571C27F4008300FA48A9 /* EnterEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */; };
 		433970DF27FE501700876026 /* WelcomeTutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */; };
 		43483BB228025179001C7C6A /* EnterUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB128025179001C7C6A /* EnterUsernameViewController.swift */; };
@@ -63,7 +64,6 @@
 		477499872832CF540067C26C /* AutocompleteChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477499862832CF540067C26C /* AutocompleteChatViewController.swift */; };
 		477499892832D0CF0067C26C /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477499882832D0CF0067C26C /* ChatViewController.swift */; };
 		477A6FD627DFB0450020F864 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477A6FD527DFB0450020F864 /* Color.swift */; };
-		4780E5B22832E69D0012B741 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4780E5B12832E69D0012B741 /* MessageKit */; };
 		4780E5B42832F0560012B741 /* SimpleChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780E5B32832F0560012B741 /* SimpleChatViewController.swift */; };
 		4780E5B6283308250012B741 /* MessageKitMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780E5B5283308250012B741 /* MessageKitMessage.swift */; };
 		4780E5B828330C570012B741 /* MessageKitUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780E5B728330C570012B741 /* MessageKitUser.swift */; };
@@ -279,7 +279,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4780E5B22832E69D0012B741 /* MessageKit in Frameworks */,
+				4316238228341F5F00169AA9 /* MessageKit in Frameworks */,
 				473B5A262831C8B400BD1168 /* Starscream.xcframework in Frameworks */,
 				473B5A222831C8B200BD1168 /* Alamofire.xcframework in Frameworks */,
 			);
@@ -683,7 +683,7 @@
 			);
 			name = "mist-ios";
 			packageProductDependencies = (
-				4780E5B12832E69D0012B741 /* MessageKit */,
+				4316238128341F5F00169AA9 /* MessageKit */,
 			);
 			productName = "mist-ios";
 			productReference = 47E74E0827CA0FFE00467A0C /* mist-ios.app */;
@@ -759,7 +759,7 @@
 			);
 			mainGroup = 47E74DFF27CA0FFE00467A0C;
 			packageReferences = (
-				4780E5B02832E69D0012B741 /* XCRemoteSwiftPackageReference "MessageKit" */,
+				4316238028341F5F00169AA9 /* XCRemoteSwiftPackageReference "MessageKit" */,
 			);
 			productRefGroup = 47E74E0927CA0FFE00467A0C /* Products */;
 			projectDirPath = "";
@@ -1283,20 +1283,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		4780E5B02832E69D0012B741 /* XCRemoteSwiftPackageReference "MessageKit" */ = {
+		4316238028341F5F00169AA9 /* XCRemoteSwiftPackageReference "MessageKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MessageKit/MessageKit";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 3.8.0;
+				minimumVersion = 3.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4780E5B12832E69D0012B741 /* MessageKit */ = {
+		4316238128341F5F00169AA9 /* MessageKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 4780E5B02832E69D0012B741 /* XCRemoteSwiftPackageReference "MessageKit" */;
+			package = 4316238028341F5F00169AA9 /* XCRemoteSwiftPackageReference "MessageKit" */;
 			productName = MessageKit;
 		};
 /* End XCSwiftPackageProductDependency section */

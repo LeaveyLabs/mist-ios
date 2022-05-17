@@ -28,13 +28,12 @@ class EnterProfilePictureViewController: UIViewController {
     @IBAction func didPressedContinue(_ sender: Any) {
         Task {
             if let selectedProfilePic = self.profilePictureView.image {
-                let errorMessage = await UserService.singleton.updateProfilePic(to: selectedProfilePic)
-                if let errorMessage = errorMessage {
-                    print(errorMessage)
-                }
-                else {
+                do {
+                    try await UserService.singleton.updateProfilePic(to: selectedProfilePic)
                     let vc = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.TabBarController)
                     self.navigationController?.pushViewController(vc, animated: true)
+                } catch {
+                    print(error)
                 }
             }
         }

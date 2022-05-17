@@ -49,13 +49,17 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         centerButton.adjustsImageWhenHighlighted = false //deprecated, but only for the new "UIButtonConfiguration" buttons, which we're not using here
         centerButton.frame = CGRect(x: 0.0, y: 0.0, width: buttonImage.size.width, height: buttonImage.size.height)
         centerButton.translatesAutoresizingMaskIntoConstraints = false
+        centerButton.setImage(buttonImage, for: .normal)
+
+        print(tabBar.clipsToBounds)
+        tabBar.clipsToBounds = true
         tabBar.addSubview(centerButton)
+        tabBar.bringSubviewToFront(centerButton)
         NSLayoutConstraint.activate([
             centerButton.topAnchor.constraint(equalTo: tabBar.topAnchor, constant: -30),
             centerButton.centerXAnchor.constraint(equalTo: tabBar.centerXAnchor, constant: 0),
         ])
         
-        centerButton.setBackgroundImage(buttonImage, for: .normal)
         centerButton.isUserInteractionEnabled = true
         centerButton.addTarget(self, action: #selector(handleTouchTabbarCenter), for: .touchUpInside)
   }
