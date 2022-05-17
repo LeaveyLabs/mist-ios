@@ -65,26 +65,23 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
     }
     
     @IBAction func userDidTappedPostButton(_ sender: UIButton) {
-        if !validateAllFields() {
-            return;
-        }
+        if !validateAllFields() { return }
         
         Task {
-            do {
-                if locationButton.titleLabel!.text!.isEmpty {
-                    try await PostService.uploadPost(title: titleTextField.text!, locationDescription: nil, latitude: nil, longitude: nil, message: messageTextView.text!)
-                } else {
-                    try await PostService.uploadPost(title: titleTextField.text!, locationDescription: locationButton.titleLabel!.text!, latitude: currentlyPinnedAnnotation!.coordinate.latitude, longitude: currentlyPinnedAnnotation!.coordinate.longitude, message: messageTextView.text!)
-                }
+            var errorMessage: String?
+            if locationButton.titleLabel!.text!.isEmpty {
+                errorMessage = await UserService.singleton.uploadPost(title: titleTextField.text!, locationDescription: nil, latitude: nil, longitude: nil, message: messageTextView.text!)
+            } else {
+                errorMessage = await UserService.singleton.uploadPost(title: titleTextField.text!, locationDescription: locationButton.titleLabel!.text!, latitude: currentlyPinnedAnnotation!.coordinate.latitude, longitude: currentlyPinnedAnnotation!.coordinate.longitude, message: messageTextView.text!)
+            }
+            if let errorMessage = errorMessage {
+                print(errorMessage)
+            }
+            else {
                 self.clearAllFields()
                 self.dismiss(animated: true)
-                self.navigationController
-            } catch {
-                //handle post service failed to upload
-                print("upload failed!");
             }
         }
-        return;
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

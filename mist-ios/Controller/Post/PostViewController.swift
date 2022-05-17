@@ -141,22 +141,25 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     }
     
     @IBAction func submitButtonDidPressed(_ sender: UIButton) {
-        if (commentTextView!.text.isEmpty) { return }
+        if (commentTextView.text.isEmpty) { return }
+        disableCommentButton()
         Task {
-            do {
-                let newComment = Comment(id: String(NSUUID().uuidString.prefix(10)), text: commentTextView!.text, timestamp: currentTimeMillis(), post: post.id, author: "kevinsun")
-                try await CommentAPI.postComment(comment: newComment)
-                comments?.append(newComment)
-                commentTextView!.text = ""
-                post.commentcount += 1
+            let errorMessage = await UserService.singleton.uploadComment(
+                id: "remove this later on",
+                text: commentTextView.text,
+                timestamp: currentTimeMillis(),
+                postId: post.id,
+                author: UserService.singleton.getId())
+            if let errorMessage = errorMessage {
+                print(errorMessage)
+            } else {
+                let asdf = IndexPath(row: comments!.count, section: 0)
+                commentTextView.text = ""
+                postTableView.scrollToRow(at: asdf, at: .bottom, animated: true)
+                enableCommentButton()
                 postTableView.reloadData()
                 commentTextView.resignFirstResponder()
-                disableCommentButton()
-//                postTableView.setContentOffset(CGPoint(x: 0, y: CGFloat.greatestFiniteMagnitude), animated: false)
-                let asdf = IndexPath(row: comments!.count, section: 0)
-                postTableView.scrollToRow(at: asdf, at: .bottom, animated: true)
-            } catch {
-                print(error)
+//              postTableView.setContentOffset(CGPoint(x: 0, y: CGFloat.greatestFiniteMagnitude), animated: false)
             }
         }
     }

@@ -26,12 +26,9 @@ class ConfirmEmailViewController: UIViewController {
             Task {
                 do {
                     // Check if the code's valid
-                    if(try await AuthAPI.validateEmail(email: AuthContext.AuthVariables.email, code: code)) {
-                        print("attempting to proceed")
-                        // If so, move onto the next screen
-                        let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.WelcomeTutorialViewController);
-                        self.navigationController?.pushViewController(vc, animated: true)
-                    }
+                    try await AuthAPI.validateEmail(email: AuthContext.AuthVariables.email, code: code)
+                    let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.WelcomeTutorialViewController);
+                    self.navigationController?.pushViewController(vc, animated: true)
                 } catch {
                     print(error);
                 }

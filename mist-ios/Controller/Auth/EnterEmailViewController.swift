@@ -39,14 +39,13 @@ class EnterEmailViewController: UIViewController {
             Task {
                 do {
                     // Send a validation email
-                    if(try await AuthAPI.registerEmail(email: email)) {
-                        // Move to the next code view
-                        AuthContext.AuthVariables.email = email
-                        let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterCodeViewController);
-                        self.navigationController?.pushViewController(vc, animated: true)
-                    }
+                    try await AuthAPI.registerEmail(email: email)
+                    // Move to the next code view
+                    AuthContext.AuthVariables.email = email
+                    let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterCodeViewController)
+                    self.navigationController?.pushViewController(vc, animated: true)
                 } catch {
-                    print(error);
+                    print(error)
                 }
             }
         }

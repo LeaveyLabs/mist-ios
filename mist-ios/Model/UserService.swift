@@ -7,112 +7,171 @@
 
 import Foundation
 
-//QUESTION FOR LATER: do we need a UserService for when looking at another user's profile? or can we just load their info into a struct and thats it
-//we def dont want to let them use this UserService because it includes functions like createAccount
+// Q: Should UserService have a PostService within it?
 
 class UserService: NSObject {
-
-    private let loggedOutUser: User = User(id: "",email: "",  username: "", firstName: "", lastName: "", authoredPosts: [])
+    
+    static var singleton = UserService()
+    
     private var user: User!
-    private var myAccountFileLocation: URL!
+    private var isLoggedIn: Bool = false
+    private let guestUser: User = User(id: "",email: "", profile: Profile(username: "", first_name: "", last_name: "", picture: nil, user: 0), authoredPosts: [])
+    private var localFileLocation: URL!
     
-    static var myAccount = UserService()
-    static var isLoggedIn: Bool = false
-    
-    //private initializer because there will only be one singleton of UserService
+    //private initializer because there will only ever be one instance of UserService, the singleton
     private override init(){
         super.init()
-        user = User(id: "userid", email: "eemeyeel", username: "username", firstName: "fname", lastName: "lname", authoredPosts: [])
+        user = guestUser
+
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        self.myAccountFileLocation = documentsDirectory.appendingPathComponent("myaccount.json")
-        
-        if FileManager.default.fileExists(atPath: self.myAccountFileLocation.path) {
+        self.localFileLocation = documentsDirectory.appendingPathComponent("myaccount.json")
+        if FileManager.default.fileExists(atPath: self.localFileLocation.path) {
             loadUserFromFilesystem();
         }
     }
     
-//    //this function is required at startup so that the singleton is created and isLoggedIn is properly initialized
-//    static func isLoggedInOnStartup() -> Bool {
-//        print(UserService.isLoggedIn)
-//        return UserService.isLoggedIn
-//    }
-    
-    //MARK: -Auth
-    
-    //might need to change these parameters
-    func createAccount(userId: String, username: String, email: String, firstName: String, lastName: String) {
-        let newUser = User(id: userId,  email: email, username: username, firstName: firstName, lastName: lastName, authoredPosts: []);
-        UserService.isLoggedIn = true;
-        self.user = newUser;
-        saveUserToFilesystem();
-        //TODO: db call
+    // Called on startup so that the singleton is created and isLoggedIn is properly initialized
+    static func isLoggedIn() -> Bool {
+        return singleton.isLoggedIn
     }
     
-    func logOut(user: User) {
-        UserService.isLoggedIn = false;
-        self.user = loggedOutUser;
+    //MARK: - Auth
+    
+    func createAccount(userId: String, username: String, password: String, email: String, firstName: String, lastName: String) async -> String? {
+        do {
+            // DB update
+            //TODO: AuthAPI should either take the userId generated already, or we should not be creating it locally and it should be returned by AuthAPI.createuser
+            try await AuthAPI.createUser(email: email, username: username, password: password, first_name: firstName, last_name: lastName)
+            // Local update
+            user = User(id: userId,  email: email, profile: Profile(username: "", first_name: "", last_name: "", picture: nil, user: 0), authoredPosts: [])
+            saveUserToFilesystem()
+            isLoggedIn = true
+            return nil
+        }
+        catch {
+            return "\(error)"
+        }
+    }
+    
+    func logIn() {
+        
+    }
+    
+    func logOut() {
+        isLoggedIn = false;
+        user = guestUser;
         eraseUserFromFilesystem();
     }
     
-    func deleteMyAccount(user: User) {
-        logOut(user: user);
+    func deleteMyAccount() {
+        logOut()
         //TODO: delete user from database
     }
     
-    //MARK: -Getters
+    //MARK: - Getters
     
     func getId() -> String { return user.id; }
-    func getUsername() -> String { return user.username; }
-    func getFirstName() -> String { return user.firstName; }
-    func getLastName() -> String { return user.lastName; }
+    func getUsername() -> String { return user.profile.username; }
+    func getFirstName() -> String { return user.profile.first_name; }
+    func getLastName() -> String { return user.profile.last_name; }
     func getEmail() -> String { return user.email; }
     func getAuthoredPosts() -> [Post] { return user.authoredPosts; }
     func getUser() -> User { return user }
     
-    //MARK: -Setters
+    //MARK: - Setters
     
     func updateUsername(to newUsername: String) {
         //TODO: db calls (first ensure email is not used)
-        user.username = newUsername;
+        user.profile.username = newUsername;
         saveUserToFilesystem();
     }
     
     func updateFirstName(to newFirstName: String) {
         //TODO: db calls
-        user.firstName = newFirstName;
+        user.profile.first_name = newFirstName;
         saveUserToFilesystem();
     }
     
     func updateLastName(to newLastName: String) {
         //TODO: db calls
-        user.lastName = newLastName;
+        user.profile.last_name = newLastName;
         saveUserToFilesystem();
     }
     
-    //MARK: -Actions
-    
-    func addPost(post: Post) {
-        if !user.authoredPosts.isEmpty {
-            user.authoredPosts.append(post);
+    func updateProfilePic(to newProfilePic: UIImage) async -> String? {
+        do {
+            // DB update
+            let newProfile = try await ProfileAPI.putProfilePic(image: newProfilePic, profile: user.profile)
+            // Local update
+            user.profile = newProfile
+            return nil
         }
-        else { //else if adding the first post
-            user.authoredPosts = [post]
+        catch {
+            return "\(error)"
         }
-        saveUserToFilesystem();
-        //the firestore update is handled on PostService side
     }
     
-    func deletePost(at index: Int) {
-        if !user.authoredPosts.isEmpty {
-            user.authoredPosts.remove(at: index);
+    //MARK: - User Interaction
+    
+    // Returns the error message to be displayed to the user
+    func uploadPost(title: String, locationDescription: String?, latitude: Double?, longitude: Double?, message: String) async -> String? {
+        let uuid = NSUUID().uuidString;
+        let newPost = Post(id: String(uuid.prefix(10)), title: title, text: message, location_description: locationDescription, latitude: latitude, longitude: longitude, timestamp: currentTimeMillis(), author: UserService.singleton.getId(), averagerating: 0, commentcount: 0)
+        do {
+            // DB update
+            try await PostAPI.createPost(post: newPost)
+            // Local update
+            PostService.homePosts.insert(post: newPost, at: 0)
+            if !user.authoredPosts.isEmpty {
+                user.authoredPosts.append(newPost);
+            }
+            else { //else if adding the first post
+                user.authoredPosts = [newPost]
+            }
+            saveUserToFilesystem();
+            return nil
         }
-        saveUserToFilesystem();
-        //the firestore update is hanlded on PostService side. TODO: change how these calls are made. should a new post update just be handled by userservice or postservice from the controller side?
+        catch {
+            return "\(error)" //TODO: create custom error messages
+        }
     }
     
+    func deletePost(at index: Int) async -> String? {
+        do {
+            if !user.authoredPosts.isEmpty && index >= 0 && index < user.authoredPosts.count {
+                // DB Update
+                try await PostAPI.deletePost(id: user.authoredPosts[index].id)
+                //Local Update
+                user.authoredPosts.remove(at: index)
+                saveUserToFilesystem()
+                //TODO: force reload all posts everywhere? otherwise your post might still exist on some other view controller's postservice
+            }
+            return nil
+        }
+        catch {
+            return "\(error)"
+        }
+    }
     
+    func uploadComment(id: String, text: String, timestamp: Double, postId: String, author: String) async -> String? {
+        do {
+            let newComment = Comment(id: id, text: text, timestamp: timestamp, post: postId, author: author)
+            try await CommentAPI.postComment(comment: newComment)
+            comments?.append(newComment)
+            post.commentcount += 1
+            //now we need to make a call to postService.uploadComment
+            //it might make most sense to return the new comment back to PostViewController, and then PostViewController calls its postService.uploadComment with the offical new comment
+            return nil
+        } catch {
+            return "\(error)"
+        }
+    }
     
-    //MARK: -Filesystem
+    func deleteComment() async -> String? {
+        return nil
+    }
+    
+    //MARK: - Filesystem
     
     func saveUserToFilesystem() {
         do {
@@ -120,30 +179,30 @@ class UserService: NSObject {
             let encoder = JSONEncoder()
             let data: Data = try encoder.encode(user)
             let jsonString = String(data: data, encoding: .utf8)!
-            try jsonString.write(to: self.myAccountFileLocation, atomically: true, encoding: .utf8)
+            try jsonString.write(to: self.localFileLocation, atomically: true, encoding: .utf8)
         } catch {
-            print("error writing to file system: \(error)")
+            print("\(error)")
         }
     }
     
     func loadUserFromFilesystem() {
         do {
             print("LOADING USER DATA")
-            let data = try Data(contentsOf: self.myAccountFileLocation)
+            let data = try Data(contentsOf: self.localFileLocation)
             let decoder = JSONDecoder()
             user = try decoder.decode(User.self, from: data);
-            UserService.isLoggedIn = true;
+            UserService.singleton.isLoggedIn = true;
         } catch {
-            print("error reading data from filesystem: \(error)")
+            print("\(error)")
         }
     }
     
     func eraseUserFromFilesystem() {
         do {
             print("ERASING USER DATA")
-            try FileManager.default.removeItem(at: self.myAccountFileLocation)
+            try FileManager.default.removeItem(at: self.localFileLocation)
         } catch {
-            print("error erasing user from filesystem")
+            print("\(error)")
         }
     }
     
