@@ -28,22 +28,17 @@ class EnterProfilePictureViewController: UIViewController {
     @IBAction func didPressedContinue(_ sender: Any) {
         Task {
             if let selectedProfilePic = self.profilePictureView.image {
-                let currProfile = try await ProfileAPI.fetchProfilesByUsername(username: AuthContext.AuthVariables.username)[0]
-                let _ = try await ProfileAPI.putProfilePic(image: selectedProfilePic, profile: currProfile)
-                let vc = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.TabBarController)
-                self.navigationController?.pushViewController(vc, animated: true)
+                let errorMessage = await UserService.singleton.updateProfilePic(to: selectedProfilePic)
+                if let errorMessage = errorMessage {
+                    print(errorMessage)
+                }
+                else {
+                    let vc = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.TabBarController)
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             }
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 

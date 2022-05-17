@@ -18,7 +18,7 @@ protocol PostCellDelegate{
     func likeDidTapped(post: Post)
 }
 
-class PostCell: UITableViewCell {
+class PostCell: UITableViewCell, ShareActivityDelegate {
     
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
@@ -73,6 +73,17 @@ class PostCell: UITableViewCell {
         backgroundBubbleView.addGestureRecognizer(tapGesture)
     }
     
+    //MARK: -- ShareActivityDelegate
+    
+    func presentShareActivityVC() {
+        if let url = NSURL(string: "https://www.getmist.app")  {
+            let objectsToShare: [Any] = [url]
+            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+            activityVC.popoverPresentationController?.sourceView = parentVC.view // so that iPads won't crash
+            parentVC.present(activityVC, animated: true)
+        }
+    }
+    
     //MARK: -User Interaction
     
     @objc func tapAction() {
@@ -115,15 +126,12 @@ class PostCell: UITableViewCell {
         delegate?.likeDidTapped(post: post)
     }
     
+    // Note: if we want to delegate this function to the parentVC, we should use notificationcenter approach over the delegate approach, because delegate approach wont let you delegate to both a MapVC and a FeedVC
     @IBAction func moreButtonDidPressed(_ sender: UIButton) {
         let moreVC = parentVC.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.More) as! MoreViewController
-
-        if let sheet = moreVC.sheetPresentationController {
-            sheet.detents = [.medium()]
-            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-        }
-        
-        parentVC.present(moreVC, animated: true, completion: nil)
+        moreVC.loadViewIfNeeded() //doesnt work without this function call
+        moreVC.delegate = self
+        parentVC.present(moreVC, animated: true)
     }
     
     //MARK: -Setup
@@ -236,19 +244,6 @@ class PostCell: UITableViewCell {
         shape.fillColor = mistSecondaryUIColor().cgColor
         triangleView.layer.insertSublayer(shape, at: 0)
      }
-    
-    //MARK: -Decomissioned
-    
-    @IBAction func shareButtonClicked(sender: UIButton) {
-        //TODO: use Open Graph protocols on our website for a Rich imessage display
-        //https://developer.apple.com/library/archive/technotes/tn2444/_index.html
-        if let url = NSURL(string: "https://www.getmist.app")  {
-            let objectsToShare: [Any] = [url]
-            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-            activityVC.popoverPresentationController?.sourceView = parentVC.view // so that iPads won't crash
-            parentVC.present(activityVC, animated: true, completion: nil)
-        }
-    }
     
     //MARK: -Helpers
     

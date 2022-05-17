@@ -28,37 +28,27 @@ class EnterNameViewController: UIViewController {
     
     
     @IBAction func didPressedContinue(_ sender: Any) {
-        print("hello")
-        if let firstName = firstNameField.text {
-            if let lastName = lastNameField.text {
-                AuthContext.AuthVariables.firstName = firstName
-                AuthContext.AuthVariables.lastName = lastName
-                Task {
-                    let createSuccess = try await AuthAPI.createUser(email: AuthContext.AuthVariables.email,
-                                                                     username: AuthContext.AuthVariables.username,
-                                                                     password: AuthContext.AuthVariables.password,
-                                                                     first_name: AuthContext.AuthVariables.firstName,
-                                                                     last_name: AuthContext.AuthVariables.lastName)
-                    
-                    if(createSuccess) {
-                        let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterProfilePictureViewController)
-                        self.navigationController?.pushViewController(vc, animated: true)
-                    }
-                    else {
-                        print("Error: Account Creation Failed.")
-                    }
+        if let firstName = firstNameField.text, let lastName = lastNameField.text {
+            AuthContext.AuthVariables.firstName = firstName
+            AuthContext.AuthVariables.lastName = lastName
+            Task {
+                let uuid = NSUUID().uuidString
+                let errorMessage = await UserService.singleton.createAccount(
+                    userId: String(uuid.prefix(10)),
+                    username: AuthContext.AuthVariables.username,
+                    password: AuthContext.AuthVariables.password,
+                    email: AuthContext.AuthVariables.email,
+                    firstName: AuthContext.AuthVariables.firstName,
+                    lastName: AuthContext.AuthVariables.lastName)
+                if errorMessage == nil {
+                    let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterProfilePictureViewController)
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                else {
+                    //present an alert
                 }
             }
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

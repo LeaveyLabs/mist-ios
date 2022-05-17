@@ -1,0 +1,4 @@
+# Example comment
+github "Alamofire/Alamofire" ~> 5.5
+
+github "daltoniam/Starscream" >= 4.0.0

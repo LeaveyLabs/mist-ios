@@ -34,6 +34,8 @@ struct Constants {
             static let UserResult = "UserResultCell"
             static let FeedHeader = "FeedHeaderCell"
             static let Sort = "SortCell"
+            static let Conversation = "ConversationCell"
+            static let NoConversations = "NoConversationsCell"
         }
         struct VC {
             //Post

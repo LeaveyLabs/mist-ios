@@ -10,6 +10,7 @@ import Foundation
 enum APIError: Error {
     case badAPIEndPoint
     case badId
+    case generic
 }
 
 class BasicAPI {

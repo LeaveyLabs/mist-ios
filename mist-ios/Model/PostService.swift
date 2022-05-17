@@ -54,18 +54,10 @@ class PostService: NSObject {
         }
     }
     
-    private func insert(post: Post, at index: Int) {
+    func insert(post: Post, at index: Int) {
         self.posts.insert(post, at: index)
     }
-    
-    static func uploadPost(title: String, locationDescription: String?, latitude: Double?, longitude: Double?, message: String) async throws {
-        let uuid = NSUUID().uuidString;
-        let newPost = Post(id: String(uuid.prefix(10)), title: title, text: message, location_description: locationDescription, latitude: latitude, longitude: longitude, timestamp: currentTimeMillis(), author: "kevinsun", averagerating: 0, commentcount: 0)
-        try await PostAPI.createPost(post: newPost);
-        PostService.homePosts.insert(post: newPost, at: 0)
-        PostService.myPosts.insert(post: newPost, at: 0)
-        //UserService.myAccount.addPost(post: newPost)
-    }
+
     
 //    func deletePost(at index: Int, userID: String) {
 //        if (isValidIndex(index)) {
