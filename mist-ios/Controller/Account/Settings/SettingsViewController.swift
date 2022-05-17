@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -13,7 +14,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     var sections = [[String]]()
     
-    //MARK: -Life Cycle
+    //MARK: - Life Cycle
     
     override func viewDidLoad() {
 //        profilePictureImageView.layer.cornerRadius = profilePictureImageView.frame.size.height / 2
@@ -24,7 +25,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         setupTableView()
     }
     
-    //MARK: -Setup
+    //MARK: - Setup
     
     func configureSettings() {
         sections.append(["ProfilePic", "Username", "Name"])
@@ -41,10 +42,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         settingsTableView.rowHeight = UITableView.automaticDimension; //necessary when using constraints within cells
     }
     
-    // MARK: -Navigation
+    // MARK: - Navigation
     
     
-    //MARK: -User Interaction
+    //MARK: - User Interaction
      
     @IBAction func cancelButtonDidPressed(_ sender: UIBarButtonItem) {
         //settings view controller is the root view controller of the navigation controller
@@ -52,7 +53,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         self.dismiss(animated: true, completion: nil)
     }
     
-    //MARK: -Table View DataSource
+    //MARK: - Table View DataSource
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count;
@@ -177,7 +178,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
     
-    //MARK: -Table View Delegate
+    //MARK: - Table View Delegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
@@ -212,6 +213,14 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 break //nothing fofr now
             }
         }
+    }
+    
+    //MARK: - Helpers
+    
+    func openURL(_ url: URL) {
+        let webViewController = SFSafariViewController(url: url)
+        webViewController.preferredControlTintColor = .systemBlue
+        present(webViewController, animated: true)
     }
 
 }

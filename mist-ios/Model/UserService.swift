@@ -67,6 +67,7 @@ class UserService: NSObject {
     func getLastName() -> String { return user.lastName; }
     func getEmail() -> String { return user.email; }
     func getAuthoredPosts() -> [Post] { return user.authoredPosts; }
+    func getUser() -> User { return user }
     
     //MARK: -Setters
     

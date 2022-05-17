@@ -19,17 +19,10 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        print("TAB BAR DID APPEAR")
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        if tabBar.isHidden {
-            centerButton.isHidden = true
-        } else {
-            centerButton.isHidden = false
-            view.bringSubviewToFront(centerButton)
-        }
     }
     
     /*
@@ -52,35 +45,19 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
     //https://stackoverflow.com/questions/30527738/how-do-we-create-a-bigger-center-uitabbar-item
     func addCenterButton(withImage buttonImage : UIImage) {
-      centerButton = UIButton(type: .custom)
-      centerButton.autoresizingMask = [.flexibleRightMargin, .flexibleTopMargin, .flexibleLeftMargin, .flexibleBottomMargin]
-      centerButton.frame = CGRect(x: 0.0, y: 0.0, width: buttonImage.size.width, height: buttonImage.size.height)
-      centerButton.setBackgroundImage(buttonImage, for: .normal)
-      centerButton.isUserInteractionEnabled = true
-
-      let heightdif: CGFloat = buttonImage.size.height - (self.tabBar.frame.size.height);
-
-      if (heightdif < 0){
-          //the line below wasnt working...
-//          self.centerButton?.center = (self.tabBar.center)
-          
-          //... so i copied these three lines from the else block below
-          var center: CGPoint = (tabBar.center)
-          center.y = center.y - 50
-          centerButton.center = center
-          
-      } else {
-          var center: CGPoint = (tabBar.center)
-          center.y = center.y - 50
-          centerButton.center = center
-      }
+        centerButton = UIButton(type: .custom)
+        centerButton.adjustsImageWhenHighlighted = false //deprecated, but only for the new "UIButtonConfiguration" buttons, which we're not using here
+        centerButton.frame = CGRect(x: 0.0, y: 0.0, width: buttonImage.size.width, height: buttonImage.size.height)
+        centerButton.translatesAutoresizingMaskIntoConstraints = false
+        tabBar.addSubview(centerButton)
+        NSLayoutConstraint.activate([
+            centerButton.topAnchor.constraint(equalTo: tabBar.topAnchor, constant: -30),
+            centerButton.centerXAnchor.constraint(equalTo: tabBar.centerXAnchor, constant: 0),
+        ])
         
-        centerButton.center = tabBar.center
-
-      tabBar.addSubview(centerButton)
-      tabBar.bringSubviewToFront(centerButton)
-
-      centerButton.addTarget(self, action: #selector(handleTouchTabbarCenter), for: .touchUpInside)
+        centerButton.setBackgroundImage(buttonImage, for: .normal)
+        centerButton.isUserInteractionEnabled = true
+        centerButton.addTarget(self, action: #selector(handleTouchTabbarCenter), for: .touchUpInside)
   }
 
 }
