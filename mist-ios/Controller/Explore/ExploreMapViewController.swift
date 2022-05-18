@@ -21,20 +21,25 @@ class ExploreMapViewController: MapViewController {
     @IBOutlet weak var dateSliderView: UIView!
     @IBOutlet weak var dateLabel: UILabel!
         
-    //ExploreViewController
+    // ExploreViewController
     var mySearchController: UISearchController!
     private var resultsTableController: LiveResultsTableViewController!
     
+    // PostsService
+    var postsService: PostsService!
+    var postFilter = PostFilter()
+
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        latitudeOffset = 0.0010
         navigationItem.titleView = mistTitle
         
-        //ExploreViewController
-        loadExploreMapView()
         setupSearchBar()
         setupDateSlider()
+        setupPostsService()
+        loadExploreMapView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,20 +49,102 @@ class ExploreMapViewController: MapViewController {
     
     //MARK: -Setup
     
+    func setupPostsService() {
+        postsService = PostsService()
+        postsService.setFilter(to: postFilter)
+    }
+    
     func setupDateSlider() {
         dateSliderView.layer.cornerRadius = 10
         dateSliderOuterView.layer.cornerRadius = 10
         applyShadowOnView(dateSliderOuterView)
     }
     
-    //MARK: -User Interaction
+    //MARK: - User Interaction
     
     @IBAction func sliderValueDidChanged(_ sender: UISlider) {
         dateLabel.text = getDateFromSlider(indexFromOneToSeven: sender.value)
     }
     
     
-    //MARK: -Map
+    //MARK: - Map
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if view.annotation is MKUserLocation {
+            mapView.deselectAnnotation(view.annotation, animated: false)
+            mapView.userLocation.title = "Hey cutie"
+        }
+        else if let clusterAnnotation = view.annotation as? MKClusterAnnotation {
+            mapView.deselectAnnotation(view.annotation, animated: false)
+            if clusterAnnotation.isHotspot {
+                var posts = [Post]()
+                for annotation in clusterAnnotation.memberAnnotations {
+                    if let annotation = annotation as? PostAnnotation {
+                        posts.append(annotation.post)
+                        
+                    }
+                }
+                let newVC = ResultsFeedViewController.resultsFeedViewController(feedType: .hotspot, feedValue: clusterAnnotation.title!)
+                newVC.posts = posts
+                navigationController?.pushViewController(newVC, animated: true)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in //wait 0.5 seconds
+                    centerMapOn(lat: view.annotation!.coordinate.latitude, long: view.annotation!.coordinate.longitude)
+                }
+            } else {
+                slowFlyTo(lat: view.annotation!.coordinate.latitude, long: view.annotation!.coordinate.longitude, incrementalZoom: true, completion: {_ in })
+            }
+        }
+        else if let view = view as? PostMarkerAnnotationView {
+            view.glyphTintColor = mistUIColor() //this is needed bc for some reason the glyph tint color turns grey even with the mist-heart-pink icon
+            view.markerTintColor = mistSecondaryUIColor()
+            
+            slowFlyTo(lat: view.annotation!.coordinate.latitude + latitudeOffset, long: view.annotation!.coordinate.longitude, incrementalZoom: false, completion: {_ in })
+            loadPostViewFor(postAnnotationView: view)
+        }
+    }
+
+    func loadPostViewFor(postAnnotationView: PostMarkerAnnotationView) {
+        let cell = Bundle.main.loadNibNamed(Constants.SBID.Cell.Post, owner: self, options: nil)?[0] as! PostCell
+        if let postAnnotation = postAnnotationView.annotation as? PostAnnotation {
+            cell.configurePostCell(post: postAnnotation.post, parent: self, bubbleArrowPosition: .bottom)
+        }
+        let postView: UIView? = cell.contentView
+
+        // Or, alternatively, instead of extracting from the PostCell.xib,, extract post from PostView.xib
+    //        let postViewFromViewNib = Bundle.main.loadNibNamed(Constants.SBID.View.Post, owner: self, options: nil)?[0] as? PostView
+        
+        if let newPostView = postView {
+            newPostView.tag = 999
+            newPostView.tintColor = .black
+            newPostView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
+            postAnnotationView.addSubview(newPostView)
+            NSLayoutConstraint.activate([
+                newPostView.bottomAnchor.constraint(equalTo: postAnnotationView.bottomAnchor, constant: -70),
+                newPostView.widthAnchor.constraint(equalTo: mapView.widthAnchor, constant: 0),
+                newPostView.heightAnchor.constraint(lessThanOrEqualTo: mapView.heightAnchor, multiplier: 0.60, constant: 0),
+                newPostView.centerXAnchor.constraint(equalTo: postAnnotationView.centerXAnchor, constant: 0),
+            ])
+            newPostView.alpha = 0
+            newPostView.isHidden = true
+            newPostView.fadeIn(duration: 0.2, delay: cameraAnimationDuration-0.15)
+        }
+    }
+
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        if let view = view as? PostMarkerAnnotationView {
+            view.glyphTintColor = .white
+            view.markerTintColor = mistUIColor()
+        }
+        
+        if let postView: UIView = view.viewWithTag(999) {
+            postView.fadeOut(duration: 0.5, delay: 0, completion: { Bool in
+                postView.isHidden = true
+                postView.removeFromSuperview()
+                mapView.isScrollEnabled = true
+                mapView.isZoomEnabled = true
+            })
+        }
+    }
     
     func mapAnnotationDidTouched(_ sender: UIButton) {
         let mapModalVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.SortBy) as! SortByViewController
@@ -73,11 +160,12 @@ class ExploreMapViewController: MapViewController {
     func loadExploreMapView() {
         Task {
             do {
-                let nearbyPosts = try await PostAPI.fetchPosts(latitude: Constants.USC_LAT_LONG.latitude, longitude: Constants.USC_LAT_LONG.longitude)
-                //turn the first 10000..?? lol posts returned into PostAnnotations and add them to the map
-                for index in 0...min(10000, nearbyPosts.count-1) {
-                    let postAnnotation = PostAnnotation(withPost: nearbyPosts[index])
-                    displayedAnnotations?.append(postAnnotation)
+                let loadedPosts = try await postsService.newPostsNearby(latitude: Constants.USC_LAT_LONG.latitude, longitude: Constants.USC_LAT_LONG.longitude)
+                
+                //turn the first 10000..?? lol posts returned into PostAnnotations so they will be added to the map
+                for index in 0...min(10000, loadedPosts.count-1) {
+                    let postAnnotation = PostAnnotation(withPost: loadedPosts[index])
+                    displayedAnnotations.append(postAnnotation)
                 }
             } catch {
                 print(error)
@@ -90,11 +178,7 @@ class ExploreMapViewController: MapViewController {
 
 
 
-
-
-
-
-//MARK: --------------ExploreViewController
+//MARK: - ExploreViewController
     
 extension ExploreMapViewController {
     

@@ -24,33 +24,31 @@ class MapViewController: UIViewController {
     var mapModal: MapModalViewController?
     var postIsBeingRendered: Bool = false
     var modifyingMap: Bool = false
-    let latitudeOffset: Double = 0.0010
+    var latitudeOffset: Double!
     
     //remove one of these three
     var prevZoomFactor: Int = 4
     var prevZoomWidth: Double!
     var prevZoom: Double!
     
+    var displayedAnnotations = [PostAnnotation]() {
+        willSet {
+            mapView.addAnnotations(displayedAnnotations)
+        }
+        didSet {
+            mapView.addAnnotations(displayedAnnotations)
+        }
+    }
+    
+    
     var cameraAnimationDuration: Double {
         return Double(prevZoomFactor+2)/10 + ((180-fabs(180.0 - mapView.camera.heading)) / 180 * 0.3) //add up to 0.3 seconds to rotate the heading of the camera
     }
-    
-    var displayedAnnotations: [PostAnnotation]? {
-        willSet {
-            if let currentAnnotations = displayedAnnotations {
-                mapView.removeAnnotations(currentAnnotations)
-            }
-        }
-        didSet {
-            if let newAnnotations = displayedAnnotations {
-                mapView.addAnnotations(newAnnotations)
-            }
-        }
-    }
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.restoreHairline()
+        displayedAnnotations = []
         setupMapButtons()
         setupMapView()
         setupLocationManager()
@@ -64,7 +62,6 @@ class MapViewController: UIViewController {
         mapView.tintColor = .systemBlue //sets user puck color
         centerMapOnUSC()
         registerMapAnnotationViews()
-        displayedAnnotations = []
         
         // Set iniital camera pitch (aka camera angle)
         mapView.camera = MKMapCamera(lookingAtCenter: mapView.centerCoordinate, fromDistance: 4000, pitch: 20, heading: mapView.camera.heading)
@@ -76,6 +73,7 @@ class MapViewController: UIViewController {
         mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: includeCategories))
     }
     
+    // NOTE: If you want to change the clustering identifier based on location, you should probably delink the annotationview and reuse identifier like below (watch the wwdc video again) so you can change the constructor of AnnotationViews/ClusterANnotationViews to include map height
     func registerMapAnnotationViews() {
         mapView.register(PostMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         mapView.register(ClusterAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
@@ -128,83 +126,6 @@ class MapViewController: UIViewController {
 
 //https://developer.apple.com/documentation/mapkit/mkmapviewdelegate
 extension MapViewController: MKMapViewDelegate {
-        
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        if view.annotation is MKUserLocation {
-            mapView.deselectAnnotation(view.annotation, animated: false)
-            mapView.userLocation.title = "Hey cutie"
-        }
-        else if let clusterAnnotation = view.annotation as? MKClusterAnnotation {
-            mapView.deselectAnnotation(view.annotation, animated: false)
-            if clusterAnnotation.isHotspot {
-                var posts = [Post]()
-                for annotation in clusterAnnotation.memberAnnotations {
-                    if let annotation = annotation as? PostAnnotation {
-                        posts.append(annotation.post)
-                        
-                    }
-                }
-                let newVC = ResultsFeedViewController.resultsFeedViewController(feedType: .hotspot, feedValue: clusterAnnotation.title!)
-                newVC.posts = posts
-                navigationController?.pushViewController(newVC, animated: true)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in //wait 0.5 seconds
-                    centerMapOn(lat: view.annotation!.coordinate.latitude, long: view.annotation!.coordinate.longitude)
-                }
-            } else {
-                slowFlyTo(lat: view.annotation!.coordinate.latitude, long: view.annotation!.coordinate.longitude, incrementalZoom: true, completion: {_ in })
-            }
-        }
-        else if let view = view as? PostMarkerAnnotationView {
-            view.glyphTintColor = mistUIColor() //this is needed bc for some reason the glyph tint color turns grey even with the mist-heart-pink icon
-            view.markerTintColor = mistSecondaryUIColor()
-            
-            slowFlyTo(lat: view.annotation!.coordinate.latitude + latitudeOffset, long: view.annotation!.coordinate.longitude, incrementalZoom: false, completion: {_ in })
-            loadPostViewFor(postAnnotationView: view)
-        }
-    }
-    
-    func loadPostViewFor(postAnnotationView: PostMarkerAnnotationView) {
-        let cell = Bundle.main.loadNibNamed(Constants.SBID.Cell.Post, owner: self, options: nil)?[0] as! PostCell
-        if let postAnnotation = postAnnotationView.annotation as? PostAnnotation {
-            cell.configurePostCell(post: postAnnotation.post, parent: self, bubbleArrowPosition: .bottom)
-        }
-        let postView: UIView? = cell.contentView
-
-        // Or, alternatively, instead of extracting from the PostCell.xib,, extract post from PostView.xib
-//        let postViewFromViewNib = Bundle.main.loadNibNamed(Constants.SBID.View.Post, owner: self, options: nil)?[0] as? PostView
-        
-        if let newPostView = postView {
-            newPostView.tag = 999
-            newPostView.tintColor = .black
-            newPostView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
-            postAnnotationView.addSubview(newPostView)
-            NSLayoutConstraint.activate([
-                newPostView.bottomAnchor.constraint(equalTo: postAnnotationView.bottomAnchor, constant: -70),
-                newPostView.widthAnchor.constraint(equalTo: mapView.widthAnchor, constant: 0),
-                newPostView.heightAnchor.constraint(lessThanOrEqualTo: mapView.heightAnchor, multiplier: 0.60, constant: 0),
-                newPostView.centerXAnchor.constraint(equalTo: postAnnotationView.centerXAnchor, constant: 0),
-            ])
-            newPostView.alpha = 0
-            newPostView.isHidden = true
-            newPostView.fadeIn(duration: 0.2, delay: cameraAnimationDuration-0.15)
-        }
-    }
-    
-    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        if let view = view as? PostMarkerAnnotationView {
-            view.glyphTintColor = .white
-            view.markerTintColor = mistUIColor()
-        }
-        
-        if let postView: UIView = view.viewWithTag(999) {
-            postView.fadeOut(duration: 0.5, delay: 0, completion: { Bool in
-                postView.isHidden = true
-                postView.removeFromSuperview()
-                mapView.isScrollEnabled = true
-                mapView.isZoomEnabled = true
-            })
-        }
-    }
     
     //updates after each view change is completed
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {

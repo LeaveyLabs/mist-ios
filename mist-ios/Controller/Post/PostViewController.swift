@@ -27,7 +27,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     
     //postVC should never be created without a post
     var post: Post!
-    var comments: [Comment]?
+    var comments: [Comment] = []
     var shouldStartWithRaisedKeyboard: Bool!
     
     //MARK: Lifecycle
@@ -65,7 +65,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    //MARK: -Initialization
+    //MARK: - Initialization
     
     //create a postVC for a given post. postVC should never exist without a post
     class func createPostVCForPost(_ post: Post) -> PostViewController {
@@ -75,7 +75,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         return postVC
     }
     
-    //MARK: -Setup
+    //MARK: - Setup
     
     func setupTableView() {
         postTableView.estimatedRowHeight = 100;
@@ -109,7 +109,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         commentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
     
-    //MARK: -Navigation
+    //MARK: - Navigation
     
     //TODO: do we need to implement this in all VCs throughout the app?
     //(2 of 2) for enabling swipe left to go back with a bar button item
@@ -117,7 +117,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         return true
     }
     
-    //MARK: -User Interaction
+    //MARK: - User Interaction
     
     @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
@@ -142,34 +142,44 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     
     @IBAction func submitButtonDidPressed(_ sender: UIButton) {
         if (commentTextView.text.isEmpty) { return }
-        disableCommentButton()
         Task {
-            let errorMessage = await UserService.singleton.uploadComment(
-                id: "remove this later on",
-                text: commentTextView.text,
-                timestamp: currentTimeMillis(),
-                postId: post.id,
-                author: UserService.singleton.getId())
-            if let errorMessage = errorMessage {
-                print(errorMessage)
-            } else {
-                let asdf = IndexPath(row: comments!.count, section: 0)
+            do {
+                disableCommentButton()
+                let syncedComment = try await UserService.singleton.uploadComment(
+                    id: String(NSUUID().uuidString.prefix(10)),
+                    text: commentTextView.text,
+                    timestamp: currentTimeMillis(),
+                    postId: post.id,
+                    author: UserService.singleton.getId())
+                //If successful
                 commentTextView.text = ""
-                postTableView.scrollToRow(at: asdf, at: .bottom, animated: true)
-                enableCommentButton()
-                postTableView.reloadData()
+                postTableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
                 commentTextView.resignFirstResponder()
-//              postTableView.setContentOffset(CGPoint(x: 0, y: CGFloat.greatestFiniteMagnitude), animated: false)
+                
+                //this should be handled in postservice
+                comments.append(syncedComment)
+                post.commentcount += 1
+                
+                postTableView.reloadData()
+                print(comments)
+                //postTableView.setContentOffset(CGPoint(x: 0, y: CGFloat.greatestFiniteMagnitude), animated: false)
             }
+            catch {
+                //If failure
+                print("\(error)")
+            }
+            //Whether successful or failure
+            enableCommentButton() //i think this executes whether successful or not... need to check by creating a failed comment upload though
         }
     }
     
-    //MARK: -Db Calls
+    //MARK: - Db Calls
     
     func loadComments() {
         Task {
             do {
                 comments = try await CommentAPI.fetchComments(postID: post.id)
+                print(comments)
                 print("loaded comments")
                 postTableView.reloadData();
             } catch {
@@ -178,7 +188,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    //MARK: -TextView delegate
+    //MARK: - TextView delegate
     
     func textViewDidChange(_ textView: UITextView) {
         commentPlaceholderLabel.isHidden = !commentTextView.text.isEmpty
@@ -198,19 +208,14 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         return true
     }
 
-    // MARK: -TableView Data Source
+    // MARK: - TableView Data Source
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1;
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let comments = comments {
-            return comments.count + 1
-        }
-        else {
-            return 1;
-        }
+        return comments.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -224,7 +229,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         }
         //else the cell is a comment
         let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Comment, for: indexPath) as! CommentCell
-        cell.configureCommentCell(comment: comments![indexPath.row-1], parent: self)
+        cell.configureCommentCell(comment: comments[indexPath.row-1], parent: self)
         cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
         return cell
     }
@@ -236,7 +241,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         print("post was tapped")
     }
     
-    //MARK: -Helpers
+    //MARK: - Helpers
     
     func validateAllFields() -> Bool {
         if (commentTextView.text! == "" ) {
