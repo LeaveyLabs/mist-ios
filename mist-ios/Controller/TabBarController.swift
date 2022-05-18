@@ -34,6 +34,14 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
 //            handleTouchTabbarCenter() //only present NewPostVC if the actual button is pressed, not just around the button
            return false
         }
+        
+        // Method #2
+        guard let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController) else {
+            return true
+        }
+        if selectedIndex == 1 {
+            return false
+        }
         return true
     }
     

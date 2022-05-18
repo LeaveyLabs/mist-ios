@@ -724,13 +724,30 @@
                                     <outletCollection property="gestureRecognizers" destination="q1g-Yv-VfO" appends="YES" id="ULJ-ni-5Xt"/>
                                 </connections>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="64y-1T-508">
+                                <rect key="frame" x="321" y="744" width="40" height="40"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="Brr-xO-gsa"/>
+                                    <constraint firstAttribute="height" constant="40" id="GjU-dL-KMO"/>
+                                </constraints>
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="location" catalog="system"/>
+                                <connections>
+                                    <action selector="userTrackingButtonDidPressed:" destination="Fzs-bF-wXN" eventType="touchUpInside" id="V1F-ZQ-vTX"/>
+                                    <action selector="userTrackingButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="eQZ-Fk-Jhd"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="u8t-JX-tsJ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="64y-1T-508" firstAttribute="leading" secondItem="98q-0K-ZRg" secondAttribute="trailing" constant="-69" id="Gz9-1f-f46"/>
                             <constraint firstItem="98q-0K-ZRg" firstAttribute="leading" secondItem="u8t-JX-tsJ" secondAttribute="leading" id="H8d-Ip-HZA"/>
                             <constraint firstItem="98q-0K-ZRg" firstAttribute="top" secondItem="Aku-Al-M1Y" secondAttribute="bottom" constant="-71" id="JGf-pd-beS"/>
                             <constraint firstItem="Aku-Al-M1Y" firstAttribute="centerX" secondItem="z46-HH-ZpQ" secondAttribute="centerX" id="kHG-qg-62F"/>
+                            <constraint firstItem="64y-1T-508" firstAttribute="top" secondItem="98q-0K-ZRg" secondAttribute="bottom" constant="-100" id="lvC-te-4Pb"/>
                             <constraint firstItem="98q-0K-ZRg" firstAttribute="top" secondItem="u8t-JX-tsJ" secondAttribute="top" id="r5B-sf-OEW"/>
                             <constraint firstAttribute="bottom" secondItem="98q-0K-ZRg" secondAttribute="bottom" id="tmj-Uw-IP5"/>
                             <constraint firstItem="98q-0K-ZRg" firstAttribute="trailing" secondItem="u8t-JX-tsJ" secondAttribute="trailing" id="uGm-Zx-i2c"/>
@@ -740,6 +757,7 @@
                     <connections>
                         <outlet property="mapView" destination="98q-0K-ZRg" id="f0v-mk-8cO"/>
                         <outlet property="topBannerView" destination="Aku-Al-M1Y" id="pYm-IO-hn7"/>
+                        <outlet property="userTrackingButton" destination="64y-1T-508" id="J5E-jd-7iz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aNB-MI-szE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

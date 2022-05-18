@@ -13,15 +13,14 @@ typealias PinMapModalCompletionHandler = ((String?) -> Void)
 //modal with a custom size
 //https://stackoverflow.com/questions/54737884/changing-the-size-of-a-modal-view-controller
 
-class PinMapModalViewController: UIViewController, UITextFieldDelegate {
+class PinMapModalViewController: SheetViewController, UITextFieldDelegate {
 
     var completionHandler: PinMapModalCompletionHandler!
 
-    @IBOutlet weak var containingView: UIView!
     @IBOutlet weak var selectButton: UIButton!
     @IBOutlet weak var reselectButton: UIButton!
     @IBOutlet weak var locationDescriptionTextField: UITextField!
-    
+        
     var annotation: PostAnnotation!
     
     override func viewDidLoad() {
@@ -31,7 +30,12 @@ class PinMapModalViewController: UIViewController, UITextFieldDelegate {
         containingView.layer.cornerRadius = 15
         disableSelectButton()
         locationDescriptionTextField.delegate = self
+        setupSheet(prefersGrabberVisible: true,
+                   detents: [Constants.Detents.s, Constants.Detents.xs, Constants.Detents.xl],
+                   bgInteractionEnabled: true)
     }
+    
+    //MARK: - Constructors
     
     //create a postVC for a given post. postVC should never exist without a post
     class func createPinMapModalVCFor(_ annotation: PostAnnotation) -> PinMapModalViewController {
@@ -49,7 +53,7 @@ class PinMapModalViewController: UIViewController, UITextFieldDelegate {
         completionHandler(nil)
     }
     
-    //MARK: -TextField Delegate
+    //MARK: - TextField Delegate
     @IBAction func locationDescriptionTextFieldDidGetEditted(_ sender: UITextField) {
         if locationDescriptionTextField.text!.isEmpty {
             disableSelectButton()
@@ -62,7 +66,7 @@ class PinMapModalViewController: UIViewController, UITextFieldDelegate {
         locationDescriptionTextField.resignFirstResponder()
     }
     
-    //MARK: -Helpers
+    //MARK: - Helpers
     
     func clearAllFields() {
         locationDescriptionTextField.text! = ""
