@@ -15,6 +15,13 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         super.viewDidLoad()
         delegate = self;
         addCenterButton(withImage: UIImage(named: "submitbutton")!)
+    
+        let tabBar = self.tabBar as! CustomTabBar
+
+        guard let tabBar = self.tabBar as? CustomTabBar else {
+            print("custom tab bar failed")
+            return
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -30,18 +37,18 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
      The view controller which is connected to the middle "plus" button should be called "dummy"
     */
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        // Method #1: Thew middle view controller should have a title of dummy
         if viewController.title == "dummy" {
-//            handleTouchTabbarCenter() //only present NewPostVC if the actual button is pressed, not just around the button
            return false
         }
         
         // Method #2
-        guard let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController) else {
-            return true
-        }
-        if selectedIndex == 1 {
-            return false
-        }
+//        guard let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController) else {
+//            return true
+//        }
+//        if selectedIndex == 1 {
+//            return false
+//        }
         return true
     }
     
@@ -51,18 +58,27 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
          self.present(vc, animated: true, completion: nil)
     }
 
-    //https://stackoverflow.com/questions/30527738/how-do-we-create-a-bigger-center-uitabbar-item
     func addCenterButton(withImage buttonImage : UIImage) {
-        centerButton = UIButton(type: .custom)
+        centerButton = UIButton()
         centerButton.adjustsImageWhenHighlighted = false //deprecated, but only for the new "UIButtonConfiguration" buttons, which we're not using here
-        centerButton.frame = CGRect(x: 0.0, y: 0.0, width: buttonImage.size.width, height: buttonImage.size.height)
+//        centerButton.frame = CGRect(x: 0.0, y: 0.0, width: buttonImage.size.width, height: buttonImage.size.height)
+        centerButton.frame.size = CGSize(width: 48, height: 48)
         centerButton.translatesAutoresizingMaskIntoConstraints = false
         centerButton.setImage(buttonImage, for: .normal)
 
         print(tabBar.clipsToBounds)
-        tabBar.clipsToBounds = true
+        
+//        guard let tabBar = self.tabBar as? CustomTabBar else { return }
+
         tabBar.addSubview(centerButton)
         tabBar.bringSubviewToFront(centerButton)
+        
+        tabBar.layer.shadowColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1).cgColor
+        tabBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        tabBar.layer.shadowRadius = 4.0
+        tabBar.layer.shadowOpacity = 0.4
+        tabBar.layer.masksToBounds = false
+        
         NSLayoutConstraint.activate([
             centerButton.topAnchor.constraint(equalTo: tabBar.topAnchor, constant: -30),
             centerButton.centerXAnchor.constraint(equalTo: tabBar.centerXAnchor, constant: 0),
@@ -70,6 +86,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         
         centerButton.isUserInteractionEnabled = true
         centerButton.addTarget(self, action: #selector(handleTouchTabbarCenter), for: .touchUpInside)
+        
   }
-
 }
+

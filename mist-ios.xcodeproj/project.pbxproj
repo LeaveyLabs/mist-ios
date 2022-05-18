@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4316238228341F5F00169AA9 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4316238128341F5F00169AA9 /* MessageKit */; };
 		4316238428343D3F00169AA9 /* SheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4316238328343D3F00169AA9 /* SheetViewController.swift */; };
+		4316238C2834F8A600169AA9 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4316238B2834F8A600169AA9 /* CustomTabBarController.swift */; };
 		4329571C27F4008300FA48A9 /* EnterEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */; };
 		433970DF27FE501700876026 /* WelcomeTutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */; };
 		43483BB228025179001C7C6A /* EnterUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB128025179001C7C6A /* EnterUsernameViewController.swift */; };
@@ -24,6 +25,7 @@
 		439E44F827DFE11F00E244D6 /* WordAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F727DFE11F00E244D6 /* WordAPI.swift */; };
 		439E44FA27DFE20600E244D6 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F927DFE20600E244D6 /* Word.swift */; };
 		439E44FC27E01D4900E244D6 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44FB27E01D4900E244D6 /* AuthAPI.swift */; };
+		43A05BDD2835008B0085A99B /* SpecialTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A05BDC2835008B0085A99B /* SpecialTabBar.swift */; };
 		43E30CFA2820AC9900DBEB57 /* CommentAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E30CF92820AC9900DBEB57 /* CommentAPITest.swift */; };
 		43E30CFC2820ACC600DBEB57 /* ProfileAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E30CFB2820ACC600DBEB57 /* ProfileAPITest.swift */; };
 		43E30CFE2826355C00DBEB57 /* EnterProfilePictureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E30CFD2826355C00DBEB57 /* EnterProfilePictureViewController.swift */; };
@@ -157,6 +159,7 @@
 
 /* Begin PBXFileReference section */
 		4316238328343D3F00169AA9 /* SheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetViewController.swift; sourceTree = "<group>"; };
+		4316238B2834F8A600169AA9 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterEmailViewController.swift; sourceTree = "<group>"; };
 		433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeTutorialViewController.swift; sourceTree = "<group>"; };
 		43483BB128025179001C7C6A /* EnterUsernameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterUsernameViewController.swift; sourceTree = "<group>"; };
@@ -172,6 +175,7 @@
 		439E44F727DFE11F00E244D6 /* WordAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordAPI.swift; sourceTree = "<group>"; };
 		439E44F927DFE20600E244D6 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		439E44FB27E01D4900E244D6 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
+		43A05BDC2835008B0085A99B /* SpecialTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialTabBar.swift; sourceTree = "<group>"; };
 		43E30CF92820AC9900DBEB57 /* CommentAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAPITest.swift; sourceTree = "<group>"; };
 		43E30CFB2820ACC600DBEB57 /* ProfileAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAPITest.swift; sourceTree = "<group>"; };
 		43E30CFD2826355C00DBEB57 /* EnterProfilePictureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterProfilePictureViewController.swift; sourceTree = "<group>"; };
@@ -574,6 +578,8 @@
 				47FF86A427DC76000076A1CA /* NewPost */,
 				47FF86A327DC75F00076A1CA /* Account */,
 				47FF86A227DC75DB0076A1CA /* Feed */,
+				4316238B2834F8A600169AA9 /* CustomTabBarController.swift */,
+				43A05BDC2835008B0085A99B /* SpecialTabBar.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -829,6 +835,7 @@
 				4746508727D8735B0014217C /* RulesViewController.swift in Sources */,
 				479AA20327DD4AA900EA0DFC /* KUIViewController.swift in Sources */,
 				470F271827DE758100C6DDAF /* WordResultCell.swift in Sources */,
+				4316238C2834F8A600169AA9 /* CustomTabBarController.swift in Sources */,
 				47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */,
 				474A5DA527F40606004215F9 /* RoundedImageView.swift in Sources */,
 				4780E5B42832F0560012B741 /* SimpleChatViewController.swift in Sources */,
@@ -846,6 +853,7 @@
 				479683F32826494100CA23BA /* UIColor+Theme.swift in Sources */,
 				479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */,
 				471F92CF28013F9B0079F8CA /* ExploreFeedViewController.swift in Sources */,
+				43A05BDD2835008B0085A99B /* SpecialTabBar.swift in Sources */,
 				47EE95FA27F64C00003B351E /* SettingsViewController.swift in Sources */,
 				43E30CFE2826355C00DBEB57 /* EnterProfilePictureViewController.swift in Sources */,
 				47266AD427FF69C9005DEDB1 /* UIViewController+Loading.swift in Sources */,
