@@ -7,27 +7,18 @@
 
 import UIKit
 
-enum Filter {
-    case trending
-    case recent
-    case featured
-    case friends
-    case matches
-}
-
 class ExploreFeedViewController: FeedViewController {
     
     @IBOutlet weak var mistTitle: UIView!
-    var filter: Filter = .trending
         
     //ExploreViewController
     var mySearchController: UISearchController!
     private var resultsTableController: LiveResultsTableViewController!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.titleView = mistTitle
-        
+                
         //ExploreViewController
         setupSearchBar()
     }
@@ -44,6 +35,8 @@ class ExploreFeedViewController: FeedViewController {
             }
         }
     }
+    
+    //MARK: - Setup
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
@@ -184,7 +177,7 @@ extension ExploreFeedViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (indexPath.row == 0) {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.FeedHeader, for: indexPath) as! FeedHeaderCell
-            cell.feedHeaderLabel.text = "\(filter)"
+//            cell.feedHeaderLabel.text = "\(filter)"
             cell.feedType = .home
             cell.delegate = self
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)

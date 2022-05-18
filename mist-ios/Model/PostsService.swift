@@ -6,15 +6,17 @@
 //
 
 import Foundation
+import MapKit
 
-class PostService: NSObject {
+class PostsService: NSObject {
     private var posts = [Post]();
-    private var sortBy: SortBy = SortBy.upvotes;
+    private var filter = PostFilter()
     
     //static let noResultsLeftPost: Post?
     
-    static var homePosts = PostService(); //why use singleton model? just put it in homeVC?
-    static var myPosts = PostService();
+    static var homePosts = PostsService()
+    
+    //MARK: - Helpers
     
     func isValidIndex(_ index: Int) -> Bool {
         if (index < posts.count && index >= 0) {
@@ -24,6 +26,14 @@ class PostService: NSObject {
         }
     }
     
+    //MARK: - Setters
+    
+    func setFilter(to filter: PostFilter) {
+        self.filter = filter;
+    }
+    
+    //MARK: - Getters
+    
     func numberOfPosts() -> Int {
         return posts.count
     }
@@ -32,15 +42,14 @@ class PostService: NSObject {
         return posts;
     }
     
-    func newPosts() async throws -> Void {
-        let request_posts = try await PostAPI.fetchPosts();
-        self.posts = request_posts;
+    func newPosts() async throws -> [Post] {
+        //TODO: PostAPI.fetchPosts(with: filter)
+        return try await PostAPI.fetchPosts();
     }
     
-    func changeSortBy(to newSortBy: SortBy) {
-        sortBy = newSortBy;
-        
-        //TODO: reload all data and refresh the viewController
+    func newPostsNearby(latitude: Double, longitude: Double) async throws -> [Post] {
+        //TODO: PostAPI.fetchNearbyPosts(with: filter)
+        return try await PostAPI.fetchPosts(latitude: latitude, longitude: longitude)
     }
     
     //Returns a card at a given index

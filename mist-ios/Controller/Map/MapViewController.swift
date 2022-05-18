@@ -31,26 +31,24 @@ class MapViewController: UIViewController {
     var prevZoomWidth: Double!
     var prevZoom: Double!
     
+    var displayedAnnotations = [PostAnnotation]() {
+        willSet {
+            mapView.addAnnotations(displayedAnnotations)
+        }
+        didSet {
+            mapView.addAnnotations(displayedAnnotations)
+        }
+    }
+    
+    
     var cameraAnimationDuration: Double {
         return Double(prevZoomFactor+2)/10 + ((180-fabs(180.0 - mapView.camera.heading)) / 180 * 0.3) //add up to 0.3 seconds to rotate the heading of the camera
     }
-    
-    var displayedAnnotations: [PostAnnotation]? {
-        willSet {
-            if let currentAnnotations = displayedAnnotations {
-                mapView.removeAnnotations(currentAnnotations)
-            }
-        }
-        didSet {
-            if let newAnnotations = displayedAnnotations {
-                mapView.addAnnotations(newAnnotations)
-            }
-        }
-    }
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.restoreHairline()
+        displayedAnnotations = []
         setupMapButtons()
         setupMapView()
         setupLocationManager()
@@ -64,7 +62,6 @@ class MapViewController: UIViewController {
         mapView.tintColor = .systemBlue //sets user puck color
         centerMapOnUSC()
         registerMapAnnotationViews()
-        displayedAnnotations = []
         
         // Set iniital camera pitch (aka camera angle)
         mapView.camera = MKMapCamera(lookingAtCenter: mapView.centerCoordinate, fromDistance: 4000, pitch: 20, heading: mapView.camera.heading)
@@ -76,6 +73,7 @@ class MapViewController: UIViewController {
         mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: includeCategories))
     }
     
+    // NOTE: If you want to change the clustering identifier based on location, you should probably delink the annotationview and reuse identifier like below (watch the wwdc video again) so you can change the constructor of AnnotationViews/ClusterANnotationViews to include map height
     func registerMapAnnotationViews() {
         mapView.register(PostMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         mapView.register(ClusterAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)

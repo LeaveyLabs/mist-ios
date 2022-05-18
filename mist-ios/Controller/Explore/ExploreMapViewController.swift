@@ -21,10 +21,14 @@ class ExploreMapViewController: MapViewController {
     @IBOutlet weak var dateSliderView: UIView!
     @IBOutlet weak var dateLabel: UILabel!
         
-    //ExploreViewController
+    // ExploreViewController
     var mySearchController: UISearchController!
     private var resultsTableController: LiveResultsTableViewController!
     
+    // PostsService
+    var postsService: PostsService!
+    var postFilter = PostFilter()
+
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
@@ -32,10 +36,10 @@ class ExploreMapViewController: MapViewController {
         latitudeOffset = 0.0010
         navigationItem.titleView = mistTitle
         
-        //ExploreViewController
-        loadExploreMapView()
         setupSearchBar()
         setupDateSlider()
+        setupPostsService()
+        loadExploreMapView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,21 +49,25 @@ class ExploreMapViewController: MapViewController {
     
     //MARK: -Setup
     
+    func setupPostsService() {
+        postsService = PostsService()
+        postsService.setFilter(to: postFilter)
+    }
+    
     func setupDateSlider() {
         dateSliderView.layer.cornerRadius = 10
         dateSliderOuterView.layer.cornerRadius = 10
         applyShadowOnView(dateSliderOuterView)
     }
     
-    //MARK: -User Interaction
+    //MARK: - User Interaction
     
     @IBAction func sliderValueDidChanged(_ sender: UISlider) {
         dateLabel.text = getDateFromSlider(indexFromOneToSeven: sender.value)
     }
     
     
-    //MARK: -Map
-    
+    //MARK: - Map
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if view.annotation is MKUserLocation {
@@ -152,11 +160,12 @@ class ExploreMapViewController: MapViewController {
     func loadExploreMapView() {
         Task {
             do {
-                let nearbyPosts = try await PostAPI.fetchPosts(latitude: Constants.USC_LAT_LONG.latitude, longitude: Constants.USC_LAT_LONG.longitude)
-                //turn the first 10000..?? lol posts returned into PostAnnotations and add them to the map
-                for index in 0...min(10000, nearbyPosts.count-1) {
-                    let postAnnotation = PostAnnotation(withPost: nearbyPosts[index])
-                    displayedAnnotations?.append(postAnnotation)
+                let loadedPosts = try await postsService.newPostsNearby(latitude: Constants.USC_LAT_LONG.latitude, longitude: Constants.USC_LAT_LONG.longitude)
+                
+                //turn the first 10000..?? lol posts returned into PostAnnotations so they will be added to the map
+                for index in 0...min(10000, loadedPosts.count-1) {
+                    let postAnnotation = PostAnnotation(withPost: loadedPosts[index])
+                    displayedAnnotations.append(postAnnotation)
                 }
             } catch {
                 print(error)
@@ -169,11 +178,7 @@ class ExploreMapViewController: MapViewController {
 
 
 
-
-
-
-
-//MARK: --------------ExploreViewController
+//MARK: - ExploreViewController
     
 extension ExploreMapViewController {
     

@@ -16,12 +16,12 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         delegate = self;
         addCenterButton(withImage: UIImage(named: "submitbutton")!)
     
-        let tabBar = self.tabBar as! CustomTabBar
-
-        guard let tabBar = self.tabBar as? CustomTabBar else {
-            print("custom tab bar failed")
-            return
-        }
+//        let tabBar = self.tabBar as! CustomTabBar
+//
+//        guard let tabBar = self.tabBar as? CustomTabBar else {
+//            print("custom tab bar failed")
+//            return
+//        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -43,12 +43,12 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         }
         
         // Method #2
-//        guard let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController) else {
-//            return true
-//        }
-//        if selectedIndex == 1 {
-//            return false
-//        }
+        guard let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController) else {
+            return true
+        }
+        if selectedIndex == 1 {
+            return false
+        }
         return true
     }
     

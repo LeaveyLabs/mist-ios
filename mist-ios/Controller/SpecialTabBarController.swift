@@ -7,7 +7,11 @@
 
 import UIKit
 
-class CustomTabBarController: UITabBarController {
+class FakeTabBar: UITabBar {
+    
+}
+
+class SpecialTabBarController: UITabBarController {
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -15,13 +19,14 @@ class CustomTabBarController: UITabBarController {
         delegate = self
         print("TBC IS LOAD")
 
-        guard let tabBar = self.tabBar as? SpecialTabBar else { return }
+//        guard let tabBar = self.tabBar as? SpecialTabBar else { return }
+//        let tabBar = self.tabBar as! FakeTabBar
 
         print("TBC DID LOAD")
 
-        tabBar.didTapButton = { [unowned self] in
-            self.routeToCreateNewAd()
-        }
+//        tabBar.didTapButton = { [unowned self] in
+//            self.routeToCreateNewAd()
+//        }
     }
     
     func routeToCreateNewAd() {
@@ -32,7 +37,7 @@ class CustomTabBarController: UITabBarController {
 }
 
 // MARK: - UITabBarController Delegate
-extension CustomTabBarController: UITabBarControllerDelegate {
+extension SpecialTabBarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         // Method #1: Thew middle view controller should have a title of dummy
         if viewController.title == "dummy" {

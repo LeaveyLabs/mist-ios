@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		4316238228341F5F00169AA9 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4316238128341F5F00169AA9 /* MessageKit */; };
 		4316238428343D3F00169AA9 /* SheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4316238328343D3F00169AA9 /* SheetViewController.swift */; };
-		4316238C2834F8A600169AA9 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4316238B2834F8A600169AA9 /* CustomTabBarController.swift */; };
+		4316238C2834F8A600169AA9 /* SpecialTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4316238B2834F8A600169AA9 /* SpecialTabBarController.swift */; };
 		4329571C27F4008300FA48A9 /* EnterEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */; };
 		433970DF27FE501700876026 /* WelcomeTutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */; };
 		43483BB228025179001C7C6A /* EnterUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB128025179001C7C6A /* EnterUsernameViewController.swift */; };
@@ -88,9 +88,9 @@
 		47A3D70227D524F4003DBEA5 /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70127D524F4003DBEA5 /* NewPostViewController.swift */; };
 		47A3D70627D54F3C003DBEA5 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70527D54F3C003DBEA5 /* Post.swift */; };
 		47A3D70827D54F6F003DBEA5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70727D54F6F003DBEA5 /* User.swift */; };
-		47A3D70C27D55A3A003DBEA5 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70B27D55A3A003DBEA5 /* PostService.swift */; };
+		47A3D70C27D55A3A003DBEA5 /* PostsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70B27D55A3A003DBEA5 /* PostsService.swift */; };
 		47A3D70E27D55BB3003DBEA5 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70D27D55BB3003DBEA5 /* Time.swift */; };
-		47A3D71027D55BDD003DBEA5 /* SortBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70F27D55BDD003DBEA5 /* SortBy.swift */; };
+		47A3D71027D55BDD003DBEA5 /* PostFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70F27D55BDD003DBEA5 /* PostFilter.swift */; };
 		47A3D71227D57A6D003DBEA5 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D71127D57A6D003DBEA5 /* UserService.swift */; };
 		47A3D71D27D5940D003DBEA5 /* UITextView+DoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D71C27D5940D003DBEA5 /* UITextView+DoneButton.swift */; };
 		47A3D71F27D598B6003DBEA5 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D71E27D598B6003DBEA5 /* TabBarController.swift */; };
@@ -159,7 +159,7 @@
 
 /* Begin PBXFileReference section */
 		4316238328343D3F00169AA9 /* SheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetViewController.swift; sourceTree = "<group>"; };
-		4316238B2834F8A600169AA9 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
+		4316238B2834F8A600169AA9 /* SpecialTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialTabBarController.swift; sourceTree = "<group>"; };
 		4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterEmailViewController.swift; sourceTree = "<group>"; };
 		433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeTutorialViewController.swift; sourceTree = "<group>"; };
 		43483BB128025179001C7C6A /* EnterUsernameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterUsernameViewController.swift; sourceTree = "<group>"; };
@@ -239,9 +239,9 @@
 		47A3D70127D524F4003DBEA5 /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
 		47A3D70527D54F3C003DBEA5 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		47A3D70727D54F6F003DBEA5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		47A3D70B27D55A3A003DBEA5 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
+		47A3D70B27D55A3A003DBEA5 /* PostsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsService.swift; sourceTree = "<group>"; };
 		47A3D70D27D55BB3003DBEA5 /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
-		47A3D70F27D55BDD003DBEA5 /* SortBy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortBy.swift; sourceTree = "<group>"; };
+		47A3D70F27D55BDD003DBEA5 /* PostFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFilter.swift; sourceTree = "<group>"; };
 		47A3D71127D57A6D003DBEA5 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		47A3D71C27D5940D003DBEA5 /* UITextView+DoneButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextView+DoneButton.swift"; sourceTree = "<group>"; };
 		47A3D71E27D598B6003DBEA5 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -379,7 +379,7 @@
 		4726C6AF27CA1DE90093400C /* Enums */ = {
 			isa = PBXGroup;
 			children = (
-				47A3D70F27D55BDD003DBEA5 /* SortBy.swift */,
+				47A3D70F27D55BDD003DBEA5 /* PostFilter.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -539,7 +539,7 @@
 				4700F8B827DD7BE3006C2E08 /* Flag.swift */,
 				4700F8B927DD7BE3006C2E08 /* Vote.swift */,
 				47A3D70527D54F3C003DBEA5 /* Post.swift */,
-				47A3D70B27D55A3A003DBEA5 /* PostService.swift */,
+				47A3D70B27D55A3A003DBEA5 /* PostsService.swift */,
 				47A3D70727D54F6F003DBEA5 /* User.swift */,
 				47A3D71127D57A6D003DBEA5 /* UserService.swift */,
 				47FF86A027DC712F0076A1CA /* Comment.swift */,
@@ -569,6 +569,8 @@
 				4316238328343D3F00169AA9 /* SheetViewController.swift */,
 				47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */,
 				47A3D71E27D598B6003DBEA5 /* TabBarController.swift */,
+				4316238B2834F8A600169AA9 /* SpecialTabBarController.swift */,
+				43A05BDC2835008B0085A99B /* SpecialTabBar.swift */,
 				43770C4927EE8BED00F31CCF /* Auth */,
 				475B1F8927FB868300ED59CD /* Messages */,
 				47F4EFD127E10C1300861F30 /* Post */,
@@ -578,8 +580,6 @@
 				47FF86A427DC76000076A1CA /* NewPost */,
 				47FF86A327DC75F00076A1CA /* Account */,
 				47FF86A227DC75DB0076A1CA /* Feed */,
-				4316238B2834F8A600169AA9 /* CustomTabBarController.swift */,
-				43A05BDC2835008B0085A99B /* SpecialTabBar.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -823,7 +823,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				479AA1F527DCFFCB00EA0DFC /* UIVIew+TopBorder.swift in Sources */,
-				47A3D71027D55BDD003DBEA5 /* SortBy.swift in Sources */,
+				47A3D71027D55BDD003DBEA5 /* PostFilter.swift in Sources */,
 				474A5DA327F4042F004215F9 /* UIImageView+Inspectable.swift in Sources */,
 				43E30D0228263E1200DBEB57 /* ImagePicker.swift in Sources */,
 				47FF869827DB1F470076A1CA /* PostAPI.swift in Sources */,
@@ -835,7 +835,7 @@
 				4746508727D8735B0014217C /* RulesViewController.swift in Sources */,
 				479AA20327DD4AA900EA0DFC /* KUIViewController.swift in Sources */,
 				470F271827DE758100C6DDAF /* WordResultCell.swift in Sources */,
-				4316238C2834F8A600169AA9 /* CustomTabBarController.swift in Sources */,
+				4316238C2834F8A600169AA9 /* SpecialTabBarController.swift in Sources */,
 				47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */,
 				474A5DA527F40606004215F9 /* RoundedImageView.swift in Sources */,
 				4780E5B42832F0560012B741 /* SimpleChatViewController.swift in Sources */,
@@ -858,7 +858,7 @@
 				43E30CFE2826355C00DBEB57 /* EnterProfilePictureViewController.swift in Sources */,
 				47266AD427FF69C9005DEDB1 /* UIViewController+Loading.swift in Sources */,
 				47AE72AA27F77B0B00A5E94C /* UsernameSettingViewController.swift in Sources */,
-				47A3D70C27D55A3A003DBEA5 /* PostService.swift in Sources */,
+				47A3D70C27D55A3A003DBEA5 /* PostsService.swift in Sources */,
 				47A3D71D27D5940D003DBEA5 /* UITextView+DoneButton.swift in Sources */,
 				47CE900A27E058090004B756 /* PinMapViewController.swift in Sources */,
 				47C2834F27DED77500A19128 /* FeedHeaderCell.swift in Sources */,
