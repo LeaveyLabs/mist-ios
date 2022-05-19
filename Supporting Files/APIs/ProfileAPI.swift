@@ -33,11 +33,11 @@ class ProfileAPI {
         return try JSONDecoder().decode([User].self, from: data)
     }
     
-    static func patchProfilePic(image:UIImage, user:User) async throws -> User {
+    static func patchProfilePic(image:UIImage, user:User) async throws -> Profile {
         let imgData = image.pngData()
 
         let parameters = [
-            "email": user.email,
+            "id": String(user.id),
         ]
 
         let request = AF.upload(
@@ -48,9 +48,9 @@ class ProfileAPI {
                             multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
                         }
                 },
-            to: "https://mist-backend.herokuapp.com/api-modify-user/",
-            method: .put
+            to: "https://mist-backend.herokuapp.com/profiles/\(user.id)/",
+            method: .patch
         )
-        return try await request.serializingDecodable(User.self).value
+        return try await request.serializingDecodable(Profile.self).value
     }
 }
