@@ -10,13 +10,19 @@ import UIKit
 import MapKit
 
 struct Constants {
-    static let DefaultFont: String = "Avenir-Medium";
-    static let DefaultFontSize: CGFloat = 20
+    struct Font {
+        //TODO: im using avenir book and avenir medium in the app, but they look quite similar. just choose one later on
+        static let Light: String = "Avenir-Light"
+        static let Medium: String = "Avenir-Medium"
+        static let Heavy: String = "Avenir-Heavy"
+        static let Size: CGFloat = 20
+    }
     
-    static let USC_LAT_LONG =  CLLocationCoordinate2D(latitude: 34.0209 + 0.0019, longitude: -118.2861)
-
-    // MARK: -Storyboard Identifiers (SBID)
-    //note: all nib names should be the same ss their storyboard ID
+    struct Coordinates {
+        static let USC = CLLocationCoordinate2D(latitude: 34.0209 + 0.0019, longitude: -118.2861)
+    }
+    
+    // Note: all nib names should be the same ss their storyboard ID
     struct SBID {
         struct View {
             //Post
@@ -56,6 +62,7 @@ struct Constants {
             static let ResultsFeed = "ResultsFeedViewController"
             static let PinMapModal = "PinMapModalViewController"
             static let MapModal = "MapModalViewController"
+            static let Filter = "FilterViewController"
             //Messages
             static let NewMessage = "NewMessageViewController"
             //Navigation Controllers

@@ -17,12 +17,22 @@ class MapViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var userTrackingButton: UIButton!
+    @IBOutlet weak var mapDimensionButton: UIButton!
+    
+    private var isThreeDimensional:Bool = true {
+        didSet {
+            if isThreeDimensional {
+                mapDimensionButton.setTitle("2D", for: .normal)
+            } else {
+                mapDimensionButton.setTitle("3D", for: .normal)
+            }
+        }
+    }
     
     // Create a location manager to trigger user tracking
     private let locationManager = CLLocationManager()
     
-    var mapModal: MapModalViewController?
-    var postIsBeingRendered: Bool = false
+    var cameraIsMoving: Bool = false
     var modifyingMap: Bool = false
     var latitudeOffset: Double!
     
@@ -33,7 +43,7 @@ class MapViewController: UIViewController {
     
     var displayedAnnotations = [PostAnnotation]() {
         willSet {
-            mapView.addAnnotations(displayedAnnotations)
+            mapView.removeAnnotations(displayedAnnotations)
         }
         didSet {
             mapView.addAnnotations(displayedAnnotations)
@@ -84,6 +94,11 @@ class MapViewController: UIViewController {
         userTrackingButton.layer.cornerRadius = 10
         userTrackingButton.layer.cornerCurve = .continuous
         applyShadowOnView(userTrackingButton)
+        
+        mapDimensionButton.isHighlighted = true
+        mapDimensionButton.layer.cornerRadius = 10
+        mapDimensionButton.layer.cornerCurve = .continuous
+        applyShadowOnView(mapDimensionButton)
     }
     
     private func setupLocationManager(){
@@ -122,6 +137,38 @@ class MapViewController: UIViewController {
         slowFlyTo(lat: mapView.userLocation.coordinate.latitude, long: mapView.userLocation.coordinate.longitude, incrementalZoom: false, completion: {_ in })
     }
     
+    @IBAction func mapDimensionButtonDidPressed(_ sender: UIButton) {
+        // Toggle isThreeDimensional
+        isThreeDimensional = !isThreeDimensional
+        
+        // Prepare the new pitch based on the new value of isThreeDimensional
+        var newPitch: Double
+        if isThreeDimensional {
+            newPitch = 50.0
+        } else {
+            newPitch = 0.0
+        }
+        
+        //setting to 2d doesnt do animation but just SNAPS sometimes,
+        //this only starts happening once you press user tracking button
+        //its like pressing the user tracking button fucks with the isThreeDimensional property
+        //adam: first update the APIs, then fix this
+        
+        // Update the camera
+        cameraIsMoving = true
+        let rotationCamera = MKMapCamera(lookingAtCenter: mapView.camera.centerCoordinate,
+                                         fromDistance: mapView.camera.centerCoordinateDistance,
+                                         pitch: newPitch,
+                                         heading: mapView.camera.heading)
+        UIView.animate(withDuration: cameraAnimationDuration,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: {
+            self.mapView.camera = rotationCamera
+        },
+                       completion: nil)
+    }
+    
 }
 
 //https://developer.apple.com/documentation/mapkit/mkmapviewdelegate
@@ -129,8 +176,8 @@ extension MapViewController: MKMapViewDelegate {
     
     //updates after each view change is completed
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        if (postIsBeingRendered) {
-            postIsBeingRendered = false //so that when the user starts dragging again, the post will disappear
+        if (cameraIsMoving) {
+            cameraIsMoving = false //so that when the user starts dragging again, the post will disappear
         }
     }
 
@@ -152,13 +199,17 @@ extension MapViewController: MKMapViewDelegate {
         }
         
         // Deselect selected annotation.
-        if !postIsBeingRendered {
+        if !cameraIsMoving {
             if (mapView.selectedAnnotations.count > 0) {
                 mapView.deselectAnnotation(mapView.selectedAnnotations[0], animated: true)
             }
         }
         
-        
+        // Toggle text of 3d button
+        if !cameraIsMoving {
+            isThreeDimensional = mapView.camera.pitch != 0
+        }
+                
         let zoomWidth = mapView.visibleMapRect.size.width
         let zoomFactor = Int(log2(zoomWidth)) - 9
         let zoom = mapView.camera.centerCoordinateDistance
@@ -202,7 +253,7 @@ extension MapViewController {
     //MARK: - Helpers
     
     func centerMapOnUSC() {
-        let region = mapView.regionThatFits(MKCoordinateRegion(center: Constants.USC_LAT_LONG, latitudinalMeters: 1200, longitudinalMeters: 1200))
+        let region = mapView.regionThatFits(MKCoordinateRegion(center: Constants.Coordinates.USC, latitudinalMeters: 1200, longitudinalMeters: 1200))
         mapView.setRegion(region, animated: true)
     }
     
@@ -224,6 +275,6 @@ extension MapViewController {
         UIView.animate(withDuration: cameraAnimationDuration, delay: 0, options: .curveEaseInOut, animations: {
             self.mapView.camera = rotationCamera
         }, completion: completion)
-        postIsBeingRendered = true
+        cameraIsMoving = true
     }
 }

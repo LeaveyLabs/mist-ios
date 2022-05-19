@@ -8,10 +8,10 @@
 import Foundation
 
 struct PostFilter {
-    var postType: PostType = .all
-    var postTimeframe: Double = 1
+    var postType: PostType = .All
+    var postTimeframe: Float = 1
 }
 
-enum PostType {
-    case all, featured, matches, friends
+enum PostType: String {
+    case All, Featured, Matches, Friends
 }

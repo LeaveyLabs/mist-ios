@@ -17,9 +17,10 @@ protocol SheetDismissDelegate {
 
 extension Constants {
     struct Detents {
+        static let zil: UISheetPresentationController.Detent = ._detent(withIdentifier: "zil", constant: 0)
         static let xs: UISheetPresentationController.Detent = ._detent(withIdentifier: "xs", constant: 50)
         static let s: UISheetPresentationController.Detent = ._detent(withIdentifier: "s", constant: 300)
-        static let m: UISheetPresentationController.Detent = ._detent(withIdentifier: "m", constant: 500)
+        static let m: UISheetPresentationController.Detent = ._detent(withIdentifier: "m", constant: 400)
         static let l: UISheetPresentationController.Detent = ._detent(withIdentifier: "l", constant: 700)
         static let xl: UISheetPresentationController.Detent = ._detent(withIdentifier: "xl", constant: 900)
     }
@@ -31,8 +32,8 @@ class SheetViewController: UIViewController, UIViewControllerTransitioningDelega
     
     var prefersGrabberVisible: Bool!
     var detents: [UISheetPresentationController.Detent]!
-    var bgInteractionEnabled: Bool! = true
-    
+    var largestUndimmedDetentIdentifier: String? = nil
+        
     var sheetDelegate: UISheetPresentationControllerDelegate? //Allows lower level vc to detect when the sheet changes sizes and remains up
     var sheetDismissDelegate: SheetDismissDelegate?
 
@@ -50,26 +51,46 @@ class SheetViewController: UIViewController, UIViewControllerTransitioningDelega
     
     func setupSheet(prefersGrabberVisible: Bool,
                     detents: [UISheetPresentationController.Detent],
-                    bgInteractionEnabled: Bool) {
+                    largestUndimmedDetentIdentifier: String?) {
         self.prefersGrabberVisible = prefersGrabberVisible
         self.detents = detents
-        self.bgInteractionEnabled = bgInteractionEnabled
+        self.largestUndimmedDetentIdentifier = largestUndimmedDetentIdentifier
     }
     
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         
         let controller: UISheetPresentationController = .init(presentedViewController: presented, presenting: presenting)
         controller.delegate = sheetDelegate
-        if bgInteractionEnabled {
-            controller.largestUndimmedDetentIdentifier = .init(rawValue: "xs")
+        if let largestUndimmedDetentIdentifier = largestUndimmedDetentIdentifier {
+            controller.largestUndimmedDetentIdentifier = .init(rawValue: largestUndimmedDetentIdentifier)
         }
         controller.prefersGrabberVisible = prefersGrabberVisible
         controller.detents = detents
-                
+        controller.preferredCornerRadius = 20
+        
+        
         return controller
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         sheetDismissDelegate?.handleSheetDismiss()
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        print("will transition to")
+    }
+    
+    func toggleSheetSizeTo(sheetSize: String) {
+        // Unwrap the presentation controller using the right type.
+        print("unwrap")
+        guard let presentationController = presentationController as? UISheetPresentationController else { return }
+        
+        print("unwrapped")
+        print(presentationController.detents)
+        
+        // Animate the changes.
+        presentationController.animateChanges {
+            presentationController.selectedDetentIdentifier = .init(rawValue: sheetSize)
+        }
     }
 }

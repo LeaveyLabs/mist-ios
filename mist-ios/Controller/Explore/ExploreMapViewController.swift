@@ -8,23 +8,25 @@
 import UIKit
 import SwiftUI
 import MapKit
+import SwiftyAttributes
 
 ///reference for search controllers
 ///https://developer.apple.com/documentation/uikit/view_controllers/using_suggested_searches_with_a_search_controller
 ///https://developer.apple.com/documentation/uikit/view_controllers/displaying_searchable_content_by_using_a_search_controller
 
+//TODO: add 2d/3d button. shift to 2d automatically after a certain height
+
 class ExploreMapViewController: MapViewController {
     
     // MARK: - Properties
     @IBOutlet weak var mistTitle: UIView!
-    @IBOutlet weak var dateSliderOuterView: UIView!
-    @IBOutlet weak var dateSliderView: UIView!
-    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var filterButton: UIButton!
         
     // ExploreViewController
     var mySearchController: UISearchController!
     private var resultsTableController: LiveResultsTableViewController!
-    
+    var filterMapModalVC: FilterViewController?
+
     // PostsService
     var postsService: PostsService!
     var postFilter = PostFilter()
@@ -35,11 +37,15 @@ class ExploreMapViewController: MapViewController {
         super.viewDidLoad()
         latitudeOffset = 0.0010
         navigationItem.titleView = mistTitle
+
+        updateFilterButtonLabel()
+        
+        filterButton.layer.cornerRadius = 10
+        applyShadowOnView(filterButton)
         
         setupSearchBar()
-        setupDateSlider()
         setupPostsService()
-        loadExploreMapView()
+        reloadPosts()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,29 +53,45 @@ class ExploreMapViewController: MapViewController {
         //https://stackoverflow.com/questions/27951965/cannot-set-searchbar-as-firstresponder
     }
     
-    //MARK: -Setup
+    //MARK: - Setup
     
     func setupPostsService() {
         postsService = PostsService()
         postsService.setFilter(to: postFilter)
     }
     
-    func setupDateSlider() {
-        dateSliderView.layer.cornerRadius = 10
-        dateSliderOuterView.layer.cornerRadius = 10
-        applyShadowOnView(dateSliderOuterView)
-    }
-    
     //MARK: - User Interaction
     
-    @IBAction func sliderValueDidChanged(_ sender: UISlider) {
-        dateLabel.text = getDateFromSlider(indexFromOneToSeven: sender.value)
+    @IBAction func filterButtonDidTapped(_ sender: UIButton) {
+        let filterVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Filter) as! FilterViewController
+        filterVC.delegate = self
+        filterVC.selectedFilter = postFilter
+        filterVC.loadViewIfNeeded() //doesnt work without this function call
+        filterMapModalVC = filterVC
+        present(filterVC, animated: true)
+    }
+    
+    //MARK: - Helpers
+    
+    func updateFilterButtonLabel() {
+        var postTypeString = NSAttributedString(string: postFilter.postType.rawValue).withFont(UIFont(name: Constants.Font.Heavy, size: 24)!)
+        if postFilter.postType == .Friends {
+            postTypeString = NSAttributedString(string: "Friends'").withFont(UIFont(name: Constants.Font.Heavy, size: 24)!)
+        }
+        var middleString = NSAttributedString(string: " mists from ").withFont(UIFont(name: Constants.Font.Medium, size: 24)!)
+        if postFilter.postType == .Matches {
+            middleString = NSAttributedString(string: " from ").withFont(UIFont(name: Constants.Font.Medium, size: 24)!)
+        }
+        let postTimeframeString = NSAttributedString(string: getDateFromSlider(indexFromZeroToOne: postFilter.postTimeframe)).withFont(UIFont(name: Constants.Font.Heavy, size: 24)!)
+        let newText: NSAttributedString = postTypeString + middleString + postTimeframeString
+        filterButton.setAttributedTitle(newText, for: .normal)
     }
     
     
     //MARK: - Map
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        filterMapModalVC?.dismiss(animated: true)
         if view.annotation is MKUserLocation {
             mapView.deselectAnnotation(view.annotation, animated: false)
             mapView.userLocation.title = "Hey cutie"
@@ -146,31 +168,57 @@ class ExploreMapViewController: MapViewController {
         }
     }
     
-    func mapAnnotationDidTouched(_ sender: UIButton) {
-        let mapModalVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.SortBy) as! SortByViewController
-        if let sheet = mapModalVC.sheetPresentationController {
-            sheet.detents = [.medium()]
-            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-            sheet.prefersGrabberVisible = true
-            sheet.largestUndimmedDetentIdentifier = .medium
+    override func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        super.mapViewDidChangeVisibleRegion(mapView)
+        if !cameraIsMoving {
+//            print("trying to dismiss filter")
+            filterMapModalVC?.dismiss(animated: true)
         }
-        present(mapModalVC, animated: true, completion: nil)
     }
     
-    func loadExploreMapView() {
+    // TF does this do?
+//    func mapAnnotationDidTouched(_ sender: UIButton) {
+//        let filterMapModalVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.SortBy) as! SortByViewController
+//        if let sheet = filterMapModalVC.sheetPresentationController {
+//            sheet.detents = [.medium()]
+//            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+//            sheet.prefersGrabberVisible = true
+//            sheet.largestUndimmedDetentIdentifier = .medium
+//        }
+//        present(filterMapModalVC, animated: true, completion: nil)
+//    }
+    
+    func reloadPosts() {
         Task {
             do {
-                let loadedPosts = try await postsService.newPostsNearby(latitude: Constants.USC_LAT_LONG.latitude, longitude: Constants.USC_LAT_LONG.longitude)
+                let loadedPosts = try await postsService.newPostsNearby(latitude: Constants.Coordinates.USC.latitude, longitude: Constants.Coordinates.USC.longitude)
                 
+                //Can this be handled by postsService instead?
                 //turn the first 10000..?? lol posts returned into PostAnnotations so they will be added to the map
+                displayedAnnotations = []
                 for index in 0...min(10000, loadedPosts.count-1) {
                     let postAnnotation = PostAnnotation(withPost: loadedPosts[index])
                     displayedAnnotations.append(postAnnotation)
                 }
+                
             } catch {
                 print(error)
             }
         }
+    }
+    
+}
+
+extension ExploreMapViewController: FilterDelegate {
+    
+    func reloadPostsAfterFilterUpdate(newPostFilter: PostFilter) {
+        
+        //Should eventually remove one of these two and have filter just saved in one location
+        postsService.setFilter(to: newPostFilter)
+        postFilter = newPostFilter
+        
+        updateFilterButtonLabel()
+        reloadPosts()
     }
     
 }

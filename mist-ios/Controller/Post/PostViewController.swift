@@ -128,18 +128,6 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         commentTextView.resignFirstResponder()
     }
     
-    @IBAction func sortButtonDidPressed(_ sender: UIButton) {
-        //customize sheet size before presenting
-        //https://developer.apple.com/videos/play/wwdc2021/10063/
-        let sortByVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.SortBy) as! SortByViewController
-        if let sheet = sortByVC.sheetPresentationController {
-            sheet.detents = [.medium()]
-            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-        }
-        present(sortByVC, animated: true, completion: nil)
-        
-    }
-    
     @IBAction func submitButtonDidPressed(_ sender: UIButton) {
         if (commentTextView.text.isEmpty) { return }
         Task {
