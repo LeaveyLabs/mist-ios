@@ -14,18 +14,20 @@ enum VoteError: Error {
 
 class VoteAPI {
     // Post vote to database
-    static func postVote(vote:Vote) async throws {
+    static func postVote(vote:Vote) async throws -> Vote {
         let url = "https://mist-backend.herokuapp.com/api/votes/"
         let json = try JSONEncoder().encode(vote)
-        try await BasicAPI.post(url:url, jsonData:json)
+        let data = try await BasicAPI.post(url:url, jsonData:json)
+        return try JSONDecoder().decode(Vote.self, from: data)
     }
 
     // Deletes vote from database
-    static func deleteVote(username:String, post_id:String) async throws {
+    static func deleteVote(username:String, post_id:String) async throws -> Vote {
         // Get the ID of the vote, then delete it from the database
         let id = try await getVoteID(username: username, postID: post_id)
         let url = "https://mist-backend.herokuapp.com/api/votes/\(id)/"
-        try await BasicAPI.delete(url:url, jsonData:Data())
+        let data = try await BasicAPI.post(url:url, jsonData:Data())
+        return try JSONDecoder().decode(Vote.self, from: data)
     }
     
     // Gets the ID of the vote with a given username and post_id

@@ -21,39 +21,36 @@ extension NSMutableData {
 
 class ProfileAPI {
     // Fetches all profiles from database (searching for the below text)
-    static func fetchProfilesByText(text:String) async throws -> [Profile] {
-        let url = "https://mist-backend.herokuapp.com/api/profiles?text=\(text)"
+    static func fetchProfilesByText(text:String) async throws -> [User] {
+        let url = "https://mist-backend.herokuapp.com/api/api-query-user?text=\(text)"
         let data = try await BasicAPI.fetch(url:url)
-        return try JSONDecoder().decode([Profile].self, from: data)
+        return try JSONDecoder().decode([User].self, from: data)
     }
     
-    static func fetchProfilesByUsername(username:String) async throws -> [Profile] {
-        let url = "https://mist-backend.herokuapp.com/api/profiles?username=\(username)"
+    static func fetchProfilesByUsername(username:String) async throws -> [User] {
+        let url = "https://mist-backend.herokuapp.com/api/api-query-user?username=\(username)"
         let data = try await BasicAPI.fetch(url:url)
-        return try JSONDecoder().decode([Profile].self, from: data)
+        return try JSONDecoder().decode([User].self, from: data)
     }
     
-    static func putProfilePic(image:UIImage, profile:Profile) async throws -> Profile {
+    static func patchProfilePic(image:UIImage, user:User) async throws -> User {
         let imgData = image.pngData()
 
         let parameters = [
-            "username": profile.username,
-            "first_name": profile.first_name,
-            "last_name": profile.last_name,
-            "user": String(profile.user),
+            "email": user.email,
         ]
 
         let request = AF.upload(
             multipartFormData:
                 { multipartFormData in
-                    multipartFormData.append(imgData!, withName: "picture", fileName: "\(profile.username).png", mimeType: "image/png")
+                    multipartFormData.append(imgData!, withName: "picture", fileName: "\(user.username).png", mimeType: "image/png")
                        for (key, value) in parameters {
                             multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
                         }
                 },
-            to: "https://mist-backend.herokuapp.com/api/profiles/\(profile.username)/",
+            to: "https://mist-backend.herokuapp.com/api-modify-user/",
             method: .put
         )
-        return try await request.serializingDecodable(Profile.self).value
+        return try await request.serializingDecodable(User.self).value
     }
 }

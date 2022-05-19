@@ -9,8 +9,11 @@ import Foundation
 
 struct Comment: Codable {
     let id: String;
+    let uuid: String;
     let text: String;
     let timestamp: Double;
-    let post: String;
-    let author: String;
+    let post: Int;
+    let author: Int;
+    let author_picture: String?;
+    let author_username: String;
 }
