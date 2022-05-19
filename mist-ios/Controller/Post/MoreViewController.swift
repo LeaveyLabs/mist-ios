@@ -19,7 +19,7 @@ class MoreViewController: SheetViewController {
         closeButton.layer.cornerRadius = 5
         setupSheet(prefersGrabberVisible: false,
                    detents: [Constants.Detents.s],
-                   bgInteractionEnabled: false)
+                   largestUndimmedDetentIdentifier: nil)
     }
     
     @IBAction func closeButtonDidPressed(_ sender: UIButton) {

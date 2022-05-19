@@ -18,13 +18,13 @@ class PostsService: NSObject {
     
     //MARK: - Helpers
     
-    func isValidIndex(_ index: Int) -> Bool {
-        if (index < posts.count && index >= 0) {
-            return true
-        } else {
-            return false
-        }
-    }
+//    func isValidIndex(_ index: Int) -> Bool {
+//        if (index < posts.count && index >= 0) {
+//            return true
+//        } else {
+//            return false
+//        }
+//    }
     
     //MARK: - Setters
     
@@ -34,13 +34,13 @@ class PostsService: NSObject {
     
     //MARK: - Getters
     
-    func numberOfPosts() -> Int {
-        return posts.count
-    }
-    
-    func getPosts() -> [Post] {
-        return posts;
-    }
+//    func numberOfPosts() -> Int {
+//        return posts.count
+//    }
+//
+//    func getPosts() -> [Post] {
+//        return posts;
+//    }
     
     func newPosts() async throws -> [Post] {
         //TODO: PostAPI.fetchPosts(with: filter)
@@ -52,20 +52,24 @@ class PostsService: NSObject {
         return try await PostAPI.fetchPosts(latitude: latitude, longitude: longitude)
     }
     
-    //Returns a card at a given index
-    func getPost(at index: Int) -> Post? {
-        if (isValidIndex(index)) {
-            return posts[index]
-        }
-        else  {
-            print("Not a valid index")
-            return nil;
-        }
+    func newPostsWithFilter(latitude: Double, longitude: Double) async throws -> [Post] {
+        return try await PostAPI.fetchPosts(latitude: latitude, longitude: longitude)
     }
     
-    func insert(post: Post, at index: Int) {
-        self.posts.insert(post, at: index)
-    }
+//    //Returns a card at a given index
+//    func getPost(at index: Int) -> Post? {
+//        if (isValidIndex(index)) {
+//            return posts[index]
+//        }
+//        else  {
+//            print("Not a valid index")
+//            return nil;
+//        }
+//    }
+//
+//    func insert(post: Post, at index: Int) {
+//        self.posts.insert(post, at: index)
+//    }
 
     
 //    func deletePost(at index: Int, userID: String) {

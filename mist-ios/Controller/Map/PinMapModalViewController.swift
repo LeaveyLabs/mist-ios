@@ -22,6 +22,7 @@ class PinMapModalViewController: SheetViewController, UITextFieldDelegate {
     @IBOutlet weak var locationDescriptionTextField: UITextField!
         
     var annotation: PostAnnotation!
+    var xsIndentFirst: Bool! = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,9 +31,9 @@ class PinMapModalViewController: SheetViewController, UITextFieldDelegate {
         containingView.layer.cornerRadius = 15
         disableSelectButton()
         locationDescriptionTextField.delegate = self
-        setupSheet(prefersGrabberVisible: true,
-                   detents: [Constants.Detents.s, Constants.Detents.xs, Constants.Detents.xl],
-                   bgInteractionEnabled: true)
+            setupSheet(prefersGrabberVisible: true,
+                       detents: [Constants.Detents.s, Constants.Detents.xs, Constants.Detents.xl],
+                       largestUndimmedDetentIdentifier: "xl")
     }
     
     //MARK: - Constructors
@@ -54,6 +55,7 @@ class PinMapModalViewController: SheetViewController, UITextFieldDelegate {
     }
     
     //MARK: - TextField Delegate
+    
     @IBAction func locationDescriptionTextFieldDidGetEditted(_ sender: UITextField) {
         if locationDescriptionTextField.text!.isEmpty {
             disableSelectButton()
@@ -65,6 +67,7 @@ class PinMapModalViewController: SheetViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         locationDescriptionTextField.resignFirstResponder()
     }
+    
     
     //MARK: - Helpers
     

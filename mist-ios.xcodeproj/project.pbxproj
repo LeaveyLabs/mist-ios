@@ -99,6 +99,9 @@
 		47C1D49127DF00B200970B3D /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C1D49027DF00B200970B3D /* MoreViewController.swift */; };
 		47C2834F27DED77500A19128 /* FeedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C2834D27DED77500A19128 /* FeedHeaderCell.swift */; };
 		47C2835027DED77500A19128 /* FeedHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C2834E27DED77500A19128 /* FeedHeaderCell.xib */; };
+		47CBF6EE283556E600096514 /* SwiftyAttributes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47CBF6ED283556E600096514 /* SwiftyAttributes.xcframework */; };
+		47CBF6EF283556E600096514 /* SwiftyAttributes.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 47CBF6ED283556E600096514 /* SwiftyAttributes.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		47CBF6F128356A7C00096514 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CBF6F028356A7C00096514 /* FilterViewController.swift */; };
 		47CE900A27E058090004B756 /* PinMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900927E058090004B756 /* PinMapViewController.swift */; };
 		47CE900C27E059DC0004B756 /* PinMapModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */; };
 		47E2B1BD27FFC52900131B8D /* ShadowNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */; };
@@ -149,6 +152,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				47CBF6EF283556E600096514 /* SwiftyAttributes.xcframework in Embed Frameworks */,
 				473B5A272831C8B400BD1168 /* Starscream.xcframework in Embed Frameworks */,
 				473B5A232831C8B200BD1168 /* Alamofire.xcframework in Embed Frameworks */,
 			);
@@ -250,6 +254,8 @@
 		47C1D49027DF00B200970B3D /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		47C2834D27DED77500A19128 /* FeedHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedHeaderCell.swift; sourceTree = "<group>"; };
 		47C2834E27DED77500A19128 /* FeedHeaderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedHeaderCell.xib; sourceTree = "<group>"; };
+		47CBF6ED283556E600096514 /* SwiftyAttributes.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SwiftyAttributes.xcframework; path = Carthage/Build/SwiftyAttributes.xcframework; sourceTree = "<group>"; };
+		47CBF6F028356A7C00096514 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		47CE900927E058090004B756 /* PinMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinMapViewController.swift; sourceTree = "<group>"; };
 		47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinMapModalViewController.swift; sourceTree = "<group>"; };
 		47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowNavigationController.swift; sourceTree = "<group>"; };
@@ -285,6 +291,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47CBF6EE283556E600096514 /* SwiftyAttributes.xcframework in Frameworks */,
 				4316238228341F5F00169AA9 /* MessageKit in Frameworks */,
 				473B5A262831C8B400BD1168 /* Starscream.xcframework in Frameworks */,
 				473B5A222831C8B200BD1168 /* Alamofire.xcframework in Frameworks */,
@@ -348,6 +355,7 @@
 				471F92CE28013F9B0079F8CA /* ExploreFeedViewController.swift */,
 				470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */,
 				470F271E27DE9ABE00C6DDAF /* ResultsFeedViewController.swift */,
+				47CBF6F028356A7C00096514 /* FilterViewController.swift */,
 			);
 			path = Explore;
 			sourceTree = "<group>";
@@ -396,6 +404,7 @@
 		473B5A202831C8B200BD1168 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				47CBF6ED283556E600096514 /* SwiftyAttributes.xcframework */,
 				473B5A252831C8B400BD1168 /* Starscream.xcframework */,
 				473B5A212831C8B200BD1168 /* Alamofire.xcframework */,
 			);
@@ -911,6 +920,7 @@
 				479AA20127DD3F5500EA0DFC /* MistUIButton.swift in Sources */,
 				479AA1FD27DD109F00EA0DFC /* Constants.swift in Sources */,
 				47EA3E0027E013EB00381218 /* PostAnnotation.swift in Sources */,
+				47CBF6F128356A7C00096514 /* FilterViewController.swift in Sources */,
 				4700F8BA27DD7BE3006C2E08 /* Flag.swift in Sources */,
 				477499892832D0CF0067C26C /* ChatViewController.swift in Sources */,
 				47F45FCD27FF51DF00F2187A /* PostView.swift in Sources */,

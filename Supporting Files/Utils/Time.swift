@@ -108,7 +108,8 @@ func getDayOfWeek(currentTimeMillis: Double) -> String {
     return dateFormatter.string(from: thedate)
 }
 
-//UISlider
+//MARK: - UISlider
+
 func getDateFromSlider(indexFromOneToSeven index: Float) -> String {
     if index >= 6 {
         return "Today"
@@ -116,9 +117,10 @@ func getDateFromSlider(indexFromOneToSeven index: Float) -> String {
     if index >= 5 {
         return "Yesterday"
     }
-    let millisecondsAgo: Double = Double(floor(7 - index) * 86400000.0)
+    let millisecondsAgo = Double(floor(7 - index) * 86400000.0)
     let dateString = getDayOfWeek(currentTimeMillis: currentTimeMillis() + millisecondsAgo)
     
+    // In case you want to display the time of day of the post
 //    let timeofday = index.truncatingRemainder(dividingBy: 1)
 //    if timeofday < 0.33 {
 //        dateString += " morning"
@@ -130,3 +132,17 @@ func getDateFromSlider(indexFromOneToSeven index: Float) -> String {
     return dateString
 }
 
+func getDateFromSlider(indexFromZeroToOne index: Float) -> String {
+    if index >= 1 - 1.0/7 {
+        return "Today"
+    }
+    else if index >= 1 - 2.0/7 {
+        return "Yesterday"
+    }
+    else {
+        let millisecondsInADay = 86400000.0
+        let millisecondsAgo = floor(6.999 - (7.0 * Double(index))) * millisecondsInADay
+        let dateString = getDayOfWeek(currentTimeMillis: currentTimeMillis() + millisecondsAgo)
+        return dateString
+    }
+}
