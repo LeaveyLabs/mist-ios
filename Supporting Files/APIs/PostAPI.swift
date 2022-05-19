@@ -33,15 +33,17 @@ class PostAPI {
     // TODO: Rewrite the function earlier signatures so that we can do this
 
     // Posts post in the database
-    static func createPost(post:Post) async throws {
+    static func createPost(post:Post) async throws -> Post {
         let url = "https://mist-backend.herokuapp.com/api/posts/"
         let json = try JSONEncoder().encode(post)
-        try await BasicAPI.post(url:url, jsonData:json)
+        let data = try await BasicAPI.post(url:url, jsonData:json)
+        return try JSONDecoder().decode(Post.self, from: data)
     }
     
     // Deletes post from the database
-    static func deletePost(id:String) async throws {
+    static func deletePost(id:String) async throws -> Post {
         let url = "https://mist-backend.herokuapp.com/api/posts/\(id)/"
-        try await BasicAPI.delete(url:url,jsonData:Data())
+        let data = try await BasicAPI.delete(url:url,jsonData:Data())
+        return try JSONDecoder().decode(Post.self, from: data)
     }
 }

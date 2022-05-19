@@ -8,9 +8,9 @@
 import Foundation
 
 struct Flag: Codable {
-    let id: String;
-    let flagger: String;
-    let post: String;
+    let id: Int;
+    let flagger: Int;
+    let post: Int;
     let timestamp: Double;
     let rating: Int;
 }

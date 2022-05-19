@@ -8,14 +8,15 @@
 import Foundation
 
 struct Post: Codable {
-    let id: String
+    let id: Int
+    let uuid: String
     let title: String
     let text: String
     let location_description: String?
     let latitude: Double?
     let longitude: Double?
     let timestamp: Double
-    let author: String
+    let author: Int
     var averagerating: Int
     var commentcount: Int
 //  voteCount: Int

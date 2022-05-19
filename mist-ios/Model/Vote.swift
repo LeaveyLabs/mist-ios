@@ -8,9 +8,9 @@
 import Foundation
 
 struct Vote: Codable {
-    let id: String;
-    let voter: String;
-    let post: String;
+    let id: Int;
+    let voter: Int;
+    let post: Int;
     var timestamp: Double;
     var rating: Int;
 }

@@ -8,9 +8,7 @@
 import Foundation
 
 struct Profile: Codable {
-    var username: String;
-    var first_name: String;
-    var last_name: String;
+    let id: Int;
     var picture: String?;
     let user: Int;
 }

@@ -21,15 +21,17 @@ class CommentAPI {
     }
 
     // Post comment to the database
-    static func postComment(comment:Comment) async throws {
+    static func postComment(comment:Comment) async throws -> Comment {
         let url = "https://mist-backend.herokuapp.com/api/comments/"
         let json = try JSONEncoder().encode(comment)
-        try await BasicAPI.post(url:url, jsonData:json)
+        let data = try await BasicAPI.post(url:url, jsonData:json)
+        return try JSONDecoder().decode(Comment.self, from: data)
     }
     
     // Delete comment from database
-    static func deleteComment(commentID:String) async throws {
+    static func deleteComment(commentID:String) async throws -> Comment {
         let url = "https://mist-backend.herokuapp.com/api/comments/\(commentID)"
-        try await BasicAPI.delete(url:url, jsonData:Data())
+        let data = try await BasicAPI.delete(url:url, jsonData:Data())
+        return try JSONDecoder().decode(Comment.self, from: data)
     }
 }

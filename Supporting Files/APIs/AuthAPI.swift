@@ -40,7 +40,7 @@ class AuthAPI {
     static func createUser(email:String, username:String,
                            password:String, first_name:String,
                            last_name:String) async throws {
-        let url = "https://mist-backend.herokuapp.com/api-create-user/"
+        let url = "https://mist-backend.herokuapp.com/api/users/"
         let obj:[String:String] = [
             "email": email,
             "username": username,
