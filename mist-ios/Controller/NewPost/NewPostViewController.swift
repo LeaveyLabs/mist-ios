@@ -71,9 +71,15 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
             do {
                 var syncedPost: Post
                 if locationButton.titleLabel!.text!.isEmpty {
-                    syncedPost = try await UserService.singleton.uploadPost(title: titleTextField.text!, locationDescription: nil, latitude: nil, longitude: nil, message: messageTextView.text!)
+                    syncedPost = try await UserService.singleton.uploadPost(title: titleTextField.text!,
+                                                                            text: messageTextView.text!, locationDescription: nil,
+                                                                            latitude: nil,
+                                                                            longitude: nil)
                 } else {
-                    syncedPost = try await UserService.singleton.uploadPost(title: titleTextField.text!, locationDescription: locationButton.titleLabel!.text!, latitude: currentlyPinnedAnnotation!.coordinate.latitude, longitude: currentlyPinnedAnnotation!.coordinate.longitude, message: messageTextView.text!)
+                    syncedPost = try await UserService.singleton.uploadPost(title: titleTextField.text!,
+                                                                            text: messageTextView.text!, locationDescription: locationButton.titleLabel!.text!,
+                                                                            latitude: currentlyPinnedAnnotation!.coordinate.latitude,
+                                                                            longitude: currentlyPinnedAnnotation!.coordinate.longitude)
                 }
 //                PostsService.homePosts.insert(post: syncedPost, at: 0)
                 //TODO: navigate to the post on the map

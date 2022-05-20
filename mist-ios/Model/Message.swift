@@ -10,11 +10,11 @@ import MessageKit
 import UIKit
 
 struct Message: Codable {
-    
-    var from_user: String;
-    var to_user: String;
-    var text: String;
-    var timestamp: Double?;
+    let id: Int
+    let from_user: String
+    let to_user: String
+    let text: String
+    let timestamp: Double?
 }
 
 

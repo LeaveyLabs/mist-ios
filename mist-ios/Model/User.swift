@@ -7,13 +7,52 @@
 
 import Foundation
 
-struct User: Codable {
+let DUMMY_USER_ID: Int = -1
+
+protocol UserProtocol: Codable {
+    var id: Int { get }
+    var username: String { get }
+    var first_name: String { get }
+    var last_name: String { get }
+    var picture: String? { get }
+}
+
+struct User: UserProtocol {
     let id: Int
+    let username: String
+    let first_name: String
+    let last_name: String
+    let picture: String?
+}
+
+struct AuthedUser: UserProtocol {
+    // User properties
+    let id: Int
+    let username: String
+    let first_name: String
+    let last_name: String
+    let picture: String?
+    
+    // AuthedUser only properties
     let email: String
-    var username: String
-    var first_name: String
-    var last_name: String
-    var profile: Profile
-    var picture: String?
-    var authoredPosts: [Post]
+    let password: String
+    let authoredPosts: [Post]
+    
+    init(id: Int = DUMMY_USER_ID,
+         username: String,
+         first_name: String,
+         last_name: String,
+         picture: String?,
+         email: String,
+         password: String,
+         authoredPosts: [Post] = []){
+        self.id = id
+        self.username = username
+        self.first_name = first_name
+        self.last_name = last_name
+        self.picture = picture
+        self.email = email
+        self.password = password
+        self.authoredPosts = authoredPosts
+    }
 }

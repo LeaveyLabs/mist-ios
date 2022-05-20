@@ -37,22 +37,32 @@ class AuthAPI {
     }
     
     // Creates validated user in the database
-    static func createUser(email:String, username:String,
-                           password:String, first_name:String,
-                           last_name:String) async throws {
+    static func createUser(username:String,
+                           first_name:String,
+                           last_name:String,
+                           picture:String?,
+                           email:String,
+                           password:String) async throws -> AuthedUser {
         let url = "https://mist-backend.herokuapp.com/api/users/"
-        let obj:[String:String] = [
-            "email": email,
-            "username": username,
-            "password": password,
-            "first_name": first_name,
-            "last_name": last_name,
-        ]
-        let json = try JSONEncoder().encode(obj)
+        
+        let user = AuthedUser(username: username,
+                              first_name: first_name,
+                              last_name: last_name,
+                              picture: picture,
+                              email: email,
+                              password: password)
+        
+        //TODO: Delete
+//        let obj:[String:String] = [
+//            "email": email,
+//            "username": username,
+//            "password": password,
+//            "first_name": first_name,
+//            "last_name": last_name,
+//        ]
+//        let json = try JSONEncoder().encode(obj)
+        let json = try JSONEncoder().encode(user)
         let data = try await BasicAPI.post(url:url, jsonData:json)
-        let status = try JSONDecoder().decode(StatusObject.self, from: data)
-        if status.status != "success" {
-            throw APIError.generic
-        }
+        return try JSONDecoder().decode(AuthedUser.self, from: data)
     }
 }

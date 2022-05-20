@@ -10,7 +10,7 @@ import UIKit
 class ProfileViewController: UIViewController {
     
     var username: String!
-    var profile: Profile?
+    var user: User?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,12 +28,10 @@ class ProfileViewController: UIViewController {
     
     //MARK: -Db Calls
     
-    //TODO: need to load if this user is friends with current user
     func loadProfile() {
         Task {
             do {
-                let profiles = try await ProfileAPI.fetchProfilesByText(text: username)
-                profile = profiles[0]
+                user = try await UserAPI.fetchUsersByUsername(username: username)[0]
             } catch {
                 print(error)
             }

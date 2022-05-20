@@ -12,8 +12,8 @@ struct MessageKitUser: SenderType, Equatable {
     var senderId: String
     var displayName: String
     
-    init(user: User) {
-        senderId = user.id
-        displayName = user.profile.first_name + " " + user.profile.last_name
+    init(user: UserProtocol) {
+        senderId = user.username
+        displayName = user.first_name + " " + user.last_name
     }
 }
