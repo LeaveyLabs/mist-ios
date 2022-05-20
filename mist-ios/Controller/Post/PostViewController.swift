@@ -133,10 +133,8 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         Task {
             do {
                 disableCommentButton()
-                let syncedComment = try await UserService.singleton.uploadComment(
-                    id: String(NSUUID().uuidString.prefix(10)),
+                let newCommentAndUpdatedPost = try await UserService.singleton.uploadComment(
                     text: commentTextView.text,
-                    timestamp: currentTimeMillis(),
                     postId: post.id,
                     author: UserService.singleton.getId())
                 //If successful
@@ -144,9 +142,9 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
                 postTableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
                 commentTextView.resignFirstResponder()
                 
-                //this should be handled in postservice
-                comments.append(syncedComment)
-                post.commentcount += 1
+                // This might be best if handled in postservice
+                comments.append(newCommentAndUpdatedPost.0)
+                post = newCommentAndUpdatedPost.1
                 
                 postTableView.reloadData()
                 print(comments)
@@ -166,7 +164,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     func loadComments() {
         Task {
             do {
-                comments = try await CommentAPI.fetchComments(postID: post.id)
+                comments = try await CommentAPI.fetchComments(post: post.id)
                 print(comments)
                 print("loaded comments")
                 postTableView.reloadData();

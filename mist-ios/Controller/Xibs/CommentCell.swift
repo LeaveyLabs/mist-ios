@@ -26,7 +26,7 @@ class CommentCell: UITableViewCell {
 //        timestampLabel.text = getFormattedTimeString(postTimestamp: comment.timestamp)
         parentVC = parent
         self.comment = comment
-        authorLabel.text = comment.author
+        authorLabel.text = comment.author_username
         commentLabel.text = comment.text
 //        authorProfileImageView.image = UIImage(named: "adam")
         authorProfilePicButton.imageView?.layer.cornerRadius = authorProfilePicButton.frame.size.height / 2
@@ -42,7 +42,7 @@ class CommentCell: UITableViewCell {
     @IBAction func didPressedAuthorProfilePic(_ sender: UIButton) {
         if let postVC = parentVC as? PostViewController {
             let profileVC = postVC.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Profile) as! ProfileViewController
-            profileVC.username = comment.author
+            profileVC.username = comment.author_username
             postVC.navigationController!.present(profileVC, animated: true)
         }
     }

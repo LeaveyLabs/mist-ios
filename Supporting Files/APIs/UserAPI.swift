@@ -1,5 +1,5 @@
 //
-//  ProfileAPI.swift
+//  UserAPI.swift
 //  mist-ios
 //
 //  Created by Kevin Sun on 3/14/22.
@@ -19,21 +19,21 @@ extension NSMutableData {
 
 //https://github.com/kean/Nuke
 
-class ProfileAPI {
+class UserAPI {
     // Fetches all profiles from database (searching for the below text)
-    static func fetchProfilesByText(text:String) async throws -> [User] {
+    static func fetchUsersByText(text:String) async throws -> [User] {
         let url = "https://mist-backend.herokuapp.com/api/users?text=\(text)"
         let data = try await BasicAPI.fetch(url:url)
         return try JSONDecoder().decode([User].self, from: data)
     }
     
-    static func fetchProfilesByUsername(username:String) async throws -> [User] {
+    static func fetchUsersByUsername(username:String) async throws -> [User] {
         let url = "https://mist-backend.herokuapp.com/api/users?username=\(username)"
         let data = try await BasicAPI.fetch(url:url)
         return try JSONDecoder().decode([User].self, from: data)
     }
     
-    static func patchProfilePic(image:UIImage, user:User) async throws -> Profile {
+    static func patchProfilePic(image:UIImage, user:AuthedUser) async throws -> AuthedUser {
         let imgData = image.pngData()
 
         let request = AF.upload(
@@ -44,6 +44,6 @@ class ProfileAPI {
             to: "https://mist-backend.herokuapp.com/api/users/\(user.id)/",
             method: .patch
         )
-        return try await request.serializingDecodable(Profile.self).value
+        return try await request.serializingDecodable(AuthedUser.self).value
     }
 }

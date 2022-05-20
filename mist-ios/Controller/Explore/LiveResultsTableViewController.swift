@@ -41,7 +41,7 @@ class LiveResultsTableViewController: UITableViewController {
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.UserResult, for: indexPath) as! UserResultCell
-            cell.configureUserCell(profile: liveResults[indexPath.row] as! Profile, parent: self)
+            cell.configureUserCell(user: liveResults[indexPath.row] as! User, parent: self)
             return cell
         }
     }

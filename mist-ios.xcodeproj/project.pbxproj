@@ -20,8 +20,7 @@
 		436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */; };
 		43770C3E27EE819300F31CCF /* apiTests in Resources */ = {isa = PBXBuildFile; fileRef = 43770C3D27EE819300F31CCF /* apiTests */; };
 		43770C4B27EE8C0F00F31CCF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */; };
-		439E44F427DFB71300E244D6 /* ProfileAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F327DFB71300E244D6 /* ProfileAPI.swift */; };
-		439E44F627DFB76200E244D6 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F527DFB76200E244D6 /* Profile.swift */; };
+		439E44F427DFB71300E244D6 /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F327DFB71300E244D6 /* UserAPI.swift */; };
 		439E44F827DFE11F00E244D6 /* WordAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F727DFE11F00E244D6 /* WordAPI.swift */; };
 		439E44FA27DFE20600E244D6 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F927DFE20600E244D6 /* Word.swift */; };
 		439E44FC27E01D4900E244D6 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44FB27E01D4900E244D6 /* AuthAPI.swift */; };
@@ -174,8 +173,7 @@
 		436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewController.swift; sourceTree = "<group>"; };
 		43770C3D27EE819300F31CCF /* apiTests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = apiTests; sourceTree = "<group>"; };
 		43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		439E44F327DFB71300E244D6 /* ProfileAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAPI.swift; sourceTree = "<group>"; };
-		439E44F527DFB76200E244D6 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		439E44F327DFB71300E244D6 /* UserAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
 		439E44F727DFE11F00E244D6 /* WordAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordAPI.swift; sourceTree = "<group>"; };
 		439E44F927DFE20600E244D6 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		439E44FB27E01D4900E244D6 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
@@ -552,7 +550,6 @@
 				47A3D70727D54F6F003DBEA5 /* User.swift */,
 				47A3D71127D57A6D003DBEA5 /* UserService.swift */,
 				47FF86A027DC712F0076A1CA /* Comment.swift */,
-				439E44F527DFB76200E244D6 /* Profile.swift */,
 				439E44F927DFE20600E244D6 /* Word.swift */,
 				4369DB0B282EC465009215D4 /* Message.swift */,
 				4780E5B728330C570012B741 /* MessageKitUser.swift */,
@@ -616,7 +613,7 @@
 				4700F8B027DD7BB9006C2E08 /* FlagAPI.swift */,
 				4700F8B327DD7BB9006C2E08 /* VoteAPI.swift */,
 				47FF869727DB1F470076A1CA /* PostAPI.swift */,
-				439E44F327DFB71300E244D6 /* ProfileAPI.swift */,
+				439E44F327DFB71300E244D6 /* UserAPI.swift */,
 				439E44F727DFE11F00E244D6 /* WordAPI.swift */,
 				439E44FB27E01D4900E244D6 /* AuthAPI.swift */,
 			);
@@ -858,7 +855,6 @@
 				47FF86A127DC712F0076A1CA /* Comment.swift in Sources */,
 				47EA3E0227E0151200381218 /* MapViewController.swift in Sources */,
 				43483BB228025179001C7C6A /* EnterUsernameViewController.swift in Sources */,
-				439E44F627DFB76200E244D6 /* Profile.swift in Sources */,
 				479683F32826494100CA23BA /* UIColor+Theme.swift in Sources */,
 				479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */,
 				471F92CF28013F9B0079F8CA /* ExploreFeedViewController.swift in Sources */,
@@ -910,7 +906,7 @@
 				4329571C27F4008300FA48A9 /* EnterEmailViewController.swift in Sources */,
 				47A3D70827D54F6F003DBEA5 /* User.swift in Sources */,
 				47EA3DFB27E0098F00381218 /* UINavigationController+Hairline.swift in Sources */,
-				439E44F427DFB71300E244D6 /* ProfileAPI.swift in Sources */,
+				439E44F427DFB71300E244D6 /* UserAPI.swift in Sources */,
 				4700F8C627DE4652006C2E08 /* ExploreMapViewController.swift in Sources */,
 				475B1F8B27FB86C000ED59CD /* ConversationsViewController.swift in Sources */,
 				43483BB6280251B1001C7C6A /* EnterNameViewController.swift in Sources */,

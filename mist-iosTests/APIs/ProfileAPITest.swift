@@ -1,5 +1,5 @@
 //
-//  ProfileAPITest.swift
+//  UserAPITest.swift
 //  mist-iosTests
 //
 //  Created by Kevin Sun on 5/2/22.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import mist_ios
 
-class ProfileAPITest: XCTestCase {
+class UserAPITest: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -33,11 +33,11 @@ class ProfileAPITest: XCTestCase {
         if let imgData = try? Data(contentsOf: url) {
             let image = UIImage(data: imgData)
             Task {
-                let testProfiles = try? await ProfileAPI.fetchProfilesByText(text: "kevinsun")
+                let testProfiles = try? await UserAPI.fetchProfilesByText(text: "kevinsun")
                 let testProfile = testProfiles?[0]
                 if let testProfile = testProfile {
                     if let image = image {
-                        let _ = try? await ProfileAPI.putProfilePic(image: image, profile:testProfile)
+                        let _ = try? await UserAPI.putProfilePic(image: image, profile:testProfile)
                         expectation.fulfill()
                     }
                 }

@@ -23,10 +23,10 @@ class UserResultCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func configureUserCell(profile: Profile, parent: UIViewController) {
+    func configureUserCell(user: User, parent: UIViewController) {
         parentVC = parent
-        nameLabel.text = profile.first_name + " " +  profile.last_name
-        usernameLabel.text = profile.username
+        nameLabel.text = user.first_name + " " +  user.last_name
+        usernameLabel.text = user.username
         profileImageView.image = UIImage(named: "adam")
         profileImageView.layer.cornerRadius = profileImageView.frame.size.height / 2
         profileImageView.layer.cornerCurve = .continuous

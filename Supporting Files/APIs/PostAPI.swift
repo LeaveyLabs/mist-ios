@@ -8,6 +8,15 @@ enum PostError: Error {
 }
 
 class PostAPI {
+    
+    //TODO: implement this properly
+    // Fetches a post for a particular ID
+    static func fetchPosts(post:Int) async throws -> [Post] {
+        let url = "https://mist-backend.herokuapp.com/api/posts/"
+        let data = try await BasicAPI.fetch(url:url)
+        return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
     // Fetches all posts from database
     static func fetchPosts() async throws -> [Post] {
         let url = "https://mist-backend.herokuapp.com/api/posts/"
@@ -33,17 +42,28 @@ class PostAPI {
     // TODO: Rewrite the function earlier signatures so that we can do this
 
     // Posts post in the database
-    static func createPost(post:Post) async throws -> Post {
+    static func createPost(title: String,
+                           text: String,
+                           locationDescription: String?,
+                           latitude: Double?,
+                           longitude: Double?) async throws -> Post {
         let url = "https://mist-backend.herokuapp.com/api/posts/"
+        let post = Post(title: title,
+                        text: text,
+                        location_description: locationDescription,
+                        latitude: latitude,
+                        longitude: longitude,
+                        timestamp: currentTimeMillis(),
+                        author: UserService.singleton.getId())
         let json = try JSONEncoder().encode(post)
         let data = try await BasicAPI.post(url:url, jsonData:json)
         return try JSONDecoder().decode(Post.self, from: data)
     }
     
+    //TODO: return the updated authedUser object
     // Deletes post from the database
-    static func deletePost(id:String) async throws -> Post {
+    static func deletePost(id:Int) async throws {
         let url = "https://mist-backend.herokuapp.com/api/posts/\(id)/"
-        let data = try await BasicAPI.delete(url:url,jsonData:Data())
-        return try JSONDecoder().decode(Post.self, from: data)
+        let _ = try await BasicAPI.delete(url:url,jsonData:Data())
     }
 }

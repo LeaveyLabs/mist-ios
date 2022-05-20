@@ -30,13 +30,13 @@ class EnterNameViewController: UIViewController {
             AuthContext.AuthVariables.lastName = lastName
             Task {
                 do {
-                    try await UserService.singleton.createAccount(
-                        userId: String(NSUUID().uuidString.prefix(10)),
+                    try await UserService.singleton.createUser(
                         username: AuthContext.AuthVariables.username,
-                        password: AuthContext.AuthVariables.password,
-                        email: AuthContext.AuthVariables.email,
                         firstName: AuthContext.AuthVariables.firstName,
-                        lastName: AuthContext.AuthVariables.lastName)
+                        lastName: AuthContext.AuthVariables.lastName,
+                        picture: nil,
+                        email: AuthContext.AuthVariables.email,
+                        password: AuthContext.AuthVariables.password)
                     let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterProfilePictureViewController)
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
