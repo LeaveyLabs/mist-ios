@@ -46,4 +46,8 @@ class UserAPI {
         )
         return try await request.serializingDecodable(AuthedUser.self).value
     }
+    
+    static func UIImageFromURLString(url:String) async throws -> UIImage {
+        return UIImage(data: try await BasicAPI.fetch(url: url))
+    }
 }

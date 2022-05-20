@@ -27,7 +27,7 @@ class BasicAPI {
         let (data, response) = try await URLSession.shared.data(for: request)
         // Throw if unsuccessful
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            throw CommentError.badId
+            throw APIError.badId
         }
         // Deserialize data and return result
         return data

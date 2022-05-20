@@ -84,7 +84,7 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
         case .query: //if query, query those posts
             Task {
                 do {
-                    posts = try await PostAPI.fetchPosts(text: feedValue)
+                    posts = try await PostAPI.fetchPostsByText(text: feedValue)
                     tableView.reloadData();
                     indicator.stopAnimating()
                 } catch {
