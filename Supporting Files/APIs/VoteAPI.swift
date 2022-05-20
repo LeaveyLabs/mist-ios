@@ -22,12 +22,11 @@ class VoteAPI {
     }
 
     // Deletes vote from database
-    static func deleteVote(username:String, post_id:String) async throws -> Vote {
+    static func deleteVote(username:String, post_id:String) async throws {
         // Get the ID of the vote, then delete it from the database
         let id = try await getVoteID(username: username, postID: post_id)
         let url = "https://mist-backend.herokuapp.com/api/votes/\(id)/"
-        let data = try await BasicAPI.post(url:url, jsonData:Data())
-        return try JSONDecoder().decode(Vote.self, from: data)
+        let data = try await BasicAPI.delete(url:url, jsonData:Data())
     }
     
     // Gets the ID of the vote with a given username and post_id

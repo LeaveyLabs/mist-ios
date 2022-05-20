@@ -24,15 +24,21 @@ class PostAPI {
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
+    static func fetchPostsById(id:Int) async throws -> [Post] {
+        let url = "https://mist-backend.herokuapp.com/api/posts/\(id)"
+        let data = try await BasicAPI.fetch(url:url)
+        return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
     // Fetches all posts from database (searching for the below text)
-    static func fetchPosts(text:String) async throws -> [Post] {
+    static func fetchPostsByText(text:String) async throws -> [Post] {
         let url = "https://mist-backend.herokuapp.com/api/posts?text=\(text)"
         let data = try await BasicAPI.fetch(url:url)
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
     // Fetches all posts from database (searching with latitude + longitude)
-    static func fetchPosts(latitude:Double, longitude:Double) async throws -> [Post] {
+    static func fetchPostsByLatitudeLongitude(latitude:Double, longitude:Double) async throws -> [Post] {
         let url = "https://mist-backend.herokuapp.com/api/posts?latitude=\(latitude)?longitude=\(longitude)"
         let data = try await BasicAPI.fetch(url:url)
         return try JSONDecoder().decode([Post].self, from: data)
