@@ -98,8 +98,6 @@
 		47C1D49127DF00B200970B3D /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C1D49027DF00B200970B3D /* MoreViewController.swift */; };
 		47C2834F27DED77500A19128 /* FeedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C2834D27DED77500A19128 /* FeedHeaderCell.swift */; };
 		47C2835027DED77500A19128 /* FeedHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C2834E27DED77500A19128 /* FeedHeaderCell.xib */; };
-		47CBF6EE283556E600096514 /* SwiftyAttributes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47CBF6ED283556E600096514 /* SwiftyAttributes.xcframework */; };
-		47CBF6EF283556E600096514 /* SwiftyAttributes.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 47CBF6ED283556E600096514 /* SwiftyAttributes.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		47CBF6F128356A7C00096514 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CBF6F028356A7C00096514 /* FilterViewController.swift */; };
 		47CE900A27E058090004B756 /* PinMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900927E058090004B756 /* PinMapViewController.swift */; };
 		47CE900C27E059DC0004B756 /* PinMapModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */; };
@@ -151,7 +149,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				47CBF6EF283556E600096514 /* SwiftyAttributes.xcframework in Embed Frameworks */,
 				473B5A272831C8B400BD1168 /* Starscream.xcframework in Embed Frameworks */,
 				473B5A232831C8B200BD1168 /* Alamofire.xcframework in Embed Frameworks */,
 			);
@@ -289,7 +286,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47CBF6EE283556E600096514 /* SwiftyAttributes.xcframework in Frameworks */,
 				4316238228341F5F00169AA9 /* MessageKit in Frameworks */,
 				473B5A262831C8B400BD1168 /* Starscream.xcframework in Frameworks */,
 				473B5A222831C8B200BD1168 /* Alamofire.xcframework in Frameworks */,
@@ -1102,7 +1098,6 @@
 		47E74E3327CA100000467A0C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
@@ -1146,7 +1141,6 @@
 		47E74E3427CA100000467A0C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;

@@ -28,17 +28,12 @@ class FilterViewController: SheetViewController {
         super.viewDidLoad()
         closeButton.layer.cornerRadius = 5
         setupSheet(prefersGrabberVisible: true,
-                   detents: [._detent(withIdentifier: "s", constant: 260)],
+                   detents: [._detent(withIdentifier: "s", constant: 375)],
                    largestUndimmedDetentIdentifier: "s")
         
         updateHighlightedButtonText(for: selectedFilter.postType)
+        updateDateLabel(for: selectedFilter.postType, with: dateSlider.value)
         dateSlider.addTarget(self, action: #selector(onSliderValChanged(slider:event:)), for: .valueChanged)
-    }
-    
-    //MARK: - Navigation
-    
-    func activityViewDidDismiss() {
-        self.dismiss(animated: true)
     }
     
     //MARK: - User Interaction
@@ -50,7 +45,7 @@ class FilterViewController: SheetViewController {
                 break
             case .moved:
                 let prevDateText = dateLabel.text
-                dateLabel.text = getDateFromSlider(indexFromZeroToOne: slider.value)
+                updateDateLabel(for: selectedFilter.postType, with: slider.value)
                 selectedFilter.postTimeframe = slider.value
                 if prevDateText != dateLabel.text {
                     setButtonActiveForFilter(selectedFilter.postType, newPostTimeframe: slider.value)
@@ -99,21 +94,38 @@ class FilterViewController: SheetViewController {
         delegate.reloadPostsAfterFilterUpdate(newPostFilter: selectedFilter)
     }
     
+    func updateDateLabel(for postType: PostType, with sliderValue: Float) {
+        if selectedFilter.postType == .All {
+            dateLabel.text = getDateFromSlider(indexFromZeroToOne: selectedFilter.postTimeframe,
+                                               timescale: FilterTimescale.week,
+                                               lowercase: false)
+        } else {
+            dateLabel.text = getDateFromSlider(indexFromZeroToOne: selectedFilter.postTimeframe,
+                                               timescale: FilterTimescale.month,
+                                               lowercase: false)
+        }
+    }
+    
     func updateHighlightedButtonText(for postType: PostType) {
-        allButton.setAttributedTitle(NSAttributedString(string: "⭐️  All").withAttribute(.textColor(.gray)).withFont(UIFont(name: Constants.Font.Medium, size: 24)!), for: .normal)
-        featuredButton.setAttributedTitle(NSAttributedString(string: "Featured").withAttribute(.textColor(.gray)).withFont(UIFont(name: Constants.Font.Medium, size: 24)!), for: .normal)
-        friendsButton.setAttributedTitle(NSAttributedString(string: "👀  Friends").withAttribute(.textColor(.gray)).withFont(UIFont(name: Constants.Font.Medium, size: 24)!), for: .normal)
-        matchesButton.setAttributedTitle(NSAttributedString(string: "💞  Matches").withAttribute(.textColor(.gray)).withFont(UIFont(name: Constants.Font.Medium, size: 24)!), for: .normal)
+        let heavyAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Heavy, size: 24)!]
+        let normalAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 24)!]
         
+        // Unbold all button labels
+        allButton.setAttributedTitle(NSMutableAttributedString(string: PostType.All.displayNameWithExtraSpace, attributes: normalAttributes), for: .normal)
+        featuredButton.setAttributedTitle(NSMutableAttributedString(string: PostType.Featured.displayNameWithExtraSpace, attributes: normalAttributes), for: .normal)
+        friendsButton.setAttributedTitle(NSMutableAttributedString(string: PostType.Friends.displayNameWithExtraSpace, attributes: normalAttributes), for: .normal)
+        matchesButton.setAttributedTitle(NSMutableAttributedString(string: PostType.Matches.displayNameWithExtraSpace, attributes: normalAttributes), for: .normal)
+        
+        // Bold the selected button's label
         switch postType {
         case .All:
-            allButton.setAttributedTitle(NSAttributedString(string: "⭐️  All").withAttribute(.textColor(.black)).withFont(UIFont(name: Constants.Font.Heavy, size: 24)!), for: .normal)
+            allButton.setAttributedTitle(NSMutableAttributedString(string: PostType.All.displayNameWithExtraSpace, attributes: heavyAttributes), for: .normal)
         case .Featured:
-            featuredButton.setAttributedTitle(NSAttributedString(string: "Featured").withAttribute(.textColor(.black)).withFont(UIFont(name: Constants.Font.Heavy, size: 24)!), for: .normal)
+            featuredButton.setAttributedTitle(NSMutableAttributedString(string: PostType.Featured.displayNameWithExtraSpace, attributes: heavyAttributes), for: .normal)
         case .Friends:
-            friendsButton.setAttributedTitle(NSAttributedString(string: "👀  Friends").withAttribute(.textColor(.black)).withFont(UIFont(name: Constants.Font.Heavy, size: 24)!), for: .normal)
+            friendsButton.setAttributedTitle(NSMutableAttributedString(string: PostType.Friends.displayNameWithExtraSpace, attributes: heavyAttributes), for: .normal)
         case .Matches:
-            matchesButton.setAttributedTitle(NSAttributedString(string: "💞  Matches").withAttribute(.textColor(.black)).withFont(UIFont(name: Constants.Font.Heavy, size: 24)!), for: .normal)
+            matchesButton.setAttributedTitle(NSMutableAttributedString(string: PostType.Matches.displayNameWithExtraSpace, attributes: heavyAttributes), for: .normal)
         }
     }
     

@@ -8,28 +8,32 @@
 import UIKit
 import MapKit
 
-class WildCardGestureRecognizer: UIGestureRecognizer {
+//class WildCardGestureRecognizer: UIGestureRecognizer {
+//
+//    var touchesBeganCallback: ((Set<UITouch>, UIEvent) -> Void)?
+//
+//    override init(target: Any?, action: Selector?) {
+//        super.init(target: target, action: action)
+//        self.cancelsTouchesInView = false
+//    }
+//
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+//        super.touchesBegan(touches, with: event)
+//        touchesBeganCallback?(touches, event)
+//    }
+//
+//    override func canPrevent(_ preventedGestureRecognizer: UIGestureRecognizer) -> Bool {
+//        return false
+//    }
+//
+//    override func canBePrevented(by preventingGestureRecognizer: UIGestureRecognizer) -> Bool {
+//        return false
+//    }
+//}
 
-    var touchesBeganCallback: ((Set<UITouch>, UIEvent) -> Void)?
-
-    override init(target: Any?, action: Selector?) {
-        super.init(target: target, action: action)
-        self.cancelsTouchesInView = false
-    }
-
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
-        super.touchesBegan(touches, with: event)
-        touchesBeganCallback?(touches, event)
-    }
-
-    override func canPrevent(_ preventedGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return false
-    }
-
-    override func canBePrevented(by preventingGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return false
-    }
-}
+//TODO: when they press "return" from keyboard, call the delegate to transition to "s" size. this transition doesnt automnatically occur if you draw the sheet to the top
+//TODO: on exploremap, dont let the filterVC be dismissed if filter is pressed while the map is moving
+//TODO: sometimes when you click on the xs size sheet, and it becomes s size, it doesnt highlight the pin
 
 typealias PinMapCompletionHandler = ((PostAnnotation, String) -> Void)
 
@@ -40,9 +44,7 @@ class PinMapViewController: MapViewController {
     @IBOutlet weak var topBannerView: UIView!
     
     var pinMapModalVC: PinMapModalViewController?
-    
-    //TODO: have sheet already be on the map when you click on it. dont even let it bounce up
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         latitudeOffset = -0.0007
@@ -57,12 +59,12 @@ class PinMapViewController: MapViewController {
         mapView.addGestureRecognizer(pinchGestureRecognizer)
         mapView.addGestureRecognizer(panGestureRecognizer)
         
-        let tapInterceptor = WildCardGestureRecognizer(target: nil, action: nil)
-        tapInterceptor.touchesBeganCallback = {
-            _, _ in
-        }
+//        let tapInterceptor = WildCardGestureRecognizer(target: nil, action: nil)
+//        tapInterceptor.touchesBeganCallback = {
+//            _, _ in
+//        }
 //        tapInterceptor.touchesBegan(<#T##touches: Set<UITouch>##Set<UITouch>#>, with: UIEvent())
-        mapView.addGestureRecognizer(tapInterceptor)
+//        mapView.addGestureRecognizer(tapInterceptor)
 
     }
     
@@ -107,15 +109,19 @@ class PinMapViewController: MapViewController {
     
     //MARK: - User Interaction
     
+    // This handles the case of tapping, but not panning and dragging for some reason
     @objc func userInteractedWithMap() {
-        pinMapModalVC?.toggleSheetSizeTo(sheetSize: "xs")
+        if (sheetPresentationController?.selectedDetentIdentifier?.rawValue != "xs") {
+            //TODO: don't execute this code if you clicked on an existing annotation
+            deselectOneAnnotationIfItExists() //annotation will still be deselected without this, but the animation looks better if deselection occurs before togglesheetsisze
+            pinMapModalVC?.toggleSheetSizeTo(sheetSize: "xs")
+        }
     }
         
     @IBAction func backButtonDidPressed(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
     
-    //TODO: edit this function to make it the proper type of pin
     @IBAction func addAnnotation(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
             if let mapView = sender.view as? MKMapView {
@@ -123,23 +129,41 @@ class PinMapViewController: MapViewController {
                 let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
                 pinnedAnnotation = PostAnnotation(justWithCoordinate: coordinate)
                 displayedAnnotations = [pinnedAnnotation!]
-                mapView.selectAnnotation(pinnedAnnotation!, animated: true)
                 
-                //If a pinMapModal already exists, remove it
+                //TODO: below
+                //If a pinMapModal already exists... either... (option 1 and 3 are visible in apple maps)
+                //1 create a NEW pinMapModal, present it, then dismiss the old one without animation afterwards
+                //2 dismiss the old one without animation, present the new one, and deal with a slight delay
+                //3 just update the old one and have the view's content reset
+                
+                //Option 3
+//                pinMapModalVC = nil
+                //Option 1
                 if let pinMapModal = pinMapModalVC {
                     pinMapModal.dismiss(animated: false)
                 }
-                slowFlyTo(lat: coordinate.latitude + latitudeOffset, long: coordinate.longitude, incrementalZoom: false, completion: {_ in })
-                presentModal(xsIndentFirst: false)
+                
+                presentModal(xsIndentFirst: false) // Must come BEFORE selecting the annotation
+                mapView.selectAnnotation(pinnedAnnotation!, animated: true)
             }
         }
     }
     
     override func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
         super.mapViewDidChangeVisibleRegion(mapView)
-        if !cameraIsMoving {
-            pinMapModalVC?.toggleSheetSizeTo(sheetSize: "xs")
+        
+        // This handles the case of dragging and panning
+        if !cameraIsFlying {
+            if (sheetPresentationController?.selectedDetentIdentifier?.rawValue != "xs") {
+                print("hiya")
+                pinMapModalVC?.toggleSheetSizeTo(sheetSize: "xs")
+            }
         }
+    }
+    
+    // Could implement later
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        print("did deselect")
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
@@ -148,16 +172,21 @@ class PinMapViewController: MapViewController {
             mapView.userLocation.title = "Hey cutie"
         }
         else {
+            if sheetPresentationController?.selectedDetentIdentifier?.rawValue != "xl" { // Don't toggle to size s if they manually pulled the sheet all the way up
+                pinMapModalVC?.toggleSheetSizeTo(sheetSize: "s")
+            }
             slowFlyTo(lat: view.annotation!.coordinate.latitude + latitudeOffset, long: view.annotation!.coordinate.longitude, incrementalZoom: false, completion: {_ in })
-            pinMapModalVC?.toggleSheetSizeTo(sheetSize: "s")
         }
     }
     
     func presentModal(xsIndentFirst: Bool) {
         if let pinMapModalVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.PinMapModal) as? PinMapModalViewController {
             pinMapModalVC.loadViewIfNeeded() //doesnt work without this function call
-            pinMapModalVC.sheetDelegate = self
+            
+            pinMapModalVC.sheetDelegate = self //TODO: consolidate these delegates into one or two
+            pinMapModalVC.mapDelegate = self
             pinMapModalVC.sheetDismissDelegate = self
+            
             pinMapModalVC.isModalInPresentation = true //prevents the VC from being dismissed by the user
             if xsIndentFirst {
                 pinMapModalVC.toggleSheetSizeTo(sheetSize: "xs")
@@ -182,27 +211,43 @@ class PinMapViewController: MapViewController {
 
 extension PinMapViewController: UISheetPresentationControllerDelegate {
     
-    // Is not called when sheet is entirely dismissed
     func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
-        if sheetPresentationController.selectedDetentIdentifier?.rawValue == "s" {
+        if sheetPresentationController.selectedDetentIdentifier?.rawValue == "s" || sheetPresentationController.selectedDetentIdentifier?.rawValue == "xl" {
             if let pinnedAnnotation = pinnedAnnotation {
                 slowFlyTo(lat: pinnedAnnotation.coordinate.latitude + latitudeOffset, long: pinnedAnnotation.coordinate.longitude, incrementalZoom: false, completion: {_ in })
+                if sheetPresentationController.selectedDetentIdentifier?.rawValue == "xl" {
+                    pinMapModalVC?.locationDescriptionTextField.becomeFirstResponder()
+                }
                 mapView.selectAnnotation(pinnedAnnotation, animated: true)
             }
         }
-        else if sheetPresentationController.selectedDetentIdentifier?.rawValue == "xl" {
-            pinMapModalVC?.locationDescriptionTextField.becomeFirstResponder()
+
+        if sheetPresentationController.selectedDetentIdentifier?.rawValue == "xs" {
+            deselectOneAnnotationIfItExists()
         }
     }
     
 }
 
-extension PinMapViewController: SheetDismissDelegate {
+extension PinMapViewController: PinMapModalDelegate {
     
-    func handleSheetDismiss() {
-        for annotation in mapView.annotations {
-            mapView.deselectAnnotation(annotation, animated: true)
-        }
+    //TODO: this doenst work 100% of the time
+    func reselectAnnotation() {
+        reselectOneAnnotationIfItExists()
+    }
+    
+}
+
+extension PinMapViewController: childDismissDelegate {
+    
+    func handleChildWillDismiss() {
+        print(mapView.annotations)
+        //lol why was i deselecting all annotations here? i already remove the previous annotation when adding the new one, so no need to try and deselect it.
+//        deselectAllAnnotations()
+    }
+    
+    func handleChildDidDismiss() {
+        
     }
     
 }

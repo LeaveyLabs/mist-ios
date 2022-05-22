@@ -15,6 +15,10 @@ struct ElapsedTime {
     let seconds, minutes, hours, days, months, years: Int
 }
 
+enum FilterTimescale {
+    case week, month
+}
+
 extension TimeInterval{
     func getElapsedTime(since timestamp: TimeInterval) -> ElapsedTime {
         let time = NSInteger(self)
@@ -110,17 +114,42 @@ func getDayOfWeek(currentTimeMillis: Double) -> String {
 
 //MARK: - UISlider
 
-func getDateFromSlider(indexFromOneToSeven index: Float) -> String {
-    if index >= 6 {
-        return "Today"
+func getDateFromSlider(indexFromZeroToOne index: Float, timescale: FilterTimescale, lowercase: Bool) -> String {
+    var dateString: String
+    if timescale == .week {
+        if index >= 1 - 1.0/7 {
+            dateString = "Today"
+        }
+        else if index >= 1 - 2.0/7 {
+            dateString = "Yesterday"
+        }
+        else {
+            let millisecondsInADay = 86400000.0
+            let millisecondsAgo = floor(6.999 - (7.0 * Double(index))) * millisecondsInADay
+            dateString = getDayOfWeek(currentTimeMillis: currentTimeMillis() + millisecondsAgo)
+        }
     }
-    if index >= 5 {
-        return "Yesterday"
+    else { // timescale == .month
+        if index >= 1 - 1.0/3 {
+            dateString = "This week"
+        }
+        else if index >= 1 - 2.0/3 {
+            dateString = "This month"
+        }
+        else {
+            dateString = "All time"
+        }
     }
-    let millisecondsAgo = Double(floor(7 - index) * 86400000.0)
-    let dateString = getDayOfWeek(currentTimeMillis: currentTimeMillis() + millisecondsAgo)
-    
-    // In case you want to display the time of day of the post
+    // If the user wants lowercase, only lowercase month timescales (bc days of week should always be capitalized)
+    if lowercase {
+        if timescale == .month || dateString == "Today" || dateString == "Yesterday" {
+            return dateString.lowercased()
+        }
+    }
+    return dateString
+}
+
+// In case you want to display the time of day of the post in the slider, too
 //    let timeofday = index.truncatingRemainder(dividingBy: 1)
 //    if timeofday < 0.33 {
 //        dateString += " morning"
@@ -129,20 +158,4 @@ func getDateFromSlider(indexFromOneToSeven index: Float) -> String {
 //    } else {
 //        dateString += " evening"
 //    }
-    return dateString
-}
 
-func getDateFromSlider(indexFromZeroToOne index: Float) -> String {
-    if index >= 1 - 1.0/7 {
-        return "Today"
-    }
-    else if index >= 1 - 2.0/7 {
-        return "Yesterday"
-    }
-    else {
-        let millisecondsInADay = 86400000.0
-        let millisecondsAgo = floor(6.999 - (7.0 * Double(index))) * millisecondsInADay
-        let dateString = getDayOfWeek(currentTimeMillis: currentTimeMillis() + millisecondsAgo)
-        return dateString
-    }
-}
