@@ -40,22 +40,27 @@ extension TimeInterval{
 func getFormattedTimeString(postTimestamp: Double) -> String {
     let elapsedTimeSincePost = NSDate().timeIntervalSince1970.getElapsedTime(since: postTimestamp)
     
-    //if the post happened very recently
-    if elapsedTimeSincePost.days == 0 && elapsedTimeSincePost.hours == 0 && elapsedTimeSincePost.minutes == 0 {
-        return "Seconds ago"
-    } else if elapsedTimeSincePost.hours == 0 {
-        if (elapsedTimeSincePost.minutes == 1) {
-            return String(elapsedTimeSincePost.minutes) + " minute ago"
-        } else {
-            return String(elapsedTimeSincePost.minutes) + " minutes ago"
-        }
-    }
     //if the post happened today
-    else if getDayOfWeek(currentTimeMillis: postTimestamp) == getDayOfWeek(currentTimeMillis: currentTimeMillis()) {
-        if (elapsedTimeSincePost.hours == 0) {
-            return String(elapsedTimeSincePost.hours) + " hour ago"
-        } else {
-            return String(elapsedTimeSincePost.hours) + " hours ago"
+    if elapsedTimeSincePost.years == 0 && elapsedTimeSincePost.months == 0 && elapsedTimeSincePost.days == 0 {
+        //if seconds ago
+        if elapsedTimeSincePost.hours == 0 && elapsedTimeSincePost.minutes == 0 {
+            return "Seconds ago"
+        }
+        //if if minutes ago
+        else if elapsedTimeSincePost.hours == 0 {
+            if (elapsedTimeSincePost.minutes == 1) {
+                return String(elapsedTimeSincePost.minutes) + " minute ago"
+            } else {
+                return String(elapsedTimeSincePost.minutes) + " minutes ago"
+            }
+        }
+        //if hours ago
+        else if getDayOfWeek(currentTimeMillis: postTimestamp) == getDayOfWeek(currentTimeMillis: currentTimeMillis()) {
+            if (elapsedTimeSincePost.hours == 0) {
+                return String(elapsedTimeSincePost.hours) + " hour ago"
+            } else {
+                return String(elapsedTimeSincePost.hours) + " hours ago"
+            }
         }
     }
     //if the post happened within the last week
@@ -63,9 +68,7 @@ func getFormattedTimeString(postTimestamp: Double) -> String {
         return getRecentFormattedDate(currentTimeMillis: postTimestamp)
     }
     //if the post happened longer than a week ago
-    else {
-        return getFormattedDate(currentTimeMillis: postTimestamp)
-    }
+    return getFormattedDate(currentTimeMillis: postTimestamp)
 }
 
 //types of dates:
@@ -99,7 +102,7 @@ func getRecentFormattedDate(currentTimeMillis: Double) -> String {
     dateFormatter.locale = Locale(identifier: "en_US")
     dateFormatter.dateFormat = "E, h:mma"
     
-    return "Last " + dateFormatter.string(from: thedate).replacingOccurrences(of: "AM", with: "am").replacingOccurrences(of: "PM", with: "pm")
+    return dateFormatter.string(from: thedate).replacingOccurrences(of: "AM", with: "am").replacingOccurrences(of: "PM", with: "pm")
 }
 
 func getDayOfWeek(currentTimeMillis: Double) -> String {
