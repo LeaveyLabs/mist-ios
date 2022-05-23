@@ -155,7 +155,7 @@ class PinMapViewController: MapViewController {
         // This handles the case of dragging and panning
         if !cameraIsFlying {
             if (sheetPresentationController?.selectedDetentIdentifier?.rawValue != "xs") {
-                print("hiya")
+                print(sheetPresentationController?.selectedDetentIdentifier?.rawValue)
                 pinMapModalVC?.toggleSheetSizeTo(sheetSize: "xs")
             }
         }
@@ -169,7 +169,6 @@ class PinMapViewController: MapViewController {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if view.annotation is MKUserLocation {
             mapView.deselectAnnotation(view.annotation, animated: false)
-            mapView.userLocation.title = "Hey cutie"
         }
         else {
             if sheetPresentationController?.selectedDetentIdentifier?.rawValue != "xl" { // Don't toggle to size s if they manually pulled the sheet all the way up
@@ -187,7 +186,6 @@ class PinMapViewController: MapViewController {
             pinMapModalVC.mapDelegate = self
             pinMapModalVC.sheetDismissDelegate = self
             
-            pinMapModalVC.isModalInPresentation = true //prevents the VC from being dismissed by the user
             if xsIndentFirst {
                 pinMapModalVC.toggleSheetSizeTo(sheetSize: "xs")
             }
@@ -211,6 +209,7 @@ class PinMapViewController: MapViewController {
 
 extension PinMapViewController: UISheetPresentationControllerDelegate {
     
+    //note: this is only called when the user drags the sheet to a new height. does not get called upon a programmatic change
     func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
         if sheetPresentationController.selectedDetentIdentifier?.rawValue == "s" || sheetPresentationController.selectedDetentIdentifier?.rawValue == "xl" {
             if let pinnedAnnotation = pinnedAnnotation {

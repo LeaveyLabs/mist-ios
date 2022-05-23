@@ -13,8 +13,8 @@ struct PostFilter {
     
     static func getFilterLabelText(for postFilter: PostFilter) -> NSAttributedString {
         var postTypeString, middleString, postTimeframeString: NSMutableAttributedString
-        let heavyAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Heavy, size: 24)!]
-        let normalAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 24)!]
+        let heavyAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Heavy, size: 23)!]
+        let normalAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 23)!]
         
         // set postTypeString
         switch postFilter.postType {

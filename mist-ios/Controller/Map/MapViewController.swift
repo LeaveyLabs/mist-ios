@@ -16,10 +16,6 @@ import MapKit
 //TODO: (probably not possible) only render cluster views when you get close enough
     //IDEA: instead of trying to change the title of the cluster view at a certain width, you could just...
     //when someone clicks on a cluster view, you zoom in on it, and if that zoom is close enough, then send them to the feed page
-//TODO: shift to 2d automatically after a certain height
-//TODO: fix weird behavior when trying to dismiss filter view controller on scroll
-    //this behavior is fine on the PinMap
-    //maybe it'd be easier to register a gesture recognizer than to keep this code within mapViewDidChangeVisibleRegion
 
 class MapViewController: UIViewController {
 

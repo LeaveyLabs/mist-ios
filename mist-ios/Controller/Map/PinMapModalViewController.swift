@@ -36,6 +36,8 @@ class PinMapModalViewController: SheetViewController, UITextFieldDelegate {
         containingView.layer.cornerRadius = 15
         disableSelectButton()
         
+        isModalInPresentation = true //prevents the VC from being dismissed by the user
+
         let wasTapped = UITapGestureRecognizer(target: self, action: #selector(handleBackgroundTap))
         view.addGestureRecognizer(wasTapped)
         

@@ -18,7 +18,7 @@ protocol childDismissDelegate {
 
 extension Constants {
     struct Detents {
-        static let zil: UISheetPresentationController.Detent = ._detent(withIdentifier: "zil", constant: 0)
+        static let zil: UISheetPresentationController.Detent = ._detent(withIdentifier: "zil", constant: -50)
         static let xs: UISheetPresentationController.Detent = ._detent(withIdentifier: "xs", constant: 50)
         static let s: UISheetPresentationController.Detent = ._detent(withIdentifier: "s", constant: 300)
         static let m: UISheetPresentationController.Detent = ._detent(withIdentifier: "m", constant: 400)
@@ -86,9 +86,9 @@ class SheetViewController: UIViewController, UIViewControllerTransitioningDelega
     }
     
     func toggleSheetSizeTo(sheetSize: String) {
-        print("toggling sheet size to: " + sheetSize)
         mySheetPresentationController.animateChanges {
             mySheetPresentationController.selectedDetentIdentifier = .init(rawValue: sheetSize)
         }
     }
+    
 }

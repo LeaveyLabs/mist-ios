@@ -8,7 +8,7 @@
 import UIKit
 
 protocol FilterDelegate {
-    func reloadPostsAfterFilterUpdate(newPostFilter: PostFilter)
+    func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool)
 }
 
 class FilterViewController: SheetViewController {
@@ -21,18 +21,23 @@ class FilterViewController: SheetViewController {
     @IBOutlet weak var dateSlider: UISlider!
     @IBOutlet weak var dateLabel: UILabel!
     
-    var selectedFilter = PostFilter()
+    var selectedFilter: PostFilter!
     var delegate: FilterDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         closeButton.layer.cornerRadius = 5
-        setupSheet(prefersGrabberVisible: true,
-                   detents: [._detent(withIdentifier: "s", constant: 375)],
-                   largestUndimmedDetentIdentifier: "s")
         
-        updateHighlightedButtonText(for: selectedFilter.postType)
-        updateDateLabel(for: selectedFilter.postType, with: dateSlider.value)
+        //since zil is below 0, the user can only drag to zil if the line below is uncommented
+//        isModalInPresentation = true //prevents the VC from being dismissed by the user
+        
+        setupSheet(prefersGrabberVisible: true,
+                   detents: [._detent(withIdentifier: "s", constant: 250), Constants.Detents.zil], //tall=375, short=275
+                   largestUndimmedDetentIdentifier: "zil") //zil size is useful for making transitions prettier
+        
+        updateButtonLabels()
+        updateSliderLabel()
+        dateSlider.value = selectedFilter.postTimeframe //update slider position
         dateSlider.addTarget(self, action: #selector(onSliderValChanged(slider:event:)), for: .valueChanged)
     }
     
@@ -44,14 +49,8 @@ class FilterViewController: SheetViewController {
             case .began:
                 break
             case .moved:
-                let prevDateText = dateLabel.text
-                updateDateLabel(for: selectedFilter.postType, with: slider.value)
-                selectedFilter.postTimeframe = slider.value
-                if prevDateText != dateLabel.text {
-                    setButtonActiveForFilter(selectedFilter.postType, newPostTimeframe: slider.value)
-                }
+                handleSliderValChange()
             case .ended:
-//                dismiss(animated: true)
                 break
             default:
                 break
@@ -60,41 +59,61 @@ class FilterViewController: SheetViewController {
     }
     
     @IBAction func closeButtonDidPressed(_ sender: UIButton) {
+        delegate.handleUpdatedFilter(selectedFilter, shouldReload: false)
         dismiss(animated: true)
     }
-    
-    @IBAction func sliderValueDidChanged(_ sender: UISlider) {
-//        let sliderPostTimeframe = 0.0
-    }
-    
 
     @IBAction func allButtonDidPressed(_ sender: UIButton) {
-        setButtonActiveForFilter(.All, newPostTimeframe: selectedFilter.postTimeframe)
-        dismiss(animated: true)
+        handleButtonPress(.All)
     }
     
     @IBAction func featuredButtonDidPressed(_ sender: UIButton) {
-        setButtonActiveForFilter(.Featured, newPostTimeframe: selectedFilter.postTimeframe)
-        dismiss(animated: true)
+        handleButtonPress(.Featured)
     }
     
     @IBAction func friendsButtonDidPressed(_ sender: UIButton) {
-        setButtonActiveForFilter(.Friends, newPostTimeframe: selectedFilter.postTimeframe)
-        dismiss(animated: true)
+        handleButtonPress(.Friends)
     }
     
     @IBAction func matchesButtonDidPressed(_ sender: UIButton) {
-        setButtonActiveForFilter(.Matches, newPostTimeframe: selectedFilter.postTimeframe)
-        dismiss(animated: true)
+        handleButtonPress(.Matches)
     }
     
-    func setButtonActiveForFilter(_ newPostType: PostType, newPostTimeframe: Float) {
-        selectedFilter = PostFilter(postType: newPostType, postTimeframe: newPostTimeframe)
-        updateHighlightedButtonText(for: newPostType)
-        delegate.reloadPostsAfterFilterUpdate(newPostFilter: selectedFilter)
+    //MARK: - Helpers
+    
+    func handleSliderValChange() {
+        selectedFilter.postTimeframe = dateSlider.value
+        let prevDateText = dateLabel.text
+        updateSliderLabel() //must come after selectedFilter is updated
+        delegate.handleUpdatedFilter(selectedFilter, shouldReload: prevDateText != dateLabel.text)
     }
     
-    func updateDateLabel(for postType: PostType, with sliderValue: Float) {
+    func handleButtonPress(_ newPostType: PostType) {
+        var needsSliderUpdate: Bool
+        if selectedFilter.postType == .All {
+            needsSliderUpdate = newPostType != .All
+        } else {
+            needsSliderUpdate = newPostType == .All
+        }
+        
+        selectedFilter.postType = newPostType
+        if needsSliderUpdate {
+            dateSlider.value = 1
+            selectedFilter.postTimeframe = dateSlider.value
+            //TODO: slider label not updating correctly
+            updateSliderLabel() //must come after selectedFilter and dateSlider is adjusted
+        }
+
+        updateButtonLabels() //must come after selectedFilter is updated
+        delegate.handleUpdatedFilter(selectedFilter, shouldReload: true)
+//        if !needsSliderUpdate {
+//            dismiss(animated: true)
+//        }
+    }
+    
+    //MARK: - UI Updates
+    
+    func updateSliderLabel() {
         if selectedFilter.postType == .All {
             dateLabel.text = getDateFromSlider(indexFromZeroToOne: selectedFilter.postTimeframe,
                                                timescale: FilterTimescale.week,
@@ -106,7 +125,7 @@ class FilterViewController: SheetViewController {
         }
     }
     
-    func updateHighlightedButtonText(for postType: PostType) {
+    func updateButtonLabels() {
         let heavyAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Heavy, size: 24)!]
         let normalAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 24)!]
         
@@ -117,7 +136,7 @@ class FilterViewController: SheetViewController {
         matchesButton.setAttributedTitle(NSMutableAttributedString(string: PostType.Matches.displayNameWithExtraSpace, attributes: normalAttributes), for: .normal)
         
         // Bold the selected button's label
-        switch postType {
+        switch selectedFilter.postType {
         case .All:
             allButton.setAttributedTitle(NSMutableAttributedString(string: PostType.All.displayNameWithExtraSpace, attributes: heavyAttributes), for: .normal)
         case .Featured:

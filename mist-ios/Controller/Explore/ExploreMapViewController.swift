@@ -7,6 +7,7 @@
 
 import UIKit
 import MapKit
+import AVFAudio
 
 ///reference for search controllers
 ///https://developer.apple.com/documentation/uikit/view_controllers/using_suggested_searches_with_a_search_controller
@@ -31,7 +32,6 @@ class ExploreMapViewController: MapViewController {
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
-        super.viewDidLoad()
         latitudeOffset = 0.00095
         navigationItem.titleView = mistTitle
                 
@@ -39,9 +39,16 @@ class ExploreMapViewController: MapViewController {
         filterButton.layer.cornerRadius = 10
         applyShadowOnView(filterButton)
         
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(userInteractedWithMap))
+        mapView.addGestureRecognizer(tapGestureRecognizer)
+        
         setupSearchBar()
         setupPostsService()
         reloadPosts()
+
+        cameraIsFlying = true //camera is adjusted during setup
+        super.viewDidLoad()
+        cameraIsFlying = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,13 +67,17 @@ class ExploreMapViewController: MapViewController {
     
     @IBAction func filterButtonDidTapped(_ sender: UIButton) {
         dismissPost()
-        let filterVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Filter) as! FilterViewController
-        filterVC.delegate = self
-        filterVC.sheetDismissDelegate = self
-        filterVC.selectedFilter = postFilter
-        filterVC.loadViewIfNeeded() //doesnt work without this function call
-        filterMapModalVC = filterVC
-        present(filterVC, animated: true)
+        if let filterMapModalVC = filterMapModalVC {
+            filterMapModalVC.dismiss(animated: true)
+        } else {
+            filterMapModalVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Filter) as! FilterViewController
+            filterMapModalVC?.selectedFilter = postFilter
+            filterMapModalVC!.delegate = self
+            filterMapModalVC!.sheetDismissDelegate = self
+            filterMapModalVC!.selectedFilter = postFilter
+            filterMapModalVC!.loadViewIfNeeded() //doesnt work without this function call
+            present(filterMapModalVC!, animated: true)
+        }
     }
     
     @IBAction func exploreUserTrackingButtonDidPressed(_ sender: UIButton) {
@@ -79,6 +90,15 @@ class ExploreMapViewController: MapViewController {
         dismissPost()
         dismissFilter()
         toggleMapDimension()
+    }
+    
+    // This handles the case of tapping, but not panning and dragging for some reason
+    @objc func userInteractedWithMap() {
+        if (sheetPresentationController?.selectedDetentIdentifier?.rawValue != "xs") {
+            //TODO: don't execute this code if you clicked on an existing annotation
+            deselectOneAnnotationIfItExists() //annotation will still be deselected without this, but the animation looks better if deselection occurs before togglesheetsisze
+            dismissFilter()
+        }
     }
     
     //MARK: - Helpers
@@ -97,6 +117,7 @@ class ExploreMapViewController: MapViewController {
     }
     
     func dismissFilter() {
+        //if you want to dismiss on drag/pan, first toggle sheet size, then make filterMapModalVC.dismiss a completion of toggleSheetSize
         filterMapModalVC?.dismiss(animated: true)
     }
     
@@ -156,13 +177,14 @@ class ExploreMapViewController: MapViewController {
     
     override func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
         super.mapViewDidChangeVisibleRegion(mapView)
-        if let filterMapModalVC = filterMapModalVC, !cameraIsFlying && !modifyingMap {
-            print("GONNA DISMISS FILTER VC")
-            modifyingMap = true
-            filterMapModalVC.dismiss(animated: true, completion: { [weak self] in
-                self?.modifyingMap = false
-            })
-        }
+        
+        //If you want to dismiss on drag/pan, then fix this code
+//        if !cameraIsFlying {
+//            print(sheetPresentationController?.selectedDetentIdentifier)
+//            if sheetPresentationController?.selectedDetentIdentifier != nil && sheetPresentationController?.selectedDetentIdentifier?.rawValue != "zil" {
+//                dismissFilter()
+//            }
+//        }
     }
     
     // I believe this code is outdated
@@ -231,25 +253,29 @@ class ExploreMapViewController: MapViewController {
 
 extension ExploreMapViewController: FilterDelegate {
     
-    func reloadPostsAfterFilterUpdate(newPostFilter: PostFilter) {
-        
+    func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool) {
+    
         //Should eventually remove one of these two and have filter just saved in one location
         postsService.setFilter(to: newPostFilter)
         postFilter = newPostFilter
         
         updateFilterButtonLabel()
-        reloadPosts()
+        
+        if shouldReload {
+            reloadPosts()
+        }
     }
         
 }
 
 extension ExploreMapViewController: childDismissDelegate {
     func handleChildWillDismiss() {
-        filterMapModalVC = nil
+        
     }
 
     func handleChildDidDismiss() {
-        
+        print("sheet dismissed")
+        filterMapModalVC = nil
     }
 }
 
@@ -262,6 +288,8 @@ extension ExploreMapViewController {
     
     @IBAction func searchButtonDidPressed(_ sender: UIBarButtonItem) {
         present(mySearchController, animated: true)
+        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil")
+        filterMapModalVC?.dismiss(animated: false)
     }
     
     //TODO: add custom animations
@@ -270,6 +298,8 @@ extension ExploreMapViewController {
     @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
         let myAccountNavigation = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation)
         myAccountNavigation.modalPresentationStyle = .fullScreen
+        filterMapModalVC?.dismiss(animated: false)
+        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //makes the transition more seamless
         self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
     }
 }

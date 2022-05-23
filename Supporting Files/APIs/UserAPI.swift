@@ -27,6 +27,12 @@ class UserAPI {
         return try JSONDecoder().decode([User].self, from: data)
     }
     
+    static func fetchAuthedUsersByUsername(username:String) async throws -> [AuthedUser] {
+        let url = "https://mist-backend.herokuapp.com/api/users?username=\(username)"
+        let data = try await BasicAPI.fetch(url:url)
+        return try JSONDecoder().decode([AuthedUser].self, from: data)
+    }
+    
     static func fetchUsersByUsername(username:String) async throws -> [User] {
         let url = "https://mist-backend.herokuapp.com/api/users?username=\(username)"
         let data = try await BasicAPI.fetch(url:url)
