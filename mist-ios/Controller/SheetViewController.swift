@@ -11,13 +11,14 @@ import UIKit
 //https://stackoverflow.com/questions/24111356/swift-class-method-which-must-be-overridden-by-subclass
 
 
-protocol SheetDismissDelegate {
-    func handleSheetDismiss()
+protocol childDismissDelegate {
+    func handleChildWillDismiss()
+    func handleChildDidDismiss()
 }
 
 extension Constants {
     struct Detents {
-        static let zil: UISheetPresentationController.Detent = ._detent(withIdentifier: "zil", constant: 0)
+        static let zil: UISheetPresentationController.Detent = ._detent(withIdentifier: "zil", constant: -50)
         static let xs: UISheetPresentationController.Detent = ._detent(withIdentifier: "xs", constant: 50)
         static let s: UISheetPresentationController.Detent = ._detent(withIdentifier: "s", constant: 300)
         static let m: UISheetPresentationController.Detent = ._detent(withIdentifier: "m", constant: 400)
@@ -29,13 +30,14 @@ extension Constants {
 class SheetViewController: UIViewController, UIViewControllerTransitioningDelegate {
 
     @IBOutlet weak var containingView: UIView!
+    lazy var mySheetPresentationController = presentationController as! UISheetPresentationController
     
     var prefersGrabberVisible: Bool!
     var detents: [UISheetPresentationController.Detent]!
     var largestUndimmedDetentIdentifier: String? = nil
         
     var sheetDelegate: UISheetPresentationControllerDelegate? //Allows lower level vc to detect when the sheet changes sizes and remains up
-    var sheetDismissDelegate: SheetDismissDelegate?
+    var sheetDismissDelegate: childDismissDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,12 +70,15 @@ class SheetViewController: UIViewController, UIViewControllerTransitioningDelega
         controller.detents = detents
         controller.preferredCornerRadius = 20
         
-        
         return controller
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        sheetDismissDelegate?.handleSheetDismiss()
+        sheetDismissDelegate?.handleChildWillDismiss()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        sheetDismissDelegate?.handleChildDidDismiss()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -81,16 +86,9 @@ class SheetViewController: UIViewController, UIViewControllerTransitioningDelega
     }
     
     func toggleSheetSizeTo(sheetSize: String) {
-        // Unwrap the presentation controller using the right type.
-        print("unwrap")
-        guard let presentationController = presentationController as? UISheetPresentationController else { return }
-        
-        print("unwrapped")
-        print(presentationController.detents)
-        
-        // Animate the changes.
-        presentationController.animateChanges {
-            presentationController.selectedDetentIdentifier = .init(rawValue: sheetSize)
+        mySheetPresentationController.animateChanges {
+            mySheetPresentationController.selectedDetentIdentifier = .init(rawValue: sheetSize)
         }
     }
+    
 }

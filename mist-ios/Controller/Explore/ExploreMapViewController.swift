@@ -6,21 +6,19 @@
 //
 
 import UIKit
-import SwiftUI
 import MapKit
-import SwiftyAttributes
+import AVFAudio
 
 ///reference for search controllers
 ///https://developer.apple.com/documentation/uikit/view_controllers/using_suggested_searches_with_a_search_controller
 ///https://developer.apple.com/documentation/uikit/view_controllers/displaying_searchable_content_by_using_a_search_controller
 
-//TODO: add 2d/3d button. shift to 2d automatically after a certain height
-
 class ExploreMapViewController: MapViewController {
-    
+
     // MARK: - Properties
     @IBOutlet weak var mistTitle: UIView!
     @IBOutlet weak var filterButton: UIButton!
+    @IBOutlet weak var featuredIconButton: UIButton!
         
     // ExploreViewController
     var mySearchController: UISearchController!
@@ -34,18 +32,23 @@ class ExploreMapViewController: MapViewController {
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        latitudeOffset = 0.0010
+        latitudeOffset = 0.00095
         navigationItem.titleView = mistTitle
-
+                
         updateFilterButtonLabel()
-        
         filterButton.layer.cornerRadius = 10
         applyShadowOnView(filterButton)
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(userInteractedWithMap))
+        mapView.addGestureRecognizer(tapGestureRecognizer)
         
         setupSearchBar()
         setupPostsService()
         reloadPosts()
+
+        cameraIsFlying = true //camera is adjusted during setup
+        super.viewDidLoad()
+        cameraIsFlying = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,35 +66,66 @@ class ExploreMapViewController: MapViewController {
     //MARK: - User Interaction
     
     @IBAction func filterButtonDidTapped(_ sender: UIButton) {
-        let filterVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Filter) as! FilterViewController
-        filterVC.delegate = self
-        filterVC.selectedFilter = postFilter
-        filterVC.loadViewIfNeeded() //doesnt work without this function call
-        filterMapModalVC = filterVC
-        present(filterVC, animated: true)
+        dismissPost()
+        if let filterMapModalVC = filterMapModalVC {
+            filterMapModalVC.dismiss(animated: true)
+        } else {
+            filterMapModalVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Filter) as! FilterViewController
+            filterMapModalVC?.selectedFilter = postFilter
+            filterMapModalVC!.delegate = self
+            filterMapModalVC!.sheetDismissDelegate = self
+            filterMapModalVC!.selectedFilter = postFilter
+            filterMapModalVC!.loadViewIfNeeded() //doesnt work without this function call
+            present(filterMapModalVC!, animated: true)
+        }
+    }
+    
+    @IBAction func exploreUserTrackingButtonDidPressed(_ sender: UIButton) {
+        dismissPost()
+        dismissFilter()
+        slowFlyTo(lat: mapView.userLocation.coordinate.latitude, long: mapView.userLocation.coordinate.longitude, incrementalZoom: false, completion: {_ in })
+    }
+    
+    @IBAction func exploreMapDimensionButtonDidPressed(_ sender: UIButton) {
+        dismissPost()
+        dismissFilter()
+        toggleMapDimension()
+    }
+    
+    // This handles the case of tapping, but not panning and dragging for some reason
+    @objc func userInteractedWithMap() {
+        if (sheetPresentationController?.selectedDetentIdentifier?.rawValue != "xs") {
+            //TODO: don't execute this code if you clicked on an existing annotation
+            deselectOneAnnotationIfItExists() //annotation will still be deselected without this, but the animation looks better if deselection occurs before togglesheetsisze
+            dismissFilter()
+        }
     }
     
     //MARK: - Helpers
     
     func updateFilterButtonLabel() {
-        var postTypeString = NSAttributedString(string: postFilter.postType.rawValue).withFont(UIFont(name: Constants.Font.Heavy, size: 24)!)
-        if postFilter.postType == .Friends {
-            postTypeString = NSAttributedString(string: "Friends'").withFont(UIFont(name: Constants.Font.Heavy, size: 24)!)
+        filterButton.setAttributedTitle(PostFilter.getFilterLabelText(for: postFilter), for: .normal)
+        if postFilter.postType == .Featured {
+//            featuredIconButton.isHidden = false
+        } else {
+//            featuredIconButton.isHidden = true
         }
-        var middleString = NSAttributedString(string: " mists from ").withFont(UIFont(name: Constants.Font.Medium, size: 24)!)
-        if postFilter.postType == .Matches {
-            middleString = NSAttributedString(string: " from ").withFont(UIFont(name: Constants.Font.Medium, size: 24)!)
-        }
-        let postTimeframeString = NSAttributedString(string: getDateFromSlider(indexFromZeroToOne: postFilter.postTimeframe)).withFont(UIFont(name: Constants.Font.Heavy, size: 24)!)
-        let newText: NSAttributedString = postTypeString + middleString + postTimeframeString
-        filterButton.setAttributedTitle(newText, for: .normal)
+    }
+    
+    func dismissPost() {
+        deselectOneAnnotationIfItExists()
+    }
+    
+    func dismissFilter() {
+        //if you want to dismiss on drag/pan, first toggle sheet size, then make filterMapModalVC.dismiss a completion of toggleSheetSize
+        filterMapModalVC?.dismiss(animated: true)
     }
     
     
-    //MARK: - Map
+    //MARK: - MapDelegate
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        filterMapModalVC?.dismiss(animated: true)
+        dismissFilter()
         if view.annotation is MKUserLocation {
             mapView.deselectAnnotation(view.annotation, animated: false)
             mapView.userLocation.title = "Hey cutie"
@@ -125,6 +159,48 @@ class ExploreMapViewController: MapViewController {
         }
     }
 
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        if let view = view as? PostMarkerAnnotationView {
+            view.glyphTintColor = .white
+            view.markerTintColor = mistUIColor()
+        }
+        
+        if let postView: UIView = view.viewWithTag(999) {
+            postView.fadeOut(duration: 0.5, delay: 0, completion: { Bool in
+                postView.isHidden = true
+                postView.removeFromSuperview()
+                mapView.isScrollEnabled = true
+                mapView.isZoomEnabled = true
+            })
+        }
+    }
+    
+    override func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        super.mapViewDidChangeVisibleRegion(mapView)
+        
+        //If you want to dismiss on drag/pan, then fix this code
+//        if !cameraIsFlying {
+//            print(sheetPresentationController?.selectedDetentIdentifier)
+//            if sheetPresentationController?.selectedDetentIdentifier != nil && sheetPresentationController?.selectedDetentIdentifier?.rawValue != "zil" {
+//                dismissFilter()
+//            }
+//        }
+    }
+    
+    // I believe this code is outdated
+//    func mapAnnotationDidTouched(_ sender: UIButton) {
+//        let filterMapModalVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.SortBy) as! SortByViewController
+//        if let sheet = filterMapModalVC.sheetPresentationController {
+//            sheet.detents = [.medium()]
+//            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+//            sheet.prefersGrabberVisible = true
+//            sheet.largestUndimmedDetentIdentifier = .medium
+//        }
+//        present(filterMapModalVC, animated: true, completion: nil)
+//    }
+    
+    //MARK: - View Rendering
+    
     func loadPostViewFor(postAnnotationView: PostMarkerAnnotationView) {
         let cell = Bundle.main.loadNibNamed(Constants.SBID.Cell.Post, owner: self, options: nil)?[0] as! PostCell
         if let postAnnotation = postAnnotationView.annotation as? PostAnnotation {
@@ -151,42 +227,8 @@ class ExploreMapViewController: MapViewController {
             newPostView.fadeIn(duration: 0.2, delay: cameraAnimationDuration-0.15)
         }
     }
-
-    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        if let view = view as? PostMarkerAnnotationView {
-            view.glyphTintColor = .white
-            view.markerTintColor = mistUIColor()
-        }
-        
-        if let postView: UIView = view.viewWithTag(999) {
-            postView.fadeOut(duration: 0.5, delay: 0, completion: { Bool in
-                postView.isHidden = true
-                postView.removeFromSuperview()
-                mapView.isScrollEnabled = true
-                mapView.isZoomEnabled = true
-            })
-        }
-    }
     
-    override func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-        super.mapViewDidChangeVisibleRegion(mapView)
-        if !cameraIsMoving {
-//            print("trying to dismiss filter")
-            filterMapModalVC?.dismiss(animated: true)
-        }
-    }
-    
-    // TF does this do?
-//    func mapAnnotationDidTouched(_ sender: UIButton) {
-//        let filterMapModalVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.SortBy) as! SortByViewController
-//        if let sheet = filterMapModalVC.sheetPresentationController {
-//            sheet.detents = [.medium()]
-//            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-//            sheet.prefersGrabberVisible = true
-//            sheet.largestUndimmedDetentIdentifier = .medium
-//        }
-//        present(filterMapModalVC, animated: true, completion: nil)
-//    }
+    //MARK: - DB Interaction
     
     func reloadPosts() {
         Task {
@@ -211,19 +253,31 @@ class ExploreMapViewController: MapViewController {
 
 extension ExploreMapViewController: FilterDelegate {
     
-    func reloadPostsAfterFilterUpdate(newPostFilter: PostFilter) {
-        
+    func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool) {
+    
         //Should eventually remove one of these two and have filter just saved in one location
         postsService.setFilter(to: newPostFilter)
         postFilter = newPostFilter
         
         updateFilterButtonLabel()
-        reloadPosts()
+        
+        if shouldReload {
+            reloadPosts()
+        }
     }
-    
+        
 }
 
+extension ExploreMapViewController: childDismissDelegate {
+    func handleChildWillDismiss() {
+        
+    }
 
+    func handleChildDidDismiss() {
+        print("sheet dismissed")
+        filterMapModalVC = nil
+    }
+}
 
 
 //MARK: - ExploreViewController
@@ -234,6 +288,8 @@ extension ExploreMapViewController {
     
     @IBAction func searchButtonDidPressed(_ sender: UIBarButtonItem) {
         present(mySearchController, animated: true)
+        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil")
+        filterMapModalVC?.dismiss(animated: false)
     }
     
     //TODO: add custom animations
@@ -242,6 +298,8 @@ extension ExploreMapViewController {
     @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
         let myAccountNavigation = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation)
         myAccountNavigation.modalPresentationStyle = .fullScreen
+        filterMapModalVC?.dismiss(animated: false)
+        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //makes the transition more seamless
         self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
     }
 }
@@ -278,6 +336,32 @@ extension ExploreMapViewController: UISearchControllerDelegate {
         mySearchController.searchBar.searchBarStyle = .prominent //when setting to .minimal, the background disappears and you can see nav bar underneath. if using .minimal, add a background color to searchBar to fix this.
         mySearchController.searchBar.placeholder = "Search"
     }
+    
+    func presentSearchController(_ searchController: UISearchController) {
+        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+    }
+    
+    func willPresentSearchController(_ searchController: UISearchController) {
+//        navigationController?.hideHairline()
+        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+    }
+    
+    func didPresentSearchController(_ searchController: UISearchController) {
+        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+        navigationItem.searchController = searchController
+    }
+    
+    func willDismissSearchController(_ searchController: UISearchController) {
+        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+        print("will dismiss sc")
+//        navigationController?.restoreHairline()
+        navigationItem.searchController = .none
+    }
+    
+    func didDismissSearchController(_ searchController: UISearchController) {
+        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+    }
+    
 }
 
     // MARK: - UISearchBarDelegate
@@ -332,37 +416,6 @@ extension ExploreMapViewController: UITableViewDelegate {
         
         tableView.deselectRow(at: indexPath, animated: false)
     }
-}
-
-    // MARK: - UISearchControllerDelegate
-
-extension ExploreMapViewController {
-    
-    func presentSearchController(_ searchController: UISearchController) {
-        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-    }
-    
-    func willPresentSearchController(_ searchController: UISearchController) {
-//        navigationController?.hideHairline()
-        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-    }
-    
-    func didPresentSearchController(_ searchController: UISearchController) {
-        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-        navigationItem.searchController = searchController
-    }
-    
-    func willDismissSearchController(_ searchController: UISearchController) {
-        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-        print("will dismiss sc")
-//        navigationController?.restoreHairline()
-        navigationItem.searchController = .none
-    }
-    
-    func didDismissSearchController(_ searchController: UISearchController) {
-        //Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-    }
-    
 }
 
 extension ExploreMapViewController: UISearchResultsUpdating {

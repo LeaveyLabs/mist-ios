@@ -52,15 +52,6 @@ class AuthAPI {
                               email: email,
                               password: password)
         
-        //TODO: Delete
-//        let obj:[String:String] = [
-//            "email": email,
-//            "username": username,
-//            "password": password,
-//            "first_name": first_name,
-//            "last_name": last_name,
-//        ]
-//        let json = try JSONEncoder().encode(obj)
         let json = try JSONEncoder().encode(user)
         let data = try await BasicAPI.post(url:url, jsonData:json)
         return try JSONDecoder().decode(AuthedUser.self, from: data)

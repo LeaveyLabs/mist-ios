@@ -1356,11 +1356,11 @@
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="location" catalog="system"/>
                                 <connections>
-                                    <action selector="userTrackingButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="cvS-Ol-hgx"/>
+                                    <action selector="exploreUserTrackingButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="DQT-8j-XBE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ety-i7-6O8">
-                                <rect key="frame" x="10" y="103" width="370" height="47"/>
+                                <rect key="frame" x="10" y="103" width="370" height="45.666666666666657"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal">
@@ -1376,7 +1376,7 @@
                                 </state>
                                 <buttonConfiguration key="configuration" style="plain" image="chevron.down" catalog="system" imagePlacement="trailing" title="All mists from today">
                                     <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" weight="semibold"/>
-                                    <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="24"/>
+                                    <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="23"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="filterButtonDidTapped:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="iIs-zo-vVy"/>
@@ -1396,7 +1396,7 @@
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="mapDimensionButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="jVT-BM-j9o"/>
+                                    <action selector="exploreMapDimensionButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="Bkm-Nb-561"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -2653,7 +2653,7 @@ You can message people in two ways: 
         <!--Filter View Controller-->
         <scene sceneID="wxc-YP-fMI">
             <objects>
-                <viewController storyboardIdentifier="FilterViewController" id="Igm-CS-KZm" customClass="FilterViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Igm-CS-KZm" customClass="FilterViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="z4q-nH-Go6">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2692,7 +2692,7 @@ You can message people in two ways: 
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZLL-RH-iFO">
-                                <rect key="frame" x="200" y="134" width="141" height="47"/>
+                                <rect key="frame" x="10" y="248" width="141" height="47"/>
                                 <color key="tintColor" systemColor="labelColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
                                 <state key="normal" title="New" image="sparkles" catalog="system"/>
@@ -2704,7 +2704,7 @@ You can message people in two ways: 
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fb8-PI-7Bc">
-                                <rect key="frame" x="200" y="191" width="180" height="47"/>
+                                <rect key="frame" x="10" y="305" width="152.66666666666666" height="47"/>
                                 <color key="tintColor" systemColor="labelColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
                                 <state key="normal" title="New" image="sparkles" catalog="system"/>
@@ -2719,9 +2719,6 @@ You can message people in two ways: 
                                 <rect key="frame" x="18" y="94" width="354" height="31"/>
                                 <color key="minimumTrackTintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="thumbTintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <connections>
-                                    <action selector="sliderValueDidChanged:" destination="Igm-CS-KZm" eventType="valueChanged" id="PLi-ca-LG7"/>
-                                </connections>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N7J-Nr-ZOs">
                                 <rect key="frame" x="20.000000000000004" y="64" width="55.333333333333343" height="28"/>
@@ -2729,8 +2726,8 @@ You can message people in two ways: 
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exl-fP-bh0">
-                                <rect key="frame" x="15" y="770" width="360" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exl-fP-bh0">
+                                <rect key="frame" x="15" y="362" width="360" height="41.333333333333314"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2754,14 +2751,13 @@ You can message people in two ways: 
                             <constraint firstItem="88c-4b-4TK" firstAttribute="leading" secondItem="YhU-V4-7ia" secondAttribute="leading" constant="10" id="FQl-db-LDa"/>
                             <constraint firstItem="Exl-fP-bh0" firstAttribute="leading" secondItem="YhU-V4-7ia" secondAttribute="leading" constant="15" id="G6C-yI-8U8"/>
                             <constraint firstItem="YhU-V4-7ia" firstAttribute="trailing" secondItem="x35-dj-Xue" secondAttribute="trailing" constant="20" id="KDM-AR-Q9M"/>
+                            <constraint firstItem="Exl-fP-bh0" firstAttribute="top" secondItem="fb8-PI-7Bc" secondAttribute="bottom" constant="10" id="LBZ-Ob-adB"/>
                             <constraint firstItem="UEe-Tj-HkA" firstAttribute="leading" secondItem="YhU-V4-7ia" secondAttribute="leading" constant="10" id="SlJ-pY-Rkl"/>
-                            <constraint firstItem="ZLL-RH-iFO" firstAttribute="leading" secondItem="YhU-V4-7ia" secondAttribute="leading" constant="200" id="Wln-hr-Dzn"/>
+                            <constraint firstItem="ZLL-RH-iFO" firstAttribute="top" secondItem="88c-4b-4TK" secondAttribute="bottom" constant="10" id="W74-IC-XM0"/>
+                            <constraint firstItem="ZLL-RH-iFO" firstAttribute="leading" secondItem="YhU-V4-7ia" secondAttribute="leading" constant="10" id="Wln-hr-Dzn"/>
                             <constraint firstItem="x35-dj-Xue" firstAttribute="top" secondItem="N7J-Nr-ZOs" secondAttribute="bottom" constant="2" id="aKk-WB-NCl"/>
-                            <constraint firstItem="YhU-V4-7ia" firstAttribute="trailing" secondItem="fb8-PI-7Bc" secondAttribute="trailing" constant="10" id="cVG-d3-47e"/>
                             <constraint firstItem="fb8-PI-7Bc" firstAttribute="leading" secondItem="ZLL-RH-iFO" secondAttribute="leading" id="dy7-58-F9x"/>
-                            <constraint firstItem="ZLL-RH-iFO" firstAttribute="top" secondItem="x35-dj-Xue" secondAttribute="bottom" constant="10" id="iyo-zB-pA6"/>
                             <constraint firstItem="YhU-V4-7ia" firstAttribute="trailing" secondItem="Exl-fP-bh0" secondAttribute="trailing" constant="15" id="lbE-CJ-Fsf"/>
-                            <constraint firstItem="YhU-V4-7ia" firstAttribute="bottom" secondItem="Exl-fP-bh0" secondAttribute="bottom" id="n3L-oF-4Ze"/>
                             <constraint firstItem="x35-dj-Xue" firstAttribute="leading" secondItem="YhU-V4-7ia" secondAttribute="leading" constant="20" id="ndg-lt-H3a"/>
                             <constraint firstItem="88c-4b-4TK" firstAttribute="top" secondItem="UEe-Tj-HkA" secondAttribute="bottom" constant="10" id="q9a-1W-U7Z"/>
                         </constraints>
@@ -2779,6 +2775,133 @@ You can message people in two ways: 
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ugc-Y7-fOL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4990.7692307692305" y="1333.649289099526"/>
+        </scene>
+        <!--Filter View Controller-->
+        <scene sceneID="cNZ-oi-fbD">
+            <objects>
+                <viewController storyboardIdentifier="FilterViewController" id="5Ly-QN-PWb" customClass="FilterViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ooc-Lv-NkT">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNq-Ev-UfI">
+                                <rect key="frame" x="10" y="134" width="93.333333333333329" height="47"/>
+                                <color key="tintColor" systemColor="labelColor"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
+                                <state key="normal" title="Share" image="square.and.arrow.up" catalog="system"/>
+                                <state key="selected" title="Best" image="cup.and.saucer.fill" catalog="system">
+                                    <color key="titleColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <buttonConfiguration key="configuration" style="plain" title="⭐️  All">
+                                    <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="allButtonDidPressed:" destination="5Ly-QN-PWb" eventType="touchUpInside" id="ENf-eg-qtY"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gh1-OZ-LGd">
+                                <rect key="frame" x="10" y="191" width="158" height="47"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="12" maxY="0.0"/>
+                                <state key="normal" title=" Featured" image="FeaturedIcon">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                                </state>
+                                <buttonConfiguration key="configuration" style="plain" image="SpotifyIcon" title="Featured" imagePadding="12">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="default"/>
+                                    <fontDescription key="titleFontDescription" name="Avenir-Book" family="Avenir" pointSize="24"/>
+                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="featuredButtonDidPressed:" destination="5Ly-QN-PWb" eventType="touchUpInside" id="oSh-oN-c78"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="85P-KN-FCs">
+                                <rect key="frame" x="200" y="134" width="141" height="47"/>
+                                <color key="tintColor" systemColor="labelColor"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
+                                <state key="normal" title="New" image="sparkles" catalog="system"/>
+                                <buttonConfiguration key="configuration" style="plain" title="👀  Friends">
+                                    <fontDescription key="titleFontDescription" name="Avenir-Book" family="Avenir" pointSize="24"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="friendsButtonDidPressed:" destination="5Ly-QN-PWb" eventType="touchUpInside" id="ur3-qj-daG"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RwC-Hd-XKu">
+                                <rect key="frame" x="200" y="191" width="180" height="47"/>
+                                <color key="tintColor" systemColor="labelColor"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
+                                <state key="normal" title="New" image="sparkles" catalog="system"/>
+                                <buttonConfiguration key="configuration" style="plain" title="💞  Matches">
+                                    <fontDescription key="titleFontDescription" name="Avenir-Book" family="Avenir" pointSize="24"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="matchesButtonDidPressed:" destination="5Ly-QN-PWb" eventType="touchUpInside" id="es1-oQ-N42"/>
+                                </connections>
+                            </button>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="a6D-vt-tP9">
+                                <rect key="frame" x="18" y="94" width="354" height="31"/>
+                                <color key="minimumTrackTintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="thumbTintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="si8-BC-NC1">
+                                <rect key="frame" x="20.000000000000004" y="64" width="55.333333333333343" height="28"/>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="veU-01-jYW">
+                                <rect key="frame" x="15" y="248.00000000000003" width="360" height="41.333333333333343"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Close"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Done">
+                                    <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="closeButtonDidPressed:" destination="5Ly-QN-PWb" eventType="touchUpInside" id="JN1-ES-jjD"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="UyN-Uf-IK3"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="85P-KN-FCs" firstAttribute="leading" secondItem="UyN-Uf-IK3" secondAttribute="leading" constant="200" id="619-zp-uA4"/>
+                            <constraint firstItem="gh1-OZ-LGd" firstAttribute="leading" secondItem="UyN-Uf-IK3" secondAttribute="leading" constant="10" id="8Bi-dg-Euw"/>
+                            <constraint firstItem="si8-BC-NC1" firstAttribute="top" secondItem="UyN-Uf-IK3" secondAttribute="top" constant="20" id="AD1-aE-7ol"/>
+                            <constraint firstItem="cNq-Ev-UfI" firstAttribute="top" secondItem="a6D-vt-tP9" secondAttribute="bottom" constant="10" id="ALG-eu-9Ey"/>
+                            <constraint firstItem="UyN-Uf-IK3" firstAttribute="trailing" secondItem="veU-01-jYW" secondAttribute="trailing" constant="15" id="BpK-j3-lag"/>
+                            <constraint firstItem="RwC-Hd-XKu" firstAttribute="top" secondItem="85P-KN-FCs" secondAttribute="bottom" constant="10" id="E0r-rS-T3W"/>
+                            <constraint firstItem="a6D-vt-tP9" firstAttribute="leading" secondItem="UyN-Uf-IK3" secondAttribute="leading" constant="20" id="EF2-cn-zsn"/>
+                            <constraint firstItem="si8-BC-NC1" firstAttribute="leading" secondItem="UyN-Uf-IK3" secondAttribute="leading" constant="20" id="KgO-TK-M8l"/>
+                            <constraint firstItem="veU-01-jYW" firstAttribute="top" secondItem="gh1-OZ-LGd" secondAttribute="bottom" constant="10" id="bEm-fi-9ZK"/>
+                            <constraint firstItem="RwC-Hd-XKu" firstAttribute="leading" secondItem="85P-KN-FCs" secondAttribute="leading" id="g9Y-SX-XAt"/>
+                            <constraint firstItem="cNq-Ev-UfI" firstAttribute="leading" secondItem="UyN-Uf-IK3" secondAttribute="leading" constant="10" id="ieb-ZJ-bgv"/>
+                            <constraint firstItem="85P-KN-FCs" firstAttribute="top" secondItem="a6D-vt-tP9" secondAttribute="bottom" constant="10" id="j4D-Qa-hlO"/>
+                            <constraint firstItem="a6D-vt-tP9" firstAttribute="top" secondItem="si8-BC-NC1" secondAttribute="bottom" constant="2" id="lDM-cX-Kng"/>
+                            <constraint firstItem="UyN-Uf-IK3" firstAttribute="trailing" secondItem="RwC-Hd-XKu" secondAttribute="trailing" constant="10" id="pP8-ja-GmL"/>
+                            <constraint firstItem="UyN-Uf-IK3" firstAttribute="trailing" secondItem="a6D-vt-tP9" secondAttribute="trailing" constant="20" id="sC0-tp-CAD"/>
+                            <constraint firstItem="gh1-OZ-LGd" firstAttribute="top" secondItem="cNq-Ev-UfI" secondAttribute="bottom" constant="10" id="ybn-Nf-qow"/>
+                            <constraint firstItem="veU-01-jYW" firstAttribute="leading" secondItem="UyN-Uf-IK3" secondAttribute="leading" constant="15" id="zkm-qZ-hUb"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="allButton" destination="cNq-Ev-UfI" id="OcV-Fo-CG0"/>
+                        <outlet property="closeButton" destination="veU-01-jYW" id="eJc-Fe-1oO"/>
+                        <outlet property="dateLabel" destination="si8-BC-NC1" id="cTY-Zs-3L7"/>
+                        <outlet property="dateSlider" destination="a6D-vt-tP9" id="TbC-dA-syR"/>
+                        <outlet property="featuredButton" destination="gh1-OZ-LGd" id="vZL-B9-HWi"/>
+                        <outlet property="friendsButton" destination="85P-KN-FCs" id="DRW-eE-Tr0"/>
+                        <outlet property="matchesButton" destination="RwC-Hd-XKu" id="KTV-H5-syc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PkO-tV-v1F" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5688" y="1334"/>
         </scene>
     </scenes>
     <designables>

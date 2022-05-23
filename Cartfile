@@ -3,4 +3,5 @@ github "Alamofire/Alamofire" ~> 5.5
 
 github "daltoniam/Starscream" >= 4.0.0
 
-github "eddiekaiger/SwiftyAttributes"
+# no longer needed
+# github "eddiekaiger/SwiftyAttributes"
