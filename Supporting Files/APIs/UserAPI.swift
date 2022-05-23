@@ -21,7 +21,7 @@ extension NSMutableData {
 
 class UserAPI {
     // Fetches all profiles from database (searching for the below text)
-    static func fetchUsersByText(text:String) async throws -> [User] {
+    static func fetchUsersByText(containing text:String) async throws -> [User] {
         let url = "https://mist-backend.herokuapp.com/api/users?text=\(text)"
         let data = try await BasicAPI.fetch(url:url)
         return try JSONDecoder().decode([User].self, from: data)
