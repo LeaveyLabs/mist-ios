@@ -54,6 +54,6 @@ class UserAPI {
     }
     
     static func UIImageFromURLString(url:String) async throws -> UIImage {
-        return UIImage(data: try await BasicAPI.fetch(url: url))
+        return UIImage(data: try await BasicAPI.fetch(url: url)) ?? UIImage(systemName: "person.crop.circle")!
     }
 }

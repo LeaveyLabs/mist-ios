@@ -18,7 +18,7 @@ class MoreViewController: SheetViewController {
         super.viewDidLoad()
         closeButton.layer.cornerRadius = 5
         setupSheet(prefersGrabberVisible: false,
-                   detents: [Constants.Detents.s],
+                   detents: [._detent(withIdentifier: "s", constant: 220)],
                    largestUndimmedDetentIdentifier: nil)
     }
     

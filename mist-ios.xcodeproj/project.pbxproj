@@ -37,7 +37,6 @@
 		4700F8BB27DD7BE3006C2E08 /* Vote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B927DD7BE3006C2E08 /* Vote.swift */; };
 		4700F8BE27DD807C006C2E08 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8BC27DD807C006C2E08 /* CommentCell.swift */; };
 		4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4700F8BD27DD807C006C2E08 /* CommentCell.xib */; };
-		4700F8C327DE1EA6006C2E08 /* SortByViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8C227DE1EA6006C2E08 /* SortByViewController.swift */; };
 		4700F8C627DE4652006C2E08 /* ExploreMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8C527DE4652006C2E08 /* ExploreMapViewController.swift */; };
 		470F271327DE6F5800C6DDAF /* LiveResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */; };
 		470F271827DE758100C6DDAF /* WordResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271627DE758100C6DDAF /* WordResultCell.swift */; };
@@ -187,7 +186,6 @@
 		4700F8B927DD7BE3006C2E08 /* Vote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vote.swift; sourceTree = "<group>"; };
 		4700F8BC27DD807C006C2E08 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		4700F8BD27DD807C006C2E08 /* CommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
-		4700F8C227DE1EA6006C2E08 /* SortByViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortByViewController.swift; sourceTree = "<group>"; };
 		4700F8C527DE4652006C2E08 /* ExploreMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapViewController.swift; sourceTree = "<group>"; };
 		470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveResultsTableViewController.swift; sourceTree = "<group>"; };
 		470F271627DE758100C6DDAF /* WordResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordResultCell.swift; sourceTree = "<group>"; };
@@ -321,11 +319,11 @@
 			isa = PBXGroup;
 			children = (
 				43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */,
-				433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */,
 				4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */,
 				436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */,
-				43483BB128025179001C7C6A /* EnterUsernameViewController.swift */,
 				43483BB32802519C001C7C6A /* EnterPasswordViewController.swift */,
+				433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */,
+				43483BB128025179001C7C6A /* EnterUsernameViewController.swift */,
 				43483BB5280251B1001C7C6A /* EnterNameViewController.swift */,
 				43E30CFD2826355C00DBEB57 /* EnterProfilePictureViewController.swift */,
 				43E30D0128263E1200DBEB57 /* ImagePicker.swift */,
@@ -642,7 +640,6 @@
 			isa = PBXGroup;
 			children = (
 				479AA1F227DCF2BD00EA0DFC /* PostViewController.swift */,
-				4700F8C227DE1EA6006C2E08 /* SortByViewController.swift */,
 				47C1D49027DF00B200970B3D /* MoreViewController.swift */,
 			);
 			path = Post;
@@ -888,7 +885,6 @@
 				433970DF27FE501700876026 /* WelcomeTutorialViewController.swift in Sources */,
 				47F4EFD327E118DD00861F30 /* MapModalViewController.swift in Sources */,
 				4700F8B527DD7BBA006C2E08 /* CommentAPI.swift in Sources */,
-				4700F8C327DE1EA6006C2E08 /* SortByViewController.swift in Sources */,
 				47A3D70227D524F4003DBEA5 /* NewPostViewController.swift in Sources */,
 				474A5DAA27F40CB1004215F9 /* UISegmentedControl+Twitter.swift in Sources */,
 				474A5DA827F4079D004215F9 /* MyProfileViewController.swift in Sources */,

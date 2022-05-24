@@ -287,8 +287,9 @@ extension ExploreMapViewController {
     // MARK: - User Interaction
     
     @IBAction func searchButtonDidPressed(_ sender: UIBarButtonItem) {
+        dismissPost()
         present(mySearchController, animated: true)
-        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil")
+        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //eventually replace this with "dismissFilter()" when completion handler is added
         filterMapModalVC?.dismiss(animated: false)
     }
     
@@ -296,9 +297,10 @@ extension ExploreMapViewController {
     //https://stackoverflow.com/questions/51675063/how-to-present-view-controller-from-left-to-right-in-ios
     //https://github.com/HeroTransitions/Hero
     @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
+        dismissPost()
         let myAccountNavigation = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation)
         myAccountNavigation.modalPresentationStyle = .fullScreen
-        filterMapModalVC?.dismiss(animated: false)
+        filterMapModalVC?.dismiss(animated: false) //same as above^
         filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //makes the transition more seamless
         self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
     }

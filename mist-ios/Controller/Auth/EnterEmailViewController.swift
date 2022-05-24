@@ -17,15 +17,37 @@ class AuthContext {
     }
 }
 
-class EnterEmailViewController: UIViewController {
+extension UITextField {
+    func setLeftPaddingPoints(_ amount:CGFloat){
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
+        self.leftView = paddingView
+        self.leftViewMode = .always
+    }
+    func setRightPaddingPoints(_ amount:CGFloat) {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
+        self.rightView = paddingView
+        self.rightViewMode = .always
+    }
+}
+
+class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var enterEmailField: UITextField!
     @IBOutlet weak var continueButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        enterEmailField.becomeFirstResponder()
+        enterEmailField.clipsToBounds = true
+        enterEmailField.layer.cornerRadius = 5
+        enterEmailField.setLeftPaddingPoints(10)
+
+        continueButton.isEnabled = false
         
-        // Do any additional setup after loading the view.
+        navigationController?.navigationBar.isHidden = true
+        
+        keyboardShouldDismissOnOuterTap = false //override parentVC
+        enterEmailField.delegate = self
     }
     
     @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
@@ -33,7 +55,11 @@ class EnterEmailViewController: UIViewController {
         enterEmailField.text = ""
     }
     
-    @IBAction func didPressedContinue(_ sender: Any) {
+    @IBAction func didPressedContinueButton(_ sender: Any) {
+        tryToContinue()
+    }
+    
+    func tryToContinue() {
         // If you've inputted an email
         if let email = enterEmailField.text {
             Task {
@@ -51,15 +77,26 @@ class EnterEmailViewController: UIViewController {
         }
     }
     
+    //MARK: - TextField
     
-    /*
-     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        tryToContinue()
+        return false
     }
-    */
-
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        print("should end editing")
+//        textField.becomeFirstResponder()
+        return false
+    }
+    
+    @IBAction func textFieldEditingChanged(_ sender: UITextField) {
+        continueButton.isEnabled = isValidEmail()
+    }
+    
+    //MARK: - Helpers
+    
+    func isValidEmail() -> Bool {
+        return enterEmailField.text?.suffix(8) == "@usc.edu"
+    }
 }

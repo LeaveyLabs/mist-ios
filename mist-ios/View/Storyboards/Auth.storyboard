@@ -25,7 +25,7 @@
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="24"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Username" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vLR-Ig-XhO">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Username or email" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vLR-Ig-XhO">
                                 <rect key="frame" x="34" y="215" width="348" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -76,25 +76,20 @@
                                 </buttonConfiguration>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jbs-zb-MdY">
-                                <rect key="frame" x="246" y="404" width="133" height="31"/>
+                                <rect key="frame" x="250" y="397" width="133" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Forgot password"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zTy-s2-o4J">
-                                <rect key="frame" x="35" y="404" width="78" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Register"/>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="0bG-h8-dgd"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="qf7-Di-gkh"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gh4-XL-iCP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1057" y="1539"/>
+            <point key="canvasLocation" x="-1813" y="1547"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="O0K-jo-Zkd">
@@ -104,32 +99,57 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Mist" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qpR-69-SrZ">
-                                <rect key="frame" x="174" y="337" width="161" height="80"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mist-heart" translatesAutoresizingMaskIntoConstraints="NO" id="h2b-Cz-2ts">
+                                <rect key="frame" x="70" y="248" width="99" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Find your missed connection" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bPJ-Vx-Q45">
+                                <rect key="frame" x="83" y="344" width="249" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="19"/>
+                                <color key="textColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.86666667460000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LhT-c1-x4J">
+                                <rect key="frame" x="57" y="429" width="311" height="38"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Login">
+                                    <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <segue destination="SiA-WN-gtI" kind="show" id="cix-7X-NZa"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="mist" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qpR-69-SrZ">
+                                <rect key="frame" x="177" y="240" width="161" height="110"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="80"/>
                                 <color key="textColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.86666667460000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mist-heart" translatesAutoresizingMaskIntoConstraints="NO" id="h2b-Cz-2ts">
-                                <rect key="frame" x="67" y="337" width="99" height="80"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Fz-P3-ch3">
+                                <rect key="frame" x="57" y="486" width="311" height="39"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Find your missed connection" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bPJ-Vx-Q45">
-                                <rect key="frame" x="36" y="425" width="343" height="46"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="24"/>
-                                <color key="textColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.86666667460000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Register">
+                                    <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <segue destination="2yy-YR-CED" kind="show" id="mni-aa-jm4"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="UUV-KT-ah5"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="riY-D8-892"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5no-It-ho5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4028" y="2221"/>
+            <point key="canvasLocation" x="-2755" y="1884"/>
         </scene>
         <!--EnterEmailViewController-->
         <scene sceneID="vf0-ZZ-RoJ">
@@ -139,63 +159,83 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="What's your USC email?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fv4-zH-DUJ">
-                                <rect key="frame" x="33" y="118" width="350" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="31"/>
-                                <color key="textColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.86666667460000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Mist is exclusively available for USC students✌️" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ACR-rg-uSx">
-                                <rect key="frame" x="33" y="170" width="348" height="73"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="24"/>
-                                <color key="textColor" red="0.61960786580000005" green="0.61960786580000005" blue="0.61960786580000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="ftfo@usc.edu" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wCt-JL-EOf">
-                                <rect key="frame" x="33" y="262" width="348" height="43"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.95686274770000002" green="0.95686274770000002" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="textColor" red="0.61960786580000005" green="0.61960786580000005" blue="0.61960786580000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="24"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tB5-Lb-yxw">
-                                <rect key="frame" x="192" y="320" width="189" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="I already have an account"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Gm-Vy-EPF">
-                                <rect key="frame" x="33" y="802" width="348" height="47"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.95686274770000002" green="0.95686274770000002" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain">
-                                    <attributedString key="attributedTitle">
-                                        <fragment content="Continue">
-                                            <attributes>
-                                                <color key="NSColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.86666667460000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" size="24" name="Avenir-Heavy"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="didPressedContinue:" destination="2yy-YR-CED" eventType="touchUpInside" id="Mcr-vo-UxN"/>
-                                    <segue destination="Pws-6u-IWJ" kind="show" id="5Xp-qD-AAj"/>
-                                </connections>
-                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="43h-Li-OWE">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="ftfo@usc.edu" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wCt-JL-EOf">
+                                        <rect key="frame" x="25" y="364.5" width="364" height="45"/>
+                                        <color key="backgroundColor" red="0.95686274770000002" green="0.95686274770000002" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="7Gh-Ph-CJ1"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="24"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" returnKeyType="continue" textContentType="email"/>
+                                        <connections>
+                                            <action selector="textFieldEditingChanged:" destination="2yy-YR-CED" eventType="editingChanged" id="6Gx-Wl-67F"/>
+                                        </connections>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Gm-Vy-EPF">
+                                        <rect key="frame" x="25" y="707" width="364" height="47"/>
+                                        <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Continue" cornerStyle="capsule">
+                                            <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="didPressedContinue:" destination="2yy-YR-CED" eventType="touchUpInside" id="Mcr-vo-UxN"/>
+                                            <segue destination="Pws-6u-IWJ" kind="show" id="5Xp-qD-AAj"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What's your USC email?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="27" translatesAutoresizingMaskIntoConstraints="NO" id="fv4-zH-DUJ">
+                                        <rect key="frame" x="25" y="264" width="364" height="48"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="35"/>
+                                        <color key="textColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.86666667460000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mist is exclusively available for USC students✌️" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="ACR-rg-uSx">
+                                        <rect key="frame" x="25" y="317" width="364" height="27.5"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="2Gm-Vy-EPF" firstAttribute="leading" secondItem="43h-Li-OWE" secondAttribute="leading" constant="25" id="4aB-sw-MWF"/>
+                                    <constraint firstItem="fv4-zH-DUJ" firstAttribute="leading" secondItem="43h-Li-OWE" secondAttribute="leading" constant="25" id="55Z-Tf-J5e"/>
+                                    <constraint firstAttribute="trailing" secondItem="2Gm-Vy-EPF" secondAttribute="trailing" constant="25" id="9lP-hB-eI5"/>
+                                    <constraint firstAttribute="bottom" secondItem="2Gm-Vy-EPF" secondAttribute="bottom" constant="20" id="II0-vt-yvz"/>
+                                    <constraint firstAttribute="trailing" secondItem="fv4-zH-DUJ" secondAttribute="trailing" constant="25" id="TLO-4a-FDg"/>
+                                    <constraint firstAttribute="trailing" secondItem="wCt-JL-EOf" secondAttribute="trailing" constant="25" id="XIX-mT-Mny"/>
+                                    <constraint firstItem="ACR-rg-uSx" firstAttribute="leading" secondItem="43h-Li-OWE" secondAttribute="leading" constant="25" id="YMe-3D-Ddu"/>
+                                    <constraint firstItem="wCt-JL-EOf" firstAttribute="top" secondItem="ACR-rg-uSx" secondAttribute="bottom" constant="20" id="YOP-HV-Qk5"/>
+                                    <constraint firstItem="wCt-JL-EOf" firstAttribute="centerY" secondItem="43h-Li-OWE" secondAttribute="centerY" id="aja-YK-cmp"/>
+                                    <constraint firstAttribute="trailing" secondItem="ACR-rg-uSx" secondAttribute="trailing" constant="25" id="la3-ZY-sxY"/>
+                                    <constraint firstItem="wCt-JL-EOf" firstAttribute="leading" secondItem="43h-Li-OWE" secondAttribute="leading" constant="25" id="qhO-v8-M4P"/>
+                                    <constraint firstItem="ACR-rg-uSx" firstAttribute="top" secondItem="fv4-zH-DUJ" secondAttribute="bottom" constant="5" id="qyb-ck-Lv0"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vNc-qI-WGl"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="vNc-qI-WGl" firstAttribute="trailing" secondItem="43h-Li-OWE" secondAttribute="trailing" id="R3X-vt-gFK"/>
+                            <constraint firstItem="vNc-qI-WGl" firstAttribute="top" secondItem="43h-Li-OWE" secondAttribute="top" id="dac-iw-SN1"/>
+                            <constraint firstItem="43h-Li-OWE" firstAttribute="leading" secondItem="vNc-qI-WGl" secondAttribute="leading" id="eUg-gn-6Gb"/>
+                            <constraint firstItem="vNc-qI-WGl" firstAttribute="bottom" secondItem="43h-Li-OWE" secondAttribute="bottom" id="flk-T6-bEB"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="B5T-ZH-9JD"/>
+                    <navigationItem key="navigationItem" id="B5T-ZH-9JD">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="0CN-ti-8bo">
+                            <connections>
+                                <action selector="backButtonDidPressed:" destination="2yy-YR-CED" id="B2M-Xe-1to"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="bottomConstraintForKeyboard" destination="flk-T6-bEB" id="Zao-bZ-ssl"/>
                         <outlet property="continueButton" destination="2Gm-Vy-EPF" id="7gM-Vf-2Mx"/>
                         <outlet property="enterEmailField" destination="wCt-JL-EOf" id="Wcm-NL-9MJ"/>
                     </connections>
@@ -212,19 +252,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter the code sent to your USC email" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="13J-R0-gRr">
-                                <rect key="frame" x="33" y="118" width="348" height="88"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter the code sent to your USC email" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="13J-R0-gRr">
+                                <rect key="frame" x="30" y="88" width="354" height="85"/>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="31"/>
                                 <color key="textColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.86666667460000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Duo, you're the worst" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ye-ys-zaO">
-                                <rect key="frame" x="33" y="214" width="348" height="33"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="24"/>
-                                <color key="textColor" red="0.61960786580000005" green="0.61960786580000005" blue="0.61960786580000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ukl-md-DNv">
@@ -236,8 +267,29 @@
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="24"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="By clicking continue, you agree to our Terms of Service and Privacy Policy." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pOY-Dk-jRt">
+                                <rect key="frame" x="72" y="714" width="271" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d2x-3e-RDG">
+                                <rect key="frame" x="272" y="314" width="109" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Resend code"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sent to" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="igZ-YI-Kju">
+                                <rect key="frame" x="33" y="214" width="79" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="24"/>
+                                <color key="textColor" red="0.61960786580000005" green="0.61960786580000005" blue="0.61960786580000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yJo-IZ-BON">
-                                <rect key="frame" x="33" y="503" width="348" height="46"/>
+                                <rect key="frame" x="36" y="397" width="348" height="46"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.95686274770000002" green="0.95686274770000002" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -266,22 +318,14 @@
                                     <action selector="didPressedContinue:" destination="Pws-6u-IWJ" eventType="touchUpInside" id="BKG-dq-jIZ"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="By clicking continue, you agree to our Terms of Service and Privacy Policy." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pOY-Dk-jRt">
-                                <rect key="frame" x="72" y="451" width="271" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
-                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d2x-3e-RDG">
-                                <rect key="frame" x="272" y="326" width="109" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Resend code"/>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="q3C-x4-KzL"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="q3C-x4-KzL" firstAttribute="trailing" secondItem="13J-R0-gRr" secondAttribute="trailing" constant="30" id="33M-sz-rsY"/>
+                            <constraint firstItem="13J-R0-gRr" firstAttribute="top" secondItem="q3C-x4-KzL" secondAttribute="top" id="9Q1-1P-1Di"/>
+                            <constraint firstItem="13J-R0-gRr" firstAttribute="leading" secondItem="q3C-x4-KzL" secondAttribute="leading" constant="30" id="UWl-a4-5au"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Erl-Dg-j61">
                         <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="uTa-Of-fb7">
@@ -656,8 +700,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Choose a new username" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b23-P1-wBW">
-                                <rect key="frame" x="33" y="118" width="355" height="43"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Choose a username" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b23-P1-wBW">
+                                <rect key="frame" x="33" y="118" width="285" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="31"/>
                                 <color key="textColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.86666667460000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -712,7 +756,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z8w-Gr-Djg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-120" y="2221"/>
+            <point key="canvasLocation" x="629" y="2221"/>
         </scene>
         <!--Enter Name View Controller-->
         <scene sceneID="hSt-ew-qM4">
@@ -817,27 +861,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cLN-G4-J42">
-                                <rect key="frame" x="33" y="527" width="348" height="47"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.95686274770000002" green="0.95686274770000002" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain">
-                                    <attributedString key="attributedTitle">
-                                        <fragment content="To Mist!">
-                                            <attributes>
-                                                <color key="NSColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.86666667460000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" size="24" name="Avenir-Heavy"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="didPressedContinue:" destination="J96-3x-Kpy" eventType="touchUpInside" id="Qmu-J4-2a7"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Finish your profile" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j9J-41-L9Z">
                                 <rect key="frame" x="77" y="110" width="261" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -864,10 +887,32 @@
                                     <action selector="didPressedChoosePhotoButton:" destination="J96-3x-Kpy" eventType="touchUpInside" id="vDS-Nt-yEW"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Icon" translatesAutoresizingMaskIntoConstraints="NO" id="e6d-PZ-Bbo">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="person.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="e6d-PZ-Bbo">
                                 <rect key="frame" x="140" y="178" width="135" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cLN-G4-J42">
+                                <rect key="frame" x="33" y="801" width="348" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.95686274770000002" green="0.95686274770000002" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="To Mist!">
+                                            <attributes>
+                                                <color key="NSColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.86666667460000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <font key="NSFont" size="24" name="Avenir-Heavy"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="didPressedContinue:" destination="J96-3x-Kpy" eventType="touchUpInside" id="Qmu-J4-2a7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="1ir-Tr-8vh"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -896,8 +941,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Choose password" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VaK-JZ-ZYQ">
-                                <rect key="frame" x="33" y="118" width="256" height="43"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter a password" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VaK-JZ-ZYQ">
+                                <rect key="frame" x="33" y="118" width="252" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="31"/>
                                 <color key="textColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.86666667460000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -967,7 +1012,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7up-ey-jnK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="614" y="2221"/>
+            <point key="canvasLocation" x="-71" y="2221"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="I1x-2p-TBR">
@@ -980,18 +1025,19 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="2yy-YR-CED" kind="relationship" relationship="rootViewController" id="hj6-76-7Ah"/>
+                        <segue destination="HpL-iT-8ZP" kind="relationship" relationship="rootViewController" id="N3P-QK-8ba"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5c1-Fs-1BC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2565" y="2219"/>
+            <point key="canvasLocation" x="-3571" y="1884"/>
         </scene>
     </scenes>
+    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
     <resources>
-        <image name="Icon" width="83.5" height="83.5"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="mist-heart" width="190" height="176"/>
+        <image name="person.circle" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

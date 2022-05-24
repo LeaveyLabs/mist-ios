@@ -13,12 +13,16 @@ class KUIViewController: UIViewController {
     // KBaseVC is the KEYBOARD variant BaseVC. more on this later
 
     @IBOutlet var bottomConstraintForKeyboard: NSLayoutConstraint!
+    var keyboardShouldDismissOnOuterTap = true
 
     @objc func keyboardWillShow(sender: NSNotification) {
         let i = sender.userInfo!
         let s: TimeInterval = (i[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
         let k = (i[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height
-        bottomConstraintForKeyboard.constant = k
+        
+        print(view.safeAreaInsets.bottom)
+        print(bottomConstraintForKeyboard)
+        bottomConstraintForKeyboard.constant = k - view.safeAreaInsets.bottom
         // Note. that is the correct, actual value. Some prefer to use:
         // bottomConstraintForKeyboard.constant = k - bottomLayoutGuide.length
         UIView.animate(withDuration: s) { self.view.layoutIfNeeded() }
@@ -33,7 +37,9 @@ class KUIViewController: UIViewController {
 
     @objc func clearKeyboard() {
         print("tap gesture recognized")
-        view.endEditing(true)
+        if keyboardShouldDismissOnOuterTap {
+            view.endEditing(true)
+        }
         // (subtle iOS bug/problem in obscure cases: see note below
         // you may prefer to add a short delay here)
     }
