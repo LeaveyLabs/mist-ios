@@ -72,7 +72,7 @@
 		478BA27B283E77C100C35507 /* UINavigationController+Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */; };
 		478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA27C283E85D400C35507 /* ButtonConfigs.swift */; };
 		478BA27F283E85F500C35507 /* AuthContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA27E283E85F500C35507 /* AuthContext.swift */; };
-		478BA281283EEEB600C35507 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA280283EEEB600C35507 /* ContainerViewController.swift */; };
+		478BA283283EF2DB00C35507 /* UIViewController+SBTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA282283EF2DB00C35507 /* UIViewController+SBTransition.swift */; };
 		479683F32826494100CA23BA /* UIColor+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479683F22826494100CA23BA /* UIColor+Theme.swift */; };
 		479683F5282817CC00CA23BA /* PostMarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479683F4282817CC00CA23BA /* PostMarkerAnnotationView.swift */; };
 		479683F82828180C00CA23BA /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479683F72828180C00CA23BA /* ClusterAnnotationView.swift */; };
@@ -225,7 +225,7 @@
 		478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Completion.swift"; sourceTree = "<group>"; };
 		478BA27C283E85D400C35507 /* ButtonConfigs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonConfigs.swift; sourceTree = "<group>"; };
 		478BA27E283E85F500C35507 /* AuthContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthContext.swift; sourceTree = "<group>"; };
-		478BA280283EEEB600C35507 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
+		478BA282283EF2DB00C35507 /* UIViewController+SBTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+SBTransition.swift"; sourceTree = "<group>"; };
 		479683F22826494100CA23BA /* UIColor+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Theme.swift"; sourceTree = "<group>"; };
 		479683F4282817CC00CA23BA /* PostMarkerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMarkerAnnotationView.swift; sourceTree = "<group>"; };
 		479683F72828180C00CA23BA /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
@@ -480,6 +480,7 @@
 				479683F22826494100CA23BA /* UIColor+Theme.swift */,
 				478BA278283DD37E00C35507 /* UITextField+Padding.swift */,
 				478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */,
+				478BA282283EF2DB00C35507 /* UIViewController+SBTransition.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -634,7 +635,6 @@
 				477A6FD527DFB0450020F864 /* Color.swift */,
 				478BA27C283E85D400C35507 /* ButtonConfigs.swift */,
 				478BA27E283E85F500C35507 /* AuthContext.swift */,
-				478BA280283EEEB600C35507 /* ContainerViewController.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -852,6 +852,7 @@
 				470F271827DE758100C6DDAF /* WordResultCell.swift in Sources */,
 				4316238C2834F8A600169AA9 /* SpecialTabBarController.swift in Sources */,
 				47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */,
+				478BA283283EF2DB00C35507 /* UIViewController+SBTransition.swift in Sources */,
 				474A5DA527F40606004215F9 /* RoundedImageView.swift in Sources */,
 				4780E5B42832F0560012B741 /* SimpleChatViewController.swift in Sources */,
 				4700F8BE27DD807C006C2E08 /* CommentCell.swift in Sources */,
@@ -866,7 +867,6 @@
 				47EA3E0227E0151200381218 /* MapViewController.swift in Sources */,
 				43483BB228025179001C7C6A /* EnterUsernameViewController.swift in Sources */,
 				479683F32826494100CA23BA /* UIColor+Theme.swift in Sources */,
-				478BA281283EEEB600C35507 /* ContainerViewController.swift in Sources */,
 				479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */,
 				471F92CF28013F9B0079F8CA /* ExploreFeedViewController.swift in Sources */,
 				43A05BDD2835008B0085A99B /* SpecialTabBar.swift in Sources */,

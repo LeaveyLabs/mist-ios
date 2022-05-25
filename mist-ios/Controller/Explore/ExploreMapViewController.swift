@@ -52,12 +52,6 @@ class ExploreMapViewController: MapViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        if !UserService.isLoggedIn() {
-//            let authSB = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil)
-//            let authNavVC = authSB.instantiateViewController(withIdentifier: Constants.SBID.VC.AuthNavigation)
-//            authNavVC.modalPresentationStyle = .fullScreen
-//            present(authNavVC, animated: false)
-//        }
         //TODO: pull up search bar when returning to this VC after search via search button click
         //https://stackoverflow.com/questions/27951965/cannot-set-searchbar-as-firstresponder
     }

@@ -114,7 +114,10 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
             Task {
                 do {
 //                    try await AuthAPI.login()
-                    transitionToHomeVC()
+                    transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
+                                           viewControllerID: Constants.SBID.VC.TabBarController) { [weak self] _ in
+                        self?.isSubmitting = false
+                    }
                 } catch {
                     isSubmitting = false
                     print(error);
@@ -123,33 +126,6 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         }
     }
     
-    // Reference: https://stackoverflow.com/questions/41144523/swap-rootviewcontroller-with-animation
-    func transitionToHomeVC() {
-        let sb = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil)
-        let homeVC = sb.instantiateViewController(withIdentifier: Constants.SBID.VC.TabBarController)
-        
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-        let delegate = windowScene.delegate as? SceneDelegate, let window = delegate.window else {
-            return
-        }
-
-        // Set the new rootViewController of the window.
-        // Calling "UIView.transition" below will animate the swap.
-        delegate.window?.rootViewController = homeVC
-
-        // A mask of options indicating how you want to perform the animations.
-        let options: UIView.AnimationOptions = .transitionCrossDissolve
-
-        // The duration of the transition animation, measured in seconds.
-        let duration: TimeInterval = 1
-
-        // Creates a transition animation.
-        // Though `animations` is optional, the documentation tells us that it must not be nil. ¯\_(ツ)_/¯
-        UIView.transition(with: window, duration: duration, options: options, animations: {}, completion:
-        { [weak self] completed in
-            self?.isSubmitting = false
-        })
-    }
 }
 
 extension LoginViewController: UIGestureRecognizerDelegate {
