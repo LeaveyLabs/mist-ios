@@ -68,6 +68,11 @@
 		4780E5B42832F0560012B741 /* SimpleChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780E5B32832F0560012B741 /* SimpleChatViewController.swift */; };
 		4780E5B6283308250012B741 /* MessageKitMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780E5B5283308250012B741 /* MessageKitMessage.swift */; };
 		4780E5B828330C570012B741 /* MessageKitUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780E5B728330C570012B741 /* MessageKitUser.swift */; };
+		478BA279283DD37E00C35507 /* UITextField+Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA278283DD37E00C35507 /* UITextField+Padding.swift */; };
+		478BA27B283E77C100C35507 /* UINavigationController+Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */; };
+		478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA27C283E85D400C35507 /* ButtonConfigs.swift */; };
+		478BA27F283E85F500C35507 /* AuthContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA27E283E85F500C35507 /* AuthContext.swift */; };
+		478BA281283EEEB600C35507 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA280283EEEB600C35507 /* ContainerViewController.swift */; };
 		479683F32826494100CA23BA /* UIColor+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479683F22826494100CA23BA /* UIColor+Theme.swift */; };
 		479683F5282817CC00CA23BA /* PostMarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479683F4282817CC00CA23BA /* PostMarkerAnnotationView.swift */; };
 		479683F82828180C00CA23BA /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479683F72828180C00CA23BA /* ClusterAnnotationView.swift */; };
@@ -216,6 +221,11 @@
 		4780E5B32832F0560012B741 /* SimpleChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleChatViewController.swift; sourceTree = "<group>"; };
 		4780E5B5283308250012B741 /* MessageKitMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageKitMessage.swift; sourceTree = "<group>"; };
 		4780E5B728330C570012B741 /* MessageKitUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageKitUser.swift; sourceTree = "<group>"; };
+		478BA278283DD37E00C35507 /* UITextField+Padding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Padding.swift"; sourceTree = "<group>"; };
+		478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Completion.swift"; sourceTree = "<group>"; };
+		478BA27C283E85D400C35507 /* ButtonConfigs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonConfigs.swift; sourceTree = "<group>"; };
+		478BA27E283E85F500C35507 /* AuthContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthContext.swift; sourceTree = "<group>"; };
+		478BA280283EEEB600C35507 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		479683F22826494100CA23BA /* UIColor+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Theme.swift"; sourceTree = "<group>"; };
 		479683F4282817CC00CA23BA /* PostMarkerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMarkerAnnotationView.swift; sourceTree = "<group>"; };
 		479683F72828180C00CA23BA /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
@@ -468,6 +478,8 @@
 				47266AD327FF69C9005DEDB1 /* UIViewController+Loading.swift */,
 				47E2B1BE2800C1CD00131B8D /* UITextView+Placeholder.swift */,
 				479683F22826494100CA23BA /* UIColor+Theme.swift */,
+				478BA278283DD37E00C35507 /* UITextField+Padding.swift */,
+				478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -620,6 +632,9 @@
 				479AA1FC27DD109F00EA0DFC /* Constants.swift */,
 				47A3D70D27D55BB3003DBEA5 /* Time.swift */,
 				477A6FD527DFB0450020F864 /* Color.swift */,
+				478BA27C283E85D400C35507 /* ButtonConfigs.swift */,
+				478BA27E283E85F500C35507 /* AuthContext.swift */,
+				478BA280283EEEB600C35507 /* ContainerViewController.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -826,6 +841,7 @@
 				474A5DA327F4042F004215F9 /* UIImageView+Inspectable.swift in Sources */,
 				43E30D0228263E1200DBEB57 /* ImagePicker.swift in Sources */,
 				47FF869827DB1F470076A1CA /* PostAPI.swift in Sources */,
+				478BA27B283E77C100C35507 /* UINavigationController+Completion.swift in Sources */,
 				47E2B1C22800E9EB00131B8D /* MyCommentCell.swift in Sources */,
 				439E44FC27E01D4900E244D6 /* AuthAPI.swift in Sources */,
 				47A3D71F27D598B6003DBEA5 /* TabBarController.swift in Sources */,
@@ -845,10 +861,12 @@
 				47E74E0E27CA0FFE00467A0C /* SceneDelegate.swift in Sources */,
 				47E2B1BF2800C1CD00131B8D /* UITextView+Placeholder.swift in Sources */,
 				479683FA28283ED700CA23BA /* MKClusterAnnotation+*.swift in Sources */,
+				478BA27F283E85F500C35507 /* AuthContext.swift in Sources */,
 				47FF86A127DC712F0076A1CA /* Comment.swift in Sources */,
 				47EA3E0227E0151200381218 /* MapViewController.swift in Sources */,
 				43483BB228025179001C7C6A /* EnterUsernameViewController.swift in Sources */,
 				479683F32826494100CA23BA /* UIColor+Theme.swift in Sources */,
+				478BA281283EEEB600C35507 /* ContainerViewController.swift in Sources */,
 				479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */,
 				471F92CF28013F9B0079F8CA /* ExploreFeedViewController.swift in Sources */,
 				43A05BDD2835008B0085A99B /* SpecialTabBar.swift in Sources */,
@@ -880,6 +898,7 @@
 				475B1F8F27FBC2D400ED59CD /* UIView+Shadow.swift in Sources */,
 				475B1F8D27FBAB2F00ED59CD /* UIView+Animations.swift in Sources */,
 				47CE900C27E059DC0004B756 /* PinMapModalViewController.swift in Sources */,
+				478BA279283DD37E00C35507 /* UITextField+Padding.swift in Sources */,
 				4746508527D83F3E0014217C /* MistUITextView.swift in Sources */,
 				4780E5B828330C570012B741 /* MessageKitUser.swift in Sources */,
 				433970DF27FE501700876026 /* WelcomeTutorialViewController.swift in Sources */,
@@ -902,6 +921,7 @@
 				4700F8C627DE4652006C2E08 /* ExploreMapViewController.swift in Sources */,
 				475B1F8B27FB86C000ED59CD /* ConversationsViewController.swift in Sources */,
 				43483BB6280251B1001C7C6A /* EnterNameViewController.swift in Sources */,
+				478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */,
 				479683F82828180C00CA23BA /* ClusterAnnotationView.swift in Sources */,
 				477499872832CF540067C26C /* AutocompleteChatViewController.swift in Sources */,
 				479683F5282817CC00CA23BA /* PostMarkerAnnotationView.swift in Sources */,

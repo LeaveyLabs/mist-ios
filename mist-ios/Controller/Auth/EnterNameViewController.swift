@@ -26,18 +26,18 @@ class EnterNameViewController: UIViewController {
     
     @IBAction func didPressedContinue(_ sender: Any) {
         if let firstName = firstNameField.text, let lastName = lastNameField.text {
-            AuthContext.AuthVariables.firstName = firstName
-            AuthContext.AuthVariables.lastName = lastName
+            AuthContext.firstName = firstName
+            AuthContext.lastName = lastName
             Task {
                 do {
                     try await UserService.singleton.createUser(
-                        username: AuthContext.AuthVariables.username,
-                        firstName: AuthContext.AuthVariables.firstName,
-                        lastName: AuthContext.AuthVariables.lastName,
+                        username: AuthContext.username,
+                        firstName: AuthContext.firstName,
+                        lastName: AuthContext.lastName,
                         picture: nil,
-                        email: AuthContext.AuthVariables.email,
-                        password: AuthContext.AuthVariables.password)
-                    let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterProfilePictureViewController)
+                        email: AuthContext.email,
+                        password: AuthContext.password)
+                    let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterProfilePicture)
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
                 catch {

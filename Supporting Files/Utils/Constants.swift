@@ -69,14 +69,15 @@ struct Constants {
             static let NewMessageNavigation = "NewMessageNavigationController"
             static let NewPostNavigation = "NewPostNavigationController"
             static let MyAccountNavigation = "MyAccountNavigationController"
+            static let AuthNavigation = "AuthNavigationController"
             //TabBar
             static let TabBarController = "TabBarController"
             //Auth
-            static let EnterCodeViewController = "EnterCodeViewController"
-            static let WelcomeTutorialViewController = "WelcomeTutorialViewController"
-            static let EnterProfilePictureViewController = "EnterProfilePictureViewController"
-            static let EnterPasswordViewController = "EnterPasswordViewController"
-            static let EnterNameViewController = "EnterNameViewController"
+            static let ConfirmEmail = "ConfirmEmailViewController"
+            static let WelcomeTutorial = "WelcomeTutorialViewController"
+            static let EnterProfilePicture = "EnterProfilePictureViewController"
+            static let EnterPassword = "EnterPasswordViewController"
+            static let EnterName = "EnterNameViewController"
 
         }
         struct Segue {

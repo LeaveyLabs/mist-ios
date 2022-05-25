@@ -28,8 +28,8 @@ class EnterPasswordViewController: UIViewController {
         if let password = passwordField.text {
             if let confirmPassword = confirmPasswordField.text {
                 if(password == confirmPassword) {
-                    AuthContext.AuthVariables.password = password
-                    let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterNameViewController);
+                    AuthContext.password = password
+                    let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterName);
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             }

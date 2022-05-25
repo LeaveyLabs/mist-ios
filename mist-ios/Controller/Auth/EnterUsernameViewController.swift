@@ -20,9 +20,9 @@ class EnterUsernameViewController: UIViewController {
     @IBAction func didPressedContinue(_ sender: Any) {
         // If the username field is not empty ...
         if let username = usernameField.text {
-            AuthContext.AuthVariables.username = username
+            AuthContext.username = username
             // Move onto the next screen
-            let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterPasswordViewController);
+            let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterPassword);
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

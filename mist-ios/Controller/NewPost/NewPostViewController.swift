@@ -32,7 +32,7 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
 //        locationButton.configuration?.imagePadding = .greatestFiniteMagnitude
 //        locationButton.configuration?.imagePadding = CGFloat(180)
 //        NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-                
+        
         locationButton.titleLabel!.adjustsFontSizeToFitWidth = false
         locationButton.titleLabel!.lineBreakMode = .byTruncatingTail
         titleTextField.becomeFirstResponder();
