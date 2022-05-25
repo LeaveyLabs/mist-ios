@@ -13,34 +13,34 @@ class PostAPI {
     // Fetches a post for a particular ID
     static func fetchPosts(post:Int) async throws -> [Post] {
         let url = "https://mist-backend.herokuapp.com/api/posts/"
-        let data = try await BasicAPI.fetch(url:url)
+        let (data, response) = try await BasicAPI.fetch(url:url)
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
     // Fetches all posts from database
     static func fetchPosts() async throws -> [Post] {
         let url = "https://mist-backend.herokuapp.com/api/posts/"
-        let data = try await BasicAPI.fetch(url:url)
+        let (data, response) = try await BasicAPI.fetch(url:url)
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
     static func fetchPostsById(id:Int) async throws -> [Post] {
         let url = "https://mist-backend.herokuapp.com/api/posts/\(id)"
-        let data = try await BasicAPI.fetch(url:url)
+        let (data, response) = try await BasicAPI.fetch(url:url)
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
     // Fetches all posts from database (searching for the below text)
     static func fetchPostsByText(text:String) async throws -> [Post] {
         let url = "https://mist-backend.herokuapp.com/api/posts?text=\(text)"
-        let data = try await BasicAPI.fetch(url:url)
+        let (data, response) = try await BasicAPI.fetch(url:url)
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
     // Fetches all posts from database (searching with latitude + longitude)
     static func fetchPostsByLatitudeLongitude(latitude:Double, longitude:Double) async throws -> [Post] {
         let url = "https://mist-backend.herokuapp.com/api/posts?latitude=\(latitude)?longitude=\(longitude)"
-        let data = try await BasicAPI.fetch(url:url)
+        let (data, response) = try await BasicAPI.fetch(url:url)
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
@@ -62,7 +62,7 @@ class PostAPI {
                         timestamp: currentTimeMillis(),
                         author: UserService.singleton.getId())
         let json = try JSONEncoder().encode(post)
-        let data = try await BasicAPI.post(url:url, jsonData:json)
+        let (data, response) = try await BasicAPI.post(url:url, jsonData:json)
         return try JSONDecoder().decode(Post.self, from: data)
     }
     
@@ -70,6 +70,6 @@ class PostAPI {
     // Deletes post from the database
     static func deletePost(id:Int) async throws {
         let url = "https://mist-backend.herokuapp.com/api/posts/\(id)/"
-        let _ = try await BasicAPI.delete(url:url,jsonData:Data())
+        let (data, response) = try await BasicAPI.delete(url:url,jsonData:Data())
     }
 }
