@@ -17,7 +17,7 @@ class VoteAPI {
     static func postVote(vote:Vote) async throws -> Vote {
         let url = "https://mist-backend.herokuapp.com/api/votes/"
         let json = try JSONEncoder().encode(vote)
-        let data = try await BasicAPI.post(url:url, jsonData:json)
+        let (data, response) = try await BasicAPI.post(url:url, jsonData:json)
         return try JSONDecoder().decode(Vote.self, from: data)
     }
 
@@ -26,14 +26,14 @@ class VoteAPI {
         // Get the ID of the vote, then delete it from the database
         let id = try await getVoteID(username: username, postID: post_id)
         let url = "https://mist-backend.herokuapp.com/api/votes/\(id)/"
-        let data = try await BasicAPI.delete(url:url, jsonData:Data())
+        let (data, response) = try await BasicAPI.delete(url:url, jsonData:Data())
     }
     
     // Gets the ID of the vote with a given username and post_id
     static private func getVoteID(username:String, postID:String) async throws -> [Vote] {
         // Fetch the vote from the API endpoint
         let url = "https://mist-backend.herokuapp.com/api/votes?username=\(username)?post_id=\(postID)/"
-        let data = try await BasicAPI.fetch(url:url)
+        let (data, response) = try await BasicAPI.fetch(url:url)
         // Deserialize to get original vote
         return try JSONDecoder().decode([Vote].self, from: data)
     }
