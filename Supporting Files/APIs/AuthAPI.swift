@@ -26,7 +26,7 @@ class AuthAPI {
         let url = "https://mist-backend.herokuapp.com/api-register/"
         let obj:[String:String] = ["email":email]
         let json = try JSONEncoder().encode(obj)
-        let _ = try await BasicAPI.post(url:url, jsonData:json)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: "POST")
     }
     
     // Validates email
@@ -37,7 +37,7 @@ class AuthAPI {
             "code": code
         ]
         let json = try JSONEncoder().encode(obj)
-        let (data, response) = try await BasicAPI.post(url:url, jsonData:json)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: "POST")
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
             throw AuthError.invalidCredentials
         }
@@ -59,7 +59,7 @@ class AuthAPI {
                               email: email,
                               password: password)
         let json = try JSONEncoder().encode(user)
-        let (data, response) = try await BasicAPI.post(url:url, jsonData:json)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: "POST")
         guard (response as? HTTPURLResponse)?.statusCode == 201 else {
             throw AuthError.invalidCredentials
         }

@@ -14,9 +14,9 @@ enum CommentError: Error {
 
 class CommentAPI {
     // Fetch comments from database with the given postID
-    static func fetchComments(post:Int) async throws -> [Comment] {
+    static func fetchCommentsByPostID(post:Int) async throws -> [Comment] {
         let url = "https://mist-backend.herokuapp.com/api/comments?post_id=\(post)"
-        let (data, response) = try await BasicAPI.fetch(url:url)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: "GET")
         return try JSONDecoder().decode([Comment].self, from: data)
     }
 
@@ -29,14 +29,14 @@ class CommentAPI {
                                  author: author)
         let url = "https://mist-backend.herokuapp.com/api/comments/"
         let json = try JSONEncoder().encode(newComment)
-        let (data, response) = try await BasicAPI.post(url:url, jsonData:json)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: "POST")
         return try JSONDecoder().decode(Comment.self, from: data)
     }
     
     // Delete comment from database
     static func deleteComment(comment:Int) async throws {
         let url = "https://mist-backend.herokuapp.com/api/comments/\(comment)"
-        let (data, response) = try await BasicAPI.delete(url:url, jsonData:Data())
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: "DELETE")
         let _ = try JSONDecoder().decode(Comment.self, from: data)
     }
 }

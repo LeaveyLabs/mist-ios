@@ -26,7 +26,7 @@ class mist_iosTests: XCTestCase {
         // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
         let expectation = self.expectation(description: "HTTP request")
         Task {
-            let thread = try 90`˛Asdiujghfvcx(from_user: "kevinsun", to_user: "kevinsun")
+            let thread = try MessageThread(from_user: "kevinsun", to_user: "kevinsun")
             try thread.sendMessage(message_text: "hey bruh")
             try thread.sendMessage(message_text: "hey bruh")
             try thread.sendMessage(message_text: "hey bruh")

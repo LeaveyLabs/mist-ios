@@ -52,24 +52,4 @@ class BasicAPI {
         let (data, response) = try await URLSession.shared.data(for: request)
         return (data, response)
     }
-    
-    // GET from the URL (url) with the HTTP body (data)
-    static func fetch(url:String) async throws -> (Data, URLResponse) {
-        return try await baiscHTTPCallWithToken(url: url, jsonData: Data(), method: "GET")
-    }
-    
-    // POST to the URL (url) with the HTTP body (data)
-    static func post(url:String, jsonData:Data) async throws -> (Data, URLResponse) {
-        return try await baiscHTTPCallWithToken(url: url, jsonData: jsonData, method: "POST")
-    }
-    
-    // PATCH to the URL (url) with the HTTP body (data)
-    static func patch(url:String, jsonData:Data) async throws -> (Data, URLResponse) {
-        return try await baiscHTTPCallWithToken(url: url, jsonData: jsonData, method: "PATCH")
-    }
-    
-    // DELETE from the URL (url) with the HTTP body (data)
-    static func delete(url:String, jsonData:Data) async throws -> (Data, URLResponse) {
-        return try await baiscHTTPCallWithToken(url: url, jsonData: jsonData, method: "DELETE")
-    }
 }
