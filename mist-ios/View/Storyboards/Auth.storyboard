@@ -557,7 +557,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z8w-Gr-Djg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="629" y="2221"/>
+            <point key="canvasLocation" x="639" y="2210"/>
         </scene>
         <!--Enter Name View Controller-->
         <scene sceneID="hSt-ew-qM4">
@@ -649,7 +649,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O4Y-sI-eZS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1326" y="2221"/>
+            <point key="canvasLocation" x="1322" y="2210"/>
         </scene>
         <!--Enter Profile Picture View Controller-->
         <scene sceneID="tBi-la-cZt">
@@ -727,84 +727,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZAz-S6-IvW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2097" y="2218"/>
-        </scene>
-        <!--Enter Password View Controller-->
-        <scene sceneID="n0r-te-BFj">
-            <objects>
-                <viewController storyboardIdentifier="EnterPasswordViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jjJ-D5-ad0" customClass="EnterPasswordViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="erv-dc-Xyl">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter a password" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VaK-JZ-ZYQ">
-                                <rect key="frame" x="33" y="118" width="252" height="43"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="31"/>
-                                <color key="textColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.86666667460000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u10-wt-URC">
-                                <rect key="frame" x="33" y="514" width="348" height="47"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.95686274770000002" green="0.95686274770000002" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain">
-                                    <attributedString key="attributedTitle">
-                                        <fragment content="Continue">
-                                            <attributes>
-                                                <color key="NSColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.86666667460000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" size="24" name="Avenir-Heavy"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="didPressedContinue:" destination="jjJ-D5-ad0" eventType="touchUpInside" id="ell-XW-gfA"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Password" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ed3-9M-ZYJ">
-                                <rect key="frame" x="33" y="187" width="348" height="43"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.95686274770000002" green="0.95686274770000002" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="textColor" red="0.61960786580000005" green="0.61960786580000005" blue="0.61960786580000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="24"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <action selector="didEditBeginPasswordField:" destination="jjJ-D5-ad0" eventType="editingDidBegin" id="QWx-9h-C0g"/>
-                                </connections>
-                            </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Confirm password" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5bo-CQ-Lb5">
-                                <rect key="frame" x="33" y="256" width="348" height="43"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.95686274770000002" green="0.95686274770000002" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="textColor" red="0.61960786580000005" green="0.61960786580000005" blue="0.61960786580000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="24"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <action selector="didEditBeginConfirmPasswordField:" destination="jjJ-D5-ad0" eventType="editingDidBegin" id="tqq-Zz-uq8"/>
-                                </connections>
-                            </textField>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="hI2-0e-NCq"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="Fxl-Cd-xTv">
-                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="inH-Xa-RYx">
-                            <color key="tintColor" red="0.61960786580000005" green="0.61960786580000005" blue="0.61960786580000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="confirmPasswordField" destination="5bo-CQ-Lb5" id="diH-CQ-e9c"/>
-                        <outlet property="passwordField" destination="Ed3-9M-ZYJ" id="A2q-lU-Lnt"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7up-ey-jnK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-71" y="2221"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="I1x-2p-TBR">
@@ -934,6 +856,8 @@
                         <outlet property="confirmEmailTextField" destination="GYU-ic-H1W" id="wj8-N6-HZj"/>
                         <outlet property="continueButton" destination="9du-Ov-dqS" id="cwj-Zz-KCF"/>
                         <outlet property="emailLabel" destination="rwb-2y-JYF" id="gVB-vt-yIz"/>
+                        <outlet property="resendButton" destination="qqC-bg-aFs" id="pJL-GL-b1Q"/>
+                        <segue destination="K85-S5-lTv" kind="show" id="qej-L6-qbp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wyj-4t-XkY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -976,7 +900,7 @@
                                                     <constraint firstAttribute="height" constant="50" id="FR6-6V-HkC"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="continue" textContentType="email"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="next" textContentType="username"/>
                                                 <connections>
                                                     <action selector="textFieldEditingChanged:" destination="578-PS-30b" eventType="editingChanged" id="n4y-9t-TH6"/>
                                                 </connections>
@@ -989,7 +913,7 @@
                                                     <constraint firstAttribute="height" constant="50" id="62r-dD-kqC"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="continue" textContentType="email"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="continue" secureTextEntry="YES" textContentType="password"/>
                                                 <connections>
                                                     <action selector="textFieldEditingChanged:" destination="578-PS-30b" eventType="editingChanged" id="QRk-RQ-nxF"/>
                                                 </connections>
@@ -1178,6 +1102,91 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="juR-kF-3qh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-4397" y="2747"/>
+        </scene>
+        <!--CreatePasswordViewController-->
+        <scene sceneID="Ukz-vt-woR">
+            <objects>
+                <viewController storyboardIdentifier="CreatePasswordViewController" title="EnterEmailViewController" id="K85-S5-lTv" userLabel="CreatePasswordViewController" customClass="CreatePasswordViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sWZ-lT-UNs">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Jw-W8-OT8">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a7x-Xq-nF1">
+                                        <rect key="frame" x="25" y="707" width="364" height="47"/>
+                                        <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Continue" cornerStyle="capsule" buttonSize="medium">
+                                            <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
+                                        </buttonConfiguration>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create a password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="27" translatesAutoresizingMaskIntoConstraints="NO" id="ew6-jm-i2g">
+                                        <rect key="frame" x="25" y="10" width="364" height="48"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="35"/>
+                                        <color key="textColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.86666667460000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="Confirm password" textAlignment="justified" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iQa-pG-VFw">
+                                        <rect key="frame" x="25" y="158" width="364" height="50"/>
+                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                        <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="gXv-wv-V3c"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="continue" secureTextEntry="YES" textContentType="new-password"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="Password" textAlignment="justified" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Cfn-mf-4dr">
+                                        <rect key="frame" x="25" y="88" width="364" height="50"/>
+                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                        <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="nKX-xl-LBq"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="continue" secureTextEntry="YES" textContentType="new-password"/>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="Cfn-mf-4dr" firstAttribute="centerX" secondItem="1Jw-W8-OT8" secondAttribute="centerX" id="4xA-tg-awI"/>
+                                    <constraint firstItem="ew6-jm-i2g" firstAttribute="leading" secondItem="1Jw-W8-OT8" secondAttribute="leading" constant="25" id="6S0-EY-BdN"/>
+                                    <constraint firstItem="a7x-Xq-nF1" firstAttribute="leading" secondItem="1Jw-W8-OT8" secondAttribute="leading" constant="25" id="7Hw-Lz-OBq"/>
+                                    <constraint firstAttribute="trailing" secondItem="a7x-Xq-nF1" secondAttribute="trailing" constant="25" id="Egc-Cy-gLM"/>
+                                    <constraint firstItem="Cfn-mf-4dr" firstAttribute="leading" secondItem="1Jw-W8-OT8" secondAttribute="leading" constant="25" id="HaY-5F-bbD"/>
+                                    <constraint firstAttribute="trailing" secondItem="Cfn-mf-4dr" secondAttribute="trailing" constant="25" id="Lah-2D-ugK"/>
+                                    <constraint firstItem="iQa-pG-VFw" firstAttribute="leading" secondItem="Cfn-mf-4dr" secondAttribute="leading" id="NOP-Et-Q1J"/>
+                                    <constraint firstAttribute="bottom" secondItem="a7x-Xq-nF1" secondAttribute="bottom" constant="20" id="RLk-ID-vFA"/>
+                                    <constraint firstItem="ew6-jm-i2g" firstAttribute="top" secondItem="1Jw-W8-OT8" secondAttribute="top" constant="10" id="Xle-5u-zOY"/>
+                                    <constraint firstItem="iQa-pG-VFw" firstAttribute="trailing" secondItem="Cfn-mf-4dr" secondAttribute="trailing" id="Xm2-QR-7T9"/>
+                                    <constraint firstItem="Cfn-mf-4dr" firstAttribute="top" secondItem="ew6-jm-i2g" secondAttribute="bottom" constant="30" id="nNx-dO-Mkw"/>
+                                    <constraint firstItem="iQa-pG-VFw" firstAttribute="top" secondItem="Cfn-mf-4dr" secondAttribute="bottom" constant="20" id="qx7-ds-Ynk"/>
+                                    <constraint firstAttribute="trailing" secondItem="ew6-jm-i2g" secondAttribute="trailing" constant="25" id="r7o-Mu-zMs"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="B1o-NI-uSL"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="1Jw-W8-OT8" firstAttribute="leading" secondItem="B1o-NI-uSL" secondAttribute="leading" id="4Gk-zD-XbR"/>
+                            <constraint firstItem="B1o-NI-uSL" firstAttribute="trailing" secondItem="1Jw-W8-OT8" secondAttribute="trailing" id="CaR-Xc-sFv"/>
+                            <constraint firstItem="B1o-NI-uSL" firstAttribute="top" secondItem="1Jw-W8-OT8" secondAttribute="top" id="HwA-ZH-4fL"/>
+                            <constraint firstItem="B1o-NI-uSL" firstAttribute="bottom" secondItem="1Jw-W8-OT8" secondAttribute="bottom" id="ins-cC-uIy"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="ZOE-xx-yb1">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="fId-hG-Q3h"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="confirmPasswordField" destination="iQa-pG-VFw" id="c1x-Ri-LMg"/>
+                        <outlet property="passwordField" destination="Cfn-mf-4dr" id="rwz-od-VyC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="th3-1i-mNv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-129" y="2210"/>
         </scene>
     </scenes>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

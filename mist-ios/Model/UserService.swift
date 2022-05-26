@@ -13,27 +13,23 @@ class UserService: NSObject {
     
     static var singleton = UserService()
     
-    private var authedUser: AuthedUser! // consider making authedUser an AuthedUser? so that isLoggedIn = authedUser != nil
-    private var isLoggedIn: Bool = false
-    private let guestUser = AuthedUser(id: -1, username: "guest", first_name: "First", last_name: "Last", picture: nil, email: "guest@usc.edu", password: "password", authoredPosts: [])
-    private let kevinsun = AuthedUser(id: 1, username: "kevinsun", first_name: "Kevin", last_name: "Sun", picture: nil, email: "kevinsun@usc.edu", password: "password", authoredPosts: [])
+    private var authedUser: AuthedUser?
     private var localFileLocation: URL!
     
     //private initializer because there will only ever be one instance of UserService, the singleton
     private override init(){
         super.init()
-        authedUser = kevinsun
 
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        self.localFileLocation = documentsDirectory.appendingPathComponent("myaccount.json")
-        if FileManager.default.fileExists(atPath: self.localFileLocation.path) {
+        localFileLocation = documentsDirectory.appendingPathComponent("myaccount.json")
+        if FileManager.default.fileExists(atPath: localFileLocation.path) {
             loadUserFromFilesystem();
         }
     }
     
     // Called on startup so that the singleton is created and isLoggedIn is properly initialized
-    static func isLoggedIn() -> Bool {
-        return singleton.isLoggedIn
+    func isLoggedIn() -> Bool {
+        return authedUser != nil
     }
     
     //MARK: - Auth
@@ -57,7 +53,6 @@ class UserService: NSObject {
         // Local update
         setGlobalAuthToken(token: token)
         saveUserToFilesystem()
-        isLoggedIn = true
     }
     
     func logIn(username: String,
@@ -65,66 +60,50 @@ class UserService: NSObject {
         let token:String = try await AuthAPI.fetchAuthToken(username: username,
                                                            password: password)
         // DB update
+        setGlobalAuthToken(token: token)
         authedUser = try await UserAPI.fetchUserByToken(token: token)
         // Local update
-        setGlobalAuthToken(token: token)
         saveUserToFilesystem()
-        isLoggedIn = true
     }
     
     func logOut() {
-        authedUser = guestUser;
-        
-        setGlobalAuthToken(token: nil)
-        eraseUserFromFilesystem();
-        isLoggedIn = false;
+        eraseUserFromFilesystem()
+        authedUser = nil
+        setGlobalAuthToken(token: "")
     }
     
-    func deleteMyAccount() {
+    func deleteMyAccount() async throws {
+        try await UserAPI.deleteUser(id: authedUser!.id)
         logOut()
-        //TODO: delete user from database
-        UserAPI.deleteUser(id: getId())
     }
     
     //MARK: - Getters
     
-    func getId() -> Int { return authedUser.id; }
-    func getUsername() -> String { return authedUser.username; }
-    func getFirstName() -> String { return authedUser.first_name; }
-    func getLastName() -> String { return authedUser.last_name; }
-    func getEmail() -> String { return authedUser.email; }
-    func getAuthoredPosts() -> [Post] { return authedUser.authoredPosts; }
-    func getUser() -> AuthedUser { return authedUser }
+    func getId() -> Int? { return authedUser?.id; }
+    func getUsername() -> String? { return authedUser?.username; }
+    func getFirstName() -> String? { return authedUser?.first_name; }
+    func getLastName() -> String? { return authedUser?.last_name; }
+    func getEmail() -> String? { return authedUser?.email; }
+//    func getAuthoredPosts() -> [Post] { return authedUser.authoredPosts; }
+    func getUser() -> AuthedUser? { return authedUser}
     
-    //MARK: - Setters
+    //MARK: - Update account
     
-    func updateUsername(to newUsername: String) {
-        //TODO: db calls (first ensure email is not used)
-        //set authedUser to the return value from db call
-        saveUserToFilesystem();
+    // No need to return new profilePic bc it is updated globally
+    func updateUsername(to newUsername: String) async throws {
+        //DB and local update
+        authedUser = try await UserAPI.patchUsername(username: newUsername, user: authedUser!)
+        saveUserToFilesystem()
     }
     
-    func updateFirstName(to newFirstName: String) {
-        //TODO: db calls
-        //set authedUser to the return value from db call
-        saveUserToFilesystem();
-    }
-    
-    func updateLastName(to newLastName: String) {
-        //TODO: db calls
-        //set authedUser to the return value from db call
-        saveUserToFilesystem();
-    }
-    
-    // No need to return new profile because it is globally updated within this function
+    // No need to return new profilePic bc it is updated globally
     func updateProfilePic(to newProfilePic: UIImage) async throws {
-        // DB update
-        let userWithUpdatedProfilePic = try await UserAPI.patchProfilePic(image: newProfilePic, user: authedUser)
-        // Local update
-        authedUser = userWithUpdatedProfilePic
+        // DB and local update
+        authedUser = try await UserAPI.patchProfilePic(image: newProfilePic, user: authedUser!)
+        saveUserToFilesystem();
     }
     
-    //MARK: - User Interaction
+    //MARK: - Create content
     
     //TODO: rewrite 
     // Returns the error message to be displayed to the user
@@ -140,22 +119,21 @@ class UserService: NSObject {
                                                    latitude: latitude,
                                                    longitude: longitude)
         // Local update (of the user's authoredPosts)
-        authedUser = try await UserAPI.fetchUsersByUsername(username: authedUser.username)[0] as! AuthedUser
+        authedUser = try await UserAPI.fetchAuthedUsersByUsername(username: authedUser!.username)[0]
         saveUserToFilesystem()
         return newPost
     }
     
-    //
-    func deletePost(at index: Int) async throws {
-        if !authedUser.authoredPosts.isEmpty && index >= 0 && index < authedUser.authoredPosts.count {
-            // DB update
-            try await PostAPI.deletePost(id: authedUser.authoredPosts[index].id)
-            // Local update (of the user's authoredPosts)
-            authedUser = try await UserAPI.fetchUsersByUsername(username: authedUser.username)[0] as! AuthedUser
-            saveUserToFilesystem()
-            //TODO: force reload all posts everywhere? otherwise your post might still exist on some other view controller's postservice
-        }
-    }
+//    func deletePost(at index: Int) async throws {
+//        if !authedUser.authoredPosts.isEmpty && index >= 0 && index < authedUser.authoredPosts.count {
+//            // DB update
+//            try await PostAPI.deletePost(id: authedUser.authoredPosts[index].id)
+//            // Local update (of the user's authoredPosts)
+//            authedUser = try await UserAPI.fetchUsersByUsername(username: authedUser.username)[0] as! AuthedUser
+//            saveUserToFilesystem()
+//            //TODO: force reload all posts everywhere? otherwise your post might still exist on some other view controller's postservice
+//        }
+//    }
     
     func uploadComment(text: String, postId: Int, author: Int) async throws -> (Comment, Post) {
         let newComment = try await CommentAPI.postComment(text: text, post: postId, author: author)
@@ -188,7 +166,6 @@ class UserService: NSObject {
             print("LOADING USER DATA")
             let data = try Data(contentsOf: self.localFileLocation)
             authedUser = try JSONDecoder().decode(AuthedUser.self, from: data);
-            UserService.singleton.isLoggedIn = true;
         } catch {
             print("\(error)")
         }

@@ -60,7 +60,7 @@ class PostAPI {
                         latitude: latitude,
                         longitude: longitude,
                         timestamp: currentTimeMillis(),
-                        author: UserService.singleton.getId())
+                        author: UserService.singleton.getId()!)
         let json = try JSONEncoder().encode(post)
         let (data, response) = try await BasicAPI.post(url:url, jsonData:json)
         return try JSONDecoder().decode(Post.self, from: data)

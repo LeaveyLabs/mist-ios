@@ -29,7 +29,7 @@ class UserAPI {
     
     static func fetchAuthedUsersByUsername(username:String) async throws -> [AuthedUser] {
         let url = "https://mist-backend.herokuapp.com/api/users?username=\(username)"
-        let data = try await BasicAPI.fetch(url:url)
+        let (data, response) = try await BasicAPI.fetch(url:url)
         return try JSONDecoder().decode([AuthedUser].self, from: data)
     }
     
@@ -39,8 +39,8 @@ class UserAPI {
         return try JSONDecoder().decode([User].self, from: data)
     }
     
-    static func fetchUserByToken(token:String) async throws -> [AuthedUser] {
-        let url = "https://mist-backend.herokuapp.com/api/users?token=\(token)"
+    static func fetchUserByToken(token:String) async throws -> AuthedUser {
+        let url = "https://mist-backend.herokuapp.com/api/users/?token=\(token)"
         let (data, response) = try await BasicAPI.fetch(url:url)
         let queriedUsers = try JSONDecoder().decode([AuthedUser].self, from: data)
         let tokenUser = queriedUsers[0]
@@ -66,7 +66,7 @@ class UserAPI {
         let obj:[String:String] = [
             "username": username,
         ]
-        let json = try JSONEncoder().encode(post)
+        let json = try JSONEncoder().encode(obj)
         let (data, response) = try await BasicAPI.patch(url: url, jsonData: json)
         return try JSONDecoder().decode(AuthedUser.self, from: data)
     }
@@ -76,17 +76,18 @@ class UserAPI {
         let obj:[String:String] = [
             "password": password,
         ]
-        let json = try JSONEncoder().encode(post)
+        let json = try JSONEncoder().encode(obj)
         let (data, response) = try await BasicAPI.patch(url: url, jsonData: json)
         return try JSONDecoder().decode(AuthedUser.self, from: data)
     }
     
     static func deleteUser(id:Int) async throws {
-        let url =  "https://mist-backend.herokuapp.com/api/users/\(user.id)/"
+        let url =  "https://mist-backend.herokuapp.com/api/users/\(id)/"
         let (data, response) = try await BasicAPI.delete(url: url, jsonData: Data())
     }
     
     static func UIImageFromURLString(url:String) async throws -> UIImage {
-        return UIImage(data: try await BasicAPI.fetch(url: url)) ?? UIImage(systemName: "person.crop.circle")!
+        let (data, response) = try await BasicAPI.fetch(url: url)
+        return UIImage(data: data) ?? UIImage(systemName: "person.crop.circle")!
     }
 }

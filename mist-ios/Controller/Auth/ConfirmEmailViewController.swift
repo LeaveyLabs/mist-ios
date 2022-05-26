@@ -39,7 +39,7 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         emailLabel.text! += AuthContext.email
         
-        isValidInput = false
+        validateInput()
         isAuthKUIView = true
         setupPopGesture()
         setupConfirmEmailTextField()
@@ -87,11 +87,11 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         continueButton.configurationUpdateHandler = { [weak self] button in
             
             if button.isEnabled {
-                button.configuration = ButtonConfigs.shared.enabledConfig
+                button.configuration = ButtonConfigs.enabledConfig(title: "Continue")
             }
             else {
                 if !(self?.isSubmitting ?? false) {
-                    button.configuration = ButtonConfigs.shared.disabledConfig
+                    button.configuration = ButtonConfigs.disabledConfig(title: "Continue")
                 }
             }
             button.configuration?.showsActivityIndicator = self?.isSubmitting ?? false
@@ -115,7 +115,7 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     //MARK: - TextField Delegate
     
     @IBAction func textFieldEditingChanged(_ sender: UITextField) {
-        isValidInput = confirmEmailTextField.text?.count == 6
+        validateInput()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -170,6 +170,10 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
             }
             resendState = .sent
         }
+    }
+    
+    func validateInput() {
+        isValidInput = confirmEmailTextField.text?.count == 6
     }
 }
 

@@ -38,9 +38,8 @@ class AuthAPI {
         ]
         let json = try JSONEncoder().encode(obj)
         let (data, response) = try await BasicAPI.post(url:url, jsonData:json)
-        let statusCode = (response as? HTTPURLResponse)?.statusCode
-        if (400...499).contains(statusCode) {
-            throw AuthAPI.invalidCredentials
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            throw AuthError.invalidCredentials
         }
     }
     
@@ -61,24 +60,22 @@ class AuthAPI {
                               password: password)
         let json = try JSONEncoder().encode(user)
         let (data, response) = try await BasicAPI.post(url:url, jsonData:json)
-        let statusCode = (response as? HTTPURLResponse)?.statusCode
-        if (400...499).contains(statusCode) {
-            throw AuthAPI.invalidCredentials
+        guard (response as? HTTPURLResponse)?.statusCode == 201 else {
+            throw AuthError.invalidCredentials
         }
         return try JSONDecoder().decode(AuthedUser.self, from: data)
     }
     
     static func fetchAuthToken(username:String, password:String) async throws -> String {
-        let url = "https://mist-backend.herokuapp.com/api/api-token"
+        let url = "https://mist-backend.herokuapp.com/api-token/"
         let obj:[String:String] = [
             "username": username,
             "password": password,
         ]
         let json = try JSONEncoder().encode(obj)
-        let (data, response) = try await BasicAPI.post(url:url, jsonData:json)
-        let statusCode = (response as? HTTPURLResponse)?.statusCode
-        if (400...499).contains(statusCode) {
-            throw AuthAPI.invalidCredentials
+        let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url:url, jsonData:json, method: "POST")
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            throw AuthError.invalidCredentials
         }
         let tokenStruct = try JSONDecoder().decode(TokenStruct.self, from: data)
         return tokenStruct.token

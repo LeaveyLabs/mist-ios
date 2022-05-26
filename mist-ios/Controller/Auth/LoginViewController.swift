@@ -30,7 +30,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         
         self.navigationItem.setHidesBackButton(true, animated: true)
         
-        isValidInput = false
+        validateInput()
         isAuthKUIView = true
         setupPopGesture()
         setupTextFields()
@@ -55,10 +55,10 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     func setupLoginButton() {
         loginButton.configurationUpdateHandler = { [weak self] button in
             if button.isEnabled {
-                button.configuration = ButtonConfigs.shared.enabledConfig
+                button.configuration = ButtonConfigs.enabledConfig(title: "Login")
             } else {
                 if !(self?.isSubmitting ?? false) {
-                    button.configuration = ButtonConfigs.shared.disabledConfig
+                    button.configuration = ButtonConfigs.disabledConfig(title: "Login")
                 }
             }
             button.configuration?.showsActivityIndicator = self?.isSubmitting ?? false
@@ -82,7 +82,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     //MARK: - TextField Delegate
     
     @IBAction func textFieldEditingChanged(_ sender: UITextField) {
-        isValidInput = !passwordTextField.text!.isEmpty && !usernameTextField.text!.isEmpty
+        validateInput()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -115,17 +115,28 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
             isSubmitting = true
             Task {
                 do {
-//                    try await AuthAPI.login()
+                    try await UserService.singleton.logIn(username: username, password: password)
                     transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
-                                           viewControllerID: Constants.SBID.VC.TabBarController) { [weak self] _ in
+                                           viewControllerID: Constants.SBID.VC.TabBarController,
+                                           duration: 1) { [weak self] _ in
                         self?.isSubmitting = false
                     }
                 } catch {
-                    isSubmitting = false
+                    print("almost!")
+                    handleLoginFail()
                     print(error);
                 }
             }
         }
+    }
+    
+    func handleLoginFail() {
+        isSubmitting = false
+        passwordTextField.text = ""
+    }
+    
+    func validateInput() {
+        isValidInput = !passwordTextField.text!.isEmpty && !usernameTextField.text!.isEmpty
     }
     
 }

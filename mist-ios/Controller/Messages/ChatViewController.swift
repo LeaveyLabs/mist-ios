@@ -150,7 +150,7 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
     // MARK: - MessagesDataSource
 
     func currentSender() -> SenderType {
-        return MessageKitUser(user: UserService.singleton.getUser())
+        return MessageKitUser(user: UserService.singleton.getUser()!)
     }
 
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
@@ -291,7 +291,7 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
 
     private func insertMessages(_ data: [Any]) {
         for component in data {
-            let user = UserService.singleton.getUser()
+            let user = UserService.singleton.getUser()!
 
             if let str = component as? String {
                 let message = MessageKitMessage(text: str, messageKitUser: MessageKitUser(user: user), messageId: UUID().uuidString, date: Date())

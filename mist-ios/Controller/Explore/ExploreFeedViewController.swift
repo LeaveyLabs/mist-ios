@@ -230,7 +230,7 @@ extension ExploreFeedViewController: UISearchResultsUpdating {
                         resultsController.liveResults = try await WordAPI.fetchWords(text: text)
                     case 1:
                         print("doing a profile search with: " + text)
-                        resultsController.liveResults = try await UserAPI.fetchUsersByText(text: text)
+                        resultsController.liveResults = try await UserAPI.fetchUsersByText(containing: text)
                     default: break
                     }
                     resultsController.tableView.reloadData()

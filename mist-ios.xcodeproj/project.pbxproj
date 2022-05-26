@@ -13,7 +13,7 @@
 		4329571C27F4008300FA48A9 /* EnterEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */; };
 		433970DF27FE501700876026 /* WelcomeTutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */; };
 		43483BB228025179001C7C6A /* EnterUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB128025179001C7C6A /* EnterUsernameViewController.swift */; };
-		43483BB42802519C001C7C6A /* EnterPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB32802519C001C7C6A /* EnterPasswordViewController.swift */; };
+		43483BB42802519C001C7C6A /* CreatePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB32802519C001C7C6A /* CreatePasswordViewController.swift */; };
 		43483BB6280251B1001C7C6A /* EnterNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB5280251B1001C7C6A /* EnterNameViewController.swift */; };
 		4369DB0A282EC436009215D4 /* MessageThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB09282EC436009215D4 /* MessageThread.swift */; };
 		4369DB0C282EC465009215D4 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB0B282EC465009215D4 /* Message.swift */; };
@@ -167,7 +167,7 @@
 		4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterEmailViewController.swift; sourceTree = "<group>"; };
 		433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeTutorialViewController.swift; sourceTree = "<group>"; };
 		43483BB128025179001C7C6A /* EnterUsernameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterUsernameViewController.swift; sourceTree = "<group>"; };
-		43483BB32802519C001C7C6A /* EnterPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPasswordViewController.swift; sourceTree = "<group>"; };
+		43483BB32802519C001C7C6A /* CreatePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePasswordViewController.swift; sourceTree = "<group>"; };
 		43483BB5280251B1001C7C6A /* EnterNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameViewController.swift; sourceTree = "<group>"; };
 		4369DB09282EC436009215D4 /* MessageThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageThread.swift; sourceTree = "<group>"; };
 		4369DB0B282EC465009215D4 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -331,7 +331,7 @@
 				43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */,
 				4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */,
 				436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */,
-				43483BB32802519C001C7C6A /* EnterPasswordViewController.swift */,
+				43483BB32802519C001C7C6A /* CreatePasswordViewController.swift */,
 				433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */,
 				43483BB128025179001C7C6A /* EnterUsernameViewController.swift */,
 				43483BB5280251B1001C7C6A /* EnterNameViewController.swift */,
@@ -913,7 +913,7 @@
 				43770C4B27EE8C0F00F31CCF /* LoginViewController.swift in Sources */,
 				479AA1F027DCE9A700EA0DFC /* PostCell.swift in Sources */,
 				47A3D70027D50CF1003DBEA5 /* FeedViewController.swift in Sources */,
-				43483BB42802519C001C7C6A /* EnterPasswordViewController.swift in Sources */,
+				43483BB42802519C001C7C6A /* CreatePasswordViewController.swift in Sources */,
 				4329571C27F4008300FA48A9 /* EnterEmailViewController.swift in Sources */,
 				47A3D70827D54F6F003DBEA5 /* User.swift in Sources */,
 				47EA3DFB27E0098F00381218 /* UINavigationController+Hairline.swift in Sources */,

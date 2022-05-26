@@ -980,6 +980,11 @@
                                 <action selector="onExitButtonPressed:" destination="O8q-XE-hed" id="im6-gK-Uca"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Logout" id="cAX-6V-m1U">
+                            <connections>
+                                <action selector="onLogoutButtonPressed:" destination="O8q-XE-hed" id="DeE-k4-j1c"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="qTU-ta-dPk" id="ntU-PQ-3Mu"/>

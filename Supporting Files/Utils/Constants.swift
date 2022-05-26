@@ -76,7 +76,7 @@ struct Constants {
             static let ConfirmEmail = "ConfirmEmailViewController"
             static let WelcomeTutorial = "WelcomeTutorialViewController"
             static let EnterProfilePicture = "EnterProfilePictureViewController"
-            static let EnterPassword = "EnterPasswordViewController"
+            static let CreatePassword = "CreatePasswordViewController"
             static let EnterName = "EnterNameViewController"
 
         }

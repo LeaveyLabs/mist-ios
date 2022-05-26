@@ -137,7 +137,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
                 let newCommentAndUpdatedPost = try await UserService.singleton.uploadComment(
                     text: commentTextView.text,
                     postId: post.id,
-                    author: UserService.singleton.getId())
+                    author: UserService.singleton.getId()!)
                 //If successful
                 commentTextView.text = ""
                 postTableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)

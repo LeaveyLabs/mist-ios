@@ -57,11 +57,11 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
         // 3. disabled and submitting (dark grey foreground) bc i dont think you can change the activityIndicator color
         continueButton.configurationUpdateHandler = { [weak self] button in
             if button.isEnabled {
-                button.configuration = ButtonConfigs.shared.enabledConfig
+                button.configuration = ButtonConfigs.enabledConfig(title: "Continue")
             }
             else {
                 if !(self?.isSubmitting ?? false) {
-                    button.configuration = ButtonConfigs.shared.disabledConfig
+                    button.configuration = ButtonConfigs.disabledConfig(title: "Continue")
                 }
             }
             button.configuration?.showsActivityIndicator = self?.isSubmitting ?? false
