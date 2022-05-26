@@ -16,7 +16,7 @@ class CommentAPI {
     // Fetch comments from database with the given postID
     static func fetchComments(post:Int) async throws -> [Comment] {
         let url = "https://mist-backend.herokuapp.com/api/comments?post_id=\(post)"
-        let data = try await BasicAPI.fetch(url:url)
+        let (data, response) = try await BasicAPI.fetch(url:url)
         return try JSONDecoder().decode([Comment].self, from: data)
     }
 
@@ -29,14 +29,14 @@ class CommentAPI {
                                  author: author)
         let url = "https://mist-backend.herokuapp.com/api/comments/"
         let json = try JSONEncoder().encode(newComment)
-        let data = try await BasicAPI.post(url:url, jsonData:json)
+        let (data, response) = try await BasicAPI.post(url:url, jsonData:json)
         return try JSONDecoder().decode(Comment.self, from: data)
     }
     
     // Delete comment from database
     static func deleteComment(comment:Int) async throws {
         let url = "https://mist-backend.herokuapp.com/api/comments/\(comment)"
-        let data = try await BasicAPI.delete(url:url, jsonData:Data())
+        let (data, response) = try await BasicAPI.delete(url:url, jsonData:Data())
         let _ = try JSONDecoder().decode(Comment.self, from: data)
     }
 }

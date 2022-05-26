@@ -11,6 +11,14 @@ struct StatusObject : Codable {
     let status:String;
 }
 
+struct TokenStruct: Codable {
+    let token:String;
+}
+
+enum AuthError: Error {
+    case invalidCredentials
+}
+
 class AuthAPI {
     // Registers email in the database
     // (and database will send verifcation email)
@@ -18,7 +26,7 @@ class AuthAPI {
         let url = "https://mist-backend.herokuapp.com/api-register/"
         let obj:[String:String] = ["email":email]
         let json = try JSONEncoder().encode(obj)
-        _ = try await BasicAPI.post(url:url, jsonData:json)
+        let _ = try await BasicAPI.post(url:url, jsonData:json)
     }
     
     // Validates email
@@ -29,10 +37,10 @@ class AuthAPI {
             "code": code
         ]
         let json = try JSONEncoder().encode(obj)
-        let data = try await BasicAPI.post(url:url, jsonData:json)
-        let status = try JSONDecoder().decode(StatusObject.self, from: data)
-        if status.status != "success" {
-            throw APIError.generic
+        let (data, response) = try await BasicAPI.post(url:url, jsonData:json)
+        let statusCode = (response as? HTTPURLResponse)?.statusCode
+        if (400...499).contains(statusCode) {
+            throw AuthAPI.invalidCredentials
         }
     }
     
@@ -51,9 +59,28 @@ class AuthAPI {
                               picture: picture,
                               email: email,
                               password: password)
-        
         let json = try JSONEncoder().encode(user)
-        let data = try await BasicAPI.post(url:url, jsonData:json)
+        let (data, response) = try await BasicAPI.post(url:url, jsonData:json)
+        let statusCode = (response as? HTTPURLResponse)?.statusCode
+        if (400...499).contains(statusCode) {
+            throw AuthAPI.invalidCredentials
+        }
         return try JSONDecoder().decode(AuthedUser.self, from: data)
+    }
+    
+    static func fetchAuthToken(username:String, password:String) async throws -> String {
+        let url = "https://mist-backend.herokuapp.com/api/api-token"
+        let obj:[String:String] = [
+            "username": username,
+            "password": password,
+        ]
+        let json = try JSONEncoder().encode(obj)
+        let (data, response) = try await BasicAPI.post(url:url, jsonData:json)
+        let statusCode = (response as? HTTPURLResponse)?.statusCode
+        if (400...499).contains(statusCode) {
+            throw AuthAPI.invalidCredentials
+        }
+        let tokenStruct = try JSONDecoder().decode(TokenStruct.self, from: data)
+        return tokenStruct.token
     }
 }

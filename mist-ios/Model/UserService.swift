@@ -52,24 +52,38 @@ class UserService: NSObject {
                                             picture: picture,
                                             email: email,
                                             password: password)
+        let token:String = try await AuthAPI.fetchAuthToken(username: username,
+                                                           password: password)
         // Local update
+        setGlobalAuthToken(token: token)
         saveUserToFilesystem()
         isLoggedIn = true
     }
     
-    func logIn() {
-        
+    func logIn(username: String,
+               password: String) async throws {
+        let token:String = try await AuthAPI.fetchAuthToken(username: username,
+                                                           password: password)
+        // DB update
+        authedUser = try await UserAPI.fetchUserByToken(token: token)
+        // Local update
+        setGlobalAuthToken(token: token)
+        saveUserToFilesystem()
+        isLoggedIn = true
     }
     
     func logOut() {
-        isLoggedIn = false;
         authedUser = guestUser;
+        
+        setGlobalAuthToken(token: nil)
         eraseUserFromFilesystem();
+        isLoggedIn = false;
     }
     
     func deleteMyAccount() {
         logOut()
         //TODO: delete user from database
+        UserAPI.deleteUser(id: getId())
     }
     
     //MARK: - Getters

@@ -9,61 +9,52 @@ import Foundation
 
 enum APIError: Error {
     case badAPIEndPoint
-    case badId
-    case generic
+}
+
+let AUTHTOKEN = "fb313fe42682f723f3312908ae1279c4f4289535"
+
+func setGlobalAuthToken(token:String) {
+    AUTHTOKEN = token
+}
+
+func getGlobalAuthToken() {
+    return AUTHTOKEN
 }
 
 class BasicAPI {
-    // GET from the URL (url) with the HTTP body (data)
-    static func fetch(url:String) async throws -> Data {
+    static func basicHTTPCall(url:String, jsonData:Data, method:String) -> (Data, HTTPURLResponse) {
         // Initialize API endpoint
         guard let serviceUrl = URL(string:url) else {
             throw APIError.badAPIEndPoint
         }
         // Initialize API request
         var request = URLRequest(url: serviceUrl)
-        request.httpMethod = "GET"
+        request.httpMethod = method
+        request.httpBody = jsonData
+        request.setValue("Token \(getGlobalAuthToken())", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         // Run API request
         let (data, response) = try await URLSession.shared.data(for: request)
-        // Throw if unsuccessful
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            throw APIError.badId
-        }
-        // Deserialize data and return result
-        return data
+        return (data, response)
+    }
+    
+    // GET from the URL (url) with the HTTP body (data)
+    static func fetch(url:String) async throws -> (Data, HTTPURLResponse) {
+        return basicHTTPCall(url: url, jsonData: Data(), method: "GET")
     }
     
     // POST to the URL (url) with the HTTP body (data)
-    static func post(url:String, jsonData:Data) async throws -> Data {
-        // Intiailize API endpoint
-        guard let serviceUrl = URL(string:url) else {
-            throw APIError.badAPIEndPoint
-        }
-        // Prepare API request and JSON-formmatted comment
-        var request = URLRequest(url: serviceUrl)
-        // Specify POST + HTTP Headers
-        request.httpMethod = "POST"
-        request.httpBody = jsonData
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        // Run the request
-        let (data, response) = try await URLSession.shared.data(for: request)
-        return data
+    static func post(url:String, jsonData:Data) async throws -> (Data, HTTPURLResponse) {
+        return basicHTTPCall(url: url, jsonData: jsonData, method: "POST")
+    }
+    
+    // PATCH to the URL (url) with the HTTP body (data)
+    static func patch(url:String, jsonData:Data) async throws -> (Data, HTTPURLResponse) {
+        return basicHTTPCall(url: url, jsonData: jsonData, method: "PATCH")
     }
     
     // DELETE from the URL (url) with the HTTP body (data)
-    static func delete(url:String, jsonData:Data) async throws -> Data {
-        // Intiailize API endpoint
-        guard let serviceUrl = URL(string:url) else {
-            throw APIError.badAPIEndPoint
-        }
-        // Prepare API request and JSON-formmatted comment
-        var request = URLRequest(url: serviceUrl)
-        // Specify POST + HTTP Headers
-        request.httpMethod = "DELETE"
-        request.httpBody = jsonData
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        // Run the request
-        let (data, response) = try await URLSession.shared.data(for: request)
-        return data
+    static func delete(url:String, jsonData:Data) async throws -> (Data, HTTPURLResponse) {
+        return basicHTTPCall(url: url, jsonData: jsonData, method: "DELETE")
     }
 }
