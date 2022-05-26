@@ -139,8 +139,8 @@ class UserService: NSObject {
                                                    locationDescription: locationDescription,
                                                    latitude: latitude,
                                                    longitude: longitude)
-        // Local update
-        authedUser = try await UserAPI.fetchUsersByUsername(username: authedUser.username)[0] as! AuthedUser // Updates the local user's authoredPosts
+        // Local update (of the user's authoredPosts)
+        authedUser = try await UserAPI.fetchUsersByUsername(username: authedUser.username)[0] as! AuthedUser
         saveUserToFilesystem()
         return newPost
     }
@@ -148,10 +148,10 @@ class UserService: NSObject {
     //
     func deletePost(at index: Int) async throws {
         if !authedUser.authoredPosts.isEmpty && index >= 0 && index < authedUser.authoredPosts.count {
-            // DB Update
+            // DB update
             try await PostAPI.deletePost(id: authedUser.authoredPosts[index].id)
-            //Local Update
-            //TODO: set local authedUser to return from DB call
+            // Local update (of the user's authoredPosts)
+            authedUser = try await UserAPI.fetchUsersByUsername(username: authedUser.username)[0] as! AuthedUser
             saveUserToFilesystem()
             //TODO: force reload all posts everywhere? otherwise your post might still exist on some other view controller's postservice
         }

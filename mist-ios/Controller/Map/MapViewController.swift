@@ -8,10 +8,14 @@
 import UIKit
 import MapKit
 
-//problems:
+//todos / problems:
 //TODO: cluster annotation bounce on deselect even its deselect is animated: false?
 //TODO: add a jab to the user when clicking on current location. it seems like "title" no longer works
 //TODO: setting the clusters to hotspots after zooming in closer enough isnt working quite right
+//TODO: automatically reduce the pitch to flatten the map while zooming out
+//TODO: (probably not possible) only render cluster views when you get close enough
+    //IDEA: instead of trying to change the title of the cluster view at a certain width, you could just...
+    //when someone clicks on a cluster view, you zoom in on it, and if that zoom is close enough, then send them to the feed page
 
 class MapViewController: UIViewController {
 
@@ -32,14 +36,17 @@ class MapViewController: UIViewController {
     // Create a location manager to trigger user tracking
     private let locationManager = CLLocationManager()
     
-    var cameraIsMoving: Bool = false
+    var cameraIsFlying: Bool = false
     var modifyingMap: Bool = false
     var latitudeOffset: Double!
     
     //remove one of these three
     var prevZoomFactor: Int = 4
     var prevZoomWidth: Double!
+    //when the pitch increases, zoomWidth's value increases
     var prevZoom: Double!
+    //when pitch increases, zoom goes UP then down
+    //when pitch decreases, zoom goes DOWN then up
     
     var displayedAnnotations = [PostAnnotation]() {
         willSet {
@@ -50,13 +57,18 @@ class MapViewController: UIViewController {
         }
     }
     
-    
     var cameraAnimationDuration: Double {
-        return Double(prevZoomFactor+2)/10 + ((180-fabs(180.0 - mapView.camera.heading)) / 180 * 0.3) //add up to 0.3 seconds to rotate the heading of the camera
+        //add up to 0.3 seconds to rotate the heading of the camera
+        return Double(prevZoomFactor+2)/10 + ((180-fabs(180.0 - mapView.camera.heading)) / 180 * 0.3)
     }
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Initialize variables
+        prevZoomWidth = mapView.visibleMapRect.size.width
+        prevZoom = mapView.camera.centerCoordinateDistance
+        
         navigationController?.restoreHairline()
         displayedAnnotations = []
         setupMapButtons()
@@ -68,15 +80,18 @@ class MapViewController: UIViewController {
     // MARK: - Setup
     
     func setupMapView() {
+        mapView.cameraZoomRange = MKMapView.CameraZoomRange(minCenterCoordinateDistance: 310) // Note: this creates an effect where, when the camera is pretty zoomed in, if you try to increase the pitch past a certian point, it automatically zooms in more. Not totally sure why. This is slightly undesirable but not that deep
+        //310 is range from which you view a post, that way you cant zoom in more afterwards
+        mapView.showsUserLocation = true
+        mapView.showsCompass = false
         mapView.delegate = self
         mapView.tintColor = .systemBlue //sets user puck color
         centerMapOnUSC()
         registerMapAnnotationViews()
-        
-        // Set iniital camera pitch (aka camera angle)
-        mapView.camera = MKMapCamera(lookingAtCenter: mapView.centerCoordinate, fromDistance: 4000, pitch: 20, heading: mapView.camera.heading)
-        prevZoomWidth = mapView.visibleMapRect.size.width
-        prevZoom = mapView.camera.centerCoordinateDistance
+        mapView.camera = MKMapCamera(lookingAtCenter: mapView.centerCoordinate,
+                                     fromDistance: 4000,
+                                     pitch: 20,
+                                     heading: mapView.camera.heading)
         
         //including categories is more ideal, bc there are some markers like "shared bikes" which wont be excluded no matter what
         let includeCategories:[MKPointOfInterestCategory] = [.cafe, .airport, .amusementPark, .aquarium, .bakery, .beach, .brewery, .campground, .foodMarket, .fitnessCenter, .hotel, .hospital, .library, .marina, .movieTheater, .museum, .nationalPark, .nightlife, .park, .pharmacy, .postOffice, .restaurant, .school, .stadium, .store, .theater, .university, .zoo, .winery]
@@ -102,7 +117,6 @@ class MapViewController: UIViewController {
     }
     
     private func setupLocationManager(){
-        mapView.showsUserLocation = true
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
@@ -138,35 +152,7 @@ class MapViewController: UIViewController {
     }
     
     @IBAction func mapDimensionButtonDidPressed(_ sender: UIButton) {
-        // Toggle isThreeDimensional
-        isThreeDimensional = !isThreeDimensional
-        
-        // Prepare the new pitch based on the new value of isThreeDimensional
-        var newPitch: Double
-        if isThreeDimensional {
-            newPitch = 50.0
-        } else {
-            newPitch = 0.0
-        }
-        
-        //setting to 2d doesnt do animation but just SNAPS sometimes,
-        //this only starts happening once you press user tracking button
-        //its like pressing the user tracking button fucks with the isThreeDimensional property
-        //adam: first update the APIs, then fix this
-        
-        // Update the camera
-        cameraIsMoving = true
-        let rotationCamera = MKMapCamera(lookingAtCenter: mapView.camera.centerCoordinate,
-                                         fromDistance: mapView.camera.centerCoordinateDistance,
-                                         pitch: newPitch,
-                                         heading: mapView.camera.heading)
-        UIView.animate(withDuration: cameraAnimationDuration,
-                       delay: 0,
-                       options: .curveEaseInOut,
-                       animations: {
-            self.mapView.camera = rotationCamera
-        },
-                       completion: nil)
+        toggleMapDimension()
     }
     
 }
@@ -176,48 +162,54 @@ extension MapViewController: MKMapViewDelegate {
     
     //updates after each view change is completed
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        if (cameraIsMoving) {
-            cameraIsMoving = false //so that when the user starts dragging again, the post will disappear
+        if (cameraIsFlying) {
+            cameraIsFlying = false //so that when the user starts dragging again, the post will disappear
         }
+    }
+    
+    //OOOOH This could be useful, i'm not using this function at all up until now
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        
     }
 
     //updates continuously throughout user drag
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        let zoomWidth = mapView.visibleMapRect.size.width
+        let zoomFactor = Int(log2(zoomWidth)) - 9
+        let zoom = mapView.camera.centerCoordinateDistance //centerCoordinateDistance takes pitch into account
         
-        // Limit max zoom https://stackoverflow.com/questions/1636868/is-there-way-to-limit-mkmapview-maximum-zoom-level
-        if (mapView.camera.centerCoordinateDistance < 400 && !modifyingMap) {
-            modifyingMap = true
-            mapView.camera.centerCoordinateDistance = 400
-            modifyingMap = false
-        }
+//        print("zoom: " + String(zoom))
+//        print("zoomWidth: " + String(zoomWidth))
         
         // Limit minimum pitch. Doing this because of weird behavior with clicking on posts from a pitch less than 50
-        if (mapView.camera.pitch > 50 && !modifyingMap) {
+        if mapView.camera.pitch > 50 && !modifyingMap {
             modifyingMap = true
             mapView.camera.pitch = 50
             modifyingMap = false
         }
         
-        // Deselect selected annotation.
-        if !cameraIsMoving {
-            if (mapView.selectedAnnotations.count > 0) {
-                mapView.deselectAnnotation(mapView.selectedAnnotations[0], animated: true)
-            }
+        // Automatically reduce the pitch while zooming out
+        //once i click on post, or when i click 2d/3d button, this just stops working
+        //this is also called incorrectly when youre roughly 1000 distance away and you manually adjust the pitch (since adjusting pitch also adjusts zoom)
+//        if zoom > 1000 && prevZoom < 1000 && !modifyingMap && !cameraIsFlying {
+//            print("REDUCE PITCH")
+//            modifyingMap = true
+////            mapView.camera.pitch = 0
+//            mapView.camera = MKMapCamera(lookingAtCenter: mapView.camera.centerCoordinate,
+//                                         fromDistance: mapView.camera.centerCoordinateDistance,
+//                                         pitch: 0,
+//                                         heading: mapView.camera.heading)
+//            //try setting the whole camera to something new?
+//            modifyingMap = false
+//        }
+        
+        // Deselect selected annotation upon moving
+        if !cameraIsFlying {
+            deselectOneAnnotationIfItExists()
         }
         
         // Toggle text of 3d button
-        if !cameraIsMoving {
-            isThreeDimensional = mapView.camera.pitch != 0
-        }
-                
-        let zoomWidth = mapView.visibleMapRect.size.width
-        let zoomFactor = Int(log2(zoomWidth)) - 9
-        let zoom = mapView.camera.centerCoordinateDistance
-        
-        prevZoomFactor = zoomFactor
-        prevZoomWidth = zoomWidth
-        prevZoom = zoom
-        
+        isThreeDimensional = mapView.camera.pitch != 0
         
         //RIP This is still not working 100%... oh well i'll fix it later
         // Toggle cluster hotspot, 1 of 2
@@ -227,6 +219,10 @@ extension MapViewController: MKMapViewDelegate {
                 clusterAnnotation.updateIsHotspot(cameraDistance: mapView.camera.centerCoordinateDistance)
             }
         }
+        
+        prevZoomFactor = zoomFactor
+        prevZoomWidth = zoomWidth
+        prevZoom = zoom
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -275,6 +271,63 @@ extension MapViewController {
         UIView.animate(withDuration: cameraAnimationDuration, delay: 0, options: .curveEaseInOut, animations: {
             self.mapView.camera = rotationCamera
         }, completion: completion)
-        cameraIsMoving = true
+        cameraIsFlying = true
+    }
+    
+    func toggleMapDimension() {
+        isThreeDimensional = !isThreeDimensional
+        
+        // Prepare the new pitch based on the new value of isThreeDimensional
+        var newPitch: Double
+        if isThreeDimensional {
+            newPitch = 50.0
+        } else {
+            newPitch = 0.0
+        }
+        
+        //setting to 2d doesnt do animation but just SNAPS sometimes,
+        //this only happens when zoomed in too close
+        
+        //OOOH:: i think the reason why is because the centercoordinatedistance also changes with a new pitch
+        //this error only happens when going from 3D to 2D
+        //so the CCDDistance is decreasing unintentionally
+        
+        // Update the camera
+        cameraIsFlying = true
+        let rotationCamera = MKMapCamera(lookingAtCenter: mapView.camera.centerCoordinate,
+                                         fromDistance: mapView.camera.centerCoordinateDistance,
+                                         pitch: newPitch,
+                                         heading: mapView.camera.heading)
+        UIView.animate(withDuration: cameraAnimationDuration,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: {
+            self.mapView.camera = rotationCamera
+        },
+                       completion: nil)
+    }
+    
+    func deselectOneAnnotationIfItExists() {
+        if mapView.selectedAnnotations.count > 0 {
+            mapView.deselectAnnotation(mapView.selectedAnnotations[0], animated: true)
+        }
+    }
+    
+    func deselectAllAnnotations() {
+        for annotation in mapView.annotations {
+            mapView.deselectAnnotation(annotation, animated: true)
+        }
+    }
+    
+    func reselectOneAnnotationIfItExists() {
+        if mapView.annotations.count > 1 {
+            for annotation in mapView.annotations {
+                if annotation .isKind(of: MKUserLocation.self) == false {
+                    print("trying to reselect a non user annotation")
+                    mapView.selectAnnotation(mapView.annotations[1], animated: true)
+                    return
+                }
+            }
+        }
     }
 }

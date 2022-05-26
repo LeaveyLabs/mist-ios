@@ -66,7 +66,6 @@ class PostAPI {
         return try JSONDecoder().decode(Post.self, from: data)
     }
     
-    //TODO: return the updated authedUser object
     // Deletes post from the database
     static func deletePost(id:Int) async throws {
         let url = "https://mist-backend.herokuapp.com/api/posts/\(id)/"

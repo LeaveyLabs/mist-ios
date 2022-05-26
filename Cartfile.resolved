@@ -1,3 +1,2 @@
 github "Alamofire/Alamofire" "5.6.1"
 github "daltoniam/Starscream" "4.0.4"
-github "eddiekaiger/SwiftyAttributes" "v5.2.0"

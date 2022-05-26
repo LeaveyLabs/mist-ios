@@ -10,6 +10,10 @@ import MapKit
 
 typealias PinMapModalCompletionHandler = ((String?) -> Void)
 
+protocol PinMapModalDelegate {
+    func reselectAnnotation()
+}
+
 //modal with a custom size
 //https://stackoverflow.com/questions/54737884/changing-the-size-of-a-modal-view-controller
 
@@ -20,7 +24,8 @@ class PinMapModalViewController: SheetViewController, UITextFieldDelegate {
     @IBOutlet weak var selectButton: UIButton!
     @IBOutlet weak var reselectButton: UIButton!
     @IBOutlet weak var locationDescriptionTextField: UITextField!
-        
+
+    var mapDelegate: PinMapModalDelegate?
     var annotation: PostAnnotation!
     var xsIndentFirst: Bool! = false
     
@@ -30,6 +35,12 @@ class PinMapModalViewController: SheetViewController, UITextFieldDelegate {
         reselectButton.layer.cornerRadius = 5
         containingView.layer.cornerRadius = 15
         disableSelectButton()
+        
+        isModalInPresentation = true //prevents the VC from being dismissed by the user
+
+        let wasTapped = UITapGestureRecognizer(target: self, action: #selector(handleBackgroundTap))
+        view.addGestureRecognizer(wasTapped)
+        
         locationDescriptionTextField.delegate = self
             setupSheet(prefersGrabberVisible: true,
                        detents: [Constants.Detents.s, Constants.Detents.xs, Constants.Detents.xl],
@@ -70,6 +81,13 @@ class PinMapModalViewController: SheetViewController, UITextFieldDelegate {
     
     
     //MARK: - Helpers
+    
+    @objc func handleBackgroundTap() {
+        if mySheetPresentationController.selectedDetentIdentifier?.rawValue == "xs" {
+            toggleSheetSizeTo(sheetSize: "s")
+            mapDelegate?.reselectAnnotation()
+        }
+    }
     
     func clearAllFields() {
         locationDescriptionTextField.text! = ""

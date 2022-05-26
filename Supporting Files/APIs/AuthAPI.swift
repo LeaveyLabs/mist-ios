@@ -59,7 +59,6 @@ class AuthAPI {
                               picture: picture,
                               email: email,
                               password: password)
-    
         let json = try JSONEncoder().encode(user)
         let (data, response) = try await BasicAPI.post(url:url, jsonData:json)
         let statusCode = (response as? HTTPURLResponse)?.statusCode
