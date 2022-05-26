@@ -28,6 +28,8 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.setHidesBackButton(true, animated: true)
+        
         isValidInput = false
         isAuthKUIView = true
         setupPopGesture()
@@ -65,8 +67,8 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     
     //MARK: - User Interaction
     
-    @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
-        navigationController?.popViewController(animated: true)
+    @IBAction func signupButtonDidPressed(_ sender: UIButton) {
+        navigationController?.popViewController(animated: false)
     }
     
     @IBAction func loginButtonDidPressed(_ sender: Any) {

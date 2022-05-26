@@ -11,6 +11,7 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var enterEmailTextField: UITextField!
     @IBOutlet weak var continueButton: UIButton!
+    
     var isValidInput: Bool! {
         didSet {
             continueButton.isEnabled = isValidInput
