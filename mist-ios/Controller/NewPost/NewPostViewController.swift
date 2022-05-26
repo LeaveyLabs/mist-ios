@@ -32,7 +32,7 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
 //        locationButton.configuration?.imagePadding = .greatestFiniteMagnitude
 //        locationButton.configuration?.imagePadding = CGFloat(180)
 //        NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-                
+        
         locationButton.titleLabel!.adjustsFontSizeToFitWidth = false
         locationButton.titleLabel!.lineBreakMode = .byTruncatingTail
         titleTextField.becomeFirstResponder();
@@ -51,7 +51,7 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         messagePlaceholderLabel.isHidden = !messageTextView.text.isEmpty
    }
     
-    // MARK: -Buttons
+    // MARK: - Buttons
     
     @IBAction func outerViewGestureDidTapped(_ sender: UITapGestureRecognizer) {
         messageTextView.resignFirstResponder();
@@ -109,7 +109,7 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         //dont do any segue prep for rules controller
     }
     
-    //MARK: -TextField
+    //MARK: - TextField
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -123,7 +123,7 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         }
     }
     
-    //MARK: -TextView
+    //MARK: - TextView
     
     func textViewDidChange(_ textView: UITextView) {
         messagePlaceholderLabel.isHidden = !messageTextView.text.isEmpty
@@ -134,7 +134,7 @@ class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         }
     }
     
-    //MARK: -Util
+    //MARK: - Util
     
     func clearAllFields() {
         messageTextView.text! = ""

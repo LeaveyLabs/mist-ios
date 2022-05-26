@@ -43,22 +43,6 @@ class ExploreFeedViewController: FeedViewController {
     }
 }
 
-//MARK: - FeedHeaderCellDelegate
-
-extension ExploreFeedViewController: FeedHeaderCellDelegate {
-    func handleFilterButtonPress() {
-        //customize sheet size before presenting
-        //https://developer.apple.com/videos/play/wwdc2021/10063/
-        let sortByVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.SortBy) as! SortByViewController
-
-        if let sheet = sortByVC.sheetPresentationController {
-            sheet.detents = [.medium()]
-            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-        }
-        present(sortByVC, animated: true, completion: nil)
-    }
-}
-
 //MARK: --------------ExploreViewController
 
 extension ExploreFeedViewController {
@@ -179,7 +163,6 @@ extension ExploreFeedViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.FeedHeader, for: indexPath) as! FeedHeaderCell
 //            cell.feedHeaderLabel.text = "\(filter)"
             cell.feedType = .home
-            cell.delegate = self
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             return cell
         }
@@ -247,7 +230,7 @@ extension ExploreFeedViewController: UISearchResultsUpdating {
                         resultsController.liveResults = try await WordAPI.fetchWords(text: text)
                     case 1:
                         print("doing a profile search with: " + text)
-                        resultsController.liveResults = try await UserAPI.fetchUsersByText(text: text)
+                        resultsController.liveResults = try await UserAPI.fetchUsersByText(containing: text)
                     default: break
                     }
                     resultsController.tableView.reloadData()

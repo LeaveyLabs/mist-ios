@@ -49,11 +49,11 @@ class PostsService: NSObject {
     
     func newPostsNearby(latitude: Double, longitude: Double) async throws -> [Post] {
         //TODO: PostAPI.fetchNearbyPosts(with: filter)
-        return try await PostAPI.fetchPosts(latitude: latitude, longitude: longitude)
+        return try await PostAPI.fetchPostsByLatitudeLongitude(latitude: latitude, longitude: longitude)
     }
     
     func newPostsWithFilter(latitude: Double, longitude: Double) async throws -> [Post] {
-        return try await PostAPI.fetchPosts(latitude: latitude, longitude: longitude)
+        return try await PostAPI.fetchPostsByLatitudeLongitude(latitude: latitude, longitude: longitude)
     }
     
 //    //Returns a card at a given index

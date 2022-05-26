@@ -13,7 +13,7 @@ class SpecialTabBar: UITabBar {
     public var didTapButton: (() -> ())?
     
     public lazy var middleButton: UIButton! = {
-        middleButton = UIButton()
+        let middleButton = UIButton()
         middleButton.adjustsImageWhenHighlighted = false //deprecated, but only for the new "UIButtonConfiguration" buttons, which we're not using here
 //        centerButton.frame = CGRect(x: 0.0, y: 0.0, width: buttonImage.size.width, height: buttonImage.size.height)
         middleButton.frame.size = CGSize(width: 48, height: 48)
@@ -54,6 +54,11 @@ class SpecialTabBar: UITabBar {
     
     // MARK: - Actions
     @objc func middleButtonAction(sender: UIButton) {
+        print("touched!")
+        let vc = findViewController()?.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewPostNavigation)
+        vc?.modalPresentationStyle = .fullScreen
+        
+        findViewController()?.present(vc!, animated: true, completion: nil)
         didTapButton?()
     }
     
@@ -62,5 +67,17 @@ class SpecialTabBar: UITabBar {
         guard !clipsToBounds && !isHidden && alpha > 0 else { return nil }
         
         return self.middleButton.frame.contains(point) ? self.middleButton : super.hitTest(point, with: event)
+    }
+}
+
+extension UIView {
+    func findViewController() -> UIViewController? {
+        if let nextResponder = self.next as? UIViewController {
+            return nextResponder
+        } else if let nextResponder = self.next as? UIView {
+            return nextResponder.findViewController()
+        } else {
+            return nil
+        }
     }
 }

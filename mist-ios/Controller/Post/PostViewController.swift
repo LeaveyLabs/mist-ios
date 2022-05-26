@@ -40,7 +40,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         commentPlaceholderLabel = commentTextView.addAndReturnPlaceholderLabel(withText: COMMENT_PLACEHOLDER_TEXT)
         loadComments();
         disableCommentButton()
-
+        
         //User Interaction
         //(1 of 2) for enabling swipe left to go back with a bar button item
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
@@ -94,7 +94,9 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     
     func setupCommentView() {
         //below code is not needed with KUIViewController
-        //commentTextView.inputAccessoryView = commentView
+        //TODO: uncomment below code + do more to enable dismiss keyboard on drag
+//        commentTextView.inputAccessoryView = commentView
+//        postTableView.keyboardDismissMode = .interactive
 
         commentProfileImage.layer.cornerRadius = commentProfileImage.frame.size.height / 2
         commentProfileImage.layer.cornerCurve = .continuous
@@ -111,7 +113,6 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     
     //MARK: - Navigation
     
-    //TODO: do we need to implement this in all VCs throughout the app?
     //(2 of 2) for enabling swipe left to go back with a bar button item
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
@@ -136,7 +137,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
                 let newCommentAndUpdatedPost = try await UserService.singleton.uploadComment(
                     text: commentTextView.text,
                     postId: post.id,
-                    author: UserService.singleton.getId())
+                    author: UserService.singleton.getId()!)
                 //If successful
                 commentTextView.text = ""
                 postTableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
@@ -230,11 +231,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     //MARK: - Helpers
     
     func validateAllFields() -> Bool {
-        if (commentTextView.text! == "" ) {
-            return false
-        } else {
-            return true;
-        }
+        return commentTextView.text != ""
     }
     
     func clearAllFields() {

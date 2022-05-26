@@ -24,14 +24,6 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
 //        }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
-    
     /*
      Send up a "NewPostNavigation" modal view when the middle "plus" tab bar button is pressed.
      The view controller which is connected to the middle "plus" button should be called "dummy"

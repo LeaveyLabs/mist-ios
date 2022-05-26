@@ -24,6 +24,15 @@ class MyProfileViewController: FeedViewController {
 //        self.navigationController?.popViewController(animated: true)
         self.dismiss(animated: true)
     }
+    
+    //TEMPORARY
+    @IBAction func onLogoutButtonPressed(_ sender: UIBarButtonItem) {
+        UserService.singleton.logOut()
+        transitionToStoryboard(storyboardID: Constants.SBID.SB.Auth,
+                               viewControllerID: Constants.SBID.VC.AuthNavigation,
+                               duration: 0) { _ in }
+    }
+    
         
     //MARK: -- Overrides
     

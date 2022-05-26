@@ -13,27 +13,38 @@ class KUIViewController: UIViewController {
     // KBaseVC is the KEYBOARD variant BaseVC. more on this later
 
     @IBOutlet var bottomConstraintForKeyboard: NSLayoutConstraint!
-
+    var isAuthKUIView = false
+    
     @objc func keyboardWillShow(sender: NSNotification) {
+        print("keyboard will show")
+        // I was trying out this code because in EnterEmailViewController, when autocorrectiontype = no, and there were suggested options displayed to the user, and they clicked on the textview again, the textview/button would bounce. This was solved by setting autocorrecitontype = default, and i found no problem when the iphone default was set to either no or yes autocorrect
+//        if bottomConstraintForKeyboard.constant > 0 {
+//            return //keyboard is already shown, so dont try to readjust the constraint
+//        }
+        
         let i = sender.userInfo!
         let s: TimeInterval = (i[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
         let k = (i[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height
-        bottomConstraintForKeyboard.constant = k
+
+        bottomConstraintForKeyboard.constant = k - view.safeAreaInsets.bottom
         // Note. that is the correct, actual value. Some prefer to use:
         // bottomConstraintForKeyboard.constant = k - bottomLayoutGuide.length
-        UIView.animate(withDuration: s) { self.view.layoutIfNeeded() }
+        if !isAuthKUIView {
+            UIView.animate(withDuration: s) { self.view.layoutIfNeeded() }
+        }
     }
 
     @objc func keyboardWillHide(sender: NSNotification) {
-        let info = sender.userInfo!
-        let s: TimeInterval = (info[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
-        bottomConstraintForKeyboard.constant = 0
-        UIView.animate(withDuration: s) { self.view.layoutIfNeeded() }
+        if !isAuthKUIView {
+            let info = sender.userInfo!
+            let s: TimeInterval = (info[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+            bottomConstraintForKeyboard.constant = 0
+            UIView.animate(withDuration: s) { self.view.layoutIfNeeded() }
+        }
     }
-
+    
     @objc func clearKeyboard() {
         print("tap gesture recognized")
-        view.endEditing(true)
         // (subtle iOS bug/problem in obscure cases: see note below
         // you may prefer to add a short delay here)
     }
