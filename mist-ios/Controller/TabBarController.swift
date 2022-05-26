@@ -24,21 +24,6 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
 //        }
     }
     
-    // Present authVC if user is not logged in on HomeVC
-    override func viewDidAppear(_ animated: Bool) {
-//        if !UserService.isLoggedIn() {
-//            let authSB = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil)
-//            let authNavVC = authSB.instantiateViewController(withIdentifier: Constants.SBID.VC.AuthNavigation)
-//            authNavVC.modalPresentationStyle = .fullScreen
-//            present(authNavVC, animated: false)
-//        }
-        super.viewDidAppear(true)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
-    
     /*
      Send up a "NewPostNavigation" modal view when the middle "plus" tab bar button is pressed.
      The view controller which is connected to the middle "plus" button should be called "dummy"

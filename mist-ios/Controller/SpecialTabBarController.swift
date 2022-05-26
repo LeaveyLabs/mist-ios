@@ -7,32 +7,12 @@
 
 import UIKit
 
-class FakeTabBar: UITabBar {
-    
-}
-
 class SpecialTabBarController: UITabBarController {
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
-        print("TBC IS LOAD")
-
-//        guard let tabBar = self.tabBar as? SpecialTabBar else { return }
-//        let tabBar = self.tabBar as! FakeTabBar
-
-        print("TBC DID LOAD")
-
-//        tabBar.didTapButton = { [unowned self] in
-//            self.routeToCreateNewAd()
-//        }
-    }
-    
-    func routeToCreateNewAd() {
-        let vc = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewPostNavigation)
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true, completion: nil)
     }
 }
 

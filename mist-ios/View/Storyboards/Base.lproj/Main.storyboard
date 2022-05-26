@@ -852,11 +852,11 @@
             </objects>
             <point key="canvasLocation" x="-777" y="2567"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Special Tab Bar Controller-->
         <scene sceneID="PLu-W2-ENU">
             <objects>
-                <tabBarController storyboardIdentifier="TabBarController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Rpu-Fr-VCm" customClass="TabBarController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="bW8-U5-DWG">
+                <tabBarController storyboardIdentifier="TabBarController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Rpu-Fr-VCm" customClass="SpecialTabBarController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="bW8-U5-DWG" customClass="SpecialTabBar" customModule="mist_ios" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
