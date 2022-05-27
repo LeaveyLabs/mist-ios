@@ -11,8 +11,8 @@ import UIKit
 
 struct Message: Codable {
     let id: Int
-    let from_user: String
-    let to_user: String
+    let sender: String
+    let receiver: String
     let text: String
     let timestamp: Double?
 }
