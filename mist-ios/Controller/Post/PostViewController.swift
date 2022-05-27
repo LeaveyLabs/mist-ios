@@ -165,7 +165,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     func loadComments() {
         Task {
             do {
-                comments = try await CommentAPI.fetchComments(post: post.id)
+                comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
                 print(comments)
                 print("loaded comments")
                 postTableView.reloadData();

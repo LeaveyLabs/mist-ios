@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 struct StatusObject : Codable {
     let status:String;
@@ -15,69 +16,90 @@ struct TokenStruct: Codable {
     let token:String;
 }
 
-enum AuthError: Error {
-    case invalidCredentials
-}
-
 class AuthAPI {
+    static let PATH_TO_REGISTRATION_ENDPOINT = "api-register/"
+    static let PATH_TO_VALIDATION_ENDPOINT = "api-validate/"
+    static let AUTH_EMAIL_PARAM = "email"
+    static let AUTH_CODE_PARAM = "code"
+    
     // Registers email in the database
     // (and database will send verifcation email)
     static func registerEmail(email:String) async throws {
-        let url = "https://mist-backend.herokuapp.com/api-register/"
-        let obj:[String:String] = ["email":email]
+        let url = "\(BASE_URL)\(PATH_TO_REGISTRATION_ENDPOINT)"
+        let obj:[String:String] = [AUTH_EMAIL_PARAM:email]
         let json = try JSONEncoder().encode(obj)
-        let _ = try await BasicAPI.post(url:url, jsonData:json)
+        let (_, _) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
     }
     
     // Validates email
     static func validateEmail(email:String, code:String) async throws {
-        let url = "https://mist-backend.herokuapp.com/api-validate/"
-        let obj:[String:String] = [
-            "email": email,
-            "code": code
+        let url = "\(BASE_URL)\(PATH_TO_VALIDATION_ENDPOINT)"
+        let params:[String:String] = [
+            AUTH_EMAIL_PARAM: email,
+            AUTH_CODE_PARAM: code
         ]
-        let json = try JSONEncoder().encode(obj)
-        let (data, response) = try await BasicAPI.post(url:url, jsonData:json)
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            throw AuthError.invalidCredentials
-        }
+        let json = try JSONEncoder().encode(params)
+        let (_, _) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
     }
     
     // Creates validated user in the database
     static func createUser(username:String,
                            first_name:String,
                            last_name:String,
-                           picture:String?,
+                           picture:UIImage?,
                            email:String,
                            password:String) async throws -> AuthedUser {
-        let url = "https://mist-backend.herokuapp.com/api/users/"
+        let params:[String:String] = [
+            UserAPI.USERNAME_PARAM: username,
+            UserAPI.FIRST_NAME_PARAM: first_name,
+            UserAPI.LAST_NAME_PARAM: last_name,
+            UserAPI.EMAIL_PARAM: email,
+            UserAPI.PASSWORD_PARAM: password,
+        ]
+        let request = AF.upload(
+            multipartFormData:
+                { multipartFormData in
+                    for (key, value) in params {
+                        multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
+                    }
+                    if let picture = picture, let pictureData = picture.pngData() {
+                        multipartFormData.append(pictureData, withName: "picture", fileName: "\(username).png", mimeType: "image/png")
+                    }
+                },
+            to: "\(BASE_URL)\(UserAPI.PATH_TO_USER_MODEL)",
+            method: .post,
+            headers: UserAPI.AUTH_HEADERS
+        )
+        // TODO: get the response codes through .response
+        let response = await request.serializingDecodable(AuthedUser.self).response
         
-        let user = AuthedUser(username: username,
-                              first_name: first_name,
-                              last_name: last_name,
-                              picture: picture,
-                              email: email,
-                              password: password)
-        let json = try JSONEncoder().encode(user)
-        let (data, response) = try await BasicAPI.post(url:url, jsonData:json)
-        guard (response as? HTTPURLResponse)?.statusCode == 201 else {
-            throw AuthError.invalidCredentials
+        
+        if let httpResponse = response.response {
+            let goodRequest = (200...299).contains(httpResponse.statusCode)
+            let badRequest = (400...499).contains(httpResponse.statusCode)
+            
+            if goodRequest {
+                return try await request.serializingDecodable(AuthedUser.self).value
+            }
+            else if badRequest {
+                throw APIError.InvalidCredentials
+            }
+            else {
+                throw APIError.Unknown
+            }
+        } else {
+            throw APIError.NoResponse
         }
-        return try JSONDecoder().decode(AuthedUser.self, from: data)
     }
     
     static func fetchAuthToken(username:String, password:String) async throws -> String {
-        let url = "https://mist-backend.herokuapp.com/api-token/"
-        let obj:[String:String] = [
-            "username": username,
-            "password": password,
+        let url = "\(BASE_URL)api-token/"
+        let params:[String:String] = [
+            UserAPI.USERNAME_PARAM: username,
+            UserAPI.PASSWORD_PARAM: password,
         ]
-        let json = try JSONEncoder().encode(obj)
-        let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url:url, jsonData:json, method: "POST")
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            throw AuthError.invalidCredentials
-        }
-        let tokenStruct = try JSONDecoder().decode(TokenStruct.self, from: data)
-        return tokenStruct.token
+        let json = try JSONEncoder().encode(params)
+        let (data, _) = try await BasicAPI.basicHTTPCallWithoutToken(url:url, jsonData:json, method: HTTPMethods.POST.rawValue)
+        return try JSONDecoder().decode(TokenStruct.self, from: data).token
     }
 }

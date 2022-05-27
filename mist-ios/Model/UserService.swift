@@ -45,7 +45,7 @@ class UserService: NSObject {
         authedUser = try await AuthAPI.createUser(username: username,
                                             first_name: firstName,
                                             last_name: lastName,
-                                            picture: picture,
+                                            picture: nil,
                                             email: email,
                                             password: password)
         let token:String = try await AuthAPI.fetchAuthToken(username: username,
@@ -61,7 +61,7 @@ class UserService: NSObject {
                                                            password: password)
         // DB update
         setGlobalAuthToken(token: token)
-        authedUser = try await UserAPI.fetchUserByToken(token: token)
+        authedUser = try await UserAPI.fetchAuthedUserByToken(token: token)
         // Local update
         saveUserToFilesystem()
     }
@@ -117,9 +117,10 @@ class UserService: NSObject {
                                                    text: text,
                                                    locationDescription: locationDescription,
                                                    latitude: latitude,
-                                                   longitude: longitude)
+                                                   longitude: longitude,
+                                                   author: UserService.singleton.getId()!)
         // Local update (of the user's authoredPosts)
-        authedUser = try await UserAPI.fetchAuthedUsersByUsername(username: authedUser!.username)[0]
+        authedUser = try await UserAPI.fetchAuthedUserByToken(token: getGlobalAuthToken())
         saveUserToFilesystem()
         return newPost
     }
@@ -137,13 +138,13 @@ class UserService: NSObject {
     
     func uploadComment(text: String, postId: Int, author: Int) async throws -> (Comment, Post) {
         let newComment = try await CommentAPI.postComment(text: text, post: postId, author: author)
-        let newPost = try await PostAPI.fetchPosts(post: postId)[0]
+        let newPost = try await PostAPI.fetchPostsByPostID(postId: postId)[0]
         return (newComment, newPost)
     }
     
     func deleteComment(commentId: Int, postId: Int) async throws -> Post {
-        try await CommentAPI.deleteComment(comment: commentId)
-        let newPost = try await PostAPI.fetchPosts(post: postId)[0]
+        try await CommentAPI.deleteComment(commentId: commentId)
+        let newPost = try await PostAPI.fetchPostsByPostID(postId: postId)[0]
         return newPost
     }
     
