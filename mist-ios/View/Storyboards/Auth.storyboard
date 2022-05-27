@@ -88,7 +88,7 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Gm-Vy-EPF">
-                                        <rect key="frame" x="219.5" y="707" width="169.5" height="47"/>
+                                        <rect key="frame" x="217" y="707" width="177" height="47"/>
                                         <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Continue" cornerStyle="capsule" buttonSize="medium">
@@ -112,7 +112,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="APy-wX-Ysj">
-                                        <rect key="frame" x="25" y="707" width="169.5" height="47"/>
+                                        <rect key="frame" x="20" y="707" width="177" height="47"/>
                                         <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="tinted" title="Login" cornerStyle="capsule" buttonSize="medium">
@@ -126,9 +126,9 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstItem="APy-wX-Ysj" firstAttribute="leading" secondItem="43h-Li-OWE" secondAttribute="leading" constant="25" id="47d-hA-hpt"/>
+                                    <constraint firstItem="APy-wX-Ysj" firstAttribute="leading" secondItem="43h-Li-OWE" secondAttribute="leading" constant="20" id="47d-hA-hpt"/>
                                     <constraint firstItem="fv4-zH-DUJ" firstAttribute="leading" secondItem="43h-Li-OWE" secondAttribute="leading" constant="25" id="55Z-Tf-J5e"/>
-                                    <constraint firstAttribute="trailing" secondItem="2Gm-Vy-EPF" secondAttribute="trailing" constant="25" id="9lP-hB-eI5"/>
+                                    <constraint firstAttribute="trailing" secondItem="2Gm-Vy-EPF" secondAttribute="trailing" constant="20" id="9lP-hB-eI5"/>
                                     <constraint firstItem="fv4-zH-DUJ" firstAttribute="top" secondItem="43h-Li-OWE" secondAttribute="top" constant="10" id="Cj3-j0-WXa"/>
                                     <constraint firstAttribute="bottom" secondItem="APy-wX-Ysj" secondAttribute="bottom" constant="20" id="GGZ-s4-lP6"/>
                                     <constraint firstAttribute="bottom" secondItem="2Gm-Vy-EPF" secondAttribute="bottom" constant="20" id="II0-vt-yvz"/>
@@ -136,7 +136,7 @@
                                     <constraint firstAttribute="trailing" secondItem="wCt-JL-EOf" secondAttribute="trailing" constant="25" id="XIX-mT-Mny"/>
                                     <constraint firstItem="ACR-rg-uSx" firstAttribute="leading" secondItem="43h-Li-OWE" secondAttribute="leading" constant="25" id="YMe-3D-Ddu"/>
                                     <constraint firstItem="wCt-JL-EOf" firstAttribute="top" secondItem="ACR-rg-uSx" secondAttribute="bottom" constant="24" id="YOP-HV-Qk5"/>
-                                    <constraint firstItem="2Gm-Vy-EPF" firstAttribute="leading" secondItem="APy-wX-Ysj" secondAttribute="trailing" constant="25" id="hbN-bt-cEG"/>
+                                    <constraint firstItem="2Gm-Vy-EPF" firstAttribute="leading" secondItem="APy-wX-Ysj" secondAttribute="trailing" constant="20" id="hbN-bt-cEG"/>
                                     <constraint firstAttribute="trailing" secondItem="ACR-rg-uSx" secondAttribute="trailing" constant="25" id="la3-ZY-sxY"/>
                                     <constraint firstItem="APy-wX-Ysj" firstAttribute="width" secondItem="2Gm-Vy-EPF" secondAttribute="width" id="ne5-2E-Wko"/>
                                     <constraint firstItem="wCt-JL-EOf" firstAttribute="leading" secondItem="43h-Li-OWE" secondAttribute="leading" constant="25" id="qhO-v8-M4P"/>
@@ -551,7 +551,7 @@
                                                     <constraint firstAttribute="height" constant="50" id="FR6-6V-HkC"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
-                                                <textInputTraits key="textInputTraits" returnKeyType="next" textContentType="username"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next" textContentType="username"/>
                                                 <connections>
                                                     <action selector="textFieldEditingChanged:" destination="578-PS-30b" eventType="editingChanged" id="n4y-9t-TH6"/>
                                                 </connections>
@@ -564,7 +564,7 @@
                                                     <constraint firstAttribute="height" constant="50" id="62r-dD-kqC"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
-                                                <textInputTraits key="textInputTraits" returnKeyType="continue" secureTextEntry="YES" textContentType="password"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="continue" secureTextEntry="YES" textContentType="password"/>
                                                 <connections>
                                                     <action selector="textFieldEditingChanged:" destination="578-PS-30b" eventType="editingChanged" id="QRk-RQ-nxF"/>
                                                 </connections>
@@ -594,7 +594,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d58-Kf-qaI">
-                                        <rect key="frame" x="219.5" y="707" width="169.5" height="47"/>
+                                        <rect key="frame" x="217" y="707" width="177" height="47"/>
                                         <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Login" cornerStyle="capsule" buttonSize="medium">
@@ -605,7 +605,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IpI-Z4-PwJ">
-                                        <rect key="frame" x="25" y="707" width="169.5" height="47"/>
+                                        <rect key="frame" x="20" y="707" width="177" height="47"/>
                                         <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="tinted" title="Signup" cornerStyle="capsule" buttonSize="medium">
@@ -629,15 +629,15 @@
                                 <constraints>
                                     <constraint firstItem="Cdu-Tn-wAt" firstAttribute="trailing" secondItem="pa4-PQ-kx4" secondAttribute="trailing" id="0kG-0d-63g"/>
                                     <constraint firstAttribute="bottom" secondItem="IpI-Z4-PwJ" secondAttribute="bottom" constant="20" id="3AS-Km-0Q0"/>
-                                    <constraint firstItem="IpI-Z4-PwJ" firstAttribute="leading" secondItem="9ck-fn-tJV" secondAttribute="leading" constant="25" id="I2S-NQ-Fgc"/>
+                                    <constraint firstItem="IpI-Z4-PwJ" firstAttribute="leading" secondItem="9ck-fn-tJV" secondAttribute="leading" constant="20" id="I2S-NQ-Fgc"/>
                                     <constraint firstAttribute="bottom" secondItem="d58-Kf-qaI" secondAttribute="bottom" constant="20" id="JvF-iF-4g5"/>
                                     <constraint firstItem="Cdu-Tn-wAt" firstAttribute="top" secondItem="EJ1-w8-CgY" secondAttribute="bottom" constant="5" id="KCv-jk-80d"/>
-                                    <constraint firstAttribute="trailing" secondItem="d58-Kf-qaI" secondAttribute="trailing" constant="25" id="aGK-X9-ULd"/>
+                                    <constraint firstAttribute="trailing" secondItem="d58-Kf-qaI" secondAttribute="trailing" constant="20" id="aGK-X9-ULd"/>
                                     <constraint firstItem="IpI-Z4-PwJ" firstAttribute="width" secondItem="d58-Kf-qaI" secondAttribute="width" id="jr5-p3-K28"/>
                                     <constraint firstItem="EJ1-w8-CgY" firstAttribute="top" secondItem="9ck-fn-tJV" secondAttribute="top" constant="10" id="nDk-gE-NPw"/>
                                     <constraint firstAttribute="trailing" secondItem="EJ1-w8-CgY" secondAttribute="trailing" id="q3X-5f-jif"/>
                                     <constraint firstItem="EJ1-w8-CgY" firstAttribute="leading" secondItem="9ck-fn-tJV" secondAttribute="leading" id="sNp-1V-tZn"/>
-                                    <constraint firstItem="d58-Kf-qaI" firstAttribute="leading" secondItem="IpI-Z4-PwJ" secondAttribute="trailing" constant="25" id="txO-Va-MCs"/>
+                                    <constraint firstItem="d58-Kf-qaI" firstAttribute="leading" secondItem="IpI-Z4-PwJ" secondAttribute="trailing" constant="20" id="txO-Va-MCs"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -891,7 +891,7 @@
                                             <constraint firstAttribute="height" constant="50" id="VrD-hI-CWU"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
-                                        <textInputTraits key="textInputTraits" returnKeyType="continue"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="continue"/>
                                         <connections>
                                             <action selector="textFieldEditingChanged:" destination="tiY-QX-h2V" eventType="editingChanged" id="c7E-e6-83P"/>
                                         </connections>
@@ -978,7 +978,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="Carol" textAlignment="justified" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CQo-7N-wzP">
-                                        <rect key="frame" x="25" y="182" width="364" height="50"/>
+                                        <rect key="frame" x="25" y="182" width="151.5" height="50"/>
                                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                                         <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -990,8 +990,18 @@
                                             <action selector="textFieldEditingChanged:" destination="dKQ-xP-oHK" eventType="editingChanged" id="dmz-QJ-X0i"/>
                                         </connections>
                                     </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="Cn4-Qd-s3u">
+                                        <rect key="frame" x="25" y="68" width="364" height="104"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <string key="text">This is how your friends (and future missed connections 👀) can verify it's you. 
+
+This can't be changed later.</string>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
+                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="Folt" textAlignment="justified" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Tyb-GV-puX">
-                                        <rect key="frame" x="25" y="247" width="364" height="50"/>
+                                        <rect key="frame" x="191.5" y="182" width="197.5" height="50"/>
                                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                                         <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -1003,16 +1013,6 @@
                                             <action selector="textFieldEditingChanged:" destination="dKQ-xP-oHK" eventType="editingChanged" id="SFK-f3-n6m"/>
                                         </connections>
                                     </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Cn4-Qd-s3u">
-                                        <rect key="frame" x="25" y="68" width="364" height="104"/>
-                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <string key="text">This is how your friends (and future missed connections 👀) can verify it's you.
-
-This can't be changed later.</string>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
-                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
@@ -1024,14 +1024,13 @@ This can't be changed later.</string>
                                     <constraint firstItem="Cn4-Qd-s3u" firstAttribute="top" secondItem="bR3-4V-Pgw" secondAttribute="bottom" constant="10" id="JYa-5g-wUL"/>
                                     <constraint firstItem="CQo-7N-wzP" firstAttribute="top" secondItem="Cn4-Qd-s3u" secondAttribute="bottom" constant="10" id="PIU-GU-jnF"/>
                                     <constraint firstAttribute="trailing" secondItem="bR3-4V-Pgw" secondAttribute="trailing" constant="25" id="PKn-uZ-48F"/>
-                                    <constraint firstAttribute="trailing" secondItem="CQo-7N-wzP" secondAttribute="trailing" constant="25" id="QNl-da-xcT"/>
+                                    <constraint firstItem="Tyb-GV-puX" firstAttribute="width" secondItem="CQo-7N-wzP" secondAttribute="width" multiplier="1.3" id="YQE-HX-ePZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="Tyb-GV-puX" secondAttribute="trailing" constant="25" id="cOd-bT-NVW"/>
                                     <constraint firstItem="Cn4-Qd-s3u" firstAttribute="leading" secondItem="GTC-H6-Ij2" secondAttribute="leading" constant="25" id="fSE-Jo-zP8"/>
-                                    <constraint firstItem="Tyb-GV-puX" firstAttribute="trailing" secondItem="CQo-7N-wzP" secondAttribute="trailing" id="glX-cY-FWu"/>
                                     <constraint firstAttribute="trailing" secondItem="Cn4-Qd-s3u" secondAttribute="trailing" constant="25" id="iZp-cp-byE"/>
-                                    <constraint firstItem="CQo-7N-wzP" firstAttribute="centerX" secondItem="GTC-H6-Ij2" secondAttribute="centerX" id="ljm-Lk-7L8"/>
+                                    <constraint firstItem="Tyb-GV-puX" firstAttribute="top" secondItem="Cn4-Qd-s3u" secondAttribute="bottom" constant="10" id="ksN-X0-2iO"/>
+                                    <constraint firstItem="Tyb-GV-puX" firstAttribute="leading" secondItem="CQo-7N-wzP" secondAttribute="trailing" constant="15" id="pCf-n4-bsx"/>
                                     <constraint firstItem="jp2-1x-n3I" firstAttribute="leading" secondItem="GTC-H6-Ij2" secondAttribute="leading" constant="25" id="rGg-nc-s6N"/>
-                                    <constraint firstItem="Tyb-GV-puX" firstAttribute="leading" secondItem="CQo-7N-wzP" secondAttribute="leading" id="s9P-aN-isr"/>
-                                    <constraint firstItem="Tyb-GV-puX" firstAttribute="top" secondItem="CQo-7N-wzP" secondAttribute="bottom" constant="15" id="zXl-dv-zHQ"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -1061,7 +1060,7 @@ This can't be changed later.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pk8-5d-40Z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1965" y="2210"/>
+            <point key="canvasLocation" x="1963.7681159420292" y="2209.8214285714284"/>
         </scene>
         <!--UploadProfilePictureViewController-->
         <scene sceneID="LqR-Fb-J29">
@@ -1372,7 +1371,7 @@ This can't be changed later.</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yJz-Cy-4Uv" customClass="SpringView" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="25" y="237" width="364" height="43"/>
+                                        <rect key="frame" x="25" y="233" width="364" height="43"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1iY-N7-bhq">
                                                 <rect key="frame" x="10" y="5" width="344" height="33"/>
@@ -1407,10 +1406,10 @@ This can't be changed later.</string>
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s4N-CG-jen">
-                                        <rect key="frame" x="316" y="205" width="53.5" height="22"/>
+                                        <rect key="frame" x="326" y="205" width="43.5" height="18"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Resend">
-                                            <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
+                                            <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
                                             <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
                                         </buttonConfiguration>
                                         <connections>
@@ -1458,6 +1457,7 @@ This can't be changed later.</string>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="agreementLabel" destination="Vv0-eJ-HDG" id="rf5-ZK-QbV"/>
                         <outlet property="bottomConstraintForKeyboard" destination="vtN-f1-ZU4" id="X8u-vG-YC1"/>
                         <outlet property="confirmEmailTextField" destination="qUa-1v-kQZ" id="HdX-Ow-t0t"/>
                         <outlet property="continueButton" destination="Xhc-0S-30x" id="qOl-6v-g5I"/>

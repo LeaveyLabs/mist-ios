@@ -105,7 +105,7 @@ class UploadProfilePictureViewController: UIViewController {
                         username: AuthContext.username,
                         firstName: AuthContext.firstName,
                         lastName: AuthContext.lastName,
-                        picture: nil,
+                        picture: selectedProfilePic,
                         email: AuthContext.email,
                         password: AuthContext.password)
                     try await UserService.singleton.updateProfilePic(to: selectedProfilePic)
@@ -115,6 +115,7 @@ class UploadProfilePictureViewController: UIViewController {
                         self?.isSubmitting = false
                     }
                 } catch {
+                    print("error is:")
                     print(error)
                     isSubmitting = false
                 }

@@ -236,13 +236,12 @@ class ExploreMapViewController: MapViewController {
                 let loadedPosts = try await postsService.newPostsNearby(latitude: Constants.Coordinates.USC.latitude, longitude: Constants.Coordinates.USC.longitude)
                 
                 //Can this be handled by postsService instead?
-                //turn the first 10000..?? lol posts returned into PostAnnotations so they will be added to the map
+                let maxPostsToDisplay = 10000
                 displayedAnnotations = []
-                for index in 0...min(10000, loadedPosts.count-1) {
-                    let postAnnotation = PostAnnotation(withPost: loadedPosts[index])
+                for index in 0...min(maxPostsToDisplay, loadedPosts.count) {
+                    let postAnnotation = PostAnnotation(withPost: loadedPosts[index-1])
                     displayedAnnotations.append(postAnnotation)
                 }
-                
             } catch {
                 print(error)
             }

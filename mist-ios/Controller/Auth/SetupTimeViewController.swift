@@ -11,12 +11,13 @@ class SetupTimeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.setHidesBackButton(true, animated: false)
+        navigationItem.setHidesBackButton(true, animated: false)
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     @IBAction func didPressedContinueButton(_ sender: Any) {
         let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ChooseUsername)
         print(vc)
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

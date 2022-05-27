@@ -38,18 +38,19 @@ class UserService: NSObject {
     func createUser(username: String,
                     firstName: String,
                     lastName: String,
-                    picture: String?,
+                    picture: UIImage?,
                     email: String,
                     password: String) async throws {
         // DB update
         authedUser = try await AuthAPI.createUser(username: username,
                                             first_name: firstName,
                                             last_name: lastName,
-                                            picture: nil,
+                                            picture: picture,
                                             email: email,
                                             password: password)
         let token:String = try await AuthAPI.fetchAuthToken(username: username,
                                                            password: password)
+        print(token)
         // Local update
         setGlobalAuthToken(token: token)
         saveUserToFilesystem()

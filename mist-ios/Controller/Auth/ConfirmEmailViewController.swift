@@ -19,6 +19,7 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     @IBOutlet weak var resendButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var errorView: SpringView!
+    @IBOutlet weak var agreementLabel: UILabel!
 
     var isValidInput: Bool! {
         didSet {
@@ -42,6 +43,7 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         emailLabel.text! += AuthContext.email
         
+        agreementLabel.isHidden = true
         validateInput()
         isAuthKUIView = true
         setupErrorLabel()

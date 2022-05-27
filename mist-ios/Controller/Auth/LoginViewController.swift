@@ -40,9 +40,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
         let messageView = MessageView.viewFromNib(layout: .cardView)
-        
         messageView.configureTheme(backgroundColor: .systemRed, foregroundColor: .white, iconImage: nil, iconText: "😔")
         messageView.configureDropShadow()
         messageView.configureContent(title: "Something went wrong.",
@@ -60,7 +58,6 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         messageConfig.duration = .seconds(seconds: 3)
 
         SwiftMessages.show(config: messageConfig, view: messageView)
-        
     }
     
     //MARK: - Setup
@@ -148,17 +145,37 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
                         self?.isSubmitting = false
                     }
                 } catch {
-                    print("almost!")
-                    handleLoginFail()
-                    print(error);
+                    handleLoginFail(error)
                 }
             }
         }
     }
     
-    func handleLoginFail() {
+    func handleLoginFail(_ error: Error) {
         isSubmitting = false
         passwordTextField.text = ""
+        displayErrorMessage()
+    }
+    
+    func displayErrorMessage() {
+        let messageView = MessageView.viewFromNib(layout: .cardView)
+        messageView.configureTheme(backgroundColor: .systemRed, foregroundColor: .white, iconImage: nil, iconText: "😔")
+        messageView.configureDropShadow()
+        messageView.configureContent(title: "Something went wrong.",
+                                     body: "Please try again.",
+                                     iconImage: nil,
+                                     iconText: "😔",
+                                     buttonImage: UIImage(systemName: "xmark"),
+                                     buttonTitle: nil) { button in
+            SwiftMessages.hide()
+        }
+        
+        var messageConfig = SwiftMessages.Config()
+        messageConfig.presentationContext = .window(windowLevel: .statusBar)
+        messageConfig.presentationStyle = .top
+        messageConfig.duration = .seconds(seconds: 3)
+
+        SwiftMessages.show(config: messageConfig, view: messageView)
     }
     
     func validateInput() {
