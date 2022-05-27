@@ -28,8 +28,8 @@ struct MessageKitMessage: MessageType {
         self.sentDate = date
         
         message = Message(id: Int(messageId)!,
-                          from_user: messageKitUser.senderId,
-                          to_user: "UPDATE",
+                          sender: messageKitUser.senderId,
+                          receiver: "UPDATE",
                           text: text,
                           timestamp: date.timeIntervalSince1970)
     }
