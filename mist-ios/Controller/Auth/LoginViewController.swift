@@ -20,7 +20,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     }
     var isSubmitting: Bool = false {
         didSet {
-            loginButton.isEnabled = false
+            loginButton.isEnabled = !isSubmitting
             loginButton.setNeedsUpdateConfiguration()
         }
     }

@@ -1,5 +1,5 @@
 //
-//  EnterNameViewController.swift
+//  ChooseUsernameViewController.swift
 //  mist-ios
 //
 //  Created by Kevin Sun on 4/9/22.
@@ -7,10 +7,9 @@
 
 import UIKit
 
-class EnterNameViewController: KUIViewController, UITextFieldDelegate {
+class ChooseUsernameViewController: KUIViewController, UITextFieldDelegate {
     
-    @IBOutlet weak var firstNameTextField: UITextField!
-    @IBOutlet weak var lastNameTextField: UITextField!
+    @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var continueButton: UIButton!
     var isValidInput: Bool! {
         didSet {
@@ -31,23 +30,18 @@ class EnterNameViewController: KUIViewController, UITextFieldDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        firstNameTextField.becomeFirstResponder()
+        usernameTextField.becomeFirstResponder()
         validateInput()
     }
     
     //MARK: - Setup
     
     func setupTextFields() {
-        firstNameTextField.delegate = self
-        firstNameTextField.smartInsertDeleteType = UITextSmartInsertDeleteType.no
-        firstNameTextField.layer.cornerRadius = 5
-        firstNameTextField.setLeftAndRightPadding(10)
-        firstNameTextField.becomeFirstResponder()
-        
-        lastNameTextField.delegate = self
-        lastNameTextField.smartInsertDeleteType = UITextSmartInsertDeleteType.no
-        lastNameTextField.layer.cornerRadius = 5
-        lastNameTextField.setLeftAndRightPadding(10)
+        usernameTextField.delegate = self
+        usernameTextField.smartInsertDeleteType = UITextSmartInsertDeleteType.no
+        usernameTextField.layer.cornerRadius = 5
+        usernameTextField.setLeftAndRightPadding(10)
+        usernameTextField.becomeFirstResponder()
     }
     
     func setupContinueButton() {
@@ -78,12 +72,8 @@ class EnterNameViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == firstNameTextField {
-            lastNameTextField.becomeFirstResponder()
-        } else {
-            if isValidInput {
-                tryToContinue()
-            }
+        if isValidInput {
+            tryToContinue()
         }
         return false
     }
@@ -96,27 +86,26 @@ class EnterNameViewController: KUIViewController, UITextFieldDelegate {
         }
         let substringToReplace = textFieldText[rangeOfTextToReplace]
         let count = textFieldText.count - substringToReplace.count + string.count
-        return count <= 15
+        return count <= 20
     }
     
     //MARK: - Helpers
     
     func tryToContinue() {
-        if let firstName = firstNameTextField.text, let lastName = lastNameTextField.text {
-            AuthContext.firstName = firstName
-            AuthContext.lastName = lastName
-            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.UploadProfilePicture)
+        if let username = usernameTextField.text {
+            AuthContext.username = username
+            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterName);
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
     func validateInput() {
-        isValidInput = firstNameTextField.text!.count > 0 && lastNameTextField.text!.count > 0
+        isValidInput = usernameTextField.text!.count > 3
     }
 }
     
 
-extension EnterNameViewController: UIGestureRecognizerDelegate {
+extension ChooseUsernameViewController: UIGestureRecognizerDelegate {
     
     // Note: Must be called in viewDidLoad
     //(1 of 2) Enable swipe left to go back with a bar button item

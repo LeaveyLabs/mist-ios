@@ -86,7 +86,7 @@ class CreatePasswordViewController: KUIViewController, UITextFieldDelegate {
         }
         let substringToReplace = textFieldText[rangeOfTextToReplace]
         let count = textFieldText.count - substringToReplace.count + string.count
-        return count <= 6
+        return count <= 25
     }
     
     //MARK: - Helpers
@@ -95,7 +95,7 @@ class CreatePasswordViewController: KUIViewController, UITextFieldDelegate {
         if let password = passwordTextField.text, let confirmPassword = confirmPasswordTextField.text {
             if password == confirmPassword {
                 AuthContext.password = password
-                let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterName);
+                let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.SetupTime);
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
                 

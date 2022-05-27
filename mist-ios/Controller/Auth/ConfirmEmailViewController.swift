@@ -17,6 +17,9 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     @IBOutlet weak var confirmEmailTextField: UITextField!
     @IBOutlet weak var continueButton: UIButton!
     @IBOutlet weak var resendButton: UIButton!
+    @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var errorLabelContainingView: SpringView!
+
     var isValidInput: Bool! {
         didSet {
             continueButton.isEnabled = isValidInput
@@ -25,7 +28,7 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     }
     var isSubmitting: Bool = false {
         didSet {
-            continueButton.isEnabled = false
+            continueButton.isEnabled = !isSubmitting
             continueButton.setNeedsUpdateConfiguration()
         }
     }
@@ -41,6 +44,7 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         
         validateInput()
         isAuthKUIView = true
+        setupErrorLabel()
         setupPopGesture()
         setupConfirmEmailTextField()
         setupContinueButton()
@@ -49,12 +53,19 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     
     //MARK: - Setup
     
+    func setupErrorLabel() {
+        errorLabelContainingView.layer.cornerRadius = 10
+        errorLabelContainingView.layer.masksToBounds = true
+//        errorLabelContainingView.isHidden = true
+        errorLabelContainingView.layer.cornerCurve = .continuous
+    }
+    
     func setupConfirmEmailTextField() {
         confirmEmailTextField.delegate = self
         confirmEmailTextField.smartInsertDeleteType = UITextSmartInsertDeleteType.no
         confirmEmailTextField.layer.cornerRadius = 5
         confirmEmailTextField.setLeftPaddingPoints(16)
-        confirmEmailTextField.defaultTextAttributes.updateValue(30, forKey: NSAttributedString.Key.kern)
+        confirmEmailTextField.defaultTextAttributes.updateValue(40, forKey: NSAttributedString.Key.kern)
         confirmEmailTextField.becomeFirstResponder()
     }
     
@@ -144,27 +155,32 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
             isSubmitting = true
             Task {
                 do {
-                    // Check if the code's valid
                     try await AuthAPI.validateEmail(email: AuthContext.email, code: code)
-                    let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.WelcomeTutorial);
+                    let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.CreatePassword);
                     self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
                         self?.isSubmitting = false
                     })
                 } catch {
-                    isSubmitting = false
-                    print(error);
+                    handleError(error)
                 }
             }
         }
     }
     
+    func handleError(_ error: Error) {
+        isSubmitting = false
+        errorLabelContainingView.isHidden = false
+        errorLabelContainingView.animate()
+        errorLabel.attributedText = CustomAttributedString.errorMessage(errorText: "That didn't work.", size: 16)
+    }
+    
     func resendCode() {
         resendState = .sending
+        errorLabelContainingView.isHidden = false
         Task {
             do {
                 // Send another validation email
                 try await AuthAPI.registerEmail(email: AuthContext.email)
-                //UPDATE BUTTON TEXT: "sent another code! Give it a litle time"
             } catch {
                 print(error)
             }

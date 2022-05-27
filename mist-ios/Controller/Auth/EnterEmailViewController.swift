@@ -11,6 +11,7 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var enterEmailTextField: UITextField!
     @IBOutlet weak var continueButton: UIButton!
+    @IBOutlet weak var errorLabel: UILabel!
     
     var isValidInput: Bool! {
         didSet {
@@ -20,7 +21,7 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     }
     var isSubmitting: Bool = false {
         didSet {
-            continueButton.isEnabled = false
+            continueButton.isEnabled = !isSubmitting
             continueButton.setNeedsUpdateConfiguration()
         }
     }
@@ -31,6 +32,7 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
         isValidInput = false
         isAuthKUIView = true
         setupPopGesture()
+        setupErrorLabel()
         setupEnterEmailTextField()
         setupContinueButton() //uncomment this button for standard button behavior, where !isEnabled greys it out
     }
@@ -42,6 +44,13 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     }
     
     //MARK: - Setup
+    
+    func setupErrorLabel() {
+//        let heavyAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Heavy, size: 20)!]
+//        errorLabel.attributedText = NSMutableAttributedString(string: "😔 Oops. ", attributes: heavyAttributes)
+//        errorLabel.layer.cornerRadius = 5
+//        errorLabel.isHidden = true
+    }
     
     func setupEnterEmailTextField() {
         enterEmailTextField.delegate = self
