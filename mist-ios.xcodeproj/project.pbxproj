@@ -149,6 +149,15 @@
 		47EA3DFB27E0098F00381218 /* UINavigationController+Hairline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3DFA27E0098F00381218 /* UINavigationController+Hairline.swift */; };
 		47EA3E0027E013EB00381218 /* PostAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3DFF27E013EB00381218 /* PostAnnotation.swift */; };
 		47EA3E0227E0151200381218 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3E0127E0151200381218 /* MapViewController.swift */; };
+		47EE28E52840957000C6425C /* CameraPermission in Frameworks */ = {isa = PBXBuildFile; productRef = 47EE28E42840957000C6425C /* CameraPermission */; };
+		47EE28E72840957000C6425C /* ContactsPermission in Frameworks */ = {isa = PBXBuildFile; productRef = 47EE28E62840957000C6425C /* ContactsPermission */; };
+		47EE28E92840957000C6425C /* LocationAlwaysPermission in Frameworks */ = {isa = PBXBuildFile; productRef = 47EE28E82840957000C6425C /* LocationAlwaysPermission */; };
+		47EE28EB2840957000C6425C /* LocationWhenInUsePermission in Frameworks */ = {isa = PBXBuildFile; productRef = 47EE28EA2840957000C6425C /* LocationWhenInUsePermission */; };
+		47EE28ED2840957000C6425C /* NotificationPermission in Frameworks */ = {isa = PBXBuildFile; productRef = 47EE28EC2840957000C6425C /* NotificationPermission */; };
+		47EE28EF2840957000C6425C /* PhotoLibraryPermission in Frameworks */ = {isa = PBXBuildFile; productRef = 47EE28EE2840957000C6425C /* PhotoLibraryPermission */; };
+		47EE28F22840991800C6425C /* PermissionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE28F12840991800C6425C /* PermissionsViewController.swift */; };
+		47EE28F62840A2F500C6425C /* SwiftMessages in Frameworks */ = {isa = PBXBuildFile; productRef = 47EE28F52840A2F500C6425C /* SwiftMessages */; };
+		47EE28F82840AE8200C6425C /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE28F72840AE8200C6425C /* TestViewController.swift */; };
 		47EE95FA27F64C00003B351E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE95F927F64C00003B351E /* SettingsViewController.swift */; };
 		47F45FCD27FF51DF00F2187A /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F45FCC27FF51DF00F2187A /* PostView.swift */; };
 		47F45FCF27FF51EB00F2187A /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47F45FCE27FF51EB00F2187A /* PostView.xib */; };
@@ -341,6 +350,8 @@
 		47EA3DFA27E0098F00381218 /* UINavigationController+Hairline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Hairline.swift"; sourceTree = "<group>"; };
 		47EA3DFF27E013EB00381218 /* PostAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAnnotation.swift; sourceTree = "<group>"; };
 		47EA3E0127E0151200381218 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; wrapsLines = 1; };
+		47EE28F12840991800C6425C /* PermissionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsViewController.swift; sourceTree = "<group>"; };
+		47EE28F72840AE8200C6425C /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		47EE95F927F64C00003B351E /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		47F45FCC27FF51DF00F2187A /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		47F45FCE27FF51EB00F2187A /* PostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostView.xib; sourceTree = "<group>"; };
@@ -357,8 +368,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47EE28EB2840957000C6425C /* LocationWhenInUsePermission in Frameworks */,
 				4316238228341F5F00169AA9 /* MessageKit in Frameworks */,
+				47EE28E92840957000C6425C /* LocationAlwaysPermission in Frameworks */,
 				473B5A262831C8B400BD1168 /* Starscream.xcframework in Frameworks */,
+				47EE28F62840A2F500C6425C /* SwiftMessages in Frameworks */,
+				47EE28E72840957000C6425C /* ContactsPermission in Frameworks */,
+				47EE28EF2840957000C6425C /* PhotoLibraryPermission in Frameworks */,
+				47EE28E52840957000C6425C /* CameraPermission in Frameworks */,
+				47EE28ED2840957000C6425C /* NotificationPermission in Frameworks */,
 				473B5A222831C8B200BD1168 /* Alamofire.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -401,6 +419,8 @@
 				43483BB5280251B1001C7C6A /* EnterNameViewController.swift */,
 				43E30CFD2826355C00DBEB57 /* UploadProfilePictureViewController.swift */,
 				43E30D0128263E1200DBEB57 /* ImagePicker.swift */,
+				47EE28F12840991800C6425C /* PermissionsViewController.swift */,
+				47EE28F72840AE8200C6425C /* TestViewController.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -598,7 +618,6 @@
 		47E74DFF27CA0FFE00467A0C = {
 			isa = PBXGroup;
 			children = (
-				472A4BCF28408BD800FD52B7 /* Spring */,
 				473CAF812832A6EB008D8807 /* mist-ios.xcconfig */,
 				47E74E0A27CA0FFE00467A0C /* mist-ios */,
 				47E74E3E27CA14CE00467A0C /* Supporting Files */,
@@ -606,6 +625,7 @@
 				47E74E2B27CA100000467A0C /* mist-iosUITests */,
 				47E74E0927CA0FFE00467A0C /* Products */,
 				473B5A202831C8B200BD1168 /* Frameworks */,
+				472A4BCF28408BD800FD52B7 /* Spring */,
 			);
 			sourceTree = "<group>";
 		};
@@ -810,6 +830,13 @@
 			name = "mist-ios";
 			packageProductDependencies = (
 				4316238128341F5F00169AA9 /* MessageKit */,
+				47EE28E42840957000C6425C /* CameraPermission */,
+				47EE28E62840957000C6425C /* ContactsPermission */,
+				47EE28E82840957000C6425C /* LocationAlwaysPermission */,
+				47EE28EA2840957000C6425C /* LocationWhenInUsePermission */,
+				47EE28EC2840957000C6425C /* NotificationPermission */,
+				47EE28EE2840957000C6425C /* PhotoLibraryPermission */,
+				47EE28F52840A2F500C6425C /* SwiftMessages */,
 			);
 			productName = "mist-ios";
 			productReference = 47E74E0827CA0FFE00467A0C /* mist-ios.app */;
@@ -886,6 +913,8 @@
 			mainGroup = 47E74DFF27CA0FFE00467A0C;
 			packageReferences = (
 				4316238028341F5F00169AA9 /* XCRemoteSwiftPackageReference "MessageKit" */,
+				47EE28E32840957000C6425C /* XCRemoteSwiftPackageReference "PermissionsKit" */,
+				47EE28F42840A2F500C6425C /* XCRemoteSwiftPackageReference "SwiftMessages" */,
 			);
 			productRefGroup = 47E74E0927CA0FFE00467A0C /* Products */;
 			projectDirPath = "";
@@ -984,6 +1013,7 @@
 				47266AD427FF69C9005DEDB1 /* UIViewController+Loading.swift in Sources */,
 				472A4C0628408BD800FD52B7 /* SpringAnimation.swift in Sources */,
 				47AE72AA27F77B0B00A5E94C /* UsernameSettingViewController.swift in Sources */,
+				47EE28F22840991800C6425C /* PermissionsViewController.swift in Sources */,
 				47FF418328403AE700A44968 /* CustomAttributedString.swift in Sources */,
 				472A4BF728408BD800FD52B7 /* BlurView.swift in Sources */,
 				47A3D70C27D55A3A003DBEA5 /* PostsService.swift in Sources */,
@@ -1009,6 +1039,7 @@
 				472A4BFD28408BD800FD52B7 /* DesignableButton.swift in Sources */,
 				4700F8B627DD7BBA006C2E08 /* BasicAPI.swift in Sources */,
 				471F92D1280159430079F8CA /* SegmentedControlCell.swift in Sources */,
+				47EE28F82840AE8200C6425C /* TestViewController.swift in Sources */,
 				477A6FD627DFB0450020F864 /* Color.swift in Sources */,
 				472A4BFF28408BD800FD52B7 /* DesignableView.swift in Sources */,
 				472A4BF928408BD800FD52B7 /* SpringButton.swift in Sources */,
@@ -1453,6 +1484,22 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		47EE28E32840957000C6425C /* XCRemoteSwiftPackageReference "PermissionsKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparrowcode/PermissionsKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
+		47EE28F42840A2F500C6425C /* XCRemoteSwiftPackageReference "SwiftMessages" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftKickMobile/SwiftMessages";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1460,6 +1507,41 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4316238028341F5F00169AA9 /* XCRemoteSwiftPackageReference "MessageKit" */;
 			productName = MessageKit;
+		};
+		47EE28E42840957000C6425C /* CameraPermission */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 47EE28E32840957000C6425C /* XCRemoteSwiftPackageReference "PermissionsKit" */;
+			productName = CameraPermission;
+		};
+		47EE28E62840957000C6425C /* ContactsPermission */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 47EE28E32840957000C6425C /* XCRemoteSwiftPackageReference "PermissionsKit" */;
+			productName = ContactsPermission;
+		};
+		47EE28E82840957000C6425C /* LocationAlwaysPermission */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 47EE28E32840957000C6425C /* XCRemoteSwiftPackageReference "PermissionsKit" */;
+			productName = LocationAlwaysPermission;
+		};
+		47EE28EA2840957000C6425C /* LocationWhenInUsePermission */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 47EE28E32840957000C6425C /* XCRemoteSwiftPackageReference "PermissionsKit" */;
+			productName = LocationWhenInUsePermission;
+		};
+		47EE28EC2840957000C6425C /* NotificationPermission */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 47EE28E32840957000C6425C /* XCRemoteSwiftPackageReference "PermissionsKit" */;
+			productName = NotificationPermission;
+		};
+		47EE28EE2840957000C6425C /* PhotoLibraryPermission */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 47EE28E32840957000C6425C /* XCRemoteSwiftPackageReference "PermissionsKit" */;
+			productName = PhotoLibraryPermission;
+		};
+		47EE28F52840A2F500C6425C /* SwiftMessages */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 47EE28F42840A2F500C6425C /* XCRemoteSwiftPackageReference "SwiftMessages" */;
+			productName = SwiftMessages;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

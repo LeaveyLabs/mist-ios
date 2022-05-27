@@ -18,7 +18,7 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     @IBOutlet weak var continueButton: UIButton!
     @IBOutlet weak var resendButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
-    @IBOutlet weak var errorLabelContainingView: SpringView!
+    @IBOutlet weak var errorView: SpringView!
 
     var isValidInput: Bool! {
         didSet {
@@ -51,21 +51,18 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         setupResendButton()
     }
     
-    //MARK: - Setup
-    
-    func setupErrorLabel() {
-        errorLabelContainingView.layer.cornerRadius = 10
-        errorLabelContainingView.layer.masksToBounds = true
-        errorLabelContainingView.isHidden = true
-        errorLabelContainingView.layer.cornerCurve = .continuous
+    override func viewDidAppear(_ animated: Bool) {
+        print(confirmEmailTextField.frame.size.width)
     }
+    
+    //MARK: - Setup
     
     func setupConfirmEmailTextField() {
         confirmEmailTextField.delegate = self
         confirmEmailTextField.smartInsertDeleteType = UITextSmartInsertDeleteType.no
         confirmEmailTextField.layer.cornerRadius = 5
-        confirmEmailTextField.setLeftPaddingPoints(16)
-        confirmEmailTextField.defaultTextAttributes.updateValue(40, forKey: NSAttributedString.Key.kern)
+        confirmEmailTextField.setLeftPaddingPoints(20)
+        confirmEmailTextField.defaultTextAttributes.updateValue(36, forKey: NSAttributedString.Key.kern)
         confirmEmailTextField.becomeFirstResponder()
     }
     
@@ -167,18 +164,9 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         }
     }
     
-    func handleError(_ error: Error) {
-        isSubmitting = false
-        confirmEmailTextField.text = ""
-        errorLabel.attributedText = CustomAttributedString.errorMessage(errorText: "That didn't work.", size: 16)
-        errorLabelContainingView.isHidden = false
-        errorLabelContainingView.animation = "shake"
-        errorLabelContainingView.animate()
-    }
-    
     func resendCode() {
         resendState = .sending
-        errorLabelContainingView.isHidden = true
+        errorView.isHidden = true
         Task {
             do {
                 // Send another validation email
@@ -192,6 +180,26 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     
     func validateInput() {
         isValidInput = confirmEmailTextField.text?.count == 6
+    }
+}
+
+// Error View functions
+extension ConfirmEmailViewController {
+    
+    func setupErrorLabel() {
+        errorView.layer.cornerRadius = 10
+        errorView.layer.masksToBounds = true
+        errorView.isHidden = true
+        errorView.layer.cornerCurve = .continuous
+    }
+    
+    func handleError(_ error: Error) {
+        isSubmitting = false
+        confirmEmailTextField.text = ""
+        errorLabel.attributedText = CustomAttributedString.errorMessage(errorText: "That didn't work.", size: 16)
+        errorView.isHidden = false
+        errorView.animation = "shake"
+        errorView.animate()
     }
 }
 

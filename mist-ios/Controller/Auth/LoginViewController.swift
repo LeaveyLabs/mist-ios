@@ -6,12 +6,14 @@
 //
 
 import UIKit
+import SwiftMessages
 
 class LoginViewController: KUIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
+    
     var isValidInput: Bool! {
         didSet {
             loginButton.isEnabled = isValidInput
@@ -35,6 +37,30 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         setupPopGesture()
         setupTextFields()
         setupLoginButton()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        let messageView = MessageView.viewFromNib(layout: .cardView)
+        
+        messageView.configureTheme(backgroundColor: .systemRed, foregroundColor: .white, iconImage: nil, iconText: "😔")
+        messageView.configureDropShadow()
+        messageView.configureContent(title: "Something went wrong.",
+                                     body: "Please try again.",
+                                     iconImage: nil,
+                                     iconText: "😔",
+                                     buttonImage: UIImage(systemName: "xmark"),
+                                     buttonTitle: nil) { button in
+            SwiftMessages.hide()
+        }
+        
+        var messageConfig = SwiftMessages.Config()
+        messageConfig.keyboardTrackingView = KeyboardTrackingView()
+        messageConfig.presentationStyle = .bottom
+        messageConfig.duration = .seconds(seconds: 3)
+
+        SwiftMessages.show(config: messageConfig, view: messageView)
+        
     }
     
     //MARK: - Setup

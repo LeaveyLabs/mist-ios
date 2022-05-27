@@ -15,6 +15,9 @@ class UploadProfilePictureViewController: UIViewController {
     @IBOutlet weak var continueButton: UIButton!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var errorView: SpringView!
+    
     var imagePicker: ImagePicker!
     var isSubmitting: Bool = false {
         didSet {
@@ -129,6 +132,26 @@ extension UploadProfilePictureViewController: ImagePickerDelegate {
 
     func didSelect(image: UIImage?) {
         profilePic = image
+    }
+}
+
+// Error View functions
+extension UploadProfilePictureViewController {
+    
+    func setupErrorLabel() {
+        errorView.layer.cornerRadius = 10
+        errorView.layer.masksToBounds = true
+        errorView.isHidden = true
+        errorView.layer.cornerCurve = .continuous
+    }
+    
+    func handleError(_ error: Error) {
+        isSubmitting = false
+        profilePic = nil
+        errorLabel.attributedText = CustomAttributedString.errorMessage(errorText: "That didn't work.", size: 16)
+        errorView.isHidden = false
+        errorView.animation = "shake"
+        errorView.animate()
     }
 }
 
