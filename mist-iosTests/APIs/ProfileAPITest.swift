@@ -27,26 +27,6 @@ class UserAPITest: XCTestCase {
         
     }
     
-    func testProfilePicUploadCompletes() throws {
-        let expectation = XCTestExpectation()
-        let url = URL(string: "https://cdn.cocoacasts.com/cc00ceb0c6bff0d536f25454d50223875d5c79f1/above-the-clouds.jpg")!
-        if let imgData = try? Data(contentsOf: url) {
-            let image = UIImage(data: imgData)
-            Task {
-                let testProfiles = try? await UserAPI.fetchProfilesByText(text: "kevinsun")
-                let testProfile = testProfiles?[0]
-                if let testProfile = testProfile {
-                    if let image = image {
-                        let _ = try? await UserAPI.putProfilePic(image: image, profile:testProfile)
-                        expectation.fulfill()
-                    }
-                }
-            }
-        }
-        
-        wait(for: [expectation], timeout: 30)
-        
-    }
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
