@@ -8,6 +8,29 @@
 import UIKit
 import SwiftMessages
 
+func displayErrorMessage(errorDescription: String) {
+    let messageView = MessageView.viewFromNib(layout: .cardView)
+    messageView.backgroundHeight = 60
+    messageView.configureTheme(.error)
+    messageView.configureDropShadow()
+    messageView.button?.isHidden = true
+    messageView.configureContent(title: "Something went wrong.",
+                                 body: "Please try again.",
+                                 iconImage: nil,
+                                 iconText: "😔",
+                                 buttonImage: UIImage(systemName: "xmark"),
+                                 buttonTitle: "Close") { button in
+        SwiftMessages.hide()
+    }
+    
+    var messageConfig = SwiftMessages.Config()
+    messageConfig.presentationContext = .window(windowLevel: .statusBar)
+    messageConfig.presentationStyle = .top
+    messageConfig.duration = .seconds(seconds: 3)
+
+    SwiftMessages.show(config: messageConfig, view: messageView)
+}
+
 class LoginViewController: KUIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var usernameTextField: UITextField!
@@ -37,27 +60,6 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         setupPopGesture()
         setupTextFields()
         setupLoginButton()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        let messageView = MessageView.viewFromNib(layout: .cardView)
-        messageView.configureTheme(backgroundColor: .systemRed, foregroundColor: .white, iconImage: nil, iconText: "😔")
-        messageView.configureDropShadow()
-        messageView.configureContent(title: "Something went wrong.",
-                                     body: "Please try again.",
-                                     iconImage: nil,
-                                     iconText: "😔",
-                                     buttonImage: UIImage(systemName: "xmark"),
-                                     buttonTitle: nil) { button in
-            SwiftMessages.hide()
-        }
-        
-        var messageConfig = SwiftMessages.Config()
-        messageConfig.keyboardTrackingView = KeyboardTrackingView()
-        messageConfig.presentationStyle = .bottom
-        messageConfig.duration = .seconds(seconds: 3)
-
-        SwiftMessages.show(config: messageConfig, view: messageView)
     }
     
     //MARK: - Setup
@@ -154,28 +156,8 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     func handleLoginFail(_ error: Error) {
         isSubmitting = false
         passwordTextField.text = ""
-        displayErrorMessage()
-    }
-    
-    func displayErrorMessage() {
-        let messageView = MessageView.viewFromNib(layout: .cardView)
-        messageView.configureTheme(backgroundColor: .systemRed, foregroundColor: .white, iconImage: nil, iconText: "😔")
-        messageView.configureDropShadow()
-        messageView.configureContent(title: "Something went wrong.",
-                                     body: "Please try again.",
-                                     iconImage: nil,
-                                     iconText: "😔",
-                                     buttonImage: UIImage(systemName: "xmark"),
-                                     buttonTitle: nil) { button in
-            SwiftMessages.hide()
-        }
-        
-        var messageConfig = SwiftMessages.Config()
-        messageConfig.presentationContext = .window(windowLevel: .statusBar)
-        messageConfig.presentationStyle = .top
-        messageConfig.duration = .seconds(seconds: 3)
-
-        SwiftMessages.show(config: messageConfig, view: messageView)
+        validateInput()
+        displayErrorMessage(errorDescription: error.localizedDescription)
     }
     
     func validateInput() {

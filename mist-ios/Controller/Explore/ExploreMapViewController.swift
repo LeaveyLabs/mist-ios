@@ -238,9 +238,11 @@ class ExploreMapViewController: MapViewController {
                 //Can this be handled by postsService instead?
                 let maxPostsToDisplay = 10000
                 displayedAnnotations = []
-                for index in 0...min(maxPostsToDisplay, loadedPosts.count) {
-                    let postAnnotation = PostAnnotation(withPost: loadedPosts[index-1])
-                    displayedAnnotations.append(postAnnotation)
+                if loadedPosts.count > 0 {
+                    for index in 0...min(maxPostsToDisplay, loadedPosts.count-1) {
+                        let postAnnotation = PostAnnotation(withPost: loadedPosts[index])
+                        displayedAnnotations.append(postAnnotation)
+                    }
                 }
             } catch {
                 print(error)

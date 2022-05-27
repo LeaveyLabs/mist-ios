@@ -108,19 +108,22 @@ class UploadProfilePictureViewController: UIViewController {
                         picture: selectedProfilePic,
                         email: AuthContext.email,
                         password: AuthContext.password)
-                    try await UserService.singleton.updateProfilePic(to: selectedProfilePic)
                     transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
                                            viewControllerID: Constants.SBID.VC.TabBarController,
                                            duration: 1) { [weak self] _ in
                         self?.isSubmitting = false
                     }
                 } catch {
-                    print("error is:")
-                    print(error)
-                    isSubmitting = false
+                    handleFailure(error)
                 }
             }
         }
+    }
+    
+    func handleFailure(_ error: Error) {
+        isSubmitting = false
+        profilePic = defaultPic
+        displayErrorMessage(errorDescription: error.localizedDescription)
     }
     
     func validateInput() -> Bool {

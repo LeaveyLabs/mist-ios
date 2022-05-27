@@ -158,6 +158,8 @@
 		47EE28F22840991800C6425C /* PermissionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE28F12840991800C6425C /* PermissionsViewController.swift */; };
 		47EE28F62840A2F500C6425C /* SwiftMessages in Frameworks */ = {isa = PBXBuildFile; productRef = 47EE28F52840A2F500C6425C /* SwiftMessages */; };
 		47EE28F82840AE8200C6425C /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE28F72840AE8200C6425C /* TestViewController.swift */; };
+		47EE28FE28414AF700C6425C /* CustomCenteredView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE28FD28414AF700C6425C /* CustomCenteredView.swift */; };
+		47EE290028414B2300C6425C /* CustomCenteredView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47EE28FF28414B2300C6425C /* CustomCenteredView.xib */; };
 		47EE95FA27F64C00003B351E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE95F927F64C00003B351E /* SettingsViewController.swift */; };
 		47F45FCD27FF51DF00F2187A /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F45FCC27FF51DF00F2187A /* PostView.swift */; };
 		47F45FCF27FF51EB00F2187A /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47F45FCE27FF51EB00F2187A /* PostView.xib */; };
@@ -352,6 +354,8 @@
 		47EA3E0127E0151200381218 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		47EE28F12840991800C6425C /* PermissionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsViewController.swift; sourceTree = "<group>"; };
 		47EE28F72840AE8200C6425C /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		47EE28FD28414AF700C6425C /* CustomCenteredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCenteredView.swift; sourceTree = "<group>"; };
+		47EE28FF28414B2300C6425C /* CustomCenteredView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCenteredView.xib; sourceTree = "<group>"; };
 		47EE95F927F64C00003B351E /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		47F45FCC27FF51DF00F2187A /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		47F45FCE27FF51EB00F2187A /* PostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostView.xib; sourceTree = "<group>"; };
@@ -459,6 +463,7 @@
 		470BD12E27DB1D9A00DD4622 /* Xibs */ = {
 			isa = PBXGroup;
 			children = (
+				47EE28FC28414A7200C6425C /* CustomSwiftMessages */,
 				479AA1EF27DCE9A700EA0DFC /* PostCell.xib */,
 				47F45FCE27FF51EB00F2187A /* PostView.xib */,
 				4700F8BD27DD807C006C2E08 /* CommentCell.xib */,
@@ -774,6 +779,15 @@
 			path = Map;
 			sourceTree = "<group>";
 		};
+		47EE28FC28414A7200C6425C /* CustomSwiftMessages */ = {
+			isa = PBXGroup;
+			children = (
+				47EE28FF28414B2300C6425C /* CustomCenteredView.xib */,
+				47EE28FD28414AF700C6425C /* CustomCenteredView.swift */,
+			);
+			path = CustomSwiftMessages;
+			sourceTree = "<group>";
+		};
 		47F4EFD127E10C1300861F30 /* Post */ = {
 			isa = PBXGroup;
 			children = (
@@ -938,6 +952,7 @@
 				47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */,
 				479AA1F727DD0D3800EA0DFC /* Auth.storyboard in Resources */,
 				470F271927DE758100C6DDAF /* WordResultCell.xib in Resources */,
+				47EE290028414B2300C6425C /* CustomCenteredView.xib in Resources */,
 				4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */,
 				47E2B1C32800E9EB00131B8D /* MyCommentCell.xib in Resources */,
 				470F271D27DE764F00C6DDAF /* UserResultCell.xib in Resources */,
@@ -1088,6 +1103,7 @@
 				472A4C0028408BD800FD52B7 /* DesignableTabBarController.swift in Sources */,
 				479683F82828180C00CA23BA /* ClusterAnnotationView.swift in Sources */,
 				477499872832CF540067C26C /* AutocompleteChatViewController.swift in Sources */,
+				47EE28FE28414AF700C6425C /* CustomCenteredView.swift in Sources */,
 				479683F5282817CC00CA23BA /* PostMarkerAnnotationView.swift in Sources */,
 				479AA20127DD3F5500EA0DFC /* MistUIButton.swift in Sources */,
 				479AA1FD27DD109F00EA0DFC /* Constants.swift in Sources */,

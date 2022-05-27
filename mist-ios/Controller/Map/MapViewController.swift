@@ -73,11 +73,20 @@ class MapViewController: UIViewController {
         displayedAnnotations = []
         setupMapButtons()
         setupMapView()
-        setupLocationManager()
+        handleUserLocationPermissionRequest()
         applyGradientUnderneathNavbar()
     }
     
     // MARK: - Setup
+    
+    func handleUserLocationPermissionRequest() {
+        //if permissions are already granted, do nothing
+        //else
+            //if user already denied permission, ask them to go into settings
+                    //will calling setupLocationManager handle this case?
+            //else
+            //display them a "SwiftMessage", which within calls setupLocationManager
+    }
     
     func setupMapView() {
         mapView.cameraZoomRange = MKMapView.CameraZoomRange(minCenterCoordinateDistance: 310) // Note: this creates an effect where, when the camera is pretty zoomed in, if you try to increase the pitch past a certian point, it automatically zooms in more. Not totally sure why. This is slightly undesirable but not that deep

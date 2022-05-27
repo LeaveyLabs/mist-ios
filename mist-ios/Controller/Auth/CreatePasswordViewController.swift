@@ -98,9 +98,16 @@ class CreatePasswordViewController: KUIViewController, UITextFieldDelegate {
                 let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.SetupTime);
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
-                
+                handleFailure()
             }
         }
+    }
+    
+    func handleFailure() {
+        passwordTextField.text = ""
+        confirmPasswordTextField.text = ""
+        validateInput()
+        displayErrorMessage(errorDescription: "Passwords do not match.")
     }
     
     func validateInput() {

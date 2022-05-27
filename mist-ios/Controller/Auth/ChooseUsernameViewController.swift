@@ -17,6 +17,12 @@ class ChooseUsernameViewController: KUIViewController, UITextFieldDelegate {
             continueButton.setNeedsUpdateConfiguration()
         }
     }
+    var isSubmitting: Bool = false {
+        didSet {
+            continueButton.isEnabled = !isSubmitting
+            continueButton.setNeedsUpdateConfiguration()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,13 +51,14 @@ class ChooseUsernameViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func setupContinueButton() {
-        continueButton.configurationUpdateHandler = { button in
+        continueButton.configurationUpdateHandler = { [weak self] button in
             if button.isEnabled {
                 button.configuration = ButtonConfigs.enabledConfig(title: "Continue")
             }
             else {
                 button.configuration = ButtonConfigs.disabledConfig(title: "Continue")
             }
+            button.configuration?.showsActivityIndicator = self?.isSubmitting ?? false
         }
     }
     
@@ -93,10 +100,26 @@ class ChooseUsernameViewController: KUIViewController, UITextFieldDelegate {
     
     func tryToContinue() {
         if let username = usernameTextField.text {
-            AuthContext.username = username
-            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterName);
-            self.navigationController?.pushViewController(vc, animated: true)
+            isSubmitting = true
+            Task {
+                do {
+                    try await AuthAPI.validateUsername(username: username)
+                    AuthContext.username = username
+                    let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterName);
+                    self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
+                        self?.isSubmitting = false
+                    })
+                } catch {
+                    handleFailure(error)
+                }
+            }
         }
+    }
+    
+    func handleFailure(_ error: Error) {
+        isSubmitting = false
+        isValidInput = false
+        displayErrorMessage(errorDescription: error.localizedDescription)
     }
     
     func validateInput() {

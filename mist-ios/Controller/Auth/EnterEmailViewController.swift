@@ -99,7 +99,7 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     
     func tryToContinue() {
         // If you've inputted an email
-        if let email = enterEmailTextField.text {
+        if let email = enterEmailTextField.text?.lowercased() {
             Task {
                 isSubmitting = true
                 do {
@@ -112,11 +112,17 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
                         self?.isSubmitting = false
                     })
                 } catch {
-                    print(error)
-                    isSubmitting = false
+                    handleFailure(error)
                 }
             }
         }
+    }
+    
+    func handleFailure(_ error: Error) {
+        isSubmitting = false
+        enterEmailTextField.text = ""
+        validateInput()
+        displayErrorMessage(errorDescription: error.localizedDescription)
     }
     
     func validateInput() {

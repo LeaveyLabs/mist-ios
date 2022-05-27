@@ -64,7 +64,7 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         confirmEmailTextField.smartInsertDeleteType = UITextSmartInsertDeleteType.no
         confirmEmailTextField.layer.cornerRadius = 5
         confirmEmailTextField.setLeftPaddingPoints(20)
-        confirmEmailTextField.defaultTextAttributes.updateValue(36, forKey: NSAttributedString.Key.kern)
+        confirmEmailTextField.defaultTextAttributes.updateValue(34, forKey: NSAttributedString.Key.kern)
         confirmEmailTextField.becomeFirstResponder()
     }
     
@@ -149,7 +149,6 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     //MARK: - Helpers
     
     func tryToContinue() {
-        // If you've inputted the code
         if let code = confirmEmailTextField.text {
             isSubmitting = true
             Task {
