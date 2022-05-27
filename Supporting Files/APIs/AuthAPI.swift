@@ -67,8 +67,7 @@ class AuthAPI {
                     }
                 },
             to: "\(BASE_URL)\(UserAPI.PATH_TO_USER_MODEL)",
-            method: .post,
-            headers: UserAPI.AUTH_HEADERS
+            method: .post
         )
         // TODO: get the response codes through .response
         let response = await request.serializingDecodable(AuthedUser.self).response
