@@ -526,18 +526,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cbq-bD-sqY">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="clip" id="ady-rB-nvk">
-                                        <rect key="frame" x="324" y="200" width="65" height="35"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Resend" buttonSize="medium">
-                                            <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
-                                            <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
-                                        </buttonConfiguration>
-                                        <connections>
-                                            <action selector="didPressedResendButton:" destination="7Rt-X6-hC2" eventType="touchUpInside" id="F27-Xh-k0i"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9du-Ov-dqS">
                                         <rect key="frame" x="25" y="707" width="364" height="47"/>
                                         <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -585,7 +573,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JAF-Fs-nQv" customClass="SpringView" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="25" y="240" width="364" height="43"/>
+                                        <rect key="frame" x="25" y="237" width="364" height="43"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KYA-Og-Ihm">
                                                 <rect key="frame" x="10" y="5" width="344" height="33"/>
@@ -618,11 +606,18 @@
                                             <constraint firstItem="KYA-Og-Ihm" firstAttribute="top" secondItem="JAF-Fs-nQv" secondAttribute="top" constant="5" id="RFE-ah-4Wr"/>
                                             <constraint firstAttribute="bottom" secondItem="KYA-Og-Ihm" secondAttribute="bottom" constant="5" id="oh5-k3-3oS"/>
                                         </constraints>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="animation" value="shake"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="autohide" value="YES"/>
-                                        </userDefinedRuntimeAttributes>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v9K-Df-fwx">
+                                        <rect key="frame" x="335.5" y="205" width="53.5" height="22"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Resend">
+                                            <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
+                                            <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="didPressedResendButton:" destination="7Rt-X6-hC2" eventType="touchUpInside" id="vdR-KR-7Yg"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
@@ -632,10 +627,10 @@
                                     <constraint firstAttribute="trailing" secondItem="GYU-ic-H1W" secondAttribute="trailing" constant="25" id="EB1-73-IAh"/>
                                     <constraint firstAttribute="trailing" secondItem="JAF-Fs-nQv" secondAttribute="trailing" constant="25" id="HXB-c1-Lrr"/>
                                     <constraint firstItem="rwb-2y-JYF" firstAttribute="leading" secondItem="Cbq-bD-sqY" secondAttribute="leading" constant="25" id="KkU-T2-TCe"/>
-                                    <constraint firstItem="ady-rB-nvk" firstAttribute="top" secondItem="GYU-ic-H1W" secondAttribute="bottom" constant="5" id="SNz-lS-eR3"/>
+                                    <constraint firstItem="JAF-Fs-nQv" firstAttribute="top" secondItem="v9K-Df-fwx" secondAttribute="bottom" constant="10" id="Lkf-Ru-YSu"/>
                                     <constraint firstItem="GYU-ic-H1W" firstAttribute="top" secondItem="rwb-2y-JYF" secondAttribute="bottom" constant="24" id="UB2-TF-4xk"/>
                                     <constraint firstAttribute="trailing" secondItem="9du-Ov-dqS" secondAttribute="trailing" constant="25" id="XhQ-Jk-nXO"/>
-                                    <constraint firstItem="JAF-Fs-nQv" firstAttribute="top" secondItem="ady-rB-nvk" secondAttribute="bottom" constant="5" id="aWv-lW-rdj"/>
+                                    <constraint firstAttribute="trailing" secondItem="v9K-Df-fwx" secondAttribute="trailing" constant="25" id="YOD-aL-btK"/>
                                     <constraint firstItem="9du-Ov-dqS" firstAttribute="leading" secondItem="Cbq-bD-sqY" secondAttribute="leading" constant="25" id="dEA-XT-3Xi"/>
                                     <constraint firstAttribute="trailing" secondItem="9l0-rm-e40" secondAttribute="trailing" constant="25" id="dSZ-21-zXU"/>
                                     <constraint firstItem="9du-Ov-dqS" firstAttribute="top" secondItem="Kvr-J2-3SN" secondAttribute="bottom" constant="10" id="ed3-1M-jKe"/>
@@ -644,6 +639,7 @@
                                     <constraint firstAttribute="bottom" secondItem="9du-Ov-dqS" secondAttribute="bottom" constant="20" id="kJw-r3-L6p"/>
                                     <constraint firstItem="JAF-Fs-nQv" firstAttribute="leading" secondItem="Cbq-bD-sqY" secondAttribute="leading" constant="25" id="rlr-Ld-kci"/>
                                     <constraint firstItem="9l0-rm-e40" firstAttribute="top" secondItem="Cbq-bD-sqY" secondAttribute="top" constant="10" id="spf-JV-kfF"/>
+                                    <constraint firstItem="v9K-Df-fwx" firstAttribute="top" secondItem="GYU-ic-H1W" secondAttribute="bottom" constant="10" id="stp-eG-KkQ"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -670,7 +666,7 @@
                         <outlet property="emailLabel" destination="rwb-2y-JYF" id="gVB-vt-yIz"/>
                         <outlet property="errorLabel" destination="KYA-Og-Ihm" id="Nsr-zs-8dP"/>
                         <outlet property="errorLabelContainingView" destination="JAF-Fs-nQv" id="xsO-Ht-y9V"/>
-                        <outlet property="resendButton" destination="ady-rB-nvk" id="Bnw-r3-5JQ"/>
+                        <outlet property="resendButton" destination="v9K-Df-fwx" id="gQy-Vc-t4j"/>
                         <segue destination="K85-S5-lTv" kind="show" id="qej-L6-qbp"/>
                     </connections>
                 </viewController>

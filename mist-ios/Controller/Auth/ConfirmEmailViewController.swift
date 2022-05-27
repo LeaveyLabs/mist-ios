@@ -56,7 +56,7 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     func setupErrorLabel() {
         errorLabelContainingView.layer.cornerRadius = 10
         errorLabelContainingView.layer.masksToBounds = true
-//        errorLabelContainingView.isHidden = true
+        errorLabelContainingView.isHidden = true
         errorLabelContainingView.layer.cornerCurve = .continuous
     }
     
@@ -169,14 +169,16 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     
     func handleError(_ error: Error) {
         isSubmitting = false
-        errorLabelContainingView.isHidden = false
-        errorLabelContainingView.animate()
+        confirmEmailTextField.text = ""
         errorLabel.attributedText = CustomAttributedString.errorMessage(errorText: "That didn't work.", size: 16)
+        errorLabelContainingView.isHidden = false
+        errorLabelContainingView.animation = "shake"
+        errorLabelContainingView.animate()
     }
     
     func resendCode() {
         resendState = .sending
-        errorLabelContainingView.isHidden = false
+        errorLabelContainingView.isHidden = true
         Task {
             do {
                 // Send another validation email
