@@ -8,20 +8,17 @@
 import UIKit
 
 class SpecialTabBar: UITabBar {
-    
-    // MARK: - Variables
-    public var didTapButton: (() -> ())?
-    
+        
     public lazy var middleButton: UIButton! = {
         let middleButton = UIButton()
         middleButton.adjustsImageWhenHighlighted = false //deprecated, but only for the new "UIButtonConfiguration" buttons, which we're not using here
-//        centerButton.frame = CGRect(x: 0.0, y: 0.0, width: buttonImage.size.width, height: buttonImage.size.height)
-        middleButton.frame.size = CGSize(width: 48, height: 48)
+        let submitImage = UIImage(named: "submitbutton")!
+        middleButton.setImage(submitImage, for: .normal)
+        middleButton.frame = CGRect(x: 0.0, y: 0.0, width: submitImage.size.width, height: submitImage.size.height)
+//        middleButton.frame.size = CGSize(width: 400, height: 400)
         middleButton.translatesAutoresizingMaskIntoConstraints = false
-        middleButton.setImage(UIImage(named: "submitbutton")!, for: .normal)
         middleButton.isUserInteractionEnabled = true
         middleButton.addTarget(self, action: #selector(middleButtonAction), for: .touchUpInside)
-        middleButton.frame.size = CGSize(width: 48, height: 48)
         
         addSubview(middleButton)
         
@@ -54,12 +51,9 @@ class SpecialTabBar: UITabBar {
     
     // MARK: - Actions
     @objc func middleButtonAction(sender: UIButton) {
-        print("touched!")
         let vc = findViewController()?.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewPostNavigation)
         vc?.modalPresentationStyle = .fullScreen
-        
         findViewController()?.present(vc!, animated: true, completion: nil)
-        didTapButton?()
     }
     
     // MARK: - HitTest

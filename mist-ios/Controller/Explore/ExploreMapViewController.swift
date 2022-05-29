@@ -83,13 +83,13 @@ class ExploreMapViewController: MapViewController {
     @IBAction func exploreUserTrackingButtonDidPressed(_ sender: UIButton) {
         dismissPost()
         dismissFilter()
-        slowFlyTo(lat: mapView.userLocation.coordinate.latitude, long: mapView.userLocation.coordinate.longitude, incrementalZoom: false, completion: {_ in })
+        userTrackingButtonDidPressed(sender)
     }
     
     @IBAction func exploreMapDimensionButtonDidPressed(_ sender: UIButton) {
         dismissPost()
         dismissFilter()
-        toggleMapDimension()
+        mapDimensionButtonDidPressed(sender)
     }
     
     // This handles the case of tapping, but not panning and dragging for some reason

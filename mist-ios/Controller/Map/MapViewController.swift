@@ -7,6 +7,7 @@
 
 import UIKit
 import MapKit
+import SwiftMessages
 
 //todos / problems:
 //TODO: cluster annotation bounce on deselect even its deselect is animated: false?
@@ -73,20 +74,11 @@ class MapViewController: UIViewController {
         displayedAnnotations = []
         setupMapButtons()
         setupMapView()
-        handleUserLocationPermissionRequest()
+        setupLocationManager()
         applyGradientUnderneathNavbar()
     }
     
     // MARK: - Setup
-    
-    func handleUserLocationPermissionRequest() {
-        //if permissions are already granted, do nothing
-        //else
-            //if user already denied permission, ask them to go into settings
-                    //will calling setupLocationManager handle this case?
-            //else
-            //display them a "SwiftMessage", which within calls setupLocationManager
-    }
     
     func setupMapView() {
         mapView.cameraZoomRange = MKMapView.CameraZoomRange(minCenterCoordinateDistance: 310) // Note: this creates an effect where, when the camera is pretty zoomed in, if you try to increase the pitch past a certian point, it automatically zooms in more. Not totally sure why. This is slightly undesirable but not that deep
@@ -125,10 +117,22 @@ class MapViewController: UIViewController {
         applyShadowOnView(mapDimensionButton)
     }
     
+    func handleUserLocationPermissionRequest() {
+        if locationManager.authorizationStatus == .denied ||
+            locationManager.authorizationStatus == .notDetermined { //this check should also exist here for when the function is called after registering/logging in
+            
+            CustomSwiftMessages.showPermissionRequest(permissionType: .userLocation, onApprove: { [weak self] in //TODO: should this not be weak?
+                if self?.locationManager.authorizationStatus == .notDetermined {
+                    self?.locationManager.requestWhenInUseAuthorization()
+                } else {
+                    CustomSwiftMessages.showSettingsAlertController(title: "Turn on location services for \"Mist\" in Settings.", message: "", on: self!)
+                }
+            })
+        }
+    }
+    
     private func setupLocationManager(){
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
     }
     
     private func applyGradientUnderneathNavbar() {
@@ -157,7 +161,12 @@ class MapViewController: UIViewController {
     //MARK: - User Interaction
     
     @IBAction func userTrackingButtonDidPressed(_ sender: UIButton) {
-        slowFlyTo(lat: mapView.userLocation.coordinate.latitude, long: mapView.userLocation.coordinate.longitude, incrementalZoom: false, completion: {_ in })
+        if locationManager.authorizationStatus == .denied ||
+            locationManager.authorizationStatus == .notDetermined {
+            handleUserLocationPermissionRequest()
+        } else {
+            slowFlyTo(lat: mapView.userLocation.coordinate.latitude, long: mapView.userLocation.coordinate.longitude, incrementalZoom: false, completion: {_ in })
+        }
     }
     
     @IBAction func mapDimensionButtonDidPressed(_ sender: UIButton) {
@@ -247,9 +256,11 @@ extension MapViewController: MKMapViewDelegate {
 
 extension MapViewController: CLLocationManagerDelegate {
  
+    //called upon creationg of LocationManager and upon permission changes (either from within app or in settings)
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        let locationAuthorized = status == .authorizedWhenInUse
-        userTrackingButton.isHidden = !locationAuthorized
+        if status == .authorizedWhenInUse || status == .authorizedAlways {
+            locationManager.startUpdatingLocation()
+        }
     }
 }
     

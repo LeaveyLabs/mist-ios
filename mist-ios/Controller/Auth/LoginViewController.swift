@@ -6,30 +6,6 @@
 //
 
 import UIKit
-import SwiftMessages
-
-func displayErrorMessage(errorDescription: String) {
-    let messageView = MessageView.viewFromNib(layout: .cardView)
-    messageView.backgroundHeight = 60
-    messageView.configureTheme(.error)
-    messageView.configureDropShadow()
-    messageView.button?.isHidden = true
-    messageView.configureContent(title: "Something went wrong.",
-                                 body: "Please try again.",
-                                 iconImage: nil,
-                                 iconText: "😔",
-                                 buttonImage: UIImage(systemName: "xmark"),
-                                 buttonTitle: "Close") { button in
-        SwiftMessages.hide()
-    }
-    
-    var messageConfig = SwiftMessages.Config()
-    messageConfig.presentationContext = .window(windowLevel: .statusBar)
-    messageConfig.presentationStyle = .top
-    messageConfig.duration = .seconds(seconds: 3)
-
-    SwiftMessages.show(config: messageConfig, view: messageView)
-}
 
 class LoginViewController: KUIViewController, UITextFieldDelegate {
 
@@ -141,9 +117,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
             Task {
                 do {
                     try await UserService.singleton.logIn(username: username, password: password)
-                    transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
-                                           viewControllerID: Constants.SBID.VC.TabBarController,
-                                           duration: 1) { [weak self] _ in
+                    transitionToHomeAndRequestPermissions() { [weak self] in
                         self?.isSubmitting = false
                     }
                 } catch {
@@ -157,7 +131,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         isSubmitting = false
         passwordTextField.text = ""
         validateInput()
-        displayErrorMessage(errorDescription: error.localizedDescription)
+        CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
     }
     
     func validateInput() {

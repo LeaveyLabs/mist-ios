@@ -257,7 +257,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BYY-YZ-JHs">
-                                        <rect key="frame" x="5" y="160" width="90" height="31"/>
+                                        <rect key="frame" x="5" y="157.33333333333334" width="90" height="31"/>
                                         <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
                                         <state key="normal" title="New" image="sparkles" catalog="system"/>
@@ -267,7 +267,7 @@
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c83-0E-8pA">
-                                        <rect key="frame" x="21.666666666666657" y="51" width="327" height="1"/>
+                                        <rect key="frame" x="21.666666666666657" y="48.333333333333329" width="327" height="1"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <rect key="contentStretch" x="0.0" y="0.0" width="0.59999999999999998" height="0.65000000000000002"/>
                                         <constraints>
@@ -276,7 +276,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C85-Yf-PR7">
-                                        <rect key="frame" x="5" y="66" width="85.666666666666671" height="31"/>
+                                        <rect key="frame" x="5" y="63.333333333333329" width="85.666666666666671" height="31"/>
                                         <color key="tintColor" systemColor="labelColor"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
                                         <state key="normal" title=" Best" image="cup.and.saucer" catalog="system"/>
@@ -303,7 +303,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V4s-RN-ZbC">
-                                        <rect key="frame" x="5" y="113" width="85.666666666666671" height="31"/>
+                                        <rect key="frame" x="5" y="110.33333333333334" width="85.666666666666671" height="31"/>
                                         <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
                                         <state key="normal" title="Top" image="arrow.upright.circle" catalog="system"/>

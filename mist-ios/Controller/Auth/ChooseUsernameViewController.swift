@@ -119,7 +119,7 @@ class ChooseUsernameViewController: KUIViewController, UITextFieldDelegate {
     func handleFailure(_ error: Error) {
         isSubmitting = false
         isValidInput = false
-        displayErrorMessage(errorDescription: error.localizedDescription)
+        CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
     }
     
     func validateInput() {

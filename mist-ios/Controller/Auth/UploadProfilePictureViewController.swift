@@ -108,9 +108,7 @@ class UploadProfilePictureViewController: UIViewController {
                         picture: selectedProfilePic,
                         email: AuthContext.email,
                         password: AuthContext.password)
-                    transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
-                                           viewControllerID: Constants.SBID.VC.TabBarController,
-                                           duration: 1) { [weak self] _ in
+                    transitionToHomeAndRequestPermissions() { [weak self] in
                         self?.isSubmitting = false
                     }
                 } catch {
@@ -123,7 +121,7 @@ class UploadProfilePictureViewController: UIViewController {
     func handleFailure(_ error: Error) {
         isSubmitting = false
         profilePic = defaultPic
-        displayErrorMessage(errorDescription: error.localizedDescription)
+        CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
     }
     
     func validateInput() -> Bool {

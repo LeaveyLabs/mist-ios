@@ -37,6 +37,7 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        
         enterEmailTextField.becomeFirstResponder()
         validateInput()
     }
@@ -122,7 +123,7 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
         isSubmitting = false
         enterEmailTextField.text = ""
         validateInput()
-        displayErrorMessage(errorDescription: error.localizedDescription)
+        CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
     }
     
     func validateInput() {
