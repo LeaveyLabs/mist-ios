@@ -8,7 +8,7 @@
 import UIKit
 
 protocol FilterDelegate {
-    func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool)
+    func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool, _ afterFilterUpdate: @escaping () -> Void)
 }
 
 class FilterViewController: SheetViewController {
@@ -59,7 +59,7 @@ class FilterViewController: SheetViewController {
     }
     
     @IBAction func closeButtonDidPressed(_ sender: UIButton) {
-        delegate.handleUpdatedFilter(selectedFilter, shouldReload: false)
+        delegate.handleUpdatedFilter(selectedFilter, shouldReload: false, {})
         dismiss(animated: true)
     }
 
@@ -85,7 +85,7 @@ class FilterViewController: SheetViewController {
         selectedFilter.postTimeframe = dateSlider.value
         let prevDateText = dateLabel.text
         updateSliderLabel() //must come after selectedFilter is updated
-        delegate.handleUpdatedFilter(selectedFilter, shouldReload: prevDateText != dateLabel.text)
+        delegate.handleUpdatedFilter(selectedFilter, shouldReload: prevDateText != dateLabel.text, {})
     }
     
     func handleButtonPress(_ newPostType: PostType) {
@@ -105,7 +105,7 @@ class FilterViewController: SheetViewController {
         }
 
         updateButtonLabels() //must come after selectedFilter is updated
-        delegate.handleUpdatedFilter(selectedFilter, shouldReload: true)
+        delegate.handleUpdatedFilter(selectedFilter, shouldReload: true, {})
 //        if !needsSliderUpdate {
 //            dismiss(animated: true)
 //        }

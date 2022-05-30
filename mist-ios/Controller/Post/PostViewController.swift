@@ -124,7 +124,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         navigationController?.popViewController(animated: true)
     }
     
-    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+    @objc func handleBackgroundTap(_ sender: UITapGestureRecognizer) {
         //this function is currently not used nor needed since KUIViewController handles taps for us
         commentTextView.resignFirstResponder()
     }

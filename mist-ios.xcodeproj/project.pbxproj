@@ -44,6 +44,9 @@
 		470F271C27DE764F00C6DDAF /* UserResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271A27DE764F00C6DDAF /* UserResultCell.swift */; };
 		470F271D27DE764F00C6DDAF /* UserResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 470F271B27DE764F00C6DDAF /* UserResultCell.xib */; };
 		470F271F27DE9ABE00C6DDAF /* ResultsFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271E27DE9ABE00C6DDAF /* ResultsFeedViewController.swift */; };
+		4718331228445A7C0061F9F3 /* UIView+PostBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4718331128445A7C0061F9F3 /* UIView+PostBubble.swift */; };
+		47183314284570490061F9F3 /* CircularProgressView.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47183313284570490061F9F3 /* CircularProgressView.xcframework */; };
+		47183315284570490061F9F3 /* CircularProgressView.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 47183313284570490061F9F3 /* CircularProgressView.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		471F92CF28013F9B0079F8CA /* ExploreFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471F92CE28013F9B0079F8CA /* ExploreFeedViewController.swift */; };
 		471F92D1280159430079F8CA /* SegmentedControlCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471F92D0280159430079F8CA /* SegmentedControlCell.swift */; };
 		47234BED28063D9C0031D7A5 /* NewMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47234BEC28063D9C0031D7A5 /* NewMessageViewController.swift */; };
@@ -192,6 +195,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				473B5A272831C8B400BD1168 /* Starscream.xcframework in Embed Frameworks */,
+				47183315284570490061F9F3 /* CircularProgressView.xcframework in Embed Frameworks */,
 				473B5A232831C8B200BD1168 /* Alamofire.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -236,6 +240,8 @@
 		470F271A27DE764F00C6DDAF /* UserResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResultCell.swift; sourceTree = "<group>"; };
 		470F271B27DE764F00C6DDAF /* UserResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserResultCell.xib; sourceTree = "<group>"; };
 		470F271E27DE9ABE00C6DDAF /* ResultsFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsFeedViewController.swift; sourceTree = "<group>"; };
+		4718331128445A7C0061F9F3 /* UIView+PostBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+PostBubble.swift"; sourceTree = "<group>"; };
+		47183313284570490061F9F3 /* CircularProgressView.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CircularProgressView.xcframework; path = Carthage/Build/CircularProgressView.xcframework; sourceTree = "<group>"; };
 		471F92CE28013F9B0079F8CA /* ExploreFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreFeedViewController.swift; sourceTree = "<group>"; };
 		471F92D0280159430079F8CA /* SegmentedControlCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlCell.swift; sourceTree = "<group>"; };
 		47234BEC28063D9C0031D7A5 /* NewMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageViewController.swift; sourceTree = "<group>"; };
@@ -374,6 +380,7 @@
 				473B5A262831C8B400BD1168 /* Starscream.xcframework in Frameworks */,
 				47EE28F62840A2F500C6425C /* SwiftMessages in Frameworks */,
 				473B5A222831C8B200BD1168 /* Alamofire.xcframework in Frameworks */,
+				47183314284570490061F9F3 /* CircularProgressView.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -523,6 +530,7 @@
 		473B5A202831C8B200BD1168 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				47183313284570490061F9F3 /* CircularProgressView.xcframework */,
 				47CBF6ED283556E600096514 /* SwiftyAttributes.xcframework */,
 				473B5A252831C8B400BD1168 /* Starscream.xcframework */,
 				473B5A212831C8B200BD1168 /* Alamofire.xcframework */,
@@ -617,6 +625,7 @@
 				475B1F8E27FBC2D400ED59CD /* UIView+Shadow.swift */,
 				47266AD127FF5531005DEDB1 /* UIView+LoadFromNib.swift */,
 				47266AD327FF69C9005DEDB1 /* UIViewController+Loading.swift */,
+				4718331128445A7C0061F9F3 /* UIView+PostBubble.swift */,
 			);
 			path = UIView;
 			sourceTree = "<group>";
@@ -1037,6 +1046,7 @@
 				4369DB0C282EC465009215D4 /* Message.swift in Sources */,
 				47C1D49127DF00B200970B3D /* MoreViewController.swift in Sources */,
 				472A4C0728408BD800FD52B7 /* UnwindSegue.swift in Sources */,
+				4718331228445A7C0061F9F3 /* UIView+PostBubble.swift in Sources */,
 				47FF869D27DB87A70076A1CA /* UIImage+Thumbnail.swift in Sources */,
 				4780E5B6283308250012B741 /* MessageKitMessage.swift in Sources */,
 				47266AD227FF5531005DEDB1 /* UIView+LoadFromNib.swift in Sources */,

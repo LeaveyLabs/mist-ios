@@ -121,6 +121,16 @@ class ExploreMapViewController: MapViewController {
         filterMapModalVC?.dismiss(animated: true)
     }
     
+    func handleNewlySubmittedPost(_ newPost: Post, dismissNewPostVC: @escaping (() -> Void)) {
+        dismissPost()
+        handleUpdatedFilter(PostFilter(postType: .All, postTimeframe: 1), shouldReload: true) { [weak self] in
+            dismissNewPostVC()
+            let newPostAnnotation = PostAnnotation(withPost: newPost)
+            self?.displayedAnnotations.append(newPostAnnotation)
+            self?.mapView.selectedAnnotations.append(newPostAnnotation) //handles slowfly and loadpostviewfor
+        }
+    }
+    
     
     //MARK: - MapDelegate
     
@@ -233,9 +243,8 @@ class ExploreMapViewController: MapViewController {
     func reloadPosts() {
         Task {
             do {
-                let loadedPosts = try await postsService.newPostsNearby(latitude: Constants.Coordinates.USC.latitude, longitude: Constants.Coordinates.USC.longitude)
-                
-                //Can this be handled by postsService instead?
+                let loadedPosts = try await postsService.newPostsNearby(latitude: Constants.Coordinates.USC.latitude,
+                                                                        longitude: Constants.Coordinates.USC.longitude)
                 let maxPostsToDisplay = 10000
                 displayedAnnotations = []
                 if loadedPosts.count > 0 {
@@ -250,11 +259,32 @@ class ExploreMapViewController: MapViewController {
         }
     }
     
+    func reloadPosts(afterReload: @escaping () -> Void?) {
+        Task {
+            do {
+                let loadedPosts = try await postsService.newPostsNearby(latitude: Constants.Coordinates.USC.latitude,
+                                                                        longitude: Constants.Coordinates.USC.longitude)
+                //Can this be handled by postsService instead?
+                let maxPostsToDisplay = 10000
+                displayedAnnotations = []
+                if loadedPosts.count > 0 {
+                    for index in 0...min(maxPostsToDisplay, loadedPosts.count-1) {
+                        let postAnnotation = PostAnnotation(withPost: loadedPosts[index])
+                        displayedAnnotations.append(postAnnotation)
+                    }
+                }
+                afterReload()
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
 }
 
 extension ExploreMapViewController: FilterDelegate {
     
-    func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool) {
+    func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool, _ afterFilterUpdate: @escaping () -> Void) {
     
         //Should eventually remove one of these two and have filter just saved in one location
         postsService.setFilter(to: newPostFilter)
@@ -263,7 +293,7 @@ extension ExploreMapViewController: FilterDelegate {
         updateFilterButtonLabel()
         
         if shouldReload {
-            reloadPosts()
+            reloadPosts(afterReload: afterFilterUpdate)
         }
     }
         

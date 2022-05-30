@@ -45,7 +45,6 @@ struct CustomSwiftMessages {
             title = "Would you like to share your current location?"
             body = "This makes finding and submitting mists even easier."
         }
-        messageView.configureBackgroundView(width: 300)
         messageView.configureContent(title: title, body: body, iconText: "🦄")
         messageView.approveAction = {
             SwiftMessages.hide()
@@ -54,16 +53,34 @@ struct CustomSwiftMessages {
         messageView.dismissAction = {
             SwiftMessages.hide()
         }
+        
+        messageView.configureBackgroundView(width: 300)
         messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
         messageView.backgroundView.layer.cornerRadius = 10
+        SwiftMessages.show(config: middlePresentationConfig(), view: messageView)
+    }
+    
+    static func showAlert(onDiscard: @escaping () -> Void, onSave: @escaping () -> Void) {
+        let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
+        messageView.configureContent(title: "Before you go", body: "Would you like to save this post as a draft?", iconText: "🗑")
         
-        var config = SwiftMessages.defaultConfig
-        config.presentationStyle = .center
-        config.duration = .forever
-        config.dimMode = .blur(style: .dark, alpha: 0.5, interactive: false)
-        config.interactiveHide = false
-        config.presentationContext  = .window(windowLevel: UIWindow.Level.statusBar)
-        SwiftMessages.show(config: config, view: messageView)
+        let approveString = AttributedString(CustomAttributedString.createFor(text: "Save", fontName: Constants.Font.Heavy, size: 20))
+        let dismissStirng = AttributedString(CustomAttributedString.createFor(text: "Discard", fontName: Constants.Font.Medium, size: 19))
+        messageView.approveButton.configuration!.attributedTitle = approveString
+        messageView.dismissButton.configuration!.attributedTitle = dismissStirng
+        messageView.approveAction = {
+            SwiftMessages.hide()
+            onSave()
+        }
+        messageView.dismissAction = {
+            SwiftMessages.hide()
+            onDiscard()
+        }
+        
+        messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+        messageView.backgroundView.layer.cornerRadius = 10
+        messageView.configureBackgroundView(width: 300)
+        SwiftMessages.show(config: middlePresentationConfig(), view: messageView)
     }
     
     static func showSettingsAlertController(title: String, message: String, on controller: UIViewController) {
@@ -78,6 +95,17 @@ struct CustomSwiftMessages {
       alertController.addAction(cancelAction)
       alertController.addAction(settingsAction)
       controller.present(alertController, animated: true, completion: nil)
-
    }
+    
+    //MARK: - Helpers
+    
+    static func middlePresentationConfig() -> SwiftMessages.Config {
+        var config = SwiftMessages.defaultConfig
+        config.presentationStyle = .center
+        config.duration = .forever
+        config.dimMode = .blur(style: .dark, alpha: 0.5, interactive: false)
+        config.interactiveHide = false
+        config.presentationContext  = .window(windowLevel: UIWindow.Level.statusBar)
+        return config
+    }
 }

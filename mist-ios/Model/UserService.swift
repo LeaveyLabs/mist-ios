@@ -112,13 +112,15 @@ class UserService: NSObject {
                     text: String,
                     locationDescription: String?,
                     latitude: Double?,
-                    longitude: Double?) async throws -> Post {
+                    longitude: Double?,
+                    timestamp: Double) async throws -> Post {
         // DB update
         let newPost = try await PostAPI.createPost(title: title,
                                                    text: text,
                                                    locationDescription: locationDescription,
                                                    latitude: latitude,
                                                    longitude: longitude,
+                                                   timestamp: timestamp,
                                                    author: UserService.singleton.getId()!)
         // Local update (of the user's authoredPosts)
         authedUser = try await UserAPI.fetchAuthedUserByToken(token: getGlobalAuthToken())

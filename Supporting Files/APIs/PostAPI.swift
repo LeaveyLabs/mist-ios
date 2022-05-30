@@ -54,6 +54,7 @@ class PostAPI {
                            locationDescription: String?,
                            latitude: Double?,
                            longitude: Double?,
+                           timestamp: Double,
                            author: Int) async throws -> Post {
         let url = "\(BASE_URL)\(PATH_TO_POST_MODEL)"
         let post = Post(title: title,
@@ -61,7 +62,7 @@ class PostAPI {
                         location_description: locationDescription,
                         latitude: latitude,
                         longitude: longitude,
-                        timestamp: currentTimeMillis(),
+                        timestamp: timestamp,
                         author: author)
         let json = try JSONEncoder().encode(post)
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
