@@ -35,8 +35,6 @@ extension TimeInterval{
     }
 }
 
-//TODO: fix this function
-//TODO check for more cases if time was even longer
 func getFormattedTimeString(postTimestamp: Double) -> String {
     let elapsedTimeSincePost = NSDate().timeIntervalSince1970.getElapsedTime(since: postTimestamp)
     
@@ -71,6 +69,44 @@ func getFormattedTimeString(postTimestamp: Double) -> String {
     return getFormattedDate(currentTimeMillis: postTimestamp)
 }
 
+func getDateAndTimeForNewPost(selectedDate: Date) -> (String, String) {
+    let elapsedTimeSincePost = NSDate().timeIntervalSince1970.getElapsedTime(since: selectedDate.timeIntervalSince1970)
+    
+    let timeFormatter = DateFormatter()
+    timeFormatter.dateFormat = "h:mma"
+    let time = timeFormatter.string(from: selectedDate).lowercased()
+    
+    let dateFormatter = DateFormatter()
+
+    //if the post happened within the last week
+    if elapsedTimeSincePost.days < 7 {
+        let dayFormatter = DateFormatter()
+        dayFormatter.dateFormat = "d"
+        let wasToday = dayFormatter.string(from: selectedDate) == dayFormatter.string(from: Date())
+        let wasYesterday = dayFormatter.string(from: selectedDate) == dayFormatter.string(from: Date.yesterday)
+        
+        if wasToday {
+            return ("Today", time)
+        } else if wasYesterday {
+            return ("Yesterday", time)
+        } else {
+            dateFormatter.dateFormat = "EEEE"
+            return (dateFormatter.string(from: selectedDate), time)
+        }
+    } else {
+        let yearFormatter = DateFormatter()
+        yearFormatter.dateFormat = "YYYY"
+        let wasThisyear = yearFormatter.string(from: selectedDate) == yearFormatter.string(from: Date())
+        if wasThisyear {
+            dateFormatter.dateFormat = "MMM d"
+            return (dateFormatter.string(from: selectedDate), time)
+        } else {
+            dateFormatter.dateFormat = "MM/dd/yy"
+            return (dateFormatter.string(from: selectedDate), time)
+        }
+    }
+}
+
 //types of dates:
 //45 seconds ago
 //10 minutes ago
@@ -85,21 +121,17 @@ func getFormattedDate(currentTimeMillis: Double) -> String {
     let myTimeInterval = TimeInterval(currentTimeMillis)
     let thedate = Date(timeIntervalSince1970: myTimeInterval)
     let dateFormatter = DateFormatter()
-    dateFormatter.locale = Locale(identifier: "en_US")
-    dateFormatter.dateFormat = "MMM d"
+    dateFormatter.locale = .current
+    dateFormatter.dateFormat = "MMM d, h:mma"
     
-    let timeFormatter = DateFormatter()
-    timeFormatter.locale = Locale(identifier: "en_US")
-    timeFormatter.dateFormat = "h:mma"
-    
-    return dateFormatter.string(from: thedate) + ", " + timeFormatter.string(from: thedate).replacingOccurrences(of: "AM", with: "am").replacingOccurrences(of: "PM", with: "pm")
+    return dateFormatter.string(from: thedate).replacingOccurrences(of: "AM", with: "am").replacingOccurrences(of: "PM", with: "pm")
 }
 
 func getRecentFormattedDate(currentTimeMillis: Double) -> String {
     let myTimeInterval = TimeInterval(currentTimeMillis)
     let thedate = Date(timeIntervalSince1970: myTimeInterval)
     let dateFormatter = DateFormatter()
-    dateFormatter.locale = Locale(identifier: "en_US")
+    dateFormatter.locale = .current
     dateFormatter.dateFormat = "E, h:mma"
     
     return dateFormatter.string(from: thedate).replacingOccurrences(of: "AM", with: "am").replacingOccurrences(of: "PM", with: "pm")
@@ -109,7 +141,7 @@ func getDayOfWeek(currentTimeMillis: Double) -> String {
     let myTimeInterval = TimeInterval(currentTimeMillis)
     let thedate = Date(timeIntervalSince1970: myTimeInterval)
     let dateFormatter = DateFormatter()
-    dateFormatter.locale = Locale(identifier: "en_US")
+    dateFormatter.locale = .current
     dateFormatter.dateFormat = "EEEE"
     
     return dateFormatter.string(from: thedate)
@@ -162,3 +194,22 @@ func getDateFromSlider(indexFromZeroToOne index: Float, timescale: FilterTimesca
 //        dateString += " evening"
 //    }
 
+extension Date {
+    static var yesterday: Date { return Date().dayBefore }
+    static var tomorrow:  Date { return Date().dayAfter }
+    var dayBefore: Date {
+        return Calendar.current.date(byAdding: .day, value: -1, to: noon)!
+    }
+    var dayAfter: Date {
+        return Calendar.current.date(byAdding: .day, value: 1, to: noon)!
+    }
+    var noon: Date {
+        return Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: self)!
+    }
+    var month: Int {
+        return Calendar.current.component(.month,  from: self)
+    }
+    var isLastDayOfMonth: Bool {
+        return dayAfter.month != month
+    }
+}

@@ -47,15 +47,7 @@ class PinMapModalViewController: SheetViewController, UITextFieldDelegate {
                        largestUndimmedDetentIdentifier: "xl")
     }
     
-    //MARK: - Constructors
-    
-    //create a postVC for a given post. postVC should never exist without a post
-    class func createPinMapModalVCFor(_ annotation: PostAnnotation) -> PinMapModalViewController {
-        let pinMapModalVC =
-        UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.PinMapModal) as! PinMapModalViewController
-        pinMapModalVC.annotation = annotation
-        return pinMapModalVC
-    }
+    //MARK: - User Interaction
     
     @IBAction func selectButtonDidPressed(_ sender: UIButton) {
         completionHandler(locationDescriptionTextField.text)
@@ -68,6 +60,7 @@ class PinMapModalViewController: SheetViewController, UITextFieldDelegate {
     //MARK: - TextField Delegate
     
     @IBAction func locationDescriptionTextFieldDidGetEditted(_ sender: UITextField) {
+        annotation.title = locationDescriptionTextField.text
         if locationDescriptionTextField.text!.isEmpty {
             disableSelectButton()
         } else {

@@ -17,15 +17,17 @@ struct TokenStruct: Codable {
 }
 
 class AuthAPI {
-    static let PATH_TO_REGISTRATION_ENDPOINT = "api-register/"
-    static let PATH_TO_VALIDATION_ENDPOINT = "api-validate/"
+    static let PATH_TO_EMAIL_REGISTRATION_ENDPOINT = "api-register-email/"
+    static let PATH_TO_EMAIL_VALIDATION_ENDPOINT = "api-validate-email/"
+    static let PATH_TO_USERNAME_VALIDATION_ENDPOINT = "api-validate-username/"
     static let AUTH_EMAIL_PARAM = "email"
     static let AUTH_CODE_PARAM = "code"
+    static let AUTH_USERNAME_PARAM = "username"
     
     // Registers email in the database
     // (and database will send verifcation email)
     static func registerEmail(email:String) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_REGISTRATION_ENDPOINT)"
+        let url = "\(BASE_URL)\(PATH_TO_EMAIL_REGISTRATION_ENDPOINT)"
         let obj:[String:String] = [AUTH_EMAIL_PARAM:email]
         let json = try JSONEncoder().encode(obj)
         let (_, _) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
@@ -33,11 +35,19 @@ class AuthAPI {
     
     // Validates email
     static func validateEmail(email:String, code:String) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_VALIDATION_ENDPOINT)"
+        let url = "\(BASE_URL)\(PATH_TO_EMAIL_VALIDATION_ENDPOINT)"
         let params:[String:String] = [
             AUTH_EMAIL_PARAM: email,
             AUTH_CODE_PARAM: code
         ]
+        let json = try JSONEncoder().encode(params)
+        let (_, _) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+    }
+    
+    // Validates username
+    static func validateUsername(username:String) async throws {
+        let url = "\(BASE_URL)\(PATH_TO_USERNAME_VALIDATION_ENDPOINT)"
+        let params:[String:String] = [AUTH_USERNAME_PARAM: username]
         let json = try JSONEncoder().encode(params)
         let (_, _) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
     }

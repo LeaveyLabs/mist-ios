@@ -9,154 +9,227 @@ import UIKit
 import CoreLocation
 import MapKit
 
-let MESSAGE_PLACEHOLDER_TEXT = "To the boy who..."
+let BODY_PLACEHOLDER_TEXT = "To the barista at Starbucks..."
+let TITLE_PLACEHOLDER_TEXT = "A cute title"
 let LOCATION_PLACEHOLDER_TEXT = "Drop a pin"
 
-class NewPostViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
+struct NewPostCache {
+    static var annotation: PostAnnotation?
+    static var timestamp: Double?
+    static var title: String?
+    static var body: String?
     
-    @IBOutlet weak var postButton: UIButton!
-    @IBOutlet weak var messageTextView: UITextView!
-    @IBOutlet weak var locationButton: UIButton!
-    @IBOutlet weak var titleTextField: UITextField!
-    var messagePlaceholderLabel : UILabel!
-    var currentlyPinnedAnnotation: PostAnnotation?
-        
-    @objc func tapDone(sender: Any) {
-        self.view.endEditing(true)
+    static func clear() {
+        annotation = nil
+        timestamp = nil
+        title = nil
+        body = nil
     }
+}
+
+//TODO: allow user to scroll through their post if their post is really long while keyboard is up
+
+class NewPostViewController: UIViewController, UITextViewDelegate {
+    @IBOutlet weak var postBubbleView: UIView!
+    @IBOutlet weak var locationButton: UIButton!
+    @IBOutlet weak var datePicker: UIDatePicker!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var dateLabelWrapperView: UIView! // To add padding around dateLabel to shrink its size
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var titleTextView: UITextView!
+    @IBOutlet weak var bodyTextView: UITextView!
+    var titlePlaceholderLabel: UILabel!
+    var bodyPlaceholderLabel: UILabel!
+    
+    var currentlyPinnedAnnotation: PostAnnotation?
+    
+    @IBOutlet weak var progressView: UIProgressView!
+    @IBOutlet weak var postButton: UIButton!
     
     override func viewDidLoad() {
-       super.viewDidLoad();
-        disablePostButton();
-        //TODO: fix button positioning
-//        locationButton.configuration?.imagePadding = .greatestFiniteMagnitude
-//        locationButton.configuration?.imagePadding = CGFloat(180)
-//        NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-        
-        locationButton.titleLabel!.adjustsFontSizeToFitWidth = false
-        locationButton.titleLabel!.lineBreakMode = .byTruncatingTail
-        titleTextField.becomeFirstResponder();
-        messageTextView.delegate = self;
-        titleTextField.delegate = self;
-        messageTextView.addDoneButton(title: "Done", target: self, selector: #selector(tapDone(sender:)))
-        
-        //add placeholder text to messageTextView
-        //reference: https://stackoverflow.com/questions/27652227/add-placeholder-text-inside-uitextview-in-swift
-        messagePlaceholderLabel = UILabel()
-        messagePlaceholderLabel.text = MESSAGE_PLACEHOLDER_TEXT
-        messagePlaceholderLabel.font = messageTextView.font
-        messagePlaceholderLabel.sizeToFit()
-        messageTextView.addSubview(messagePlaceholderLabel)
-        messagePlaceholderLabel.textColor = UIColor.placeholderText
-        messagePlaceholderLabel.isHidden = !messageTextView.text.isEmpty
+        super.viewDidLoad()
+        loadNewPostCache()
+        postBubbleView.transformIntoPostBubble(arrowPosition: .right)
+        setupTextViews()
+        setupLocationButton()
+        setupDatePicker()
+        setupDatePicker()
+        setupProgressView()
    }
     
-    // MARK: - Buttons
+    // MARK: - Setup
     
-    @IBAction func outerViewGestureDidTapped(_ sender: UITapGestureRecognizer) {
-        messageTextView.resignFirstResponder();
-        titleTextField.resignFirstResponder();
+    func loadNewPostCache() {
+        datePicker.date = Date(timeIntervalSince1970: NewPostCache.timestamp ?? Date().timeIntervalSince1970)
+        currentlyPinnedAnnotation = NewPostCache.annotation
+        titleTextView.text = NewPostCache.title
+        bodyTextView.text = NewPostCache.body
     }
     
-    @IBAction func deleteDidPressed(_ sender: UIBarButtonItem) {
-        //TODO: prompt save as draft?
-        clearAllFields();
-        self.dismiss(animated: true)
+    func setupTextViews() {
+        titleTextView.delegate = self
+        titleTextView.addNewPostToolbar(target: self, selector: #selector(presentExplanationVC))
+        titleTextView.textContainer.lineFragmentPadding = 0 //fixes textview strange leading offset
+        titlePlaceholderLabel = titleTextView.addAndReturnPlaceholderLabelTwo(withText: TITLE_PLACEHOLDER_TEXT)
+        titleTextView.becomeFirstResponder()
+
+        bodyTextView.delegate = self
+        bodyTextView.addNewPostToolbar(target: self, selector: #selector(presentExplanationVC))
+        bodyTextView.textContainer.lineFragmentPadding = 0 //fixes textview strange leading offset
+        bodyPlaceholderLabel = bodyTextView.addAndReturnPlaceholderLabelTwo(withText: BODY_PLACEHOLDER_TEXT)
+    }
+    
+    // Can't use new button with buttonConfiguration because you can't limit the number of lines
+    // https://developer.apple.com/forums/thread/699622?login=true#reply-to-this-question
+    func setupLocationButton() {
+        locationButton.layer.cornerRadius = 10
+        locationButton.layer.cornerCurve = .continuous
+    }
+    
+    func setupDatePicker() {
+        datePicker.maximumDate = .now
+
+        dateLabelWrapperView.layer.cornerRadius = 10
+        dateLabelWrapperView.layer.cornerCurve = .continuous
+        dateLabelWrapperView.layer.masksToBounds = true //necessary for curving edges
+        timeLabel.layer.cornerRadius = 10
+        timeLabel.layer.cornerCurve = .continuous
+        timeLabel.layer.masksToBounds = true //necessary for curving edges
+        
+        let (date, time) = getDateAndTimeForNewPost(selectedDate: datePicker.date)
+        dateLabel.text = date
+        timeLabel.text = time
+    }
+    
+    func setupProgressView() {
+        progressView.isHidden = true
+    }
+
+    // MARK: - User Interaction
+    
+    @objc func presentExplanationVC() {
+        view.endEditing(true)
+    }
+    
+    @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
+        let (date, time) = getDateAndTimeForNewPost(selectedDate: datePicker.date)
+        dateLabel.text = date
+        timeLabel.text = time
+    }
+    
+    @IBAction func datePickerEditingBegin(_ sender: Any, forEvent event: UIEvent) {
+        // Could add code to determine which label was pressed aka which label to highlight
+        // To do this, set user interaction of labels/uiview to yes, and then manually pass the touch event through
+        // https://stackoverflow.com/questions/2793242/detect-if-certain-uiview-was-touched-amongst-other-uiviews
+    }
+    
+    @IBAction func outerViewGestureDidTapped(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
+    
+    @IBAction func cancelButtonDidPressed(_ sender: UIBarButtonItem) {
+        CustomSwiftMessages.showAlert(onDiscard: {
+            NewPostCache.clear()
+            self.dismiss(animated: true)
+        }, onSave: { [self] in
+            NewPostCache.title = titleTextView.text
+            NewPostCache.body = bodyTextView.text
+            NewPostCache.timestamp = datePicker.date.timeIntervalSince1970
+            NewPostCache.annotation = currentlyPinnedAnnotation
+            self.dismiss(animated: true)
+        })
     }
     
     @IBAction func userDidTappedPostButton(_ sender: UIButton) {
-        if !validateAllFields() { return }
-        
+        animateProgressBar()
         Task {
             do {
-                var syncedPost: Post
-                if locationButton.titleLabel!.text!.isEmpty {
-                    syncedPost = try await UserService.singleton.uploadPost(title: titleTextField.text!,
-                                                                            text: messageTextView.text!, locationDescription: nil,
-                                                                            latitude: nil,
-                                                                            longitude: nil)
-                } else {
-                    syncedPost = try await UserService.singleton.uploadPost(title: titleTextField.text!,
-                                                                            text: messageTextView.text!, locationDescription: locationButton.titleLabel!.text!,
-                                                                            latitude: currentlyPinnedAnnotation!.coordinate.latitude,
-                                                                            longitude: currentlyPinnedAnnotation!.coordinate.longitude)
+                let syncedPost = try await UserService.singleton.uploadPost(title: titleTextView.text!,
+                                                                        text: bodyTextView.text!,
+                                                                        locationDescription: locationButton.titleLabel!.text!,
+                                                                        latitude: currentlyPinnedAnnotation!.coordinate.latitude,
+                                                                        longitude: currentlyPinnedAnnotation!.coordinate.longitude,
+                                                                        timestamp: datePicker.date.timeIntervalSince1970)
+                // Post was a success! Now navigate to ExploreMap and handle the new post
+                let tbc = tabBarController
+                tbc!.selectedIndex = 0
+                let homeNav = tbc!.selectedViewController as! UINavigationController
+                let homeExplore = homeNav.visibleViewController as! ExploreMapViewController
+                homeExplore.handleNewlySubmittedPost(syncedPost) { [weak self] in
+                    self?.dismiss(animated: true)
                 }
-//                PostsService.homePosts.insert(post: syncedPost, at: 0)
-                //TODO: navigate to the post on the map
-                self.clearAllFields()
-                self.dismiss(animated: true) {
-                    //nav to explore
-                    //zoom in on homePosts.at 0
-                }
-            }
-            catch {
-                print(error)
+            } catch {
+                CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
             }
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //if segueing to map, prepare for it
+        // Prepare for PinMapVC Segue
         if let pinMapVC = segue.destination as? PinMapViewController {
-            //get the coordinates from the pin that the user just dropped
-            pinMapVC.pinnedAnnotation = currentlyPinnedAnnotation
-            pinMapVC.completionHandler = { [self] (newAnnotation, newDescription) in
+            pinMapVC.pinnedAnnotation = currentlyPinnedAnnotation // Load the currently pinned annotation, if one exists
+            pinMapVC.completionHandler = { [self] (newAnnotation, newDescription) in //TODO: delete newDescription with refactor
                 currentlyPinnedAnnotation = newAnnotation
-                locationButton!.setTitle(newDescription, for: .normal)
-                locationButton!.setTitleColor(.black, for: .normal)
+                locationButton!.setTitle(newAnnotation.title, for: .normal)
+                validateAllFields()
             }
         }
-        //dont do any segue prep for rules controller
-    }
-    
-    //MARK: - TextField
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-    }
-    
-    @IBAction func textFieldEditingChanged(_ sender: UITextField) {
-        if validateAllFields() {
-            postButton.isEnabled = true
-        } else {
-            postButton.isEnabled = false;
-        }
+        // Don't prepare for RulesVC Segue
     }
     
     //MARK: - TextView
     
     func textViewDidChange(_ textView: UITextView) {
-        messagePlaceholderLabel.isHidden = !messageTextView.text.isEmpty
-        if validateAllFields() {
-            enablePostButton();
-        } else {
-            disablePostButton()
+        bodyPlaceholderLabel.isHidden = !bodyTextView.text.isEmpty
+        titlePlaceholderLabel.isHidden = !titleTextView.text.isEmpty
+        validateAllFields()
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        // Don't allow user to press "return" in title
+        if textView == titleTextView && text == "\n" {
+            bodyTextView.becomeFirstResponder()
+            return false
         }
+        return true
     }
     
     //MARK: - Util
     
+    // Reference: https://stackoverflow.com/questions/23803464/uiview-animatewithduration-and-uiprogressview-setprogress
+    func animateProgressBar() {
+        progressView.isHidden = false
+        UIView.animate(withDuration: 0.0, animations: {
+            self.progressView.layoutIfNeeded()
+        }, completion: { finished in
+            self.progressView.progress = 1.0
+
+            UIView.animate(withDuration: 5, delay: 0.0, options: [.curveLinear], animations: {
+                self.progressView.layoutIfNeeded()
+            }, completion: { finished in
+                print("animation completed")
+            })
+        })
+    }
+    
     func clearAllFields() {
-        messageTextView.text! = ""
-        titleTextField.text! = "";
-        locationButton.titleLabel!.text! = LOCATION_PLACEHOLDER_TEXT;
+        bodyTextView.text = ""
+        titleTextView.text = ""
+        bodyPlaceholderLabel.isHidden = false
+        titlePlaceholderLabel.isHidden = false
+        progressView.isHidden = true
+        progressView.progress = 0.01
+        locationButton.titleLabel!.text = LOCATION_PLACEHOLDER_TEXT
+        datePicker.date = Date()
     }
     
-    func validateAllFields() -> Bool {
-        if (messageTextView.text! == "" || locationButton.titleLabel!.text! == "" || titleTextField.text! == "" ) {
-            return false
+    func validateAllFields() {
+        if bodyTextView.text! == "" ||
+            titleTextView.text! == "" ||
+            currentlyPinnedAnnotation == nil {
+            postButton.isEnabled = false
         } else {
-            return true;
+            postButton.isEnabled = true
         }
-    }
-    
-    func enablePostButton() {
-         postButton.isEnabled = true;
-         postButton.alpha = 1;
-    }
-    
-    func disablePostButton() {
-         postButton.isEnabled = false;
-         postButton.alpha = 0.99;
     }
 }

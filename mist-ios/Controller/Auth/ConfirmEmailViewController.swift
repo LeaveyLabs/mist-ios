@@ -17,6 +17,10 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     @IBOutlet weak var confirmEmailTextField: UITextField!
     @IBOutlet weak var continueButton: UIButton!
     @IBOutlet weak var resendButton: UIButton!
+    @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var errorView: SpringView!
+    @IBOutlet weak var agreementLabel: UILabel!
+
     var isValidInput: Bool! {
         didSet {
             continueButton.isEnabled = isValidInput
@@ -25,7 +29,7 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     }
     var isSubmitting: Bool = false {
         didSet {
-            continueButton.isEnabled = false
+            continueButton.isEnabled = !isSubmitting
             continueButton.setNeedsUpdateConfiguration()
         }
     }
@@ -39,12 +43,18 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         emailLabel.text! += AuthContext.email
         
+        agreementLabel.isHidden = true
         validateInput()
         isAuthKUIView = true
+        setupErrorLabel()
         setupPopGesture()
         setupConfirmEmailTextField()
         setupContinueButton()
         setupResendButton()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print(confirmEmailTextField.frame.size.width)
     }
     
     //MARK: - Setup
@@ -53,8 +63,8 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         confirmEmailTextField.delegate = self
         confirmEmailTextField.smartInsertDeleteType = UITextSmartInsertDeleteType.no
         confirmEmailTextField.layer.cornerRadius = 5
-        confirmEmailTextField.setLeftPaddingPoints(16)
-        confirmEmailTextField.defaultTextAttributes.updateValue(30, forKey: NSAttributedString.Key.kern)
+        confirmEmailTextField.setLeftPaddingPoints(20)
+        confirmEmailTextField.defaultTextAttributes.updateValue(34, forKey: NSAttributedString.Key.kern)
         confirmEmailTextField.becomeFirstResponder()
     }
     
@@ -139,20 +149,17 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     //MARK: - Helpers
     
     func tryToContinue() {
-        // If you've inputted the code
         if let code = confirmEmailTextField.text {
             isSubmitting = true
             Task {
                 do {
-                    // Check if the code's valid
                     try await AuthAPI.validateEmail(email: AuthContext.email, code: code)
-                    let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.WelcomeTutorial);
+                    let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.CreatePassword);
                     self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
                         self?.isSubmitting = false
                     })
                 } catch {
-                    isSubmitting = false
-                    print(error);
+                    handleError(error)
                 }
             }
         }
@@ -160,11 +167,11 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     
     func resendCode() {
         resendState = .sending
+        errorView.isHidden = true
         Task {
             do {
                 // Send another validation email
                 try await AuthAPI.registerEmail(email: AuthContext.email)
-                //UPDATE BUTTON TEXT: "sent another code! Give it a litle time"
             } catch {
                 print(error)
             }
@@ -174,6 +181,26 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     
     func validateInput() {
         isValidInput = confirmEmailTextField.text?.count == 6
+    }
+}
+
+// Error View functions
+extension ConfirmEmailViewController {
+    
+    func setupErrorLabel() {
+        errorView.layer.cornerRadius = 10
+        errorView.layer.masksToBounds = true
+        errorView.isHidden = true
+        errorView.layer.cornerCurve = .continuous
+    }
+    
+    func handleError(_ error: Error) {
+        isSubmitting = false
+        confirmEmailTextField.text = ""
+        errorLabel.attributedText = CustomAttributedString.errorMessage(errorText: "That didn't work.", size: 16)
+        errorView.isHidden = false
+        errorView.animation = "shake"
+        errorView.animate()
     }
 }
 

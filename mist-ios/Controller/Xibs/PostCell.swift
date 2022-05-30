@@ -140,7 +140,7 @@ class PostCell: UITableViewCell, ShareActivityDelegate {
         let triangleView = UIView()
         triangleView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
         backgroundBubbleView.addSubview(triangleView)
-        backgroundBubbleView.sendSubviewToBack(triangleView)
+        backgroundBubbleView.sendSubviewToBack(triangleView) //dont think this is needed
         switch bubbleArrowPosition {
         case .left:
             addLeftTriangleLayer(to: triangleView)

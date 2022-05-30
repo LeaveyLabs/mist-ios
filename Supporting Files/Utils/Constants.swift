@@ -75,10 +75,11 @@ struct Constants {
             //Auth
             static let ConfirmEmail = "ConfirmEmailViewController"
             static let WelcomeTutorial = "WelcomeTutorialViewController"
-            static let EnterProfilePicture = "EnterProfilePictureViewController"
+            static let UploadProfilePicture = "UploadProfilePictureViewController"
             static let CreatePassword = "CreatePasswordViewController"
             static let EnterName = "EnterNameViewController"
-
+            static let ChooseUsername = "ChooseUsernameViewController"
+            static let SetupTime = "SetupTimeViewController"
         }
         struct Segue {
             static let ToUsernameSetting = "ToUsernameSetting"

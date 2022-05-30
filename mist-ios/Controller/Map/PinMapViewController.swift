@@ -185,6 +185,7 @@ class PinMapViewController: MapViewController {
             pinMapModalVC.sheetDelegate = self //TODO: consolidate these delegates into one or two
             pinMapModalVC.mapDelegate = self
             pinMapModalVC.sheetDismissDelegate = self
+            pinMapModalVC.annotation = pinnedAnnotation
             
             if xsIndentFirst {
                 pinMapModalVC.toggleSheetSizeTo(sheetSize: "xs")

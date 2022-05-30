@@ -83,13 +83,13 @@ class ExploreMapViewController: MapViewController {
     @IBAction func exploreUserTrackingButtonDidPressed(_ sender: UIButton) {
         dismissPost()
         dismissFilter()
-        slowFlyTo(lat: mapView.userLocation.coordinate.latitude, long: mapView.userLocation.coordinate.longitude, incrementalZoom: false, completion: {_ in })
+        userTrackingButtonDidPressed(sender)
     }
     
     @IBAction func exploreMapDimensionButtonDidPressed(_ sender: UIButton) {
         dismissPost()
         dismissFilter()
-        toggleMapDimension()
+        mapDimensionButtonDidPressed(sender)
     }
     
     // This handles the case of tapping, but not panning and dragging for some reason
@@ -119,6 +119,16 @@ class ExploreMapViewController: MapViewController {
     func dismissFilter() {
         //if you want to dismiss on drag/pan, first toggle sheet size, then make filterMapModalVC.dismiss a completion of toggleSheetSize
         filterMapModalVC?.dismiss(animated: true)
+    }
+    
+    func handleNewlySubmittedPost(_ newPost: Post, dismissNewPostVC: @escaping (() -> Void)) {
+        dismissPost()
+        handleUpdatedFilter(PostFilter(postType: .All, postTimeframe: 1), shouldReload: true) { [weak self] in
+            dismissNewPostVC()
+            let newPostAnnotation = PostAnnotation(withPost: newPost)
+            self?.displayedAnnotations.append(newPostAnnotation)
+            self?.mapView.selectedAnnotations.append(newPostAnnotation) //handles slowfly and loadpostviewfor
+        }
     }
     
     
@@ -233,16 +243,37 @@ class ExploreMapViewController: MapViewController {
     func reloadPosts() {
         Task {
             do {
-                let loadedPosts = try await postsService.newPostsNearby(latitude: Constants.Coordinates.USC.latitude, longitude: Constants.Coordinates.USC.longitude)
-                
-                //Can this be handled by postsService instead?
-                //turn the first 10000..?? lol posts returned into PostAnnotations so they will be added to the map
+                let loadedPosts = try await postsService.newPostsNearby(latitude: Constants.Coordinates.USC.latitude,
+                                                                        longitude: Constants.Coordinates.USC.longitude)
+                let maxPostsToDisplay = 10000
                 displayedAnnotations = []
-                for index in 0...min(10000, loadedPosts.count-1) {
-                    let postAnnotation = PostAnnotation(withPost: loadedPosts[index])
-                    displayedAnnotations.append(postAnnotation)
+                if loadedPosts.count > 0 {
+                    for index in 0...min(maxPostsToDisplay, loadedPosts.count-1) {
+                        let postAnnotation = PostAnnotation(withPost: loadedPosts[index])
+                        displayedAnnotations.append(postAnnotation)
+                    }
                 }
-                
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    func reloadPosts(afterReload: @escaping () -> Void?) {
+        Task {
+            do {
+                let loadedPosts = try await postsService.newPostsNearby(latitude: Constants.Coordinates.USC.latitude,
+                                                                        longitude: Constants.Coordinates.USC.longitude)
+                //Can this be handled by postsService instead?
+                let maxPostsToDisplay = 10000
+                displayedAnnotations = []
+                if loadedPosts.count > 0 {
+                    for index in 0...min(maxPostsToDisplay, loadedPosts.count-1) {
+                        let postAnnotation = PostAnnotation(withPost: loadedPosts[index])
+                        displayedAnnotations.append(postAnnotation)
+                    }
+                }
+                afterReload()
             } catch {
                 print(error)
             }
@@ -253,7 +284,7 @@ class ExploreMapViewController: MapViewController {
 
 extension ExploreMapViewController: FilterDelegate {
     
-    func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool) {
+    func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool, _ afterFilterUpdate: @escaping () -> Void) {
     
         //Should eventually remove one of these two and have filter just saved in one location
         postsService.setFilter(to: newPostFilter)
@@ -262,7 +293,7 @@ extension ExploreMapViewController: FilterDelegate {
         updateFilterButtonLabel()
         
         if shouldReload {
-            reloadPosts()
+            reloadPosts(afterReload: afterFilterUpdate)
         }
     }
         

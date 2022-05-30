@@ -20,7 +20,7 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     }
     var isSubmitting: Bool = false {
         didSet {
-            continueButton.isEnabled = false
+            continueButton.isEnabled = !isSubmitting
             continueButton.setNeedsUpdateConfiguration()
         }
     }
@@ -37,6 +37,7 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        
         enterEmailTextField.becomeFirstResponder()
         validateInput()
     }
@@ -99,7 +100,7 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     
     func tryToContinue() {
         // If you've inputted an email
-        if let email = enterEmailTextField.text {
+        if let email = enterEmailTextField.text?.lowercased() {
             Task {
                 isSubmitting = true
                 do {
@@ -112,15 +113,21 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
                         self?.isSubmitting = false
                     })
                 } catch {
-                    print(error)
-                    isSubmitting = false
+                    handleFailure(error)
                 }
             }
         }
     }
     
+    func handleFailure(_ error: Error) {
+        isSubmitting = false
+        enterEmailTextField.text = ""
+        validateInput()
+        CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
+    }
+    
     func validateInput() {
-        isValidInput = enterEmailTextField.text?.suffix(8) == "@usc.edu"
+        isValidInput = enterEmailTextField.text?.suffix(8).lowercased() == "@usc.edu"
     }
     
 }

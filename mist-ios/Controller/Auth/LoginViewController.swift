@@ -12,6 +12,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
+    
     var isValidInput: Bool! {
         didSet {
             loginButton.isEnabled = isValidInput
@@ -20,7 +21,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     }
     var isSubmitting: Bool = false {
         didSet {
-            loginButton.isEnabled = false
+            loginButton.isEnabled = !isSubmitting
             loginButton.setNeedsUpdateConfiguration()
         }
     }
@@ -116,23 +117,21 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
             Task {
                 do {
                     try await UserService.singleton.logIn(username: username, password: password)
-                    transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
-                                           viewControllerID: Constants.SBID.VC.TabBarController,
-                                           duration: 1) { [weak self] _ in
+                    transitionToHomeAndRequestPermissions() { [weak self] in
                         self?.isSubmitting = false
                     }
                 } catch {
-                    print("almost!")
-                    handleLoginFail()
-                    print(error);
+                    handleLoginFail(error)
                 }
             }
         }
     }
     
-    func handleLoginFail() {
+    func handleLoginFail(_ error: Error) {
         isSubmitting = false
         passwordTextField.text = ""
+        validateInput()
+        CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
     }
     
     func validateInput() {
