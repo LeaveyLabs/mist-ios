@@ -116,7 +116,15 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
             isSubmitting = true
             Task {
                 do {
-                    try await UserService.singleton.logIn(username: username, password: password)
+                    // SecureTextEntry forces us to transform
+                    // the password into a Data object
+                    let params:[String:String] = [
+                        UserAPI.USERNAME_PARAM: username,
+                        UserAPI.PASSWORD_PARAM: passwordTextField.text!,
+                    ]
+                    let json = try JSONEncoder().encode(params)
+                    // Send it over to login
+                    try await UserService.singleton.logIn(json: json)
                     transitionToHomeAndRequestPermissions() { [weak self] in
                         self?.isSubmitting = false
                     }

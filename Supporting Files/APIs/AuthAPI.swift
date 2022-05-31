@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import UIKit
 
 struct StatusObject : Codable {
     let status:String;
@@ -99,6 +100,18 @@ class AuthAPI {
         } else {
             throw APIError.NoResponse
         }
+    }
+    
+    static func fetchAuthToken(json: Data) async throws -> String {
+        let url = "\(BASE_URL)api-token/"
+//        let params:[String:String] = await [
+//            UserAPI.USERNAME_PARAM: params[UserAPI.USERNAME_PARAM]!,
+//            UserAPI.PASSWORD_PARAM: params[UserAPI.PASSWORD_PARAM]!,
+//        ]
+//        print(params)
+//        let json = try JSONEncoder().encode(params)
+        let (data, _) = try await BasicAPI.basicHTTPCallWithoutToken(url:url, jsonData:json, method: HTTPMethods.POST.rawValue)
+        return try JSONDecoder().decode(TokenStruct.self, from: data).token
     }
     
     static func fetchAuthToken(username:String, password:String) async throws -> String {

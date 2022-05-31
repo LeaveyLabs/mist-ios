@@ -48,19 +48,16 @@ class UserService: NSObject {
                                             picture: picture,
                                             email: email,
                                             password: password)
-        let token:String = try await AuthAPI.fetchAuthToken(username: username,
-                                                           password: password)
-        print(token)
-        // Local update
+        let token = try await AuthAPI.fetchAuthToken(username: username,
+                                                     password: password)
         setGlobalAuthToken(token: token)
+        // Local update
+//        setGlobalAuthToken(token: token)
         saveUserToFilesystem()
     }
     
-    func logIn(username: String,
-               password: String) async throws {
-        let token:String = try await AuthAPI.fetchAuthToken(username: username,
-                                                           password: password)
-        // DB update
+    func logIn(json: Data) async throws {
+        let token:String = try await AuthAPI.fetchAuthToken(json: json)
         setGlobalAuthToken(token: token)
         authedUser = try await UserAPI.fetchAuthedUserByToken(token: token)
         // Local update
@@ -156,6 +153,7 @@ class UserService: NSObject {
     func saveUserToFilesystem() {
         do {
             print("SAVING USER DATA")
+            authedUser?.token = getGlobalAuthToken()
             let encoder = JSONEncoder()
             let data: Data = try encoder.encode(authedUser)
             let jsonString = String(data: data, encoding: .utf8)!
@@ -170,6 +168,9 @@ class UserService: NSObject {
             print("LOADING USER DATA")
             let data = try Data(contentsOf: self.localFileLocation)
             authedUser = try JSONDecoder().decode(AuthedUser.self, from: data);
+            if let token = authedUser?.token {
+                setGlobalAuthToken(token: token)
+            }
         } catch {
             print("\(error)")
         }
@@ -178,6 +179,7 @@ class UserService: NSObject {
     func eraseUserFromFilesystem() {
         do {
             print("ERASING USER DATA")
+            setGlobalAuthToken(token: "")
             try FileManager.default.removeItem(at: self.localFileLocation)
         } catch {
             print("\(error)")
