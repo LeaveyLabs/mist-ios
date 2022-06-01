@@ -12,20 +12,7 @@ import MapKit
 let BODY_PLACEHOLDER_TEXT = "To the barista at Starbucks..."
 let TITLE_PLACEHOLDER_TEXT = "A cute title"
 let LOCATION_PLACEHOLDER_TEXT = "Drop a pin"
-
-struct NewPostCache {
-    static var annotation: PostAnnotation?
-    static var timestamp: Double?
-    static var title: String?
-    static var body: String?
-    
-    static func clear() {
-        annotation = nil
-        timestamp = nil
-        title = nil
-        body = nil
-    }
-}
+let TEXT_LENGTH_BEYOND_MAX_PERMITTED = 5
 
 //TODO: allow user to scroll through their post if their post is really long while keyboard is up
 
@@ -36,10 +23,11 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var dateLabelWrapperView: UIView! // To add padding around dateLabel to shrink its size
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var titleTextView: UITextView!
-    @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet var titleTextView: NewPostTextView!
+    @IBOutlet var bodyTextView: NewPostTextView!
     var titlePlaceholderLabel: UILabel!
     var bodyPlaceholderLabel: UILabel!
+    var textViewToolbar: UIToolbar?
     
     var currentlyPinnedAnnotation: PostAnnotation?
     
@@ -48,7 +36,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadNewPostCache()
+        loadFromNewPostContext()
         postBubbleView.transformIntoPostBubble(arrowPosition: .right)
         setupTextViews()
         setupLocationButton()
@@ -59,24 +47,26 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     
     // MARK: - Setup
     
-    func loadNewPostCache() {
-        datePicker.date = Date(timeIntervalSince1970: NewPostCache.timestamp ?? Date().timeIntervalSince1970)
-        currentlyPinnedAnnotation = NewPostCache.annotation
-        titleTextView.text = NewPostCache.title
-        bodyTextView.text = NewPostCache.body
+    func loadFromNewPostContext() {
+        datePicker.date = Date(timeIntervalSince1970: NewPostContext.timestamp ?? Date().timeIntervalSince1970)
+        currentlyPinnedAnnotation = NewPostContext.annotation
+        titleTextView.text = NewPostContext.title
+        bodyTextView.text = NewPostContext.body
     }
     
     func setupTextViews() {
         titleTextView.delegate = self
-        titleTextView.addNewPostToolbar(target: self, selector: #selector(presentExplanationVC))
+        titleTextView.initializerToolbar(target: self, selector: #selector(presentExplanationVC))
         titleTextView.textContainer.lineFragmentPadding = 0 //fixes textview strange leading offset
         titlePlaceholderLabel = titleTextView.addAndReturnPlaceholderLabelTwo(withText: TITLE_PLACEHOLDER_TEXT)
+        titleTextView.maxLength = 40
         titleTextView.becomeFirstResponder()
 
         bodyTextView.delegate = self
-        bodyTextView.addNewPostToolbar(target: self, selector: #selector(presentExplanationVC))
+        bodyTextView.initializerToolbar(target: self, selector: #selector(presentExplanationVC))
         bodyTextView.textContainer.lineFragmentPadding = 0 //fixes textview strange leading offset
         bodyPlaceholderLabel = bodyTextView.addAndReturnPlaceholderLabelTwo(withText: BODY_PLACEHOLDER_TEXT)
+        bodyTextView.maxLength = 140
     }
     
     // Can't use new button with buttonConfiguration because you can't limit the number of lines
@@ -108,7 +98,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     // MARK: - User Interaction
     
     @objc func presentExplanationVC() {
-        view.endEditing(true)
+        performSegue(withIdentifier: Constants.SBID.Segue.ToExplain, sender: self)
     }
     
     @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
@@ -129,13 +119,13 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     
     @IBAction func cancelButtonDidPressed(_ sender: UIBarButtonItem) {
         CustomSwiftMessages.showAlert(onDiscard: {
-            NewPostCache.clear()
+            NewPostContext.clear()
             self.dismiss(animated: true)
         }, onSave: { [self] in
-            NewPostCache.title = titleTextView.text
-            NewPostCache.body = bodyTextView.text
-            NewPostCache.timestamp = datePicker.date.timeIntervalSince1970
-            NewPostCache.annotation = currentlyPinnedAnnotation
+            NewPostContext.title = titleTextView.text
+            NewPostContext.body = bodyTextView.text
+            NewPostContext.timestamp = datePicker.date.timeIntervalSince1970
+            NewPostContext.annotation = currentlyPinnedAnnotation
             self.dismiss(animated: true)
         })
     }
@@ -180,8 +170,13 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     //MARK: - TextView
     
     func textViewDidChange(_ textView: UITextView) {
-        bodyPlaceholderLabel.isHidden = !bodyTextView.text.isEmpty
-        titlePlaceholderLabel.isHidden = !titleTextView.text.isEmpty
+        if textView == bodyTextView {
+            bodyPlaceholderLabel.isHidden = !bodyTextView.text.isEmpty
+            bodyTextView.updateProgress()
+        } else {
+            titlePlaceholderLabel.isHidden = !titleTextView.text.isEmpty
+            titleTextView.updateProgress()
+        }
         validateAllFields()
     }
     
@@ -190,8 +185,10 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         if textView == titleTextView && text == "\n" {
             bodyTextView.becomeFirstResponder()
             return false
+        } else {
+            let newPostTextView = textView as! NewPostTextView
+            return textView.shouldChangeTextGivenMaxLengthOf(newPostTextView.maxLength + TEXT_LENGTH_BEYOND_MAX_PERMITTED, range, text)
         }
-        return true
     }
     
     //MARK: - Util
@@ -224,8 +221,8 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     }
     
     func validateAllFields() {
-        if bodyTextView.text! == "" ||
-            titleTextView.text! == "" ||
+        if bodyTextView.text!.count == 0 || bodyTextView.text!.count > bodyTextView.maxLength ||
+            titleTextView.text!.count == 0 || titleTextView.text!.count > titleTextView.maxLength ||
             currentlyPinnedAnnotation == nil {
             postButton.isEnabled = false
         } else {

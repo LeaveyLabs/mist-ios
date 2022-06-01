@@ -135,15 +135,8 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         return false
     }
     
-    // Max length UI text field: https://stackoverflow.com/questions/25223407/max-length-uitextfield
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard let textFieldText = textField.text,
-            let rangeOfTextToReplace = Range(range, in: textFieldText) else {
-                return false
-        }
-        let substringToReplace = textFieldText[rangeOfTextToReplace]
-        let count = textFieldText.count - substringToReplace.count + string.count
-        return count <= 6
+        return textField.shouldChangeCharactersGivenMaxLengthOf(6, range, string)
     }
     
     //MARK: - Helpers
