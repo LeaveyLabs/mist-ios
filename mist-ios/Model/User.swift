@@ -36,6 +36,7 @@ struct AuthedUser: UserProtocol {
     // AuthedUser only properties
     let email: String
     let password: String?
+    var token: String?
 //    let authoredPosts: [Post]
     
     init(id: Int = DUMMY_USER_ID,
@@ -45,6 +46,7 @@ struct AuthedUser: UserProtocol {
          picture: String?,
          email: String,
          password: String,
+         token: String = "",
          authoredPosts: [Post] = []){
         self.id = id
         self.username = username
@@ -53,6 +55,7 @@ struct AuthedUser: UserProtocol {
         self.picture = picture
         self.email = email
         self.password = password
+        self.token = token
 //        self.authoredPosts = authoredPosts
     }
 }

@@ -248,7 +248,7 @@ class mist_iosTests: XCTestCase {
     
     // POST
     func testPostPost() async throws {
-        let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 1.0, longitude: 2.0, author: TestConstants.Auth.ID)
+        let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
         XCTAssertTrue(post.title == "hey")
     }
     
@@ -270,14 +270,14 @@ class mist_iosTests: XCTestCase {
     
     // DELETE
     func testDeletePost() async throws {
-        let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 1.0, longitude: 2.0, author: TestConstants.Auth.ID)
+        let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
         try await PostAPI.deletePost(id: post.id)
     }
         
     // WordAPITest
     // GET words
     func testGetWordByText() async throws {
-        let _ = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 1.0, longitude: 2.0, author: TestConstants.Auth.ID)
+        let _ = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
         let word = try await WordAPI.fetchWords(text: "hey")
         XCTAssertTrue(word[0].text == "hey")
     }
@@ -285,7 +285,7 @@ class mist_iosTests: XCTestCase {
     // CommentAPITest
     // POST
     func testPostComment() async throws {
-        let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 1.0, longitude: 2.0, author: TestConstants.Auth.ID)
+        let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
         do {
             let comment = try await CommentAPI.postComment(text: "hey", post: post.id, author: TestConstants.Auth.ID)
             XCTAssertTrue(comment.text == "hey")
@@ -295,14 +295,14 @@ class mist_iosTests: XCTestCase {
     }
     // GET by postId
     func testGetCommentByPostId() async throws {
-        let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 1.0, longitude: 2.0, author: TestConstants.Auth.ID)
+        let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
         let comment = try await CommentAPI.postComment(text: "hey", post: post.id, author: TestConstants.Auth.ID)
         let comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
         XCTAssertTrue(comments[0].text == "hey")
     }
     // DELETE
     func testDeleteComment() async throws {
-        let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 1.0, longitude: 2.0, author: TestConstants.Auth.ID)
+        let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
         let comment = try await CommentAPI.postComment(text: "hey", post: post.id, author: TestConstants.Auth.ID)
         try await CommentAPI.deleteComment(commentId: comment.id)
     }
@@ -310,13 +310,13 @@ class mist_iosTests: XCTestCase {
     // VoteAPITest
     // POST
     func testPostVote() async throws {
-        let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 1.0, longitude: 2.0, author: TestConstants.Auth.ID)
+        let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
         let vote = try await VoteAPI.postVote(voter: TestConstants.Auth.ID, post: post.id, rating: 5)
         XCTAssertTrue(vote.voter == TestConstants.Auth.ID)
     }
     // DELETE
     func testDeleteVote() async throws {
-        let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 1.0, longitude: 2.0, author: TestConstants.Auth.ID)
+        let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
         let vote = try await VoteAPI.postVote(voter: TestConstants.Auth.ID, post: post.id, rating: 5)
         try await VoteAPI.deleteVote(voter: vote.voter, post: vote.post)
     }
