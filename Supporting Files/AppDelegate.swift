@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import IQKeyboardManagerSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //https://stackoverflow.com/questions/22741824/how-to-adjust-space-between-two-uibarbuttonitem-in-rightbarbuttonitems
         let stackViewAppearance = UIStackView.appearance(whenContainedInInstancesOf: [UINavigationBar.self])
         stackViewAppearance.spacing = -10
+        
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.enableAutoToolbar = false
+        IQKeyboardManager.shared.keyboardDistanceFromTextField = 20
         
         return true
     }

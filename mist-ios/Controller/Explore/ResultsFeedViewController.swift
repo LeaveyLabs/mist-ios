@@ -129,6 +129,7 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
         }
         let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
         cell.configurePostCell(post: posts[indexPath.row-1], parent: self, bubbleArrowPosition: .left)
+        cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
         return cell
     }
     

@@ -46,10 +46,10 @@ func getFormattedTimeString(postTimestamp: Double) -> String {
         }
         //if if minutes ago
         else if elapsedTimeSincePost.hours == 0 {
-            if (elapsedTimeSincePost.minutes == 1) {
-                return String(elapsedTimeSincePost.minutes) + " minute ago"
+            if elapsedTimeSincePost.minutes == 0 {
+                return String(elapsedTimeSincePost.minutes) + " min ago"
             } else {
-                return String(elapsedTimeSincePost.minutes) + " minutes ago"
+//                return String(elapsedTimeSincePost.minutes) + " mins ago"
             }
         }
         //if hours ago

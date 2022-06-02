@@ -43,16 +43,10 @@ class PostsService: NSObject {
 //    }
     
     func newPosts() async throws -> [Post] {
-        //TODO: PostAPI.fetchPosts(with: filter)
-        return try await PostAPI.fetchPosts();
+        return try await PostAPI.fetchPosts()
     }
     
     func newPostsNearby(latitude: Double, longitude: Double) async throws -> [Post] {
-        //TODO: PostAPI.fetchNearbyPosts(with: filter)
-        return try await PostAPI.fetchPostsByLatitudeLongitude(latitude: latitude, longitude: longitude)
-    }
-    
-    func newPostsWithFilter(latitude: Double, longitude: Double) async throws -> [Post] {
         return try await PostAPI.fetchPostsByLatitudeLongitude(latitude: latitude, longitude: longitude)
     }
     

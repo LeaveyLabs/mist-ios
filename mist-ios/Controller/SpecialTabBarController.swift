@@ -2,7 +2,7 @@
 //  CustomTabBarController.swift
 //  CustomTabBar
 //
-//  Created by Keihan Kamangar on 2021-06-07.
+//  Created by Adam Novak on 2022-06-07.
 //
 
 import UIKit
@@ -24,7 +24,7 @@ extension SpecialTabBarController: UITabBarControllerDelegate {
            return false
         }
         
-        // Method #2
+        // Method #2: Not in use
 //        guard let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController) else {
 //            return true
 //        }

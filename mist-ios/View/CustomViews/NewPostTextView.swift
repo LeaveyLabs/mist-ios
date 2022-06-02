@@ -43,6 +43,84 @@ class NewPostTextView: UITextView {
     var progressLabel: UILabel = UILabel()
     var maxLength: Int!
     
+    //MARK: - Constructor
+    
+    override init(frame: CGRect, textContainer: NSTextContainer?) {
+        super.init(frame: frame, textContainer: textContainer)
+        commonInit()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        commonInit()
+    }
+
+    private func commonInit() {
+        setupCircularProgressViewAndLabel()
+    }
+    
+    // Called by parentVC
+    func initializerToolbar(target: Any, selector: Selector) {
+        let toolBar = UIToolbar(frame: CGRect(x: 0.0,
+                                              y: 0.0,
+                                              width: UIScreen.main.bounds.size.width,
+                                              height: 44.0))//1
+        toolBar.barTintColor = .white
+
+        // NOTE: Autolayout gives warnings, but it seems to be an apple issue.
+        // Warnings appear even with only flexible in the toolbar
+        //https://stackoverflow.com/questions/54284029/uitoolbar-with-uibarbuttonitem-layoutconstraint-issue
+        //https://developer.apple.com/forums/thread/121474
+        
+        let progressCircle = UIBarButtonItem.init(customView: circularProgressView)
+        let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)//2
+        toolBar.setItems([flexible, progressCircle], animated: false)//4
+        
+        self.inputAccessoryView = toolBar//5
+    }
+    
+    // MARK: - Setup
+    
+    func setupCircularProgressViewAndLabel() {
+        circularProgressView.progress = 0.0
+        circularProgressView.trackLineWidth = 3.0
+        circularProgressView.trackTintColor = .lightGray.withAlphaComponent(0.2)
+        circularProgressView.progressTintColor = mistUIColor()
+        circularProgressView.roundedProgressLineCap = true
+        
+        // Constraints
+        circularProgressView.translatesAutoresizingMaskIntoConstraints = false
+        circularProgressView.widthAnchor.constraint(equalToConstant: circularProgressView.frame.width).isActive = true
+        circularProgressView.heightAnchor.constraint(equalToConstant: circularProgressView.frame.height).isActive = true
+        
+        progressLabel.textAlignment = .center
+        progressLabel.font = UIFont(name: Constants.Font.Medium, size: 16)
+        progressLabel.textColor = mistUIColor()
+        
+        // Constraints
+        circularProgressView.addSubview(progressLabel)
+        progressLabel.translatesAutoresizingMaskIntoConstraints = false //when false, setting .center does nothing
+        progressLabel.centerXAnchor.constraint(equalTo: circularProgressView.centerXAnchor).isActive = true
+        progressLabel.centerYAnchor.constraint(equalTo: circularProgressView.centerYAnchor).isActive = true
+    }
+    
+    // Currently not in use
+    func addExplanationButton() {
+//        let barButton = UIBarButtonItem(image: UIImage(systemName: "questionmark.circle"), style: .plain, target: target, action: selector)
+//        barButton.tintColor = .lightGray
+    
+//        let explainButton = UIButton()
+//        explainButton.setImage(UIImage(systemName: "questionmark.circle"), for: .normal)
+//        explainButton.setTitle(" How do mists work?", for: .normal)
+//        explainButton.tintColor = .lightGray
+//        explainButton.setTitleColor(.lightGray, for: .normal)
+//        let explainBarButton = UIBarButtonItem.init(customView: explainButton)
+    }
+    
+    
+    //MARK: - User Interaction
+    
+    // Called by parentVC
     func updateProgress() {
         circularProgressView.progress = Float(text.count) / Float(maxLength)
         let charactersRemaining = Int(maxLength) - text.count
@@ -59,61 +137,4 @@ class NewPostTextView: UITextView {
             progressLabel.text = ""
         }
     }
-    
-    func initializerToolbar(target: Any, selector: Selector) {
-        let toolBar = UIToolbar(frame: CGRect(x: 0.0,
-                                              y: 0.0,
-                                              width: UIScreen.main.bounds.size.width,
-                                              height: 44.0))//1
-        toolBar.barTintColor = .white
-        let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)//2
-        let barButton = UIBarButtonItem(image: UIImage(systemName: "questionmark.circle"), style: .plain, target: target, action: selector)
-        barButton.tintColor = .lightGray
-    
-//        let explainButton = UIButton()
-//        explainButton.setImage(UIImage(systemName: "questionmark.circle"), for: .normal)
-//        explainButton.setTitle(" How do mists work?", for: .normal)
-//        explainButton.tintColor = .lightGray
-//        explainButton.setTitleColor(.lightGray, for: .normal)
-//        let explainBarButton = UIBarButtonItem.init(customView: explainButton)
-//
-        circularProgressView.progress = 0.0
-        circularProgressView.trackLineWidth = 3.0
-        circularProgressView.trackTintColor = .lightGray.withAlphaComponent(0.2)
-        circularProgressView.progressTintColor = mistUIColor()
-        circularProgressView.roundedProgressLineCap = true
-        
-        circularProgressView.translatesAutoresizingMaskIntoConstraints = false
-        circularProgressView.widthAnchor.constraint(equalToConstant: circularProgressView.frame.width).isActive = true
-        circularProgressView.heightAnchor.constraint(equalToConstant: circularProgressView.frame.height).isActive = true
-        
-        progressLabel.textAlignment = .center
-        progressLabel.font = UIFont(name: Constants.Font.Medium, size: 16)
-        progressLabel.textColor = mistUIColor()
-        
-        circularProgressView.addSubview(progressLabel)
-        progressLabel.translatesAutoresizingMaskIntoConstraints = false //when false, setting .center does nothing
-        progressLabel.centerXAnchor.constraint(equalTo: circularProgressView.centerXAnchor).isActive = true
-        progressLabel.centerYAnchor.constraint(equalTo: circularProgressView.centerYAnchor).isActive = true
-
-        let progressCircle = UIBarButtonItem.init(customView: circularProgressView)
-
-        toolBar.setItems([flexible, progressCircle], animated: false)//4
-
-        self.inputAccessoryView = toolBar//5
-    }
-    
-    
-//    override init(frame: CGRect, textContainer: NSTextContainer?) {
-//        super.init(frame: frame, textContainer: textContainer)
-//        commonInit()
-//    }
-//
-//    required init?(coder aDecoder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-//
-//    private func commonInit() {
-//
-//    }
 }

@@ -14,6 +14,9 @@ let TITLE_PLACEHOLDER_TEXT = "A cute title"
 let LOCATION_PLACEHOLDER_TEXT = "Drop a pin"
 let TEXT_LENGTH_BEYOND_MAX_PERMITTED = 5
 
+let PROGRESS_DEFAULT_DURATION: Double = 6 // Seconds
+let PROGRESS_DEFAULT_MAX: Float = 0.8 // 80%
+
 //TODO: allow user to scroll through their post if their post is really long while keyboard is up
 
 class NewPostViewController: UIViewController, UITextViewDelegate {
@@ -30,6 +33,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     var textViewToolbar: UIToolbar?
     
     var currentlyPinnedAnnotation: PostAnnotation?
+    var postStartTime: DispatchTime?
     
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var postButton: UIButton!
@@ -43,6 +47,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         setupDatePicker()
         setupDatePicker()
         setupProgressView()
+        validateAllFields()
    }
     
     // MARK: - Setup
@@ -74,6 +79,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     func setupLocationButton() {
         locationButton.layer.cornerRadius = 10
         locationButton.layer.cornerCurve = .continuous
+        locationButton.setImageToRightSide()
     }
     
     func setupDatePicker() {
@@ -131,6 +137,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func userDidTappedPostButton(_ sender: UIButton) {
+        postButton.isEnabled = false
         animateProgressBar()
         Task {
             do {
@@ -141,14 +148,26 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
                                                                         longitude: currentlyPinnedAnnotation!.coordinate.longitude,
                                                                         timestamp: datePicker.date.timeIntervalSince1970)
                 // Post was a success! Now navigate to ExploreMap and handle the new post
-                let tbc = tabBarController
-                tbc!.selectedIndex = 0
-                let homeNav = tbc!.selectedViewController as! UINavigationController
-                let homeExplore = homeNav.visibleViewController as! ExploreMapViewController
-                homeExplore.handleNewlySubmittedPost(syncedPost) { [weak self] in
-                    self?.dismiss(animated: true)
+                let tbc = presentingViewController as! SpecialTabBarController
+                tbc.selectedIndex = 0
+                let homeNav = tbc.selectedViewController as! UINavigationController
+                let homeExplore = homeNav.topViewController as! ExploreMapViewController
+                homeExplore.centerMapOnUSC()
+                homeExplore.handleUpdatedFilter(PostFilter(postType: .All,
+                                                           postTimeframe: 0.5),
+                                                shouldReload: true) {
+                    self.finishAnimationProgress() {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+                            self.dismiss(animated: true) {
+                                homeExplore.handleNewlySubmittedPost(syncedPost)
+                                self.postButton.isEnabled = true
+                            }
+                         })
+                    }
                 }
             } catch {
+                progressView.progress = 0
+                postButton.isEnabled = true
                 CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
             }
         }
@@ -193,23 +212,45 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     
     //MARK: - Util
     
-    // Reference: https://stackoverflow.com/questions/23803464/uiview-animatewithduration-and-uiprogressview-setprogress
     func animateProgressBar() {
         progressView.isHidden = false
-        UIView.animate(withDuration: 0.0, animations: {
+        progressView.setProgress(PROGRESS_DEFAULT_MAX, animated: false)
+        postStartTime = DispatchTime.now() // <<<<<<<<<< Start time
+        UIView.animate(withDuration: PROGRESS_DEFAULT_DURATION,
+                       delay: 0,
+                       options: .curveLinear) {
             self.progressView.layoutIfNeeded()
-        }, completion: { finished in
-            self.progressView.progress = 1.0
+        }
+    }
+    
+    // progressView animation could not easily be paused and resume like other animations...
+    //... so I had to finesse a little.
+    func finishAnimationProgress(completion: @escaping () -> Void) {
+        // Pause the progress view at its current progress
+        let elapsedTime = (DispatchTime.now().uptimeNanoseconds - postStartTime!.uptimeNanoseconds) / 1_000_000_000
+        let currentProgress = min(PROGRESS_DEFAULT_MAX,
+                                  PROGRESS_DEFAULT_MAX * Float((Double(elapsedTime)+0.1) / PROGRESS_DEFAULT_DURATION))
+        progressView.setProgress(currentProgress, animated: false)
+        progressView.layoutIfNeeded()
 
-            UIView.animate(withDuration: 5, delay: 0.0, options: [.curveLinear], animations: {
-                self.progressView.layoutIfNeeded()
-            }, completion: { finished in
-                print("animation completed")
-            })
-        })
+        // Cancel the animation
+        progressView.subviews.forEach { view in
+           view.layer.removeAllAnimations()
+       }
+        // Continue to fully loaded
+        progressView.setProgress(1, animated: false)
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       options: .curveLinear) {
+            self.progressView.layoutIfNeeded()
+        } completion: { bool in
+            completion()
+        }
+
     }
     
     func clearAllFields() {
+        progressView.progress = 0
         bodyTextView.text = ""
         titleTextView.text = ""
         bodyPlaceholderLabel.isHidden = false

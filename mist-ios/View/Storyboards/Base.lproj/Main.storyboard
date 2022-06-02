@@ -2018,7 +2018,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ROH-mw-gt8" userLabel="PostBubbleView">
-                                <rect key="frame" x="15" y="108" width="355" height="252"/>
+                                <rect key="frame" x="15" y="109.66666666666669" width="355" height="252"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="LKi-f6-JP9" customClass="NewPostTextView" customModule="mist_ios" customModuleProvider="target">
                                         <rect key="frame" x="15" y="112" width="325" height="125"/>
@@ -2029,10 +2029,10 @@
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
-                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="BaP-3D-dEK">
-                                        <rect key="frame" x="160" y="13" width="190" height="35"/>
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="BaP-3D-dEK">
+                                        <rect key="frame" x="-50" y="13" width="400" height="35"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="190" id="fy8-Ma-hWw"/>
+                                            <constraint firstAttribute="width" constant="400" id="3G2-ar-Gpo"/>
                                             <constraint firstAttribute="height" constant="35" id="sE6-eD-Gik"/>
                                         </constraints>
                                         <connections>
@@ -2040,23 +2040,8 @@
                                             <action selector="datePickerValueChanged:" destination="kRB-gV-TMZ" eventType="valueChanged" id="guf-iy-Zgg"/>
                                         </connections>
                                     </datePicker>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IU6-SV-PWc">
-                                        <rect key="frame" x="10" y="13" width="155" height="35"/>
-                                        <color key="backgroundColor" red="0.89803922179999995" green="0.88235294819999999" blue="0.91372549530000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
-                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="15" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="135" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Drop a pin">
-                                            <color key="titleColor" systemColor="labelColor"/>
-                                            <imageReference key="image" image="chevron.right" catalog="system" symbolScale="small"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="Fzs-bF-wXN" kind="show" id="trc-0y-r3G"/>
-                                        </connections>
-                                    </button>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6LK-SF-qY0" customClass="NewPostTextView" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="15" y="63" width="325" height="49"/>
+                                        <rect key="frame" x="15" y="62.999999999999986" width="325" height="49"/>
                                         <color key="textColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next"/>
@@ -2073,7 +2058,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CkN-c3-lSV">
-                                                <rect key="frame" x="6" y="0.0" width="90" height="35"/>
+                                                <rect key="frame" x="10" y="0.0" width="86" height="35"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Wednesday" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="68W-AO-KmF">
@@ -2093,11 +2078,25 @@
                                             <constraint firstAttribute="width" constant="189" id="1c1-Bu-Yhe"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IU6-SV-PWc">
+                                        <rect key="frame" x="10" y="13" width="156" height="35"/>
+                                        <color key="backgroundColor" red="0.89803922179999995" green="0.88235294819999999" blue="0.91372549530000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="15" maxY="0.0"/>
+                                        <state key="normal" title="Drop a pin">
+                                            <color key="titleColor" systemColor="labelColor"/>
+                                            <imageReference key="image" image="chevron.right" catalog="system" symbolScale="small"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="Fzs-bF-wXN" kind="show" id="trc-0y-r3G"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.96078431369999995" green="0.94117647059999998" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="LKi-f6-JP9" secondAttribute="bottom" constant="15" id="191-mb-fvh"/>
-                                    <constraint firstItem="qak-yr-bBo" firstAttribute="leading" secondItem="IU6-SV-PWc" secondAttribute="trailing" constant="-2" id="2bF-40-zsD"/>
+                                    <constraint firstItem="qak-yr-bBo" firstAttribute="leading" secondItem="IU6-SV-PWc" secondAttribute="trailing" constant="-3" id="2bF-40-zsD"/>
                                     <constraint firstAttribute="trailing" secondItem="6LK-SF-qY0" secondAttribute="trailing" constant="15" id="BQW-WG-5eH"/>
                                     <constraint firstItem="BaP-3D-dEK" firstAttribute="centerY" secondItem="IU6-SV-PWc" secondAttribute="centerY" id="FQM-Yx-kDw"/>
                                     <constraint firstItem="qak-yr-bBo" firstAttribute="centerY" secondItem="IU6-SV-PWc" secondAttribute="centerY" id="GHg-cS-nFn"/>
@@ -2106,7 +2105,7 @@
                                     <constraint firstItem="IU6-SV-PWc" firstAttribute="height" secondItem="BaP-3D-dEK" secondAttribute="height" id="b5n-WL-TzO"/>
                                     <constraint firstItem="IU6-SV-PWc" firstAttribute="leading" secondItem="ROH-mw-gt8" secondAttribute="leading" constant="10" id="bfk-i9-Jd0"/>
                                     <constraint firstItem="6LK-SF-qY0" firstAttribute="top" secondItem="IU6-SV-PWc" secondAttribute="bottom" constant="15" id="ely-MV-6TU"/>
-                                    <constraint firstAttribute="trailing" secondItem="BaP-3D-dEK" secondAttribute="trailing" constant="5" id="fhJ-Ug-nEa"/>
+                                    <constraint firstItem="BaP-3D-dEK" firstAttribute="trailing" secondItem="qak-yr-bBo" secondAttribute="trailing" constant="-2" id="gf9-ZP-R1l"/>
                                     <constraint firstItem="LKi-f6-JP9" firstAttribute="top" secondItem="6LK-SF-qY0" secondAttribute="bottom" id="rh8-5f-RPC"/>
                                     <constraint firstAttribute="trailing" secondItem="qak-yr-bBo" secondAttribute="trailing" constant="3" id="scA-4P-Off"/>
                                     <constraint firstItem="LKi-f6-JP9" firstAttribute="leading" secondItem="ROH-mw-gt8" secondAttribute="leading" constant="15" id="uhS-Og-Saw"/>
@@ -2114,9 +2113,8 @@
                                     <constraint firstItem="6LK-SF-qY0" firstAttribute="leading" secondItem="ROH-mw-gt8" secondAttribute="leading" constant="15" id="xeF-pX-sgn"/>
                                 </constraints>
                             </view>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progressViewStyle="bar" progress="0.01" translatesAutoresizingMaskIntoConstraints="NO" id="s8w-UY-1t0">
-                                <rect key="frame" x="16" y="94.333333333333485" width="354" height="1.6666666666666665"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.01" translatesAutoresizingMaskIntoConstraints="NO" id="s8w-UY-1t0">
+                                <rect key="frame" x="0.0" y="90" width="390" height="2.6666666666666714"/>
                             </progressView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="mO0-TM-IBH"/>
@@ -2125,8 +2123,11 @@
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="mO0-TM-IBH" firstAttribute="trailing" secondItem="ROH-mw-gt8" secondAttribute="trailing" constant="20" identifier="rightBubbleConstraint" id="116-Mk-Iwv"/>
-                            <constraint firstItem="ROH-mw-gt8" firstAttribute="top" secondItem="mO0-TM-IBH" secondAttribute="top" constant="20" id="8U5-Vh-pkT"/>
+                            <constraint firstItem="ROH-mw-gt8" firstAttribute="top" secondItem="s8w-UY-1t0" secondAttribute="bottom" constant="18" id="Exd-7Q-tay"/>
+                            <constraint firstItem="s8w-UY-1t0" firstAttribute="leading" secondItem="mO0-TM-IBH" secondAttribute="leading" id="TCn-jc-Yhc"/>
+                            <constraint firstItem="s8w-UY-1t0" firstAttribute="top" secondItem="mO0-TM-IBH" secondAttribute="top" constant="2" id="aC6-HY-eqT"/>
                             <constraint firstItem="ROH-mw-gt8" firstAttribute="leading" secondItem="mO0-TM-IBH" secondAttribute="leading" constant="15" id="nIy-tR-lVv"/>
+                            <constraint firstItem="mO0-TM-IBH" firstAttribute="trailing" secondItem="s8w-UY-1t0" secondAttribute="trailing" id="pRQ-CP-Dug"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="y30-qK-xtg" appends="YES" id="FFt-Zz-Lsc"/>
