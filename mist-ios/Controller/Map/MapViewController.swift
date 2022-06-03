@@ -70,7 +70,6 @@ class MapViewController: UIViewController {
         prevZoomWidth = mapView.visibleMapRect.size.width
         prevZoom = mapView.camera.centerCoordinateDistance
         
-        navigationController?.restoreHairline()
         displayedAnnotations = []
         setupMapButtons()
         setupMapView()

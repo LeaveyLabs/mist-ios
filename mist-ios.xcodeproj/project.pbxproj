@@ -86,6 +86,9 @@
 		473B5A272831C8B400BD1168 /* Starscream.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 473B5A252831C8B400BD1168 /* Starscream.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4746508527D83F3E0014217C /* MistUITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746508427D83F3E0014217C /* MistUITextView.swift */; };
 		4746508727D8735B0014217C /* RulesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746508627D8735B0014217C /* RulesViewController.swift */; };
+		474A4AB0284A922100B39A98 /* UIScrollView+ToTop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474A4AAF284A922100B39A98 /* UIScrollView+ToTop.swift */; };
+		474A4AB5284A953200B39A98 /* UITextView+MaxLength.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474A4AB4284A953200B39A98 /* UITextView+MaxLength.swift */; };
+		474A4AC6284AB6D700B39A98 /* String+Indexing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474A4AC5284AB6D700B39A98 /* String+Indexing.swift */; };
 		474A5DA327F4042F004215F9 /* UIImageView+Inspectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474A5DA227F4042F004215F9 /* UIImageView+Inspectable.swift */; };
 		474A5DA527F40606004215F9 /* RoundedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474A5DA427F40606004215F9 /* RoundedImageView.swift */; };
 		474A5DA827F4079D004215F9 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474A5DA727F4079D004215F9 /* MyProfileViewController.swift */; };
@@ -156,7 +159,6 @@
 		47E74E2327CA100000467A0C /* mist_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E2227CA100000467A0C /* mist_iosTests.swift */; };
 		47E74E2D27CA100000467A0C /* mist_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E2C27CA100000467A0C /* mist_iosUITests.swift */; };
 		47E74E2F27CA100000467A0C /* mist_iosUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E2E27CA100000467A0C /* mist_iosUITestsLaunchTests.swift */; };
-		47EA3DFB27E0098F00381218 /* UINavigationController+Hairline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3DFA27E0098F00381218 /* UINavigationController+Hairline.swift */; };
 		47EA3E0027E013EB00381218 /* PostAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3DFF27E013EB00381218 /* PostAnnotation.swift */; };
 		47EA3E0227E0151200381218 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3E0127E0151200381218 /* MapViewController.swift */; };
 		47EE28F22840991800C6425C /* PermissionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE28F12840991800C6425C /* PermissionsViewController.swift */; };
@@ -286,6 +288,10 @@
 		473CAF812832A6EB008D8807 /* mist-ios.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "mist-ios.xcconfig"; sourceTree = "<group>"; };
 		4746508427D83F3E0014217C /* MistUITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistUITextView.swift; sourceTree = "<group>"; };
 		4746508627D8735B0014217C /* RulesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesViewController.swift; sourceTree = "<group>"; };
+		474A4AAF284A922100B39A98 /* UIScrollView+ToTop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+ToTop.swift"; sourceTree = "<group>"; };
+		474A4AB4284A953200B39A98 /* UITextView+MaxLength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+MaxLength.swift"; sourceTree = "<group>"; };
+		474A4AC5284AB6D700B39A98 /* String+Indexing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Indexing.swift"; sourceTree = "<group>"; };
+		474A4AC7284AC98000B39A98 /* CrashEye.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CrashEye.xcframework; path = Carthage/Build/CrashEye.xcframework; sourceTree = "<group>"; };
 		474A5DA227F4042F004215F9 /* UIImageView+Inspectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Inspectable.swift"; sourceTree = "<group>"; };
 		474A5DA427F40606004215F9 /* RoundedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedImageView.swift; sourceTree = "<group>"; };
 		474A5DA727F4079D004215F9 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
@@ -362,7 +368,6 @@
 		47E74E2827CA100000467A0C /* mist-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mist-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47E74E2C27CA100000467A0C /* mist_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mist_iosUITests.swift; sourceTree = "<group>"; };
 		47E74E2E27CA100000467A0C /* mist_iosUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mist_iosUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		47EA3DFA27E0098F00381218 /* UINavigationController+Hairline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Hairline.swift"; sourceTree = "<group>"; };
 		47EA3DFF27E013EB00381218 /* PostAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAnnotation.swift; sourceTree = "<group>"; };
 		47EA3E0127E0151200381218 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		47EE28F12840991800C6425C /* PermissionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsViewController.swift; sourceTree = "<group>"; };
@@ -540,12 +545,41 @@
 		473B5A202831C8B200BD1168 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				474A4AC7284AC98000B39A98 /* CrashEye.xcframework */,
 				47183313284570490061F9F3 /* CircularProgressView.xcframework */,
 				47CBF6ED283556E600096514 /* SwiftyAttributes.xcframework */,
 				473B5A252831C8B400BD1168 /* Starscream.xcframework */,
 				473B5A212831C8B200BD1168 /* Alamofire.xcframework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		474A4AB1284A94DB00B39A98 /* UIImage+UIImageView */ = {
+			isa = PBXGroup;
+			children = (
+				47FF418028402EC600A44968 /* UIImage+Resize.swift */,
+				47FF869C27DB87A70076A1CA /* UIImage+Thumbnail.swift */,
+				474A5DA227F4042F004215F9 /* UIImageView+Inspectable.swift */,
+			);
+			path = "UIImage+UIImageView";
+			sourceTree = "<group>";
+		};
+		474A4AB2284A950100B39A98 /* UITextField */ = {
+			isa = PBXGroup;
+			children = (
+				478BA278283DD37E00C35507 /* UITextField+Padding.swift */,
+				476971DB2847C3F200123F72 /* UITextField+MaxLength.swift */,
+			);
+			path = UITextField;
+			sourceTree = "<group>";
+		};
+		474A4AB3284A952200B39A98 /* UITextView */ = {
+			isa = PBXGroup;
+			children = (
+				47E2B1BE2800C1CD00131B8D /* UITextView+Placeholder.swift */,
+				474A4AB4284A953200B39A98 /* UITextView+MaxLength.swift */,
+			);
+			path = UITextView;
 			sourceTree = "<group>";
 		};
 		475B1F8927FB868300ED59CD /* Messages */ = {
@@ -602,19 +636,17 @@
 		47A3D71B27D593F0003DBEA5 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				474A4AB3284A952200B39A98 /* UITextView */,
+				474A4AB2284A950100B39A98 /* UITextField */,
+				474A4AB1284A94DB00B39A98 /* UIImage+UIImageView */,
 				47D5B36828441180004CDE6C /* UIView */,
-				47FF869C27DB87A70076A1CA /* UIImage+Thumbnail.swift */,
-				47EA3DFA27E0098F00381218 /* UINavigationController+Hairline.swift */,
-				474A5DA227F4042F004215F9 /* UIImageView+Inspectable.swift */,
 				474A5DA927F40CB1004215F9 /* UISegmentedControl+Twitter.swift */,
-				47E2B1BE2800C1CD00131B8D /* UITextView+Placeholder.swift */,
 				479683F22826494100CA23BA /* UIColor+Theme.swift */,
-				478BA278283DD37E00C35507 /* UITextField+Padding.swift */,
 				478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */,
 				478BA282283EF2DB00C35507 /* UIViewController+SBTransition.swift */,
-				47FF418028402EC600A44968 /* UIImage+Resize.swift */,
-				476971DB2847C3F200123F72 /* UITextField+MaxLength.swift */,
 				47AC881E28480AE1000150CA /* UIButton+RightSideImage.swift */,
+				474A4AAF284A922100B39A98 /* UIScrollView+ToTop.swift */,
+				474A4AC5284AB6D700B39A98 /* String+Indexing.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1070,6 +1102,7 @@
 				4369DB0C282EC465009215D4 /* Message.swift in Sources */,
 				47C1D49127DF00B200970B3D /* MoreViewController.swift in Sources */,
 				472A4C0728408BD800FD52B7 /* UnwindSegue.swift in Sources */,
+				474A4AB5284A953200B39A98 /* UITextView+MaxLength.swift in Sources */,
 				4718331228445A7C0061F9F3 /* UIView+PostBubble.swift in Sources */,
 				47FF869D27DB87A70076A1CA /* UIImage+Thumbnail.swift in Sources */,
 				4780E5B6283308250012B741 /* MessageKitMessage.swift in Sources */,
@@ -1098,6 +1131,7 @@
 				475B1F8F27FBC2D400ED59CD /* UIView+Shadow.swift in Sources */,
 				475B1F8D27FBAB2F00ED59CD /* UIView+Animations.swift in Sources */,
 				47CE900C27E059DC0004B756 /* PinMapModalViewController.swift in Sources */,
+				474A4AB0284A922100B39A98 /* UIScrollView+ToTop.swift in Sources */,
 				478BA279283DD37E00C35507 /* UITextField+Padding.swift in Sources */,
 				4746508527D83F3E0014217C /* MistUITextView.swift in Sources */,
 				4780E5B828330C570012B741 /* MessageKitUser.swift in Sources */,
@@ -1124,7 +1158,6 @@
 				43483BB42802519C001C7C6A /* CreatePasswordViewController.swift in Sources */,
 				4329571C27F4008300FA48A9 /* EnterEmailViewController.swift in Sources */,
 				47A3D70827D54F6F003DBEA5 /* User.swift in Sources */,
-				47EA3DFB27E0098F00381218 /* UINavigationController+Hairline.swift in Sources */,
 				472A4C0528408BD800FD52B7 /* AutoTextView.swift in Sources */,
 				472A4BF628408BD800FD52B7 /* SoundPlayer.swift in Sources */,
 				472A4C0A28408BD800FD52B7 /* AsyncImageView.swift in Sources */,
@@ -1135,6 +1168,7 @@
 				43483BB6280251B1001C7C6A /* EnterNameViewController.swift in Sources */,
 				478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */,
 				472A4C0028408BD800FD52B7 /* DesignableTabBarController.swift in Sources */,
+				474A4AC6284AB6D700B39A98 /* String+Indexing.swift in Sources */,
 				479683F82828180C00CA23BA /* ClusterAnnotationView.swift in Sources */,
 				476971DC2847C3F200123F72 /* UITextField+MaxLength.swift in Sources */,
 				477499872832CF540067C26C /* AutocompleteChatViewController.swift in Sources */,

@@ -425,7 +425,6 @@ extension ExploreMapViewController: UISearchControllerDelegate {
     }
     
     func willPresentSearchController(_ searchController: UISearchController) {
-//        navigationController?.hideHairline()
         Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
     }
     

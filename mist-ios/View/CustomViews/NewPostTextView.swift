@@ -60,7 +60,7 @@ class NewPostTextView: UITextView {
     }
     
     // Called by parentVC
-    func initializerToolbar(target: Any, selector: Selector) {
+    func initializerToolbar(target: Any, doneSelector: Selector) {
         let toolBar = UIToolbar(frame: CGRect(x: 0.0,
                                               y: 0.0,
                                               width: UIScreen.main.bounds.size.width,
@@ -74,7 +74,12 @@ class NewPostTextView: UITextView {
         
         let progressCircle = UIBarButtonItem.init(customView: circularProgressView)
         let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)//2
-        toolBar.setItems([flexible, progressCircle], animated: false)//4
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: target, action: doneSelector)
+        doneButton.tintColor = .lightGray
+        let customAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 16)!]
+        doneButton.setTitleTextAttributes(customAttributes, for: .normal)
+        
+        toolBar.setItems([doneButton, flexible, progressCircle], animated: false)//4
         
         self.inputAccessoryView = toolBar//5
     }

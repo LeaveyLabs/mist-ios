@@ -18,8 +18,8 @@
                         <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="700" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="YST-yc-0HK" userLabel="Content view">
                             <rect key="frame" x="35" y="30" width="324" height="176"/>
                             <subviews>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="700" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" image="errorIcon" translatesAutoresizingMaskIntoConstraints="NO" id="hUK-sr-A3U" userLabel="Icon image view">
-                                    <rect key="frame" x="145.5" y="0.0" width="33" height="23"/>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="700" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" translatesAutoresizingMaskIntoConstraints="NO" id="hUK-sr-A3U" userLabel="Icon image view">
+                                    <rect key="frame" x="137" y="0.0" width="50" height="23"/>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="700" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" verticalCompressionResistancePriority="753" text="😬" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="elb-HW-olH" userLabel="Icon label" propertyAccessControl="none">
                                     <rect key="frame" x="135" y="38" width="54" height="60"/>
@@ -176,7 +176,4 @@
             <point key="canvasLocation" x="368.11594202898556" y="377.67857142857139"/>
         </view>
     </objects>
-    <resources>
-        <image name="errorIcon" width="33" height="34"/>
-    </resources>
 </document>

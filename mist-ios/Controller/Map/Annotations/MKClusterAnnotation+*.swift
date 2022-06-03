@@ -17,7 +17,7 @@ extension MKClusterAnnotation {
                 if let postAnnotation = memberAnnotations[0] as? PostAnnotation {
                     title = postAnnotation.post!.location_description!
                 }
-                subtitle = String(memberAnnotations.count) + " missed connections"
+                subtitle = String(memberAnnotations.count) + " mists"
                 
             } else {
                 title = memberAnnotations[0].title!

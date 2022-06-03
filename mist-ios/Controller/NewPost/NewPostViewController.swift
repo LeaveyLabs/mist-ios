@@ -17,9 +17,10 @@ let TEXT_LENGTH_BEYOND_MAX_PERMITTED = 5
 let PROGRESS_DEFAULT_DURATION: Double = 6 // Seconds
 let PROGRESS_DEFAULT_MAX: Float = 0.8 // 80%
 
-//TODO: allow user to scroll through their post if their post is really long while keyboard is up
-
 class NewPostViewController: KUIViewController, UITextViewDelegate {
+    
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     @IBOutlet weak var postBubbleView: UIView!
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var datePicker: UIDatePicker!
@@ -40,14 +41,15 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupLocationButton()
         loadFromNewPostContext()
         postBubbleView.transformIntoPostBubble(arrowPosition: .right)
         setupTextViews()
-        setupLocationButton()
         setupDatePicker()
         setupDatePicker()
         setupProgressView()
         validateAllFields()
+        shouldKUIViewKeyboardDismissOnBackgroundTouch = true
    }
     
     // MARK: - Setup
@@ -61,14 +63,14 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     
     func setupTextViews() {
         titleTextView.delegate = self
-        titleTextView.initializerToolbar(target: self, selector: #selector(presentExplanationVC))
+        titleTextView.initializerToolbar(target: self, doneSelector: #selector(dismissKeyboard))
         titleTextView.textContainer.lineFragmentPadding = 0 //fixes textview strange leading offset
         titlePlaceholderLabel = titleTextView.addAndReturnPlaceholderLabelTwo(withText: TITLE_PLACEHOLDER_TEXT)
         titleTextView.maxLength = 40
         titleTextView.becomeFirstResponder()
-
+        
         bodyTextView.delegate = self
-        bodyTextView.initializerToolbar(target: self, selector: #selector(presentExplanationVC))
+        bodyTextView.initializerToolbar(target: self, doneSelector: #selector(dismissKeyboard))
         bodyTextView.textContainer.lineFragmentPadding = 0 //fixes textview strange leading offset
         bodyPlaceholderLabel = bodyTextView.addAndReturnPlaceholderLabelTwo(withText: BODY_PLACEHOLDER_TEXT)
         bodyTextView.maxLength = 140
@@ -83,7 +85,11 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     }
     
     func setupDatePicker() {
+        // Max date: today. Min date: 1 month ago
         datePicker.maximumDate = .now
+        datePicker.minimumDate = Calendar.current.date(byAdding: .month,
+                                                       value: -1,
+                                                       to: Date())
 
         dateLabelWrapperView.layer.cornerRadius = 10
         dateLabelWrapperView.layer.cornerCurve = .continuous
@@ -107,6 +113,10 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         performSegue(withIdentifier: Constants.SBID.Segue.ToExplain, sender: self)
     }
     
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
         let (date, time) = getDateAndTimeForNewPost(selectedDate: datePicker.date)
         dateLabel.text = date
@@ -117,10 +127,6 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         // Could add code to determine which label was pressed aka which label to highlight
         // To do this, set user interaction of labels/uiview to yes, and then manually pass the touch event through
         // https://stackoverflow.com/questions/2793242/detect-if-certain-uiview-was-touched-amongst-other-uiviews
-    }
-    
-    @IBAction func outerViewGestureDidTapped(_ sender: UITapGestureRecognizer) {
-        view.endEditing(true)
     }
     
     @IBAction func cancelButtonDidPressed(_ sender: UIBarButtonItem) {
@@ -137,7 +143,9 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     }
     
     @IBAction func userDidTappedPostButton(_ sender: UIButton) {
-        postButton.isEnabled = false
+        setAllInteractionTo(false)
+        scrollView.scrollToTop()
+        view.endEditing(true) //TODO: i need to force scroll to top to show the progress bar?
         animateProgressBar()
         Task {
             do {
@@ -154,20 +162,19 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
                 let homeExplore = homeNav.topViewController as! ExploreMapViewController
                 homeExplore.centerMapOnUSC()
                 homeExplore.handleUpdatedFilter(PostFilter(postType: .All,
-                                                           postTimeframe: 0.5),
+                                                           postTimeframe: 0.3),
                                                 shouldReload: true) {
                     self.finishAnimationProgress() {
                         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
                             self.dismiss(animated: true) {
                                 homeExplore.handleNewlySubmittedPost(syncedPost)
-                                self.postButton.isEnabled = true
-                            }
+                           }
                          })
                     }
                 }
             } catch {
                 progressView.progress = 0
-                postButton.isEnabled = true
+                setAllInteractionTo(true)
                 CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
             }
         }
@@ -187,8 +194,22 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     }
     
     //MARK: - TextView
-    
+        
     func textViewDidChange(_ textView: UITextView) {
+        // UITextView has a quirk when last char is a newline...
+        //  its size is not updated until another char is entered
+        //  so, this will force the textView to scroll down
+        if let selectedRange = textView.selectedTextRange,
+           let txt = textView.text,
+           !txt.isEmpty,
+           txt.last == "\n" {
+            let cursorPosition = textView.offset(from: textView.beginningOfDocument, to: selectedRange.start)
+            if cursorPosition == txt.count {
+                
+                scrollView.scrollToBottom(animated: false)
+            }
+        }
+        
         if textView == bodyTextView {
             bodyPlaceholderLabel.isHidden = !bodyTextView.text.isEmpty
             bodyTextView.updateProgress()
@@ -200,14 +221,23 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        // Don't allow user to press "return" in title
-        if textView == titleTextView && text == "\n" {
-            bodyTextView.becomeFirstResponder()
-            return false
-        } else {
-            let newPostTextView = textView as! NewPostTextView
-            return textView.shouldChangeTextGivenMaxLengthOf(newPostTextView.maxLength + TEXT_LENGTH_BEYOND_MAX_PERMITTED, range, text)
+        // Don't allow " " as first character
+        if text == " " {
+            if textView.text.count == 0 {
+                return false
+            }
+        } else if text == "\n" {
+            // Don't allow newline in title. Instead, skip to bodyTextView
+            if textView == titleTextView {
+                bodyTextView.becomeFirstResponder()
+                return false
+            } else {
+                return shouldAllowNewline(in: textView.text, at: range.location)
+            }
         }
+        // Only return true if the length of text is within the limit
+        let newPostTextView = textView as! NewPostTextView
+        return textView.shouldChangeTextGivenMaxLengthOf(newPostTextView.maxLength + TEXT_LENGTH_BEYOND_MAX_PERMITTED, range, text)
     }
     
     //MARK: - Util
@@ -215,7 +245,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     func animateProgressBar() {
         progressView.isHidden = false
         progressView.setProgress(PROGRESS_DEFAULT_MAX, animated: false)
-        postStartTime = DispatchTime.now() // <<<<<<<<<< Start time
+        postStartTime = DispatchTime.now()
         UIView.animate(withDuration: PROGRESS_DEFAULT_DURATION,
                        delay: 0,
                        options: .curveLinear) {
@@ -261,6 +291,14 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         datePicker.date = Date()
     }
     
+    func setAllInteractionTo(_ shouldBeEnabled: Bool) {
+        postButton.isEnabled = shouldBeEnabled
+        locationButton.isEnabled = shouldBeEnabled
+        datePicker.isEnabled = shouldBeEnabled
+        titleTextView.isEditable = shouldBeEnabled
+        bodyTextView.isEditable = shouldBeEnabled
+    }
+    
     func validateAllFields() {
         if bodyTextView.text!.count == 0 || bodyTextView.text!.count > bodyTextView.maxLength ||
             titleTextView.text!.count == 0 || titleTextView.text!.count > titleTextView.maxLength ||
@@ -269,5 +307,33 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         } else {
             postButton.isEnabled = true
         }
+    }
+    
+    func shouldAllowNewline(in existingText: String, at index: Int) -> Bool {
+
+        // Two conditions under which to not allow a newline:
+        let isFirstCharacter = index == 0
+        var isThreeTimesInARow = false
+        
+        var isNewlineBeforeTwice = false
+        let isEditingFirstTwoCharacters = index <= 1
+        if !isEditingFirstTwoCharacters {
+            isNewlineBeforeTwice = existingText.substring(with: index-2..<index) == "\n\n"
+        }
+        var isNewlineBeforeAndAfter = false
+        let isEditingFirstOrLastCharacters = index == 0 || index == existingText.count
+        if !isEditingFirstOrLastCharacters {
+            isNewlineBeforeAndAfter = existingText.substring(with: index-1..<index) == "\n" &&
+            existingText.substring(with: index..<index+1) == "\n"
+        }
+        var isNewlineAfterTwice = false
+        let isEditingLastTwoCharacters = index >= existingText.count-1
+        if !isEditingLastTwoCharacters {
+            isNewlineAfterTwice = existingText.substring(with: index..<index+2) == "\n\n"
+        }
+        
+        isThreeTimesInARow = isNewlineBeforeTwice || isNewlineBeforeAndAfter || isNewlineAfterTwice
+        
+        return !(isFirstCharacter || isThreeTimesInARow)
     }
 }

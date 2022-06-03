@@ -59,13 +59,11 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
     // MARK: - User Interaction
     
     @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
-        navigationController?.hideHairline()
         navigationController?.popViewController(animated: true)
     }
     
     //(2 of 2) for enabling swipe left to go back with a bar button item
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        navigationController?.hideHairline()
         return true
     }
 
