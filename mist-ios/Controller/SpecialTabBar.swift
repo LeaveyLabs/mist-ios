@@ -53,15 +53,12 @@ class SpecialTabBar: UITabBar {
     
     // MARK: - Actions
     @objc func middleButtonAction(sender: UIButton) {
-        let vc = findViewController()?.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewPostNavigation)
-        vc?.modalPresentationStyle = .fullScreen
-        findViewController()?.present(vc!, animated: true, completion: nil)
+        delegate?.tabBar?(self, didSelect: items![1])
     }
     
     // MARK: - HitTest
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         guard !clipsToBounds && !isHidden && alpha > 0 else { return nil }
-        
         return self.middleButton.frame.contains(point) ? self.middleButton : super.hitTest(point, with: event)
     }
 }

@@ -19,7 +19,7 @@ let PROGRESS_DEFAULT_MAX: Float = 0.8 // 80%
 
 //TODO: allow user to scroll through their post if their post is really long while keyboard is up
 
-class NewPostViewController: UIViewController, UITextViewDelegate {
+class NewPostViewController: KUIViewController, UITextViewDelegate {
     @IBOutlet weak var postBubbleView: UIView!
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var datePicker: UIDatePicker!
