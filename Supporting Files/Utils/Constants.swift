@@ -87,6 +87,7 @@ struct Constants {
             static let ToPasswordSetting = "ToPasswordSetting"
             static let ToNotificationsSetting = "ToNotificationsSetting"
             static let ToListView = "ToListView"
+            static let ToExplain = "ToExplain"
         }
     }
 }

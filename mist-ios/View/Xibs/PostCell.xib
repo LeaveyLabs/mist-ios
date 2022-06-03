@@ -81,7 +81,7 @@
                                     <constraint firstAttribute="width" constant="30" id="ylV-UV-yI4"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="" image="bubble.left" catalog="system">
+                                <state key="normal" image="bubble.left" catalog="system">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="25"/>
                                 </state>
@@ -107,15 +107,18 @@
                             <constraint firstItem="QLc-vh-OqG" firstAttribute="centerY" secondItem="qSM-wM-gMz" secondAttribute="centerY" id="uTU-rl-ns0"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t3O-N2-KZ5">
-                        <rect key="frame" x="32" y="121" width="366" height="115"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t3O-N2-KZ5">
+                        <rect key="frame" x="32" y="127" width="366" height="104"/>
                         <string key="text">To the boy with the green hal;aksdjf;lkajsd;flkj asd;lkjf;alskdjf t on at 10am in Starbucks yesterday.... you seem super cool! Let's hang out !</string>
                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="19"/>
                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a7y-a8-nTM">
-                        <rect key="frame" x="32" y="70" width="376" height="41"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a7y-a8-nTM">
+                        <rect key="frame" x="32" y="70" width="361" height="47"/>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="41" id="Qyr-5y-mHu"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="30"/>
                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
@@ -189,7 +192,7 @@
                     <constraint firstItem="3D0-wG-HoM" firstAttribute="top" secondItem="n8o-JP-5oD" secondAttribute="bottom" constant="-35" id="WAu-sl-4eh"/>
                     <constraint firstAttribute="trailing" secondItem="3D0-wG-HoM" secondAttribute="trailing" constant="15" identifier="rightBubbleConstraint" id="WKM-VY-2im"/>
                     <constraint firstItem="3D0-wG-HoM" firstAttribute="leading" secondItem="gGS-gG-AEq" secondAttribute="leading" constant="15" identifier="leftBubbleConstraint" id="a3x-SK-nuN"/>
-                    <constraint firstItem="a7y-a8-nTM" firstAttribute="trailing" secondItem="gGS-gG-AEq" secondAttribute="trailingMargin" id="e5o-5O-BT4"/>
+                    <constraint firstItem="a7y-a8-nTM" firstAttribute="trailing" secondItem="gGS-gG-AEq" secondAttribute="trailingMargin" constant="-15" id="e5o-5O-BT4"/>
                     <constraint firstItem="t3O-N2-KZ5" firstAttribute="trailing" secondItem="3D0-wG-HoM" secondAttribute="trailing" constant="-15" id="kGy-zx-th5"/>
                     <constraint firstItem="t3O-N2-KZ5" firstAttribute="top" secondItem="a7y-a8-nTM" secondAttribute="bottom" constant="10" id="oRs-y2-9C6"/>
                     <constraint firstItem="t3O-N2-KZ5" firstAttribute="leading" secondItem="a7y-a8-nTM" secondAttribute="leading" id="paN-EF-BLX"/>

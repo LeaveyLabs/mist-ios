@@ -9,7 +9,7 @@ import Foundation
 
 let DUMMY_POST_ID: Int = -1
 
-struct Post: Codable {
+struct Post: Codable, Equatable {
     let id: Int
     let title: String
     let text: String //TODO: consider changing to "body"

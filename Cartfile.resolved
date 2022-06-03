@@ -1,3 +1,4 @@
 github "Alamofire/Alamofire" "5.6.1"
 github "chrisamanse/CircularProgressView" "2.0"
 github "daltoniam/Starscream" "4.0.4"
+github "zixun/CrashEye" "1.2.0"

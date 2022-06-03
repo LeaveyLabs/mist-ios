@@ -174,7 +174,11 @@ class PinMapViewController: MapViewController {
             if sheetPresentationController?.selectedDetentIdentifier?.rawValue != "xl" { // Don't toggle to size s if they manually pulled the sheet all the way up
                 pinMapModalVC?.toggleSheetSizeTo(sheetSize: "s")
             }
-            slowFlyTo(lat: view.annotation!.coordinate.latitude + latitudeOffset, long: view.annotation!.coordinate.longitude, incrementalZoom: false, completion: {_ in })
+            slowFlyTo(lat: view.annotation!.coordinate.latitude + latitudeOffset,
+                      long: view.annotation!.coordinate.longitude,
+                      incrementalZoom: false,
+                      withDuration: cameraAnimationDuration,
+                      completion: {_ in })
         }
     }
     
@@ -214,7 +218,11 @@ extension PinMapViewController: UISheetPresentationControllerDelegate {
     func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
         if sheetPresentationController.selectedDetentIdentifier?.rawValue == "s" || sheetPresentationController.selectedDetentIdentifier?.rawValue == "xl" {
             if let pinnedAnnotation = pinnedAnnotation {
-                slowFlyTo(lat: pinnedAnnotation.coordinate.latitude + latitudeOffset, long: pinnedAnnotation.coordinate.longitude, incrementalZoom: false, completion: {_ in })
+                slowFlyTo(lat: pinnedAnnotation.coordinate.latitude + latitudeOffset,
+                          long: pinnedAnnotation.coordinate.longitude,
+                          incrementalZoom: false,
+                          withDuration: cameraAnimationDuration,
+                          completion: {_ in })
                 if sheetPresentationController.selectedDetentIdentifier?.rawValue == "xl" {
                     pinMapModalVC?.locationDescriptionTextField.becomeFirstResponder()
                 }

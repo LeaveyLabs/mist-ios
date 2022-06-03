@@ -14,6 +14,7 @@ enum PermissionType {
 
 struct CustomSwiftMessages {
     static func showError(errorDescription: String) {
+        print(errorDescription)
         let messageView = MessageView.viewFromNib(layout: .cardView)
         messageView.backgroundHeight = 60
         messageView.configureTheme(.error)

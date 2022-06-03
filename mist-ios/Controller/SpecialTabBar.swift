@@ -2,7 +2,7 @@
 //  CustomTabBar.swift
 //  CustomTabBar
 //
-//  Created by Keihan Kamangar on 2021-06-07.
+//  Created by Adam Novak on 2022-06-07.
 //
 
 import UIKit
@@ -14,7 +14,10 @@ class SpecialTabBar: UITabBar {
         middleButton.adjustsImageWhenHighlighted = false //deprecated, but only for the new "UIButtonConfiguration" buttons, which we're not using here
         let submitImage = UIImage(named: "submitbutton")!
         middleButton.setImage(submitImage, for: .normal)
-        middleButton.frame = CGRect(x: 0.0, y: 0.0, width: submitImage.size.width, height: submitImage.size.height)
+        middleButton.frame = CGRect(x: 0.0,
+                                    y: 0.0,
+                                    width: submitImage.size.width,
+                                    height: submitImage.size.height)
 //        middleButton.frame.size = CGSize(width: 400, height: 400)
         middleButton.translatesAutoresizingMaskIntoConstraints = false
         middleButton.isUserInteractionEnabled = true
@@ -39,10 +42,9 @@ class SpecialTabBar: UITabBar {
         self.layer.masksToBounds = false
         
         NSLayoutConstraint.activate([
-            middleButton.topAnchor.constraint(equalTo: self.topAnchor, constant: -30),
+            middleButton.topAnchor.constraint(equalTo: self.topAnchor, constant: -27),
             middleButton.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0),
         ])
-        
   }
     
     override func layoutSubviews() {
@@ -51,27 +53,12 @@ class SpecialTabBar: UITabBar {
     
     // MARK: - Actions
     @objc func middleButtonAction(sender: UIButton) {
-        let vc = findViewController()?.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewPostNavigation)
-        vc?.modalPresentationStyle = .fullScreen
-        findViewController()?.present(vc!, animated: true, completion: nil)
+        delegate?.tabBar?(self, didSelect: items![1])
     }
     
     // MARK: - HitTest
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         guard !clipsToBounds && !isHidden && alpha > 0 else { return nil }
-        
         return self.middleButton.frame.contains(point) ? self.middleButton : super.hitTest(point, with: event)
-    }
-}
-
-extension UIView {
-    func findViewController() -> UIViewController? {
-        if let nextResponder = self.next as? UIViewController {
-            return nextResponder
-        } else if let nextResponder = self.next as? UIView {
-            return nextResponder.findViewController()
-        } else {
-            return nil
-        }
     }
 }

@@ -70,7 +70,6 @@ class MapViewController: UIViewController {
         prevZoomWidth = mapView.visibleMapRect.size.width
         prevZoom = mapView.camera.centerCoordinateDistance
         
-        navigationController?.restoreHairline()
         displayedAnnotations = []
         setupMapButtons()
         setupMapView()
@@ -165,7 +164,10 @@ class MapViewController: UIViewController {
             locationManager.authorizationStatus == .notDetermined {
             handleUserLocationPermissionRequest()
         } else {
-            slowFlyTo(lat: mapView.userLocation.coordinate.latitude, long: mapView.userLocation.coordinate.longitude, incrementalZoom: false, completion: {_ in })
+            slowFlyTo(lat: mapView.userLocation.coordinate.latitude,
+                      long: mapView.userLocation.coordinate.longitude,
+                      incrementalZoom: false,
+                      withDuration: cameraAnimationDuration, completion: {_ in })
         }
     }
     
@@ -279,7 +281,11 @@ extension MapViewController {
     }
     
     // Custom camera transition https://stackoverflow.com/questions/21125573/mkmapcamera-pitch-altitude-function
-    func slowFlyTo(lat: Double, long: Double, incrementalZoom: Bool, completion: @escaping (Bool) -> Void) {
+    func slowFlyTo(lat: Double,
+                   long: Double,
+                   incrementalZoom: Bool,
+                   withDuration duration: Double,
+                   completion: @escaping (Bool) -> Void) {
         let pinLocation = CLLocationCoordinate2D(latitude: lat, longitude: long)
         var newCLLDistance: Double = 500
         if incrementalZoom {
@@ -288,12 +294,12 @@ extension MapViewController {
         }
 
         let rotationCamera = MKMapCamera(lookingAtCenter: pinLocation, fromDistance: newCLLDistance, pitch: 50, heading: 0)
-        UIView.animate(withDuration: cameraAnimationDuration, delay: 0, options: .curveEaseInOut, animations: {
+        UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: {
             self.mapView.camera = rotationCamera
         }, completion: completion)
         cameraIsFlying = true
     }
-    
+        
     func toggleMapDimension() {
         isThreeDimensional = !isThreeDimensional
         

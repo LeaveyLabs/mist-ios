@@ -46,10 +46,10 @@ func getFormattedTimeString(postTimestamp: Double) -> String {
         }
         //if if minutes ago
         else if elapsedTimeSincePost.hours == 0 {
-            if (elapsedTimeSincePost.minutes == 1) {
-                return String(elapsedTimeSincePost.minutes) + " minute ago"
+            if elapsedTimeSincePost.minutes == 0 {
+                return String(elapsedTimeSincePost.minutes) + " min ago"
             } else {
-                return String(elapsedTimeSincePost.minutes) + " minutes ago"
+//                return String(elapsedTimeSincePost.minutes) + " mins ago"
             }
         }
         //if hours ago
@@ -73,10 +73,12 @@ func getDateAndTimeForNewPost(selectedDate: Date) -> (String, String) {
     let elapsedTimeSincePost = NSDate().timeIntervalSince1970.getElapsedTime(since: selectedDate.timeIntervalSince1970)
     
     let timeFormatter = DateFormatter()
+    timeFormatter.locale = Locale(identifier: "en_US")
     timeFormatter.dateFormat = "h:mma"
     let time = timeFormatter.string(from: selectedDate).lowercased()
     
     let dateFormatter = DateFormatter()
+    dateFormatter.locale = Locale(identifier: "en_US")
 
     //if the post happened within the last week
     if elapsedTimeSincePost.days < 7 {
@@ -121,7 +123,7 @@ func getFormattedDate(currentTimeMillis: Double) -> String {
     let myTimeInterval = TimeInterval(currentTimeMillis)
     let thedate = Date(timeIntervalSince1970: myTimeInterval)
     let dateFormatter = DateFormatter()
-    dateFormatter.locale = .current
+    dateFormatter.locale = Locale(identifier: "en_US")
     dateFormatter.dateFormat = "MMM d, h:mma"
     
     return dateFormatter.string(from: thedate).replacingOccurrences(of: "AM", with: "am").replacingOccurrences(of: "PM", with: "pm")
@@ -131,7 +133,7 @@ func getRecentFormattedDate(currentTimeMillis: Double) -> String {
     let myTimeInterval = TimeInterval(currentTimeMillis)
     let thedate = Date(timeIntervalSince1970: myTimeInterval)
     let dateFormatter = DateFormatter()
-    dateFormatter.locale = .current
+    dateFormatter.locale = Locale(identifier: "en_US")
     dateFormatter.dateFormat = "E, h:mma"
     
     return dateFormatter.string(from: thedate).replacingOccurrences(of: "AM", with: "am").replacingOccurrences(of: "PM", with: "pm")
@@ -141,7 +143,7 @@ func getDayOfWeek(currentTimeMillis: Double) -> String {
     let myTimeInterval = TimeInterval(currentTimeMillis)
     let thedate = Date(timeIntervalSince1970: myTimeInterval)
     let dateFormatter = DateFormatter()
-    dateFormatter.locale = .current
+    dateFormatter.locale = Locale(identifier: "en_US")
     dateFormatter.dateFormat = "EEEE"
     
     return dateFormatter.string(from: thedate)
