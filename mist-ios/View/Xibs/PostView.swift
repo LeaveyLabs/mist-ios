@@ -1,23 +1,14 @@
 //
-//  PostTableViewCell.swift
+//  PostView.swift
 //  mist-ios
 //
-//  Created by Adam Novak on 2022/03/06.
+//  Created by Adam Novak on 2022/06/04.
 //
 
 import UIKit
-import Social
 
-protocol PostDelegate {
-    func likeDidTapped(post: Post)
-    func moreDidTapped(post: Post)
-    func backgroundDidTapped(post: Post)
-    func dmDidTapped(post: Post)
-    func commentDidTapped(post: Post)
-    func favoriteDidTapped(post: Post)
-}
-
-class PostCell: UITableViewCell {
+@IBDesignable
+class PostView: UIView {
     
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
@@ -34,21 +25,23 @@ class PostCell: UITableViewCell {
     var postDelegate: PostDelegate?
     var post: Post!
     
-    //MARK: - Public Interface
-    
-    func configurePostCell(post: Post, bubbleTrianglePosition: BubbleTrianglePosition) {
-        self.post = post
-        timestampLabel.text = getFormattedTimeString(postTimestamp: post.timestamp)
-        locationLabel.text = post.location_description
-        messageLabel.text = post.text
-        titleLabel.text = post.title
-        likeLabel.text = String(post.averagerating)
-        likeButton.isSelected = false
-        favoriteButton.isSelected = false
+    //MARK: - Initialization
         
-        backgroundBubbleView.transformIntoPostBubble(arrowPosition: bubbleTrianglePosition)
-        backgroundBubbleView.addGestureRecognizer(UITapGestureRecognizer(target: self,
-                                                                         action: #selector(backgroundTapAction)))
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        customInit()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        customInit()
+    }
+    
+    private func customInit() {
+        guard let contentView = loadViewFromNib(nibName: "PostView") else { return }
+        contentView.frame = self.bounds
+        contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        addSubview(contentView)
     }
     
     //MARK: - User Interaction
@@ -89,4 +82,24 @@ class PostCell: UITableViewCell {
         likeButton.isSelected = !likeButton.isSelected
     }
     
+}
+
+//MARK: - Public Interface
+
+extension PostView {
+    
+    func configurePostCell(post: Post, bubbleTrianglePosition: BubbleTrianglePosition) {
+        self.post = post
+        timestampLabel.text = getFormattedTimeString(postTimestamp: post.timestamp)
+        locationLabel.text = post.location_description
+        messageLabel.text = post.text
+        titleLabel.text = post.title
+        likeLabel.text = String(post.averagerating)
+        likeButton.isSelected = false
+        favoriteButton.isSelected = false
+        
+        backgroundBubbleView.transformIntoPostBubble(arrowPosition: bubbleTrianglePosition)
+        backgroundBubbleView.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                                         action: #selector(backgroundTapAction)))
+    }
 }

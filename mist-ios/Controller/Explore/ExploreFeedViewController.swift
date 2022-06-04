@@ -167,7 +167,8 @@ extension ExploreFeedViewController {
             return cell
         }
         let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-        cell.configurePostCell(post: posts[indexPath.row], parent: self, bubbleArrowPosition: .left)
+        cell.configurePostCell(post: posts[indexPath.row], bubbleTrianglePosition: .left)
+//        cell.postDelegate = self
         cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
         return cell
     }

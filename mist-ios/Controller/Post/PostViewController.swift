@@ -25,8 +25,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var postTableView: UITableView!
     var completionHandler: UpdatedPostCompletionHandler?
     
-    //postVC should never be created without a post
-    var post: Post!
+    var post: Post! // PostVC should never be created without a post
     var comments: [Comment] = []
     var shouldStartWithRaisedKeyboard: Bool!
     
@@ -40,6 +39,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         commentPlaceholderLabel = commentTextView.addAndReturnPlaceholderLabel(withText: COMMENT_PLACEHOLDER_TEXT)
         loadComments();
         disableCommentButton()
+        shouldKUIViewKeyboardDismissOnBackgroundTouch = true
         
         //User Interaction
         //(1 of 2) for enabling swipe left to go back with a bar button item
@@ -111,22 +111,15 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         commentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
     
-    //MARK: - Navigation
+    //MARK: - User Interaction
     
     //(2 of 2) for enabling swipe left to go back with a bar button item
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
-    //MARK: - User Interaction
-    
     @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
-    }
-    
-    @objc func handleBackgroundTap(_ sender: UITapGestureRecognizer) {
-        //this function is currently not used nor needed since KUIViewController handles taps for us
-        commentTextView.resignFirstResponder()
     }
     
     @IBAction func submitButtonDidPressed(_ sender: UIButton) {
@@ -166,7 +159,6 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         Task {
             do {
                 comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
-                print(comments)
                 print("loaded comments")
                 postTableView.reloadData();
             } catch {
@@ -209,7 +201,8 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         if (indexPath.row == 0) {
             if let post = post {
                 let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-                cell.configurePostCell(post: post, parent: self, bubbleArrowPosition: .left)
+                cell.configurePostCell(post: post, bubbleTrianglePosition: .left)
+                cell.postDelegate = self
                 cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
                 return cell
             }
@@ -246,5 +239,52 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     func disableCommentButton() {
         commentButton.isEnabled = false;
         commentButton.alpha = 0.99;
+    }
+}
+
+//MARK: - Post Delegation
+
+extension PostViewController: PostDelegate {
+    
+    func backgroundDidTapped(post: Post) {
+        //Do nothing
+    }
+    
+    func commentDidTapped(post: Post) {
+        commentTextView.becomeFirstResponder()
+    }
+    
+    func moreDidTapped(post: Post) {
+        let moreVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.More) as! MoreViewController
+        moreVC.loadViewIfNeeded() //doesnt work without this function call
+        moreVC.shareDelegate = self
+        present(moreVC, animated: true)
+    }
+    
+    func dmDidTapped(post: Post) {
+        let newMessageNavVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewMessageNavigation) as! UINavigationController
+        newMessageNavVC.modalPresentationStyle = .fullScreen
+        present(newMessageNavVC, animated: true, completion: nil)
+    }
+    
+    func favoriteDidTapped(post: Post) {
+        //do something
+    }
+    
+    func likeDidTapped(post: Post) {
+        //do something
+    }
+    
+}
+
+extension PostViewController: ShareActivityDelegate {
+    
+    func presentShareActivityVC() {
+        if let url = NSURL(string: "https://www.getmist.app")  {
+            let objectsToShare: [Any] = [url]
+            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+            activityVC.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
+            present(activityVC, animated: true)
+        }
     }
 }

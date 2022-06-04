@@ -12,7 +12,7 @@ class MoreViewController: SheetViewController {
     //TODO: make drop down arrow image go completely behind sortbybutton in postviewcontroller
     
     @IBOutlet weak var closeButton: UIButton!
-    var delegate: PostCell?
+    var shareDelegate: ShareActivityDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +30,7 @@ class MoreViewController: SheetViewController {
         //TODO: use Open Graph protocols on our website for a Rich imessage display
     @IBAction func shareButton(_ sender: UIButton) {
         dismiss(animated: true) { [self] in
-            delegate?.presentShareActivityVC()
+            shareDelegate?.presentShareActivityVC()
         }
     }
     

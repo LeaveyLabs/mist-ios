@@ -126,7 +126,8 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
             return cell
         }
         let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-        cell.configurePostCell(post: posts[indexPath.row-1], parent: self, bubbleArrowPosition: .left)
+        cell.configurePostCell(post: posts[indexPath.row-1], bubbleTrianglePosition: .left)
+        cell.postDelegate = self
         cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
         return cell
     }
@@ -135,4 +136,66 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
         return 1 + posts.count
     }
     
+    
+    
+}
+
+//MARK: - Post Delegation
+
+extension ResultsFeedViewController: PostDelegate {
+    
+    func backgroundDidTapped(post: Post) {
+        sendToPostViewFor(post, withRaisedKeyboard: false)
+    }
+    
+    func commentDidTapped(post: Post) {
+        sendToPostViewFor(post, withRaisedKeyboard: true)
+    }
+    
+    func moreDidTapped(post: Post) {
+        let moreVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.More) as! MoreViewController
+        moreVC.loadViewIfNeeded() //doesnt work without this function call
+        moreVC.shareDelegate = self
+        present(moreVC, animated: true)
+    }
+    
+    func dmDidTapped(post: Post) {
+        let newMessageNavVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewMessageNavigation) as! UINavigationController
+        newMessageNavVC.modalPresentationStyle = .fullScreen
+        present(newMessageNavVC, animated: true, completion: nil)
+    }
+    
+    func favoriteDidTapped(post: Post) {
+        //do something
+    }
+    
+    func likeDidTapped(post: Post) {
+        //do something
+    }
+    
+}
+
+extension ResultsFeedViewController {
+   
+   func sendToPostViewFor(_ post: Post, withRaisedKeyboard: Bool) {
+       let postVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
+       postVC.post = post
+       postVC.shouldStartWithRaisedKeyboard = withRaisedKeyboard
+       postVC.completionHandler = { Post in
+           self.tableView.reloadData()
+       }
+       navigationController!.pushViewController(postVC, animated: true)
+   }
+}
+
+extension ResultsFeedViewController: ShareActivityDelegate {
+    
+    func presentShareActivityVC() {
+        if let url = NSURL(string: "https://www.getmist.app")  {
+            let objectsToShare: [Any] = [url]
+            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+            activityVC.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
+            present(activityVC, animated: true)
+        }
+    }
 }
