@@ -14,8 +14,6 @@ import AVFAudio
 ///https://developer.apple.com/documentation/uikit/view_controllers/displaying_searchable_content_by_using_a_search_controller
 ///
 
-let POST_VIEW_TAG = 999
-
 class ExploreMapViewController: MapViewController {
 
     // MARK: - Properties
@@ -186,11 +184,8 @@ class ExploreMapViewController: MapViewController {
             if let clusterAnntation = view.cluster?.annotation as? MKClusterAnnotation {
                 mapView.deselectAnnotation(view.annotation, animated: false)
                 handleClusterAnnotationSelection(clusterAnntation)
-            } else if let view = view as? PostAnnotationView {
-                view.glyphTintColor = mistUIColor() //this is needed bc for some reason the glyph tint color turns grey even with the mist-heart-pink icon
-                view.markerTintColor = mistSecondaryUIColor()
-                loadPostViewFor(postAnnotationView: view,
-                                withDelay: 0)
+            } else if let postAnnotationView = view as? PostAnnotationView {
+                postAnnotationView.loadPostView(withDelay: 0)
             }
         }
         else if view.annotation is MKUserLocation {
@@ -201,35 +196,18 @@ class ExploreMapViewController: MapViewController {
             mapView.deselectAnnotation(view.annotation, animated: false)
             handleClusterAnnotationSelection(clusterAnnotation)
         }
-        else if let view = view as? PostAnnotationView {
-            view.glyphTintColor = mistUIColor() //this is needed bc for some reason the glyph tint color turns grey even with the mist-heart-pink icon
-            view.markerTintColor = mistSecondaryUIColor()
-            
+        else if let postAnnotationView = view as? PostAnnotationView {
             slowFlyTo(lat: view.annotation!.coordinate.latitude + latitudeOffset,
                       long: view.annotation!.coordinate.longitude,
                       incrementalZoom: false,
                       withDuration: cameraAnimationDuration,
                       completion: { _ in })
-            loadPostViewFor(postAnnotationView: view,
-                            withDelay: cameraAnimationDuration)
+            postAnnotationView.loadPostView(withDelay: cameraAnimationDuration)
         }
     }
 
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         print("did deselect")
-        if let view = view as? PostAnnotationView {
-            view.glyphTintColor = .white
-            view.markerTintColor = mistUIColor()
-        }
-        
-        if let postView: UIView = view.viewWithTag(POST_VIEW_TAG) {
-            postView.fadeOut(duration: 0.5, delay: 0, completion: { Bool in
-                postView.isHidden = true
-                postView.removeFromSuperview()
-                mapView.isScrollEnabled = true
-                mapView.isZoomEnabled = true
-            })
-        }
     }
     
     override func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
@@ -260,36 +238,6 @@ class ExploreMapViewController: MapViewController {
 //    func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
 //        
 //    }
-    
-    //MARK: - View Rendering
-    
-    func loadPostViewFor(postAnnotationView: PostAnnotationView,
-                         withDelay delay: Double) {
-        let cell = Bundle.main.loadNibNamed(Constants.SBID.Cell.Post, owner: self, options: nil)?[0] as! PostCell
-        if let postAnnotation = postAnnotationView.annotation as? PostAnnotation {
-            cell.configurePostCell(post: postAnnotation.post, parent: self, bubbleArrowPosition: .bottom)
-        }
-        let postView: UIView? = cell.contentView
-
-        // Or, alternatively, instead of extracting from the PostCell.xib,, extract post from PostView.xib
-    //        let postViewFromViewNib = Bundle.main.loadNibNamed(Constants.SBID.View.Post, owner: self, options: nil)?[0] as? PostView
-        
-        if let newPostView = postView {
-            newPostView.tag = POST_VIEW_TAG
-            newPostView.tintColor = .black
-            newPostView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
-            postAnnotationView.addSubview(newPostView)
-            NSLayoutConstraint.activate([
-                newPostView.bottomAnchor.constraint(equalTo: postAnnotationView.bottomAnchor, constant: -70),
-                newPostView.widthAnchor.constraint(equalTo: mapView.widthAnchor, constant: 0),
-                newPostView.heightAnchor.constraint(lessThanOrEqualTo: mapView.heightAnchor, multiplier: 0.60, constant: 0),
-                newPostView.centerXAnchor.constraint(equalTo: postAnnotationView.centerXAnchor, constant: 0),
-            ])
-            newPostView.alpha = 0
-            newPostView.isHidden = true
-            newPostView.fadeIn(duration: 0.2, delay: delay-0.15)
-        }
-    }
     
     //MARK: - DB Interaction
     
