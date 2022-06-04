@@ -149,28 +149,31 @@ class ExploreMapViewController: MapViewController {
     }
     
     func handleClusterAnnotationSelection(_ clusterAnnotation: MKClusterAnnotation) {
-        if clusterAnnotation.isHotspot {
-            var posts = [Post]()
-            for annotation in clusterAnnotation.memberAnnotations {
-                if let annotation = annotation as? PostAnnotation {
-                    posts.append(annotation.post)
+        let wasHotspotBeforeSlowFly = clusterAnnotation.isHotspot
+        slowFlyTo(lat: clusterAnnotation.coordinate.latitude,
+                  long: clusterAnnotation.coordinate.longitude,
+                  incrementalZoom: true,
+                  withDuration: cameraAnimationDuration,
+                  completion: { _ in
+            if wasHotspotBeforeSlowFly {
+                var posts = [Post]()
+                for annotation in clusterAnnotation.memberAnnotations {
+                    if let annotation = annotation as? PostAnnotation {
+                        posts.append(annotation.post)
+                    }
                 }
+                let newVC = ResultsFeedViewController.resultsFeedViewController(feedType: .hotspot,
+                                                                                feedValue: clusterAnnotation.title!)
+                newVC.posts = posts
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    self.navigationController?.pushViewController(newVC, animated: true)
+                }
+            } else {
+
             }
-            let newVC = ResultsFeedViewController.resultsFeedViewController(feedType: .hotspot,
-                                                                            feedValue: clusterAnnotation.title!)
-            newVC.posts = posts
-            navigationController?.pushViewController(newVC, animated: true)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in //wait 0.5 seconds
-                centerMapOn(lat: clusterAnnotation.coordinate.latitude,
-                            long: clusterAnnotation.coordinate.longitude)
-            }
-        } else {
-            slowFlyTo(lat: clusterAnnotation.coordinate.latitude,
-                      long: clusterAnnotation.coordinate.longitude,
-                      incrementalZoom: true,
-                      withDuration: cameraAnimationDuration,
-                      completion: { _ in })
-        }
+        })
+        
+
     }
     
     
@@ -183,7 +186,7 @@ class ExploreMapViewController: MapViewController {
             if let clusterAnntation = view.cluster?.annotation as? MKClusterAnnotation {
                 mapView.deselectAnnotation(view.annotation, animated: false)
                 handleClusterAnnotationSelection(clusterAnntation)
-            } else if let view = view as? PostMarkerAnnotationView {
+            } else if let view = view as? PostAnnotationView {
                 view.glyphTintColor = mistUIColor() //this is needed bc for some reason the glyph tint color turns grey even with the mist-heart-pink icon
                 view.markerTintColor = mistSecondaryUIColor()
                 loadPostViewFor(postAnnotationView: view,
@@ -198,7 +201,7 @@ class ExploreMapViewController: MapViewController {
             mapView.deselectAnnotation(view.annotation, animated: false)
             handleClusterAnnotationSelection(clusterAnnotation)
         }
-        else if let view = view as? PostMarkerAnnotationView {
+        else if let view = view as? PostAnnotationView {
             view.glyphTintColor = mistUIColor() //this is needed bc for some reason the glyph tint color turns grey even with the mist-heart-pink icon
             view.markerTintColor = mistSecondaryUIColor()
             
@@ -214,7 +217,7 @@ class ExploreMapViewController: MapViewController {
 
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         print("did deselect")
-        if let view = view as? PostMarkerAnnotationView {
+        if let view = view as? PostAnnotationView {
             view.glyphTintColor = .white
             view.markerTintColor = mistUIColor()
         }
@@ -260,7 +263,7 @@ class ExploreMapViewController: MapViewController {
     
     //MARK: - View Rendering
     
-    func loadPostViewFor(postAnnotationView: PostMarkerAnnotationView,
+    func loadPostViewFor(postAnnotationView: PostAnnotationView,
                          withDelay delay: Double) {
         let cell = Bundle.main.loadNibNamed(Constants.SBID.Cell.Post, owner: self, options: nil)?[0] as! PostCell
         if let postAnnotation = postAnnotationView.annotation as? PostAnnotation {

@@ -86,6 +86,7 @@ class MapViewController: UIViewController {
         mapView.showsCompass = false
         mapView.delegate = self
         mapView.tintColor = .systemBlue //sets user puck color
+        mapView.showsTraffic = false
         centerMapOnUSC()
         registerMapAnnotationViews()
         mapView.camera = MKMapCamera(lookingAtCenter: mapView.centerCoordinate,
@@ -100,7 +101,7 @@ class MapViewController: UIViewController {
     
     // NOTE: If you want to change the clustering identifier based on location, you should probably delink the annotationview and reuse identifier like below (watch the wwdc video again) so you can change the constructor of AnnotationViews/ClusterANnotationViews to include map height
     func registerMapAnnotationViews() {
-        mapView.register(PostMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        mapView.register(PostAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         mapView.register(ClusterAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
     }
     

@@ -11,10 +11,9 @@ import MapKit
 // Customize annotaiton view
 //https://stackoverflow.com/questions/56311852/mkmapview-not-clustering-annotation-on-zooming-out-map-in-swift
 
-final class PostMarkerAnnotationView: MKMarkerAnnotationView {
-    
-    var onSelect: (() -> Void)?
-    
+final class PostAnnotationView: MKMarkerAnnotationView {
+        
+    // MapView annotation views are reused like TableView cells, so everytime they're set, you should prepare them
     override var annotation: MKAnnotation? {
         willSet {
             animatesWhenAdded = true
@@ -33,14 +32,6 @@ final class PostMarkerAnnotationView: MKMarkerAnnotationView {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
     }
-    
-    // Was trying to intercept the animation for MKMarkerAnnotationView to slow it down... to now avail
-    // The best solution is probably to just make your own custom anotation view and own custom animations along with it
-    override func setSelected(_ selected: Bool, animated: Bool) {
-//    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//        super.setSelected(false, animated: false)
-//    }
-  }
 }
