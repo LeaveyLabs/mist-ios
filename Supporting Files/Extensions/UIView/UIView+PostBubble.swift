@@ -28,19 +28,20 @@ extension UIView {
         var constraints = [
             triangleView.heightAnchor.constraint(equalToConstant: 80),
             triangleView.widthAnchor.constraint(equalToConstant: 80),
-            triangleView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
         ]
         switch arrowPosition {
         case .left:
             constraints.append(triangleView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: -10))
+            constraints.append(triangleView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0))
         case .bottom:
             constraints.append(triangleView.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0))
+            constraints.append(triangleView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5)) //This constant should be slightly below 0 to prevent a little grey line from appearing on click
         case .right:
             constraints.append(triangleView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 10))
+            constraints.append(triangleView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0))
         }
         
         // Adjust the width constraint of the backgroundView
-        
         for constraint in superview!.constraints {
             switch arrowPosition {
             case .left:

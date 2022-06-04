@@ -10,12 +10,9 @@ import MapKit
 
 //TODO: create separate annotationview for pinmap
 
-// Customize annotaiton view
-//https://stackoverflow.com/questions/56311852/mkmapview-not-clustering-annotation-on-zooming-out-map-in-swift
-
 final class PostAnnotationView: MKMarkerAnnotationView {
     
-    var postCalloutView: UIView? // the postAnnotationView's callout view
+    var postCalloutView: PostView? // the postAnnotationView's callout view
     
     // MapView annotation views are reused like TableView cells, so everytime they're set, you should prepare them
     override var annotation: MKAnnotation? {
@@ -43,15 +40,15 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         super.setSelected(selected, animated: animated)
 
         if selected {
-            self.postCalloutView?.removeFromSuperview() // This shouldn't be needed, but just in case
-
-            glyphTintColor = mistUIColor() //this is needed bc for some reason the glyph tint color turns grey even with the mist-heart-pink icon
-            markerTintColor = mistSecondaryUIColor()
-        } else {
-            glyphTintColor = .white
-            markerTintColor = mistUIColor()
-            
             if let postCalloutView = postCalloutView {
+                postCalloutView.removeFromSuperview() // This shouldn't be needed, but just in case
+                glyphTintColor = mistUIColor() //this is needed bc for some reason the glyph tint color turns grey even with the mist-heart-pink icon
+                markerTintColor = mistSecondaryUIColor()
+            }
+        } else {
+            if let postCalloutView = postCalloutView {
+                glyphTintColor = .white
+                markerTintColor = mistUIColor()
                 postCalloutView.fadeOut(duration: 0.5, delay: 0, completion: { Bool in
                     postCalloutView.isHidden = true
                     postCalloutView.removeFromSuperview()
@@ -62,23 +59,34 @@ final class PostAnnotationView: MKMarkerAnnotationView {
     
     // Called by the viewController, because the delay differs based on if the post was just uploaded or if it was jut clicked on
     func loadPostView(withDelay delay: Double) {
-        let postCalloutView = PostCalloutView(annotation: annotation as! PostAnnotation) // Initializes as hidden
-        postCalloutView.add(toPostAnnotationView: self) // Sets up constraints, too
-        self.postCalloutView = postCalloutView
+        postCalloutView = PostView()
+        guard let postCalloutView = postCalloutView else {return}
+        
+        let postAnnotation = annotation as! PostAnnotation
+        postCalloutView.configurePost(post: postAnnotation.post, bubbleTrianglePosition: .bottom)
+        postCalloutView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(postCalloutView)
+        
+        NSLayoutConstraint.activate([
+            postCalloutView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -100),
+            postCalloutView.widthAnchor.constraint(equalTo: mapView!.widthAnchor, constant: -20),
+            postCalloutView.heightAnchor.constraint(lessThanOrEqualTo: mapView!.heightAnchor, multiplier: 0.54, constant: 0),
+            postCalloutView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
+        ])
+        
+        mapView!.layoutIfNeeded()
+        postCalloutView.setNeedsLayout()
         
         postCalloutView.fadeIn(duration: 0.2, delay: delay-0.15)
     }
     
-    // Make sure that if the cell is reused that we remove it from the super view.
-    // I think this handles the case where a postView has been rendered for a postannotationview,
-    // but then the post annotationview goes offscreen and that same annotationview is reused
-    
+    // Make sure that if the cell is reused that we remove the postCalloutView from the postAnnotationView.
     override func prepareForReuse() {
         super.prepareForReuse()
         postCalloutView?.removeFromSuperview()
     }
     
-    // MARK: - Detect taps on callout (postView)
+    // MARK: - Detect taps on postCalloutView
 
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if let hitAnnotationView = super.hitTest(point, with: event) {
@@ -93,4 +101,16 @@ final class PostAnnotationView: MKMarkerAnnotationView {
 
         return nil
     }
+    
+    // MARK: - Map View reference
+    
+    var mapView: MKMapView? {
+        var view = superview
+        while view != nil {
+            if let mapView = view as? MKMapView { return mapView }
+            view = view?.superview
+        }
+        return nil
+    }
+
 }

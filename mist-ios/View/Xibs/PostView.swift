@@ -46,7 +46,9 @@ class PostView: UIView {
     
     //MARK: - User Interaction
     
-    @objc func backgroundTapAction() {
+    // This action should be detected by a button, because the button will also prevent touches from
+    // being passed through to the mapview
+    @IBAction func backgroundButtonDidPressed(_ sender: UIButton) {
         postDelegate?.backgroundDidTapped(post: post)
     }
     
@@ -82,13 +84,18 @@ class PostView: UIView {
         likeButton.isSelected = !likeButton.isSelected
     }
     
+    @objc func myActionMethod(_ sender: UIGestureRecognizer) {
+        print(sender)
+        print("reached")
+    }
+    
 }
 
 //MARK: - Public Interface
 
 extension PostView {
     
-    func configurePostCell(post: Post, bubbleTrianglePosition: BubbleTrianglePosition) {
+    func configurePost(post: Post, bubbleTrianglePosition: BubbleTrianglePosition) {
         self.post = post
         timestampLabel.text = getFormattedTimeString(postTimestamp: post.timestamp)
         locationLabel.text = post.location_description
@@ -97,9 +104,16 @@ extension PostView {
         likeLabel.text = String(post.averagerating)
         likeButton.isSelected = false
         favoriteButton.isSelected = false
-        
+
+        addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(myActionMethod(_:))))
         backgroundBubbleView.transformIntoPostBubble(arrowPosition: bubbleTrianglePosition)
-        backgroundBubbleView.addGestureRecognizer(UITapGestureRecognizer(target: self,
-                                                                         action: #selector(backgroundTapAction)))
+//        backgroundBubbleView.addGestureRecognizer(UITapGestureRecognizer(target: self,
+//                                                                         action: #selector(backgroundTapAction)))
     }
 }
+
+//extension PostView: UIGestureRecognizerDelegate {
+//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive event: UIEvent) -> Bool {
+//        return false
+//    }
+//}

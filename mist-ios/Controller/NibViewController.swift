@@ -16,7 +16,7 @@ class NibViewController: UIViewController {
         Task {
             do {
                 let post = try await PostAPI.fetchPosts()[0]
-                postview.configurePostCell(post: post, bubbleTrianglePosition: .bottom)
+                postview.configurePost(post: post, bubbleTrianglePosition: .bottom)
             } catch {
                 
             }
