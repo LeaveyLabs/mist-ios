@@ -18,6 +18,7 @@
 		434910A3284BF25300A414FE /* anotherfileTestAPI2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910A2284BF25300A414FE /* anotherfileTestAPI2.swift */; };
 		434910A5284BF26100A414FE /* anotherfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910A4284BF26100A414FE /* anotherfile.swift */; };
 		434910A7284BF27000A414FE /* andAnothaOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910A6284BF27000A414FE /* andAnothaOne.swift */; };
+		434910A9284C022800A414FE /* testing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910A8284C022800A414FE /* testing.swift */; };
 		4369DB0A282EC436009215D4 /* MessageThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB09282EC436009215D4 /* MessageThread.swift */; };
 		4369DB0C282EC465009215D4 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB0B282EC465009215D4 /* Message.swift */; };
 		436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */; };
@@ -217,6 +218,7 @@
 		434910A2284BF25300A414FE /* anotherfileTestAPI2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = anotherfileTestAPI2.swift; sourceTree = "<group>"; };
 		434910A4284BF26100A414FE /* anotherfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = anotherfile.swift; sourceTree = "<group>"; };
 		434910A6284BF27000A414FE /* andAnothaOne.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = andAnothaOne.swift; sourceTree = "<group>"; };
+		434910A8284C022800A414FE /* testing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testing.swift; sourceTree = "<group>"; };
 		4369DB09282EC436009215D4 /* MessageThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageThread.swift; sourceTree = "<group>"; };
 		4369DB0B282EC465009215D4 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewController.swift; sourceTree = "<group>"; };
@@ -705,6 +707,7 @@
 				4780E5B728330C570012B741 /* MessageKitUser.swift */,
 				4780E5B5283308250012B741 /* MessageKitMessage.swift */,
 				434910A4284BF26100A414FE /* anotherfile.swift */,
+				434910A8284C022800A414FE /* testing.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1035,6 +1038,7 @@
 				47EA3E0227E0151200381218 /* MapViewController.swift in Sources */,
 				43483BB228025179001C7C6A /* ChooseUsernameViewController.swift in Sources */,
 				479683F32826494100CA23BA /* UIColor+Theme.swift in Sources */,
+				434910A9284C022800A414FE /* testing.swift in Sources */,
 				472A4BFE28408BD800FD52B7 /* SpringTextField.swift in Sources */,
 				479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */,
 				471F92CF28013F9B0079F8CA /* ExploreFeedViewController.swift in Sources */,
