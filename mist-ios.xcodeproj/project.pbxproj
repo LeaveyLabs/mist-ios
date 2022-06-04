@@ -15,6 +15,7 @@
 		43483BB228025179001C7C6A /* ChooseUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB128025179001C7C6A /* ChooseUsernameViewController.swift */; };
 		43483BB42802519C001C7C6A /* CreatePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB32802519C001C7C6A /* CreatePasswordViewController.swift */; };
 		43483BB6280251B1001C7C6A /* EnterNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB5280251B1001C7C6A /* EnterNameViewController.swift */; };
+		434910A1284BF20D00A414FE /* testaddfileAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910A0284BF20D00A414FE /* testaddfileAPI.swift */; };
 		4369DB0A282EC436009215D4 /* MessageThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB09282EC436009215D4 /* MessageThread.swift */; };
 		4369DB0C282EC465009215D4 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB0B282EC465009215D4 /* Message.swift */; };
 		436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */; };
@@ -211,6 +212,7 @@
 		43483BB128025179001C7C6A /* ChooseUsernameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseUsernameViewController.swift; sourceTree = "<group>"; };
 		43483BB32802519C001C7C6A /* CreatePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePasswordViewController.swift; sourceTree = "<group>"; };
 		43483BB5280251B1001C7C6A /* EnterNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameViewController.swift; sourceTree = "<group>"; };
+		434910A0284BF20D00A414FE /* testaddfileAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testaddfileAPI.swift; sourceTree = "<group>"; };
 		4369DB09282EC436009215D4 /* MessageThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageThread.swift; sourceTree = "<group>"; };
 		4369DB0B282EC465009215D4 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewController.swift; sourceTree = "<group>"; };
@@ -760,6 +762,7 @@
 				439E44F327DFB71300E244D6 /* UserAPI.swift */,
 				439E44F727DFE11F00E244D6 /* WordAPI.swift */,
 				439E44FB27E01D4900E244D6 /* AuthAPI.swift */,
+				434910A0284BF20D00A414FE /* testaddfileAPI.swift */,
 			);
 			path = APIs;
 			sourceTree = "<group>";
@@ -1030,6 +1033,7 @@
 				471F92CF28013F9B0079F8CA /* ExploreFeedViewController.swift in Sources */,
 				43A05BDD2835008B0085A99B /* SpecialTabBar.swift in Sources */,
 				47EE95FA27F64C00003B351E /* SettingsViewController.swift in Sources */,
+				434910A1284BF20D00A414FE /* testaddfileAPI.swift in Sources */,
 				43E30CFE2826355C00DBEB57 /* UploadProfilePictureViewController.swift in Sources */,
 				47266AD427FF69C9005DEDB1 /* UIViewController+Loading.swift in Sources */,
 				472A4C0628408BD800FD52B7 /* SpringAnimation.swift in Sources */,
