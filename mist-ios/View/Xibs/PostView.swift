@@ -84,11 +84,6 @@ class PostView: UIView {
         likeButton.isSelected = !likeButton.isSelected
     }
     
-    @objc func myActionMethod(_ sender: UIGestureRecognizer) {
-        print(sender)
-        print("reached")
-    }
-    
 }
 
 //MARK: - Public Interface
@@ -105,15 +100,13 @@ extension PostView {
         likeButton.isSelected = false
         favoriteButton.isSelected = false
 
-        addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(myActionMethod(_:))))
+        //adding a pan gesture captures the panning on map and prevents the post from being dismissed
+        addGestureRecognizer(UIPanGestureRecognizer())
+        
+        //but adding these gestures doesnt catch the pinch or rotation, unfortunately. not sure how to catch those gestures and prevent them from going to map view
+        addGestureRecognizer(UIPinchGestureRecognizer())
+        addGestureRecognizer(UIRotationGestureRecognizer())
+        
         backgroundBubbleView.transformIntoPostBubble(arrowPosition: bubbleTrianglePosition)
-//        backgroundBubbleView.addGestureRecognizer(UITapGestureRecognizer(target: self,
-//                                                                         action: #selector(backgroundTapAction)))
     }
 }
-
-//extension PostView: UIGestureRecognizerDelegate {
-//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive event: UIEvent) -> Bool {
-//        return false
-//    }
-//}

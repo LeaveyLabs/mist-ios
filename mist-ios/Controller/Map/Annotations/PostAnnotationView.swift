@@ -73,9 +73,10 @@ final class PostAnnotationView: MKMarkerAnnotationView {
             postCalloutView.heightAnchor.constraint(lessThanOrEqualTo: mapView!.heightAnchor, multiplier: 0.54, constant: 0),
             postCalloutView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
         ])
-        
-        mapView!.layoutIfNeeded()
-        postCalloutView.setNeedsLayout()
+
+        //Do i need to call some of these?
+//        mapView!.layoutIfNeeded()
+//        postCalloutView.setNeedsLayout()
         
         postCalloutView.fadeIn(duration: 0.2, delay: delay-0.15)
     }
