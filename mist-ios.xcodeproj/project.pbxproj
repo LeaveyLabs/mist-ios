@@ -15,6 +15,9 @@
 		43483BB228025179001C7C6A /* ChooseUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB128025179001C7C6A /* ChooseUsernameViewController.swift */; };
 		43483BB42802519C001C7C6A /* CreatePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB32802519C001C7C6A /* CreatePasswordViewController.swift */; };
 		43483BB6280251B1001C7C6A /* EnterNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB5280251B1001C7C6A /* EnterNameViewController.swift */; };
+		434910A3284BF25300A414FE /* anotherfileTestAPI2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910A2284BF25300A414FE /* anotherfileTestAPI2.swift */; };
+		434910A5284BF26100A414FE /* anotherfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910A4284BF26100A414FE /* anotherfile.swift */; };
+		434910A7284BF27000A414FE /* andAnothaOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910A6284BF27000A414FE /* andAnothaOne.swift */; };
 		4369DB0A282EC436009215D4 /* MessageThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB09282EC436009215D4 /* MessageThread.swift */; };
 		4369DB0C282EC465009215D4 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB0B282EC465009215D4 /* Message.swift */; };
 		436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */; };
@@ -211,6 +214,9 @@
 		43483BB128025179001C7C6A /* ChooseUsernameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseUsernameViewController.swift; sourceTree = "<group>"; };
 		43483BB32802519C001C7C6A /* CreatePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePasswordViewController.swift; sourceTree = "<group>"; };
 		43483BB5280251B1001C7C6A /* EnterNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameViewController.swift; sourceTree = "<group>"; };
+		434910A2284BF25300A414FE /* anotherfileTestAPI2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = anotherfileTestAPI2.swift; sourceTree = "<group>"; };
+		434910A4284BF26100A414FE /* anotherfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = anotherfile.swift; sourceTree = "<group>"; };
+		434910A6284BF27000A414FE /* andAnothaOne.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = andAnothaOne.swift; sourceTree = "<group>"; };
 		4369DB09282EC436009215D4 /* MessageThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageThread.swift; sourceTree = "<group>"; };
 		4369DB0B282EC465009215D4 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewController.swift; sourceTree = "<group>"; };
@@ -698,6 +704,7 @@
 				4369DB0B282EC465009215D4 /* Message.swift */,
 				4780E5B728330C570012B741 /* MessageKitUser.swift */,
 				4780E5B5283308250012B741 /* MessageKitMessage.swift */,
+				434910A4284BF26100A414FE /* anotherfile.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -709,6 +716,7 @@
 				470BD12E27DB1D9A00DD4622 /* Xibs */,
 				470BD12D27DB1D8700DD4622 /* Storyboards */,
 				47E74E1427CA0FFF00467A0C /* Assets.xcassets */,
+				434910A6284BF27000A414FE /* andAnothaOne.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -760,6 +768,7 @@
 				439E44F327DFB71300E244D6 /* UserAPI.swift */,
 				439E44F727DFE11F00E244D6 /* WordAPI.swift */,
 				439E44FB27E01D4900E244D6 /* AuthAPI.swift */,
+				434910A2284BF25300A414FE /* anotherfileTestAPI2.swift */,
 			);
 			path = APIs;
 			sourceTree = "<group>";
@@ -1020,6 +1029,7 @@
 				47E74E0E27CA0FFE00467A0C /* SceneDelegate.swift in Sources */,
 				47E2B1BF2800C1CD00131B8D /* UITextView+Placeholder.swift in Sources */,
 				479683FA28283ED700CA23BA /* MKClusterAnnotation+*.swift in Sources */,
+				434910A7284BF27000A414FE /* andAnothaOne.swift in Sources */,
 				478BA27F283E85F500C35507 /* AuthContext.swift in Sources */,
 				47FF86A127DC712F0076A1CA /* Comment.swift in Sources */,
 				47EA3E0227E0151200381218 /* MapViewController.swift in Sources */,
@@ -1084,6 +1094,7 @@
 				47F4EFD327E118DD00861F30 /* MapModalViewController.swift in Sources */,
 				4700F8B527DD7BBA006C2E08 /* CommentAPI.swift in Sources */,
 				47A3D70227D524F4003DBEA5 /* NewPostViewController.swift in Sources */,
+				434910A3284BF25300A414FE /* anotherfileTestAPI2.swift in Sources */,
 				472A4C0328408BD800FD52B7 /* SpringLabel.swift in Sources */,
 				474A5DAA27F40CB1004215F9 /* UISegmentedControl+Twitter.swift in Sources */,
 				472A4BF428408BD800FD52B7 /* SpringImageView.swift in Sources */,
@@ -1104,6 +1115,7 @@
 				439E44F427DFB71300E244D6 /* UserAPI.swift in Sources */,
 				472A4BF228408BD800FD52B7 /* ImageLoader.swift in Sources */,
 				4700F8C627DE4652006C2E08 /* ExploreMapViewController.swift in Sources */,
+				434910A5284BF26100A414FE /* anotherfile.swift in Sources */,
 				475B1F8B27FB86C000ED59CD /* ConversationsViewController.swift in Sources */,
 				43483BB6280251B1001C7C6A /* EnterNameViewController.swift in Sources */,
 				478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */,
