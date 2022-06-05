@@ -191,7 +191,7 @@ class ExploreMapViewController: MapViewController {
                 mapView.deselectAnnotation(view.annotation, animated: false)
                 handleClusterAnnotationSelection(clusterAnntation)
             } else if let postAnnotationView = view as? PostAnnotationView {
-                postAnnotationView.loadPostView(withDelay: 0)
+                postAnnotationView.loadPostView(on: mapView, withDelay: 0)
             }
         }
         else if view.annotation is MKUserLocation {
@@ -208,7 +208,7 @@ class ExploreMapViewController: MapViewController {
                       incrementalZoom: false,
                       withDuration: cameraAnimationDuration,
                       completion: { _ in })
-            postAnnotationView.loadPostView(withDelay: cameraAnimationDuration)
+            postAnnotationView.loadPostView(on: mapView, withDelay: cameraAnimationDuration)
         }
     }
 

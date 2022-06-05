@@ -8,13 +8,12 @@
 import Foundation
 import MapKit
 
-//TODO: create separate annotationview for pinmap
-
-final class PostAnnotationView: MKMarkerAnnotationView {
+final class PostAnnotationView: MKMarkerAnnotationView, UIGestureRecognizerDelegate {
     
     var postCalloutView: PostView? // the postAnnotationView's callout view
     
-    // MapView annotation views are reused like TableView cells, so everytime they're set, you should prepare them
+    // MapView annotation views are reused like TableView cells,
+    // so everytime they're set, you should prepare them
     override var annotation: MKAnnotation? {
         willSet {
             animatesWhenAdded = true
@@ -30,6 +29,35 @@ final class PostAnnotationView: MKMarkerAnnotationView {
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
+        setupGestureRecognizerToPreventIBActionDelay()
+
+    }
+    private func setupGestureRecognizerToPreventIBActionDelay() {
+        let quickSelectGestureRecognizer = UITapGestureRecognizer()
+        quickSelectGestureRecognizer.delaysTouchesBegan = false
+        quickSelectGestureRecognizer.delaysTouchesEnded = false
+        quickSelectGestureRecognizer.numberOfTapsRequired = 1
+        quickSelectGestureRecognizer.numberOfTouchesRequired = 1
+        quickSelectGestureRecognizer.delegate = self
+        addGestureRecognizer(quickSelectGestureRecognizer)
+    }
+    
+    var mapView: MKMapView? {
+        var view = superview
+        while view != nil {
+            if let mapView = view as? MKMapView { return mapView }
+            view = view?.superview
+        }
+        return nil
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        mapView?.isZoomEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.mapView?.isZoomEnabled = true
+        }
+        return false
+        //return (! [yourButton pointInside:[touch locationInView:yourButton] withEvent:nil]); this code is necessary in case the gesture recognizer is preventing the button press
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -40,15 +68,15 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         super.setSelected(selected, animated: animated)
 
         if selected {
+            glyphTintColor = mistUIColor() //this is needed bc for some reason the glyph tint color turns grey even with the mist-heart-pink icon
+            markerTintColor = mistSecondaryUIColor()
             if let postCalloutView = postCalloutView {
                 postCalloutView.removeFromSuperview() // This shouldn't be needed, but just in case
-                glyphTintColor = mistUIColor() //this is needed bc for some reason the glyph tint color turns grey even with the mist-heart-pink icon
-                markerTintColor = mistSecondaryUIColor()
             }
         } else {
+            glyphTintColor = .white
+            markerTintColor = mistUIColor()
             if let postCalloutView = postCalloutView {
-                glyphTintColor = .white
-                markerTintColor = mistUIColor()
                 postCalloutView.fadeOut(duration: 0.5, delay: 0, completion: { Bool in
                     postCalloutView.isHidden = true
                     postCalloutView.removeFromSuperview()
@@ -58,7 +86,7 @@ final class PostAnnotationView: MKMarkerAnnotationView {
     }
     
     // Called by the viewController, because the delay differs based on if the post was just uploaded or if it was jut clicked on
-    func loadPostView(withDelay delay: Double) {
+    func loadPostView(on mapView: MKMapView, withDelay delay: Double) {
         postCalloutView = PostView()
         guard let postCalloutView = postCalloutView else {return}
         
@@ -69,8 +97,8 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         
         NSLayoutConstraint.activate([
             postCalloutView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -100),
-            postCalloutView.widthAnchor.constraint(equalTo: mapView!.widthAnchor, constant: -30),
-            postCalloutView.heightAnchor.constraint(lessThanOrEqualTo: mapView!.heightAnchor, multiplier: 0.54, constant: 0),
+            postCalloutView.widthAnchor.constraint(equalTo: mapView.widthAnchor, constant: -30),
+            postCalloutView.heightAnchor.constraint(lessThanOrEqualTo: mapView.heightAnchor, multiplier: 0.54, constant: 0),
             postCalloutView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
         ])
 
@@ -91,10 +119,8 @@ final class PostAnnotationView: MKMarkerAnnotationView {
 
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if let hitAnnotationView = super.hitTest(point, with: event) {
-            print("hit test within annotation view")
             return hitAnnotationView
         }
-        print("hit test within callout view")
 
         // If it wasn't MKMarketerAnnotationView, then the hit view must postView, the the classes's only subview
         if let postView = postCalloutView {
@@ -102,17 +128,6 @@ final class PostAnnotationView: MKMarkerAnnotationView {
             return postView.hitTest(pointInPostView, with: event)
         }
 
-        return nil
-    }
-    
-    // MARK: - Map View reference
-    
-    var mapView: MKMapView? {
-        var view = superview
-        while view != nil {
-            if let mapView = view as? MKMapView { return mapView }
-            view = view?.superview
-        }
         return nil
     }
 

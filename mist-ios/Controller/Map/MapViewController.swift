@@ -74,7 +74,7 @@ class MapViewController: UIViewController {
         setupMapButtons()
         setupMapView()
         setupLocationManager()
-        setupAnnotationQuickSelect()
+//        setupAnnotationQuickSelect()
         applyGradientUnderneathNavbar()
     }
     
@@ -296,6 +296,10 @@ extension MapViewController: CLLocationManagerDelegate {
 extension MapViewController {
 
     //MARK: - Helpers
+    
+    func disableAndReenableZoom() {
+        
+    }
     
     func centerMapOnUSC() {
         let region = mapView.regionThatFits(MKCoordinateRegion(center: Constants.Coordinates.USC, latitudinalMeters: 1200, longitudinalMeters: 1200))

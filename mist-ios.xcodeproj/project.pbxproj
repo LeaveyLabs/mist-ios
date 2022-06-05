@@ -132,7 +132,6 @@
 		47A3D71027D55BDD003DBEA5 /* PostFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70F27D55BDD003DBEA5 /* PostFilter.swift */; };
 		47A3D71227D57A6D003DBEA5 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D71127D57A6D003DBEA5 /* UserService.swift */; };
 		47A3D71D27D5940D003DBEA5 /* NewPostTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D71C27D5940D003DBEA5 /* NewPostTextView.swift */; };
-		47A3D71F27D598B6003DBEA5 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D71E27D598B6003DBEA5 /* TabBarController.swift */; };
 		47A3D72327D5A0D2003DBEA5 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */; };
 		47AC881F28480AE1000150CA /* UIButton+RightSideImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AC881E28480AE1000150CA /* UIButton+RightSideImage.swift */; };
 		47AC882228487EC3000150CA /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 47AC882128487EC3000150CA /* IQKeyboardManagerSwift */; };
@@ -338,7 +337,6 @@
 		47A3D70F27D55BDD003DBEA5 /* PostFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFilter.swift; sourceTree = "<group>"; };
 		47A3D71127D57A6D003DBEA5 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		47A3D71C27D5940D003DBEA5 /* NewPostTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPostTextView.swift; sourceTree = "<group>"; };
-		47A3D71E27D598B6003DBEA5 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		47AC881E28480AE1000150CA /* UIButton+RightSideImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+RightSideImage.swift"; sourceTree = "<group>"; };
 		47AE72A927F77B0B00A5E94C /* UsernameSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameSettingViewController.swift; sourceTree = "<group>"; };
@@ -774,7 +772,6 @@
 				47E295D3284BB3E100A680CC /* NibViewController.swift */,
 				4316238328343D3F00169AA9 /* SheetViewController.swift */,
 				47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */,
-				47A3D71E27D598B6003DBEA5 /* TabBarController.swift */,
 				4316238B2834F8A600169AA9 /* SpecialTabBarController.swift */,
 				43A05BDC2835008B0085A99B /* SpecialTabBar.swift */,
 				43770C4927EE8BED00F31CCF /* Auth */,
@@ -1067,7 +1064,6 @@
 				47E2B1C22800E9EB00131B8D /* MyCommentCell.swift in Sources */,
 				47D5B36A28441296004CDE6C /* CustomSwiftMessages.swift in Sources */,
 				439E44FC27E01D4900E244D6 /* AuthAPI.swift in Sources */,
-				47A3D71F27D598B6003DBEA5 /* TabBarController.swift in Sources */,
 				479AA1FF27DD223600EA0DFC /* MistUITextField.swift in Sources */,
 				470F271C27DE764F00C6DDAF /* UserResultCell.swift in Sources */,
 				4746508727D8735B0014217C /* RulesViewController.swift in Sources */,

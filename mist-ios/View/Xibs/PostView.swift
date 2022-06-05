@@ -11,7 +11,6 @@ import MapKit
 @IBDesignable
 class PostView: UIView {
         
-    //TODO: if you want the the bubble arrow to be clickable, you need to subclass UIButton and override hittest to return true even when the triangle subview is tapped (kinda like tab bar)
     @IBOutlet weak var backgroundBubbleButton: UIButton! //in an ideal world we would only use the bubbleButton and not the bubbleView. But alas, you cannot add subviews to uibutton in xibs, yet we need to have the background be a button
     
     @IBOutlet weak var backgroundBubbleView: UIView!
@@ -108,36 +107,18 @@ extension PostView {
         likeButton.isSelected = false
         favoriteButton.isSelected = false
         
-        //adding a pan gesture captures the panning on map and prevents the post from being dismissed
-        let pan = UIPanGestureRecognizer()
-        pan.delegate = self
-        pan.delaysTouchesBegan = false
-        pan.delaysTouchesEnded = false
-        addGestureRecognizer(UIPanGestureRecognizer())
-        
-        setupAnnotationQuickSelect()
+        setupGestureRecognizersToPreventMapInteraction()
+//        setupGestureRecognizerToPreventIBActionDelay()
         
         backgroundBubbleView.transformIntoPostBubble(arrowPosition: bubbleTrianglePosition)
         backgroundBubbleButton.transformIntoPostBubble(arrowPosition: bubbleTrianglePosition)
     }
     
-    private func setupAnnotationQuickSelect() {
-        let quickSelectGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleMapTapForAnnotationQuickSelect(_:)))
-//        quickSelectGestureRecognizer.delaysTouchesBegan = false
-//        quickSelectGestureRecognizer.delaysTouchesEnded = false
-        quickSelectGestureRecognizer.numberOfTapsRequired = 1
-        quickSelectGestureRecognizer.numberOfTouchesRequired = 1
-        quickSelectGestureRecognizer.delegate = self
-        addGestureRecognizer(quickSelectGestureRecognizer)
-    }
-    
-    // AnnotationQuickSelect: 2 of 3
-    @objc func handleMapTapForAnnotationQuickSelect(_ sender: UITapGestureRecognizer? = nil) {
-        mapView?.isZoomEnabled = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.mapView?.isZoomEnabled = true // in case the tap was not an annotation
-        }
-    }
+}
+
+// MARK: - Prevent drag / pan on mapView from dismissing post
+
+extension PostView: UIGestureRecognizerDelegate {
     
     var mapView: MKMapView? {
         var view = superview
@@ -148,16 +129,33 @@ extension PostView {
         return nil
     }
     
-}
-
-extension PostView: UIGestureRecognizerDelegate {
+    // Add a pan gesture captures the panning on map and prevents the post from being dismissed
+    private func setupGestureRecognizersToPreventMapInteraction() {
+        let pan = UIPanGestureRecognizer()
+        pan.delaysTouchesBegan = false
+        pan.delaysTouchesEnded = false
+        addGestureRecognizer(UIPanGestureRecognizer())
+    }
     
+    private func setupGestureRecognizerToPreventIBActionDelay() {
+        let quickSelectGestureRecognizer = UITapGestureRecognizer()
+        quickSelectGestureRecognizer.delaysTouchesBegan = false
+        quickSelectGestureRecognizer.delaysTouchesEnded = false
+        quickSelectGestureRecognizer.numberOfTapsRequired = 1
+        quickSelectGestureRecognizer.numberOfTouchesRequired = 1
+        quickSelectGestureRecognizer.delegate = self
+        addGestureRecognizer(quickSelectGestureRecognizer)
+    }
+    
+    // If postView is rendered on a mapView, you must turn off isZoomEnabled upon
+    // interaction with the postView in order to prevent a 0.5 second delay which occurs on all
+    // interaction with post annotation view
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         mapView?.isZoomEnabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.mapView?.isZoomEnabled = true // in case the tap was not an annotation
+            self.mapView?.isZoomEnabled = true
         }
-//        return (! [yourButton pointInside:[touch locationInView:yourButton] withEvent:nil]);
         return false
+        //return (! [yourButton pointInside:[touch locationInView:yourButton] withEvent:nil]); this code is necessary in case the gesture recognizer is preventing the button press
     }
 }
