@@ -10,6 +10,11 @@ import UIKit
 @IBDesignable
 class PostView: UIView {
     
+    //ALTERNATIVELY: make backgroundBubbleView a button, not a uiview. no need for another button
+    
+    @IBOutlet weak var backgroundBubbleView: UIView!
+    // Note: When rendered as a callout of PostAnnotationView, in order to prevent touches from being detected on the map, there is a background button which sits at the very back of backgroundBubbleView, with an IBAction hooked up to it. Each view on top of it must either have user interaction disabled so the touches pass back to the button, or they should be a button themselves. Stack views with spacing >0 whose user interaction is enabled will also create undesired behavior where a tap will dismiss the post
+    
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
@@ -18,10 +23,8 @@ class PostView: UIView {
     @IBOutlet weak var moreButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var likeButton: UIButton!
-    @IBOutlet weak var likeLabel: UILabel!
+    @IBOutlet weak var likeLabel: UIButton! // In order to prevent the post from dismissing, I either had to a) remove the likeLabel from the stackview and abandon stackview, or b) turn likeLabel into a button which acts as a label. I chose the second option, because stackviews are great.
     
-    @IBOutlet weak var backgroundBubbleView: UIView!
-
     var postDelegate: PostDelegate?
     var post: Post!
     
@@ -65,23 +68,26 @@ class PostView: UIView {
     }
     
     @IBAction func favoriteButtonDidpressed(_ sender: UIButton) {
-        postDelegate?.favoriteDidTapped(post: post)
-        
+        //TODO: why does it take half a second for this to be detected?
+        print("favorite did pressed")
+
         // UI Updates
         favoriteButton.isSelected = !favoriteButton.isSelected
+        
+        postDelegate?.favoriteDidTapped(post: post)
     }
     
     @IBAction func likeButtonDidPressed(_ sender: UIButton) {
-        postDelegate?.likeDidTapped(post: post)
-        
         // UI Updates
         let isAlreadyLiked = likeButton.isSelected
         if isAlreadyLiked {
-            likeLabel.text = String(Int(likeLabel.text!)! - 1)
+            likeLabel.setTitle(String(Int(likeLabel.titleLabel!.text!)! - 1), for: .normal)
         } else {
-            likeLabel.text = String(Int(likeLabel.text!)! + 1)
+            likeLabel.setTitle(String(Int(likeLabel.titleLabel!.text!)! + 1), for: .normal)
         }
         likeButton.isSelected = !likeButton.isSelected
+        
+        postDelegate?.likeDidTapped(post: post)
     }
     
 }
@@ -96,10 +102,10 @@ extension PostView {
         locationLabel.text = post.location_description
         messageLabel.text = post.text
         titleLabel.text = post.title
-        likeLabel.text = String(post.averagerating)
+        likeLabel.setTitle(String(post.averagerating), for: .normal)
         likeButton.isSelected = false
         favoriteButton.isSelected = false
-
+        
         //adding a pan gesture captures the panning on map and prevents the post from being dismissed
         addGestureRecognizer(UIPanGestureRecognizer())
         
