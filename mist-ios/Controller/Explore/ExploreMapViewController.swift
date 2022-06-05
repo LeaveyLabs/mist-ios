@@ -43,6 +43,10 @@ class ExploreMapViewController: MapViewController {
         applyShadowOnView(filterButton)
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(userInteractedWithMap))
+        tapGestureRecognizer.delaysTouchesBegan = false
+        tapGestureRecognizer.delaysTouchesEnded = false
+        tapGestureRecognizer.numberOfTapsRequired = 1
+        tapGestureRecognizer.numberOfTouchesRequired = 1
         mapView.addGestureRecognizer(tapGestureRecognizer)
         
         setupSearchBar()
@@ -101,6 +105,7 @@ class ExploreMapViewController: MapViewController {
     
     // This handles the case of tapping, but not panning and dragging for some reason
     @objc func userInteractedWithMap() {
+        print("Handling ExploreMapView tap with a gesture recognizer")
         if (sheetPresentationController?.selectedDetentIdentifier?.rawValue != "xs") {
             //TODO: don't execute this code if you clicked on an existing annotation
             deselectOneAnnotationIfItExists() //annotation will still be deselected without this, but the animation looks better if deselection occurs before togglesheetsisze
@@ -178,6 +183,7 @@ class ExploreMapViewController: MapViewController {
     //MARK: - MapDelegate
         
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        mapView.isZoomEnabled = true // AnnotationQuickSelect: 3 of 3
         dismissFilter()
         if handlingSubmission {
             handlingSubmission = false
@@ -489,4 +495,3 @@ extension ExploreMapViewController: UISearchResultsUpdating {
     }
     
 }
-

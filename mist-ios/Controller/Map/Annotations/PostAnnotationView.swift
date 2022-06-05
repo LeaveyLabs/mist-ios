@@ -35,8 +35,8 @@ final class PostAnnotationView: MKMarkerAnnotationView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
+        
+    override func setSelected(_ selected: Bool, animated: Bool) {        
         super.setSelected(selected, animated: animated)
 
         if selected {
@@ -69,7 +69,7 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         
         NSLayoutConstraint.activate([
             postCalloutView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -100),
-            postCalloutView.widthAnchor.constraint(equalTo: mapView!.widthAnchor, constant: -20),
+            postCalloutView.widthAnchor.constraint(equalTo: mapView!.widthAnchor, constant: -30),
             postCalloutView.heightAnchor.constraint(lessThanOrEqualTo: mapView!.heightAnchor, multiplier: 0.54, constant: 0),
             postCalloutView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
         ])
@@ -91,8 +91,10 @@ final class PostAnnotationView: MKMarkerAnnotationView {
 
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if let hitAnnotationView = super.hitTest(point, with: event) {
+            print("hit test within annotation view")
             return hitAnnotationView
         }
+        print("hit test within callout view")
 
         // If it wasn't MKMarketerAnnotationView, then the hit view must postView, the the classes's only subview
         if let postView = postCalloutView {

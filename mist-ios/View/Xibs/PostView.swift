@@ -6,18 +6,20 @@
 //
 
 import UIKit
+import MapKit
 
 @IBDesignable
 class PostView: UIView {
-    
-    //ALTERNATIVELY: make backgroundBubbleView a button, not a uiview. no need for another button
+        
+    //TODO: if you want the the bubble arrow to be clickable, you need to subclass UIButton and override hittest to return true even when the triangle subview is tapped (kinda like tab bar)
+    @IBOutlet weak var backgroundBubbleButton: UIButton! //in an ideal world we would only use the bubbleButton and not the bubbleView. But alas, you cannot add subviews to uibutton in xibs, yet we need to have the background be a button
     
     @IBOutlet weak var backgroundBubbleView: UIView!
     // Note: When rendered as a callout of PostAnnotationView, in order to prevent touches from being detected on the map, there is a background button which sits at the very back of backgroundBubbleView, with an IBAction hooked up to it. Each view on top of it must either have user interaction disabled so the touches pass back to the button, or they should be a button themselves. Stack views with spacing >0 whose user interaction is enabled will also create undesired behavior where a tap will dismiss the post
     
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var postTitleLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
     
     @IBOutlet weak var moreButton: UIButton!
@@ -101,18 +103,61 @@ extension PostView {
         timestampLabel.text = getFormattedTimeString(postTimestamp: post.timestamp)
         locationLabel.text = post.location_description
         messageLabel.text = post.text
-        titleLabel.text = post.title
+        postTitleLabel.text = post.title
         likeLabel.setTitle(String(post.averagerating), for: .normal)
         likeButton.isSelected = false
         favoriteButton.isSelected = false
         
         //adding a pan gesture captures the panning on map and prevents the post from being dismissed
+        let pan = UIPanGestureRecognizer()
+        pan.delegate = self
+        pan.delaysTouchesBegan = false
+        pan.delaysTouchesEnded = false
         addGestureRecognizer(UIPanGestureRecognizer())
         
-        //but adding these gestures doesnt catch the pinch or rotation, unfortunately. not sure how to catch those gestures and prevent them from going to map view
-        addGestureRecognizer(UIPinchGestureRecognizer())
-        addGestureRecognizer(UIRotationGestureRecognizer())
+        setupAnnotationQuickSelect()
         
         backgroundBubbleView.transformIntoPostBubble(arrowPosition: bubbleTrianglePosition)
+        backgroundBubbleButton.transformIntoPostBubble(arrowPosition: bubbleTrianglePosition)
+    }
+    
+    private func setupAnnotationQuickSelect() {
+        let quickSelectGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleMapTapForAnnotationQuickSelect(_:)))
+//        quickSelectGestureRecognizer.delaysTouchesBegan = false
+//        quickSelectGestureRecognizer.delaysTouchesEnded = false
+        quickSelectGestureRecognizer.numberOfTapsRequired = 1
+        quickSelectGestureRecognizer.numberOfTouchesRequired = 1
+        quickSelectGestureRecognizer.delegate = self
+        addGestureRecognizer(quickSelectGestureRecognizer)
+    }
+    
+    // AnnotationQuickSelect: 2 of 3
+    @objc func handleMapTapForAnnotationQuickSelect(_ sender: UITapGestureRecognizer? = nil) {
+        mapView?.isZoomEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.mapView?.isZoomEnabled = true // in case the tap was not an annotation
+        }
+    }
+    
+    var mapView: MKMapView? {
+        var view = superview
+        while view != nil {
+            if let mapView = view as? MKMapView { return mapView }
+            view = view?.superview
+        }
+        return nil
+    }
+    
+}
+
+extension PostView: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        mapView?.isZoomEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.mapView?.isZoomEnabled = true // in case the tap was not an annotation
+        }
+//        return (! [yourButton pointInside:[touch locationInView:yourButton] withEvent:nil]);
+        return false
     }
 }

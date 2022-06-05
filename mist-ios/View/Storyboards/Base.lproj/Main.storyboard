@@ -728,29 +728,22 @@
         <!--Nib View Controller-->
         <scene sceneID="2CE-0b-HB7">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="l1A-vI-R7f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController id="xoD-mS-ZO7" customClass="NibViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mlw-tY-dsY">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AuU-NZ-swd" customClass="PostView" customModule="mist_ios" customModuleProvider="target">
-                                <rect key="frame" x="16" y="73" width="358" height="266"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AuU-NZ-swd" customClass="PostView" customModule="mist_ios" customModuleProvider="target">
+                                <rect key="frame" x="16" y="528" width="358" height="266"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="83c-ZY-I3d"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="83c-ZY-I3d" firstAttribute="trailing" secondItem="AuU-NZ-swd" secondAttribute="trailing" constant="16" id="FHD-bu-rms"/>
-                            <constraint firstItem="AuU-NZ-swd" firstAttribute="top" secondItem="83c-ZY-I3d" secondAttribute="top" constant="29" id="TsG-T5-iqV"/>
-                            <constraint firstItem="AuU-NZ-swd" firstAttribute="leading" secondItem="83c-ZY-I3d" secondAttribute="leading" constant="16" id="hyi-Zz-AlJ"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="postview" destination="AuU-NZ-swd" id="YP7-Pz-EmM"/>
-                    </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l1A-vI-R7f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-4790.7692307692305" y="957.58293838862551"/>
         </scene>
