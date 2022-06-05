@@ -105,6 +105,7 @@
 		4780E5B42832F0560012B741 /* SimpleChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780E5B32832F0560012B741 /* SimpleChatViewController.swift */; };
 		4780E5B6283308250012B741 /* MessageKitMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780E5B5283308250012B741 /* MessageKitMessage.swift */; };
 		4780E5B828330C570012B741 /* MessageKitUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780E5B728330C570012B741 /* MessageKitUser.swift */; };
+		4783F3BB284D6DA20073357A /* ExploreMapViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4783F3BA284D6DA20073357A /* ExploreMapViewController+Search.swift */; };
 		478BA279283DD37E00C35507 /* UITextField+Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA278283DD37E00C35507 /* UITextField+Padding.swift */; };
 		478BA27B283E77C100C35507 /* UINavigationController+Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */; };
 		478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA27C283E85D400C35507 /* ButtonConfigs.swift */; };
@@ -308,6 +309,7 @@
 		4780E5B32832F0560012B741 /* SimpleChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleChatViewController.swift; sourceTree = "<group>"; };
 		4780E5B5283308250012B741 /* MessageKitMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageKitMessage.swift; sourceTree = "<group>"; };
 		4780E5B728330C570012B741 /* MessageKitUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageKitUser.swift; sourceTree = "<group>"; };
+		4783F3BA284D6DA20073357A /* ExploreMapViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExploreMapViewController+Search.swift"; sourceTree = "<group>"; };
 		478BA278283DD37E00C35507 /* UITextField+Padding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Padding.swift"; sourceTree = "<group>"; };
 		478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Completion.swift"; sourceTree = "<group>"; };
 		478BA27C283E85D400C35507 /* ButtonConfigs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonConfigs.swift; sourceTree = "<group>"; };
@@ -456,6 +458,7 @@
 			isa = PBXGroup;
 			children = (
 				4700F8C527DE4652006C2E08 /* ExploreMapViewController.swift */,
+				4783F3BA284D6DA20073357A /* ExploreMapViewController+Search.swift */,
 				471F92CE28013F9B0079F8CA /* ExploreFeedViewController.swift */,
 				470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */,
 				470F271E27DE9ABE00C6DDAF /* ResultsFeedViewController.swift */,
@@ -1175,6 +1178,7 @@
 				4700F8C627DE4652006C2E08 /* ExploreMapViewController.swift in Sources */,
 				475B1F8B27FB86C000ED59CD /* ConversationsViewController.swift in Sources */,
 				43483BB6280251B1001C7C6A /* EnterNameViewController.swift in Sources */,
+				4783F3BB284D6DA20073357A /* ExploreMapViewController+Search.swift in Sources */,
 				478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */,
 				472A4C0028408BD800FD52B7 /* DesignableTabBarController.swift in Sources */,
 				474A4AC6284AB6D700B39A98 /* String+Indexing.swift in Sources */,

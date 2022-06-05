@@ -167,7 +167,6 @@ class PinMapViewController: MapViewController {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        mapView.isZoomEnabled = true // AnnotationQuickSelect: 3 of 3
         if view.annotation is MKUserLocation {
             mapView.deselectAnnotation(view.annotation, animated: false)
         }

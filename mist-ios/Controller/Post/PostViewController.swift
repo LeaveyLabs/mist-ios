@@ -244,7 +244,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
 
 //MARK: - Post Delegation
 
-extension PostViewController: PostDelegate {
+extension PostViewController: PostDelegate, ShareActivityDelegate {
     
     func backgroundDidTapped(post: Post) {
         //Do nothing
@@ -274,11 +274,8 @@ extension PostViewController: PostDelegate {
     func likeDidTapped(post: Post) {
         //do something
     }
-    
-}
 
-extension PostViewController: ShareActivityDelegate {
-    
+    // ShareActivityDelegate
     func presentShareActivityVC() {
         if let url = NSURL(string: "https://www.getmist.app")  {
             let objectsToShare: [Any] = [url]
@@ -287,4 +284,5 @@ extension PostViewController: ShareActivityDelegate {
             present(activityVC, animated: true)
         }
     }
+    
 }

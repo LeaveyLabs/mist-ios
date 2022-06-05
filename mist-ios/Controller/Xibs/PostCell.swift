@@ -8,15 +8,6 @@
 import UIKit
 import Social
 
-protocol PostDelegate {
-    func likeDidTapped(post: Post)
-    func moreDidTapped(post: Post)
-    func backgroundDidTapped(post: Post)
-    func dmDidTapped(post: Post)
-    func commentDidTapped(post: Post)
-    func favoriteDidTapped(post: Post)
-}
-
 class PostCell: UITableViewCell {
     
     @IBOutlet weak var locationLabel: UILabel!

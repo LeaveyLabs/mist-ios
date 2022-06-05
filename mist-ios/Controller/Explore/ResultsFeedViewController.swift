@@ -142,7 +142,7 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
 
 //MARK: - Post Delegation
 
-extension ResultsFeedViewController: PostDelegate {
+extension ResultsFeedViewController: PostDelegate, ShareActivityDelegate {
     
     func backgroundDidTapped(post: Post) {
         sendToPostViewFor(post, withRaisedKeyboard: false)
@@ -173,23 +173,7 @@ extension ResultsFeedViewController: PostDelegate {
         //do something
     }
     
-}
-
-extension ResultsFeedViewController {
-   
-   func sendToPostViewFor(_ post: Post, withRaisedKeyboard: Bool) {
-       let postVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
-       postVC.post = post
-       postVC.shouldStartWithRaisedKeyboard = withRaisedKeyboard
-       postVC.completionHandler = { Post in
-           self.tableView.reloadData()
-       }
-       navigationController!.pushViewController(postVC, animated: true)
-   }
-}
-
-extension ResultsFeedViewController: ShareActivityDelegate {
-    
+    // ShareActivityDelegate
     func presentShareActivityVC() {
         if let url = NSURL(string: "https://www.getmist.app")  {
             let objectsToShare: [Any] = [url]
@@ -197,5 +181,17 @@ extension ResultsFeedViewController: ShareActivityDelegate {
             activityVC.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
             present(activityVC, animated: true)
         }
+    }
+    
+    // Helpers
+    
+    func sendToPostViewFor(_ post: Post, withRaisedKeyboard: Bool) {
+        let postVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
+        postVC.post = post
+        postVC.shouldStartWithRaisedKeyboard = withRaisedKeyboard
+        postVC.completionHandler = { Post in
+            self.tableView.reloadData()
+        }
+        navigationController!.pushViewController(postVC, animated: true)
     }
 }

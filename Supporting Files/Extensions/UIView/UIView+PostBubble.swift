@@ -16,7 +16,7 @@ enum BubbleTrianglePosition {
 extension UIView {
     
     func transformIntoPostBubble(arrowPosition: BubbleTrianglePosition) {
-        let triangleView = UIView()
+        let triangleView = UIButton(type: .custom)
         triangleView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
         addSubview(triangleView)
         sendSubviewToBack(triangleView)

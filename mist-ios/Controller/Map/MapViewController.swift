@@ -74,13 +74,14 @@ class MapViewController: UIViewController {
         setupMapButtons()
         setupMapView()
         setupLocationManager()
-//        setupAnnotationQuickSelect()
+
         applyGradientUnderneathNavbar()
     }
     
     // MARK: - Setup
     
     func setupMapView() {
+        // GENERAL SETTINGS
         mapView.cameraZoomRange = MKMapView.CameraZoomRange(minCenterCoordinateDistance: 310) // Note: this creates an effect where, when the camera is pretty zoomed in, if you try to increase the pitch past a certian point, it automatically zooms in more. Not totally sure why. This is slightly undesirable but not that deep
         //310 is range from which you view a post, that way you cant zoom in more afterwards
         mapView.showsUserLocation = true
@@ -88,16 +89,21 @@ class MapViewController: UIViewController {
         mapView.delegate = self
         mapView.tintColor = .systemBlue //sets user puck color
         mapView.showsTraffic = false
-        centerMapOnUSC()
+        
+        // POINTS OF INTEREST
+        //including categories is more ideal, bc there are some markers like "shared bikes" which wont be excluded no matter what
+        let includeCategories:[MKPointOfInterestCategory] = [.cafe, .airport, .amusementPark, .aquarium, .bakery, .beach, .brewery, .campground, .foodMarket, .fitnessCenter, .hotel, .hospital, .library, .marina, .movieTheater, .museum, .nationalPark, .nightlife, .park, .pharmacy, .postOffice, .restaurant, .school, .stadium, .store, .theater, .university, .zoo, .winery]
+        mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: includeCategories))
+        
+        // CAMERA
+        cameraIsFlying = true
         registerMapAnnotationViews()
+        centerMapOnUSC()
         mapView.camera = MKMapCamera(lookingAtCenter: mapView.centerCoordinate,
                                      fromDistance: 4000,
                                      pitch: 20,
                                      heading: mapView.camera.heading)
-        
-        //including categories is more ideal, bc there are some markers like "shared bikes" which wont be excluded no matter what
-        let includeCategories:[MKPointOfInterestCategory] = [.cafe, .airport, .amusementPark, .aquarium, .bakery, .beach, .brewery, .campground, .foodMarket, .fitnessCenter, .hotel, .hospital, .library, .marina, .movieTheater, .museum, .nationalPark, .nightlife, .park, .pharmacy, .postOffice, .restaurant, .school, .stadium, .store, .theater, .university, .zoo, .winery]
-        mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: includeCategories))
+        cameraIsFlying = false
     }
     
     // NOTE: If you want to change the clustering identifier based on location, you should probably delink the annotationview and reuse identifier like below (watch the wwdc video again) so you can change the constructor of AnnotationViews/ClusterANnotationViews to include map height
@@ -134,31 +140,6 @@ class MapViewController: UIViewController {
     
     private func setupLocationManager(){
         locationManager.delegate = self
-    }
-    
-    // AnnotationQuickSelect: 1 of 3
-    // Allows for noticeably faster zooms to the annotationview
-    // Turns isZoomEnabled off and on immediately before and after a click on the map.
-    // This means that in case the tap happened to be on an annotation, there's less delay.
-    // Downside: double tap features are not possible
-    //https://stackoverflow.com/questions/35639388/tapping-an-mkannotation-to-select-it-is-really-slow
-    private func setupAnnotationQuickSelect() {
-        let quickSelectGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleMapTapForAnnotationQuickSelect(_:)))
-        quickSelectGestureRecognizer.delaysTouchesBegan = false
-        quickSelectGestureRecognizer.delaysTouchesEnded = false
-        quickSelectGestureRecognizer.numberOfTapsRequired = 1
-        quickSelectGestureRecognizer.numberOfTouchesRequired = 1
-        mapView.addGestureRecognizer(quickSelectGestureRecognizer)
-    }
-    
-    // AnnotationQuickSelect: 2 of 3
-    @objc func handleMapTapForAnnotationQuickSelect(_ sender: UITapGestureRecognizer? = nil) {
-        //disabling zoom, so the didSelect triggers immediately
-        print("HANDLING MAP TAP")
-        mapView.isZoomEnabled = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.mapView.isZoomEnabled = true // in case the tap was not an annotation
-        }
     }
     
     private func applyGradientUnderneathNavbar() {
@@ -296,10 +277,6 @@ extension MapViewController: CLLocationManagerDelegate {
 extension MapViewController {
 
     //MARK: - Helpers
-    
-    func disableAndReenableZoom() {
-        
-    }
     
     func centerMapOnUSC() {
         let region = mapView.regionThatFits(MKCoordinateRegion(center: Constants.Coordinates.USC, latitudinalMeters: 1200, longitudinalMeters: 1200))

@@ -8,7 +8,7 @@
 import Foundation
 import MapKit
 
-final class PostAnnotationView: MKMarkerAnnotationView, UIGestureRecognizerDelegate {
+final class PostAnnotationView: MKMarkerAnnotationView {
     
     var postCalloutView: PostView? // the postAnnotationView's callout view
     
@@ -25,44 +25,25 @@ final class PostAnnotationView: MKMarkerAnnotationView, UIGestureRecognizerDeleg
         }
     }
     
-    /// - Tag: ClusterIdentifier
+    //MARK: - Initializaiton
+    
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
-        setupGestureRecognizerToPreventIBActionDelay()
-
-    }
-    private func setupGestureRecognizerToPreventIBActionDelay() {
-        let quickSelectGestureRecognizer = UITapGestureRecognizer()
-        quickSelectGestureRecognizer.delaysTouchesBegan = false
-        quickSelectGestureRecognizer.delaysTouchesEnded = false
-        quickSelectGestureRecognizer.numberOfTapsRequired = 1
-        quickSelectGestureRecognizer.numberOfTouchesRequired = 1
-        quickSelectGestureRecognizer.delegate = self
-        addGestureRecognizer(quickSelectGestureRecognizer)
-    }
-    
-    var mapView: MKMapView? {
-        var view = superview
-        while view != nil {
-            if let mapView = view as? MKMapView { return mapView }
-            view = view?.superview
-        }
-        return nil
-    }
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        mapView?.isZoomEnabled = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.mapView?.isZoomEnabled = true
-        }
-        return false
-        //return (! [yourButton pointInside:[touch locationInView:yourButton] withEvent:nil]); this code is necessary in case the gesture recognizer is preventing the button press
+        setupGestureRecognizerToPreventInteractionDelay()
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    
+    // Make sure that if the cell is reused that we remove the postCalloutView from the postAnnotationView.
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        postCalloutView?.removeFromSuperview()
+    }
+    
+    //MARK: - User Interaction
         
     override func setSelected(_ selected: Bool, animated: Bool) {        
         super.setSelected(selected, animated: animated)
@@ -85,13 +66,31 @@ final class PostAnnotationView: MKMarkerAnnotationView, UIGestureRecognizerDeleg
         }
     }
     
+    // For detecting taps on postCalloutView subview
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if let hitAnnotationView = super.hitTest(point, with: event) {
+            return hitAnnotationView
+        }
+
+        // If it wasn't MKMarketerAnnotationView, then the hit view must postView, the the classes's only subview
+        if let postView = postCalloutView {
+            let pointInPostView = convert(point, to: postView)
+            return postView.hitTest(pointInPostView, with: event)
+        }
+
+        return nil
+    }
+    
+    //MARK: - Helpers
+    
     // Called by the viewController, because the delay differs based on if the post was just uploaded or if it was jut clicked on
-    func loadPostView(on mapView: MKMapView, withDelay delay: Double) {
+    func loadPostView(on mapView: MKMapView, withDelay delay: Double, withPostDelegate postDelegate: PostDelegate) {
         postCalloutView = PostView()
         guard let postCalloutView = postCalloutView else {return}
         
         let postAnnotation = annotation as! PostAnnotation
         postCalloutView.configurePost(post: postAnnotation.post, bubbleTrianglePosition: .bottom)
+        postCalloutView.postDelegate = postDelegate
         postCalloutView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(postCalloutView)
         
@@ -108,27 +107,46 @@ final class PostAnnotationView: MKMarkerAnnotationView, UIGestureRecognizerDeleg
         
         postCalloutView.fadeIn(duration: 0.2, delay: delay-0.15)
     }
+
+}
+
+//MARK: - PreventAnnotationViewInteractionDelay
+
+extension PostAnnotationView: UIGestureRecognizerDelegate {
     
-    // Make sure that if the cell is reused that we remove the postCalloutView from the postAnnotationView.
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        postCalloutView?.removeFromSuperview()
-    }
-    
-    // MARK: - Detect taps on postCalloutView
-
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if let hitAnnotationView = super.hitTest(point, with: event) {
-            return hitAnnotationView
+    var mapView: MKMapView? {
+        var view = superview
+        while view != nil {
+            if let mapView = view as? MKMapView { return mapView }
+            view = view?.superview
         }
-
-        // If it wasn't MKMarketerAnnotationView, then the hit view must postView, the the classes's only subview
-        if let postView = postCalloutView {
-            let pointInPostView = convert(point, to: postView)
-            return postView.hitTest(pointInPostView, with: event)
-        }
-
         return nil
     }
-
+    
+    // PreventAnnotationViewInteractionDelay: 1 of 2
+    // Allows for noticeably faster zooms to the annotationview
+    // Turns isZoomEnabled off and on immediately before and after a click on the map.
+    // This means that in case the tap happened to be on an annotation, there's less delay.
+    // Downside: double tap features are not possible
+    //https://stackoverflow.com/questions/35639388/tapping-an-mkannotation-to-select-it-is-really-slow
+    private func setupGestureRecognizerToPreventInteractionDelay() {
+        let quickSelectGestureRecognizer = UITapGestureRecognizer()
+        quickSelectGestureRecognizer.delaysTouchesBegan = false
+        quickSelectGestureRecognizer.delaysTouchesEnded = false
+        quickSelectGestureRecognizer.numberOfTapsRequired = 1
+        quickSelectGestureRecognizer.numberOfTouchesRequired = 1
+        quickSelectGestureRecognizer.delegate = self
+        self.addGestureRecognizer(quickSelectGestureRecognizer)
+    }
+    
+    // PreventAnnotationViewInteractionDelay: 2 of 2
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        mapView?.isZoomEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.mapView?.isZoomEnabled = true
+        }
+        return false
+        //return (! [yourButton pointInside:[touch locationInView:yourButton] withEvent:nil]); this code is necessary in case the gesture recognizer is preventing the button press
+    }
+    
 }
