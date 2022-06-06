@@ -18,6 +18,13 @@ class VoteAPI {
     static let POST_PARAM = "post"
     static let RATING_PARAM = "rating"
     
+    // Get votes from a user
+    static func fetchVotesByUser(voter:Int) async throws -> [Vote] {
+        let url = "\(BASE_URL)\(PATH_TO_VOTE_MODEL)?\(VOTER_PARAM)=\(voter)"
+        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        return try JSONDecoder().decode([Vote.self], from: data)
+    }
+    
     // Post vote to database
     static func postVote(voter:Int, post:Int, rating:Int) async throws -> Vote {
         let url = "\(BASE_URL)\(PATH_TO_VOTE_MODEL)"

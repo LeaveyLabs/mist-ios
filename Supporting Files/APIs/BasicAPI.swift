@@ -25,7 +25,7 @@ func getGlobalAuthToken() -> String {
     return AUTHTOKEN
 }
 
-var BASE_URL = "https://mist-backend-test.herokuapp.com/"
+var BASE_URL = ProcessInfo.processInfo.environment["BASE_URL"]!
 
 enum HTTPMethods: String {
     case GET = "GET"

@@ -21,6 +21,7 @@ class AuthAPI {
     static let PATH_TO_EMAIL_REGISTRATION_ENDPOINT = "api-register-email/"
     static let PATH_TO_EMAIL_VALIDATION_ENDPOINT = "api-validate-email/"
     static let PATH_TO_USERNAME_VALIDATION_ENDPOINT = "api-validate-username/"
+    static let PATH_TO_API_TOKEN_ENDPOINT = "api-token/"
     static let AUTH_EMAIL_PARAM = "email"
     static let AUTH_CODE_PARAM = "code"
     static let AUTH_USERNAME_PARAM = "username"
@@ -103,7 +104,7 @@ class AuthAPI {
     }
     
     static func fetchAuthToken(json: Data) async throws -> String {
-        let url = "\(BASE_URL)api-token/"
+        let url = "\(BASE_URL)\(PATH_TO_API_TOKEN_ENDPOINT)"
 //        let params:[String:String] = await [
 //            UserAPI.USERNAME_PARAM: params[UserAPI.USERNAME_PARAM]!,
 //            UserAPI.PASSWORD_PARAM: params[UserAPI.PASSWORD_PARAM]!,
@@ -115,7 +116,7 @@ class AuthAPI {
     }
     
     static func fetchAuthToken(username:String, password:String) async throws -> String {
-        let url = "\(BASE_URL)api-token/"
+        let url = "\(BASE_URL)\(PATH_TO_API_TOKEN_ENDPOINT)"
         let params:[String:String] = [
             UserAPI.USERNAME_PARAM: username,
             UserAPI.PASSWORD_PARAM: password,
