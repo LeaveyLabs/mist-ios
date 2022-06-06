@@ -98,6 +98,18 @@ class ExploreMapViewController: MapViewController {
         mapDimensionButtonDidPressed(sender)
     }
     
+    @IBAction func exploreZoomInButtonDidPressed(_ sender: UIButton) {
+        dismissPost()
+        dismissFilter()
+        zoomInButtonDidPressed(sender)
+    }
+    
+    @IBAction func exploreZoomOutButtonDidPressed(_ sender: UIButton) {
+        dismissPost()
+        dismissFilter()
+        zoomOutButtonDidPressed(sender)
+    }
+    
     // This handles the case of tapping, but not panning and dragging for some reason
     @objc func userInteractedWithMap() {
         print("Handling ExploreMapView tap with a gesture recognizer")
@@ -240,10 +252,18 @@ extension ExploreMapViewController {
             mapView.userLocation.title = "Hey cutie"
         }
         else if let clusterAnnotation = view.annotation as? MKClusterAnnotation {
+            print("SELECTED CLUSTER")
             mapView.deselectAnnotation(view.annotation, animated: false)
             handleClusterAnnotationSelection(clusterAnnotation)
         }
+        
+        //OH SHIT: here's the issue
+        //click on a postAnnotation from afar
+        //while zooming in, annotations in another cluster turn into a new cluster WITH the annotation you're currently zooming in on
+        //hmmm... ideally, we could 
+        
         else if let postAnnotationView = view as? PostAnnotationView {
+            print("SELECTED POST")
             slowFlyTo(lat: view.annotation!.coordinate.latitude + latitudeOffset,
                       long: view.annotation!.coordinate.longitude,
                       incrementalZoom: false,
@@ -256,7 +276,7 @@ extension ExploreMapViewController {
     }
 
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        print("did deselect")
+        print("deselected")
     }
     
     override func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {

@@ -24,14 +24,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.rootViewController = authNavVC
         } else {
             // Stay on launch screen while loading posts
-            window?.rootViewController = UIStoryboard(name: Constants.SBID.SB.Launch, bundle: nil).instantiateInitialViewController()
-            window?.makeKeyAndVisible() //not sure if this is needed
-            
+//            window?.rootViewController = UIStoryboard(name: Constants.SBID.SB.Launch, bundle: nil).instantiateInitialViewController()
+//            window?.makeKeyAndVisible() //not sure if this is needed
+
             //TODO: implement PostsService properly
 //            Task {
 //                PostsService.homePosts.newPosts()
 //            }
-            
+
             //Display the homeVC after load is finished
             window?.rootViewController = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateInitialViewController()
         }

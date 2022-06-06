@@ -23,7 +23,9 @@ class MapViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var userTrackingButton: UIButton!
     @IBOutlet weak var mapDimensionButton: UIButton!
-    
+    @IBOutlet weak var zoomInButton: UIButton!
+    @IBOutlet weak var zoomOutButton: UIButton!
+
     private var isThreeDimensional:Bool = true {
         didSet {
             if isThreeDimensional {
@@ -37,7 +39,11 @@ class MapViewController: UIViewController {
     // Create a location manager to trigger user tracking
     private let locationManager = CLLocationManager()
     
-    var cameraIsFlying: Bool = false
+    var cameraIsFlying: Bool = false {
+        didSet {
+            toggleMapInteractionEnabled(to: !cameraIsFlying)
+        }
+    }
     var modifyingMap: Bool = false
     var latitudeOffset: Double!
     
@@ -113,7 +119,6 @@ class MapViewController: UIViewController {
     }
     
     private func setupMapButtons() {
-        // For more customizaiton later on: https://stackoverflow.com/questions/27029854/custom-button-to-track-mkusertrackingmode
         userTrackingButton.layer.cornerRadius = 10
         userTrackingButton.layer.cornerCurve = .continuous
         applyShadowOnView(userTrackingButton)
@@ -122,6 +127,14 @@ class MapViewController: UIViewController {
         mapDimensionButton.layer.cornerRadius = 10
         mapDimensionButton.layer.cornerCurve = .continuous
         applyShadowOnView(mapDimensionButton)
+        
+        zoomInButton.layer.cornerRadius = 10
+        zoomInButton.layer.cornerCurve = .continuous
+        applyShadowOnView(zoomInButton)
+        
+        zoomOutButton.layer.cornerRadius = 10
+        zoomOutButton.layer.cornerCurve = .continuous
+        applyShadowOnView(zoomOutButton)
     }
     
     func handleUserLocationPermissionRequest() {
@@ -181,6 +194,22 @@ class MapViewController: UIViewController {
     
     @IBAction func mapDimensionButtonDidPressed(_ sender: UIButton) {
         toggleMapDimension()
+    }
+    
+    @IBAction func zoomInButtonDidPressed(_ sender: UIButton) {
+        zoomByAFactorOf(0.33)
+    }
+    
+    @IBAction func zoomOutButtonDidPressed(_ sender: UIButton) {
+        zoomByAFactorOf(3)
+    }
+    
+    func toggleMapInteractionEnabled(to shouldBeEnabled: Bool) {
+        mapView.isUserInteractionEnabled = shouldBeEnabled
+        userTrackingButton.isEnabled = shouldBeEnabled
+        mapDimensionButton.isEnabled = shouldBeEnabled
+        zoomInButton.isEnabled = shouldBeEnabled
+        zoomOutButton.isEnabled = shouldBeEnabled
     }
     
 }
@@ -288,7 +317,6 @@ extension MapViewController {
         mapView.camera = newCamera
     }
     
-    // Custom camera transition https://stackoverflow.com/questions/21125573/mkmapcamera-pitch-altitude-function
     func slowFlyTo(lat: Double,
                    long: Double,
                    incrementalZoom: Bool,
@@ -337,8 +365,24 @@ extension MapViewController {
                        options: .curveEaseInOut,
                        animations: {
             self.mapView.camera = rotationCamera
-        },
-                       completion: nil)
+        }, completion: nil)
+    }
+    
+    func zoomByAFactorOf(_ factor: Double) {
+        cameraIsFlying = true
+        let newDistance = mapView.camera.centerCoordinateDistance * factor
+        let newPitch = min(mapView.camera.pitch, 30) //I use 30 instead of 50 just to add the extra pitch transition to make it more dnamic when zooming out
+        //Note: you have to actually set a newPitch value like above. It seems that if you use the old pitch value for rotationCamera, sometimes the camera won't actually be changed for some reason
+        let rotationCamera = MKMapCamera(lookingAtCenter: mapView.camera.centerCoordinate,
+                                         fromDistance: newDistance,
+                                         pitch: newPitch,
+                                         heading: mapView.camera.heading)
+        UIView.animate(withDuration: 0.4,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: {
+            self.mapView.camera = rotationCamera
+        })
     }
     
     func deselectOneAnnotationIfItExists() {
