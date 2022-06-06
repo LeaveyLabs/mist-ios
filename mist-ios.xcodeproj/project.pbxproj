@@ -106,6 +106,10 @@
 		4780E5B6283308250012B741 /* MessageKitMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780E5B5283308250012B741 /* MessageKitMessage.swift */; };
 		4780E5B828330C570012B741 /* MessageKitUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780E5B728330C570012B741 /* MessageKitUser.swift */; };
 		4783F3BB284D6DA20073357A /* ExploreMapViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4783F3BA284D6DA20073357A /* ExploreMapViewController+Search.swift */; };
+		478A7899284E708D0058C845 /* CLLocationCoordinate+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A7898284E708D0058C845 /* CLLocationCoordinate+Distance.swift */; };
+		478A789B284E73970058C845 /* CLLocationCoordiante+Midpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A789A284E73970058C845 /* CLLocationCoordiante+Midpoint.swift */; };
+		478A789E284EBD510058C845 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A789D284EBD510058C845 /* LaunchViewController.swift */; };
+		478A78A1284EBF180058C845 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 478A78A0284EBF180058C845 /* Launch.storyboard */; };
 		478BA279283DD37E00C35507 /* UITextField+Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA278283DD37E00C35507 /* UITextField+Padding.swift */; };
 		478BA27B283E77C100C35507 /* UINavigationController+Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */; };
 		478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA27C283E85D400C35507 /* ButtonConfigs.swift */; };
@@ -158,7 +162,7 @@
 		47E74E0E27CA0FFE00467A0C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E0D27CA0FFE00467A0C /* SceneDelegate.swift */; };
 		47E74E1327CA0FFE00467A0C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47E74E1127CA0FFE00467A0C /* Main.storyboard */; };
 		47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47E74E1427CA0FFF00467A0C /* Assets.xcassets */; };
-		47E74E1827CA0FFF00467A0C /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47E74E1627CA0FFF00467A0C /* Launch.storyboard */; };
+		47E74E1827CA0FFF00467A0C /* Loading.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47E74E1627CA0FFF00467A0C /* Loading.storyboard */; };
 		47E74E2327CA100000467A0C /* mist_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E2227CA100000467A0C /* mist_iosTests.swift */; };
 		47E74E2D27CA100000467A0C /* mist_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E2C27CA100000467A0C /* mist_iosUITests.swift */; };
 		47E74E2F27CA100000467A0C /* mist_iosUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E2E27CA100000467A0C /* mist_iosUITestsLaunchTests.swift */; };
@@ -310,6 +314,10 @@
 		4780E5B5283308250012B741 /* MessageKitMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageKitMessage.swift; sourceTree = "<group>"; };
 		4780E5B728330C570012B741 /* MessageKitUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageKitUser.swift; sourceTree = "<group>"; };
 		4783F3BA284D6DA20073357A /* ExploreMapViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExploreMapViewController+Search.swift"; sourceTree = "<group>"; };
+		478A7898284E708D0058C845 /* CLLocationCoordinate+Distance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate+Distance.swift"; sourceTree = "<group>"; };
+		478A789A284E73970058C845 /* CLLocationCoordiante+Midpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordiante+Midpoint.swift"; sourceTree = "<group>"; };
+		478A789D284EBD510058C845 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		478A78A0284EBF180058C845 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		478BA278283DD37E00C35507 /* UITextField+Padding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Padding.swift"; sourceTree = "<group>"; };
 		478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Completion.swift"; sourceTree = "<group>"; };
 		478BA27C283E85D400C35507 /* ButtonConfigs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonConfigs.swift; sourceTree = "<group>"; };
@@ -365,7 +373,7 @@
 		47E74E0D27CA0FFE00467A0C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		47E74E1227CA0FFE00467A0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		47E74E1427CA0FFF00467A0C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		47E74E1727CA0FFF00467A0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Launch.storyboard; sourceTree = "<group>"; };
+		47E74E1727CA0FFF00467A0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Loading.storyboard; sourceTree = "<group>"; };
 		47E74E1927CA0FFF00467A0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47E74E1E27CA100000467A0C /* mist-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mist-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47E74E2227CA100000467A0C /* mist_iosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mist_iosTests.swift; sourceTree = "<group>"; };
@@ -470,9 +478,10 @@
 		470BD12D27DB1D8700DD4622 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				47E74E1127CA0FFE00467A0C /* Main.storyboard */,
-				47E74E1627CA0FFF00467A0C /* Launch.storyboard */,
+				478A78A0284EBF180058C845 /* Launch.storyboard */,
+				47E74E1627CA0FFF00467A0C /* Loading.storyboard */,
 				479AA1F627DD0D3800EA0DFC /* Auth.storyboard */,
+				47E74E1127CA0FFE00467A0C /* Main.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -611,6 +620,26 @@
 			path = Xibs;
 			sourceTree = "<group>";
 		};
+		478A789C284E739E0058C845 /* CLLocationCoordinate */ = {
+			isa = PBXGroup;
+			children = (
+				478A7898284E708D0058C845 /* CLLocationCoordinate+Distance.swift */,
+				478A789A284E73970058C845 /* CLLocationCoordiante+Midpoint.swift */,
+			);
+			path = CLLocationCoordinate;
+			sourceTree = "<group>";
+		};
+		478A789F284EBD5A0058C845 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */,
+				4316238B2834F8A600169AA9 /* SpecialTabBarController.swift */,
+				43A05BDC2835008B0085A99B /* SpecialTabBar.swift */,
+				478A789D284EBD510058C845 /* LaunchViewController.swift */,
+			);
+			path = Misc;
+			sourceTree = "<group>";
+		};
 		479683F6282817F900CA23BA /* Annotations */ = {
 			isa = PBXGroup;
 			children = (
@@ -639,6 +668,7 @@
 		47A3D71B27D593F0003DBEA5 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				478A789C284E739E0058C845 /* CLLocationCoordinate */,
 				47F93C4F284C065D00017947 /* UIViewController */,
 				474A4AB3284A952200B39A98 /* UITextView */,
 				474A4AB2284A950100B39A98 /* UITextField */,
@@ -772,11 +802,7 @@
 		47E74E3D27CA14C600467A0C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				47E295D3284BB3E100A680CC /* NibViewController.swift */,
-				4316238328343D3F00169AA9 /* SheetViewController.swift */,
-				47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */,
-				4316238B2834F8A600169AA9 /* SpecialTabBarController.swift */,
-				43A05BDC2835008B0085A99B /* SpecialTabBar.swift */,
+				478A789F284EBD5A0058C845 /* Misc */,
 				43770C4927EE8BED00F31CCF /* Auth */,
 				475B1F8927FB868300ED59CD /* Messages */,
 				47F4EFD127E10C1300861F30 /* Post */,
@@ -786,6 +812,8 @@
 				47FF86A427DC76000076A1CA /* NewPost */,
 				47FF86A327DC75F00076A1CA /* Account */,
 				47FF86A227DC75DB0076A1CA /* Feed */,
+				47E295D3284BB3E100A680CC /* NibViewController.swift */,
+				4316238328343D3F00169AA9 /* SheetViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1018,7 +1046,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				47C2835027DED77500A19128 /* FeedHeaderCell.xib in Resources */,
-				47E74E1827CA0FFF00467A0C /* Launch.storyboard in Resources */,
+				47E74E1827CA0FFF00467A0C /* Loading.storyboard in Resources */,
 				47E295DA284BBB1400A680CC /* PostCell.xib in Resources */,
 				47E295D8284BB7B000A680CC /* PostView.xib in Resources */,
 				47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */,
@@ -1028,6 +1056,7 @@
 				4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */,
 				47E2B1C32800E9EB00131B8D /* MyCommentCell.xib in Resources */,
 				470F271D27DE764F00C6DDAF /* UserResultCell.xib in Resources */,
+				478A78A1284EBF180058C845 /* Launch.storyboard in Resources */,
 				472A4C0228408BD800FD52B7 /* LoadingView.xib in Resources */,
 				47E74E1327CA0FFE00467A0C /* Main.storyboard in Resources */,
 			);
@@ -1087,6 +1116,7 @@
 				47E2B1BF2800C1CD00131B8D /* UITextView+Placeholder.swift in Sources */,
 				479683FA28283ED700CA23BA /* MKClusterAnnotation+*.swift in Sources */,
 				478BA27F283E85F500C35507 /* AuthContext.swift in Sources */,
+				478A789B284E73970058C845 /* CLLocationCoordiante+Midpoint.swift in Sources */,
 				47FF86A127DC712F0076A1CA /* Comment.swift in Sources */,
 				47EA3E0227E0151200381218 /* MapViewController.swift in Sources */,
 				43483BB228025179001C7C6A /* ChooseUsernameViewController.swift in Sources */,
@@ -1133,6 +1163,7 @@
 				47EE28F82840AE8200C6425C /* TestViewController.swift in Sources */,
 				477A6FD627DFB0450020F864 /* Color.swift in Sources */,
 				472A4BFF28408BD800FD52B7 /* DesignableView.swift in Sources */,
+				478A789E284EBD510058C845 /* LaunchViewController.swift in Sources */,
 				472A4BF928408BD800FD52B7 /* SpringButton.swift in Sources */,
 				4316238428343D3F00169AA9 /* SheetViewController.swift in Sources */,
 				47234BED28063D9C0031D7A5 /* NewMessageViewController.swift in Sources */,
@@ -1159,6 +1190,7 @@
 				474A5DAA27F40CB1004215F9 /* UISegmentedControl+Twitter.swift in Sources */,
 				472A4BF428408BD800FD52B7 /* SpringImageView.swift in Sources */,
 				47AC881F28480AE1000150CA /* UIButton+RightSideImage.swift in Sources */,
+				478A7899284E708D0058C845 /* CLLocationCoordinate+Distance.swift in Sources */,
 				474A5DA827F4079D004215F9 /* MyProfileViewController.swift in Sources */,
 				4700F8B727DD7BBA006C2E08 /* VoteAPI.swift in Sources */,
 				436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */,
@@ -1242,12 +1274,12 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		47E74E1627CA0FFF00467A0C /* Launch.storyboard */ = {
+		47E74E1627CA0FFF00467A0C /* Loading.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				47E74E1727CA0FFF00467A0C /* Base */,
 			);
-			name = Launch.storyboard;
+			name = Loading.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1389,12 +1421,13 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Mist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_NSContactsUsageDescription = "";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = meep;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = always;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "when in use";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app wants access to your photo library.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = Launch;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = Loading;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
@@ -1434,12 +1467,13 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Mist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_NSContactsUsageDescription = "";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = meep;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = always;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "when in use";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app wants access to your photo library.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = Launch;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = Loading;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;

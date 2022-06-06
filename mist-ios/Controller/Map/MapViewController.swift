@@ -55,12 +55,12 @@ class MapViewController: UIViewController {
     //when pitch increases, zoom goes UP then down
     //when pitch decreases, zoom goes DOWN then up
     
-    var displayedAnnotations = [PostAnnotation]() {
+    var postAnnotations = [PostAnnotation]() {
         willSet {
-            mapView.removeAnnotations(displayedAnnotations)
+            mapView.removeAnnotations(postAnnotations)
         }
         didSet {
-            mapView.addAnnotations(displayedAnnotations)
+            mapView.addAnnotations(postAnnotations)
         }
     }
     
@@ -76,7 +76,7 @@ class MapViewController: UIViewController {
         prevZoomWidth = mapView.visibleMapRect.size.width
         prevZoom = mapView.camera.centerCoordinateDistance
         
-        displayedAnnotations = []
+        postAnnotations = []
         setupMapButtons()
         setupMapView()
         setupLocationManager()
@@ -188,7 +188,8 @@ class MapViewController: UIViewController {
             slowFlyTo(lat: mapView.userLocation.coordinate.latitude,
                       long: mapView.userLocation.coordinate.longitude,
                       incrementalZoom: false,
-                      withDuration: cameraAnimationDuration, completion: {_ in })
+                      withDuration: cameraAnimationDuration,
+                      completion: {_ in })
         }
     }
     
@@ -261,9 +262,9 @@ extension MapViewController: MKMapViewDelegate {
 //        }
         
         // Deselect selected annotation upon moving
-        if !cameraIsFlying {
-            deselectOneAnnotationIfItExists()
-        }
+//        if !cameraIsFlying {
+//            deselectOneAnnotationIfItExists()
+//        }
         
         // Toggle text of 3d button
         isThreeDimensional = mapView.camera.pitch != 0
@@ -317,25 +318,69 @@ extension MapViewController {
         mapView.camera = newCamera
     }
     
+    //Consider not letting "withDuration" be passed, but let it be calculated here when it's actually needed. the duration might change based on the zoomOut
     func slowFlyTo(lat: Double,
                    long: Double,
                    incrementalZoom: Bool,
                    withDuration duration: Double,
                    completion: @escaping (Bool) -> Void) {
-        let pinLocation = CLLocationCoordinate2D(latitude: lat, longitude: long)
-        var newCLLDistance: Double = 500
-        if incrementalZoom {
-            // TODO: Handle conditions to zoom in based on how zoomed in the camera already is
-            newCLLDistance = mapView.camera.centerCoordinateDistance / 3
-        }
-
-        let rotationCamera = MKMapCamera(lookingAtCenter: pinLocation, fromDistance: newCLLDistance, pitch: 50, heading: 0)
-        UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: {
-            self.mapView.camera = rotationCamera
-        }, completion: completion)
         cameraIsFlying = true
+        var newCLLDistance: Double = 500
+        let destination = CLLocationCoordinate2D(latitude: lat, longitude: long)
+        if incrementalZoom {
+            newCLLDistance = self.mapView.camera.centerCoordinateDistance / 3
+        }
+        let finalCamera = MKMapCamera(lookingAtCenter: destination,
+                                         fromDistance: newCLLDistance,
+                                         pitch: 50,
+                                         heading: 0)
+        UIView.animate(withDuration: duration,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: {
+            self.mapView.camera = finalCamera
+        }, completion: completion)
     }
+    
+    //You could make this a for loop, where you create like 10 midpoints between the origin and destination, and animate between all of them
+    func slowFlyOutAndIn(lat: Double,
+                           long: Double,
+                           withDuration duration: Double,
+                           completion: @escaping (Bool) -> Void) {
+        cameraIsFlying = true
+        var finalDistance: Double = 500
+        let destination = CLLocationCoordinate2D(latitude: lat, longitude: long)
+        let finalCamera = MKMapCamera(lookingAtCenter: destination,
+                                         fromDistance: finalDistance,
+                                         pitch: 50,
+                                         heading: 0)
         
+       
+//        if !mapView.visibleMapRect.contains(MKMapPoint(destination)) {
+        let currentLocation = mapView.camera.centerCoordinate
+        let midwayPoint = currentLocation.geographicMidpoint(betweenCoordinates: [destination])
+        let distanceBetween = currentLocation.distance(from: destination)
+        let midwayDistance = mapView.camera.centerCoordinateDistance +  distanceBetween * 2
+        let preRotationCamera = MKMapCamera(lookingAtCenter: midwayPoint,
+                                            fromDistance: midwayDistance,
+                                         pitch: 30,
+                                         heading: 0)
+        UIView.animate(withDuration: duration*2,
+                       delay: 0,
+                       options: .curveEaseIn,
+                       animations: {
+            self.mapView.camera = preRotationCamera
+        }) { _ in
+            UIView.animate(withDuration: duration*2,
+                           delay: 0,
+                           options: .curveEaseOut,
+                           animations: {
+                self.mapView.camera = finalCamera
+            }, completion: completion)
+        }
+        
+    }
+    
     func toggleMapDimension() {
         isThreeDimensional = !isThreeDimensional
         
@@ -368,6 +413,41 @@ extension MapViewController {
         }, completion: nil)
     }
     
+    //This seems to work as good as it's gonna get... which is better than the slow fly in that it accounts
+    //for coordinates located within, but then it cant
+    func zoomInAsCloseAsPossibleOn(cluster: MKClusterAnnotation) {
+        var clusterPoints = [MKMapPoint]()
+        cluster.memberAnnotations.forEach { memberAnnotation in
+            clusterPoints.append(MKMapPoint(memberAnnotation.coordinate))
+        }
+        
+        //Center a candidate rect around the cluster
+        let rectX = mapView.visibleMapRect.width
+        let rectY = mapView.visibleMapRect.height
+        var candidateRect = MKMapRect(origin: MKMapPoint(cluster.coordinate),
+                                      size: mapView.visibleMapRect.size)
+        candidateRect = candidateRect.offsetBy(dx: -rectX / 2,
+                                               dy: -rectY / 2)
+        
+        //Shrink the canidate rect so it just fits the cluster points
+        var isCandidateRectTooSmall = false
+        while !isCandidateRectTooSmall {
+            candidateRect = candidateRect.insetBy(dx: rectX/10, dy: rectY/10)
+            clusterPoints.forEach { clusterPoint in
+                if !candidateRect.contains(clusterPoint) {
+                    isCandidateRectTooSmall = true
+                }
+            }
+        }
+        candidateRect = candidateRect.insetBy(dx: -rectX/10, dy: -rectY/10)
+        UIView.animate(withDuration: cameraAnimationDuration,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: {
+            self.mapView.visibleMapRect = candidateRect
+        }, completion: nil)
+    }
+    
     func zoomByAFactorOf(_ factor: Double) {
         cameraIsFlying = true
         let newDistance = mapView.camera.centerCoordinateDistance * factor
@@ -377,12 +457,15 @@ extension MapViewController {
                                          fromDistance: newDistance,
                                          pitch: newPitch,
                                          heading: mapView.camera.heading)
-        UIView.animate(withDuration: 0.4,
-                       delay: 0,
-                       options: .curveEaseInOut,
-                       animations: {
-            self.mapView.camera = rotationCamera
-        })
+//        UIView.animate(withDuration: 0.4,
+//                       delay: 0,
+//                       options: .curveEaseInOut,
+//                       animations: {
+//            self.mapView.camera = rotationCamera
+//        }) {_ in
+//            print(self.mapView.camera.centerCoordinateDistance)
+//        }
+        mapView.setCamera(rotationCamera, animated: true)
     }
     
     func deselectOneAnnotationIfItExists() {

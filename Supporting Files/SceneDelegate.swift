@@ -23,17 +23,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let authNavVC = authSB.instantiateViewController(withIdentifier: Constants.SBID.VC.AuthNavigation)
             window?.rootViewController = authNavVC
         } else {
-            // Stay on launch screen while loading posts
-//            window?.rootViewController = UIStoryboard(name: Constants.SBID.SB.Launch, bundle: nil).instantiateInitialViewController()
-//            window?.makeKeyAndVisible() //not sure if this is needed
+            // Stay on loading screen while posts load (automatically happens)
 
             //TODO: implement PostsService properly
 //            Task {
 //                PostsService.homePosts.newPosts()
 //            }
 
-            //Display the homeVC after load is finished
-            window?.rootViewController = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateInitialViewController()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.window?.rootViewController?
+                    .transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
+                                            viewControllerID: Constants.SBID.VC.TabBarController,
+                                            duration: 1) { _ in}
+            }
         }
     }
 

@@ -25,7 +25,7 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         return nil
     }
     
-    // Swiping
+    // Panning gesture
     var originalPanLocation: CGPoint = .init(x: 0, y: 0)
     var swipeDelegate: AnnotationViewSwipeDelegate?
     
@@ -39,6 +39,7 @@ final class PostAnnotationView: MKMarkerAnnotationView {
             glyphTintColor = .white
             markerTintColor = mistUIColor()
             displayPriority = .defaultLow
+            clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
         }
     }
     
@@ -46,7 +47,6 @@ final class PostAnnotationView: MKMarkerAnnotationView {
     
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
-        clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
         setupGestureRecognizerToPreventInteractionDelay()
         setupPanGesture()
     }
@@ -75,7 +75,7 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         } else {
             glyphTintColor = .white
             markerTintColor = mistUIColor()
-            if let postCalloutView = postCalloutView {
+            if let postCalloutView = postCalloutView, postCalloutView.animation != "" {
                 postCalloutView.fadeOut(duration: 0.5, delay: 0, completion: { Bool in
                     postCalloutView.isHidden = true
                     postCalloutView.removeFromSuperview()
@@ -102,7 +102,9 @@ final class PostAnnotationView: MKMarkerAnnotationView {
     //MARK: - Helpers
     
     // Called by the viewController, because the delay differs based on if the post was just uploaded or if it was jut clicked on
-    func loadPostView(on mapView: MKMapView, withDelay delay: Double, withPostDelegate postDelegate: ExploreMapViewController) {
+    func loadPostView(on mapView: MKMapView,
+                      withDelay delay: Double,
+                      withPostDelegate postDelegate: ExploreMapViewController) {
         
         swipeDelegate = postDelegate
 
@@ -127,7 +129,16 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         mapView.layoutIfNeeded()
         postCalloutView.setNeedsLayout()
         
-        postCalloutView.fadeIn(duration: 0.2, delay: delay-0.15)
+        postCalloutView.alpha = 0
+        postCalloutView.isHidden = true
+//        DispatchQueue.main.asyncAfter(deadline: .now() + delay - 0.15) {
+//
+//        }
+        postCalloutView.fadeIn(duration: 0.2, delay: delay - 0.15)
+//        postCalloutView.animation = "fadeIn"
+//        postCalloutView.duration = 0.2
+//        postCalloutView.delay = 4
+//        postCalloutView.animate()
     }
 
 }
@@ -175,8 +186,6 @@ extension PostAnnotationView {
     }
     
     @objc func handlePan(gestureRecognizer: UIPanGestureRecognizer) {
-        print("panning")
-        
         switch gestureRecognizer.state {
         case .began:
             originalPanLocation = gestureRecognizer.location(in: postCalloutView)
