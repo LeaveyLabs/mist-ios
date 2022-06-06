@@ -102,6 +102,7 @@ protocol PostDelegate {
 
 extension PostView {
     
+    // Note: the constraints for the PostView should already be set-up when this is called
     func configurePost(post: Post, bubbleTrianglePosition: BubbleTrianglePosition) {
         self.post = post
         timestampLabel.text = getFormattedTimeString(postTimestamp: post.timestamp)
@@ -133,10 +134,13 @@ extension PostView: UIGestureRecognizerDelegate {
     
     // Add a pan gesture captures the panning on map and prevents the post from being dismissed
     private func setupGestureRecognizersToPreventMapInteraction() {
-        let pan = UIPanGestureRecognizer()
-        pan.delaysTouchesBegan = false
-        pan.delaysTouchesEnded = false
-        addGestureRecognizer(UIPanGestureRecognizer())
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+        addGestureRecognizer(pan)
+    }
+    
+    
+    @objc func handlePan(_ sender: UIPanGestureRecognizer) {
+        print("handle pan")
     }
     
     private func setupGestureRecognizerToPreventIBActionDelay() {

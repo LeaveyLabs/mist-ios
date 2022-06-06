@@ -18,10 +18,10 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         willSet {
             animatesWhenAdded = true
             canShowCallout = false
-            markerTintColor = mistUIColor()
             glyphImage = UIImage(named: "mist-heart-pink-padded")
+            glyphTintColor = .white
+            markerTintColor = mistUIColor()
             displayPriority = .defaultLow
-            clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
         }
     }
     
@@ -49,7 +49,7 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         super.setSelected(selected, animated: animated)
 
         if selected {
-            glyphTintColor = mistUIColor() //this is needed bc for some reason the glyph tint color turns grey even with the mist-heart-pink icon
+            glyphTintColor = mistUIColor()
             markerTintColor = mistSecondaryUIColor()
             if let postCalloutView = postCalloutView {
                 postCalloutView.removeFromSuperview() // This shouldn't be needed, but just in case
@@ -88,22 +88,23 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         postCalloutView = PostView()
         guard let postCalloutView = postCalloutView else {return}
         
-        let postAnnotation = annotation as! PostAnnotation
-        postCalloutView.configurePost(post: postAnnotation.post, bubbleTrianglePosition: .bottom)
-        postCalloutView.postDelegate = postDelegate
         postCalloutView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(postCalloutView)
         
         NSLayoutConstraint.activate([
             postCalloutView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -100),
             postCalloutView.widthAnchor.constraint(equalTo: mapView.widthAnchor, constant: -30),
-            postCalloutView.heightAnchor.constraint(lessThanOrEqualTo: mapView.heightAnchor, multiplier: 0.54, constant: 0),
+            postCalloutView.heightAnchor.constraint(lessThanOrEqualTo: mapView.heightAnchor, multiplier: 0.75, constant: -140),
             postCalloutView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
         ])
+        
+        let postAnnotation = annotation as! PostAnnotation
+        postCalloutView.configurePost(post: postAnnotation.post, bubbleTrianglePosition: .bottom)
+        postCalloutView.postDelegate = postDelegate
 
-        //Do i need to call some of these?
-//        mapView!.layoutIfNeeded()
-//        postCalloutView.setNeedsLayout()
+        //Do i need to call some of these? I dont think so.
+        mapView.layoutIfNeeded()
+        postCalloutView.setNeedsLayout()
         
         postCalloutView.fadeIn(duration: 0.2, delay: delay-0.15)
     }

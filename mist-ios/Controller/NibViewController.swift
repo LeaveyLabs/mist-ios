@@ -17,21 +17,18 @@ class NibViewController: UIViewController {
             do {
                 postview = PostView()
                 let post = try await PostAPI.fetchPosts()[0]
-                postview.configurePost(post: post, bubbleTrianglePosition: .bottom)
-                
-                postview.configurePost(post: post, bubbleTrianglePosition: .bottom)
                 postview.translatesAutoresizingMaskIntoConstraints = false
+                
                 view.addSubview(postview)
                 
-                //OHHHH SHIT IS IT NOT THE TAP GESTURE RECOGNIZER OF ... THE ANNOTAITON VIEW
-                //ITS THIS ADD SUBVIEW CODE^^^^^^^ THTTSTHE PROBLEM
-                
                 NSLayoutConstraint.activate([
-                    postview.topAnchor.constraint(equalTo: view.topAnchor, constant: -100),
+                    postview.topAnchor.constraint(equalTo: view.topAnchor, constant: 300),
+                    postview.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -300),
                     postview.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -30),
-                    postview.heightAnchor.constraint(lessThanOrEqualTo: view.heightAnchor, multiplier: 0.54, constant: 0),
                     postview.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
                 ])
+                postview.configurePost(post: post, bubbleTrianglePosition: .bottom)
+
             } catch {
                 
             }
