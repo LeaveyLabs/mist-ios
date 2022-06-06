@@ -32,6 +32,13 @@ class SpecialTabBar: UITabBar {
     override func awakeFromNib() {
         super.awakeFromNib()
         addMiddleButton()
+        
+        // Badge color acts as the flag for communicating with UITabBarDelegate
+        // Nil is the default
+        // Non-nil indicates that the middle button was pressed
+        // middleButton will never have badges, so this is safe to use as a flag
+        items![1].badgeColor = nil
+        
     }
     
     func addMiddleButton() {
@@ -53,7 +60,9 @@ class SpecialTabBar: UITabBar {
     
     // MARK: - Actions
     @objc func middleButtonAction(sender: UIButton) {
+        items![1].badgeColor = .clear
         delegate?.tabBar?(self, didSelect: items![1])
+        items![1].badgeColor = nil
     }
     
     // MARK: - HitTest

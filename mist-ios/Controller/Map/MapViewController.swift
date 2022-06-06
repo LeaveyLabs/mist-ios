@@ -74,33 +74,41 @@ class MapViewController: UIViewController {
         setupMapButtons()
         setupMapView()
         setupLocationManager()
+
         applyGradientUnderneathNavbar()
     }
     
     // MARK: - Setup
     
     func setupMapView() {
+        // GENERAL SETTINGS
         mapView.cameraZoomRange = MKMapView.CameraZoomRange(minCenterCoordinateDistance: 310) // Note: this creates an effect where, when the camera is pretty zoomed in, if you try to increase the pitch past a certian point, it automatically zooms in more. Not totally sure why. This is slightly undesirable but not that deep
         //310 is range from which you view a post, that way you cant zoom in more afterwards
         mapView.showsUserLocation = true
         mapView.showsCompass = false
         mapView.delegate = self
         mapView.tintColor = .systemBlue //sets user puck color
-        centerMapOnUSC()
+        mapView.showsTraffic = false
+        
+        // POINTS OF INTEREST
+        //including categories is more ideal, bc there are some markers like "shared bikes" which wont be excluded no matter what
+        let includeCategories:[MKPointOfInterestCategory] = [.cafe, .airport, .amusementPark, .aquarium, .bakery, .beach, .brewery, .campground, .foodMarket, .fitnessCenter, .hotel, .hospital, .library, .marina, .movieTheater, .museum, .nationalPark, .nightlife, .park, .pharmacy, .postOffice, .restaurant, .school, .stadium, .store, .theater, .university, .zoo, .winery]
+        mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: includeCategories))
+        
+        // CAMERA
+        cameraIsFlying = true
         registerMapAnnotationViews()
+        centerMapOnUSC()
         mapView.camera = MKMapCamera(lookingAtCenter: mapView.centerCoordinate,
                                      fromDistance: 4000,
                                      pitch: 20,
                                      heading: mapView.camera.heading)
-        
-        //including categories is more ideal, bc there are some markers like "shared bikes" which wont be excluded no matter what
-        let includeCategories:[MKPointOfInterestCategory] = [.cafe, .airport, .amusementPark, .aquarium, .bakery, .beach, .brewery, .campground, .foodMarket, .fitnessCenter, .hotel, .hospital, .library, .marina, .movieTheater, .museum, .nationalPark, .nightlife, .park, .pharmacy, .postOffice, .restaurant, .school, .stadium, .store, .theater, .university, .zoo, .winery]
-        mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: includeCategories))
+        cameraIsFlying = false
     }
     
     // NOTE: If you want to change the clustering identifier based on location, you should probably delink the annotationview and reuse identifier like below (watch the wwdc video again) so you can change the constructor of AnnotationViews/ClusterANnotationViews to include map height
     func registerMapAnnotationViews() {
-        mapView.register(PostMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        mapView.register(PostAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         mapView.register(ClusterAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
     }
     

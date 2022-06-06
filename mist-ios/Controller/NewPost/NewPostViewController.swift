@@ -14,6 +14,9 @@ let TITLE_PLACEHOLDER_TEXT = "A cute title"
 let LOCATION_PLACEHOLDER_TEXT = "Drop a pin"
 let TEXT_LENGTH_BEYOND_MAX_PERMITTED = 5
 
+let TITLE_CHARACTER_LIMIT = 40
+let BODY_CHARACTER_LIMIT = 999
+
 let PROGRESS_DEFAULT_DURATION: Double = 6 // Seconds
 let PROGRESS_DEFAULT_MAX: Float = 0.8 // 80%
 
@@ -66,14 +69,14 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         titleTextView.initializerToolbar(target: self, doneSelector: #selector(dismissKeyboard))
         titleTextView.textContainer.lineFragmentPadding = 0 //fixes textview strange leading offset
         titlePlaceholderLabel = titleTextView.addAndReturnPlaceholderLabelTwo(withText: TITLE_PLACEHOLDER_TEXT)
-        titleTextView.maxLength = 40
+        titleTextView.maxLength = TITLE_CHARACTER_LIMIT
         titleTextView.becomeFirstResponder()
         
         bodyTextView.delegate = self
         bodyTextView.initializerToolbar(target: self, doneSelector: #selector(dismissKeyboard))
         bodyTextView.textContainer.lineFragmentPadding = 0 //fixes textview strange leading offset
         bodyPlaceholderLabel = bodyTextView.addAndReturnPlaceholderLabelTwo(withText: BODY_PLACEHOLDER_TEXT)
-        bodyTextView.maxLength = 140
+        bodyTextView.maxLength = BODY_CHARACTER_LIMIT
     }
     
     // Can't use new button with buttonConfiguration because you can't limit the number of lines

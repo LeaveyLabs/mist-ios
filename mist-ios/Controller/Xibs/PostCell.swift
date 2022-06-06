@@ -8,17 +8,7 @@
 import UIKit
 import Social
 
-enum BubbleArrowPosition {
-    case left
-    case bottom
-    case right
-}
-
-protocol PostCellDelegate{
-    func likeDidTapped(post: Post)
-}
-
-class PostCell: UITableViewCell, ShareActivityDelegate {
+class PostCell: UITableViewCell {
     
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
@@ -31,231 +21,63 @@ class PostCell: UITableViewCell, ShareActivityDelegate {
     @IBOutlet weak var likeLabel: UILabel!
     
     @IBOutlet weak var backgroundBubbleView: UIView!
-    
-    var delegate: PostCellDelegate?
-    var parentVC: UIViewController!
+
+    var postDelegate: PostDelegate?
     var post: Post!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        print("awake from nib")
-    }
+    //MARK: - Public Interface
     
-    override func prepareForReuse() {
-        print("prepare for reuse")
-    }
-    
-    override func layoutSubviews() {
-        print("layout Subviews")
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-    
-    //MARK: -Constructor
-    
-    func configurePostCell(post: Post, parent: UIViewController, bubbleArrowPosition: BubbleArrowPosition) {
-        parentVC = parent
+    func configurePostCell(post: Post, bubbleTrianglePosition: BubbleTrianglePosition) {
         self.post = post
         timestampLabel.text = getFormattedTimeString(postTimestamp: post.timestamp)
         locationLabel.text = post.location_description
         messageLabel.text = post.text
         titleLabel.text = post.title
         likeLabel.text = String(post.averagerating)
-        
-        setupBubbleArrow(at: bubbleArrowPosition)
-        
         likeButton.isSelected = false
         favoriteButton.isSelected = false
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
-        backgroundBubbleView.addGestureRecognizer(tapGesture)
+        backgroundBubbleView.transformIntoPostBubble(arrowPosition: bubbleTrianglePosition)
+        backgroundBubbleView.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                                         action: #selector(backgroundTapAction)))
     }
     
-    //MARK: -- ShareActivityDelegate
+    //MARK: - User Interaction
     
-    func presentShareActivityVC() {
-        if let url = NSURL(string: "https://www.getmist.app")  {
-            let objectsToShare: [Any] = [url]
-            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-            activityVC.popoverPresentationController?.sourceView = parentVC.view // so that iPads won't crash
-            parentVC.present(activityVC, animated: true)
-        }
+    @objc func backgroundTapAction() {
+        postDelegate?.backgroundDidTapped(post: post)
     }
     
-    //MARK: -User Interaction
+    @IBAction func commentButtonDidPressed(_ sender: UIButton) {
+        postDelegate?.commentDidTapped(post: post)
+    }
     
-    @objc func tapAction() {
-        sendToPost(withRaisedKeyboard: false)
+    @IBAction func dmButtonDidPressed(_ sender: UIButton) {
+        postDelegate?.dmDidTapped(post: post)
+    }
+    
+    @IBAction func moreButtonDidPressed(_ sender: UIButton) {
+        postDelegate?.moreDidTapped(post: post)
+    }
+    
+    @IBAction func favoriteButtonDidpressed(_ sender: UIButton) {
+        postDelegate?.favoriteDidTapped(post: post)
+        
+        // UI Updates
+        favoriteButton.isSelected = !favoriteButton.isSelected
     }
     
     @IBAction func likeButtonDidPressed(_ sender: UIButton) {
-        //if not liked, then like
-        if (!likeButton.isSelected) {
-            likeLabel.text = String(Int(likeLabel.text!)! + 1)
-        }
-        //if liked, then unlike
-        else {
+        postDelegate?.likeDidTapped(post: post)
+        
+        // UI Updates
+        let isAlreadyLiked = likeButton.isSelected
+        if isAlreadyLiked {
             likeLabel.text = String(Int(likeLabel.text!)! - 1)
+        } else {
+            likeLabel.text = String(Int(likeLabel.text!)! + 1)
         }
         likeButton.isSelected = !likeButton.isSelected
     }
     
-    @IBAction func commentButtonDidPressed(_ sender: UIButton) {
-        sendToPost(withRaisedKeyboard: true)
-    }
-    
-    @IBAction func dmButtonDidPressed(_ sender: UIButton) {
-        let newMessageNavVC = parentVC.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewMessageNavigation) as! UINavigationController
-        newMessageNavVC.modalPresentationStyle = .fullScreen
-        parentVC.present(newMessageNavVC, animated: true, completion: nil)
-    }
-    
-    @IBAction func favoriteButtonDidpressed(_ sender: UIButton) {
-        //if not liked, then like
-        if (!favoriteButton.isSelected) {
-            
-        }
-        //if liked, then unlike
-        else {
-
-        }
-        favoriteButton.isSelected = !favoriteButton.isSelected
-        
-        delegate?.likeDidTapped(post: post)
-    }
-    
-    // Note: if we want to delegate this function to the parentVC, we should use notificationcenter approach over the delegate approach, because delegate approach wont let you delegate to both a MapVC and a FeedVC
-    @IBAction func moreButtonDidPressed(_ sender: UIButton) {
-        let moreVC = parentVC.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.More) as! MoreViewController
-        moreVC.loadViewIfNeeded() //doesnt work without this function call
-        moreVC.delegate = self
-        parentVC.present(moreVC, animated: true)
-    }
-    
-    //MARK: -Setup
-    
-    func setupBubbleArrow(at bubbleArrowPosition: BubbleArrowPosition) {
-        let triangleView = UIView()
-        triangleView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
-        backgroundBubbleView.addSubview(triangleView)
-        backgroundBubbleView.sendSubviewToBack(triangleView) //dont think this is needed
-        switch bubbleArrowPosition {
-        case .left:
-            addLeftTriangleLayer(to: triangleView)
-        case .bottom:
-            addBottomTriangleLayer(to: triangleView)
-        case .right:
-            addRightTriangleLayer(to: triangleView)
-        }
-        backgroundBubbleView.layer.cornerRadius = 20 //TODO: how do i add a corner radius to the triangle, too?
-        backgroundBubbleView.layer.cornerCurve = .continuous
-        applyShadowOnView(backgroundBubbleView)
-    }
-    
-    //https://stackoverflow.com/questions/30650343/triangle-uiview-swift
-    func addLeftTriangleLayer(to triangleView: UIView) {
-        //set constraints for triangle view
-        let constraints = [
-            triangleView.heightAnchor.constraint(equalToConstant: 80),
-            triangleView.widthAnchor.constraint(equalToConstant: 80),
-            triangleView.bottomAnchor.constraint(equalTo: backgroundBubbleView.bottomAnchor, constant: 0),
-            triangleView.leftAnchor.constraint(equalTo: backgroundBubbleView.leftAnchor, constant: -10),
-        ]
-        //fix the width constraint of the bubble
-        for constraint in contentView.constraints {
-            if constraint.identifier == "leftBubbleConstraint" {
-               constraint.constant = 20
-            }
-        }
-        NSLayoutConstraint.activate(constraints)
-        contentView.layoutIfNeeded()
-        
-        let heightWidth = triangleView.frame.size.height
-        let path = CGMutablePath()
-        path.move(to: CGPoint(x: 0, y: heightWidth))
-        path.addLine(to: CGPoint(x:heightWidth/2, y: -30))
-        path.addLine(to: CGPoint(x:heightWidth/2, y:heightWidth))
-        path.addLine(to: CGPoint(x:0, y:heightWidth))
-        
-        let shape = CAShapeLayer()
-        shape.path = path
-        shape.fillColor = mistSecondaryUIColor().cgColor
-        triangleView.layer.insertSublayer(shape, at: 0)
-     }
-    
-    func addRightTriangleLayer(to triangleView: UIView) {
-        //set constraints for triangle view
-        let constraints = [
-            triangleView.heightAnchor.constraint(equalToConstant: 80),
-            triangleView.widthAnchor.constraint(equalToConstant: 80),
-            triangleView.bottomAnchor.constraint(equalTo: backgroundBubbleView.bottomAnchor, constant: 0),
-            triangleView.rightAnchor.constraint(equalTo: backgroundBubbleView.rightAnchor, constant: 10),
-        ]
-        //fix the width constraint of the bubble
-        for constraint in contentView.constraints {
-            if constraint.identifier == "rightBubbleConstraint" {
-               constraint.constant = 20
-            }
-        }
-        NSLayoutConstraint.activate(constraints)
-        contentView.layoutIfNeeded()
-        
-        let heightWidth = triangleView.frame.size.height
-        let path = CGMutablePath()
-        path.move(to: CGPoint(x: 0, y: heightWidth))
-        path.addLine(to: CGPoint(x:heightWidth/2, y: -30))
-        path.addLine(to: CGPoint(x:heightWidth, y:heightWidth))
-        path.addLine(to: CGPoint(x:0, y:heightWidth))
-        
-        let shape = CAShapeLayer()
-        shape.path = path
-        shape.fillColor = mistSecondaryUIColor().cgColor
-        triangleView.layer.insertSublayer(shape, at: 0)
-     }
-    
-    func addBottomTriangleLayer(to triangleView: UIView) {
-        //set constraints for triangle view
-        let constraints = [
-            triangleView.heightAnchor.constraint(equalToConstant: 80),
-            triangleView.widthAnchor.constraint(equalToConstant: 80),
-            triangleView.bottomAnchor.constraint(equalTo: backgroundBubbleView.bottomAnchor, constant: 0),
-            triangleView.centerXAnchor.constraint(equalTo: backgroundBubbleView.centerXAnchor, constant: 0),
-        ]
-        //fix the HEIGHT constraint of the bubble
-        for constraint in contentView.constraints {
-            if constraint.identifier == "bottomBubbleConstraint" {
-               constraint.constant = 35
-            }
-        }
-        NSLayoutConstraint.activate(constraints)
-        contentView.layoutIfNeeded()
-        
-        let heightWidth = triangleView.frame.size.height
-        let path = CGMutablePath()
-        path.move(to: CGPoint(x: 0, y: heightWidth))
-        path.addLine(to: CGPoint(x:heightWidth/2, y: heightWidth + 30))
-        path.addLine(to: CGPoint(x:heightWidth, y:heightWidth))
-        path.addLine(to: CGPoint(x:0, y:heightWidth))
-        
-        let shape = CAShapeLayer()
-        shape.path = path
-        shape.fillColor = mistSecondaryUIColor().cgColor
-        triangleView.layer.insertSublayer(shape, at: 0)
-     }
-    
-    //MARK: -Helpers
-    
-    func sendToPost(withRaisedKeyboard: Bool) {
-        if let feedVC = parentVC as? FeedViewController {
-            let postVC = feedVC.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
-            postVC.post = post
-            postVC.shouldStartWithRaisedKeyboard = withRaisedKeyboard
-            postVC.completionHandler = {
-                Post in feedVC.tableView.reloadData()
-            }
-            feedVC.navigationController!.pushViewController(postVC, animated: true)
-        }
-    }
 }

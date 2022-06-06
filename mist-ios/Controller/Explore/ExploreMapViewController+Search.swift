@@ -1,73 +1,44 @@
 //
-//  ExploreFeedViewController.swift
+//  ExploreMapViewController+Search.swift
 //  mist-ios
 //
-//  Created by Adam Novak on 2022/04/08.
+//  Created by Adam Novak on 2022/06/05.
 //
 
-import UIKit
+import Foundation
 
-class ExploreFeedViewController: FeedViewController {
-    
-    @IBOutlet weak var mistTitle: UIView!
-        
-    //ExploreViewController
-    var mySearchController: UISearchController!
-    private var resultsTableController: LiveResultsTableViewController!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        navigationItem.titleView = mistTitle
-                
-        //ExploreViewController
-        setupSearchBar()
-    }
-    
-    @objc override func refreshFeed() {
-        Task {
-            do {
-                posts = try await PostAPI.fetchPosts();
-                self.tableView.reloadData();
-                tableView.refreshControl!.endRefreshing()
-                indicator.stopAnimating()
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
-    //MARK: - Setup
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
-    }
-}
+///reference for search controllers
+///https://developer.apple.com/documentation/uikit/view_controllers/using_suggested_searches_with_a_search_controller
+///https://developer.apple.com/documentation/uikit/view_controllers/displaying_searchable_content_by_using_a_search_controller
+///
 
-//MARK: --------------ExploreViewController
-
-extension ExploreFeedViewController {
-
+//MARK: - SearchViewController Extension
+    
+extension ExploreMapViewController {
+    
     // MARK: - User Interaction
     
     @IBAction func searchButtonDidPressed(_ sender: UIBarButtonItem) {
+        dismissPost()
         present(mySearchController, animated: true)
-    }
-    
-    @IBAction func mapButtonDidPressed(_ sender: UIBarButtonItem) {
-        navigationController?.popViewController(animated: false)
+        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //eventually replace this with "dismissFilter()" when completion handler is added
+        filterMapModalVC?.dismiss(animated: false)
     }
     
     //TODO: add custom animations
     //https://stackoverflow.com/questions/51675063/how-to-present-view-controller-from-left-to-right-in-ios
     //https://github.com/HeroTransitions/Hero
     @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
+        dismissPost()
         let myAccountNavigation = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation)
         myAccountNavigation.modalPresentationStyle = .fullScreen
+        filterMapModalVC?.dismiss(animated: false) //same as above^
+        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //makes the transition more seamless
         self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
     }
 }
 
-extension ExploreFeedViewController: UISearchControllerDelegate {
+extension ExploreMapViewController: UISearchControllerDelegate {
     func setupSearchBar() {
         //resultsTableViewController
         resultsTableController =
@@ -99,11 +70,36 @@ extension ExploreFeedViewController: UISearchControllerDelegate {
         mySearchController.searchBar.searchBarStyle = .prominent //when setting to .minimal, the background disappears and you can see nav bar underneath. if using .minimal, add a background color to searchBar to fix this.
         mySearchController.searchBar.placeholder = "Search"
     }
+    
+    func presentSearchController(_ searchController: UISearchController) {
+        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+    }
+    
+    func willPresentSearchController(_ searchController: UISearchController) {
+        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+    }
+    
+    func didPresentSearchController(_ searchController: UISearchController) {
+        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+        navigationItem.searchController = searchController
+    }
+    
+    func willDismissSearchController(_ searchController: UISearchController) {
+        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+        print("will dismiss sc")
+//        navigationController?.restoreHairline()
+        navigationItem.searchController = .none
+    }
+    
+    func didDismissSearchController(_ searchController: UISearchController) {
+        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+    }
+    
 }
 
     // MARK: - UISearchBarDelegate
 
-extension ExploreFeedViewController: UISearchBarDelegate {
+extension ExploreMapViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let text = mySearchController.searchBar.text else { return }
@@ -136,76 +132,26 @@ extension ExploreFeedViewController: UISearchBarDelegate {
 
     // MARK: - UITableViewDelegate
 
-extension ExploreFeedViewController {
-
+extension ExploreMapViewController: UITableViewDelegate {
+        
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch resultsTableController.selectedScope {
+        case 0:
+            let word = resultsTableController.liveResults[indexPath.row] as! Word
+            let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewController(feedType: .query, feedValue: word.text)
+            navigationController?.pushViewController(newQueryFeedViewController, animated: true)
+        case 1:
+            break
+            //let profile = liveResults[indexPath.row] as! Profile
+            //TODO: navigate to profile page
+        default: break
+        }
+        
         tableView.deselectRow(at: indexPath, animated: false)
-
-        // We only care about the ResultsTableView and not the FeedTableView
-        if tableView === resultsTableController.tableView {
-            switch resultsTableController.selectedScope {
-            case 0:
-                let word = resultsTableController.liveResults[indexPath.row] as! Word
-                let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewController(feedType: .query, feedValue: word.text)
-                navigationController?.pushViewController(newQueryFeedViewController, animated: true)
-            default: break
-            }
-        }
     }
 }
 
-    // MARK: - UITableViewDataSource
-
-extension ExploreFeedViewController {
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath.row == 0) {
-            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.FeedHeader, for: indexPath) as! FeedHeaderCell
-//            cell.feedHeaderLabel.text = "\(filter)"
-            cell.feedType = .home
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-            return cell
-        }
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-        cell.configurePostCell(post: posts[indexPath.row], bubbleTrianglePosition: .left)
-//        cell.postDelegate = self
-        cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-        return cell
-    }
-}
-
-
-    // MARK: - UISearchControllerDelegate
-
-extension ExploreFeedViewController {
-    
-    func presentSearchController(_ searchController: UISearchController) {
-        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-    }
-    
-    func willPresentSearchController(_ searchController: UISearchController) {
-        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-    }
-    
-    func didPresentSearchController(_ searchController: UISearchController) {
-        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-        navigationItem.searchController = searchController
-    }
-    
-    func willDismissSearchController(_ searchController: UISearchController) {
-        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-        print("will dismiss sc")
-//        navigationController?.restoreHairline()
-        navigationItem.searchController = .none
-    }
-    
-    func didDismissSearchController(_ searchController: UISearchController) {
-        //Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-    }
-    
-}
-
-extension ExploreFeedViewController: UISearchResultsUpdating {
+extension ExploreMapViewController: UISearchResultsUpdating {
     
     //Update the filtered array based on the search text.
     func updateSearchResults(for searchController: UISearchController) {
@@ -243,4 +189,3 @@ extension ExploreFeedViewController: UISearchResultsUpdating {
     }
     
 }
-
