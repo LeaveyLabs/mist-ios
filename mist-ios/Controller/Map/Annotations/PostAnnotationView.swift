@@ -8,9 +8,26 @@
 import Foundation
 import MapKit
 
+protocol AnnotationViewSwipeDelegate {
+    func handlePostViewSwipeLeft()
+    func handlePostViewSwipeRight()
+}
+
 final class PostAnnotationView: MKMarkerAnnotationView {
     
     var postCalloutView: PostView? // the postAnnotationView's callout view
+    var mapView: MKMapView? {
+        var view = superview
+        while view != nil {
+            if let mapView = view as? MKMapView { return mapView }
+            view = view?.superview
+        }
+        return nil
+    }
+    
+    // Swiping
+    var originalPanLocation: CGPoint = .init(x: 0, y: 0)
+    var swipeDelegate: AnnotationViewSwipeDelegate?
     
     // MapView annotation views are reused like TableView cells,
     // so everytime they're set, you should prepare them
@@ -31,8 +48,9 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
         setupGestureRecognizerToPreventInteractionDelay()
+        setupPanGesture()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -84,7 +102,10 @@ final class PostAnnotationView: MKMarkerAnnotationView {
     //MARK: - Helpers
     
     // Called by the viewController, because the delay differs based on if the post was just uploaded or if it was jut clicked on
-    func loadPostView(on mapView: MKMapView, withDelay delay: Double, withPostDelegate postDelegate: PostDelegate) {
+    func loadPostView(on mapView: MKMapView, withDelay delay: Double, withPostDelegate postDelegate: ExploreMapViewController) {
+        
+        swipeDelegate = postDelegate
+
         postCalloutView = PostView()
         guard let postCalloutView = postCalloutView else {return}
         
@@ -115,15 +136,6 @@ final class PostAnnotationView: MKMarkerAnnotationView {
 
 extension PostAnnotationView: UIGestureRecognizerDelegate {
     
-    var mapView: MKMapView? {
-        var view = superview
-        while view != nil {
-            if let mapView = view as? MKMapView { return mapView }
-            view = view?.superview
-        }
-        return nil
-    }
-    
     // PreventAnnotationViewInteractionDelay: 1 of 2
     // Allows for noticeably faster zooms to the annotationview
     // Turns isZoomEnabled off and on immediately before and after a click on the map.
@@ -148,6 +160,43 @@ extension PostAnnotationView: UIGestureRecognizerDelegate {
         }
         return false
         //return (! [yourButton pointInside:[touch locationInView:yourButton] withEvent:nil]); this code is necessary in case the gesture recognizer is preventing the button press
+    }
+    
+}
+
+// MARK: - PanGesture
+
+extension PostAnnotationView {
+    
+    // Add a pan gesture captures the panning on map and prevents the post from being dismissed
+    private func setupPanGesture() {
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gestureRecognizer:)))
+        addGestureRecognizer(pan)
+    }
+    
+    @objc func handlePan(gestureRecognizer: UIPanGestureRecognizer) {
+        print("panning")
+        
+        switch gestureRecognizer.state {
+        case .began:
+            originalPanLocation = gestureRecognizer.location(in: postCalloutView)
+            break
+        case .changed:
+
+            break
+        case .ended:
+            let finalPanLocation = gestureRecognizer.location(in: postCalloutView)
+            let swipeLeft = originalPanLocation.x > finalPanLocation.x
+            if swipeLeft {
+                swipeDelegate?.handlePostViewSwipeLeft()
+            } else {
+                swipeDelegate?.handlePostViewSwipeRight()
+            }
+            break
+        default:
+            break
+        }
+            
     }
     
 }

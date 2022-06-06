@@ -113,55 +113,7 @@ extension PostView {
         likeButton.isSelected = false
         favoriteButton.isSelected = false
         
-        setupGestureRecognizersToPreventMapInteraction()
         backgroundBubbleView.transformIntoPostBubble(arrowPosition: bubbleTrianglePosition)
     }
     
-}
-
-// MARK: - Prevent drag / pan on mapView from dismissing post
-
-extension PostView: UIGestureRecognizerDelegate {
-    
-    var mapView: MKMapView? {
-        var view = superview
-        while view != nil {
-            if let mapView = view as? MKMapView { return mapView }
-            view = view?.superview
-        }
-        return nil
-    }
-    
-    // Add a pan gesture captures the panning on map and prevents the post from being dismissed
-    private func setupGestureRecognizersToPreventMapInteraction() {
-        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
-        addGestureRecognizer(pan)
-    }
-    
-    
-    @objc func handlePan(_ sender: UIPanGestureRecognizer) {
-        print("handle pan")
-    }
-    
-    private func setupGestureRecognizerToPreventIBActionDelay() {
-        let quickSelectGestureRecognizer = UITapGestureRecognizer()
-        quickSelectGestureRecognizer.delaysTouchesBegan = false
-        quickSelectGestureRecognizer.delaysTouchesEnded = false
-        quickSelectGestureRecognizer.numberOfTapsRequired = 1
-        quickSelectGestureRecognizer.numberOfTouchesRequired = 1
-        quickSelectGestureRecognizer.delegate = self
-        addGestureRecognizer(quickSelectGestureRecognizer)
-    }
-    
-    // If postView is rendered on a mapView, you must turn off isZoomEnabled upon
-    // interaction with the postView in order to prevent a 0.5 second delay which occurs on all
-    // interaction with post annotation view
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        mapView?.isZoomEnabled = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.mapView?.isZoomEnabled = true
-        }
-        return false
-        //return (! [yourButton pointInside:[touch locationInView:yourButton] withEvent:nil]); this code is necessary in case the gesture recognizer is preventing the button press
-    }
 }

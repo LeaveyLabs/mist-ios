@@ -14,11 +14,14 @@ class ExploreMapViewController: MapViewController {
     @IBOutlet weak var mistTitle: UIView!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var featuredIconButton: UIButton!
-        
+            
     // ExploreViewController
     var mySearchController: UISearchController!
     var resultsTableController: LiveResultsTableViewController!
     var filterMapModalVC: FilterViewController?
+    
+    var selectedAnnotationView: MKAnnotationView?
+    var selectedAnnotationIndex: Int = 0
 
     // PostsService
     var postsService: PostsService!
@@ -203,6 +206,9 @@ class ExploreMapViewController: MapViewController {
             } catch {
                 print(error)
             }
+            displayedAnnotations.sort()
+            //ideally:
+            //a sorting algorithm which: reduces the total summed distance between adjacent pins
         }
     }
     
@@ -224,6 +230,7 @@ class ExploreMapViewController: MapViewController {
             } catch {
                 print(error)
             }
+            displayedAnnotations.sort()
         }
     }
     
@@ -234,6 +241,7 @@ class ExploreMapViewController: MapViewController {
 extension ExploreMapViewController {
         
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        selectedAnnotationView = view
         mapView.isZoomEnabled = true // AnnotationQuickSelect: 3 of 3, just in case
         dismissFilter()
         if handlingSubmission {
@@ -252,18 +260,11 @@ extension ExploreMapViewController {
             mapView.userLocation.title = "Hey cutie"
         }
         else if let clusterAnnotation = view.annotation as? MKClusterAnnotation {
-            print("SELECTED CLUSTER")
             mapView.deselectAnnotation(view.annotation, animated: false)
             handleClusterAnnotationSelection(clusterAnnotation)
         }
         
-        //OH SHIT: here's the issue
-        //click on a postAnnotation from afar
-        //while zooming in, annotations in another cluster turn into a new cluster WITH the annotation you're currently zooming in on
-        //hmmm... ideally, we could 
-        
         else if let postAnnotationView = view as? PostAnnotationView {
-            print("SELECTED POST")
             slowFlyTo(lat: view.annotation!.coordinate.latitude + latitudeOffset,
                       long: view.annotation!.coordinate.longitude,
                       incrementalZoom: false,
@@ -276,7 +277,7 @@ extension ExploreMapViewController {
     }
 
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        print("deselected")
+        selectedAnnotationView = nil
     }
     
     override func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
@@ -392,4 +393,38 @@ extension ExploreMapViewController: PostDelegate, ShareActivityDelegate {
         }
         navigationController!.pushViewController(postVC, animated: true)
     }
+}
+
+//Swipe gestures
+
+extension ExploreMapViewController: AnnotationViewSwipeDelegate {
+
+    func handlePostViewSwipeLeft() {
+        deselectOneAnnotationIfItExists()
+        selectedAnnotationIndex += 1
+        if selectedAnnotationIndex == mapView.annotations.count {
+            selectedAnnotationIndex = 0
+        }
+        let nextAnnotation = displayedAnnotations[selectedAnnotationIndex]
+        mapView.selectAnnotation(nextAnnotation, animated: true)
+    }
+    
+    func handlePostViewSwipeRight() {
+        deselectOneAnnotationIfItExists()
+        selectedAnnotationIndex -= 1
+        displayedAnnotations.forEach { postAnnotation in
+            print(postAnnotation.coordinate)
+        }
+        mapView.annotations.forEach { postAnnotation in
+            print(postAnnotation.coordinate)
+        }
+        print(mapView.annotations.count) //124
+        print(displayedAnnotations.count) //123
+        if selectedAnnotationIndex == -1 {
+            selectedAnnotationIndex = mapView.annotations.count-1
+        }
+        let nextAnnotation = displayedAnnotations[selectedAnnotationIndex]
+        mapView.selectAnnotation(nextAnnotation, animated: true)
+    }
+    
 }

@@ -8,7 +8,7 @@ The custom MKAnnotation object representing the Golden Gate Bridge.
 import UIKit
 import MapKit
 
-class PostAnnotation: NSObject, MKAnnotation {
+class PostAnnotation: NSObject, MKAnnotation, Comparable {
     
     // This property must be key-value observable, which the `@objc dynamic` attributes provide.
     @objc dynamic var coordinate: CLLocationCoordinate2D
@@ -27,5 +27,12 @@ class PostAnnotation: NSObject, MKAnnotation {
     init(justWithCoordinate coordinate: CLLocationCoordinate2D) {
         self.coordinate = coordinate
         super.init()
+    }
+    
+    static func < (lhs: PostAnnotation, rhs: PostAnnotation) -> Bool {
+        let firstLocation = CLLocation(latitude: lhs.coordinate.latitude, longitude: lhs.coordinate.longitude)
+        let secondLocation = CLLocation(latitude: rhs.coordinate.latitude, longitude: rhs.coordinate.longitude)
+        let origin = CLLocation(latitude: 0, longitude: 0)
+        return firstLocation.distance(from: origin) < secondLocation.distance(from: origin)
     }
 }
