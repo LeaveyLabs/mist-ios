@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Launch View Controller-->
+        <!--Loading View Controller-->
         <scene sceneID="EHf-IW-A2E">
             <objects>
-                <viewController id="01J-lp-oVM" customClass="LaunchViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="01J-lp-oVM" customClass="LoadingViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -65,6 +65,9 @@
                             <constraint firstItem="YUN-1c-ewo" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="300" id="Tuf-xZ-EDc"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="heartImageView" destination="Imv-FP-rqQ" id="wIq-CO-8s1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -23,19 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let authNavVC = authSB.instantiateViewController(withIdentifier: Constants.SBID.VC.AuthNavigation)
             window?.rootViewController = authNavVC
         } else {
-            // Stay on loading screen while posts load (automatically happens)
-
-            //TODO: implement PostsService properly
-//            Task {
-//                PostsService.homePosts.newPosts()
-//            }
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                self.window?.rootViewController?
-                    .transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
-                                            viewControllerID: Constants.SBID.VC.TabBarController,
-                                            duration: 1) { _ in}
-            }
+            // Loading screen is rendered
         }
     }
 

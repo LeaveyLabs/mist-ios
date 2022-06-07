@@ -108,7 +108,7 @@
 		4783F3BB284D6DA20073357A /* ExploreMapViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4783F3BA284D6DA20073357A /* ExploreMapViewController+Search.swift */; };
 		478A7899284E708D0058C845 /* CLLocationCoordinate+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A7898284E708D0058C845 /* CLLocationCoordinate+Distance.swift */; };
 		478A789B284E73970058C845 /* CLLocationCoordiante+Midpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A789A284E73970058C845 /* CLLocationCoordiante+Midpoint.swift */; };
-		478A789E284EBD510058C845 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A789D284EBD510058C845 /* LaunchViewController.swift */; };
+		478A789E284EBD510058C845 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A789D284EBD510058C845 /* LoadingViewController.swift */; };
 		478A78A1284EBF180058C845 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 478A78A0284EBF180058C845 /* Launch.storyboard */; };
 		478BA279283DD37E00C35507 /* UITextField+Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA278283DD37E00C35507 /* UITextField+Padding.swift */; };
 		478BA27B283E77C100C35507 /* UINavigationController+Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */; };
@@ -316,7 +316,7 @@
 		4783F3BA284D6DA20073357A /* ExploreMapViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExploreMapViewController+Search.swift"; sourceTree = "<group>"; };
 		478A7898284E708D0058C845 /* CLLocationCoordinate+Distance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate+Distance.swift"; sourceTree = "<group>"; };
 		478A789A284E73970058C845 /* CLLocationCoordiante+Midpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordiante+Midpoint.swift"; sourceTree = "<group>"; };
-		478A789D284EBD510058C845 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		478A789D284EBD510058C845 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		478A78A0284EBF180058C845 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		478BA278283DD37E00C35507 /* UITextField+Padding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Padding.swift"; sourceTree = "<group>"; };
 		478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Completion.swift"; sourceTree = "<group>"; };
@@ -635,7 +635,7 @@
 				47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */,
 				4316238B2834F8A600169AA9 /* SpecialTabBarController.swift */,
 				43A05BDC2835008B0085A99B /* SpecialTabBar.swift */,
-				478A789D284EBD510058C845 /* LaunchViewController.swift */,
+				478A789D284EBD510058C845 /* LoadingViewController.swift */,
 			);
 			path = Misc;
 			sourceTree = "<group>";
@@ -1163,7 +1163,7 @@
 				47EE28F82840AE8200C6425C /* TestViewController.swift in Sources */,
 				477A6FD627DFB0450020F864 /* Color.swift in Sources */,
 				472A4BFF28408BD800FD52B7 /* DesignableView.swift in Sources */,
-				478A789E284EBD510058C845 /* LaunchViewController.swift in Sources */,
+				478A789E284EBD510058C845 /* LoadingViewController.swift in Sources */,
 				472A4BF928408BD800FD52B7 /* SpringButton.swift in Sources */,
 				4316238428343D3F00169AA9 /* SheetViewController.swift in Sources */,
 				47234BED28063D9C0031D7A5 /* NewMessageViewController.swift in Sources */,

@@ -30,8 +30,7 @@ class ExploreMapViewController: MapViewController {
         return postAnnotations.firstIndex(of: selected.annotation as! PostAnnotation)
     }
 
-    // PostsService
-    var postsService: PostsService!
+    // Post Loading
     var postFilter = PostFilter()
     
     // Flag for didSelect(annotation)
@@ -40,27 +39,18 @@ class ExploreMapViewController: MapViewController {
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         latitudeOffset = 0.00095
         navigationItem.titleView = mistTitle
         setupFilterButton()
         setupSearchBar()
         setupMapGestureRecognizers()
-        setupPostsService()
-        reloadPosts()
-        
-        super.viewDidLoad()
+        renderInitialPosts()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         //TODO: pull up search bar when returning to this VC after search via search button click
         //https://stackoverflow.com/questions/27951965/cannot-set-searchbar-as-firstresponder
-    }
-    
-    //MARK: - Setup
-    
-    func setupPostsService() {
-        postsService = PostsService()
-        postsService.setFilter(to: postFilter)
     }
     
     func setupFilterButton() {
@@ -183,8 +173,7 @@ class ExploreMapViewController: MapViewController {
                         posts.append(annotation.post)
                     }
                 }
-                let newVC = ResultsFeedViewController.resultsFeedViewController(feedType: .hotspot,
-                                                                                feedValue: clusterAnnotation.title!)
+                let newVC = ResultsFeedViewController.resultsFeedViewController(feedType: .hotspot, feedValue: clusterAnnotation.title!)
                 newVC.posts = posts
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     self.navigationController?.pushViewController(newVC, animated: true)
@@ -196,48 +185,44 @@ class ExploreMapViewController: MapViewController {
 
     }
     
-    //MARK: - DB Interaction
+    //MARK: - Getting posts
+    
+    func renderInitialPosts() {
+        renderPostsAsAnnotations(PostsService.initialPosts)
+    }
     
     func reloadPosts() {
         Task {
             do {
-                let loadedPosts = try await postsService.newPosts()
-                
-                let maxPostsToDisplay = 10000
-                postAnnotations = []
-                if loadedPosts.count > 0 {
-                    for index in 0...min(maxPostsToDisplay, loadedPosts.count-1) {
-                        let postAnnotation = PostAnnotation(withPost: loadedPosts[index])
-                        postAnnotations.append(postAnnotation)
-                    }
-                }
+                let loadedPosts = try await PostsService.newPosts()
+                renderPostsAsAnnotations(loadedPosts)
             } catch {
-                print(error)
+                CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
             }
-            postAnnotations.sort()
         }
     }
     
     func reloadPosts(afterReload: @escaping () -> Void?) {
         Task {
             do {
-                let loadedPosts = try await postsService.newPosts()
-                
-                //Can this be handled by postsService instead?
-                let maxPostsToDisplay = 10000
-                postAnnotations = []
-                if loadedPosts.count > 0 {
-                    for index in 0...min(maxPostsToDisplay, loadedPosts.count-1) {
-                        let postAnnotation = PostAnnotation(withPost: loadedPosts[index])
-                        postAnnotations.append(postAnnotation)
-                    }
-                }
+                let loadedPosts = try await PostsService.newPosts()
+                renderPostsAsAnnotations(loadedPosts)
                 afterReload()
             } catch {
-                print(error)
+                CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
             }
-            postAnnotations.sort()
         }
+    }
+    
+    func renderPostsAsAnnotations(_ posts: [Post]) {
+        guard posts.count > 0 else { return }
+        let maxPostsToRender = 10000
+        postAnnotations = []
+        for index in 0...min(maxPostsToRender, posts.count-1) {
+            let postAnnotation = PostAnnotation(withPost: posts[index])
+            postAnnotations.append(postAnnotation)
+        }
+        postAnnotations.sort()
     }
     
 }
@@ -335,12 +320,8 @@ extension ExploreMapViewController: FilterDelegate {
     
     func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool, _ afterFilterUpdate: @escaping () -> Void) {
     
-        //Should eventually remove one of these two and have filter just saved in one location
-        postsService.setFilter(to: newPostFilter)
         postFilter = newPostFilter
-        
         updateFilterButtonLabel()
-        
         if shouldReload {
             reloadPosts(afterReload: afterFilterUpdate)
         }
