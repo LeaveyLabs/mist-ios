@@ -15,23 +15,30 @@ class LoadingViewController: UIViewController {
         super.viewDidLoad()
         
         Task {
-            do {
-                try await PostsService.loadInitialPosts()
-                self.flyHeartUp()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
-                                                viewControllerID: Constants.SBID.VC.TabBarController,
-                                                duration: 1) { _ in}
+            var werePostsLoaded = false
+            while !werePostsLoaded {
+                do {
+                    try await PostsService.loadInitialPosts()
+                    werePostsLoaded = true
+                    flyHeartUp()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
+                                                    viewControllerID: Constants.SBID.VC.TabBarController,
+                                                    duration: 1) { _ in}
+                    }
+                } catch {
+                    CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
                 }
-            } catch {
-                CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
             }
         }
     }
     
+    // This function has the heart fly far off the screen (3000px above) with a longer duration
+    // which makes the .curveEaseIn animation look a little better. Plus, we can be confident
+    // the heart will have flown off the screen by then
     func flyHeartUp() {
         let yDif: CGFloat = 3000
-        let yPosition = heartImageView.frame.origin.y - yDif // Slide off the screen
+        let yPosition = heartImageView.frame.origin.y - yDif
 
         let xPosition = heartImageView.frame.origin.x
         let width = heartImageView.frame.size.width
