@@ -262,9 +262,15 @@ extension MapViewController: MKMapViewDelegate {
 //        }
         
         // Deselect selected annotation upon moving
-//        if !cameraIsFlying {
-//            deselectOneAnnotationIfItExists()
-//        }
+        if !cameraIsFlying {
+//            if mapView.selectedAnnotations.count == 2 {
+//                mapView.deselectAnnotation(mapView.selectedAnnotations[1], animated: true)
+//            } else if mapView.selectedAnnotations.count == 1 {
+//                mapView.deselectAnnotation(mapView.selectedAnnotations[0], animated: true)
+//            }
+
+            deselectOneAnnotationIfItExists()
+        }
         
         // Toggle text of 3d button
         isThreeDimensional = mapView.camera.pitch != 0
@@ -457,15 +463,12 @@ extension MapViewController {
                                          fromDistance: newDistance,
                                          pitch: newPitch,
                                          heading: mapView.camera.heading)
-//        UIView.animate(withDuration: 0.4,
-//                       delay: 0,
-//                       options: .curveEaseInOut,
-//                       animations: {
-//            self.mapView.camera = rotationCamera
-//        }) {_ in
-//            print(self.mapView.camera.centerCoordinateDistance)
-//        }
-        mapView.setCamera(rotationCamera, animated: true)
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: {
+            self.mapView.camera = rotationCamera
+        })
     }
     
     func deselectOneAnnotationIfItExists() {

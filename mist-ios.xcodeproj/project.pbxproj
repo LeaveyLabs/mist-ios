@@ -632,10 +632,10 @@
 		478A789F284EBD5A0058C845 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
+				478A789D284EBD510058C845 /* LoadingViewController.swift */,
 				47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */,
 				4316238B2834F8A600169AA9 /* SpecialTabBarController.swift */,
 				43A05BDC2835008B0085A99B /* SpecialTabBar.swift */,
-				478A789D284EBD510058C845 /* LoadingViewController.swift */,
 			);
 			path = Misc;
 			sourceTree = "<group>";

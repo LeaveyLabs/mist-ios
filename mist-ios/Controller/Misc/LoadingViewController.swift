@@ -9,10 +9,19 @@ import UIKit
 
 class LoadingViewController: UIViewController {
     
+    let SHOULD_ANIMATE = false
+    var FADING_ANIMATION_DELAY = 0.0
+    var FADING_ANIMATION_DURATION = 0.0
+
     @IBOutlet weak var heartImageView: SpringImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if SHOULD_ANIMATE {
+            FADING_ANIMATION_DELAY = 0.7
+            FADING_ANIMATION_DELAY = 1.2
+        }
         
         Task {
             var werePostsLoaded = false
@@ -21,10 +30,10 @@ class LoadingViewController: UIViewController {
                     try await PostsService.loadInitialPosts()
                     werePostsLoaded = true
                     flyHeartUp()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + FADING_ANIMATION_DELAY) {
                         self.transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
                                                     viewControllerID: Constants.SBID.VC.TabBarController,
-                                                    duration: 1) { _ in}
+                                                    duration: self.FADING_ANIMATION_DURATION) { _ in}
                     }
                 } catch {
                     CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
