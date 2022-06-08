@@ -307,11 +307,15 @@ extension MapViewController: MKMapViewDelegate {
 
 extension MapViewController: CLLocationManagerDelegate {
  
-    //called upon creationg of LocationManager and upon permission changes (either from within app or in settings)
+    //called upon creation of LocationManager and upon permission changes (either from within app or in settings)
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse || status == .authorizedAlways {
             locationManager.startUpdatingLocation()
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        CustomSwiftMessages.showError(errorDescription: "Something went wrong")
     }
 }
     

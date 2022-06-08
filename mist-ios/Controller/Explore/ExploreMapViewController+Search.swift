@@ -7,11 +7,6 @@
 
 import Foundation
 
-///reference for search controllers
-///https://developer.apple.com/documentation/uikit/view_controllers/using_suggested_searches_with_a_search_controller
-///https://developer.apple.com/documentation/uikit/view_controllers/displaying_searchable_content_by_using_a_search_controller
-///
-
 //MARK: - SearchViewController Extension
     
 extension ExploreMapViewController {
@@ -25,9 +20,6 @@ extension ExploreMapViewController {
         filterMapModalVC?.dismiss(animated: false)
     }
     
-    //TODO: add custom animations
-    //https://stackoverflow.com/questions/51675063/how-to-present-view-controller-from-left-to-right-in-ios
-    //https://github.com/HeroTransitions/Hero
     @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
         dismissPost()
         let myAccountNavigation = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation)
@@ -106,8 +98,7 @@ extension ExploreMapViewController: UISearchBarDelegate {
 
         switch resultsTableController.selectedScope {
             case 0:
-                //TODO: idea: what if you present a new navigation controller , with its root view controller as the newQueryFeedViewController. will this fix aesthetic issues?
-            let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewController(feedType: .query, feedValue: text)
+                let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewController(feedType: .query, feedValue: text)
                 navigationController?.pushViewController(newQueryFeedViewController, animated: true)
             case 1:
                 break

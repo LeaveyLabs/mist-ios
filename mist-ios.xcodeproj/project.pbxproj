@@ -38,6 +38,8 @@
 		4700F8BE27DD807C006C2E08 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8BC27DD807C006C2E08 /* CommentCell.swift */; };
 		4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4700F8BD27DD807C006C2E08 /* CommentCell.xib */; };
 		4700F8C627DE4652006C2E08 /* ExploreMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8C527DE4652006C2E08 /* ExploreMapViewController.swift */; };
+		47061CCD28510DD80042F04C /* MKPointOfInterestCategory+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47061CCC28510DD80042F04C /* MKPointOfInterestCategory+Extension.swift */; };
+		47061CD028510E4C0042F04C /* MKPlacemark+Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47061CCF28510E4C0042F04C /* MKPlacemark+Address.swift */; };
 		470F271327DE6F5800C6DDAF /* LiveResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */; };
 		470F271827DE758100C6DDAF /* WordResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271627DE758100C6DDAF /* WordResultCell.swift */; };
 		470F271927DE758100C6DDAF /* WordResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 470F271727DE758100C6DDAF /* WordResultCell.xib */; };
@@ -247,6 +249,8 @@
 		4700F8BC27DD807C006C2E08 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		4700F8BD27DD807C006C2E08 /* CommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
 		4700F8C527DE4652006C2E08 /* ExploreMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapViewController.swift; sourceTree = "<group>"; };
+		47061CCC28510DD80042F04C /* MKPointOfInterestCategory+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKPointOfInterestCategory+Extension.swift"; sourceTree = "<group>"; };
+		47061CCF28510E4C0042F04C /* MKPlacemark+Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKPlacemark+Address.swift"; sourceTree = "<group>"; };
 		470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveResultsTableViewController.swift; sourceTree = "<group>"; };
 		470F271627DE758100C6DDAF /* WordResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordResultCell.swift; sourceTree = "<group>"; };
 		470F271727DE758100C6DDAF /* WordResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WordResultCell.xib; sourceTree = "<group>"; };
@@ -477,6 +481,16 @@
 			path = Explore;
 			sourceTree = "<group>";
 		};
+		47061CCE28510E230042F04C /* MapThings */ = {
+			isa = PBXGroup;
+			children = (
+				478A789C284E739E0058C845 /* CLLocationCoordinate */,
+				47061CCC28510DD80042F04C /* MKPointOfInterestCategory+Extension.swift */,
+				47061CCF28510E4C0042F04C /* MKPlacemark+Address.swift */,
+			);
+			path = MapThings;
+			sourceTree = "<group>";
+		};
 		470BD12D27DB1D8700DD4622 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
@@ -670,7 +684,7 @@
 		47A3D71B27D593F0003DBEA5 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				478A789C284E739E0058C845 /* CLLocationCoordinate */,
+				47061CCE28510E230042F04C /* MapThings */,
 				47F93C4F284C065D00017947 /* UIViewController */,
 				474A4AB3284A952200B39A98 /* UITextView */,
 				474A4AB2284A950100B39A98 /* UITextField */,
@@ -826,12 +840,12 @@
 				47E74E0B27CA0FFE00467A0C /* AppDelegate.swift */,
 				47E74E0D27CA0FFE00467A0C /* SceneDelegate.swift */,
 				472DB0882832190000658DB5 /* Objective-C */,
-				4369DB08282EC413009215D4 /* Socket */,
 				47A3D71B27D593F0003DBEA5 /* Extensions */,
 				4726C6AF27CA1DE90093400C /* Enums */,
 				47D9FD1F28457D83004E4BE3 /* Context */,
 				47E74E4027CA152800467A0C /* Utils */,
 				47E74E3F27CA152100467A0C /* APIs */,
+				4369DB08282EC413009215D4 /* Socket */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -1180,6 +1194,7 @@
 				478BA279283DD37E00C35507 /* UITextField+Padding.swift in Sources */,
 				4746508527D83F3E0014217C /* MistUITextView.swift in Sources */,
 				4780E5B828330C570012B741 /* MessageKitUser.swift in Sources */,
+				47061CCD28510DD80042F04C /* MKPointOfInterestCategory+Extension.swift in Sources */,
 				433970DF27FE501700876026 /* WelcomeTutorialViewController.swift in Sources */,
 				47D9FD1E28457D72004E4BE3 /* NewPostContext.swift in Sources */,
 				472A4C0828408BD800FD52B7 /* LoadingView.swift in Sources */,
@@ -1231,6 +1246,7 @@
 				4700F8BA27DD7BE3006C2E08 /* Flag.swift in Sources */,
 				477499892832D0CF0067C26C /* ChatViewController.swift in Sources */,
 				470F271F27DE9ABE00C6DDAF /* ResultsFeedViewController.swift in Sources */,
+				47061CD028510E4C0042F04C /* MKPlacemark+Address.swift in Sources */,
 				4369DB0A282EC436009215D4 /* MessageThread.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
