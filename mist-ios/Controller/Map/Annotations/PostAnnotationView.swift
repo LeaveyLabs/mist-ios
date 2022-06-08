@@ -16,6 +16,14 @@ protocol AnnotationViewSwipeDelegate {
 final class PostAnnotationView: MKMarkerAnnotationView {
     
     var postCalloutView: PostView? // the postAnnotationView's callout view
+    var mapView: MKMapView? {
+        var view = superview
+        while view != nil {
+            if let mapView = view as? MKMapView { return mapView }
+            view = view?.superview
+        }
+        return nil
+    }
     
     // Panning gesture
     var originalPanLocation: CGPoint = .init(x: 0, y: 0)
@@ -40,6 +48,7 @@ final class PostAnnotationView: MKMarkerAnnotationView {
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         setupPanGesture()
+        setupTapGestureRecognizerToPreventInteractionDelay()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -96,7 +105,6 @@ final class PostAnnotationView: MKMarkerAnnotationView {
     func loadPostView(on mapView: MKMapView,
                       withDelay delay: Double,
                       withPostDelegate postDelegate: ExploreMapViewController) {
-        
         swipeDelegate = postDelegate
 
         postCalloutView = PostView()
@@ -130,6 +138,33 @@ final class PostAnnotationView: MKMarkerAnnotationView {
 
 }
 
+//MARK: - PreventAnnotationViewInteractionDelay
+// Similar to the tapGestureRecognizer we added to mapView to prevent a delay when tapping annotation view,
+// we also add a tapGestureRecognizer here to prevent a delay when interacting w post
+//https://stackoverflow.com/questions/35639388/tapping-an-mkannotation-to-select-it-is-really-slow
+
+extension PostAnnotationView: UIGestureRecognizerDelegate {
+    
+    private func setupTapGestureRecognizerToPreventInteractionDelay() {
+        let tapRecognizer = UITapGestureRecognizer()
+        tapRecognizer.delaysTouchesBegan = false
+        tapRecognizer.delaysTouchesEnded = false
+        tapRecognizer.numberOfTapsRequired = 1
+        tapRecognizer.numberOfTouchesRequired = 1
+        tapRecognizer.delegate = self
+        self.addGestureRecognizer(tapRecognizer)
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        mapView?.isZoomEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.mapView?.isZoomEnabled = true
+        }
+        return false
+    }
+    
+}
+
 // MARK: - PanGesture
 
 extension PostAnnotationView {
@@ -160,7 +195,6 @@ extension PostAnnotationView {
         default:
             break
         }
-            
     }
     
 }
