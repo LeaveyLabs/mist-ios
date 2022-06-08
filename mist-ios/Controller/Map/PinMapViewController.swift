@@ -153,7 +153,7 @@ class PinMapViewController: MapViewController {
         super.mapViewDidChangeVisibleRegion(mapView)
         
         // This handles the case of dragging and panning
-        if !cameraIsFlying {
+        if !isCameraFlying {
             if (sheetPresentationController?.selectedDetentIdentifier?.rawValue != "xs") {
                 print(sheetPresentationController?.selectedDetentIdentifier?.rawValue)
                 pinMapModalVC?.toggleSheetSizeTo(sheetSize: "xs")

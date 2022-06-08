@@ -39,9 +39,10 @@ class MapViewController: UIViewController {
     // Create a location manager to trigger user tracking
     private let locationManager = CLLocationManager()
     
-    var cameraIsFlying: Bool = false {
+    var isCameraFlyingOutAndIn: Bool = false
+    var isCameraFlying: Bool = false {
         didSet {
-            toggleMapInteractionEnabled(to: !cameraIsFlying)
+            toggleMapInteractionEnabled(to: !isCameraFlying)
         }
     }
     var modifyingMap: Bool = false
@@ -102,14 +103,14 @@ class MapViewController: UIViewController {
         mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: includeCategories))
         
         // CAMERA
-        cameraIsFlying = true
+        isCameraFlying = true
         registerMapAnnotationViews()
         centerMapOnUSC()
         mapView.camera = MKMapCamera(lookingAtCenter: mapView.centerCoordinate,
                                      fromDistance: 4000,
                                      pitch: 20,
                                      heading: mapView.camera.heading)
-        cameraIsFlying = false
+        isCameraFlying = false
     }
     
     // NOTE: If you want to change the clustering identifier based on location, you should probably delink the annotationview and reuse identifier like below (watch the wwdc video again) so you can change the constructor of AnnotationViews/ClusterANnotationViews to include map height
@@ -218,10 +219,15 @@ class MapViewController: UIViewController {
 //https://developer.apple.com/documentation/mapkit/mkmapviewdelegate
 extension MapViewController: MKMapViewDelegate {
     
-    //updates after each view change is completed
+    // Updates after each view change is completed
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        if (cameraIsFlying) {
-            cameraIsFlying = false //so that when the user starts dragging again, the post will disappear
+        // When the camera flies out and in, it pauses between animations and this function is called. we need to wait to have it
+        if isCameraFlying && !isCameraFlyingOutAndIn {
+            isCameraFlying = false
+        }
+        if isCameraFlying && isCameraFlyingOutAndIn {
+            isCameraFlyingOutAndIn = false //so that on the next call of regionDidChangeAnimated, aka when the camera is done flying back in, isCameraFlying will be set to false
+            //note: this doesnt work for more than one chaining... for that. you'll have to set isCameraFlyingOutAndIn in the last animation block
         }
     }
     
@@ -262,13 +268,7 @@ extension MapViewController: MKMapViewDelegate {
 //        }
         
         // Deselect selected annotation upon moving
-        if !cameraIsFlying {
-//            if mapView.selectedAnnotations.count == 2 {
-//                mapView.deselectAnnotation(mapView.selectedAnnotations[1], animated: true)
-//            } else if mapView.selectedAnnotations.count == 1 {
-//                mapView.deselectAnnotation(mapView.selectedAnnotations[0], animated: true)
-//            }
-
+        if !isCameraFlying {
             deselectOneAnnotationIfItExists()
         }
         
@@ -330,7 +330,7 @@ extension MapViewController {
                    incrementalZoom: Bool,
                    withDuration duration: Double,
                    completion: @escaping (Bool) -> Void) {
-        cameraIsFlying = true
+        isCameraFlying = true
         var newCLLDistance: Double = 500
         let destination = CLLocationCoordinate2D(latitude: lat, longitude: long)
         if incrementalZoom {
@@ -345,7 +345,9 @@ extension MapViewController {
                        options: .curveEaseInOut,
                        animations: {
             self.mapView.camera = finalCamera
-        }, completion: completion)
+        }) { finished in
+            completion(finished)
+        }
     }
     
     //You could make this a for loop, where you create like 10 midpoints between the origin and destination, and animate between all of them
@@ -353,7 +355,6 @@ extension MapViewController {
                            long: Double,
                            withDuration duration: Double,
                            completion: @escaping (Bool) -> Void) {
-        cameraIsFlying = true
         var finalDistance: Double = 500
         let destination = CLLocationCoordinate2D(latitude: lat, longitude: long)
         let finalCamera = MKMapCamera(lookingAtCenter: destination,
@@ -371,6 +372,8 @@ extension MapViewController {
                                             fromDistance: midwayDistance,
                                          pitch: 30,
                                          heading: 0)
+        isCameraFlying = true
+        isCameraFlyingOutAndIn = true
         UIView.animate(withDuration: duration*2,
                        delay: 0,
                        options: .curveEaseIn,
@@ -378,7 +381,7 @@ extension MapViewController {
             self.mapView.camera = preRotationCamera
         }) { _ in
             UIView.animate(withDuration: duration*2,
-                           delay: 0,
+                           delay: 0.1,
                            options: .curveEaseOut,
                            animations: {
                 self.mapView.camera = finalCamera
@@ -406,7 +409,7 @@ extension MapViewController {
         //so the CCDDistance is decreasing unintentionally
         
         // Update the camera
-        cameraIsFlying = true
+        isCameraFlying = true
         let rotationCamera = MKMapCamera(lookingAtCenter: mapView.camera.centerCoordinate,
                                          fromDistance: mapView.camera.centerCoordinateDistance,
                                          pitch: newPitch,
@@ -455,7 +458,7 @@ extension MapViewController {
     }
     
     func zoomByAFactorOf(_ factor: Double) {
-        cameraIsFlying = true
+        isCameraFlying = true
         let newDistance = mapView.camera.centerCoordinateDistance * factor
         let newPitch = min(mapView.camera.pitch, 30) //I use 30 instead of 50 just to add the extra pitch transition to make it more dnamic when zooming out
         //Note: you have to actually set a newPitch value like above. It seems that if you use the old pitch value for rotationCamera, sometimes the camera won't actually be changed for some reason

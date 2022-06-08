@@ -66,8 +66,8 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         } else {
             glyphTintColor = .white
             markerTintColor = mistUIColor()
-            if let postCalloutView = postCalloutView, postCalloutView.animation != "" {
-                postCalloutView.fadeOut(duration: 0.5, delay: 0, completion: { Bool in
+            if let postCalloutView = postCalloutView {
+                postCalloutView.fadeOut(duration: 0.25, delay: 0, completion: { Bool in
                     postCalloutView.isHidden = true
                     postCalloutView.removeFromSuperview()
                 })
@@ -126,10 +126,6 @@ final class PostAnnotationView: MKMarkerAnnotationView {
 //
 //        }
         postCalloutView.fadeIn(duration: 0.2, delay: delay - 0.15)
-//        postCalloutView.animation = "fadeIn"
-//        postCalloutView.duration = 0.2
-//        postCalloutView.delay = 4
-//        postCalloutView.animate()
     }
 
 }
