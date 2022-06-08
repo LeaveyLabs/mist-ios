@@ -98,7 +98,8 @@ import MapKit
 
 extension PostView {
     
-    // Note: the constraints for the PostView should already be set-up when this is called
+    // Note: the constraints for the PostView should already be set-up when this is called.
+    // Otherwise you'll get loads of constraint errors in the console
     func configurePost(post: Post, bubbleTrianglePosition: BubbleTrianglePosition) {
         self.post = post
         timestampLabel.text = getFormattedTimeString(postTimestamp: post.timestamp)

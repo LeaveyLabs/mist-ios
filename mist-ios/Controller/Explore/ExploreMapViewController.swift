@@ -248,6 +248,8 @@ class ExploreMapViewController: MapViewController {
 extension ExploreMapViewController {
         
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        print("DID SELECT:")
+        print(view.annotation?.title)
         if view.annotation is MKUserLocation {
             mapView.deselectAnnotation(view.annotation, animated: false)
             mapView.userLocation.title = "Hey cutie"
@@ -298,6 +300,8 @@ extension ExploreMapViewController {
     }
 
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        print("DID DESELECT:")
+        print(view.annotation?.title)
         selectedAnnotationView = nil
     }
     
@@ -389,7 +393,8 @@ extension ExploreMapViewController: AnnotationViewSwipeDelegate {
     func handlePostViewSwipeRight() {
         guard var index = selectedAnnotationIndex else { return }
 
-        deselectOneAnnotationIfItExists()
+        let selectedAnnotationView = selectedAnnotationView as! PostAnnotationView
+        mapView.deselectAnnotation(selectedAnnotationView.annotation, animated: true)
         index += 1
         if index == postAnnotations.count {
             index = 0
@@ -402,14 +407,13 @@ extension ExploreMapViewController: AnnotationViewSwipeDelegate {
     func handlePostViewSwipeLeft() {
         guard var index = selectedAnnotationIndex else { return }
         
-        let pav = selectedAnnotationView as! PostAnnotationView
-        let postView = pav.postCalloutView!
+        //        let postView = pav.postCalloutView!
+        //        postView.animation = "slideLeft"
+        //        postView.duration = 2
+        //        postView.rever
         
-//        postView.animation = "slideLeft"
-//        postView.duration = 2
-//        postView.rever
-
-        deselectOneAnnotationIfItExists()
+        let selectedAnnotationView = selectedAnnotationView as! PostAnnotationView
+        mapView.deselectAnnotation(selectedAnnotationView.annotation, animated: true)
         index -= 1
         if index == -1 {
             index = postAnnotations.count-1
