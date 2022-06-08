@@ -23,7 +23,7 @@ import MapKit
     @IBOutlet weak var moreButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var likeButton: UIButton!
-    @IBOutlet weak var likeLabelButton: UIButton! // In order to prevent the post from dismissing, I either had to a) remove the likeLabel from the stackview and abandon stackview, or b) turn likeLabel into a button which acts as a label. I chose the second option, because stackviews are great.
+    @IBOutlet weak var likeLabelButton: UIButton! // We can't have the likeButton expand the whole stackview, and we also need a button in the rest of the stackview to prevent the post from being dismissed.
     
     var postDelegate: PostDelegate?
     var post: Post!
