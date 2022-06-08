@@ -225,7 +225,6 @@ extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         // When the camera flies out and in, it pauses between animations and this function is called. we need to wait to have it
         if isCameraFlying && !isCameraFlyingOutAndIn {
-            print("setting is camera flying to false")
             isCameraFlying = false
         }
         if isCameraFlying && isCameraFlyingOutAndIn {

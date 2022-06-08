@@ -1173,6 +1173,21 @@
             </objects>
             <point key="canvasLocation" x="3570.7692307692305" y="-794.07582938388623"/>
         </scene>
+        <!--Map Search View Controller-->
+        <scene sceneID="C53-gF-HB4">
+            <objects>
+                <viewController storyboardIdentifier="MapSearchViewController" id="eTn-2g-Sle" customClass="MapSearchViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Yq4-rh-VZN">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="8CM-LN-k57"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Upn-4E-Zjz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1763" y="-168"/>
+        </scene>
         <!--Post View Controller-->
         <scene sceneID="FdI-xE-i1Q">
             <objects>

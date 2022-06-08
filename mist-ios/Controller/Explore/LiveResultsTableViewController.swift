@@ -12,7 +12,7 @@ class LiveResultsTableViewController: UITableViewController {
     //MARK: -Properties
         
     /// Data models for the table view.
-    var selectedScope = 0
+    var selectedScope: MapSearchScope = .init(rawValue: 0)!
     var liveResults = [Any]()
     
     @IBOutlet weak var resultsLabel: UILabel!
@@ -24,8 +24,6 @@ class LiveResultsTableViewController: UITableViewController {
         super.viewDidLoad()
         let nib = UINib(nibName: Constants.SBID.Cell.WordResult, bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: Constants.SBID.Cell.WordResult)
-        let nib2 = UINib(nibName: Constants.SBID.Cell.UserResult, bundle: nil)
-        tableView.register(nib2, forCellReuseIdentifier: Constants.SBID.Cell.UserResult)
     }
     
     // MARK: - UITableViewDataSource
@@ -35,14 +33,18 @@ class LiveResultsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if selectedScope == 0 {
+        switch selectedScope {
+        case .locatedAt:
+            return UITableViewCell()
+        case .containing:
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.WordResult, for: indexPath) as! WordResultCell
             cell.configureWordCell(word: liveResults[indexPath.row] as! Word, parent: self)
             return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.UserResult, for: indexPath) as! UserResultCell
-            cell.configureUserCell(user: liveResults[indexPath.row] as! User, parent: self)
-            return cell
         }
+        
+        //Not allowing searching for users for now
+//            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.UserResult, for: indexPath) as! UserResultCell
+//            cell.configureUserCell(user: liveResults[indexPath.row] as! User, parent: self)
+//            return cell
     }
 }

@@ -15,9 +15,15 @@ extension ExploreMapViewController {
     
     @IBAction func searchButtonDidPressed(_ sender: UIBarButtonItem) {
         dismissPost()
-        present(mySearchController, animated: true)
-        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //eventually replace this with "dismissFilter()" when completion handler is added
-        filterMapModalVC?.dismiss(animated: false)
+        let mapSearchVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MapSearch)
+        mapSearchVC.modalPresentationStyle = .fullScreen
+        filterMapModalVC?.dismiss(animated: false) //same as above^
+        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //makes the transition more seamless
+        self.navigationController?.present(mapSearchVC, animated: true, completion: nil)
+        
+//        present(mySearchController, animated: true)
+//        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //eventually replace this with "dismissFilter()" when completion handler is added
+//        filterMapModalVC?.dismiss(animated: false)
     }
     
     @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
@@ -56,6 +62,10 @@ extension ExploreMapViewController: UISearchControllerDelegate {
         definesPresentationContext = true //false by default
         
         //searchBar
+        mySearchController.searchBar.scopeButtonTitles = []
+        MapSearchScope.allCases.forEach { mapSearchScope in
+            mySearchController.searchBar.scopeButtonTitles?.append(mapSearchScope.displayName)
+        }
         mySearchController.searchBar.tintColor = .darkGray
         mySearchController.searchBar.delegate = self // Monitor when the search button is tapped.
         mySearchController.searchBar.autocapitalizationType = .none
@@ -78,8 +88,6 @@ extension ExploreMapViewController: UISearchControllerDelegate {
     
     func willDismissSearchController(_ searchController: UISearchController) {
         Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-        print("will dismiss sc")
-//        navigationController?.restoreHairline()
         navigationItem.searchController = .none
     }
     
@@ -97,17 +105,17 @@ extension ExploreMapViewController: UISearchBarDelegate {
         guard let text = mySearchController.searchBar.text else { return }
 
         switch resultsTableController.selectedScope {
-            case 0:
-                let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewController(feedType: .query, feedValue: text)
-                navigationController?.pushViewController(newQueryFeedViewController, animated: true)
-            case 1:
-                break
-            default: break
+        case .locatedAt:
+            break
+        case .containing:
+            let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewController(feedType: .query, feedValue: text)
+            navigationController?.pushViewController(newQueryFeedViewController, animated: true)
         }
     }
     
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        resultsTableController.selectedScope = selectedScope
+        guard let newSelectedScope = MapSearchScope(rawValue: selectedScope) else { return }
+        resultsTableController.selectedScope = newSelectedScope
         resultsTableController.liveResults = []
         updateSearchResults(for: mySearchController)
     }
@@ -126,19 +134,16 @@ extension ExploreMapViewController: UISearchBarDelegate {
 extension ExploreMapViewController: UITableViewDelegate {
         
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+
         switch resultsTableController.selectedScope {
-        case 0:
+        case .locatedAt:
+            break
+        case .containing:
             let word = resultsTableController.liveResults[indexPath.row] as! Word
             let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewController(feedType: .query, feedValue: word.text)
             navigationController?.pushViewController(newQueryFeedViewController, animated: true)
-        case 1:
-            break
-            //let profile = liveResults[indexPath.row] as! Profile
-            //TODO: navigate to profile page
-        default: break
         }
-        
-        tableView.deselectRow(at: indexPath, animated: false)
     }
 }
 
@@ -163,12 +168,10 @@ extension ExploreMapViewController: UISearchResultsUpdating {
                 do {
                     resultsTableController.resultsLabel.text = "Searching..."
                     switch resultsController.selectedScope {
-                    case 0:
+                    case .locatedAt:
+                        break
+                    case .containing:
                         resultsController.liveResults = try await WordAPI.fetchWords(text: text)
-                    case 1:
-                        print("doing a profile search with: " + text)
-                        resultsController.liveResults = try await UserAPI.fetchUsersByText(containing: text)
-                    default: break
                     }
                     resultsController.tableView.reloadData()
                     resultsController.resultsLabel.text = resultsController.liveResults.isEmpty ? "No items found": String(format:"Items found: %d",resultsController.liveResults.count)
