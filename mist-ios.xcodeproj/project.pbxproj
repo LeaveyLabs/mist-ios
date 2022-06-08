@@ -80,6 +80,7 @@
 		472A4C0728408BD800FD52B7 /* UnwindSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A4BEA28408BD800FD52B7 /* UnwindSegue.swift */; };
 		472A4C0828408BD800FD52B7 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A4BEB28408BD800FD52B7 /* LoadingView.swift */; };
 		472A4C0A28408BD800FD52B7 /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A4BED28408BD800FD52B7 /* AsyncImageView.swift */; };
+		472F8D1A28505F4600DB69C4 /* PostDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472F8D1928505F4600DB69C4 /* PostDelegate.swift */; };
 		473B5A222831C8B200BD1168 /* Alamofire.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 473B5A212831C8B200BD1168 /* Alamofire.xcframework */; };
 		473B5A232831C8B200BD1168 /* Alamofire.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 473B5A212831C8B200BD1168 /* Alamofire.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		473B5A262831C8B400BD1168 /* Starscream.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 473B5A252831C8B400BD1168 /* Starscream.xcframework */; };
@@ -288,6 +289,7 @@
 		472A4BEA28408BD800FD52B7 /* UnwindSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnwindSegue.swift; sourceTree = "<group>"; };
 		472A4BEB28408BD800FD52B7 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		472A4BED28408BD800FD52B7 /* AsyncImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncImageView.swift; sourceTree = "<group>"; };
+		472F8D1928505F4600DB69C4 /* PostDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDelegate.swift; sourceTree = "<group>"; };
 		473B5A212831C8B200BD1168 /* Alamofire.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Alamofire.xcframework; path = Carthage/Build/Alamofire.xcframework; sourceTree = "<group>"; };
 		473B5A252831C8B400BD1168 /* Starscream.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Starscream.xcframework; path = Carthage/Build/Starscream.xcframework; sourceTree = "<group>"; };
 		473CAF812832A6EB008D8807 /* mist-ios.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "mist-ios.xcconfig"; sourceTree = "<group>"; };
@@ -888,6 +890,7 @@
 			children = (
 				479AA1F227DCF2BD00EA0DFC /* PostViewController.swift */,
 				47C1D49027DF00B200970B3D /* MoreViewController.swift */,
+				472F8D1928505F4600DB69C4 /* PostDelegate.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -1190,6 +1193,7 @@
 				474A5DAA27F40CB1004215F9 /* UISegmentedControl+Twitter.swift in Sources */,
 				472A4BF428408BD800FD52B7 /* SpringImageView.swift in Sources */,
 				47AC881F28480AE1000150CA /* UIButton+RightSideImage.swift in Sources */,
+				472F8D1A28505F4600DB69C4 /* PostDelegate.swift in Sources */,
 				478A7899284E708D0058C845 /* CLLocationCoordinate+Distance.swift in Sources */,
 				474A5DA827F4079D004215F9 /* MyProfileViewController.swift in Sources */,
 				4700F8B727DD7BBA006C2E08 /* VoteAPI.swift in Sources */,

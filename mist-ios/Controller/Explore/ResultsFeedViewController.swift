@@ -140,9 +140,9 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
     
 }
 
-//MARK: - Post Delegation
+//MARK: - Post Delegation: functions with implementations unique to this class
 
-extension ResultsFeedViewController: PostDelegate, ShareActivityDelegate {
+extension ResultsFeedViewController: PostDelegate {
     
     func backgroundDidTapped(post: Post) {
         sendToPostViewFor(post, withRaisedKeyboard: false)
@@ -150,37 +150,6 @@ extension ResultsFeedViewController: PostDelegate, ShareActivityDelegate {
     
     func commentDidTapped(post: Post) {
         sendToPostViewFor(post, withRaisedKeyboard: true)
-    }
-    
-    func moreDidTapped(post: Post) {
-        let moreVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.More) as! MoreViewController
-        moreVC.loadViewIfNeeded() //doesnt work without this function call
-        moreVC.shareDelegate = self
-        present(moreVC, animated: true)
-    }
-    
-    func dmDidTapped(post: Post) {
-        let newMessageNavVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewMessageNavigation) as! UINavigationController
-        newMessageNavVC.modalPresentationStyle = .fullScreen
-        present(newMessageNavVC, animated: true, completion: nil)
-    }
-    
-    func favoriteDidTapped(post: Post) {
-        //do something
-    }
-    
-    func likeDidTapped(post: Post) {
-        //do something
-    }
-    
-    // ShareActivityDelegate
-    func presentShareActivityVC() {
-        if let url = NSURL(string: "https://www.getmist.app")  {
-            let objectsToShare: [Any] = [url]
-            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-            activityVC.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
-            present(activityVC, animated: true)
-        }
     }
     
     // Helpers

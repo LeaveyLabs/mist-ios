@@ -8,18 +8,15 @@
 import UIKit
 import MapKit
 
-enum AnnotationSelectionType {
-    case submission, swipe, normal
-}
-
 class ExploreMapViewController: MapViewController {
 
     // MARK: - Properties
+    
     @IBOutlet weak var mistTitle: UIView!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var featuredIconButton: UIButton!
             
-    // ExploreViewController
+    // SearchViewController properties
     var mySearchController: UISearchController!
     var resultsTableController: LiveResultsTableViewController!
     var filterMapModalVC: FilterViewController?
@@ -34,6 +31,9 @@ class ExploreMapViewController: MapViewController {
     var postFilter = PostFilter()
     
     // Flag for didSelect(annotation)
+    enum AnnotationSelectionType {
+        case submission, swipe, normal
+    }
     var annotationSelectionType: AnnotationSelectionType = .normal
 
     // MARK: - View Life Cycle
@@ -356,9 +356,9 @@ extension ExploreMapViewController: childDismissDelegate {
     }
 }
 
-//MARK: - Post Delegation
+//MARK: - Post Delegation: delegate functions with unique implementations to this class
 
-extension ExploreMapViewController: PostDelegate, ShareActivityDelegate {
+extension ExploreMapViewController: PostDelegate {
     
     func backgroundDidTapped(post: Post) {
         sendToPostViewFor(post, withRaisedKeyboard: false)
@@ -366,37 +366,6 @@ extension ExploreMapViewController: PostDelegate, ShareActivityDelegate {
     
     func commentDidTapped(post: Post) {
         sendToPostViewFor(post, withRaisedKeyboard: true)
-    }
-    
-    func moreDidTapped(post: Post) {
-        let moreVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.More) as! MoreViewController
-        moreVC.loadViewIfNeeded() //doesnt work without this function call
-        moreVC.shareDelegate = self
-        present(moreVC, animated: true)
-    }
-    
-    func dmDidTapped(post: Post) {
-        let newMessageNavVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewMessageNavigation) as! UINavigationController
-        newMessageNavVC.modalPresentationStyle = .fullScreen
-        present(newMessageNavVC, animated: true, completion: nil)
-    }
-    
-    func favoriteDidTapped(post: Post) {
-        //do something
-    }
-    
-    func likeDidTapped(post: Post) {
-        //do something
-    }
-    
-    // ShareActivityDelegate
-    func presentShareActivityVC() {
-        if let url = NSURL(string: "https://www.getmist.app")  {
-            let objectsToShare: [Any] = [url]
-            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-            activityVC.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
-            present(activityVC, animated: true)
-        }
     }
     
     // Helpers
@@ -410,6 +379,7 @@ extension ExploreMapViewController: PostDelegate, ShareActivityDelegate {
         }
         navigationController!.pushViewController(postVC, animated: true)
     }
+
 }
 
 //Swipe gestures

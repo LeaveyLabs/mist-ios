@@ -449,6 +449,7 @@ extension MapViewController {
             }
         }
         candidateRect = candidateRect.insetBy(dx: -rectX/10, dy: -rectY/10)
+        let span = MKCoordinateRegion(candidateRect).span //could i use span to find the appropriate camera distance? probably
         UIView.animate(withDuration: cameraAnimationDuration,
                        delay: 0,
                        options: .curveEaseInOut,
