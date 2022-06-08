@@ -44,7 +44,7 @@ class ExploreMapViewController: MapViewController {
         navigationItem.titleView = mistTitle
         setupFilterButton()
         setupSearchBar()
-        setupMapGestureRecognizers()
+        setupCustomTapGestureRecognizerOnMap()
         renderInitialPosts()
     }
     
@@ -58,16 +58,7 @@ class ExploreMapViewController: MapViewController {
         filterButton.layer.cornerRadius = 10
         applyShadowOnView(filterButton)
     }
-    
-    func setupMapGestureRecognizers() {
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(userInteractedWithMap))
-        tapGestureRecognizer.delaysTouchesBegan = false
-        tapGestureRecognizer.delaysTouchesEnded = false
-        tapGestureRecognizer.numberOfTapsRequired = 1
-        tapGestureRecognizer.numberOfTouchesRequired = 1
-        mapView.addGestureRecognizer(tapGestureRecognizer)
-    }
-    
+            
     //MARK: - User Interaction
     
     @IBAction func filterButtonDidTapped(_ sender: UIButton) {
@@ -111,9 +102,34 @@ class ExploreMapViewController: MapViewController {
         zoomOutButtonDidPressed(sender)
     }
     
-    // This handles the case of tapping, but not panning and dragging for some reason
-    @objc func userInteractedWithMap() {
-        print("Handling ExploreMapView tap with a gesture recognizer")
+    //MARK: AnnotationViewInteractionDelayPrevention
+
+    // Allows for noticeably faster zooms to the annotationview
+    // Turns isZoomEnabled off and on immediately before and after a click on the map.
+    // This means that in case the tap happened to be on an annotation, there's less delay.
+    // Downside: double tap features are not possible
+    //https://stackoverflow.com/questions/35639388/tapping-an-mkannotation-to-select-it-is-really-slow
+    // Note: even though it would make the most sense for the tap gesture to live on the annotationView,
+    // when that's the case, some clicks NEAR but not ON the annotation view result in a delay.
+    // We want 0 delays, so we're putting it on the mapView
+        
+    func setupCustomTapGestureRecognizerOnMap() {
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        tapRecognizer.numberOfTapsRequired = 1
+        tapRecognizer.numberOfTouchesRequired = 1
+        tapRecognizer.delaysTouchesBegan = false
+        tapRecognizer.delaysTouchesEnded = false
+        mapView.addGestureRecognizer(tapRecognizer)
+    }
+    
+    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
+        // AnnotationViewInteractionDelayPrevention 1 of 2
+        mapView.isZoomEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.mapView.isZoomEnabled = true
+        }
+        
+        // Handle other purposes of the tap gesture besides just AnnotationViewInteractionDelayPrevention:
         if (sheetPresentationController?.selectedDetentIdentifier?.rawValue != "xs") {
             //TODO: don't execute this code if you clicked on an existing annotation
             deselectOneAnnotationIfItExists() //annotation will still be deselected without this, but the animation looks better if deselection occurs before togglesheetsisze

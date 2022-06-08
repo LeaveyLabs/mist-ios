@@ -495,3 +495,35 @@ extension MapViewController {
         }
     }
 }
+
+//MARK: - PreventAnnotationViewInteractionDelay
+
+//This code is needed on the Map
+extension MapViewController {
+    
+    // AnnotationQuickSelect: 1 of 3
+    // Allows for noticeably faster zooms to the annotationview
+    // Turns isZoomEnabled off and on immediately before and after a click on the map.
+    // This means that in case the tap happened to be on an annotation, there's less delay.
+    // Downside: double tap features are not possible
+    //https://stackoverflow.com/questions/35639388/tapping-an-mkannotation-to-select-it-is-really-slow
+    func setupGestureRecognizerToPreventInteractionDelay() {
+        let quickSelectGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleMapTapForAnnotationQuickSelect(_:)))
+//        quickSelectGestureRecognizer.delaysTouchesBegan = false
+//        quickSelectGestureRecognizer.delaysTouchesEnded = false
+        quickSelectGestureRecognizer.numberOfTapsRequired = 1
+        quickSelectGestureRecognizer.numberOfTouchesRequired = 1
+        mapView.addGestureRecognizer(quickSelectGestureRecognizer)
+    }
+
+    // AnnotationQuickSelect: 2 of 3
+    @objc func handleMapTapForAnnotationQuickSelect(_ sender: UITapGestureRecognizer? = nil) {
+        //disabling zoom, so the didSelect triggers immediately
+        print("HANDLING MAP TAP")
+        mapView.isZoomEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.mapView.isZoomEnabled = true // in case the tap was not an annotation
+        }
+    }
+    
+}

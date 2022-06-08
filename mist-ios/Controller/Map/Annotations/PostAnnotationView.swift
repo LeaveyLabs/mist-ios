@@ -16,14 +16,6 @@ protocol AnnotationViewSwipeDelegate {
 final class PostAnnotationView: MKMarkerAnnotationView {
     
     var postCalloutView: PostView? // the postAnnotationView's callout view
-    var mapView: MKMapView? {
-        var view = superview
-        while view != nil {
-            if let mapView = view as? MKMapView { return mapView }
-            view = view?.superview
-        }
-        return nil
-    }
     
     // Panning gesture
     var originalPanLocation: CGPoint = .init(x: 0, y: 0)
@@ -47,7 +39,6 @@ final class PostAnnotationView: MKMarkerAnnotationView {
     
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
-        setupGestureRecognizerToPreventInteractionDelay()
         setupPanGesture()
     }
     
@@ -141,38 +132,6 @@ final class PostAnnotationView: MKMarkerAnnotationView {
 //        postCalloutView.animate()
     }
 
-}
-
-//MARK: - PreventAnnotationViewInteractionDelay
-
-extension PostAnnotationView: UIGestureRecognizerDelegate {
-    
-    // PreventAnnotationViewInteractionDelay: 1 of 2
-    // Allows for noticeably faster zooms to the annotationview
-    // Turns isZoomEnabled off and on immediately before and after a click on the map.
-    // This means that in case the tap happened to be on an annotation, there's less delay.
-    // Downside: double tap features are not possible
-    //https://stackoverflow.com/questions/35639388/tapping-an-mkannotation-to-select-it-is-really-slow
-    private func setupGestureRecognizerToPreventInteractionDelay() {
-        let quickSelectGestureRecognizer = UITapGestureRecognizer()
-        quickSelectGestureRecognizer.delaysTouchesBegan = false
-        quickSelectGestureRecognizer.delaysTouchesEnded = false
-        quickSelectGestureRecognizer.numberOfTapsRequired = 1
-        quickSelectGestureRecognizer.numberOfTouchesRequired = 1
-        quickSelectGestureRecognizer.delegate = self
-        self.addGestureRecognizer(quickSelectGestureRecognizer)
-    }
-    
-    // PreventAnnotationViewInteractionDelay: 2 of 2
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        mapView?.isZoomEnabled = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.mapView?.isZoomEnabled = true
-        }
-        return false
-        //return (! [yourButton pointInside:[touch locationInView:yourButton] withEvent:nil]); this code is necessary in case the gesture recognizer is preventing the button press
-    }
-    
 }
 
 // MARK: - PanGesture
