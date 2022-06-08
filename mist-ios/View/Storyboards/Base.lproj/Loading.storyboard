@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_7" orientation="portrait" appearance="dark"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Loading View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" customClass="LoadingViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YUN-1c-ewo">
+                                <rect key="frame" x="80" y="344" width="268" height="148"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mist-white-heart" translatesAutoresizingMaskIntoConstraints="NO" id="Imv-FP-rqQ" customClass="SpringImageView" customModule="mist_ios" customModuleProvider="target">
+                                        <rect key="frame" x="15.666666666666671" y="34" width="70" height="70"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="70" id="02A-u3-G4C"/>
+                                            <constraint firstAttribute="width" constant="70" id="zcN-QW-tnE"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="autostart" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="duration">
+                                                <real key="value" value="6"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="repeatCount">
+                                                <real key="value" value="99"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="animation" value="swing"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="delay">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="curve" value="easeInQuad"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="mist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zpx-hp-cYZ">
+                                        <rect key="frame" x="99.333333333333343" y="19" width="153" height="110"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="80"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="Zpx-hp-cYZ" firstAttribute="centerX" secondItem="YUN-1c-ewo" secondAttribute="centerX" constant="41.75" id="SLW-5N-Crl"/>
+                                    <constraint firstItem="Imv-FP-rqQ" firstAttribute="centerY" secondItem="YUN-1c-ewo" secondAttribute="centerY" constant="-5" id="bp8-1t-kWx"/>
+                                    <constraint firstItem="Imv-FP-rqQ" firstAttribute="centerX" secondItem="YUN-1c-ewo" secondAttribute="centerX" constant="-83.25" id="iMK-lE-T61"/>
+                                    <constraint firstItem="Zpx-hp-cYZ" firstAttribute="centerY" secondItem="YUN-1c-ewo" secondAttribute="centerY" id="lAM-69-r0X"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="YUN-1c-ewo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="80" id="AVl-Dc-N8i"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="YUN-1c-ewo" secondAttribute="bottom" constant="400" id="Jp5-ue-6EE"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YUN-1c-ewo" secondAttribute="trailing" constant="80" id="LAf-mO-d0n"/>
+                            <constraint firstItem="YUN-1c-ewo" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="300" id="Tuf-xZ-EDc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="heartImageView" destination="Imv-FP-rqQ" id="wIq-CO-8s1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-883.17757009345792" y="340.82073434125272"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="mist-white-heart" width="82.5" height="82.5"/>
+    </resources>
+</document>

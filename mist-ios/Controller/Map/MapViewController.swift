@@ -39,9 +39,10 @@ class MapViewController: UIViewController {
     // Create a location manager to trigger user tracking
     private let locationManager = CLLocationManager()
     
-    var cameraIsFlying: Bool = false {
+    var isCameraFlyingOutAndIn: Bool = false
+    var isCameraFlying: Bool = false {
         didSet {
-            toggleMapInteractionEnabled(to: !cameraIsFlying)
+            toggleMapInteractionEnabled(to: !isCameraFlying)
         }
     }
     var modifyingMap: Bool = false
@@ -55,12 +56,12 @@ class MapViewController: UIViewController {
     //when pitch increases, zoom goes UP then down
     //when pitch decreases, zoom goes DOWN then up
     
-    var displayedAnnotations = [PostAnnotation]() {
+    var postAnnotations = [PostAnnotation]() {
         willSet {
-            mapView.removeAnnotations(displayedAnnotations)
+            mapView.removeAnnotations(postAnnotations)
         }
         didSet {
-            mapView.addAnnotations(displayedAnnotations)
+            mapView.addAnnotations(postAnnotations)
         }
     }
     
@@ -76,7 +77,7 @@ class MapViewController: UIViewController {
         prevZoomWidth = mapView.visibleMapRect.size.width
         prevZoom = mapView.camera.centerCoordinateDistance
         
-        displayedAnnotations = []
+        postAnnotations = []
         setupMapButtons()
         setupMapView()
         setupLocationManager()
@@ -102,14 +103,14 @@ class MapViewController: UIViewController {
         mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: includeCategories))
         
         // CAMERA
-        cameraIsFlying = true
+        isCameraFlying = true
         registerMapAnnotationViews()
         centerMapOnUSC()
         mapView.camera = MKMapCamera(lookingAtCenter: mapView.centerCoordinate,
                                      fromDistance: 4000,
                                      pitch: 20,
                                      heading: mapView.camera.heading)
-        cameraIsFlying = false
+        isCameraFlying = false
     }
     
     // NOTE: If you want to change the clustering identifier based on location, you should probably delink the annotationview and reuse identifier like below (watch the wwdc video again) so you can change the constructor of AnnotationViews/ClusterANnotationViews to include map height
@@ -188,7 +189,8 @@ class MapViewController: UIViewController {
             slowFlyTo(lat: mapView.userLocation.coordinate.latitude,
                       long: mapView.userLocation.coordinate.longitude,
                       incrementalZoom: false,
-                      withDuration: cameraAnimationDuration, completion: {_ in })
+                      withDuration: cameraAnimationDuration,
+                      completion: {_ in })
         }
     }
     
@@ -217,10 +219,15 @@ class MapViewController: UIViewController {
 //https://developer.apple.com/documentation/mapkit/mkmapviewdelegate
 extension MapViewController: MKMapViewDelegate {
     
-    //updates after each view change is completed
+    // Updates after each view change is completed
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        if (cameraIsFlying) {
-            cameraIsFlying = false //so that when the user starts dragging again, the post will disappear
+        // When the camera flies out and in, it pauses between animations and this function is called. we need to wait to have it
+        if isCameraFlying && !isCameraFlyingOutAndIn {
+            isCameraFlying = false
+        }
+        if isCameraFlying && isCameraFlyingOutAndIn {
+            isCameraFlyingOutAndIn = false //so that on the next call of regionDidChangeAnimated, aka when the camera is done flying back in, isCameraFlying will be set to false
+            //note: this doesnt work for more than one chaining... for that. you'll have to set isCameraFlyingOutAndIn in the last animation block
         }
     }
     
@@ -261,7 +268,7 @@ extension MapViewController: MKMapViewDelegate {
 //        }
         
         // Deselect selected annotation upon moving
-        if !cameraIsFlying {
+        if !isCameraFlying {
             deselectOneAnnotationIfItExists()
         }
         
@@ -317,25 +324,72 @@ extension MapViewController {
         mapView.camera = newCamera
     }
     
+    //Consider not letting "withDuration" be passed, but let it be calculated here when it's actually needed. the duration might change based on the zoomOut
     func slowFlyTo(lat: Double,
                    long: Double,
                    incrementalZoom: Bool,
                    withDuration duration: Double,
                    completion: @escaping (Bool) -> Void) {
-        let pinLocation = CLLocationCoordinate2D(latitude: lat, longitude: long)
+        isCameraFlying = true
         var newCLLDistance: Double = 500
+        let destination = CLLocationCoordinate2D(latitude: lat, longitude: long)
         if incrementalZoom {
-            // TODO: Handle conditions to zoom in based on how zoomed in the camera already is
-            newCLLDistance = mapView.camera.centerCoordinateDistance / 3
+            newCLLDistance = self.mapView.camera.centerCoordinateDistance / 3
         }
-
-        let rotationCamera = MKMapCamera(lookingAtCenter: pinLocation, fromDistance: newCLLDistance, pitch: 50, heading: 0)
-        UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: {
-            self.mapView.camera = rotationCamera
-        }, completion: completion)
-        cameraIsFlying = true
+        let finalCamera = MKMapCamera(lookingAtCenter: destination,
+                                         fromDistance: newCLLDistance,
+                                         pitch: 50,
+                                         heading: 0)
+        UIView.animate(withDuration: duration,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: {
+            self.mapView.camera = finalCamera
+        }) { finished in
+            completion(finished)
+        }
     }
+    
+    //You could make this a for loop, where you create like 10 midpoints between the origin and destination, and animate between all of them
+    func slowFlyOutAndIn(lat: Double,
+                           long: Double,
+                           withDuration duration: Double,
+                           completion: @escaping (Bool) -> Void) {
+        var finalDistance: Double = 500
+        let destination = CLLocationCoordinate2D(latitude: lat, longitude: long)
+        let finalCamera = MKMapCamera(lookingAtCenter: destination,
+                                         fromDistance: finalDistance,
+                                         pitch: 50,
+                                         heading: 0)
         
+       
+//        if !mapView.visibleMapRect.contains(MKMapPoint(destination)) {
+        let currentLocation = mapView.camera.centerCoordinate
+        let midwayPoint = currentLocation.geographicMidpoint(betweenCoordinates: [destination])
+        let distanceBetween = currentLocation.distance(from: destination)
+        let midwayDistance = mapView.camera.centerCoordinateDistance +  distanceBetween * 2
+        let preRotationCamera = MKMapCamera(lookingAtCenter: midwayPoint,
+                                            fromDistance: midwayDistance,
+                                         pitch: 30,
+                                         heading: 0)
+        isCameraFlying = true
+        isCameraFlyingOutAndIn = true
+        UIView.animate(withDuration: duration*2,
+                       delay: 0,
+                       options: .curveEaseIn,
+                       animations: {
+            self.mapView.camera = preRotationCamera
+        }) { _ in
+            UIView.animate(withDuration: duration*2,
+                           delay: 0.1,
+                           options: .curveEaseOut,
+                           animations: {
+                self.mapView.camera = finalCamera
+            }, completion: completion)
+        }
+        
+    }
+    
     func toggleMapDimension() {
         isThreeDimensional = !isThreeDimensional
         
@@ -355,7 +409,7 @@ extension MapViewController {
         //so the CCDDistance is decreasing unintentionally
         
         // Update the camera
-        cameraIsFlying = true
+        isCameraFlying = true
         let rotationCamera = MKMapCamera(lookingAtCenter: mapView.camera.centerCoordinate,
                                          fromDistance: mapView.camera.centerCoordinateDistance,
                                          pitch: newPitch,
@@ -368,8 +422,43 @@ extension MapViewController {
         }, completion: nil)
     }
     
+    //This seems to work as good as it's gonna get... which is better than the slow fly in that it accounts
+    //for coordinates located within, but then it cant
+    func zoomInAsCloseAsPossibleOn(cluster: MKClusterAnnotation) {
+        var clusterPoints = [MKMapPoint]()
+        cluster.memberAnnotations.forEach { memberAnnotation in
+            clusterPoints.append(MKMapPoint(memberAnnotation.coordinate))
+        }
+        
+        //Center a candidate rect around the cluster
+        let rectX = mapView.visibleMapRect.width
+        let rectY = mapView.visibleMapRect.height
+        var candidateRect = MKMapRect(origin: MKMapPoint(cluster.coordinate),
+                                      size: mapView.visibleMapRect.size)
+        candidateRect = candidateRect.offsetBy(dx: -rectX / 2,
+                                               dy: -rectY / 2)
+        
+        //Shrink the canidate rect so it just fits the cluster points
+        var isCandidateRectTooSmall = false
+        while !isCandidateRectTooSmall {
+            candidateRect = candidateRect.insetBy(dx: rectX/10, dy: rectY/10)
+            clusterPoints.forEach { clusterPoint in
+                if !candidateRect.contains(clusterPoint) {
+                    isCandidateRectTooSmall = true
+                }
+            }
+        }
+        candidateRect = candidateRect.insetBy(dx: -rectX/10, dy: -rectY/10)
+        UIView.animate(withDuration: cameraAnimationDuration,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: {
+            self.mapView.visibleMapRect = candidateRect
+        }, completion: nil)
+    }
+    
     func zoomByAFactorOf(_ factor: Double) {
-        cameraIsFlying = true
+        isCameraFlying = true
         let newDistance = mapView.camera.centerCoordinateDistance * factor
         let newPitch = min(mapView.camera.pitch, 30) //I use 30 instead of 50 just to add the extra pitch transition to make it more dnamic when zooming out
         //Note: you have to actually set a newPitch value like above. It seems that if you use the old pitch value for rotationCamera, sometimes the camera won't actually be changed for some reason
@@ -377,7 +466,7 @@ extension MapViewController {
                                          fromDistance: newDistance,
                                          pitch: newPitch,
                                          heading: mapView.camera.heading)
-        UIView.animate(withDuration: 0.4,
+        UIView.animate(withDuration: 0.3,
                        delay: 0,
                        options: .curveEaseInOut,
                        animations: {
@@ -408,4 +497,36 @@ extension MapViewController {
             }
         }
     }
+}
+
+//MARK: - PreventAnnotationViewInteractionDelay
+
+//This code is needed on the Map
+extension MapViewController {
+    
+    // AnnotationQuickSelect: 1 of 3
+    // Allows for noticeably faster zooms to the annotationview
+    // Turns isZoomEnabled off and on immediately before and after a click on the map.
+    // This means that in case the tap happened to be on an annotation, there's less delay.
+    // Downside: double tap features are not possible
+    //https://stackoverflow.com/questions/35639388/tapping-an-mkannotation-to-select-it-is-really-slow
+    func setupGestureRecognizerToPreventInteractionDelay() {
+        let quickSelectGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleMapTapForAnnotationQuickSelect(_:)))
+//        quickSelectGestureRecognizer.delaysTouchesBegan = false
+//        quickSelectGestureRecognizer.delaysTouchesEnded = false
+        quickSelectGestureRecognizer.numberOfTapsRequired = 1
+        quickSelectGestureRecognizer.numberOfTouchesRequired = 1
+        mapView.addGestureRecognizer(quickSelectGestureRecognizer)
+    }
+
+    // AnnotationQuickSelect: 2 of 3
+    @objc func handleMapTapForAnnotationQuickSelect(_ sender: UITapGestureRecognizer? = nil) {
+        //disabling zoom, so the didSelect triggers immediately
+        print("HANDLING MAP TAP")
+        mapView.isZoomEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.mapView.isZoomEnabled = true // in case the tap was not an annotation
+        }
+    }
+    
 }

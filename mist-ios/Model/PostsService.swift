@@ -9,12 +9,15 @@ import Foundation
 import MapKit
 
 class PostsService: NSObject {
-    private var posts = [Post]();
-    private var filter = PostFilter()
+//    private var posts = [Post]()
+//    private var filter = PostFilter()
     
     //static let noResultsLeftPost: Post?
-    
-    static var homePosts = PostsService()
+        
+    static var initialPosts = [Post]()
+    static func loadInitialPosts() async throws {
+        initialPosts = try await PostAPI.fetchPosts()
+    }
     
     //MARK: - Helpers
     
@@ -28,9 +31,9 @@ class PostsService: NSObject {
     
     //MARK: - Setters
     
-    func setFilter(to filter: PostFilter) {
-        self.filter = filter;
-    }
+//    func setFilter(to filter: PostFilter) {
+//        self.filter = filter;
+//    }
     
     //MARK: - Getters
     
@@ -42,11 +45,11 @@ class PostsService: NSObject {
 //        return posts;
 //    }
     
-    func newPosts() async throws -> [Post] {
+    static func newPosts() async throws -> [Post] {
         return try await PostAPI.fetchPosts()
     }
     
-    func newPostsNearby(latitude: Double, longitude: Double) async throws -> [Post] {
+    static func newPostsNearby(latitude: Double, longitude: Double) async throws -> [Post] {
         return try await PostAPI.fetchPostsByLatitudeLongitude(latitude: latitude, longitude: longitude)
     }
     

@@ -8,36 +8,44 @@
 import UIKit
 import MapKit
 
+enum AnnotationSelectionType {
+    case submission, swipe, normal
+}
+
 class ExploreMapViewController: MapViewController {
 
     // MARK: - Properties
     @IBOutlet weak var mistTitle: UIView!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var featuredIconButton: UIButton!
-        
+            
     // ExploreViewController
     var mySearchController: UISearchController!
     var resultsTableController: LiveResultsTableViewController!
     var filterMapModalVC: FilterViewController?
+    
+    var selectedAnnotationView: MKAnnotationView?
+    var selectedAnnotationIndex: Int? {
+        guard let selected = selectedAnnotationView else { return nil }
+        return postAnnotations.firstIndex(of: selected.annotation as! PostAnnotation)
+    }
 
-    // PostsService
-    var postsService: PostsService!
+    // Post Loading
     var postFilter = PostFilter()
     
-    var handlingSubmission = false // handleNewslySubmittedPost sets this flag for mapViewDidSelectView
+    // Flag for didSelect(annotation)
+    var annotationSelectionType: AnnotationSelectionType = .normal
 
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         latitudeOffset = 0.00095
         navigationItem.titleView = mistTitle
         setupFilterButton()
         setupSearchBar()
-        setupMapGestureRecognizers()
-        setupPostsService()
-        reloadPosts()
-        
-        super.viewDidLoad()
+        setupCustomTapGestureRecognizerOnMap()
+        renderInitialPosts()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,28 +53,12 @@ class ExploreMapViewController: MapViewController {
         //https://stackoverflow.com/questions/27951965/cannot-set-searchbar-as-firstresponder
     }
     
-    //MARK: - Setup
-    
-    func setupPostsService() {
-        postsService = PostsService()
-        postsService.setFilter(to: postFilter)
-    }
-    
     func setupFilterButton() {
         updateFilterButtonLabel()
         filterButton.layer.cornerRadius = 10
         applyShadowOnView(filterButton)
     }
-    
-    func setupMapGestureRecognizers() {
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(userInteractedWithMap))
-        tapGestureRecognizer.delaysTouchesBegan = false
-        tapGestureRecognizer.delaysTouchesEnded = false
-        tapGestureRecognizer.numberOfTapsRequired = 1
-        tapGestureRecognizer.numberOfTouchesRequired = 1
-        mapView.addGestureRecognizer(tapGestureRecognizer)
-    }
-    
+            
     //MARK: - User Interaction
     
     @IBAction func filterButtonDidTapped(_ sender: UIButton) {
@@ -110,9 +102,34 @@ class ExploreMapViewController: MapViewController {
         zoomOutButtonDidPressed(sender)
     }
     
-    // This handles the case of tapping, but not panning and dragging for some reason
-    @objc func userInteractedWithMap() {
-        print("Handling ExploreMapView tap with a gesture recognizer")
+    //MARK: AnnotationViewInteractionDelayPrevention
+
+    // Allows for noticeably faster zooms to the annotationview
+    // Turns isZoomEnabled off and on immediately before and after a click on the map.
+    // This means that in case the tap happened to be on an annotation, there's less delay.
+    // Downside: double tap features are not possible
+    //https://stackoverflow.com/questions/35639388/tapping-an-mkannotation-to-select-it-is-really-slow
+    // Note: even though it would make the most sense for the tap gesture to live on the annotationView,
+    // when that's the case, some clicks NEAR but not ON the annotation view result in a delay.
+    // We want 0 delays, so we're putting it on the mapView
+        
+    func setupCustomTapGestureRecognizerOnMap() {
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        tapRecognizer.numberOfTapsRequired = 1
+        tapRecognizer.numberOfTouchesRequired = 1
+        tapRecognizer.delaysTouchesBegan = false
+        tapRecognizer.delaysTouchesEnded = false
+        mapView.addGestureRecognizer(tapRecognizer)
+    }
+    
+    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
+        // AnnotationViewInteractionDelayPrevention 1 of 2
+        mapView.isZoomEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.mapView.isZoomEnabled = true
+        }
+        
+        // Handle other purposes of the tap gesture besides just AnnotationViewInteractionDelayPrevention:
         if (sheetPresentationController?.selectedDetentIdentifier?.rawValue != "xs") {
             //TODO: don't execute this code if you clicked on an existing annotation
             deselectOneAnnotationIfItExists() //annotation will still be deselected without this, but the animation looks better if deselection occurs before togglesheetsisze
@@ -144,8 +161,8 @@ class ExploreMapViewController: MapViewController {
     // After loading the annotations for the map, immediately center the camera around the annotation
     // (as if it had flown there), check if it's an annotation, then set the camera back to USC
     func handleNewlySubmittedPost(_ newPost: Post) {
-        handlingSubmission = true
-        if let newPostAnnotation = displayedAnnotations.first(where: { postAnnotation in
+        annotationSelectionType = .submission
+        if let newPostAnnotation = postAnnotations.first(where: { postAnnotation in
             postAnnotation.post == newPost
         }) {
             slowFlyTo(lat: newPostAnnotation.coordinate.latitude + latitudeOffset,
@@ -172,8 +189,7 @@ class ExploreMapViewController: MapViewController {
                         posts.append(annotation.post)
                     }
                 }
-                let newVC = ResultsFeedViewController.resultsFeedViewController(feedType: .hotspot,
-                                                                                feedValue: clusterAnnotation.title!)
+                let newVC = ResultsFeedViewController.resultsFeedViewController(feedType: .hotspot, feedValue: clusterAnnotation.title!)
                 newVC.posts = posts
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     self.navigationController?.pushViewController(newVC, animated: true)
@@ -185,23 +201,19 @@ class ExploreMapViewController: MapViewController {
 
     }
     
-    //MARK: - DB Interaction
+    //MARK: - Getting posts
+    
+    func renderInitialPosts() {
+        renderPostsAsAnnotations(PostsService.initialPosts)
+    }
     
     func reloadPosts() {
         Task {
             do {
-                let loadedPosts = try await postsService.newPosts()
-                
-                let maxPostsToDisplay = 10000
-                displayedAnnotations = []
-                if loadedPosts.count > 0 {
-                    for index in 0...min(maxPostsToDisplay, loadedPosts.count-1) {
-                        let postAnnotation = PostAnnotation(withPost: loadedPosts[index])
-                        displayedAnnotations.append(postAnnotation)
-                    }
-                }
+                let loadedPosts = try await PostsService.newPosts()
+                renderPostsAsAnnotations(loadedPosts)
             } catch {
-                print(error)
+                CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
             }
         }
     }
@@ -209,22 +221,24 @@ class ExploreMapViewController: MapViewController {
     func reloadPosts(afterReload: @escaping () -> Void?) {
         Task {
             do {
-                let loadedPosts = try await postsService.newPosts()
-                
-                //Can this be handled by postsService instead?
-                let maxPostsToDisplay = 10000
-                displayedAnnotations = []
-                if loadedPosts.count > 0 {
-                    for index in 0...min(maxPostsToDisplay, loadedPosts.count-1) {
-                        let postAnnotation = PostAnnotation(withPost: loadedPosts[index])
-                        displayedAnnotations.append(postAnnotation)
-                    }
-                }
+                let loadedPosts = try await PostsService.newPosts()
+                renderPostsAsAnnotations(loadedPosts)
                 afterReload()
             } catch {
-                print(error)
+                CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
             }
         }
+    }
+    
+    func renderPostsAsAnnotations(_ posts: [Post]) {
+        guard posts.count > 0 else { return }
+        let maxPostsToRender = 10000
+        postAnnotations = []
+        for index in 0...min(maxPostsToRender, posts.count-1) {
+            let postAnnotation = PostAnnotation(withPost: posts[index])
+            postAnnotations.append(postAnnotation)
+        }
+        postAnnotations.sort()
     }
     
 }
@@ -234,49 +248,57 @@ class ExploreMapViewController: MapViewController {
 extension ExploreMapViewController {
         
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if view.annotation is MKUserLocation {
+            mapView.deselectAnnotation(view.annotation, animated: false)
+            mapView.userLocation.title = "Hey cutie"
+        }
+        
+        selectedAnnotationView = view
         mapView.isZoomEnabled = true // AnnotationQuickSelect: 3 of 3, just in case
         dismissFilter()
-        if handlingSubmission {
-            handlingSubmission = false
-            if let clusterAnntation = view.cluster?.annotation as? MKClusterAnnotation {
+        switch annotationSelectionType {
+        case .swipe:
+            if let clusterAnnotation = view.cluster?.annotation as? MKClusterAnnotation {
                 mapView.deselectAnnotation(view.annotation, animated: false)
-                handleClusterAnnotationSelection(clusterAnntation)
+                handleClusterAnnotationSelection(clusterAnnotation)
+            } else if let postAnnotationView = view as? PostAnnotationView {
+                slowFlyOutAndIn(lat: view.annotation!.coordinate.latitude + latitudeOffset,
+                          long: view.annotation!.coordinate.longitude,
+                          withDuration: cameraAnimationDuration,
+                          completion: { _ in })
+                postAnnotationView.loadPostView(on: mapView,
+                                                withDelay: cameraAnimationDuration * 4,
+                                                withPostDelegate: self)
+            }
+        case .submission:
+            if let clusterAnnotation = view.cluster?.annotation as? MKClusterAnnotation {
+                mapView.deselectAnnotation(view.annotation, animated: false)
+                handleClusterAnnotationSelection(clusterAnnotation)
             } else if let postAnnotationView = view as? PostAnnotationView {
                 postAnnotationView.loadPostView(on: mapView,
                                                 withDelay: 0,
                                                 withPostDelegate: self)
             }
+        default:
+            if let clusterAnnotation = view.annotation as? MKClusterAnnotation {
+                mapView.deselectAnnotation(view.annotation, animated: false)
+                handleClusterAnnotationSelection(clusterAnnotation)
+            } else if let postAnnotationView = view as? PostAnnotationView {
+                slowFlyTo(lat: view.annotation!.coordinate.latitude + latitudeOffset,
+                          long: view.annotation!.coordinate.longitude,
+                          incrementalZoom: false,
+                          withDuration: cameraAnimationDuration,
+                          completion: { _ in })
+                postAnnotationView.loadPostView(on: mapView,
+                                                withDelay: cameraAnimationDuration,
+                                                withPostDelegate: self)
+            }
         }
-        else if view.annotation is MKUserLocation {
-            mapView.deselectAnnotation(view.annotation, animated: false)
-            mapView.userLocation.title = "Hey cutie"
-        }
-        else if let clusterAnnotation = view.annotation as? MKClusterAnnotation {
-            print("SELECTED CLUSTER")
-            mapView.deselectAnnotation(view.annotation, animated: false)
-            handleClusterAnnotationSelection(clusterAnnotation)
-        }
-        
-        //OH SHIT: here's the issue
-        //click on a postAnnotation from afar
-        //while zooming in, annotations in another cluster turn into a new cluster WITH the annotation you're currently zooming in on
-        //hmmm... ideally, we could 
-        
-        else if let postAnnotationView = view as? PostAnnotationView {
-            print("SELECTED POST")
-            slowFlyTo(lat: view.annotation!.coordinate.latitude + latitudeOffset,
-                      long: view.annotation!.coordinate.longitude,
-                      incrementalZoom: false,
-                      withDuration: cameraAnimationDuration,
-                      completion: { _ in })
-            postAnnotationView.loadPostView(on: mapView,
-                                            withDelay: cameraAnimationDuration,
-                                            withPostDelegate: self)
-        }
+        annotationSelectionType = .normal // Return to default
     }
 
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        print("deselected")
+        selectedAnnotationView = nil
     }
     
     override func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
@@ -314,12 +336,8 @@ extension ExploreMapViewController: FilterDelegate {
     
     func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool, _ afterFilterUpdate: @escaping () -> Void) {
     
-        //Should eventually remove one of these two and have filter just saved in one location
-        postsService.setFilter(to: newPostFilter)
         postFilter = newPostFilter
-        
         updateFilterButtonLabel()
-        
         if shouldReload {
             reloadPosts(afterReload: afterFilterUpdate)
         }
@@ -392,4 +410,43 @@ extension ExploreMapViewController: PostDelegate, ShareActivityDelegate {
         }
         navigationController!.pushViewController(postVC, animated: true)
     }
+}
+
+//Swipe gestures
+
+extension ExploreMapViewController: AnnotationViewSwipeDelegate {
+
+    func handlePostViewSwipeRight() {
+        guard var index = selectedAnnotationIndex else { return }
+
+        deselectOneAnnotationIfItExists()
+        index += 1
+        if index == postAnnotations.count {
+            index = 0
+        }
+        let nextAnnotation = postAnnotations[index]
+        annotationSelectionType = .swipe
+        mapView.selectAnnotation(nextAnnotation, animated: true)
+    }
+    
+    func handlePostViewSwipeLeft() {
+        guard var index = selectedAnnotationIndex else { return }
+        
+        let pav = selectedAnnotationView as! PostAnnotationView
+        let postView = pav.postCalloutView!
+        
+//        postView.animation = "slideLeft"
+//        postView.duration = 2
+//        postView.rever
+
+        deselectOneAnnotationIfItExists()
+        index -= 1
+        if index == -1 {
+            index = postAnnotations.count-1
+        }
+        let nextAnnotation = postAnnotations[index]
+        annotationSelectionType = .swipe
+        mapView.selectAnnotation(nextAnnotation, animated: true)
+    }
+    
 }

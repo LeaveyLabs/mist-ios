@@ -72,7 +72,7 @@ class PinMapViewController: MapViewController {
     
     func handleExistingPin() {
         if let previousAnnotation = pinnedAnnotation {
-            displayedAnnotations = [previousAnnotation]
+            postAnnotations = [previousAnnotation]
             mapView.camera = MKMapCamera(
                 lookingAtCenter: CLLocationCoordinate2D.init(latitude: previousAnnotation.coordinate.latitude + latitudeOffset,
                                                              longitude: previousAnnotation.coordinate.longitude),
@@ -128,7 +128,7 @@ class PinMapViewController: MapViewController {
                 let point = sender.location(in: mapView)
                 let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
                 pinnedAnnotation = PostAnnotation(justWithCoordinate: coordinate)
-                displayedAnnotations = [pinnedAnnotation!]
+                postAnnotations = [pinnedAnnotation!]
                 
                 //TODO: below
                 //If a pinMapModal already exists... either... (option 1 and 3 are visible in apple maps)
@@ -153,7 +153,7 @@ class PinMapViewController: MapViewController {
         super.mapViewDidChangeVisibleRegion(mapView)
         
         // This handles the case of dragging and panning
-        if !cameraIsFlying {
+        if !isCameraFlying {
             if (sheetPresentationController?.selectedDetentIdentifier?.rawValue != "xs") {
                 print(sheetPresentationController?.selectedDetentIdentifier?.rawValue)
                 pinMapModalVC?.toggleSheetSizeTo(sheetSize: "xs")
@@ -202,7 +202,7 @@ class PinMapViewController: MapViewController {
                     pinMapModalVC.dismiss(animated: false)
                     self?.navigationController?.popViewController(animated: true)
                 } else {
-                    self?.displayedAnnotations = []
+                    self?.postAnnotations = []
                     self?.dismiss(animated: true)
                 }
             }
