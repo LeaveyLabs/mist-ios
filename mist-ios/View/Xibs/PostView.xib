@@ -14,7 +14,7 @@
                 <outlet property="backgroundBubbleView" destination="bob-45-2Dc" id="bsg-88-iIX"/>
                 <outlet property="favoriteButton" destination="lXS-wm-c4S" id="diU-JM-YqT"/>
                 <outlet property="likeButton" destination="96P-sk-B4A" id="U0F-tg-nTB"/>
-                <outlet property="likeLabel" destination="jhs-L2-7zF" id="dV0-F5-SRw"/>
+                <outlet property="likeLabelButton" destination="jhs-L2-7zF" id="dV0-F5-SRw"/>
                 <outlet property="locationLabel" destination="hUc-aP-KHZ" id="gMn-3e-TMB"/>
                 <outlet property="messageLabel" destination="n8O-is-nrf" id="fQi-FD-JH8"/>
                 <outlet property="moreButton" destination="TEZ-zU-2nv" id="kMN-4b-Gwi"/>
@@ -135,6 +135,9 @@
                                             <state key="normal" title="24">
                                                 <color key="titleColor" systemColor="tintColor"/>
                                             </state>
+                                            <connections>
+                                                <action selector="likeLabelButtonDidPressed:" destination="-1" eventType="touchUpInside" id="GBc-fF-brU"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <constraints>

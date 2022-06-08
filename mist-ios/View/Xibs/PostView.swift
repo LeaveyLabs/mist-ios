@@ -23,7 +23,7 @@ import MapKit
     @IBOutlet weak var moreButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var likeButton: UIButton!
-    @IBOutlet weak var likeLabel: UIButton! // In order to prevent the post from dismissing, I either had to a) remove the likeLabel from the stackview and abandon stackview, or b) turn likeLabel into a button which acts as a label. I chose the second option, because stackviews are great.
+    @IBOutlet weak var likeLabelButton: UIButton! // In order to prevent the post from dismissing, I either had to a) remove the likeLabel from the stackview and abandon stackview, or b) turn likeLabel into a button which acts as a label. I chose the second option, because stackviews are great.
     
     var postDelegate: PostDelegate?
     var post: Post!
@@ -55,6 +55,11 @@ import MapKit
         postDelegate?.backgroundDidTapped(post: post)
     }
     
+    // The labelButton is actually just a button which we want to behave like the background.
+    @IBAction func likeLabelButtonDidPressed(_ sender: UIButton) {
+        postDelegate?.backgroundDidTapped(post: post)
+    }
+    
     @IBAction func commentButtonDidPressed(_ sender: UIButton) {
         postDelegate?.commentDidTapped(post: post)
     }
@@ -78,9 +83,9 @@ import MapKit
         // UI Updates
         let isAlreadyLiked = likeButton.isSelected
         if isAlreadyLiked {
-            likeLabel.setTitle(String(Int(likeLabel.titleLabel!.text!)! - 1), for: .normal)
+            likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! - 1), for: .normal)
         } else {
-            likeLabel.setTitle(String(Int(likeLabel.titleLabel!.text!)! + 1), for: .normal)
+            likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! + 1), for: .normal)
         }
         likeButton.isSelected = !likeButton.isSelected
         
@@ -100,7 +105,7 @@ extension PostView {
         locationLabel.text = post.location_description
         messageLabel.text = post.text
         postTitleLabel.text = post.title
-        likeLabel.setTitle(String(post.averagerating), for: .normal)
+        likeLabelButton.setTitle(String(post.averagerating), for: .normal)
         likeButton.isSelected = false
         favoriteButton.isSelected = false
         
