@@ -46,8 +46,7 @@ class ExploreMapViewController: MapViewController {
         blurStatusBar()
         searchButton.becomeRound()
         applyShadowOnView(searchButton)
-        searchButton.clipsToBounds = false
-//        customNavigationBar.layer.applySketchShadow(color: .black, alpha: 0.3, x: 0, y: 2, blur: 5, spread: 0)
+        searchButton.clipsToBounds = false //for shadow to take effect
         setupFilterButton()
         setupSearchBar()
         setupCustomTapGestureRecognizerOnMap()
@@ -56,6 +55,7 @@ class ExploreMapViewController: MapViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(true, animated: false) //for a better searchcontroller animation
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -64,6 +64,7 @@ class ExploreMapViewController: MapViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        enableInteractivePopGesture()
         // Handle controller being exposed from push/present or pop/dismiss
         if (self.isMovingToParent || self.isBeingPresented){
             // Controller is being pushed on or presented.
