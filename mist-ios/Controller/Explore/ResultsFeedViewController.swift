@@ -7,14 +7,7 @@
 
 import UIKit
 
-enum FeedType {
-    case home
-    case query
-    case mine
-    case hotspot
-}
-
-class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate {
+class ResultsFeedViewController: FeedViewController {
     
     // MARK: - Properties
     var feedType: FeedType!
@@ -23,6 +16,7 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         //something to do with edge insets.....
 //        self.edgesForExtendedLayout = UIRectEdge()
 //        self.extendedLayoutIncludesOpaqueBars = false
@@ -34,16 +28,9 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
 //        tableView.estimatedRowHeight = 80
 //        tableView.rowHeight = UITableView.automaticDimension
         
-        //(1 of 2) for enabling swipe left to go back with a bar button item
-        navigationController?.interactivePopGestureRecognizer?.delegate = self
-        
         tableView.refreshControl = nil //disable pull down top refresh
         
-//        navigationController?.restoreHairline() //TODO: does nothing
         navigationItem.title = feedValue
-        //navigationController?.navigationBar.standardAppearance.backgroundColor = hexStringToUIColor(hex: "CDABE1", alpha: offset/2)
-
-        super.viewDidLoad()
     }
     
     //MARK: - Custom Constructors
@@ -60,11 +47,6 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
     
     @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
-    }
-    
-    //(2 of 2) for enabling swipe left to go back with a bar button item
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
     }
 
     // MARK: - API calls
@@ -135,8 +117,6 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1 + posts.count
     }
-    
-    
     
 }
 

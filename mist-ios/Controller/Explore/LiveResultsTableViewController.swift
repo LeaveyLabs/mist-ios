@@ -24,6 +24,10 @@ class LiveResultsTableViewController: UITableViewController {
         super.viewDidLoad()
         let nib = UINib(nibName: Constants.SBID.Cell.WordResult, bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: Constants.SBID.Cell.WordResult)
+        
+        resultsLabelView.isHidden = true
+        tableView.contentInsetAdjustmentBehavior = .never //not working properly. contentinsetadjustments are still being automatically set. as a result, in exploremapvc, i have to manually set them after vc is presented
+        edgesForExtendedLayout = .top //also didnt solve the above problem
     }
     
     // MARK: - UITableViewDataSource

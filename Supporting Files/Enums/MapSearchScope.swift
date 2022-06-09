@@ -19,4 +19,23 @@ enum MapSearchScope: Int, CaseIterable {
             return "Containing"
         }
     }
+    
+    var randomPlaceholder: String {
+        switch self {
+        case .locatedAt:
+            return ["USC Village Starbucks",
+                    "Literatea",
+                    "Dulce",
+                    "Leavey Library",
+                    "Old Annenberg",
+                    "Doheny Lawn",
+                    "The 9O",].randomElement()!
+        case .containing:
+            return ["Green eyes",
+                    "Kinda tall",
+                    "Red northface backpack",
+                    "Kevin",].randomElement()!
+        }
+    }
 }
+

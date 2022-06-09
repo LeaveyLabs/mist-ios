@@ -41,7 +41,9 @@ class ExploreMapViewController: MapViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         latitudeOffset = 0.00095
+        
         navigationItem.titleView = mistTitle
+                
         setupFilterButton()
         setupSearchBar()
         setupCustomTapGestureRecognizerOnMap()
@@ -49,8 +51,23 @@ class ExploreMapViewController: MapViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        //TODO: pull up search bar when returning to this VC after search via search button click
-        //https://stackoverflow.com/questions/27951965/cannot-set-searchbar-as-firstresponder
+        navigationController?.setNavigationBarHidden(true, animated: false) //for a better searchcontroller animation
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: false) //for a better searchcontroller animation
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // Handle controller being exposed from push/present or pop/dismiss
+        if (self.isMovingToParent || self.isBeingPresented){
+            // Controller is being pushed on or presented.
+        }
+        else{
+            // Controller is being shown as result of pop/dismiss/unwind.
+            mySearchController.searchBar.becomeFirstResponder()
+        }
     }
     
     func setupFilterButton() {

@@ -14,16 +14,12 @@ extension ExploreMapViewController {
     // MARK: - User Interaction
     
     @IBAction func searchButtonDidPressed(_ sender: UIBarButtonItem) {
-        dismissPost()
-        let mapSearchVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MapSearch)
-        mapSearchVC.modalPresentationStyle = .fullScreen
-        filterMapModalVC?.dismiss(animated: false) //same as above^
-        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //makes the transition more seamless
-        self.navigationController?.present(mapSearchVC, animated: true, completion: nil)
+        CustomSwiftMessages.showError(errorDescription: "ASDF")
+
         
-//        present(mySearchController, animated: true)
-//        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //eventually replace this with "dismissFilter()" when completion handler is added
-//        filterMapModalVC?.dismiss(animated: false)
+//        mySearchController.isActive = true //calls delegate.presentSearchController
+        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //eventually replace this with "dismissFilter()" when completion handler is added
+        filterMapModalVC?.dismiss(animated: false)
     }
     
     @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
@@ -38,43 +34,38 @@ extension ExploreMapViewController {
 
 extension ExploreMapViewController: UISearchControllerDelegate {
     func setupSearchBar() {
-        //resultsTableViewController
-        resultsTableController =
-        self.storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.LiveResults) as? LiveResultsTableViewController
-        resultsTableController.tableView.delegate = self // This view controller is interested in table view row selections.
-        resultsTableController.tableView.contentInsetAdjustmentBehavior = .automatic //removes strange whitespace https://stackoverflow.com/questions/1703023/is-it-possible-to-access-a-uitableviews-scrollview-in-code-from-a-nib
-        
-        resultsTableController.resultsLabelView.isHidden = true
+        //self
+        definesPresentationContext = true //necessary so that pushes go to the next controller
 
+        //resultsTableViewController
+        resultsTableController = self.storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.LiveResults) as? LiveResultsTableViewController
+        resultsTableController.tableView.delegate = self
+        
         //searchController
         mySearchController = UISearchController(searchResultsController: resultsTableController)
         mySearchController.delegate = self
         mySearchController.searchResultsUpdater = self
-        mySearchController.showsSearchResultsController = true //means that we don't need "map cover view" anymore
-        
-        //https://stackoverflow.com/questions/68106036/presenting-uisearchcontroller-programmatically
-        //this creates unideal ui, but im not going to spend more time trying to fix this right now.
-        //mySearchController.hidesNavigationBarDuringPresentation = false //true by default
-
-        //todo later: TWO WAYS OF MAKING SEARCH BAR PRETTY
-        //definePresentationContext = false (plus) self.present(searchcontroller)
-        //definePresentationContext = true (plus) navigationController?.present(searchController)
-        definesPresentationContext = true //false by default
+        mySearchController.showsSearchResultsController = true //so white background is always visible
         
         //searchBar
+        mySearchController.searchBar.delegate = self // Monitor when the search button is tapped.
         mySearchController.searchBar.scopeButtonTitles = []
         MapSearchScope.allCases.forEach { mapSearchScope in
             mySearchController.searchBar.scopeButtonTitles?.append(mapSearchScope.displayName)
         }
         mySearchController.searchBar.tintColor = .darkGray
-        mySearchController.searchBar.delegate = self // Monitor when the search button is tapped.
         mySearchController.searchBar.autocapitalizationType = .none
         mySearchController.searchBar.searchBarStyle = .prominent //when setting to .minimal, the background disappears and you can see nav bar underneath. if using .minimal, add a background color to searchBar to fix this.
-        mySearchController.searchBar.placeholder = "Search"
     }
     
     func presentSearchController(_ searchController: UISearchController) {
         Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+        
+        mySearchController.searchBar.placeholder = resultsTableController.selectedScope.randomPlaceholder
+        present(mySearchController, animated: true) {
+            self.mySearchController.searchBar.showsScopeBar = true //needed to prevent weird animation
+            self.resultsTableController.tableView.contentInset.top = 150 //needed because... even when i set adjustsContentInsets = .never, mySearchController automatically adjusts the content insets
+        }
     }
     
     func willPresentSearchController(_ searchController: UISearchController) {
@@ -83,12 +74,11 @@ extension ExploreMapViewController: UISearchControllerDelegate {
     
     func didPresentSearchController(_ searchController: UISearchController) {
         Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-        navigationItem.searchController = searchController
     }
     
     func willDismissSearchController(_ searchController: UISearchController) {
         Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-        navigationItem.searchController = .none
+        mySearchController.searchBar.setShowsScope(false, animated: false) //needed to prevent weird animation
     }
     
     func didDismissSearchController(_ searchController: UISearchController) {
@@ -116,16 +106,9 @@ extension ExploreMapViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         guard let newSelectedScope = MapSearchScope(rawValue: selectedScope) else { return }
         resultsTableController.selectedScope = newSelectedScope
+        mySearchController.searchBar.placeholder = resultsTableController.selectedScope.randomPlaceholder
         resultsTableController.liveResults = []
         updateSearchResults(for: mySearchController)
-    }
-
-    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        return true
-    }
-    
-    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
-        return true
     }
 }
 

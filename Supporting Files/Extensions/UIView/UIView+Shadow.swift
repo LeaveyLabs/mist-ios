@@ -14,4 +14,7 @@ func applyShadowOnView(_ view: UIView) {
     view.layer.shadowOpacity = 0.4
     view.layer.shadowOffset = .zero
     view.layer.shadowRadius = 3
+    if view .isKind(of: UIButton.self) {
+        view.layer.masksToBounds = false
+    }
 }

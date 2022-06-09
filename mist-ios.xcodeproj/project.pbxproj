@@ -41,7 +41,11 @@
 		47061CCD28510DD80042F04C /* MKPointOfInterestCategory+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47061CCC28510DD80042F04C /* MKPointOfInterestCategory+Extension.swift */; };
 		47061CD028510E4C0042F04C /* MKPlacemark+Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47061CCF28510E4C0042F04C /* MKPlacemark+Address.swift */; };
 		47061CD228511C750042F04C /* MapSearchScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47061CD128511C750042F04C /* MapSearchScope.swift */; };
-		47061CD428511CA10042F04C /* MapSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47061CD328511CA10042F04C /* MapSearchViewController.swift */; };
+		47061CD6285151440042F04C /* SearchDebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47061CD5285151440042F04C /* SearchDebugViewController.swift */; };
+		47061CD828516E880042F04C /* SwipeBackNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47061CD728516E880042F04C /* SwipeBackNavigationController.swift */; };
+		47061CDA285170CB0042F04C /* FeedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47061CD9285170CB0042F04C /* FeedType.swift */; };
+		47061CDD285172A10042F04C /* CustomCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47061CDC285172A10042F04C /* CustomCardView.xib */; };
+		47061CDF285172BF0042F04C /* CustomCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47061CDE285172BF0042F04C /* CustomCardView.swift */; };
 		470F271327DE6F5800C6DDAF /* LiveResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */; };
 		470F271827DE758100C6DDAF /* WordResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271627DE758100C6DDAF /* WordResultCell.swift */; };
 		470F271927DE758100C6DDAF /* WordResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 470F271727DE758100C6DDAF /* WordResultCell.xib */; };
@@ -254,7 +258,11 @@
 		47061CCC28510DD80042F04C /* MKPointOfInterestCategory+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKPointOfInterestCategory+Extension.swift"; sourceTree = "<group>"; };
 		47061CCF28510E4C0042F04C /* MKPlacemark+Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKPlacemark+Address.swift"; sourceTree = "<group>"; };
 		47061CD128511C750042F04C /* MapSearchScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchScope.swift; sourceTree = "<group>"; };
-		47061CD328511CA10042F04C /* MapSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchViewController.swift; sourceTree = "<group>"; };
+		47061CD5285151440042F04C /* SearchDebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDebugViewController.swift; sourceTree = "<group>"; };
+		47061CD728516E880042F04C /* SwipeBackNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeBackNavigationController.swift; sourceTree = "<group>"; };
+		47061CD9285170CB0042F04C /* FeedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedType.swift; sourceTree = "<group>"; };
+		47061CDC285172A10042F04C /* CustomCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCardView.xib; sourceTree = "<group>"; };
+		47061CDE285172BF0042F04C /* CustomCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCardView.swift; sourceTree = "<group>"; };
 		470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveResultsTableViewController.swift; sourceTree = "<group>"; };
 		470F271627DE758100C6DDAF /* WordResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordResultCell.swift; sourceTree = "<group>"; };
 		470F271727DE758100C6DDAF /* WordResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WordResultCell.xib; sourceTree = "<group>"; };
@@ -481,7 +489,6 @@
 				470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */,
 				470F271E27DE9ABE00C6DDAF /* ResultsFeedViewController.swift */,
 				47CBF6F028356A7C00096514 /* FilterViewController.swift */,
-				47061CD328511CA10042F04C /* MapSearchViewController.swift */,
 			);
 			path = Explore;
 			sourceTree = "<group>";
@@ -528,6 +535,7 @@
 			children = (
 				47A3D70F27D55BDD003DBEA5 /* PostFilter.swift */,
 				47061CD128511C750042F04C /* MapSearchScope.swift */,
+				47061CD9285170CB0042F04C /* FeedType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -658,6 +666,7 @@
 				47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */,
 				4316238B2834F8A600169AA9 /* SpecialTabBarController.swift */,
 				43A05BDC2835008B0085A99B /* SpecialTabBar.swift */,
+				47061CD728516E880042F04C /* SwipeBackNavigationController.swift */,
 			);
 			path = Misc;
 			sourceTree = "<group>";
@@ -836,6 +845,7 @@
 				47FF86A227DC75DB0076A1CA /* Feed */,
 				47E295D3284BB3E100A680CC /* NibViewController.swift */,
 				4316238328343D3F00169AA9 /* SheetViewController.swift */,
+				47061CD5285151440042F04C /* SearchDebugViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -899,6 +909,8 @@
 		47EE28FC28414A7200C6425C /* CustomSwiftMessages */ = {
 			isa = PBXGroup;
 			children = (
+				47061CDC285172A10042F04C /* CustomCardView.xib */,
+				47061CDE285172BF0042F04C /* CustomCardView.swift */,
 				47EE28FF28414B2300C6425C /* CustomCenteredView.xib */,
 				47EE28FD28414AF700C6425C /* CustomCenteredView.swift */,
 			);
@@ -1070,6 +1082,7 @@
 			files = (
 				47C2835027DED77500A19128 /* FeedHeaderCell.xib in Resources */,
 				47E74E1827CA0FFF00467A0C /* Loading.storyboard in Resources */,
+				47061CDD285172A10042F04C /* CustomCardView.xib in Resources */,
 				47E295DA284BBB1400A680CC /* PostCell.xib in Resources */,
 				47E295D8284BB7B000A680CC /* PostView.xib in Resources */,
 				47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */,
@@ -1154,6 +1167,7 @@
 				472A4C0628408BD800FD52B7 /* SpringAnimation.swift in Sources */,
 				47AE72AA27F77B0B00A5E94C /* UsernameSettingViewController.swift in Sources */,
 				47EE28F22840991800C6425C /* PermissionsViewController.swift in Sources */,
+				47061CDF285172BF0042F04C /* CustomCardView.swift in Sources */,
 				47FF418328403AE700A44968 /* CustomAttributedString.swift in Sources */,
 				472A4BF728408BD800FD52B7 /* BlurView.swift in Sources */,
 				47A3D70C27D55A3A003DBEA5 /* PostsService.swift in Sources */,
@@ -1182,10 +1196,10 @@
 				472A4BF828408BD800FD52B7 /* DesignableTextField.swift in Sources */,
 				472A4BFD28408BD800FD52B7 /* DesignableButton.swift in Sources */,
 				4700F8B627DD7BBA006C2E08 /* BasicAPI.swift in Sources */,
-				47061CD428511CA10042F04C /* MapSearchViewController.swift in Sources */,
 				471F92D1280159430079F8CA /* SegmentedControlCell.swift in Sources */,
 				47EE28F82840AE8200C6425C /* TestViewController.swift in Sources */,
 				477A6FD627DFB0450020F864 /* Color.swift in Sources */,
+				47061CDA285170CB0042F04C /* FeedType.swift in Sources */,
 				472A4BFF28408BD800FD52B7 /* DesignableView.swift in Sources */,
 				478A789E284EBD510058C845 /* LoadingViewController.swift in Sources */,
 				472A4BF928408BD800FD52B7 /* SpringButton.swift in Sources */,
@@ -1243,8 +1257,10 @@
 				474A4AC6284AB6D700B39A98 /* String+Indexing.swift in Sources */,
 				479683F82828180C00CA23BA /* ClusterAnnotationView.swift in Sources */,
 				476971DC2847C3F200123F72 /* UITextField+MaxLength.swift in Sources */,
+				47061CD828516E880042F04C /* SwipeBackNavigationController.swift in Sources */,
 				477499872832CF540067C26C /* AutocompleteChatViewController.swift in Sources */,
 				47EE28FE28414AF700C6425C /* CustomCenteredView.swift in Sources */,
+				47061CD6285151440042F04C /* SearchDebugViewController.swift in Sources */,
 				479683F5282817CC00CA23BA /* PostAnnotationView.swift in Sources */,
 				479AA20127DD3F5500EA0DFC /* MistUIButton.swift in Sources */,
 				479AA1FD27DD109F00EA0DFC /* Constants.swift in Sources */,

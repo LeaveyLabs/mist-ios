@@ -81,6 +81,7 @@ class MapViewController: UIViewController {
         setupMapButtons()
         setupMapView()
         setupLocationManager()
+        blurStatusBar()
 
         applyGradientUnderneathNavbar()
     }
@@ -150,6 +151,17 @@ class MapViewController: UIViewController {
                 }
             })
         }
+    }
+    
+    func blurStatusBar() {
+        let blurryEffect = UIBlurEffect(style: .regular)
+        let blurredStatusBar = UIVisualEffectView(effect: blurryEffect)
+        blurredStatusBar.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(blurredStatusBar)
+        blurredStatusBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        blurredStatusBar.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        blurredStatusBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        blurredStatusBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
     }
     
     private func setupLocationManager(){

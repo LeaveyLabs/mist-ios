@@ -14,18 +14,13 @@ enum PermissionType {
 
 struct CustomSwiftMessages {
     static func showError(errorDescription: String) {
-        print(errorDescription)
-        let messageView = MessageView.viewFromNib(layout: .cardView)
-        messageView.backgroundHeight = 60
-        messageView.configureTheme(.error)
-        messageView.configureDropShadow()
-        messageView.button?.isHidden = true
-        messageView.configureContent(title: "Something went wrong.",
+        let errorMessageView: CustomCardView = try! SwiftMessages.viewFromNib()
+        errorMessageView.configureTheme(.error)
+        errorMessageView.button?.isHidden = true
+        errorMessageView.configureContent(title: "Something went wrong.",
                                      body: "Please try again.",
-                                     iconImage: nil,
-                                     iconText: "😔",
-                                     buttonImage: UIImage(systemName: "xmark"),
-                                     buttonTitle: "Close") { button in
+                                     iconText: "😔")
+        errorMessageView.dismissAction = {
             SwiftMessages.hide()
         }
         
@@ -34,7 +29,7 @@ struct CustomSwiftMessages {
         messageConfig.presentationStyle = .top
         messageConfig.duration = .seconds(seconds: 3)
 
-        SwiftMessages.show(config: messageConfig, view: messageView)
+        SwiftMessages.show(config: messageConfig, view: errorMessageView)
     }
     
     static func showPermissionRequest(permissionType: PermissionType, onApprove: @escaping () -> Void) {
