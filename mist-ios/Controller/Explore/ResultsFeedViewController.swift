@@ -29,7 +29,6 @@ class ResultsFeedViewController: FeedViewController {
 //        tableView.rowHeight = UITableView.automaticDimension
         
         tableView.refreshControl = nil //disable pull down top refresh
-        
         navigationItem.title = feedValue
     }
     

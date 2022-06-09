@@ -37,6 +37,7 @@ extension ExploreMapViewController: UISearchControllerDelegate {
         //resultsTableViewController
         resultsTableController = self.storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.LiveResults) as? LiveResultsTableViewController
         resultsTableController.tableView.delegate = self
+        resultsTableController.tableView.contentInsetAdjustmentBehavior = .automatic //necessary for setting bottom insets properly
         
         //searchController
         mySearchController = UISearchController(searchResultsController: resultsTableController)
@@ -61,7 +62,7 @@ extension ExploreMapViewController: UISearchControllerDelegate {
         mySearchController.searchBar.placeholder = resultsTableController.selectedScope.randomPlaceholder
         present(mySearchController, animated: true) {
             self.mySearchController.searchBar.showsScopeBar = true //needed to prevent weird animation
-            self.resultsTableController.tableView.contentInset.top = 150 //needed because... even when i set adjustsContentInsets = .never, mySearchController automatically adjusts the content insets
+            self.resultsTableController.tableView.contentInset.top -= self.view.safeAreaInsets.top - 10 //needed bc auto content inset adjustment behavior isn't reflecing safeareainsets for some reason
         }
     }
     
