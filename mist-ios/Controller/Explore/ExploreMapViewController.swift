@@ -12,6 +12,7 @@ class ExploreMapViewController: MapViewController {
 
     // MARK: - Properties
     
+    @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var customNavigationBar: UIStackView!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var featuredIconButton: UIButton!
@@ -42,7 +43,11 @@ class ExploreMapViewController: MapViewController {
         super.viewDidLoad()
         latitudeOffset = 0.00095
         
-        customNavigationBar.layer.applySketchShadow(color: .black, alpha: 0.3, x: 0, y: 2, blur: 5, spread: 0)
+        blurStatusBar()
+        searchButton.becomeRound()
+        applyShadowOnView(searchButton)
+        searchButton.clipsToBounds = false
+//        customNavigationBar.layer.applySketchShadow(color: .black, alpha: 0.3, x: 0, y: 2, blur: 5, spread: 0)
         setupFilterButton()
         setupSearchBar()
         setupCustomTapGestureRecognizerOnMap()
@@ -280,13 +285,24 @@ extension ExploreMapViewController {
                 mapView.deselectAnnotation(view.annotation, animated: false)
                 handleClusterAnnotationSelection(clusterAnnotation)
             } else if let postAnnotationView = view as? PostAnnotationView {
-                slowFlyOutAndIn(lat: view.annotation!.coordinate.latitude + latitudeOffset,
-                          long: view.annotation!.coordinate.longitude,
-                          withDuration: cameraAnimationDuration,
-                          completion: { _ in })
-                postAnnotationView.loadPostView(on: mapView,
-                                                withDelay: cameraAnimationDuration * 4,
-                                                withPostDelegate: self)
+                if mapView.visibleMapRect.contains(MKMapPoint(postAnnotationView.annotation!.coordinate)) {
+                    slowFlyTo(lat: view.annotation!.coordinate.latitude + latitudeOffset,
+                              long: view.annotation!.coordinate.longitude,
+                              incrementalZoom: false,
+                              withDuration: cameraAnimationDuration,
+                              completion: { _ in })
+                    postAnnotationView.loadPostView(on: mapView,
+                                                    withDelay: cameraAnimationDuration,
+                                                    withPostDelegate: self)
+                } else {
+                    slowFlyOutAndIn(lat: view.annotation!.coordinate.latitude + latitudeOffset,
+                              long: view.annotation!.coordinate.longitude,
+                              withDuration: cameraAnimationDuration,
+                              completion: { _ in })
+                    postAnnotationView.loadPostView(on: mapView,
+                                                    withDelay: cameraAnimationDuration * 4,
+                                                    withPostDelegate: self)
+                }
             }
         case .submission:
             if let clusterAnnotation = view.cluster?.annotation as? MKClusterAnnotation {

@@ -13,7 +13,7 @@ typealias UpdatedPostCompletionHandler = ((Post) -> Void)
 //TODO: set KUIViewController to bottom of safe area, rather than bottom of the view
 //TODO: add tapgesturerecognizer to postView so that the keyboard dismisses
 
-class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIViewControllerTransitioningDelegate, UIGestureRecognizerDelegate {
+class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIViewControllerTransitioningDelegate {
     
     @IBOutlet weak var commentView: UIView!
     @IBOutlet weak var commentProfileImage: UIImageView!

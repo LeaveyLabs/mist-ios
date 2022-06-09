@@ -61,7 +61,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5no-It-ho5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="986" y="1085"/>
+            <point key="canvasLocation" x="-5342" y="2050"/>
         </scene>
         <!--EnterEmailViewController-->
         <scene sceneID="vf0-ZZ-RoJ">
@@ -837,11 +837,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ZOE-xx-yb1">
-                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="fId-hG-Q3h">
-                            <connections>
-                                <action selector="backButtonDidPressed:" destination="K85-S5-lTv" id="Lw1-zt-kxp"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" id="93B-z0-YEC"/>
                     </navigationItem>
                     <connections>
                         <outlet property="bottomConstraintForKeyboard" destination="ins-cC-uIy" id="4Hx-dJ-oBe"/>
@@ -1098,14 +1094,14 @@ This can't be changed later.</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adam Novak" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nbI-9Q-5U6">
-                                        <rect key="frame" x="148" y="407.5" width="118" height="27.5"/>
+                                        <rect key="frame" x="148" y="412.5" width="118" height="27.5"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JRK-KP-qTE">
-                                        <rect key="frame" x="132" y="196.5" width="150" height="150"/>
+                                        <rect key="frame" x="132" y="206.5" width="150" height="150"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="150" id="Yfd-SY-suV"/>
                                             <constraint firstAttribute="height" constant="150" id="sjo-h4-otH"/>
@@ -1119,7 +1115,7 @@ This can't be changed later.</string>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xPg-oA-l2P">
-                                        <rect key="frame" x="236" y="306.5" width="40" height="40"/>
+                                        <rect key="frame" x="236" y="316.5" width="40" height="40"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="40" id="CYN-Oq-U5N"/>
@@ -1148,8 +1144,8 @@ This can't be changed later.</string>
                                     <constraint firstItem="JRK-KP-qTE" firstAttribute="centerX" secondItem="Sh0-Oh-6aN" secondAttribute="centerX" id="Zxt-qi-k11"/>
                                     <constraint firstAttribute="trailing" secondItem="buV-l0-FNd" secondAttribute="trailing" constant="25" id="bz2-5j-Vat"/>
                                     <constraint firstItem="buV-l0-FNd" firstAttribute="leading" secondItem="Sh0-Oh-6aN" secondAttribute="leading" constant="25" id="qBI-Hl-38b"/>
-                                    <constraint firstItem="nbI-9Q-5U6" firstAttribute="top" secondItem="Iry-Ux-efI" secondAttribute="bottom" id="wEg-Lj-qvU"/>
-                                    <constraint firstItem="Iry-Ux-efI" firstAttribute="top" secondItem="JRK-KP-qTE" secondAttribute="bottom" constant="20" id="zXc-Bo-Ud1"/>
+                                    <constraint firstItem="nbI-9Q-5U6" firstAttribute="top" secondItem="Iry-Ux-efI" secondAttribute="bottom" constant="5" id="wEg-Lj-qvU"/>
+                                    <constraint firstItem="Iry-Ux-efI" firstAttribute="top" secondItem="JRK-KP-qTE" secondAttribute="bottom" constant="10" id="zXc-Bo-Ud1"/>
                                     <constraint firstItem="xPg-oA-l2P" firstAttribute="top" secondItem="JRK-KP-qTE" secondAttribute="bottom" constant="-40" id="zme-sy-Xsj"/>
                                 </constraints>
                             </view>
@@ -1232,7 +1228,9 @@ This can't be changed later.</string>
                             <constraint firstItem="wHN-Tc-iy1" firstAttribute="top" secondItem="rb0-mL-362" secondAttribute="top" id="jSN-9Y-HGn"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="qXj-TJ-8cB"/>
+                    <navigationItem key="navigationItem" id="qXj-TJ-8cB">
+                        <barButtonItem key="leftBarButtonItem" id="yj9-8b-Uyf"/>
+                    </navigationItem>
                     <connections>
                         <segue destination="tiY-QX-h2V" kind="show" id="3Gf-8G-Wj9"/>
                     </connections>
@@ -1310,12 +1308,12 @@ This can't be changed later.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Shs-Gj-gcs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-432" y="1071"/>
+            <point key="canvasLocation" x="-5081" y="3009"/>
         </scene>
-        <!--EnterEmailViewController-->
+        <!--ConfirmEmailViewController-->
         <scene sceneID="hmB-I6-6oq">
             <objects>
-                <viewController storyboardIdentifier="ConfirmEmailViewController" title="EnterEmailViewController" id="UyC-fl-2SL" customClass="ConfirmEmailViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ConfirmEmailViewController" title="EnterEmailViewController" id="UyC-fl-2SL" userLabel="ConfirmEmailViewController" customClass="ConfirmEmailViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2Lt-5I-lsT">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>

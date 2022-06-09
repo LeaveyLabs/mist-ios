@@ -33,6 +33,16 @@ class ResultsFeedViewController: FeedViewController {
         navigationItem.title = feedValue
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        disableInteractivePopGesture()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        enableInteractivePopGesture()
+    }
+    
     //MARK: - Custom Constructors
     
     class func resultsFeedViewController(feedType: FeedType, feedValue: String) -> ResultsFeedViewController {

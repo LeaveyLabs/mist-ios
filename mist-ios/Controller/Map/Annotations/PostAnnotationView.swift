@@ -38,8 +38,9 @@ final class PostAnnotationView: MKMarkerAnnotationView {
             glyphImage = UIImage(named: "mist-heart-pink-padded")
             glyphTintColor = .white
             markerTintColor = mistUIColor()
-            displayPriority = .defaultLow
-            clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
+            displayPriority = .required
+            self.layer.applySketchShadow(color: .white, alpha: 0, x: 0, y: 0, blur: 0, spread: 0)
+//            clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
         }
     }
     
