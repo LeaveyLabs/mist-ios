@@ -29,7 +29,7 @@ enum MapSearchScope: Int, CaseIterable {
                     "Leavey Library",
                     "Old Annenberg",
                     "Doheny Lawn",
-                    "The 9O",].randomElement()!
+                    "The 9-0",].randomElement()!
         case .containing:
             return ["Green eyes",
                     "Kinda tall",

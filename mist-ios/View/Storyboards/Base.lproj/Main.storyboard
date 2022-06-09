@@ -1422,10 +1422,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="4Ti-Yh-6iG">
-                                <rect key="frame" x="0.0" y="44" width="390" height="717"/>
+                                <rect key="frame" x="0.0" y="88" width="390" height="673"/>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ety-i7-6O8">
-                                <rect key="frame" x="10" y="94" width="370" height="45"/>
+                                <rect key="frame" x="10" y="98" width="370" height="45"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="iOk-8G-fzm"/>
@@ -1459,7 +1459,9 @@
                                 </constraints>
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="minus" catalog="system"/>
+                                <state key="normal" image="minus" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="medium"/>
+                                </state>
                                 <connections>
                                     <action selector="exploreZoomOutButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="d9X-he-kcs"/>
                                 </connections>
@@ -1476,6 +1478,7 @@
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="plus" catalog="system">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="medium"/>
                                 </state>
                                 <connections>
                                     <action selector="exploreZoomInButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="AKL-6s-3ws"/>
@@ -1490,7 +1493,9 @@
                                 </constraints>
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="location" catalog="system"/>
+                                <state key="normal" image="location" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="medium"/>
+                                </state>
                                 <connections>
                                     <action selector="exploreUserTrackingButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="eiQ-uU-B11"/>
                                 </connections>
@@ -1502,7 +1507,7 @@
                                     <constraint firstAttribute="width" constant="40" id="EAb-cx-djN"/>
                                     <constraint firstAttribute="height" constant="40" id="Y0r-bi-ZiN"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="2D">
@@ -1512,15 +1517,58 @@
                                     <action selector="exploreMapDimensionButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="cmr-Ts-ueL"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k40-DS-h4o">
-                                <rect key="frame" x="323" y="55" width="67" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                                <connections>
-                                    <action selector="searchButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="mPO-2b-Fz1"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bM8-sv-C1j" userLabel="Custom Navigation Stack View">
+                                <rect key="frame" x="0.0" y="44" width="390" height="44"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k40-DS-h4o">
+                                        <rect key="frame" x="14.999999999999998" y="0.0" width="27.333333333333329" height="44"/>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="person" catalog="system">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="25" weight="regular"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="myProfileButtonDidTapped:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="Z1v-oP-c43"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" id="n6J-U1-lxs">
+                                        <rect key="frame" x="42.333333333333343" y="0.0" width="303.33333333333326" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="mist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i17-YO-BOb">
+                                                <rect key="frame" x="142" y="0.0" width="61" height="44"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="32"/>
+                                                <color key="textColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mist-heart" translatesAutoresizingMaskIntoConstraints="NO" id="NbB-LS-bQr">
+                                                <rect key="frame" x="106" y="5" width="30" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                                            </imageView>
+                                        </subviews>
+                                        <viewLayoutGuide key="safeArea" id="Y7X-ai-iRJ"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Abm-Ot-LyX">
+                                        <rect key="frame" x="345.66666666666669" y="0.0" width="29.333333333333314" height="44"/>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="magnifyingglass" catalog="system">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="25" weight="regular"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="searchButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="phl-h4-Q2F"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="tsv-Tw-8px"/>
+                                </constraints>
+                                <edgeInsets key="layoutMargins" top="0.0" left="15" bottom="0.0" right="15"/>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="PwX-9i-D1c"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1528,68 +1576,38 @@
                             <constraint firstItem="d78-fs-Q0o" firstAttribute="top" secondItem="mMJ-N3-E3z" secondAttribute="bottom" constant="8" symbolic="YES" id="27F-an-xI4"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="d78-fs-Q0o" secondAttribute="trailing" constant="10" id="4dt-gc-mCf"/>
                             <constraint firstItem="Ety-i7-6O8" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" constant="10" id="6zC-xw-n7W"/>
+                            <constraint firstItem="4Ti-Yh-6iG" firstAttribute="top" secondItem="bM8-sv-C1j" secondAttribute="bottom" id="7AB-X5-cAl"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="4Ti-Yh-6iG" secondAttribute="trailing" id="8r7-k1-G5u"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="bottom" secondItem="d78-fs-Q0o" secondAttribute="bottom" constant="33" id="BBq-7M-SAx"/>
+                            <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="bM8-sv-C1j" secondAttribute="trailing" id="Ear-zw-I4e"/>
+                            <constraint firstItem="bM8-sv-C1j" firstAttribute="top" secondItem="PwX-9i-D1c" secondAttribute="top" id="HxD-lm-T8D"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="bottom" secondItem="4Ti-Yh-6iG" secondAttribute="bottom" id="Lpe-Pd-ULU"/>
-                            <constraint firstItem="Ety-i7-6O8" firstAttribute="top" secondItem="PwX-9i-D1c" secondAttribute="top" constant="50" id="WeO-F7-grb"/>
                             <constraint firstItem="4Ti-Yh-6iG" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" id="Xj8-ql-Hva"/>
+                            <constraint firstItem="bM8-sv-C1j" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" id="Zax-X0-4oL"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="mMJ-N3-E3z" secondAttribute="trailing" constant="10" id="e3W-5H-0oR"/>
                             <constraint firstItem="R81-a2-tHs" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" constant="10" id="gd1-b7-Kcl"/>
                             <constraint firstItem="xse-Ra-6WG" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" constant="10" id="haV-lL-ml0"/>
-                            <constraint firstItem="4Ti-Yh-6iG" firstAttribute="top" secondItem="PwX-9i-D1c" secondAttribute="top" id="jwx-tL-MTK"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="Ety-i7-6O8" secondAttribute="trailing" constant="10" id="kaL-R7-As0"/>
                             <constraint firstItem="xse-Ra-6WG" firstAttribute="top" secondItem="R81-a2-tHs" secondAttribute="bottom" constant="8" symbolic="YES" id="lnA-ct-5Db"/>
+                            <constraint firstItem="Ety-i7-6O8" firstAttribute="top" secondItem="bM8-sv-C1j" secondAttribute="bottom" constant="10" id="pjS-ki-kMA"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="bottom" secondItem="xse-Ra-6WG" secondAttribute="bottom" constant="33" id="zgU-oU-1xL"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="RBw-gp-2Gi">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="person.crop.circle" catalog="system" id="wZX-uF-b3Y">
-                            <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <connections>
-                                <action selector="myProfileButtonDidTapped:" destination="oJQ-b2-Es1" id="oiZ-7A-bNL"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="magnifyingglass" catalog="system" id="Axq-QY-16B">
-                            <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <connections>
-                                <action selector="searchButtonDidPressed:" destination="oJQ-b2-Es1" id="rtP-lt-q6y"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="RBw-gp-2Gi"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="customNavigationBar" destination="bM8-sv-C1j" id="NKc-Sb-g0h"/>
                         <outlet property="filterButton" destination="Ety-i7-6O8" id="HO2-Mg-sIv"/>
                         <outlet property="mapDimensionButton" destination="R81-a2-tHs" id="71G-dI-Omy"/>
                         <outlet property="mapView" destination="4Ti-Yh-6iG" id="wqV-X2-Kw7"/>
-                        <outlet property="mistTitle" destination="n6J-U1-lxs" id="ucb-FW-J48"/>
                         <outlet property="userTrackingButton" destination="xse-Ra-6WG" id="pJu-8s-aNi"/>
                         <outlet property="zoomInButton" destination="mMJ-N3-E3z" id="atc-SZ-l2Q"/>
                         <outlet property="zoomOutButton" destination="d78-fs-Q0o" id="s08-ht-QwJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="alN-Hu-vhD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <view contentMode="scaleToFill" id="n6J-U1-lxs">
-                    <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="mist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i17-YO-BOb">
-                            <rect key="frame" x="38" y="-5" width="61" height="44"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="32"/>
-                            <color key="textColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mist-heart" translatesAutoresizingMaskIntoConstraints="NO" id="NbB-LS-bQr">
-                            <rect key="frame" x="2" y="0.0" width="30" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
-                        </imageView>
-                    </subviews>
-                    <viewLayoutGuide key="safeArea" id="Y7X-ai-iRJ"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                </view>
             </objects>
-            <point key="canvasLocation" x="-1763" y="503"/>
+            <point key="canvasLocation" x="-1763.0769230769231" y="502.60663507109001"/>
         </scene>
         <!--Live Results Table View Controller-->
         <scene sceneID="8EU-Mb-n2Q">
@@ -2953,6 +2971,7 @@ You can message people in two ways: 
         <image name="map.fill" catalog="system" width="128" height="110"/>
         <image name="minus" catalog="system" width="128" height="24"/>
         <image name="mist-heart" width="190" height="176"/>
+        <image name="person" catalog="system" width="128" height="117"/>
         <image name="person.2" catalog="system" width="128" height="81"/>
         <image name="person.crop.circle" catalog="system" width="128" height="121"/>
         <image name="person.crop.circle.badge.plus" catalog="system" width="128" height="113"/>

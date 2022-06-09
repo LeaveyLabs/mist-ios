@@ -14,10 +14,7 @@ extension ExploreMapViewController {
     // MARK: - User Interaction
     
     @IBAction func searchButtonDidPressed(_ sender: UIBarButtonItem) {
-        CustomSwiftMessages.showError(errorDescription: "ASDF")
-
-        
-//        mySearchController.isActive = true //calls delegate.presentSearchController
+        mySearchController.isActive = true //calls its delegate's presentSearchController
         filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //eventually replace this with "dismissFilter()" when completion handler is added
         filterMapModalVC?.dismiss(animated: false)
     }

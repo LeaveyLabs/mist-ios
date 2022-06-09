@@ -46,6 +46,7 @@
 		47061CDA285170CB0042F04C /* FeedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47061CD9285170CB0042F04C /* FeedType.swift */; };
 		47061CDD285172A10042F04C /* CustomCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47061CDC285172A10042F04C /* CustomCardView.xib */; };
 		47061CDF285172BF0042F04C /* CustomCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47061CDE285172BF0042F04C /* CustomCardView.swift */; };
+		47061CE128517EDB0042F04C /* CALayer+Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47061CE028517EDB0042F04C /* CALayer+Shadow.swift */; };
 		470F271327DE6F5800C6DDAF /* LiveResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */; };
 		470F271827DE758100C6DDAF /* WordResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271627DE758100C6DDAF /* WordResultCell.swift */; };
 		470F271927DE758100C6DDAF /* WordResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 470F271727DE758100C6DDAF /* WordResultCell.xib */; };
@@ -263,6 +264,7 @@
 		47061CD9285170CB0042F04C /* FeedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedType.swift; sourceTree = "<group>"; };
 		47061CDC285172A10042F04C /* CustomCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCardView.xib; sourceTree = "<group>"; };
 		47061CDE285172BF0042F04C /* CustomCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCardView.swift; sourceTree = "<group>"; };
+		47061CE028517EDB0042F04C /* CALayer+Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Shadow.swift"; sourceTree = "<group>"; };
 		470F271227DE6F5800C6DDAF /* LiveResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveResultsTableViewController.swift; sourceTree = "<group>"; };
 		470F271627DE758100C6DDAF /* WordResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordResultCell.swift; sourceTree = "<group>"; };
 		470F271727DE758100C6DDAF /* WordResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WordResultCell.xib; sourceTree = "<group>"; };
@@ -711,6 +713,7 @@
 				47AC881E28480AE1000150CA /* UIButton+RightSideImage.swift */,
 				474A4AAF284A922100B39A98 /* UIScrollView+ToTop.swift */,
 				474A4AC5284AB6D700B39A98 /* String+Indexing.swift */,
+				47061CE028517EDB0042F04C /* CALayer+Shadow.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1263,6 +1266,7 @@
 				47061CD6285151440042F04C /* SearchDebugViewController.swift in Sources */,
 				479683F5282817CC00CA23BA /* PostAnnotationView.swift in Sources */,
 				479AA20127DD3F5500EA0DFC /* MistUIButton.swift in Sources */,
+				47061CE128517EDB0042F04C /* CALayer+Shadow.swift in Sources */,
 				479AA1FD27DD109F00EA0DFC /* Constants.swift in Sources */,
 				472A4BEE28408BD800FD52B7 /* DesignableImageView.swift in Sources */,
 				47EA3E0027E013EB00381218 /* PostAnnotation.swift in Sources */,

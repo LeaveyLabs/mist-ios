@@ -187,7 +187,6 @@ class MapViewController: UIViewController {
 //        gradientLayer.opacity = 0.2
 //        gradientView.layer.addSublayer(gradientLayer)
 //        mapView.addSubview(gradientView)
-
     }
 
     

@@ -12,7 +12,7 @@ class ExploreMapViewController: MapViewController {
 
     // MARK: - Properties
     
-    @IBOutlet weak var mistTitle: UIView!
+    @IBOutlet weak var customNavigationBar: UIStackView!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var featuredIconButton: UIButton!
             
@@ -42,8 +42,7 @@ class ExploreMapViewController: MapViewController {
         super.viewDidLoad()
         latitudeOffset = 0.00095
         
-        navigationItem.titleView = mistTitle
-                
+        customNavigationBar.layer.applySketchShadow(color: .black, alpha: 0.3, x: 0, y: 2, blur: 5, spread: 0)
         setupFilterButton()
         setupSearchBar()
         setupCustomTapGestureRecognizerOnMap()

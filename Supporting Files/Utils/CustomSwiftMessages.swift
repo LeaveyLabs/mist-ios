@@ -25,7 +25,7 @@ struct CustomSwiftMessages {
         }
         
         var messageConfig = SwiftMessages.Config()
-        messageConfig.presentationContext = .window(windowLevel: .statusBar)
+        messageConfig.presentationContext = .window(windowLevel: .normal)
         messageConfig.presentationStyle = .top
         messageConfig.duration = .seconds(seconds: 3)
 
