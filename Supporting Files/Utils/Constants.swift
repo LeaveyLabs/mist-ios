@@ -11,7 +11,6 @@ import MapKit
 
 struct Constants {
     struct Font {
-        //TODO: im using avenir book and avenir medium in the app, but they look quite similar. just choose one later on
         static let Light: String = "Avenir-Light"
         static let Medium: String = "Avenir-Medium"
         static let Heavy: String = "Avenir-Heavy"
@@ -61,7 +60,6 @@ struct Constants {
             static let SearchSuggestions = "SearchSuggestionsTableViewController"
             static let ResultsFeed = "ResultsFeedViewController"
             static let PinMapModal = "PinMapModalViewController"
-            static let MapModal = "MapModalViewController"
             static let Filter = "FilterViewController"
             static let MapSearch = "MapSearchViewController"
             //Messages

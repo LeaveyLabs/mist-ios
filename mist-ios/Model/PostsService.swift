@@ -72,7 +72,6 @@ class PostsService: NSObject {
 //    func deletePost(at index: Int, userID: String) {
 //        if (isValidIndex(index)) {
 //            posts.remove(at: index) //all elements after are automatically re-indexed to close the gap
-//            //TODO: update database
 //        }
 //    }
 //
@@ -85,7 +84,6 @@ class PostsService: NSObject {
 //            //else just upvote
 //            posts[index].upvotes = posts[index].upvotes + 1
 //
-//            //TODO: db calls
 //        } else { print("Not a valid index") }
 //    }
 //

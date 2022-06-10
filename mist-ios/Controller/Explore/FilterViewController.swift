@@ -100,7 +100,6 @@ class FilterViewController: SheetViewController {
         if needsSliderUpdate {
             dateSlider.value = 1
             selectedFilter.postTimeframe = dateSlider.value
-            //TODO: slider label not updating correctly
             updateSliderLabel() //must come after selectedFilter and dateSlider is adjusted
         }
 

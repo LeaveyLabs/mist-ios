@@ -12,7 +12,7 @@
         <!--View Controller-->
         <scene sceneID="O0K-jo-Zkd">
             <objects>
-                <viewController id="HpL-iT-8ZP" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuthStart" id="HpL-iT-8ZP" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="g07-uP-5a9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -61,7 +61,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5no-It-ho5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5342" y="2050"/>
+            <point key="canvasLocation" x="-4417" y="2064"/>
         </scene>
         <!--EnterEmailViewController-->
         <scene sceneID="vf0-ZZ-RoJ">
@@ -158,7 +158,7 @@
                         <outlet property="bottomConstraintForKeyboard" destination="flk-T6-bEB" id="Zao-bZ-ssl"/>
                         <outlet property="continueButton" destination="2Gm-Vy-EPF" id="7gM-Vf-2Mx"/>
                         <outlet property="enterEmailTextField" destination="wCt-JL-EOf" id="Wcm-NL-9MJ"/>
-                        <segue destination="UyC-fl-2SL" kind="show" id="RM0-5G-PyS"/>
+                        <segue destination="UyC-fl-2SL" kind="show" identifier="unusedIdentifier" id="RM0-5G-PyS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dk4-3j-CVV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -508,7 +508,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="2yy-YR-CED" kind="relationship" relationship="rootViewController" id="wP6-0d-o3P"/>
+                        <segue destination="2yy-YR-CED" kind="relationship" relationship="rootViewController" id="lfW-qv-W7E"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5c1-Fs-1BC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -665,7 +665,7 @@
         <!--EnterEmailViewController-->
         <scene sceneID="VFf-6f-DNv">
             <objects>
-                <viewController title="EnterEmailViewController" id="5DQ-gi-tOY" customClass="EnterEmailViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OldEnterEmail" title="EnterEmailViewController" id="5DQ-gi-tOY" customClass="EnterEmailViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xpc-6z-lPQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
@@ -844,7 +844,7 @@
                         <outlet property="confirmPasswordTextField" destination="iQa-pG-VFw" id="BEt-P1-l76"/>
                         <outlet property="continueButton" destination="a7x-Xq-nF1" id="Hqm-XB-eOn"/>
                         <outlet property="passwordTextField" destination="Cfn-mf-4dr" id="TCl-hY-43U"/>
-                        <segue destination="0Ps-eq-PJ6" kind="show" id="bbF-nQ-7ej"/>
+                        <segue destination="0Ps-eq-PJ6" kind="show" identifier="unusedIdentifier" id="bbF-nQ-7ej"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="th3-1i-mNv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -938,7 +938,7 @@
                         <outlet property="bottomConstraintForKeyboard" destination="RXm-Pf-ewo" id="9EU-rZ-gVh"/>
                         <outlet property="continueButton" destination="Rki-dU-leV" id="5Qm-ed-dKE"/>
                         <outlet property="usernameTextField" destination="dby-jU-6UX" id="5Xw-a2-JP4"/>
-                        <segue destination="dKQ-xP-oHK" kind="show" id="qb1-T4-Sdx"/>
+                        <segue destination="dKQ-xP-oHK" kind="show" identifier="unusedIdentifier" id="qb1-T4-Sdx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xrq-2N-RjX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1051,7 +1051,7 @@ This can't be changed later.</string>
                         <outlet property="continueButton" destination="jp2-1x-n3I" id="YV1-FM-PXq"/>
                         <outlet property="firstNameTextField" destination="CQo-7N-wzP" id="diB-Uf-4nF"/>
                         <outlet property="lastNameTextField" destination="Tyb-GV-puX" id="8VU-Gt-nC4"/>
-                        <segue destination="cza-Du-2JA" kind="show" id="HTS-XG-pgn"/>
+                        <segue destination="cza-Du-2JA" kind="show" identifier="unusedIdentifier" id="HTS-XG-pgn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pk8-5d-40Z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1232,83 +1232,12 @@ This can't be changed later.</string>
                         <barButtonItem key="leftBarButtonItem" id="yj9-8b-Uyf"/>
                     </navigationItem>
                     <connections>
-                        <segue destination="tiY-QX-h2V" kind="show" id="3Gf-8G-Wj9"/>
+                        <segue destination="tiY-QX-h2V" kind="show" identifier="unusedIdentifier" id="3Gf-8G-Wj9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oyM-fV-FCg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="566.66666666666674" y="2209.8214285714284"/>
-        </scene>
-        <!--LoginViewController-->
-        <scene sceneID="Ssj-cj-9ze">
-            <objects>
-                <viewController storyboardIdentifier="j" title="EnterEmailViewController" id="5Ro-ag-RSk" userLabel="LoginViewController" customClass="TestViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="eDD-C8-nFg">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FLl-ke-IvF" userLabel="KUIView">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                                <subviews>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xVf-UZ-u2T">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nyO-9w-F2I">
-                                                <rect key="frame" x="186" y="79" width="42" height="21"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v3M-4I-gqU">
-                                                <rect key="frame" x="186" y="659" width="42" height="21"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6bm-Mb-FSK">
-                                                <rect key="frame" x="131" y="224" width="97" height="34"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
-                                            </textField>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstItem="nyO-9w-F2I" firstAttribute="top" secondItem="xVf-UZ-u2T" secondAttribute="top" constant="79" id="1ZD-ni-06C"/>
-                                            <constraint firstItem="v3M-4I-gqU" firstAttribute="top" secondItem="nyO-9w-F2I" secondAttribute="bottom" constant="559" id="O1H-Sx-4Bb"/>
-                                            <constraint firstAttribute="bottom" secondItem="v3M-4I-gqU" secondAttribute="bottom" constant="94" id="Tff-Px-DbT"/>
-                                            <constraint firstItem="nyO-9w-F2I" firstAttribute="leading" secondItem="xVf-UZ-u2T" secondAttribute="leading" constant="186" id="pIk-g2-1qd"/>
-                                        </constraints>
-                                        <viewLayoutGuide key="contentLayoutGuide" id="wFf-NE-qDt"/>
-                                        <viewLayoutGuide key="frameLayoutGuide" id="7Gp-1L-JQV"/>
-                                    </scrollView>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstItem="xVf-UZ-u2T" firstAttribute="leading" secondItem="FLl-ke-IvF" secondAttribute="leading" id="173-0F-TCv"/>
-                                    <constraint firstAttribute="bottom" secondItem="xVf-UZ-u2T" secondAttribute="bottom" id="Po5-7d-HsA"/>
-                                    <constraint firstAttribute="trailing" secondItem="xVf-UZ-u2T" secondAttribute="trailing" id="edn-K1-pMZ"/>
-                                    <constraint firstItem="xVf-UZ-u2T" firstAttribute="top" secondItem="FLl-ke-IvF" secondAttribute="top" id="p1R-jN-dLK"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="s0g-Eq-i78"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="FLl-ke-IvF" firstAttribute="top" secondItem="s0g-Eq-i78" secondAttribute="top" id="V8z-Dc-ygM"/>
-                            <constraint firstItem="FLl-ke-IvF" firstAttribute="trailing" secondItem="s0g-Eq-i78" secondAttribute="trailing" id="ZkY-Jk-GYm"/>
-                            <constraint firstItem="FLl-ke-IvF" firstAttribute="leading" secondItem="s0g-Eq-i78" secondAttribute="leading" id="auS-Vw-p6L"/>
-                            <constraint firstItem="FLl-ke-IvF" firstAttribute="bottom" secondItem="s0g-Eq-i78" secondAttribute="bottom" id="b0y-ZD-mWf"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="mFg-Er-eO2"/>
-                    <connections>
-                        <outlet property="asdf" destination="6bm-Mb-FSK" id="QEL-ul-oSi"/>
-                        <outlet property="bottomConstraintForKeyboard" destination="Po5-7d-HsA" id="JeC-vj-ADw"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Shs-Gj-gcs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-5081" y="3009"/>
         </scene>
         <!--ConfirmEmailViewController-->
         <scene sceneID="hmB-I6-6oq">
@@ -1463,7 +1392,7 @@ This can't be changed later.</string>
                         <outlet property="errorLabel" destination="1iY-N7-bhq" id="3B1-ob-cNj"/>
                         <outlet property="errorView" destination="yJz-Cy-4Uv" id="4Vy-Cc-pV4"/>
                         <outlet property="resendButton" destination="s4N-CG-jen" id="oTx-Py-XCz"/>
-                        <segue destination="K85-S5-lTv" kind="show" id="Yps-6Z-UMu"/>
+                        <segue destination="K85-S5-lTv" kind="show" identifier="unusedIdentifier" id="Yps-6Z-UMu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sNm-RB-4bS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
