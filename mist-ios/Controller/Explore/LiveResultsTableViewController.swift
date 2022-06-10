@@ -45,10 +45,5 @@ class LiveResultsTableViewController: UITableViewController {
             cell.configureWordCell(word: liveResults[indexPath.row] as! Word, parent: self)
             return cell
         }
-        
-        //Not allowing searching for users for now
-//            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.UserResult, for: indexPath) as! UserResultCell
-//            cell.configureUserCell(user: liveResults[indexPath.row] as! User, parent: self)
-//            return cell
     }
 }
