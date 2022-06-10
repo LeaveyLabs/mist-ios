@@ -20,6 +20,7 @@ struct CustomSwiftMessages {
         errorMessageView.configureContent(title: "Something went wrong.",
                                      body: "Please try again.",
                                      iconText: "😔")
+        errorMessageView.dismissButton.tintColor = .white
         errorMessageView.dismissAction = {
             SwiftMessages.hide()
         }
@@ -30,6 +31,26 @@ struct CustomSwiftMessages {
         messageConfig.duration = .seconds(seconds: 3)
 
         SwiftMessages.show(config: messageConfig, view: errorMessageView)
+    }
+    
+    static func showInfo(_ title: String, _ body: String) {
+        let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
+        messageView.configureTheme(backgroundColor: .white, foregroundColor: .black)
+        messageView.button?.isHidden = true
+        messageView.configureContent(title: title,
+                                     body: body,
+                                     iconText: "😔")
+        messageView.dismissButton.tintColor = .black
+        messageView.dismissAction = {
+            SwiftMessages.hide()
+        }
+        
+        var messageConfig = SwiftMessages.Config()
+        messageConfig.presentationContext = .window(windowLevel: .normal)
+        messageConfig.presentationStyle = .top
+        messageConfig.duration = .seconds(seconds: 3)
+
+        SwiftMessages.show(config: messageConfig, view: messageView)
     }
     
     static func showPermissionRequest(permissionType: PermissionType, onApprove: @escaping () -> Void) {

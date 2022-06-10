@@ -21,7 +21,6 @@ class CustomCardView: MessageView {
     override func layoutSubviews() {
         dismissButton.setImage(UIImage(systemName: "xmark.circle"), for: .normal)
         dismissButton.setTitle("", for: .normal)
-        dismissButton.tintColor = .white
     }
 
 }

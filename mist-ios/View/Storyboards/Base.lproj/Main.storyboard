@@ -1572,10 +1572,10 @@
             </objects>
             <point key="canvasLocation" x="-1763.0769230769231" y="502.60663507109001"/>
         </scene>
-        <!--Live Results Table View Controller-->
+        <!--Search Suggestions Table View Controller-->
         <scene sceneID="8EU-Mb-n2Q">
             <objects>
-                <tableViewController storyboardIdentifier="LiveResultsTableViewController" id="h7b-ZC-RvC" customClass="LiveResultsTableViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SearchSuggestionsTableViewController" id="h7b-ZC-RvC" customClass="SearchSuggestionsTableViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="0m4-Qp-dfj">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1591,7 +1591,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
-                            <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                            <color key="backgroundColor" systemColor="systemGray6Color"/>
                             <constraints>
                                 <constraint firstItem="zm6-3L-bmq" firstAttribute="leading" secondItem="uQO-EH-J6i" secondAttribute="leading" constant="18" id="bUm-og-7xf"/>
                                 <constraint firstAttribute="trailing" secondItem="zm6-3L-bmq" secondAttribute="trailing" constant="13" id="cVY-FA-QUv"/>
@@ -1767,7 +1767,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hzi-0y-WHM">
-                                <rect key="frame" x="15" y="202" width="360" height="41.333333333333343"/>
+                                <rect key="frame" x="15" y="202" width="360" height="41.666666666666657"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2432,7 +2432,7 @@ You can message people in two ways: 
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UEe-Tj-HkA">
-                                <rect key="frame" x="10" y="134" width="93.333333333333329" height="47"/>
+                                <rect key="frame" x="10" y="134" width="93.666666666666671" height="47"/>
                                 <color key="tintColor" systemColor="labelColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
                                 <state key="normal" title="Share" image="square.and.arrow.up" catalog="system"/>
@@ -2477,7 +2477,7 @@ You can message people in two ways: 
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fb8-PI-7Bc">
-                                <rect key="frame" x="10" y="305" width="152.66666666666666" height="47"/>
+                                <rect key="frame" x="10" y="305" width="153" height="47"/>
                                 <color key="tintColor" systemColor="labelColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
                                 <state key="normal" title="New" image="sparkles" catalog="system"/>
@@ -2494,13 +2494,13 @@ You can message people in two ways: 
                                 <color key="thumbTintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N7J-Nr-ZOs">
-                                <rect key="frame" x="20.000000000000004" y="64" width="55.333333333333343" height="28"/>
+                                <rect key="frame" x="19.999999999999996" y="64" width="55.666666666666657" height="28"/>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exl-fP-bh0">
-                                <rect key="frame" x="15" y="362" width="360" height="41.333333333333314"/>
+                                <rect key="frame" x="15" y="362" width="360" height="41.666666666666686"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2558,7 +2558,7 @@ You can message people in two ways: 
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNq-Ev-UfI">
-                                <rect key="frame" x="10" y="134" width="93.333333333333329" height="47"/>
+                                <rect key="frame" x="10" y="134" width="93.666666666666671" height="47"/>
                                 <color key="tintColor" systemColor="labelColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
                                 <state key="normal" title="Share" image="square.and.arrow.up" catalog="system"/>
@@ -2620,13 +2620,13 @@ You can message people in two ways: 
                                 <color key="thumbTintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="si8-BC-NC1">
-                                <rect key="frame" x="20.000000000000004" y="64" width="55.333333333333343" height="28"/>
+                                <rect key="frame" x="19.999999999999996" y="64" width="55.666666666666657" height="28"/>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="veU-01-jYW">
-                                <rect key="frame" x="15" y="248.00000000000003" width="360" height="41.333333333333343"/>
+                                <rect key="frame" x="15" y="247.99999999999997" width="360" height="41.666666666666657"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -3143,9 +3143,6 @@ You can message people in two ways: 
         </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

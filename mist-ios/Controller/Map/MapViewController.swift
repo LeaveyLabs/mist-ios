@@ -116,7 +116,6 @@ class MapViewController: UIViewController {
     
     // NOTE: If you want to change the clustering identifier based on location, you should probably delink the annotationview and reuse identifier like below (watch the wwdc video again) so you can change the constructor of AnnotationViews/ClusterANnotationViews to include map height
     func registerMapAnnotationViews() {
-        mapView.register(PostAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         mapView.register(ClusterAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
     }
     
@@ -311,12 +310,20 @@ extension MapViewController: MKMapViewDelegate {
         if let clusterAnnotation = annotation as? MKClusterAnnotation {
             clusterAnnotation.updateIsHotspot(cameraDistance: mapView.camera.centerCoordinateDistance)
         }
-        return nil
+        
+        if let annotation = annotation as? PostAnnotation {
+            return PostAnnotationView(annotation: annotation, reuseIdentifier: PostAnnotationView.ReuseID)
+        }
+        if let annotation = annotation as? PlaceAnnotation {
+            return PlaceAnnotationView(annotation: annotation, reuseIdentifier: PlaceAnnotationView.ReuseID)
+        }
+        
+        return nil // handles views for default annotations like user location
     }
 }
 
 extension MapViewController: CLLocationManagerDelegate {
- 
+    
     //called upon creation of LocationManager and upon permission changes (either from within app or in settings)
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse || status == .authorizedAlways {

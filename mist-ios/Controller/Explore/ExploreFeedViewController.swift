@@ -13,7 +13,7 @@ class ExploreFeedViewController: FeedViewController {
         
     //ExploreViewController
     var mySearchController: UISearchController!
-    private var resultsTableController: LiveResultsTableViewController!
+    private var resultsTableController: SearchSuggestionsTableViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,7 +71,7 @@ extension ExploreFeedViewController: UISearchControllerDelegate {
     func setupSearchBar() {
         //resultsTableViewController
         resultsTableController =
-        self.storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.LiveResults) as? LiveResultsTableViewController
+        self.storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.SearchSuggestions) as? SearchSuggestionsTableViewController
         resultsTableController.tableView.delegate = self // This view controller is interested in table view row selections.
         resultsTableController.tableView.contentInsetAdjustmentBehavior = .automatic //removes strange whitespace https://stackoverflow.com/questions/1703023/is-it-possible-to-access-a-uitableviews-scrollview-in-code-from-a-nib
         
@@ -218,7 +218,7 @@ extension ExploreFeedViewController: UISearchResultsUpdating {
         }
         resultsTableController.resultsLabelView.isHidden = false
         
-        if let resultsController = searchController.searchResultsController as? LiveResultsTableViewController {
+        if let resultsController = searchController.searchResultsController as? SearchSuggestionsTableViewController {
             Task {
                 do {
                     resultsTableController.resultsLabel.text = "Searching..."

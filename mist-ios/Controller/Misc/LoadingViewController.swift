@@ -9,7 +9,7 @@ import UIKit
 
 class LoadingViewController: UIViewController {
     
-    let SHOULD_ANIMATE = true
+    let SHOULD_ANIMATE = false
     var FADING_ANIMATION_DELAY = 0.0
     var FADING_ANIMATION_DURATION = 0.0
 

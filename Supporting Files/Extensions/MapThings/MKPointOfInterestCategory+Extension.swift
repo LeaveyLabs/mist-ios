@@ -12,7 +12,7 @@ import MapKit
 extension MKPointOfInterestCategory {
     
     static let travelPointsOfInterest: [MKPointOfInterestCategory] = [.bakery, .brewery, .cafe, .restaurant, .winery, .hotel]
-    static let defaultPointOfInterestSymbolName = "mappin.and.ellipse"
+    static let defaultSymbolName = "mappin.and.ellipse"
     
     var symbolName: String {
         switch self {
@@ -20,15 +20,35 @@ extension MKPointOfInterestCategory {
             return "airplane"
         case .atm, .bank:
             return "banknote"
-        case .bakery, .brewery, .cafe, .foodMarket, .restaurant, .winery:
+        case .brewery, .winery, .restaurant:
             return "fork.knife"
+        case .nightlife:
+            return "moon"
+        case .foodMarket, .store:
+            return "cart"
+        case .bakery, .cafe:
+            return "cup.and.saucer"
         case .campground, .hotel:
             return "bed.double"
-        case .carRental, .evCharger, .gasStation, .parking:
+        case .pharmacy:
+            return "pills"
+        case .carRental, .gasStation:
             return "car"
+        case .evCharger:
+            return "bolt.car"
         case .laundry, .store:
             return "tshirt"
-        case .library, .museum, .school, .theater, .university:
+        case .university, .school:
+            return "graduationcap"
+        case .library:
+            return "book"
+        case .parking:
+            return "p.circle"
+        case .theater:
+            return "theatermasks"
+        case .marina:
+            return "ferry"
+        case .museum:
             return "building.columns"
         case .nationalPark, .park:
             return "leaf"
@@ -37,7 +57,7 @@ extension MKPointOfInterestCategory {
         case .publicTransport:
             return "bus"
         default:
-            return MKPointOfInterestCategory.defaultPointOfInterestSymbolName
+            return MKPointOfInterestCategory.defaultSymbolName
         }
     }
 }

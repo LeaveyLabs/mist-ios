@@ -15,6 +15,8 @@ protocol AnnotationViewSwipeDelegate {
 
 final class PostAnnotationView: MKMarkerAnnotationView {
     
+    static let ReuseID = "Post"
+    
     var postCalloutView: PostView? // the postAnnotationView's callout view
     var mapView: MKMapView? {
         var view = superview
@@ -39,7 +41,6 @@ final class PostAnnotationView: MKMarkerAnnotationView {
             glyphTintColor = .white
             markerTintColor = mistUIColor()
             displayPriority = .required
-            self.layer.applySketchShadow(color: .white, alpha: 0, x: 0, y: 0, blur: 0, spread: 0)
 //            clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
         }
     }

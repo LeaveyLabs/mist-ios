@@ -12,6 +12,7 @@ class ExploreMapViewController: MapViewController {
 
     // MARK: - Properties
     
+    // Views
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var customNavigationBar: UIStackView!
     @IBOutlet weak var filterButton: UIButton!
@@ -19,23 +20,33 @@ class ExploreMapViewController: MapViewController {
             
     // SearchViewController properties
     var mySearchController: UISearchController!
-    var resultsTableController: LiveResultsTableViewController!
+    var searchSuggestionsVC: SearchSuggestionsTableViewController!
     var filterMapModalVC: FilterViewController?
     
+    // SearchViewController properties for local map search
+    var boundingRegion: MKCoordinateRegion = MKCoordinateRegion(MKMapRect.world)
+    var localSearch: MKLocalSearch? {
+        willSet {
+            // Clear the results and cancel the currently running local search before starting a new search.
+            localSearch?.cancel()
+        }
+    }
+    
+    // Annotation selection
     var selectedAnnotationView: MKAnnotationView?
     var selectedAnnotationIndex: Int? {
         guard let selected = selectedAnnotationView else { return nil }
         return postAnnotations.firstIndex(of: selected.annotation as! PostAnnotation)
     }
-
-    // Post Loading
-    var postFilter = PostFilter()
-    
     // Flag for didSelect(annotation)
     enum AnnotationSelectionType {
         case submission, swipe, normal
     }
     var annotationSelectionType: AnnotationSelectionType = .normal
+
+    // Post Loading
+    var postFilter = PostFilter()
+
 
     // MARK: - View Life Cycle
     
@@ -286,7 +297,17 @@ extension ExploreMapViewController {
                 mapView.deselectAnnotation(view.annotation, animated: false)
                 handleClusterAnnotationSelection(clusterAnnotation)
             } else if let postAnnotationView = view as? PostAnnotationView {
-                if mapView.visibleMapRect.contains(MKMapPoint(postAnnotationView.annotation!.coordinate)) {
+                // - 100 because that's roughly the offset between the middle of the map and the annotaiton
+                let distanceb = postAnnotationView.annotation!.coordinate.distance(from: mapView.centerCoordinate) - 100
+                if distanceb > 400 {
+                    slowFlyOutAndIn(lat: view.annotation!.coordinate.latitude + latitudeOffset,
+                              long: view.annotation!.coordinate.longitude,
+                              withDuration: cameraAnimationDuration,
+                              completion: { _ in })
+                    postAnnotationView.loadPostView(on: mapView,
+                                                    withDelay: cameraAnimationDuration * 4,
+                                                    withPostDelegate: self)
+                } else {
                     slowFlyTo(lat: view.annotation!.coordinate.latitude + latitudeOffset,
                               long: view.annotation!.coordinate.longitude,
                               incrementalZoom: false,
@@ -294,14 +315,6 @@ extension ExploreMapViewController {
                               completion: { _ in })
                     postAnnotationView.loadPostView(on: mapView,
                                                     withDelay: cameraAnimationDuration,
-                                                    withPostDelegate: self)
-                } else {
-                    slowFlyOutAndIn(lat: view.annotation!.coordinate.latitude + latitudeOffset,
-                              long: view.annotation!.coordinate.longitude,
-                              withDuration: cameraAnimationDuration,
-                              completion: { _ in })
-                    postAnnotationView.loadPostView(on: mapView,
-                                                    withDelay: cameraAnimationDuration * 4,
                                                     withPostDelegate: self)
                 }
             }
@@ -327,6 +340,8 @@ extension ExploreMapViewController {
                 postAnnotationView.loadPostView(on: mapView,
                                                 withDelay: cameraAnimationDuration,
                                                 withPostDelegate: self)
+            } else if let placeAnnotationView = view as? PlaceAnnotationView {
+                mapView.deselectAnnotation(placeAnnotationView.annotation, animated: false)
             }
         }
         annotationSelectionType = .normal // Return to default

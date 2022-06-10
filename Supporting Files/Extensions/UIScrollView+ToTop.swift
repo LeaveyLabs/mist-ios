@@ -12,7 +12,7 @@ extension UIScrollView {
         let desiredOffset = CGPoint(x: 0, y: -contentInset.top)
         setContentOffset(desiredOffset, animated: true)
         
-        //scrollView.setContentOffset(.zero, animated: true)
+//        setContentOffset(.zero, animated: true)
         //not sure if this above is any different^?
    }
 }
