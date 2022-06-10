@@ -43,18 +43,18 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         emailLabel.text! += AuthContext.email
         
+        errorView.isHidden = true //we're using SwiftMessages for error handling now, not this custom view
         agreementLabel.isHidden = true
         validateInput()
         isAuthKUIView = true
-        setupErrorLabel()
-        setupPopGesture()
         setupConfirmEmailTextField()
         setupContinueButton()
         setupResendButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print(confirmEmailTextField.frame.size.width)
+        super.viewDidAppear(animated)
+        enableInteractivePopGesture()
     }
     
     //MARK: - Setup
@@ -166,7 +166,7 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
                 // Send another validation email
                 try await AuthAPI.registerEmail(email: AuthContext.email)
             } catch {
-                print(error)
+                handleError(error)
             }
             resendState = .sent
         }
@@ -177,36 +177,24 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     }
 }
 
+//we're using SwiftMessages instead for error handling. Leaving this code just as a reference
 // Error View functions
 extension ConfirmEmailViewController {
     
     func setupErrorLabel() {
         errorView.layer.cornerRadius = 10
         errorView.layer.masksToBounds = true
-        errorView.isHidden = true
         errorView.layer.cornerCurve = .continuous
+        errorView.isHidden = true
     }
     
     func handleError(_ error: Error) {
         isSubmitting = false
         confirmEmailTextField.text = ""
-        errorLabel.attributedText = CustomAttributedString.errorMessage(errorText: "That didn't work.", size: 16)
-        errorView.isHidden = false
-        errorView.animation = "shake"
-        errorView.animate()
-    }
-}
-
-extension ConfirmEmailViewController: UIGestureRecognizerDelegate {
-    
-    // Note: Must be called in viewDidLoad
-    //(1 of 2) Enable swipe left to go back with a bar button item
-    func setupPopGesture() {
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
-    }
-        
-    //(2 of 2) Enable swipe left to go back with a bar button item
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
+        CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
+//        errorLabel.attributedText = CustomAttributedString.errorMessage(errorText: "That didn't work.", size: 16)
+//        errorView.isHidden = false
+//        errorView.animation = "shake"
+//        errorView.animate()
     }
 }

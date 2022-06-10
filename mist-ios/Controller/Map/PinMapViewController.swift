@@ -49,7 +49,6 @@ class PinMapViewController: MapViewController {
         super.viewDidLoad()
         latitudeOffset = -0.0007
         applyShadowOnView(topBannerView)
-        blurStatusBar()
         handleExistingPin()
         
         let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(userInteractedWithMap))
@@ -81,17 +80,6 @@ class PinMapViewController: MapViewController {
                 heading: 0)
             presentModal(xsIndentFirst: true)
         }
-    }
-    
-    func blurStatusBar() {
-        let blurryEffect = UIBlurEffect(style: .regular)
-        let blurredStatusBar = UIVisualEffectView(effect: blurryEffect)
-        blurredStatusBar.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(blurredStatusBar)
-        blurredStatusBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        blurredStatusBar.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        blurredStatusBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        blurredStatusBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
     }
     
     //MARK: -Navigation
@@ -155,15 +143,9 @@ class PinMapViewController: MapViewController {
         // This handles the case of dragging and panning
         if !isCameraFlying {
             if (sheetPresentationController?.selectedDetentIdentifier?.rawValue != "xs") {
-                print(sheetPresentationController?.selectedDetentIdentifier?.rawValue)
                 pinMapModalVC?.toggleSheetSizeTo(sheetSize: "xs")
             }
         }
-    }
-    
-    // Could implement later
-    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        print("did deselect")
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
@@ -180,6 +162,11 @@ class PinMapViewController: MapViewController {
                       withDuration: cameraAnimationDuration,
                       completion: {_ in })
         }
+    }
+    
+    // Could implement later
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        print("did deselect")
     }
     
     func presentModal(xsIndentFirst: Bool) {
@@ -214,23 +201,20 @@ class PinMapViewController: MapViewController {
 
 extension PinMapViewController: UISheetPresentationControllerDelegate {
     
-    //note: this is only called when the user drags the sheet to a new height. does not get called upon a programmatic change
+    // Note: this is only called when the user drags the sheet to a new height.
+    // It does not get called upon a programmatic change in sheet height
     func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
-        if sheetPresentationController.selectedDetentIdentifier?.rawValue == "s" || sheetPresentationController.selectedDetentIdentifier?.rawValue == "xl" {
-            if let pinnedAnnotation = pinnedAnnotation {
-                slowFlyTo(lat: pinnedAnnotation.coordinate.latitude + latitudeOffset,
-                          long: pinnedAnnotation.coordinate.longitude,
-                          incrementalZoom: false,
-                          withDuration: cameraAnimationDuration,
-                          completion: {_ in })
-                if sheetPresentationController.selectedDetentIdentifier?.rawValue == "xl" {
-                    pinMapModalVC?.locationDescriptionTextField.becomeFirstResponder()
-                }
-                mapView.selectAnnotation(pinnedAnnotation, animated: true)
+        let sheetID = sheetPresentationController.selectedDetentIdentifier?.rawValue
+        
+        if sheetID == "s" || sheetID == "xl" {
+            guard let pinnedAnnotation = pinnedAnnotation else { return }
+            mapView.selectAnnotation(pinnedAnnotation, animated: true)
+            if sheetID == "xl" {
+                pinMapModalVC?.locationDescriptionTextField.becomeFirstResponder()
             }
         }
 
-        if sheetPresentationController.selectedDetentIdentifier?.rawValue == "xs" {
+        if sheetID == "xs" {
             deselectOneAnnotationIfItExists()
         }
     }

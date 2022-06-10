@@ -64,6 +64,13 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         bodyTextView.text = NewPostContext.body
     }
     
+    func saveToNewPostContext() {
+        NewPostContext.title = titleTextView.text
+        NewPostContext.body = bodyTextView.text
+        NewPostContext.timestamp = datePicker.date.timeIntervalSince1970
+        NewPostContext.annotation = currentlyPinnedAnnotation
+    }
+    
     func setupTextViews() {
         titleTextView.delegate = self
         titleTextView.initializerToolbar(target: self, doneSelector: #selector(dismissKeyboard))
@@ -133,16 +140,18 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     }
     
     @IBAction func cancelButtonDidPressed(_ sender: UIBarButtonItem) {
-        CustomSwiftMessages.showAlert(onDiscard: {
-            NewPostContext.clear()
+        let hasMadeEdits = !bodyTextView.text.isEmpty || !titleTextView.text.isEmpty || currentlyPinnedAnnotation != nil
+        if hasMadeEdits {
+            CustomSwiftMessages.showAlert(onDiscard: {
+                NewPostContext.clear()
+                self.dismiss(animated: true)
+            }, onSave: { [self] in
+                self.dismiss(animated: true)
+                saveToNewPostContext()
+            })
+        } else {
             self.dismiss(animated: true)
-        }, onSave: { [self] in
-            NewPostContext.title = titleTextView.text
-            NewPostContext.body = bodyTextView.text
-            NewPostContext.timestamp = datePicker.date.timeIntervalSince1970
-            NewPostContext.annotation = currentlyPinnedAnnotation
-            self.dismiss(animated: true)
-        })
+        }
     }
     
     @IBAction func userDidTappedPostButton(_ sender: UIButton) {

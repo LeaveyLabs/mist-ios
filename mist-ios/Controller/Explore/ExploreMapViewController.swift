@@ -8,40 +8,56 @@
 import UIKit
 import MapKit
 
-enum AnnotationSelectionType {
-    case submission, swipe, normal
-}
-
 class ExploreMapViewController: MapViewController {
 
     // MARK: - Properties
-    @IBOutlet weak var mistTitle: UIView!
+    
+    // Views
+    @IBOutlet weak var searchButton: UIButton!
+    @IBOutlet weak var customNavigationBar: UIStackView!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var featuredIconButton: UIButton!
             
-    // ExploreViewController
+    // SearchViewController properties
     var mySearchController: UISearchController!
-    var resultsTableController: LiveResultsTableViewController!
+    var searchSuggestionsVC: SearchSuggestionsTableViewController!
     var filterMapModalVC: FilterViewController?
     
+    // SearchViewController properties for local map search
+    var boundingRegion: MKCoordinateRegion = MKCoordinateRegion(MKMapRect.world)
+    var localSearch: MKLocalSearch? {
+        willSet {
+            // Clear the results and cancel the currently running local search before starting a new search.
+            localSearch?.cancel()
+        }
+    }
+    
+    // Annotation selection
     var selectedAnnotationView: MKAnnotationView?
     var selectedAnnotationIndex: Int? {
         guard let selected = selectedAnnotationView else { return nil }
         return postAnnotations.firstIndex(of: selected.annotation as! PostAnnotation)
     }
+    // Flag for didSelect(annotation)
+    enum AnnotationSelectionType {
+        case submission, swipe, normal
+    }
+    var annotationSelectionType: AnnotationSelectionType = .normal
 
     // Post Loading
     var postFilter = PostFilter()
-    
-    // Flag for didSelect(annotation)
-    var annotationSelectionType: AnnotationSelectionType = .normal
+
 
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         latitudeOffset = 0.00095
-        navigationItem.titleView = mistTitle
+        
+        blurStatusBar()
+        searchButton.becomeRound()
+        applyShadowOnView(searchButton)
+        searchButton.clipsToBounds = false //for shadow to take effect
         setupFilterButton()
         setupSearchBar()
         setupCustomTapGestureRecognizerOnMap()
@@ -49,8 +65,25 @@ class ExploreMapViewController: MapViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        //TODO: pull up search bar when returning to this VC after search via search button click
-        //https://stackoverflow.com/questions/27951965/cannot-set-searchbar-as-firstresponder
+        navigationController?.setNavigationBarHidden(true, animated: false) //for a better searchcontroller animation
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: false) //for a better searchcontroller animation
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        enableInteractivePopGesture()
+        // Handle controller being exposed from push/present or pop/dismiss
+        if (self.isMovingToParent || self.isBeingPresented){
+            // Controller is being pushed on or presented.
+        }
+        else{
+            // Controller is being shown as result of pop/dismiss/unwind.
+            mySearchController.searchBar.becomeFirstResponder()
+        }
     }
     
     func setupFilterButton() {
@@ -248,6 +281,8 @@ class ExploreMapViewController: MapViewController {
 extension ExploreMapViewController {
         
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        print("DID SELECT:")
+        print(view.annotation?.title)
         if view.annotation is MKUserLocation {
             mapView.deselectAnnotation(view.annotation, animated: false)
             mapView.userLocation.title = "Hey cutie"
@@ -262,13 +297,26 @@ extension ExploreMapViewController {
                 mapView.deselectAnnotation(view.annotation, animated: false)
                 handleClusterAnnotationSelection(clusterAnnotation)
             } else if let postAnnotationView = view as? PostAnnotationView {
-                slowFlyOutAndIn(lat: view.annotation!.coordinate.latitude + latitudeOffset,
-                          long: view.annotation!.coordinate.longitude,
-                          withDuration: cameraAnimationDuration,
-                          completion: { _ in })
-                postAnnotationView.loadPostView(on: mapView,
-                                                withDelay: cameraAnimationDuration * 4,
-                                                withPostDelegate: self)
+                // - 100 because that's roughly the offset between the middle of the map and the annotaiton
+                let distanceb = postAnnotationView.annotation!.coordinate.distance(from: mapView.centerCoordinate) - 100
+                if distanceb > 400 {
+                    slowFlyOutAndIn(lat: view.annotation!.coordinate.latitude + latitudeOffset,
+                              long: view.annotation!.coordinate.longitude,
+                              withDuration: cameraAnimationDuration,
+                              completion: { _ in })
+                    postAnnotationView.loadPostView(on: mapView,
+                                                    withDelay: cameraAnimationDuration * 4,
+                                                    withPostDelegate: self)
+                } else {
+                    slowFlyTo(lat: view.annotation!.coordinate.latitude + latitudeOffset,
+                              long: view.annotation!.coordinate.longitude,
+                              incrementalZoom: false,
+                              withDuration: cameraAnimationDuration,
+                              completion: { _ in })
+                    postAnnotationView.loadPostView(on: mapView,
+                                                    withDelay: cameraAnimationDuration,
+                                                    withPostDelegate: self)
+                }
             }
         case .submission:
             if let clusterAnnotation = view.cluster?.annotation as? MKClusterAnnotation {
@@ -292,12 +340,16 @@ extension ExploreMapViewController {
                 postAnnotationView.loadPostView(on: mapView,
                                                 withDelay: cameraAnimationDuration,
                                                 withPostDelegate: self)
+            } else if let placeAnnotationView = view as? PlaceAnnotationView {
+                mapView.deselectAnnotation(placeAnnotationView.annotation, animated: false)
             }
         }
         annotationSelectionType = .normal // Return to default
     }
 
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        print("DID DESELECT:")
+        print(view.annotation?.title)
         selectedAnnotationView = nil
     }
     
@@ -356,9 +408,9 @@ extension ExploreMapViewController: childDismissDelegate {
     }
 }
 
-//MARK: - Post Delegation
+//MARK: - Post Delegation: delegate functions with unique implementations to this class
 
-extension ExploreMapViewController: PostDelegate, ShareActivityDelegate {
+extension ExploreMapViewController: PostDelegate {
     
     func backgroundDidTapped(post: Post) {
         sendToPostViewFor(post, withRaisedKeyboard: false)
@@ -366,37 +418,6 @@ extension ExploreMapViewController: PostDelegate, ShareActivityDelegate {
     
     func commentDidTapped(post: Post) {
         sendToPostViewFor(post, withRaisedKeyboard: true)
-    }
-    
-    func moreDidTapped(post: Post) {
-        let moreVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.More) as! MoreViewController
-        moreVC.loadViewIfNeeded() //doesnt work without this function call
-        moreVC.shareDelegate = self
-        present(moreVC, animated: true)
-    }
-    
-    func dmDidTapped(post: Post) {
-        let newMessageNavVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewMessageNavigation) as! UINavigationController
-        newMessageNavVC.modalPresentationStyle = .fullScreen
-        present(newMessageNavVC, animated: true, completion: nil)
-    }
-    
-    func favoriteDidTapped(post: Post) {
-        //do something
-    }
-    
-    func likeDidTapped(post: Post) {
-        //do something
-    }
-    
-    // ShareActivityDelegate
-    func presentShareActivityVC() {
-        if let url = NSURL(string: "https://www.getmist.app")  {
-            let objectsToShare: [Any] = [url]
-            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-            activityVC.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
-            present(activityVC, animated: true)
-        }
     }
     
     // Helpers
@@ -410,6 +431,7 @@ extension ExploreMapViewController: PostDelegate, ShareActivityDelegate {
         }
         navigationController!.pushViewController(postVC, animated: true)
     }
+
 }
 
 //Swipe gestures
@@ -419,7 +441,8 @@ extension ExploreMapViewController: AnnotationViewSwipeDelegate {
     func handlePostViewSwipeRight() {
         guard var index = selectedAnnotationIndex else { return }
 
-        deselectOneAnnotationIfItExists()
+        let selectedAnnotationView = selectedAnnotationView as! PostAnnotationView
+        mapView.deselectAnnotation(selectedAnnotationView.annotation, animated: true)
         index += 1
         if index == postAnnotations.count {
             index = 0
@@ -432,14 +455,13 @@ extension ExploreMapViewController: AnnotationViewSwipeDelegate {
     func handlePostViewSwipeLeft() {
         guard var index = selectedAnnotationIndex else { return }
         
-        let pav = selectedAnnotationView as! PostAnnotationView
-        let postView = pav.postCalloutView!
+        //        let postView = pav.postCalloutView!
+        //        postView.animation = "slideLeft"
+        //        postView.duration = 2
+        //        postView.rever
         
-//        postView.animation = "slideLeft"
-//        postView.duration = 2
-//        postView.rever
-
-        deselectOneAnnotationIfItExists()
+        let selectedAnnotationView = selectedAnnotationView as! PostAnnotationView
+        mapView.deselectAnnotation(selectedAnnotationView.annotation, animated: true)
         index -= 1
         if index == -1 {
             index = postAnnotations.count-1

@@ -13,7 +13,7 @@ typealias UpdatedPostCompletionHandler = ((Post) -> Void)
 //TODO: set KUIViewController to bottom of safe area, rather than bottom of the view
 //TODO: add tapgesturerecognizer to postView so that the keyboard dismisses
 
-class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIViewControllerTransitioningDelegate, UIGestureRecognizerDelegate {
+class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIViewControllerTransitioningDelegate {
     
     @IBOutlet weak var commentView: UIView!
     @IBOutlet weak var commentProfileImage: UIImageView!
@@ -242,9 +242,9 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     }
 }
 
-//MARK: - Post Delegation
+//MARK: - Post Delegation: functions with unique implementations to this class
 
-extension PostViewController: PostDelegate, ShareActivityDelegate {
+extension PostViewController: PostDelegate {
     
     func backgroundDidTapped(post: Post) {
         //Do nothing
@@ -252,37 +252,6 @@ extension PostViewController: PostDelegate, ShareActivityDelegate {
     
     func commentDidTapped(post: Post) {
         commentTextView.becomeFirstResponder()
-    }
-    
-    func moreDidTapped(post: Post) {
-        let moreVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.More) as! MoreViewController
-        moreVC.loadViewIfNeeded() //doesnt work without this function call
-        moreVC.shareDelegate = self
-        present(moreVC, animated: true)
-    }
-    
-    func dmDidTapped(post: Post) {
-        let newMessageNavVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewMessageNavigation) as! UINavigationController
-        newMessageNavVC.modalPresentationStyle = .fullScreen
-        present(newMessageNavVC, animated: true, completion: nil)
-    }
-    
-    func favoriteDidTapped(post: Post) {
-        //do something
-    }
-    
-    func likeDidTapped(post: Post) {
-        //do something
-    }
-
-    // ShareActivityDelegate
-    func presentShareActivityVC() {
-        if let url = NSURL(string: "https://www.getmist.app")  {
-            let objectsToShare: [Any] = [url]
-            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-            activityVC.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
-            present(activityVC, animated: true)
-        }
     }
     
 }

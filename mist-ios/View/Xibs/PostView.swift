@@ -8,15 +8,6 @@
 import UIKit
 import MapKit
 
-protocol PostDelegate {
-    func likeDidTapped(post: Post)
-    func moreDidTapped(post: Post)
-    func backgroundDidTapped(post: Post)
-    func dmDidTapped(post: Post)
-    func commentDidTapped(post: Post)
-    func favoriteDidTapped(post: Post)
-}
-
 @IBDesignable class PostView: UIView {
         
     @IBOutlet weak var backgroundBubbleButton: UIButton! //in an ideal world we would only use the bubbleButton and not the bubbleView. But alas, you cannot add subviews to uibutton in xibs, yet we need to have the background be a button
@@ -32,7 +23,7 @@ protocol PostDelegate {
     @IBOutlet weak var moreButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var likeButton: UIButton!
-    @IBOutlet weak var likeLabel: UIButton! // In order to prevent the post from dismissing, I either had to a) remove the likeLabel from the stackview and abandon stackview, or b) turn likeLabel into a button which acts as a label. I chose the second option, because stackviews are great.
+    @IBOutlet weak var likeLabelButton: UIButton! // We can't have the likeButton expand the whole stackview, and we also need a button in the rest of the stackview to prevent the post from being dismissed.
     
     var postDelegate: PostDelegate?
     var post: Post!
@@ -64,6 +55,11 @@ protocol PostDelegate {
         postDelegate?.backgroundDidTapped(post: post)
     }
     
+    // The labelButton is actually just a button which we want to behave like the background.
+    @IBAction func likeLabelButtonDidPressed(_ sender: UIButton) {
+        postDelegate?.backgroundDidTapped(post: post)
+    }
+    
     @IBAction func commentButtonDidPressed(_ sender: UIButton) {
         postDelegate?.commentDidTapped(post: post)
     }
@@ -87,9 +83,9 @@ protocol PostDelegate {
         // UI Updates
         let isAlreadyLiked = likeButton.isSelected
         if isAlreadyLiked {
-            likeLabel.setTitle(String(Int(likeLabel.titleLabel!.text!)! - 1), for: .normal)
+            likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! - 1), for: .normal)
         } else {
-            likeLabel.setTitle(String(Int(likeLabel.titleLabel!.text!)! + 1), for: .normal)
+            likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! + 1), for: .normal)
         }
         likeButton.isSelected = !likeButton.isSelected
         
@@ -102,14 +98,15 @@ protocol PostDelegate {
 
 extension PostView {
     
-    // Note: the constraints for the PostView should already be set-up when this is called
+    // Note: the constraints for the PostView should already be set-up when this is called.
+    // Otherwise you'll get loads of constraint errors in the console
     func configurePost(post: Post, bubbleTrianglePosition: BubbleTrianglePosition) {
         self.post = post
         timestampLabel.text = getFormattedTimeString(postTimestamp: post.timestamp)
         locationLabel.text = post.location_description
         messageLabel.text = post.text
         postTitleLabel.text = post.title
-        likeLabel.setTitle(String(post.averagerating), for: .normal)
+        likeLabelButton.setTitle(String(post.averagerating), for: .normal)
         likeButton.isSelected = false
         favoriteButton.isSelected = false
         

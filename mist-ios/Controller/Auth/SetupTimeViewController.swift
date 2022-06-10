@@ -11,8 +11,16 @@ class SetupTimeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.setHidesBackButton(true, animated: false)
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        disableInteractivePopGesture()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        enableInteractivePopGesture()
     }
     
     @IBAction func didPressedContinueButton(_ sender: Any) {

@@ -38,6 +38,7 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
+        disableInteractivePopGesture() //because it's the root view controller of a navigation vc
         enterEmailTextField.becomeFirstResponder()
         validateInput()
     }
@@ -132,7 +133,9 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     
 }
 
-extension EnterEmailViewController: UIGestureRecognizerDelegate {
+// UIGestureRecognizerDelegate (already inherited in an extension)
+
+extension EnterEmailViewController {
     
     // Note: Must be called in viewDidLoad
     //(1 of 2) Enable swipe left to go back with a bar button item

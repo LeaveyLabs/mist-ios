@@ -14,23 +14,39 @@ enum PermissionType {
 
 struct CustomSwiftMessages {
     static func showError(errorDescription: String) {
-        print(errorDescription)
-        let messageView = MessageView.viewFromNib(layout: .cardView)
-        messageView.backgroundHeight = 60
-        messageView.configureTheme(.error)
-        messageView.configureDropShadow()
-        messageView.button?.isHidden = true
-        messageView.configureContent(title: "Something went wrong.",
+        let errorMessageView: CustomCardView = try! SwiftMessages.viewFromNib()
+        errorMessageView.configureTheme(.error)
+        errorMessageView.button?.isHidden = true
+        errorMessageView.configureContent(title: "Something went wrong.",
                                      body: "Please try again.",
-                                     iconImage: nil,
-                                     iconText: "😔",
-                                     buttonImage: UIImage(systemName: "xmark"),
-                                     buttonTitle: "Close") { button in
+                                     iconText: "😔")
+        errorMessageView.dismissButton.tintColor = .white
+        errorMessageView.dismissAction = {
             SwiftMessages.hide()
         }
         
         var messageConfig = SwiftMessages.Config()
-        messageConfig.presentationContext = .window(windowLevel: .statusBar)
+        messageConfig.presentationContext = .window(windowLevel: .normal)
+        messageConfig.presentationStyle = .top
+        messageConfig.duration = .seconds(seconds: 3)
+
+        SwiftMessages.show(config: messageConfig, view: errorMessageView)
+    }
+    
+    static func showInfo(_ title: String, _ body: String) {
+        let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
+        messageView.configureTheme(backgroundColor: .white, foregroundColor: .black)
+        messageView.button?.isHidden = true
+        messageView.configureContent(title: title,
+                                     body: body,
+                                     iconText: "😔")
+        messageView.dismissButton.tintColor = .black
+        messageView.dismissAction = {
+            SwiftMessages.hide()
+        }
+        
+        var messageConfig = SwiftMessages.Config()
+        messageConfig.presentationContext = .window(windowLevel: .normal)
         messageConfig.presentationStyle = .top
         messageConfig.duration = .seconds(seconds: 3)
 
