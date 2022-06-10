@@ -57,8 +57,7 @@ class CommentCell: UITableViewCell {
         backgroundBubbleView.sendSubviewToBack(triangleView)
         addLeftTriangleLayer(to: triangleView)
         backgroundBubbleView.layer.cornerRadius = 10
-        backgroundBubbleView.layer.cornerCurve = .continuous //TODO: this is not looking continuous
-//        applyShadowOnView(backgroundBubbleView)
+        backgroundBubbleView.layer.cornerCurve = .continuous
     }
     
     //https://stackoverflow.com/questions/30650343/triangle-uiview-swift

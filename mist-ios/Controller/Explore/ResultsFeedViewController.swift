@@ -17,17 +17,8 @@ class ResultsFeedViewController: FeedViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //something to do with edge insets.....
-//        self.edgesForExtendedLayout = UIRectEdge()
-//        self.extendedLayoutIncludesOpaqueBars = false
         
-//        tableView.tableFooterView = UIView()
-//        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNonzeroMagnitude))
-//        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0);
-        
-//        tableView.estimatedRowHeight = 80
-//        tableView.rowHeight = UITableView.automaticDimension
-        
+        tableView.estimatedRowHeight = 80
         tableView.refreshControl = nil //disable pull down top refresh
         navigationItem.title = feedValue
     }
@@ -62,7 +53,6 @@ class ResultsFeedViewController: FeedViewController {
     
     // Defines how the list brings in posts
     @objc override func refreshFeed() {
-        //TODO: cancel task if it takes too long. that way the user can refresh and try again
         switch feedType {
         case .hotspot: //if hotspot, the posts will have already been set beforehand, so do nothing
             indicator.stopAnimating()
@@ -90,22 +80,17 @@ class ResultsFeedViewController: FeedViewController {
     // MARK: -..?
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        //TODO: dynamically set starting offset so it works for all screen sizes, not just the 12
-        let startingOffset: CGFloat = 50
+        let startingOffset: CGFloat = self.view.safeAreaInsets.top - 30
         var offset = (tableView.contentOffset.y + startingOffset) / 100
         if (offset > 1) {
             offset = 1
-//            navigationController?.navigationBar.standardAppearance.backgroundColor = hexStringToUIColor(hex: "CDABE1", alpha: offset/2)
             navigationController?.navigationBar.standardAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(white: 0, alpha: offset)]
         } else {
-//            navigationController?.navigationBar.standardAppearance.backgroundColor = hexStringToUIColor(hex: "CDABE1", alpha: offset/2)
             navigationController?.navigationBar.scrollEdgeAppearance?.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(white: 0, alpha: offset)]
             navigationController?.navigationBar.standardAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(white: 0, alpha: offset)]
         }
     }
-    
-    // MARK: - UITableViewDelegate
-    
+        
     // MARK: - UITableViewDataSource
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

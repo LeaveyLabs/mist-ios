@@ -57,9 +57,6 @@ extension ExploreFeedViewController {
         navigationController?.popViewController(animated: false)
     }
     
-    //TODO: add custom animations
-    //https://stackoverflow.com/questions/51675063/how-to-present-view-controller-from-left-to-right-in-ios
-    //https://github.com/HeroTransitions/Hero
     @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
         let myAccountNavigation = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation)
         myAccountNavigation.modalPresentationStyle = .fullScreen
@@ -83,13 +80,6 @@ extension ExploreFeedViewController: UISearchControllerDelegate {
         mySearchController.searchResultsUpdater = self
         mySearchController.showsSearchResultsController = true //means that we don't need "map cover view" anymore
         
-        //https://stackoverflow.com/questions/68106036/presenting-uisearchcontroller-programmatically
-        //this creates unideal ui, but im not going to spend more time trying to fix this right now.
-        //mySearchController.hidesNavigationBarDuringPresentation = false //true by default
-
-        //todo later: TWO WAYS OF MAKING SEARCH BAR PRETTY
-        //definePresentationContext = false (plus) self.present(searchcontroller)
-        //definePresentationContext = true (plus) navigationController?.present(searchController)
         definesPresentationContext = true //false by default
         
         //searchBar

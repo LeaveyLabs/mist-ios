@@ -157,7 +157,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     @IBAction func userDidTappedPostButton(_ sender: UIButton) {
         setAllInteractionTo(false)
         scrollView.scrollToTop()
-        view.endEditing(true) //TODO: i need to force scroll to top to show the progress bar?
+        view.endEditing(true)
         animateProgressBar()
         Task {
             do {
@@ -196,7 +196,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         // Prepare for PinMapVC Segue
         if let pinMapVC = segue.destination as? PinMapViewController {
             pinMapVC.pinnedAnnotation = currentlyPinnedAnnotation // Load the currently pinned annotation, if one exists
-            pinMapVC.completionHandler = { [self] (newAnnotation, newDescription) in //TODO: delete newDescription with refactor
+            pinMapVC.completionHandler = { [self] (newAnnotation) in
                 currentlyPinnedAnnotation = newAnnotation
                 locationButton!.setTitle(newAnnotation.title, for: .normal)
                 validateAllFields()

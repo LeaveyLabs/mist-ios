@@ -7,10 +7,6 @@
 
 import Foundation
 
-//TODO: use more fancy animation through hero
-//https://github.com/HeroTransitions/Hero
-//https://stackoverflow.com/questions/64255158/change-root-view-controller-using-hero-transition
-
 extension UIViewController {
     // Reference: https://stackoverflow.com/questions/41144523/swap-rootviewcontroller-with-animation
     func transitionToStoryboard(storyboardID: String,

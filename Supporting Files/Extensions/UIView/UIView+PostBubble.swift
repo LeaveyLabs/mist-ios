@@ -20,7 +20,7 @@ extension UIView {
         triangleView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
         addSubview(triangleView)
         sendSubviewToBack(triangleView)
-        layer.cornerRadius = 20 //TODO: how do i add a corner radius to the triangle, too?
+        layer.cornerRadius = 20
         layer.cornerCurve = .continuous
         applyShadowOnView(self)
         
@@ -97,7 +97,7 @@ extension UIView {
 //    triangleView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
 //    backgroundBubbleView.addSubview(triangleView)
 //    backgroundBubbleView.sendSubviewToBack(triangleView)
-//    backgroundBubbleView.layer.cornerRadius = 20 //TODO: how do i add a corner radius to the triangle, too?
+//    backgroundBubbleView.layer.cornerRadius = 20 //
 //    backgroundBubbleView.layer.cornerCurve = .continuous
 //    applyShadowOnView(backgroundBubbleView)
 //    

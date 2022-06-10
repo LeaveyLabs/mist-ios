@@ -163,11 +163,8 @@ class ExploreMapViewController: MapViewController {
         }
         
         // Handle other purposes of the tap gesture besides just AnnotationViewInteractionDelayPrevention:
-        if (sheetPresentationController?.selectedDetentIdentifier?.rawValue != "xs") {
-            //TODO: don't execute this code if you clicked on an existing annotation
-            deselectOneAnnotationIfItExists() //annotation will still be deselected without this, but the animation looks better if deselection occurs before togglesheetsisze
-            dismissFilter()
-        }
+        dismissFilter()
+        deselectOneAnnotationIfItExists()
     }
     
     //MARK: - Helpers

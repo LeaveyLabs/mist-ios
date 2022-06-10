@@ -10,9 +10,6 @@ import UIKit
 let COMMENT_PLACEHOLDER_TEXT = "wait this is so..."
 typealias UpdatedPostCompletionHandler = ((Post) -> Void)
 
-//TODO: set KUIViewController to bottom of safe area, rather than bottom of the view
-//TODO: add tapgesturerecognizer to postView so that the keyboard dismisses
-
 class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIViewControllerTransitioningDelegate {
     
     @IBOutlet weak var commentView: UIView!
@@ -93,8 +90,6 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func setupCommentView() {
-        //below code is not needed with KUIViewController
-        //TODO: uncomment below code + do more to enable dismiss keyboard on drag
 //        commentTextView.inputAccessoryView = commentView
 //        postTableView.keyboardDismissMode = .interactive
 

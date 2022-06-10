@@ -7,9 +7,6 @@
 
 import UIKit
 
-//TODO: badges
-//https://github.com/jogendra/BadgeHub
-
 class MyProfileViewController: FeedViewController {
     
     var selectedFeedIndex: Int = 0
@@ -36,14 +33,11 @@ class MyProfileViewController: FeedViewController {
         
     //MARK: -- Overrides
     
-    
     //good notes on managing Tasks:
     //https://www.swiftbysundell.com/articles/the-role-tasks-play-in-swift-concurrency/
     @objc override func refreshFeed() {
-        //TODO: cancel task if it takes too long. that way the user can refresh and try again
         Task {
             do {
-                //TODO: change postAPI call based on the selectedFeedIndex
                 switch selectedFeedIndex {
                 case 0:
                     posts = try await PostAPI.fetchPosts();
