@@ -127,7 +127,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
                     // the password into a Data object
                     let params:[String:String] = [
                         UserAPI.USERNAME_PARAM: username,
-                        UserAPI.PASSWORD_PARAM: passwordTextField.text!,
+                        UserAPI.PASSWORD_PARAM: password,
                     ]
                     let json = try JSONEncoder().encode(params)
                     // Send it over to login

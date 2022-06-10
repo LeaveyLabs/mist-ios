@@ -348,13 +348,12 @@ extension MapViewController {
                            long: Double,
                            withDuration duration: Double,
                            completion: @escaping (Bool) -> Void) {
-        var finalDistance: Double = 500
+        let finalDistance: Double = 500
         let destination = CLLocationCoordinate2D(latitude: lat, longitude: long)
         let finalCamera = MKMapCamera(lookingAtCenter: destination,
                                          fromDistance: finalDistance,
                                          pitch: 50,
                                          heading: 0)
-//        if !mapView.visibleMapRect.contains(MKMapPoint(destination)) {
         let currentLocation = mapView.camera.centerCoordinate
         let midwayPoint = currentLocation.geographicMidpoint(betweenCoordinates: [destination])
         let distanceBetween = currentLocation.distance(from: destination)
@@ -435,7 +434,7 @@ extension MapViewController {
             }
         }
         candidateRect = candidateRect.insetBy(dx: -rectX/10, dy: -rectY/10)
-        let span = MKCoordinateRegion(candidateRect).span //could i use span to find the appropriate camera distance, then animate the camera? probably
+//        let span = MKCoordinateRegion(candidateRect).span //could i use span to find the appropriate camera distance, then animate the camera? probably
         UIView.animate(withDuration: cameraAnimationDuration,
                        delay: 0,
                        options: .curveEaseInOut,

@@ -60,7 +60,6 @@ struct Constants {
             static let SearchSuggestions = "SearchSuggestionsTableViewController"
             static let ResultsFeed = "ResultsFeedViewController"
             static let PinMapModal = "PinMapModalViewController"
-            static let MapModal = "MapModalViewController"
             static let Filter = "FilterViewController"
             static let MapSearch = "MapSearchViewController"
             //Messages
