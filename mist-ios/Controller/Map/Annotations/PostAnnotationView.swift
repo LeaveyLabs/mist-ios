@@ -28,7 +28,7 @@ final class PostAnnotationView: MKMarkerAnnotationView {
     }
     
     // Panning gesture
-    var originalPanLocation: CGPoint = .init(x: 0, y: 0)
+    var panOffset = CGPoint.zero
     var swipeDelegate: AnnotationViewSwipeDelegate?
     
     // MapView annotation views are reused like TableView cells,
@@ -178,20 +178,23 @@ extension PostAnnotationView {
     }
     
     @objc func handlePan(gestureRecognizer: UIPanGestureRecognizer) {
+        guard let _ = postCalloutView else { return }
         switch gestureRecognizer.state {
         case .began:
-            originalPanLocation = gestureRecognizer.location(in: postCalloutView)
             break
         case .changed:
-
+            panOffset = gestureRecognizer.translation(in: self)
+            incrementSwipe()
             break
         case .ended:
-            let finalPanLocation = gestureRecognizer.location(in: postCalloutView)
-            let swipeLeft = originalPanLocation.x > finalPanLocation.x
-            if swipeLeft {
-                swipeDelegate?.handlePostViewSwipeLeft()
+            let didSwipeLeft = panOffset.x < -50
+            let didSwipeRight = panOffset.x > 50
+            if didSwipeLeft {
+                finishSwiping(.left)
+            } else if didSwipeRight {
+                finishSwiping(.right)
             } else {
-                swipeDelegate?.handlePostViewSwipeRight()
+                finishSwiping(.incomplete)
             }
             break
         default:
@@ -199,4 +202,47 @@ extension PostAnnotationView {
         }
     }
     
+    enum SwipeDirection {
+        case left, right, incomplete
+    }
+    
+    private func incrementSwipe() {
+        guard let postCalloutView = postCalloutView else { return }
+        postCalloutView.alpha = 2 - abs(Double(panOffset.x) / 50)
+        postCalloutView.transform = CGAffineTransform(translationX: panOffset.x*2, y: min(0, panOffset.y*2))
+            .rotated(by: panOffset.x / 150)
+    }
+    
+    private func finishSwiping(_ direction: SwipeDirection) {
+        guard let postCalloutView = postCalloutView else { return }
+        switch direction {
+        case .left:
+            swipeDelegate?.handlePostViewSwipeLeft()
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear) {
+                postCalloutView.alpha = 0
+                postCalloutView.transform = CGAffineTransform(translationX: -400,
+                                                              y: self.panOffset.y*4).rotated(by:-0.85)
+            } completion: { finished in
+                postCalloutView.isHidden = true
+            }
+        case .right:
+            swipeDelegate?.handlePostViewSwipeRight()
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear) {
+                postCalloutView.alpha = 0
+                postCalloutView.transform = CGAffineTransform(translationX: 400,
+                                                              y: self.panOffset.y*4).rotated(by:0.85)
+            } completion: { finished in
+                postCalloutView.isHidden = true
+            }
+        case .incomplete:
+            UIView.animate(withDuration: 1,
+                           delay: 0,
+                           usingSpringWithDamping: 0.5,
+                           initialSpringVelocity: 1,
+                           options: .curveEaseOut) {
+                postCalloutView.alpha = 1
+                postCalloutView.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by:0)
+            }
+        }
+    }
 }
