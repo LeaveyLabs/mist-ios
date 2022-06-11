@@ -14,6 +14,7 @@ class LoadingViewController: UIViewController {
     var FADING_ANIMATION_DURATION = 0.0
 
     @IBOutlet weak var heartImageView: SpringImageView!
+    var numberOfFailures = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,13 +31,20 @@ class LoadingViewController: UIViewController {
                     try await PostsService.loadInitialPosts()
                     werePostsLoaded = true
                     flyHeartUp()
+//                    self.transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
+//                                                viewControllerID: "SearchDebugViewController",
+//                                                duration: self.FADING_ANIMATION_DURATION) { _ in}
                     DispatchQueue.main.asyncAfter(deadline: .now() + FADING_ANIMATION_DELAY) {
                         self.transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
                                                     viewControllerID: Constants.SBID.VC.TabBarController,
                                                     duration: self.FADING_ANIMATION_DURATION) { _ in}
                     }
                 } catch {
-                    CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
+                    if numberOfFailures > 1 {
+                        CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
+                    } else {
+                        numberOfFailures += 1
+                    }
                 }
             }
         }

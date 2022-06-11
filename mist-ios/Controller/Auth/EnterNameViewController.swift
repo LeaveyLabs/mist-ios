@@ -24,13 +24,13 @@ class EnterNameViewController: KUIViewController, UITextFieldDelegate {
         
         validateInput()
         isAuthKUIView = true
-        setupPopGesture()
         setupTextFields()
         setupContinueButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
+        super.viewDidAppear(animated)
+        enableInteractivePopGesture()
         firstNameTextField.becomeFirstResponder()
         validateInput()
     }
@@ -114,19 +114,3 @@ class EnterNameViewController: KUIViewController, UITextFieldDelegate {
         isValidInput = firstNameTextField.text!.count > 0 && lastNameTextField.text!.count > 0
     }
 }
-    
-
-extension EnterNameViewController: UIGestureRecognizerDelegate {
-    
-    // Note: Must be called in viewDidLoad
-    //(1 of 2) Enable swipe left to go back with a bar button item
-    func setupPopGesture() {
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
-    }
-        
-    //(2 of 2) Enable swipe left to go back with a bar button item
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-}
-

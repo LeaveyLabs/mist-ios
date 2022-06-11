@@ -12,7 +12,7 @@ let DUMMY_POST_ID: Int = -1
 struct Post: Codable, Equatable {
     let id: Int
     let title: String
-    let text: String //TODO: consider changing to "body"
+    let text: String //TODO: refactor to "body", since "title", "location_description" are also text, technically
     let location_description: String?
     let latitude: Double?
     let longitude: Double?

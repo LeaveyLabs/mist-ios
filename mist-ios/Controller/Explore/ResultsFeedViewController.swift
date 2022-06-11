@@ -7,14 +7,7 @@
 
 import UIKit
 
-enum FeedType {
-    case home
-    case query
-    case mine
-    case hotspot
-}
-
-class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate {
+class ResultsFeedViewController: FeedViewController {
     
     // MARK: - Properties
     var feedType: FeedType!
@@ -23,27 +16,21 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
-        //something to do with edge insets.....
-//        self.edgesForExtendedLayout = UIRectEdge()
-//        self.extendedLayoutIncludesOpaqueBars = false
-        
-//        tableView.tableFooterView = UIView()
-//        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNonzeroMagnitude))
-//        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0);
-        
-//        tableView.estimatedRowHeight = 80
-//        tableView.rowHeight = UITableView.automaticDimension
-        
-        //(1 of 2) for enabling swipe left to go back with a bar button item
-        navigationController?.interactivePopGestureRecognizer?.delegate = self
-        
-        tableView.refreshControl = nil //disable pull down top refresh
-        
-//        navigationController?.restoreHairline() //TODO: does nothing
-        navigationItem.title = feedValue
-        //navigationController?.navigationBar.standardAppearance.backgroundColor = hexStringToUIColor(hex: "CDABE1", alpha: offset/2)
-
         super.viewDidLoad()
+        
+        tableView.estimatedRowHeight = 80
+        tableView.refreshControl = nil //disable pull down top refresh
+        navigationItem.title = feedValue
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        disableInteractivePopGesture()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        enableInteractivePopGesture()
     }
     
     //MARK: - Custom Constructors
@@ -61,17 +48,11 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
     @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
     }
-    
-    //(2 of 2) for enabling swipe left to go back with a bar button item
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
 
     // MARK: - API calls
     
     // Defines how the list brings in posts
     @objc override func refreshFeed() {
-        //TODO: cancel task if it takes too long. that way the user can refresh and try again
         switch feedType {
         case .hotspot: //if hotspot, the posts will have already been set beforehand, so do nothing
             indicator.stopAnimating()
@@ -99,22 +80,17 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
     // MARK: -..?
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        //TODO: dynamically set starting offset so it works for all screen sizes, not just the 12
-        let startingOffset: CGFloat = 50
+        let startingOffset: CGFloat = self.view.safeAreaInsets.top - 30
         var offset = (tableView.contentOffset.y + startingOffset) / 100
         if (offset > 1) {
             offset = 1
-//            navigationController?.navigationBar.standardAppearance.backgroundColor = hexStringToUIColor(hex: "CDABE1", alpha: offset/2)
             navigationController?.navigationBar.standardAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(white: 0, alpha: offset)]
         } else {
-//            navigationController?.navigationBar.standardAppearance.backgroundColor = hexStringToUIColor(hex: "CDABE1", alpha: offset/2)
             navigationController?.navigationBar.scrollEdgeAppearance?.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(white: 0, alpha: offset)]
             navigationController?.navigationBar.standardAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(white: 0, alpha: offset)]
         }
     }
-    
-    // MARK: - UITableViewDelegate
-    
+        
     // MARK: - UITableViewDataSource
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -136,13 +112,11 @@ class ResultsFeedViewController: FeedViewController, UIGestureRecognizerDelegate
         return 1 + posts.count
     }
     
-    
-    
 }
 
-//MARK: - Post Delegation
+//MARK: - Post Delegation: functions with implementations unique to this class
 
-extension ResultsFeedViewController: PostDelegate, ShareActivityDelegate {
+extension ResultsFeedViewController: PostDelegate {
     
     func backgroundDidTapped(post: Post) {
         sendToPostViewFor(post, withRaisedKeyboard: false)
@@ -150,37 +124,6 @@ extension ResultsFeedViewController: PostDelegate, ShareActivityDelegate {
     
     func commentDidTapped(post: Post) {
         sendToPostViewFor(post, withRaisedKeyboard: true)
-    }
-    
-    func moreDidTapped(post: Post) {
-        let moreVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.More) as! MoreViewController
-        moreVC.loadViewIfNeeded() //doesnt work without this function call
-        moreVC.shareDelegate = self
-        present(moreVC, animated: true)
-    }
-    
-    func dmDidTapped(post: Post) {
-        let newMessageNavVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewMessageNavigation) as! UINavigationController
-        newMessageNavVC.modalPresentationStyle = .fullScreen
-        present(newMessageNavVC, animated: true, completion: nil)
-    }
-    
-    func favoriteDidTapped(post: Post) {
-        //do something
-    }
-    
-    func likeDidTapped(post: Post) {
-        //do something
-    }
-    
-    // ShareActivityDelegate
-    func presentShareActivityVC() {
-        if let url = NSURL(string: "https://www.getmist.app")  {
-            let objectsToShare: [Any] = [url]
-            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-            activityVC.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
-            present(activityVC, animated: true)
-        }
     }
     
     // Helpers

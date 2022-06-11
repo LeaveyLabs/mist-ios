@@ -44,10 +44,13 @@ class UploadProfilePictureViewController: UIViewController {
         super.viewDidLoad()
         profilePic = defaultPic
         setupImagePicker()
-        
-        setupPopGesture()
         setupButtons()
         setupLabels()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        enableInteractivePopGesture()
     }
     
     //MARK: - Setup
@@ -154,19 +157,5 @@ extension UploadProfilePictureViewController {
         errorView.isHidden = false
         errorView.animation = "shake"
         errorView.animate()
-    }
-}
-
-extension UploadProfilePictureViewController: UIGestureRecognizerDelegate {
-    
-    // Note: Must be called in viewDidLoad
-    //(1 of 2) Enable swipe left to go back with a bar button item
-    func setupPopGesture() {
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
-    }
-        
-    //(2 of 2) Enable swipe left to go back with a bar button item
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
     }
 }

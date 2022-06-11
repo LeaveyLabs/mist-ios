@@ -13,7 +13,7 @@ class ExploreFeedViewController: FeedViewController {
         
     //ExploreViewController
     var mySearchController: UISearchController!
-    private var resultsTableController: LiveResultsTableViewController!
+    private var resultsTableController: SearchSuggestionsTableViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,9 +57,6 @@ extension ExploreFeedViewController {
         navigationController?.popViewController(animated: false)
     }
     
-    //TODO: add custom animations
-    //https://stackoverflow.com/questions/51675063/how-to-present-view-controller-from-left-to-right-in-ios
-    //https://github.com/HeroTransitions/Hero
     @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
         let myAccountNavigation = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation)
         myAccountNavigation.modalPresentationStyle = .fullScreen
@@ -71,7 +68,7 @@ extension ExploreFeedViewController: UISearchControllerDelegate {
     func setupSearchBar() {
         //resultsTableViewController
         resultsTableController =
-        self.storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.LiveResults) as? LiveResultsTableViewController
+        self.storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.SearchSuggestions) as? SearchSuggestionsTableViewController
         resultsTableController.tableView.delegate = self // This view controller is interested in table view row selections.
         resultsTableController.tableView.contentInsetAdjustmentBehavior = .automatic //removes strange whitespace https://stackoverflow.com/questions/1703023/is-it-possible-to-access-a-uitableviews-scrollview-in-code-from-a-nib
         
@@ -83,13 +80,6 @@ extension ExploreFeedViewController: UISearchControllerDelegate {
         mySearchController.searchResultsUpdater = self
         mySearchController.showsSearchResultsController = true //means that we don't need "map cover view" anymore
         
-        //https://stackoverflow.com/questions/68106036/presenting-uisearchcontroller-programmatically
-        //this creates unideal ui, but im not going to spend more time trying to fix this right now.
-        //mySearchController.hidesNavigationBarDuringPresentation = false //true by default
-
-        //todo later: TWO WAYS OF MAKING SEARCH BAR PRETTY
-        //definePresentationContext = false (plus) self.present(searchcontroller)
-        //definePresentationContext = true (plus) navigationController?.present(searchController)
         definesPresentationContext = true //false by default
         
         //searchBar
@@ -107,20 +97,18 @@ extension ExploreFeedViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let text = mySearchController.searchBar.text else { return }
-
         switch resultsTableController.selectedScope {
-            case 0:
-                //TODO: idea: what if you present a new navigation controller , with its root view controller as the newQueryFeedViewController. will this fix aesthetic issues?
+        case .locatedAt:
+            break
+        case .containing:
             let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewController(feedType: .query, feedValue: text)
-                navigationController?.pushViewController(newQueryFeedViewController, animated: true)
-            case 1:
-                break
-            default: break
+            navigationController?.pushViewController(newQueryFeedViewController, animated: true)
         }
     }
     
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        resultsTableController.selectedScope = selectedScope
+        guard let newSelectedScope = MapSearchScope(rawValue: selectedScope) else { return }
+        resultsTableController.selectedScope = newSelectedScope
         resultsTableController.liveResults = []
         updateSearchResults(for: mySearchController)
     }
@@ -144,11 +132,12 @@ extension ExploreFeedViewController {
         // We only care about the ResultsTableView and not the FeedTableView
         if tableView === resultsTableController.tableView {
             switch resultsTableController.selectedScope {
-            case 0:
+            case .locatedAt:
+                break
+            case .containing:
                 let word = resultsTableController.liveResults[indexPath.row] as! Word
                 let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewController(feedType: .query, feedValue: word.text)
                 navigationController?.pushViewController(newQueryFeedViewController, animated: true)
-            default: break
             }
         }
     }
@@ -194,13 +183,11 @@ extension ExploreFeedViewController {
     
     func willDismissSearchController(_ searchController: UISearchController) {
         Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-        print("will dismiss sc")
-//        navigationController?.restoreHairline()
         navigationItem.searchController = .none
     }
     
     func didDismissSearchController(_ searchController: UISearchController) {
-        //Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
     }
     
 }
@@ -221,17 +208,15 @@ extension ExploreFeedViewController: UISearchResultsUpdating {
         }
         resultsTableController.resultsLabelView.isHidden = false
         
-        if let resultsController = searchController.searchResultsController as? LiveResultsTableViewController {
+        if let resultsController = searchController.searchResultsController as? SearchSuggestionsTableViewController {
             Task {
                 do {
                     resultsTableController.resultsLabel.text = "Searching..."
                     switch resultsController.selectedScope {
-                    case 0:
+                    case .locatedAt:
+                        break
+                    case .containing:
                         resultsController.liveResults = try await WordAPI.fetchWords(text: text)
-                    case 1:
-                        print("doing a profile search with: " + text)
-                        resultsController.liveResults = try await UserAPI.fetchUsersByText(containing: text)
-                    default: break
                     }
                     resultsController.tableView.reloadData()
                     resultsController.resultsLabel.text = resultsController.liveResults.isEmpty ? "No items found": String(format:"Items found: %d",resultsController.liveResults.count)

@@ -14,7 +14,7 @@
                 <outlet property="backgroundBubbleView" destination="bob-45-2Dc" id="bsg-88-iIX"/>
                 <outlet property="favoriteButton" destination="lXS-wm-c4S" id="diU-JM-YqT"/>
                 <outlet property="likeButton" destination="96P-sk-B4A" id="U0F-tg-nTB"/>
-                <outlet property="likeLabel" destination="jhs-L2-7zF" id="dV0-F5-SRw"/>
+                <outlet property="likeLabelButton" destination="jhs-L2-7zF" id="dV0-F5-SRw"/>
                 <outlet property="locationLabel" destination="hUc-aP-KHZ" id="gMn-3e-TMB"/>
                 <outlet property="messageLabel" destination="n8O-is-nrf" id="fQi-FD-JH8"/>
                 <outlet property="moreButton" destination="TEZ-zU-2nv" id="kMN-4b-Gwi"/>
@@ -30,9 +30,8 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bob-45-2Dc" userLabel="Bubble View">
                     <rect key="frame" x="0.0" y="0.0" width="410" height="268"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uno-sj-oMK" userLabel="Background Button">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uno-sj-oMK" userLabel="Background Button">
                             <rect key="frame" x="0.0" y="0.0" width="410" height="268"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                             <connections>
@@ -103,6 +102,7 @@
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n8O-is-nrf">
                             <rect key="frame" x="15" y="106" width="380" height="104"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <string key="text">To the boy with the green hal;aksdjf;lkajsd;flkj asd;lkjf;alskdjf t on at 10am in Starbucks yesterday.... you seem super cool! Let's hang out !</string>
                             <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="19"/>
                             <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -135,6 +135,9 @@
                                             <state key="normal" title="24">
                                                 <color key="titleColor" systemColor="tintColor"/>
                                             </state>
+                                            <connections>
+                                                <action selector="likeLabelButtonDidPressed:" destination="-1" eventType="touchUpInside" id="DVY-PD-9xx"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <constraints>
@@ -205,15 +208,19 @@
                     <constraints>
                         <constraint firstItem="H2e-sd-bfE" firstAttribute="leading" secondItem="bob-45-2Dc" secondAttribute="leading" constant="15" id="36V-X8-W2B"/>
                         <constraint firstItem="n8O-is-nrf" firstAttribute="leading" secondItem="bob-45-2Dc" secondAttribute="leading" constant="15" id="4eR-yD-lxx"/>
+                        <constraint firstAttribute="trailing" secondItem="uno-sj-oMK" secondAttribute="trailing" id="68X-Zm-PpK"/>
                         <constraint firstAttribute="trailing" secondItem="TEZ-zU-2nv" secondAttribute="trailing" constant="15" id="CDo-hj-aHM"/>
+                        <constraint firstItem="uno-sj-oMK" firstAttribute="leading" secondItem="bob-45-2Dc" secondAttribute="leading" id="DID-yT-rg4"/>
                         <constraint firstItem="YJY-MB-ihA" firstAttribute="top" secondItem="bob-45-2Dc" secondAttribute="top" constant="13" id="FGp-XB-Te4"/>
                         <constraint firstAttribute="trailing" secondItem="pod-hU-jCs" secondAttribute="trailing" constant="15" id="HQd-MR-bQd"/>
                         <constraint firstItem="H2e-sd-bfE" firstAttribute="top" secondItem="YJY-MB-ihA" secondAttribute="bottom" constant="15" id="JJV-Y9-tLQ"/>
                         <constraint firstItem="n8O-is-nrf" firstAttribute="top" secondItem="H2e-sd-bfE" secondAttribute="bottom" constant="15" id="QBe-05-iUm"/>
                         <constraint firstItem="TEZ-zU-2nv" firstAttribute="top" secondItem="bob-45-2Dc" secondAttribute="top" constant="10" id="V1O-GC-v2p"/>
+                        <constraint firstItem="uno-sj-oMK" firstAttribute="top" secondItem="bob-45-2Dc" secondAttribute="top" id="Y9v-rc-D5a"/>
                         <constraint firstAttribute="bottom" secondItem="pod-hU-jCs" secondAttribute="bottom" constant="13" id="b6G-EY-aaP"/>
                         <constraint firstItem="pod-hU-jCs" firstAttribute="top" secondItem="n8O-is-nrf" secondAttribute="bottom" constant="15" id="c2E-N6-KQ1"/>
                         <constraint firstAttribute="trailing" secondItem="H2e-sd-bfE" secondAttribute="trailing" constant="15" id="jAz-ac-4at"/>
+                        <constraint firstAttribute="bottom" secondItem="uno-sj-oMK" secondAttribute="bottom" id="mtP-cu-aZM"/>
                         <constraint firstItem="TEZ-zU-2nv" firstAttribute="leading" secondItem="YJY-MB-ihA" secondAttribute="trailing" constant="10" id="mtU-sD-QUr"/>
                         <constraint firstAttribute="trailing" secondItem="n8O-is-nrf" secondAttribute="trailing" constant="15" id="rHg-D1-GIM"/>
                         <constraint firstItem="pod-hU-jCs" firstAttribute="leading" secondItem="bob-45-2Dc" secondAttribute="leading" constant="15" id="rvD-27-pWL"/>

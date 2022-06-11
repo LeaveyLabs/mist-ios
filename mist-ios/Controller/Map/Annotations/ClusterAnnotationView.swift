@@ -26,7 +26,7 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: false) //TODO: Why does setting animated: false not seem to actually change the behavior?
+        super.setSelected(selected, animated: false)
         print("user selected cluster annotation view!")
     }
     

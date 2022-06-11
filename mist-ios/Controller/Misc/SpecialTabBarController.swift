@@ -13,6 +13,7 @@ class SpecialTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tabBar.layer.applySketchShadow(color: .black, alpha: 0.3, x: 0, y: -1, blur: 5, spread: 0)
         delegate = self
     }
 }
@@ -21,10 +22,10 @@ class SpecialTabBarController: UITabBarController {
 
 extension SpecialTabBarController: UITabBarControllerDelegate {
     
-    // Called from the tabBar
+    // Delegation from the tabBar
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         if item == tabBar.items![1] {
-            guard tabBar.items![1].badgeColor != nil else { return }
+            guard tabBar.items![1].badgeColor != nil else { return } //Special flag set by tab bar
             let newPostNav = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewPostNavigation)
             newPostNav.modalPresentationStyle = .fullScreen
             present(newPostNav, animated: true, completion: nil)

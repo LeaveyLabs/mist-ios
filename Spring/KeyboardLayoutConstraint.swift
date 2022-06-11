@@ -63,7 +63,9 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
                     delay: 0,
                     options: options,
                     animations: {
-                        UIApplication.shared.keyWindow?.layoutIfNeeded()
+                        let keyWindow = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.flatMap { $0.windows }.first { $0.isKeyWindow }
+                        keyWindow?.layoutIfNeeded()
+//                        UIApplication.shared.keyWindow?.layoutIfNeeded() //deprecated
                         return
                     }, completion: { finished in
                 })
@@ -92,7 +94,9 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
                     delay: 0,
                     options: options,
                     animations: {
-                        UIApplication.shared.keyWindow?.layoutIfNeeded()
+                        let keyWindow = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.flatMap { $0.windows }.first { $0.isKeyWindow }
+                        keyWindow?.layoutIfNeeded()
+//                        UIApplication.shared.keyWindow?.layoutIfNeeded() //deprecated
                         return
                     }, completion: { finished in
                 })

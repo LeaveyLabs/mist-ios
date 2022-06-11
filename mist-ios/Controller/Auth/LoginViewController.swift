@@ -28,14 +28,21 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.navigationItem.setHidesBackButton(true, animated: true)
-        
+                
         validateInput()
         isAuthKUIView = true
-        setupPopGesture()
         setupTextFields()
         setupLoginButton()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        disableInteractivePopGesture()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        enableInteractivePopGesture()
     }
     
     //MARK: - Setup
@@ -120,7 +127,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
                     // the password into a Data object
                     let params:[String:String] = [
                         UserAPI.USERNAME_PARAM: username,
-                        UserAPI.PASSWORD_PARAM: passwordTextField.text!,
+                        UserAPI.PASSWORD_PARAM: password,
                     ]
                     let json = try JSONEncoder().encode(params)
                     // Send it over to login
@@ -148,16 +155,31 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     
 }
 
-extension LoginViewController: UIGestureRecognizerDelegate {
+//extension LoginViewController: UIGestureRecognizerDelegate {
+//
+//    // Note: Must be called in viewDidLoad
+//    //(1 of 2) Enable swipe left to go back with a bar button item
+//    func setupPopGesture() {
+//        self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
+//    }
+//
+//    //(2 of 2) Enable swipe left to go back with a bar button item
+//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+//        return true
+//    }
+//}
+
+extension UIViewController: UIGestureRecognizerDelegate {
+
+  func disableInteractivePopGesture() {
+    navigationItem.hidesBackButton = true
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
+    navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+  }
+
+  func enableInteractivePopGesture() {
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
+    navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+  }
     
-    // Note: Must be called in viewDidLoad
-    //(1 of 2) Enable swipe left to go back with a bar button item
-    func setupPopGesture() {
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
-    }
-        
-    //(2 of 2) Enable swipe left to go back with a bar button item
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
 }

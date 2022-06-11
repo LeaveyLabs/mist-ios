@@ -127,7 +127,6 @@ class UserService: NSObject {
     
     //MARK: - Create content
     
-    //TODO: rewrite 
     // Returns the error message to be displayed to the user
     func uploadPost(title: String,
                     text: String,
@@ -155,7 +154,6 @@ class UserService: NSObject {
 //            // Local update (of the user's authoredPosts)
 //            authedUser = try await UserAPI.fetchUsersByUsername(username: authedUser.username)[0] as! AuthedUser
 //            saveUserToFilesystem()
-//            //TODO: force reload all posts everywhere? otherwise your post might still exist on some other view controller's postservice
 //        }
 //    }
     
