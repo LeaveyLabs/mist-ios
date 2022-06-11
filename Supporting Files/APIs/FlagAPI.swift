@@ -7,25 +7,37 @@
 
 import Foundation
 
-enum FlagError: Error {
-    case badAPIEndPoint
-    case badId
-}
-
 class FlagAPI {
-    // Fetch flags with the postID from database
-    static func fetchFlags(postId:String) async throws -> [Flag] {
-        return []
+    static let PATH_TO_FLAG_MODEL = "api/flags/"
+    static let FLAGGER_PARAM = "flagger"
+    static let POST_PARAM = "post"
+    
+    static func fetchFlagsByPostId(postId:String) async throws -> [Flag] {
+        let url = "\(BASE_URL)\(PATH_TO_FLAG_MODEL)?\(POST_PARAM)=\(postId)"
+        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        return try JSONDecoder().decode([Flag].self, from: data)
+    }
+    
+    static func fetchFlagsByFlagger(flaggerId:Int) async throws -> [Flag] {
+        let url = "\(BASE_URL)\(PATH_TO_FLAG_MODEL)?\(FLAGGER_PARAM)=\(flaggerId)"
+        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        return try JSONDecoder().decode([Flag].self, from: data)
     }
 
-    // Post flag to the database
-    static func postFlag(flag:Flag) async throws {
-        
+    static func postFlag(flaggerId:Int, postId:Int) async throws -> Flag {
+        let url = "\(BASE_URL)\(PATH_TO_FLAG_MODEL)"
+        let params = [
+            FLAGGER_PARAM: flaggerId,
+            POST_PARAM: postId,
+        ]
+        let json = try JSONEncoder().encode(params)
+        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        return try JSONDecoder().decode(Flag.self, from: data)
     }
 
-    // Delete flag (with the id) from database
-    static func postFlag(id:String) async throws {
-        
+    static func deleteFlag(id:String) async throws {
+        let url = "\(BASE_URL)\(PATH_TO_FLAG_MODEL)\(id)/"
+        let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
     }
 }
 

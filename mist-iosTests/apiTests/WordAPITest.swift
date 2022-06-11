@@ -1,15 +1,15 @@
 //
-//  mist_iosTests.swift
+//  WordAPITest.swift
 //  mist-iosTests
 //
-//  Created by Adam Novak on 2022/02/25.
+//  Created by Kevin Sun on 6/9/22.
 //
 
 import XCTest
 @testable import mist_ios
 
-class mist_iosTests: XCTestCase {
-    
+class WordAPITest: XCTestCase {
+
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         setGlobalAuthToken(token: TestConstants.Auth.TOKEN)
@@ -39,12 +39,13 @@ class mist_iosTests: XCTestCase {
                                                password: PASSWORD)
         }
     }
-        
-    // FlagAPITest
-    // TagAPITest
-    // BlockAPITest
-    // MessageAPITest
-    // FriendRequestAPITest
+
+    // GET words
+    func testGetWordByText() async throws {
+        let _ = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
+        let word = try await WordAPI.fetchWords(text: "hey")
+        XCTAssertTrue(word[0].text == "hey")
+    }
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.

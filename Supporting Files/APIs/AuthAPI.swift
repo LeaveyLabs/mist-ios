@@ -60,7 +60,7 @@ class AuthAPI {
                            last_name:String,
                            picture:UIImage?,
                            email:String,
-                           password:String) async throws -> AuthedUser {
+                           password:String) async throws -> CompleteUser {
         let params:[String:String] = [
             UserAPI.USERNAME_PARAM: username,
             UserAPI.FIRST_NAME_PARAM: first_name,
@@ -82,7 +82,7 @@ class AuthAPI {
             method: .post
         )
         // TODO: get the response codes through .response
-        let response = await request.serializingDecodable(AuthedUser.self).response
+        let response = await request.serializingDecodable(CompleteUser.self).response
         
         
         if let httpResponse = response.response {
@@ -90,7 +90,7 @@ class AuthAPI {
             let badRequest = (400...499).contains(httpResponse.statusCode)
             
             if goodRequest {
-                return try await request.serializingDecodable(AuthedUser.self).value
+                return try await request.serializingDecodable(CompleteUser.self).value
             }
             else if badRequest {
                 throw APIError.InvalidCredentials
@@ -105,12 +105,6 @@ class AuthAPI {
     
     static func fetchAuthToken(json: Data) async throws -> String {
         let url = "\(BASE_URL)\(PATH_TO_API_TOKEN_ENDPOINT)"
-//        let params:[String:String] = await [
-//            UserAPI.USERNAME_PARAM: params[UserAPI.USERNAME_PARAM]!,
-//            UserAPI.PASSWORD_PARAM: params[UserAPI.PASSWORD_PARAM]!,
-//        ]
-//        print(params)
-//        let json = try JSONEncoder().encode(params)
         let (data, _) = try await BasicAPI.basicHTTPCallWithoutToken(url:url, jsonData:json, method: HTTPMethods.POST.rawValue)
         return try JSONDecoder().decode(TokenStruct.self, from: data).token
     }

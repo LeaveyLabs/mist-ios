@@ -43,13 +43,21 @@ class UserService: NSObject {
                     email: String,
                     password: String) async throws {
         // DB update
-        authedUser = try await AuthAPI.createUser(username: username,
+        let user = try await AuthAPI.createUser(username: username,
                                             first_name: firstName,
                                             last_name: lastName,
                                             picture: picture,
                                             email: email,
                                             password: password)
-        let token = try await AuthAPI.fetchAuthToken(username: username, password: password)
+        let token = try await AuthAPI.fetchAuthToken(username: username,
+                                                     password: password)
+        authedUser = AuthedUser(id: user.id,
+                                username: user.username,
+                                first_name: user.first_name,
+                                last_name: user.last_name,
+                                picture: user.picture,
+                                email: user.email,
+                                token: token)
         setGlobalAuthToken(token: token)
         let profilePicUIImage = try await UserAPI.UIImageFromURLString(url: authedUser!.picture!)
         authedUserProfilePic = profilePicUIImage
@@ -60,9 +68,14 @@ class UserService: NSObject {
     func logIn(json: Data) async throws {
         let token:String = try await AuthAPI.fetchAuthToken(json: json)
         setGlobalAuthToken(token: token)
-        authedUser = try await UserAPI.fetchAuthedUserByToken(token: token)
-        let profilePicUIImage = try await UserAPI.UIImageFromURLString(url: authedUser!.picture!)
-        authedUserProfilePic = profilePicUIImage
+        let user = try await UserAPI.fetchAuthedUserByToken(token: token)
+        authedUser = AuthedUser(id: user.id,
+                                username: user.username,
+                                first_name: user.first_name,
+                                last_name: user.last_name,
+                                picture: user.picture,
+                                email: user.email,
+                                token: token)
         // Local update
         saveUserToFilesystem()
     }
@@ -95,17 +108,25 @@ class UserService: NSObject {
     // No need to return new profilePic bc it is updated globally
     func updateUsername(to newUsername: String) async throws {
         //DB and local update
-        authedUser = try await UserAPI.patchUsername(username: newUsername, user: authedUser!)
-        saveUserToFilesystem()
+        if authedUser != nil {
+            if let id = authedUser?.id {
+                let user = try await UserAPI.patchUsername(username: newUsername, id: id)
+                authedUser?.username = user.username
+            }
+            saveUserToFilesystem()
+        }
     }
     
     // No need to return new profilePic bc it is updated globally
     func updateProfilePic(to newProfilePic: UIImage) async throws {
         // DB and local update
-        authedUser = try await UserAPI.patchProfilePic(image: newProfilePic, user: authedUser!)
-        let profilePicUIImage = try await UserAPI.UIImageFromURLString(url: authedUser!.picture!)
-        authedUserProfilePic = profilePicUIImage
-        saveUserToFilesystem()
+        if authedUser != nil {
+            if let id = authedUser?.id, let username = authedUser?.username {
+                let user = try await UserAPI.patchProfilePic(image: newProfilePic, id: id, username: username)
+                authedUser?.picture = user.picture
+            }
+            saveUserToFilesystem()
+        }
     }
     
     //MARK: - Create content
@@ -124,9 +145,8 @@ class UserService: NSObject {
                                                    latitude: latitude,
                                                    longitude: longitude,
                                                    timestamp: timestamp,
-                                                   author: UserService.singleton.getId())
-        // Local update (of the user's authoredPosts)
-        authedUser = try await UserAPI.fetchAuthedUserByToken(token: getGlobalAuthToken())
+                                                   author: UserService.singleton.getId()!)
+        // TODO: Local update (of the user's authoredPosts)
         saveUserToFilesystem()
         return newPost
     }

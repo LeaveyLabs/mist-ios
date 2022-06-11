@@ -4,6 +4,12 @@ import Foundation
 
 class PostAPI {
     static let PATH_TO_POST_MODEL = "api/posts/"
+    static let PATH_TO_FEATURED_POSTS = "api/featured-posts/"
+    static let PATH_TO_MATCHED_POSTS = "api/matched-posts/"
+    static let PATH_TO_FRIEND_POSTS = "api/friend-posts/"
+    static let PATH_TO_FAVORITED_POSTS = "api/favorited-posts/"
+    static let PATH_TO_SUBMITTED_POSTS = "api/submitted-posts/"
+    static let IDS_PARAM = "ids"
     static let TEXT_PARAM = "text"
     static let LATITUDE_PARAM = "latitude"
     static let LONGITUDE_PARAM = "longitude"
@@ -13,6 +19,45 @@ class PostAPI {
     // Fetches all posts from database
     static func fetchPosts() async throws -> [Post] {
         let url = "\(BASE_URL)\(PATH_TO_POST_MODEL)"
+        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
+    static func fetchPostsByIds(ids:[Int]) async throws -> [Post] {
+        var url = "\(BASE_URL)\(PATH_TO_POST_MODEL)?"
+        for id in ids {
+            url += "\(IDS_PARAM)=\(id)&"
+        }
+        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
+    static func fetchMatchedPosts() async throws -> [Post] {
+        let url = "\(BASE_URL)\(PATH_TO_MATCHED_POSTS)"
+        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
+    static func fetchFeaturedPosts() async throws -> [Post] {
+        let url = "\(BASE_URL)\(PATH_TO_FEATURED_POSTS)"
+        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
+    static func fetchFriendPosts() async throws -> [Post] {
+        let url = "\(BASE_URL)\(PATH_TO_FRIEND_POSTS)"
+        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
+    static func fetchFavoritedPosts() async throws -> [Post] {
+        let url = "\(BASE_URL)\(PATH_TO_FAVORITED_POSTS)"
+        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
+    static func fetchSubmittedPosts() async throws -> [Post] {
+        let url = "\(BASE_URL)\(PATH_TO_SUBMITTED_POSTS)"
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         return try JSONDecoder().decode([Post].self, from: data)
     }
