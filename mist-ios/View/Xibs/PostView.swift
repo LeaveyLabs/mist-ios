@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 
-@IBDesignable class PostView: UIView {
+@IBDesignable class PostView: SpringView {
         
     @IBOutlet weak var backgroundBubbleButton: UIButton! //in an ideal world we would only use the bubbleButton and not the bubbleView. But alas, you cannot add subviews to uibutton in xibs, yet we need to have the background be a button
     
