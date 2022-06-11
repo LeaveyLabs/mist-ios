@@ -1,15 +1,15 @@
 //
-//  mist_iosTests.swift
+//  VoteAPITest.swift
 //  mist-iosTests
 //
-//  Created by Adam Novak on 2022/02/25.
+//  Created by Kevin Sun on 6/9/22.
 //
 
 import XCTest
 @testable import mist_ios
 
-class mist_iosTests: XCTestCase {
-    
+class VoteAPITest: XCTestCase {
+
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         setGlobalAuthToken(token: TestConstants.Auth.TOKEN)
@@ -39,12 +39,19 @@ class mist_iosTests: XCTestCase {
                                                password: PASSWORD)
         }
     }
-        
-    // FlagAPITest
-    // TagAPITest
-    // BlockAPITest
-    // MessageAPITest
-    // FriendRequestAPITest
+
+    // POST
+    func testPostVote() async throws {
+        let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
+        let vote = try await VoteAPI.postVote(voter: TestConstants.Auth.ID, post: post.id, rating: 5)
+        XCTAssertTrue(vote.voter == TestConstants.Auth.ID)
+    }
+    // DELETE
+    func testDeleteVote() async throws {
+        let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
+        let vote = try await VoteAPI.postVote(voter: TestConstants.Auth.ID, post: post.id, rating: 5)
+        try await VoteAPI.deleteVote(voter: vote.voter, post: vote.post)
+    }
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
