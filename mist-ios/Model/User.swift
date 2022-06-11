@@ -17,7 +17,7 @@ protocol UserProtocol: Codable {
     var picture: String? { get }
 }
 
-struct User: UserProtocol {
+struct ReadOnlyUser: Codable {
     let id: Int
     let username: String
     let first_name: String
@@ -25,17 +25,37 @@ struct User: UserProtocol {
     let picture: String?
 }
 
-struct AuthedUser: UserProtocol {
-    // User properties
+struct CompleteUser: Codable {
     let id: Int
     let username: String
     let first_name: String
     let last_name: String
     let picture: String?
+    let email: String
+//    let phone_number: String?
+}
+
+struct User: UserProtocol {
+    var id: Int
+    var username: String
+    var first_name: String
+    var last_name: String
+    var picture: String?
+    var email: String?
+    var phone_number: String?
+}
+
+struct AuthedUser: UserProtocol {
+    // User properties
+    var id: Int
+    var username: String
+    var first_name: String
+    var last_name: String
+    var picture: String?
     
     // AuthedUser only properties
-    let email: String
-    let password: String?
+    var email: String?
+    var password: String?
     var token: String?
 //    let authoredPosts: [Post]
     
@@ -45,7 +65,7 @@ struct AuthedUser: UserProtocol {
          last_name: String,
          picture: String?,
          email: String,
-         password: String,
+         password: String? = "",
          token: String = "",
          authoredPosts: [Post] = []){
         self.id = id

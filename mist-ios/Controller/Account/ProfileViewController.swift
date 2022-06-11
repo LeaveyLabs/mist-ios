@@ -31,7 +31,12 @@ class ProfileViewController: UIViewController {
     func loadProfile() {
         Task {
             do {
-                user = try await UserAPI.fetchUsersByUsername(username: username)[0]
+                let dbUser = try await UserAPI.fetchUsersByUsername(username: username)[0]
+                user = User(id: dbUser.id,
+                            username: dbUser.username,
+                            first_name: dbUser.first_name,
+                            last_name: dbUser.last_name,
+                            picture: dbUser.picture)
             } catch {
                 print(error)
             }

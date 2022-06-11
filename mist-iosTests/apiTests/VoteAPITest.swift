@@ -1,5 +1,5 @@
 //
-//  CommentAPITest.swift
+//  VoteAPITest.swift
 //  mist-iosTests
 //
 //  Created by Kevin Sun on 6/9/22.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import mist_ios
 
-class CommentAPITest: XCTestCase {
+class VoteAPITest: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -39,29 +39,18 @@ class CommentAPITest: XCTestCase {
                                                password: PASSWORD)
         }
     }
-    
+
     // POST
-    func testPostComment() async throws {
+    func testPostVote() async throws {
         let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
-        do {
-            let comment = try await CommentAPI.postComment(text: "hey", post: post.id, author: TestConstants.Auth.ID)
-            XCTAssertTrue(comment.text == "hey")
-        } catch {
-            print(error)
-        }
-    }
-    // GET by postId
-    func testGetCommentByPostId() async throws {
-        let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
-        let comment = try await CommentAPI.postComment(text: "hey", post: post.id, author: TestConstants.Auth.ID)
-        let comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
-        XCTAssertTrue(comments[0].text == "hey")
+        let vote = try await VoteAPI.postVote(voter: TestConstants.Auth.ID, post: post.id, rating: 5)
+        XCTAssertTrue(vote.voter == TestConstants.Auth.ID)
     }
     // DELETE
-    func testDeleteComment() async throws {
+    func testDeleteVote() async throws {
         let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
-        let comment = try await CommentAPI.postComment(text: "hey", post: post.id, author: TestConstants.Auth.ID)
-        try await CommentAPI.deleteComment(commentId: comment.id)
+        let vote = try await VoteAPI.postVote(voter: TestConstants.Auth.ID, post: post.id, rating: 5)
+        try await VoteAPI.deleteVote(voter: vote.voter, post: vote.post)
     }
 
     func testPerformanceExample() throws {

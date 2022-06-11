@@ -1,5 +1,5 @@
 //
-//  CommentAPITest.swift
+//  PostAPITest.swift
 //  mist-iosTests
 //
 //  Created by Kevin Sun on 6/9/22.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import mist_ios
 
-class CommentAPITest: XCTestCase {
+class PostAPITest: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -39,29 +39,33 @@ class CommentAPITest: XCTestCase {
                                                password: PASSWORD)
         }
     }
-    
+
     // POST
-    func testPostComment() async throws {
+    func testPostPost() async throws {
         let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
-        do {
-            let comment = try await CommentAPI.postComment(text: "hey", post: post.id, author: TestConstants.Auth.ID)
-            XCTAssertTrue(comment.text == "hey")
-        } catch {
-            print(error)
-        }
+        XCTAssertTrue(post.title == "hey")
     }
-    // GET by postId
-    func testGetCommentByPostId() async throws {
-        let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
-        let comment = try await CommentAPI.postComment(text: "hey", post: post.id, author: TestConstants.Auth.ID)
-        let comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
-        XCTAssertTrue(comments[0].text == "hey")
+    
+    // GET by latitude and longitude
+    func testGetPostByLatitudeLongitude() async throws {
+        let posts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: 1.0, longitude: 2.0)
+        XCTAssertTrue(posts[0].title == "hey")
     }
+    // GET by text
+    func testGetPostByText() async throws {
+        let posts = try await PostAPI.fetchPostsByText(text: "hey")
+        XCTAssertTrue(posts[0].title == "hey")
+    }
+    // GET by author
+    func testGetPostByAuthor() async throws {
+        let posts = try await PostAPI.fetchPostsByAuthor(userId: TestConstants.Auth.ID)
+        XCTAssertTrue(posts[0].title == "hey")
+    }
+    
     // DELETE
-    func testDeleteComment() async throws {
+    func testDeletePost() async throws {
         let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
-        let comment = try await CommentAPI.postComment(text: "hey", post: post.id, author: TestConstants.Auth.ID)
-        try await CommentAPI.deleteComment(commentId: comment.id)
+        try await PostAPI.deletePost(id: post.id)
     }
 
     func testPerformanceExample() throws {
