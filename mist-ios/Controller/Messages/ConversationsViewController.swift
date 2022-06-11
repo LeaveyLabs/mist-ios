@@ -15,14 +15,14 @@ struct Conversation {
 class ConversationsViewController: UIViewController {
     
     @IBOutlet weak var conversationsTableView: UITableView!
-    @IBOutlet weak var mistTitle: UIView!
+    @IBOutlet weak var mistTitle: UIView! //no longer in use
     
     var conversations: [Conversation] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
-        navigationItem.titleView = mistTitle
+        setupMyAccountButton()
     }
     
     //MARK: - Setup
@@ -34,7 +34,13 @@ class ConversationsViewController: UIViewController {
         conversationsTableView.rowHeight = UITableView.automaticDimension
     }
     
-    @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
+    private func setupMyAccountButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem.imageButton(self,
+                                                                      action: #selector(presentMyAccount),
+                                                                      imageName: "adam")
+    }
+    
+    @objc func presentMyAccount() {
         let myAccountNavigation = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation)
         myAccountNavigation.modalPresentationStyle = .fullScreen
         self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
@@ -68,12 +74,14 @@ extension ConversationsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (conversations.count == 0) {
-            return tableView.dequeueReusableCell(withIdentifier: "NoConversationsCell", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NoConversationsCell", for: indexPath)
+            return cell
         }
         else {
             var conversation = conversations[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Conversation)! //as
             //cell.configureConversationCell(conversation: conversations[indexPath.row], parent: self)
+
             return cell
         }
     }

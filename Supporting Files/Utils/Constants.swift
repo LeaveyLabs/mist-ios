@@ -41,6 +41,8 @@ struct Constants {
             static let Sort = "SortCell"
             static let Conversation = "ConversationCell"
             static let NoConversations = "NoConversationsCell"
+            static let MyProfile = "MyProfileCell"
+            static let SimpleInput = "SimpleInputCell"
         }
         struct VC {
             //Post

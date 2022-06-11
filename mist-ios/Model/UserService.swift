@@ -14,6 +14,7 @@ class UserService: NSObject {
     static var singleton = UserService()
     
     private var authedUser: AuthedUser?
+    private var authedUserProfilePic: UIImage?
     private var localFileLocation: URL!
     
     //private initializer because there will only ever be one instance of UserService, the singleton
@@ -48,11 +49,11 @@ class UserService: NSObject {
                                             picture: picture,
                                             email: email,
                                             password: password)
-        let token = try await AuthAPI.fetchAuthToken(username: username,
-                                                     password: password)
+        let token = try await AuthAPI.fetchAuthToken(username: username, password: password)
         setGlobalAuthToken(token: token)
+        let profilePicUIImage = try await UserAPI.UIImageFromURLString(url: authedUser!.picture!)
+        authedUserProfilePic = profilePicUIImage
         // Local update
-//        setGlobalAuthToken(token: token)
         saveUserToFilesystem()
     }
     
@@ -60,6 +61,8 @@ class UserService: NSObject {
         let token:String = try await AuthAPI.fetchAuthToken(json: json)
         setGlobalAuthToken(token: token)
         authedUser = try await UserAPI.fetchAuthedUserByToken(token: token)
+        let profilePicUIImage = try await UserAPI.UIImageFromURLString(url: authedUser!.picture!)
+        authedUserProfilePic = profilePicUIImage
         // Local update
         saveUserToFilesystem()
     }
@@ -77,11 +80,13 @@ class UserService: NSObject {
     
     //MARK: - Getters
     
-    func getId() -> Int? { return authedUser?.id; }
-    func getUsername() -> String? { return authedUser?.username; }
-    func getFirstName() -> String? { return authedUser?.first_name; }
-    func getLastName() -> String? { return authedUser?.last_name; }
-    func getEmail() -> String? { return authedUser?.email; }
+    func getId() -> Int { return authedUser!.id; }
+    func getUsername() -> String { return authedUser!.username; }
+    func getFirstName() -> String { return authedUser!.first_name; }
+    func getLastName() -> String { return authedUser!.last_name; }
+    func getFirstLastName() -> String { return authedUser!.first_name + " " + authedUser!.last_name}
+    func getEmail() -> String { return authedUser!.email; }
+    func getPicture() -> UIImage { return UIImage(named: "adam")! }
 //    func getAuthoredPosts() -> [Post] { return authedUser.authoredPosts; }
     func getUser() -> AuthedUser? { return authedUser}
     
@@ -98,7 +103,9 @@ class UserService: NSObject {
     func updateProfilePic(to newProfilePic: UIImage) async throws {
         // DB and local update
         authedUser = try await UserAPI.patchProfilePic(image: newProfilePic, user: authedUser!)
-        saveUserToFilesystem();
+        let profilePicUIImage = try await UserAPI.UIImageFromURLString(url: authedUser!.picture!)
+        authedUserProfilePic = profilePicUIImage
+        saveUserToFilesystem()
     }
     
     //MARK: - Create content
@@ -117,7 +124,7 @@ class UserService: NSObject {
                                                    latitude: latitude,
                                                    longitude: longitude,
                                                    timestamp: timestamp,
-                                                   author: UserService.singleton.getId()!)
+                                                   author: UserService.singleton.getId())
         // Local update (of the user's authoredPosts)
         authedUser = try await UserAPI.fetchAuthedUserByToken(token: getGlobalAuthToken())
         saveUserToFilesystem()
