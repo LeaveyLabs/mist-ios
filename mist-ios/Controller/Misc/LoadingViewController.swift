@@ -36,7 +36,7 @@ class LoadingViewController: UIViewController {
 //                                                duration: self.FADING_ANIMATION_DURATION) { _ in}
                     DispatchQueue.main.asyncAfter(deadline: .now() + FADING_ANIMATION_DELAY) {
                         self.transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
-                                                    viewControllerID: Constants.SBID.VC.MyAccountNavigation,
+                                                    viewControllerID: Constants.SBID.VC.TabBarController,
                                                     duration: self.FADING_ANIMATION_DURATION) { _ in}
                     }
                 } catch {

@@ -972,7 +972,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logout" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hkJ-GK-gDe">
                                                     <rect key="frame" x="145.66666666666666" y="11" width="59" height="27"/>
                                                     <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
-                                                    <color key="textColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1365,10 +1365,10 @@
             </objects>
             <point key="canvasLocation" x="-2478" y="503"/>
         </scene>
-        <!--Explore Map View Controller-->
+        <!--Explore View Controller-->
         <scene sceneID="TZO-up-DfC">
             <objects>
-                <viewController id="oJQ-b2-Es1" customClass="ExploreMapViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="oJQ-b2-Es1" customClass="ExploreViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="K85-Np-RZT">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1376,11 +1376,132 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="4Ti-Yh-6iG">
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="761"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ety-i7-6O8">
-                                <rect key="frame" x="10" y="54" width="316" height="45"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="dE6-TV-tIh" userLabel="Zoom Stack View">
+                                <rect key="frame" x="340" y="647.66666666666663" width="40" height="80.333333333333371"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mMJ-N3-E3z" userLabel="Zoom In Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="Bbx-mS-sxh"/>
+                                            <constraint firstAttribute="width" constant="40" id="Zfs-Ze-Kve"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
+                                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="plus" catalog="system">
+                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="medium"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="exploreZoomInButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="AKL-6s-3ws"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9r5-xY-ouS">
+                                        <rect key="frame" x="0.0" y="40" width="40" height="0.3333333333333357"/>
+                                        <color key="backgroundColor" systemColor="systemGray3Color"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="0.5" id="aiV-ql-TRJ"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d78-fs-Q0o" userLabel="Zoom Out Button">
+                                        <rect key="frame" x="0.0" y="40.333333333333371" width="40" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="ngu-c5-k2n"/>
+                                            <constraint firstAttribute="height" constant="40" id="zHk-WR-DDu"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="minus" catalog="system">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="medium"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="exploreZoomOutButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="d9X-he-kcs"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="XDC-QO-zBy" userLabel="DimensionNav Stack View">
+                                <rect key="frame" x="10" y="647.66666666666663" width="40" height="80.333333333333371"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R81-a2-tHs">
+                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="EAb-cx-djN"/>
+                                            <constraint firstAttribute="height" constant="40" id="Y0r-bi-ZiN"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
+                                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="2D">
+                                            <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="exploreMapDimensionButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="cmr-Ts-ueL"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cXp-9I-VMZ">
+                                        <rect key="frame" x="0.0" y="40" width="40" height="0.3333333333333357"/>
+                                        <color key="backgroundColor" systemColor="systemGray3Color"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="0.5" id="exz-U6-voo"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xse-Ra-6WG" userLabel="User Tracking Button">
+                                        <rect key="frame" x="0.0" y="40.333333333333371" width="40" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="CSt-hk-cbB"/>
+                                            <constraint firstAttribute="width" constant="40" id="STD-oT-9rl"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="location" catalog="system">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="medium"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="exploreUserTrackingButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="eiQ-uU-B11"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Abm-Ot-LyX">
+                                <rect key="frame" x="336" y="56" width="44" height="44"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="iOk-8G-fzm"/>
+                                    <constraint firstAttribute="width" constant="44" id="HXN-d8-rmo"/>
+                                </constraints>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="magnifyingglass" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22" weight="regular"/>
+                                </state>
+                                <connections>
+                                    <action selector="searchButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="phl-h4-Q2F"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WB2-a3-lNw">
+                                <rect key="frame" x="10" y="56" width="70" height="44"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="cjn-lo-aPH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="21"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Feed">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="toggleButtonDidTapped:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="7lM-p5-JS4"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ety-i7-6O8">
+                                <rect key="frame" x="92" y="56" width="234" height="44"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="iOk-8G-fzm"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal">
@@ -1394,7 +1515,7 @@
                                         </fragment>
                                     </attributedString>
                                 </state>
-                                <buttonConfiguration key="configuration" style="plain" image="chevron.down" catalog="system" imagePlacement="trailing" title="All mists from today">
+                                <buttonConfiguration key="configuration" style="plain" image="chevron.down" catalog="system" imagePlacement="trailing" title="Filter">
                                     <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" weight="semibold"/>
                                     <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="23"/>
                                 </buttonConfiguration>
@@ -1402,110 +1523,42 @@
                                     <action selector="filterButtonDidTapped:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="iIs-zo-vVy"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d78-fs-Q0o" userLabel="Zoom Out Button">
-                                <rect key="frame" x="340" y="688" width="40" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="onH-Fn-vzF">
+                                <rect key="frame" x="10" y="110" width="35" height="35"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="ngu-c5-k2n"/>
-                                    <constraint firstAttribute="height" constant="40" id="zHk-WR-DDu"/>
+                                    <constraint firstAttribute="width" constant="35" id="5u0-m9-JhQ"/>
+                                    <constraint firstAttribute="height" constant="35" id="MLa-Lr-T18"/>
                                 </constraints>
-                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="minus" catalog="system">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="medium"/>
-                                </state>
-                                <connections>
-                                    <action selector="exploreZoomOutButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="d9X-he-kcs"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mMJ-N3-E3z" userLabel="Zoom In Button">
-                                <rect key="frame" x="340" y="640" width="40" height="40"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="Bbx-mS-sxh"/>
-                                    <constraint firstAttribute="width" constant="40" id="Zfs-Ze-Kve"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
-                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="plus" catalog="system">
-                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="medium"/>
-                                </state>
-                                <connections>
-                                    <action selector="exploreZoomInButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="AKL-6s-3ws"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xse-Ra-6WG" userLabel="User Tracking Button">
-                                <rect key="frame" x="10" y="688" width="40" height="40"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="CSt-hk-cbB"/>
-                                    <constraint firstAttribute="width" constant="40" id="STD-oT-9rl"/>
-                                </constraints>
-                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="location" catalog="system">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="medium"/>
-                                </state>
-                                <connections>
-                                    <action selector="exploreUserTrackingButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="eiQ-uU-B11"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R81-a2-tHs">
-                                <rect key="frame" x="10" y="640" width="40" height="40"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="EAb-cx-djN"/>
-                                    <constraint firstAttribute="height" constant="40" id="Y0r-bi-ZiN"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
-                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="2D">
-                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="exploreMapDimensionButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="cmr-Ts-ueL"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Abm-Ot-LyX">
-                                <rect key="frame" x="336" y="54" width="44" height="44"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="44" id="HXN-d8-rmo"/>
-                                    <constraint firstAttribute="height" constant="44" id="jvI-HZ-hxD"/>
-                                </constraints>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="magnifyingglass" catalog="system">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22" weight="regular"/>
-                                </state>
-                                <connections>
-                                    <action selector="searchButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="phl-h4-Q2F"/>
-                                </connections>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="arrow.clockwise" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="15" weight="semibold"/>
+                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="PwX-9i-D1c"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="d78-fs-Q0o" firstAttribute="top" secondItem="mMJ-N3-E3z" secondAttribute="bottom" constant="8" symbolic="YES" id="27F-an-xI4"/>
                             <constraint firstItem="Abm-Ot-LyX" firstAttribute="leading" secondItem="Ety-i7-6O8" secondAttribute="trailing" constant="10" id="4Wh-tD-J4Z"/>
-                            <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="d78-fs-Q0o" secondAttribute="trailing" constant="10" id="4dt-gc-mCf"/>
-                            <constraint firstItem="Ety-i7-6O8" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" constant="10" id="6zC-xw-n7W"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="4Ti-Yh-6iG" secondAttribute="trailing" id="8r7-k1-G5u"/>
-                            <constraint firstItem="PwX-9i-D1c" firstAttribute="bottom" secondItem="d78-fs-Q0o" secondAttribute="bottom" constant="33" id="BBq-7M-SAx"/>
-                            <constraint firstItem="Abm-Ot-LyX" firstAttribute="top" secondItem="PwX-9i-D1c" secondAttribute="top" constant="10" id="CtY-rr-zTc"/>
+                            <constraint firstItem="Ety-i7-6O8" firstAttribute="height" secondItem="Abm-Ot-LyX" secondAttribute="height" id="8xE-g2-M2S"/>
+                            <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="dE6-TV-tIh" secondAttribute="trailing" constant="10" id="Bns-xu-9iY"/>
+                            <constraint firstItem="Ety-i7-6O8" firstAttribute="leading" secondItem="WB2-a3-lNw" secondAttribute="trailing" constant="12" id="FM6-51-EPt"/>
                             <constraint firstItem="4Ti-Yh-6iG" firstAttribute="top" secondItem="K85-Np-RZT" secondAttribute="top" id="L1D-zS-vBL"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="bottom" secondItem="4Ti-Yh-6iG" secondAttribute="bottom" id="Lpe-Pd-ULU"/>
+                            <constraint firstItem="Ety-i7-6O8" firstAttribute="centerY" secondItem="Abm-Ot-LyX" secondAttribute="centerY" id="Po6-M4-0pI"/>
+                            <constraint firstItem="PwX-9i-D1c" firstAttribute="bottom" secondItem="dE6-TV-tIh" secondAttribute="bottom" constant="33" id="RuK-uz-kQa"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="Abm-Ot-LyX" secondAttribute="trailing" constant="10" id="VVb-XO-2gi"/>
                             <constraint firstItem="4Ti-Yh-6iG" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" id="Xj8-ql-Hva"/>
-                            <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="mMJ-N3-E3z" secondAttribute="trailing" constant="10" id="e3W-5H-0oR"/>
-                            <constraint firstItem="R81-a2-tHs" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" constant="10" id="gd1-b7-Kcl"/>
-                            <constraint firstItem="xse-Ra-6WG" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" constant="10" id="haV-lL-ml0"/>
-                            <constraint firstItem="xse-Ra-6WG" firstAttribute="top" secondItem="R81-a2-tHs" secondAttribute="bottom" constant="8" symbolic="YES" id="lnA-ct-5Db"/>
-                            <constraint firstItem="Ety-i7-6O8" firstAttribute="top" secondItem="PwX-9i-D1c" secondAttribute="top" constant="10" id="yKt-M2-8PV"/>
-                            <constraint firstItem="PwX-9i-D1c" firstAttribute="bottom" secondItem="xse-Ra-6WG" secondAttribute="bottom" constant="33" id="zgU-oU-1xL"/>
+                            <constraint firstItem="onH-Fn-vzF" firstAttribute="top" secondItem="WB2-a3-lNw" secondAttribute="bottom" constant="10" id="auV-Ib-tf5"/>
+                            <constraint firstItem="WB2-a3-lNw" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" constant="10" id="bZA-Pp-Ven"/>
+                            <constraint firstItem="PwX-9i-D1c" firstAttribute="bottom" secondItem="XDC-QO-zBy" secondAttribute="bottom" constant="33" id="cFq-M5-7A6"/>
+                            <constraint firstItem="Ety-i7-6O8" firstAttribute="centerY" secondItem="WB2-a3-lNw" secondAttribute="centerY" id="dOD-DH-T0u"/>
+                            <constraint firstItem="XDC-QO-zBy" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" constant="10" id="euh-YB-Zwc"/>
+                            <constraint firstItem="WB2-a3-lNw" firstAttribute="height" secondItem="Ety-i7-6O8" secondAttribute="height" id="sog-Cc-7eN"/>
+                            <constraint firstItem="onH-Fn-vzF" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" constant="10" id="t1J-Cy-zWn"/>
+                            <constraint firstItem="Ety-i7-6O8" firstAttribute="top" secondItem="PwX-9i-D1c" secondAttribute="top" constant="12" id="yKt-M2-8PV"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="RBw-gp-2Gi"/>
@@ -1515,9 +1568,12 @@
                         <outlet property="mapDimensionButton" destination="R81-a2-tHs" id="71G-dI-Omy"/>
                         <outlet property="mapView" destination="4Ti-Yh-6iG" id="wqV-X2-Kw7"/>
                         <outlet property="searchButton" destination="Abm-Ot-LyX" id="6Qh-GM-uOI"/>
+                        <outlet property="toggleMapFilterButton" destination="WB2-a3-lNw" id="cTQ-1h-5UT"/>
+                        <outlet property="trackingDimensionStackView" destination="XDC-QO-zBy" id="9ez-Yj-laY"/>
                         <outlet property="userTrackingButton" destination="xse-Ra-6WG" id="pJu-8s-aNi"/>
                         <outlet property="zoomInButton" destination="mMJ-N3-E3z" id="atc-SZ-l2Q"/>
                         <outlet property="zoomOutButton" destination="d78-fs-Q0o" id="s08-ht-QwJ"/>
+                        <outlet property="zoomStackView" destination="dE6-TV-tIh" id="KFl-tF-pSQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="alN-Hu-vhD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2647,10 +2703,10 @@ You can message people in two ways: 
             </objects>
             <point key="canvasLocation" x="-1763.0769230769231" y="1864.6919431279621"/>
         </scene>
-        <!--Explore Map View Controller-->
+        <!--Explore View Controller-->
         <scene sceneID="5WO-L6-nRF">
             <objects>
-                <viewController storyboardIdentifier="customnavbarexploremap" id="Uzj-gA-Z19" customClass="ExploreMapViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="customnavbarexploremap" id="Uzj-gA-Z19" customClass="ExploreViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZGg-L0-TaI">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2863,6 +2919,7 @@ You can message people in two ways: 
         <image name="FeaturedIcon" width="28" height="18"/>
         <image name="SpotifyIcon" width="26" height="26"/>
         <image name="adam" width="893" height="880"/>
+        <image name="arrow.clockwise" catalog="system" width="115" height="128"/>
         <image name="arrow.turn.right.up" catalog="system" width="120" height="128"/>
         <image name="arrow.up.right.circle" catalog="system" width="128" height="121"/>
         <image name="at" catalog="system" width="128" height="124"/>
@@ -2903,6 +2960,9 @@ You can message people in two ways: 
         </systemColor>
         <systemColor name="systemGray2Color">
             <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray3Color">
+            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray5Color">
             <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
