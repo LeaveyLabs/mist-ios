@@ -8,7 +8,7 @@
 import UIKit
 
 struct Conversation {
-    var otherUser: User
+    var otherUser: ReadOnlyUser
     var firstMessage: Message
 }
 
@@ -16,6 +16,7 @@ class ConversationsViewController: UIViewController {
     
     @IBOutlet weak var conversationsTableView: UITableView!
     @IBOutlet weak var mistTitle: UIView! //no longer in use
+    var accountButton: UIButton!
     
     var conversations: [Conversation] = []
 
@@ -35,14 +36,27 @@ class ConversationsViewController: UIViewController {
     }
     
     private func setupMyAccountButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem.imageButton(self,
-                                                                      action: #selector(presentMyAccount),
-                                                                      imageName: "adam")
+        accountButton = UIButton(frame: .init(x: 0, y: 0, width: 30, height: 30))
+        accountButton.setImage(UserService.singleton.getProfilePic(), for: .normal)
+        accountButton.addTarget(self, action: #selector(presentMyAccount), for: .touchUpInside)
+        accountButton.contentMode = .scaleAspectFill
+        accountButton.becomeRound() //if creating programmaticallly, must set a width and height of the view before calling becomeRound()
+
+        let accountBarItem = UIBarButtonItem(customView: accountButton)
+        accountBarItem.customView?.translatesAutoresizingMaskIntoConstraints = false
+        accountBarItem.customView?.heightAnchor.constraint(equalToConstant: accountButton.frame.height).isActive = true
+        accountBarItem.customView?.widthAnchor.constraint(equalToConstant: accountButton.frame.width).isActive = true
+        
+        navigationItem.rightBarButtonItem = accountBarItem
     }
     
     @objc func presentMyAccount() {
-        let myAccountNavigation = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation)
+        let myAccountNavigation = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation) as! UINavigationController
         myAccountNavigation.modalPresentationStyle = .fullScreen
+        let myAccountVC = myAccountNavigation.topViewController as! MyAccountViewController
+        myAccountVC.rerenderProfileCallback = {
+            self.accountButton.setImage(UserService.singleton.getProfilePic(), for: .normal)
+        }
         self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
     }
 }

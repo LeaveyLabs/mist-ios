@@ -7,9 +7,9 @@
 
 import Foundation
 
-let DUMMY_USER_ID: Int = -1
+//MARK: - Protocols
 
-protocol UserProtocol: Codable {
+protocol ReadOnlyUserBackendProperties {
     var id: Int { get }
     var username: String { get }
     var first_name: String { get }
@@ -17,7 +17,19 @@ protocol UserProtocol: Codable {
     var picture: String? { get }
 }
 
-struct ReadOnlyUser: Codable {
+protocol CompleteUserBackendProperties {
+    var id: Int { get }
+    var username: String { get }
+    var first_name: String { get }
+    var last_name: String { get }
+    var picture: String? { get }
+    var email: String { get }
+    //let phone_number: String?
+}
+
+//MARK: - Structs
+
+struct ReadOnlyUser: Codable, ReadOnlyUserBackendProperties {
     let id: Int
     let username: String
     let first_name: String
@@ -25,55 +37,68 @@ struct ReadOnlyUser: Codable {
     let picture: String?
 }
 
-struct CompleteUser: Codable {
+// Does not need to be codable, because we're not encoding other user information onto one's device
+struct FrontendReadOnlyUser: ReadOnlyUserBackendProperties {
+    // ReadOnlyUserBackendProperties
+    let id: Int
+    let username: String
+    let first_name: String
+    let last_name: String
+    let picture: String?
+
+    // Frontend-only properties
+    let first_last: String
+    let profilePic: ProfilePicWrapper
+    
+    init(readOnlyUser: ReadOnlyUser, profilePic: ProfilePicWrapper) {
+        self.id = readOnlyUser.id
+        self.username = readOnlyUser.username
+        self.first_name = readOnlyUser.first_name
+        self.last_name = readOnlyUser.last_name
+        self.picture = readOnlyUser.picture
+        
+        self.first_last = first_name + " " + last_name
+        self.profilePic = profilePic
+    }
+}
+
+struct CompleteUser: Codable, CompleteUserBackendProperties {
     let id: Int
     let username: String
     let first_name: String
     let last_name: String
     let picture: String?
     let email: String
-//    let phone_number: String?
 }
 
-struct User: UserProtocol {
+struct FrontendCompleteUser: Codable, CompleteUserBackendProperties {
+    // CompleteUserBackendProperties
     var id: Int
     var username: String
     var first_name: String
     var last_name: String
     var picture: String?
-    var email: String?
-    var phone_number: String?
-}
-
-struct AuthedUser: UserProtocol {
-    // User properties
-    var id: Int
-    var username: String
-    var first_name: String
-    var last_name: String
-    var picture: String?
+    var email: String
     
-    // AuthedUser only properties
-    var email: String?
-    var password: String?
-    var token: String?
+    // Frontend-only properties
+    var profilePicWrapper: ProfilePicWrapper
+    var token: String
+    var votes: [Vote]
+//    var authoredPosts: [Post]
+//    var favoritedPosts: [Post]
     
-    init(id: Int = DUMMY_USER_ID,
-         username: String,
-         first_name: String,
-         last_name: String,
-         picture: String?,
-         email: String,
-         password: String? = "",
-         token: String = "",
-         authoredPosts: [Post] = []){
-        self.id = id
-        self.username = username
-        self.first_name = first_name
-        self.last_name = last_name
-        self.picture = picture
-        self.email = email
-        self.password = password
+    init(completeUser: CompleteUser, profilePic: ProfilePicWrapper, token: String, votes: [Vote]) {
+        self.id = completeUser.id
+        self.username = completeUser.username
+        self.first_name = completeUser.first_name
+        self.last_name = completeUser.last_name
+        self.picture = completeUser.picture
+        self.email = completeUser.email
+        
+        self.profilePicWrapper = profilePic
         self.token = token
+        self.votes = votes
+//        self.authoredPosts = authoredPosts
+//        self.favoritedPosts = favoritedPosts
     }
 }

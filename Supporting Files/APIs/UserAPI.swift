@@ -141,7 +141,11 @@ class UserAPI {
         let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
     }
     
-    static func UIImageFromURLString(url:String) async throws -> UIImage {
+    static func UIImageFromURLString(url:String?) async throws -> UIImage {
+        guard let url = url else {
+            return UIImage(systemName: "person.crop.circle")!
+        }
+
         let (data, _) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         return UIImage(data: data) ?? UIImage(systemName: "person.crop.circle")!
     }

@@ -112,8 +112,15 @@
 		474A5DA527F40606004215F9 /* RoundedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474A5DA427F40606004215F9 /* RoundedImageView.swift */; };
 		474A5DA827F4079D004215F9 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474A5DA727F4079D004215F9 /* MyProfileViewController.swift */; };
 		474A5DAA27F40CB1004215F9 /* UISegmentedControl+Twitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474A5DA927F40CB1004215F9 /* UISegmentedControl+Twitter.swift */; };
-		47527179285478D900DDF84D /* SimpleInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47527177285478D900DDF84D /* SimpleInputCell.swift */; };
-		4752717A285478D900DDF84D /* SimpleInputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47527178285478D900DDF84D /* SimpleInputCell.xib */; };
+		4752717C28553F6200DDF84D /* ProfilePicWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4752717B28553F6200DDF84D /* ProfilePicWrapper.swift */; };
+		4752717E28555DC800DDF84D /* UIImage+Compress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4752717D28555DC800DDF84D /* UIImage+Compress.swift */; };
+		4752718328557C1300DDF84D /* PasswordSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4752718228557C1300DDF84D /* PasswordSettingViewController.swift */; };
+		47527191285584F400DDF84D /* MyProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4752718D285584F400DDF84D /* MyProfileCell.swift */; };
+		47527192285584F400DDF84D /* MyProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4752718E285584F400DDF84D /* MyProfileCell.xib */; };
+		47527193285584F400DDF84D /* SimpleInputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4752718F285584F400DDF84D /* SimpleInputCell.xib */; };
+		47527194285584F400DDF84D /* SimpleInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47527190285584F400DDF84D /* SimpleInputCell.swift */; };
+		475271972855851200DDF84D /* MyAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475271952855851200DDF84D /* MyAccountCell.swift */; };
+		475271982855851200DDF84D /* MyAccountCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 475271962855851200DDF84D /* MyAccountCell.xib */; };
 		475B1F8B27FB86C000ED59CD /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475B1F8A27FB86C000ED59CD /* ConversationsViewController.swift */; };
 		475B1F8D27FBAB2F00ED59CD /* UIView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475B1F8C27FBAB2F00ED59CD /* UIView+Animations.swift */; };
 		475B1F8F27FBC2D400ED59CD /* UIView+Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475B1F8E27FBC2D400ED59CD /* UIView+Shadow.swift */; };
@@ -166,8 +173,6 @@
 		47CE900A27E058090004B756 /* PinMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900927E058090004B756 /* PinMapViewController.swift */; };
 		47CE900C27E059DC0004B756 /* PinMapModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */; };
 		47CEEE9828545207008947FC /* UIBarButtonItem+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CEEE9728545207008947FC /* UIBarButtonItem+Image.swift */; };
-		47CEEE9C28546B66008947FC /* MyProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CEEE9A28546B66008947FC /* MyProfileCell.swift */; };
-		47CEEE9D28546B66008947FC /* MyProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47CEEE9B28546B66008947FC /* MyProfileCell.xib */; };
 		47D5B3672844116A004CDE6C /* UIView+AddBorders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D5B3662844116A004CDE6C /* UIView+AddBorders.swift */; };
 		47D5B36A28441296004CDE6C /* CustomSwiftMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D5B36928441296004CDE6C /* CustomSwiftMessages.swift */; };
 		47D9FD1E28457D72004E4BE3 /* NewPostContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D9FD1D28457D72004E4BE3 /* NewPostContext.swift */; };
@@ -344,8 +349,15 @@
 		474A5DA427F40606004215F9 /* RoundedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedImageView.swift; sourceTree = "<group>"; };
 		474A5DA727F4079D004215F9 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		474A5DA927F40CB1004215F9 /* UISegmentedControl+Twitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl+Twitter.swift"; sourceTree = "<group>"; };
-		47527177285478D900DDF84D /* SimpleInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleInputCell.swift; sourceTree = "<group>"; };
-		47527178285478D900DDF84D /* SimpleInputCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SimpleInputCell.xib; sourceTree = "<group>"; };
+		4752717B28553F6200DDF84D /* ProfilePicWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePicWrapper.swift; sourceTree = "<group>"; };
+		4752717D28555DC800DDF84D /* UIImage+Compress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Compress.swift"; sourceTree = "<group>"; };
+		4752718228557C1300DDF84D /* PasswordSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSettingViewController.swift; sourceTree = "<group>"; };
+		4752718D285584F400DDF84D /* MyProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileCell.swift; sourceTree = "<group>"; };
+		4752718E285584F400DDF84D /* MyProfileCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProfileCell.xib; sourceTree = "<group>"; };
+		4752718F285584F400DDF84D /* SimpleInputCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleInputCell.xib; sourceTree = "<group>"; };
+		47527190285584F400DDF84D /* SimpleInputCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleInputCell.swift; sourceTree = "<group>"; };
+		475271952855851200DDF84D /* MyAccountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccountCell.swift; sourceTree = "<group>"; };
+		475271962855851200DDF84D /* MyAccountCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyAccountCell.xib; sourceTree = "<group>"; };
 		475B1F8A27FB86C000ED59CD /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
 		475B1F8C27FBAB2F00ED59CD /* UIView+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Animations.swift"; sourceTree = "<group>"; };
 		475B1F8E27FBC2D400ED59CD /* UIView+Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shadow.swift"; sourceTree = "<group>"; };
@@ -400,8 +412,6 @@
 		47CE900927E058090004B756 /* PinMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinMapViewController.swift; sourceTree = "<group>"; };
 		47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinMapModalViewController.swift; sourceTree = "<group>"; };
 		47CEEE9728545207008947FC /* UIBarButtonItem+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Image.swift"; sourceTree = "<group>"; };
-		47CEEE9A28546B66008947FC /* MyProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileCell.swift; sourceTree = "<group>"; };
-		47CEEE9B28546B66008947FC /* MyProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyProfileCell.xib; sourceTree = "<group>"; };
 		47D5B3662844116A004CDE6C /* UIView+AddBorders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AddBorders.swift"; sourceTree = "<group>"; };
 		47D5B36928441296004CDE6C /* CustomSwiftMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwiftMessages.swift; sourceTree = "<group>"; };
 		47D9FD1D28457D72004E4BE3 /* NewPostContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostContext.swift; sourceTree = "<group>"; };
@@ -552,16 +562,12 @@
 		470BD12E27DB1D9A00DD4622 /* Xibs */ = {
 			isa = PBXGroup;
 			children = (
+				477A6FD427DF86260020F864 /* Feed */,
+				4752718028556A5A00DDF84D /* Post */,
+				4752718128556A6E00DDF84D /* Comment */,
+				4752717F28556A3F00DDF84D /* Search */,
 				47CEEE9928546B49008947FC /* MyAccount */,
-				47E295D7284BB7B000A680CC /* PostView.xib */,
-				47E295D5284BB79600A680CC /* PostView.swift */,
 				47EE28FC28414A7200C6425C /* CustomSwiftMessages */,
-				4700F8BD27DD807C006C2E08 /* CommentCell.xib */,
-				47E2B1C12800E9EB00131B8D /* MyCommentCell.xib */,
-				470F271727DE758100C6DDAF /* WordResultCell.xib */,
-				470F271B27DE764F00C6DDAF /* UserResultCell.xib */,
-				47C2834E27DED77500A19128 /* FeedHeaderCell.xib */,
-				47E295D9284BBB1400A680CC /* PostCell.xib */,
 			);
 			path = Xibs;
 			sourceTree = "<group>";
@@ -641,6 +647,7 @@
 				474A5DA227F4042F004215F9 /* UIImageView+Inspectable.swift */,
 				47F10DC02852CFE100E1A3DC /* UIImage+FromColor.swift */,
 				47F10DC62853DA0600E1A3DC /* UIImage+Blur.swift */,
+				4752717D28555DC800DDF84D /* UIImage+Compress.swift */,
 			);
 			path = "UIImage+UIImageView";
 			sourceTree = "<group>";
@@ -663,6 +670,39 @@
 			path = UITextView;
 			sourceTree = "<group>";
 		};
+		4752717F28556A3F00DDF84D /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				470F271627DE758100C6DDAF /* WordResultCell.swift */,
+				470F271727DE758100C6DDAF /* WordResultCell.xib */,
+				470F271A27DE764F00C6DDAF /* UserResultCell.swift */,
+				470F271B27DE764F00C6DDAF /* UserResultCell.xib */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		4752718028556A5A00DDF84D /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				47E295D5284BB79600A680CC /* PostView.swift */,
+				47E295D7284BB7B000A680CC /* PostView.xib */,
+				479AA1EE27DCE9A700EA0DFC /* PostCell.swift */,
+				47E295D9284BBB1400A680CC /* PostCell.xib */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
+		4752718128556A6E00DDF84D /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				4700F8BC27DD807C006C2E08 /* CommentCell.swift */,
+				4700F8BD27DD807C006C2E08 /* CommentCell.xib */,
+				47E2B1C02800E9EB00131B8D /* MyCommentCell.swift */,
+				47E2B1C12800E9EB00131B8D /* MyCommentCell.xib */,
+			);
+			path = Comment;
+			sourceTree = "<group>";
+		};
 		475B1F8927FB868300ED59CD /* Messages */ = {
 			isa = PBXGroup;
 			children = (
@@ -675,17 +715,13 @@
 			path = Messages;
 			sourceTree = "<group>";
 		};
-		477A6FD427DF86260020F864 /* Xibs */ = {
+		477A6FD427DF86260020F864 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
-				479AA1EE27DCE9A700EA0DFC /* PostCell.swift */,
-				4700F8BC27DD807C006C2E08 /* CommentCell.swift */,
-				47E2B1C02800E9EB00131B8D /* MyCommentCell.swift */,
-				470F271627DE758100C6DDAF /* WordResultCell.swift */,
-				470F271A27DE764F00C6DDAF /* UserResultCell.swift */,
 				47C2834D27DED77500A19128 /* FeedHeaderCell.swift */,
+				47C2834E27DED77500A19128 /* FeedHeaderCell.xib */,
 			);
-			path = Xibs;
+			path = Feed;
 			sourceTree = "<group>";
 		};
 		478A789C284E739E0058C845 /* CLLocationCoordinate */ = {
@@ -756,6 +792,7 @@
 			children = (
 				47EE95F927F64C00003B351E /* MyAccountViewController.swift */,
 				47AE72A927F77B0B00A5E94C /* MyProfileSettingViewController.swift */,
+				4752718228557C1300DDF84D /* PasswordSettingViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -772,10 +809,12 @@
 		47CEEE9928546B49008947FC /* MyAccount */ = {
 			isa = PBXGroup;
 			children = (
-				47CEEE9A28546B66008947FC /* MyProfileCell.swift */,
-				47CEEE9B28546B66008947FC /* MyProfileCell.xib */,
-				47527177285478D900DDF84D /* SimpleInputCell.swift */,
-				47527178285478D900DDF84D /* SimpleInputCell.xib */,
+				4752718D285584F400DDF84D /* MyProfileCell.swift */,
+				4752718E285584F400DDF84D /* MyProfileCell.xib */,
+				47527190285584F400DDF84D /* SimpleInputCell.swift */,
+				4752718F285584F400DDF84D /* SimpleInputCell.xib */,
+				475271952855851200DDF84D /* MyAccountCell.swift */,
+				475271962855851200DDF84D /* MyAccountCell.xib */,
 			);
 			path = MyAccount;
 			sourceTree = "<group>";
@@ -874,6 +913,7 @@
 				43D9251B28527E1800438C5C /* Favorite.swift */,
 				43D9251F2852802600438C5C /* FriendRequest.swift */,
 				43D925212852802E00438C5C /* MatchRequest.swift */,
+				4752717B28553F6200DDF84D /* ProfilePicWrapper.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -897,7 +937,6 @@
 				475B1F8927FB868300ED59CD /* Messages */,
 				47F4EFD127E10C1300861F30 /* Post */,
 				47EA3DFE27E013DD00381218 /* Map */,
-				477A6FD427DF86260020F864 /* Xibs */,
 				4700F8C427DE4641006C2E08 /* Explore */,
 				47FF86A427DC76000076A1CA /* NewPost */,
 				47FF86A327DC75F00076A1CA /* Account */,
@@ -1141,23 +1180,24 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47527193285584F400DDF84D /* SimpleInputCell.xib in Resources */,
 				47C2835027DED77500A19128 /* FeedHeaderCell.xib in Resources */,
 				47061CDD285172A10042F04C /* CustomCardView.xib in Resources */,
 				47E295DA284BBB1400A680CC /* PostCell.xib in Resources */,
 				47A801212853EDF40068F90C /* Loading.storyboard in Resources */,
 				47E295D8284BB7B000A680CC /* PostView.xib in Resources */,
-				47CEEE9D28546B66008947FC /* MyProfileCell.xib in Resources */,
 				47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */,
 				47E86F6F2853EA65005A7DC7 /* Main.storyboard in Resources */,
 				47E86F6E2853EA65005A7DC7 /* Auth.storyboard in Resources */,
 				470F271927DE758100C6DDAF /* WordResultCell.xib in Resources */,
+				47527192285584F400DDF84D /* MyProfileCell.xib in Resources */,
+				475271982855851200DDF84D /* MyAccountCell.xib in Resources */,
 				47EE290028414B2300C6425C /* CustomCenteredView.xib in Resources */,
 				4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */,
 				47E2B1C32800E9EB00131B8D /* MyCommentCell.xib in Resources */,
 				470F271D27DE764F00C6DDAF /* UserResultCell.xib in Resources */,
 				478A78A1284EBF180058C845 /* Launch.storyboard in Resources */,
 				472A4C0228408BD800FD52B7 /* LoadingView.xib in Resources */,
-				4752717A285478D900DDF84D /* SimpleInputCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1196,6 +1236,7 @@
 				47D5B36A28441296004CDE6C /* CustomSwiftMessages.swift in Sources */,
 				43D925222852802E00438C5C /* MatchRequest.swift in Sources */,
 				439E44FC27E01D4900E244D6 /* AuthAPI.swift in Sources */,
+				47527191285584F400DDF84D /* MyProfileCell.swift in Sources */,
 				470F271C27DE764F00C6DDAF /* UserResultCell.swift in Sources */,
 				4746508727D8735B0014217C /* RulesViewController.swift in Sources */,
 				472A4BFB28408BD800FD52B7 /* Misc.swift in Sources */,
@@ -1213,6 +1254,7 @@
 				4700F8BB27DD7BE3006C2E08 /* Vote.swift in Sources */,
 				47E2B1BD27FFC52900131B8D /* ShadowNavigationController.swift in Sources */,
 				47E74E0E27CA0FFE00467A0C /* SceneDelegate.swift in Sources */,
+				4752717E28555DC800DDF84D /* UIImage+Compress.swift in Sources */,
 				47E2B1BF2800C1CD00131B8D /* UITextView+Placeholder.swift in Sources */,
 				479683FA28283ED700CA23BA /* MKClusterAnnotation+*.swift in Sources */,
 				478BA27F283E85F500C35507 /* AuthContext.swift in Sources */,
@@ -1230,9 +1272,9 @@
 				47266AD427FF69C9005DEDB1 /* UIViewController+Loading.swift in Sources */,
 				472A4C0628408BD800FD52B7 /* SpringAnimation.swift in Sources */,
 				47AE72AA27F77B0B00A5E94C /* MyProfileSettingViewController.swift in Sources */,
+				47527194285584F400DDF84D /* SimpleInputCell.swift in Sources */,
 				47EE28F22840991800C6425C /* PermissionsViewController.swift in Sources */,
 				47061CDF285172BF0042F04C /* CustomCardView.swift in Sources */,
-				47527179285478D900DDF84D /* SimpleInputCell.swift in Sources */,
 				47FF418328403AE700A44968 /* CustomAttributedString.swift in Sources */,
 				472A4BF728408BD800FD52B7 /* BlurView.swift in Sources */,
 				47A3D70C27D55A3A003DBEA5 /* PostsService.swift in Sources */,
@@ -1250,6 +1292,7 @@
 				47F10DC72853DA0600E1A3DC /* UIImage+Blur.swift in Sources */,
 				47FF869D27DB87A70076A1CA /* UIImage+Thumbnail.swift in Sources */,
 				4780E5B6283308250012B741 /* MessageKitMessage.swift in Sources */,
+				4752717C28553F6200DDF84D /* ProfilePicWrapper.swift in Sources */,
 				47E295D4284BB3E100A680CC /* NibViewController.swift in Sources */,
 				47266AD227FF5531005DEDB1 /* UIView+LoadFromNib.swift in Sources */,
 				4700F8B427DD7BBA006C2E08 /* FlagAPI.swift in Sources */,
@@ -1265,7 +1308,6 @@
 				471F92D1280159430079F8CA /* SegmentedControlCell.swift in Sources */,
 				47EE28F82840AE8200C6425C /* TestViewController.swift in Sources */,
 				477A6FD627DFB0450020F864 /* Color.swift in Sources */,
-				47CEEE9C28546B66008947FC /* MyProfileCell.swift in Sources */,
 				47061CDA285170CB0042F04C /* FeedType.swift in Sources */,
 				472A4BFF28408BD800FD52B7 /* DesignableView.swift in Sources */,
 				478A789E284EBD510058C845 /* LoadingViewController.swift in Sources */,
@@ -1286,6 +1328,7 @@
 				433970DF27FE501700876026 /* WelcomeTutorialViewController.swift in Sources */,
 				47D9FD1E28457D72004E4BE3 /* NewPostContext.swift in Sources */,
 				472A4C0828408BD800FD52B7 /* LoadingView.swift in Sources */,
+				4752718328557C1300DDF84D /* PasswordSettingViewController.swift in Sources */,
 				43D92524285280D200438C5C /* FriendRequestAPI.swift in Sources */,
 				472A4BF328408BD800FD52B7 /* Spring.swift in Sources */,
 				472A4BF528408BD800FD52B7 /* DesignableLabel.swift in Sources */,
@@ -1324,6 +1367,7 @@
 				4783F3BB284D6DA20073357A /* ExploreMapViewController+Search.swift in Sources */,
 				478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */,
 				472A4C0028408BD800FD52B7 /* DesignableTabBarController.swift in Sources */,
+				475271972855851200DDF84D /* MyAccountCell.swift in Sources */,
 				474A4AC6284AB6D700B39A98 /* String+Indexing.swift in Sources */,
 				479683F82828180C00CA23BA /* ClusterAnnotationView.swift in Sources */,
 				43D9251628526DF300438C5C /* BlockAPI.swift in Sources */,

@@ -1,17 +1,18 @@
 //
-//  MyProfileTableViewCell.swift
+//  MyAccountCell.swift
 //  mist-ios
 //
-//  Created by Adam Novak on 2022/06/10.
+//  Created by Adam Novak on 2022/06/11.
 //
 
 import UIKit
 
-class MyProfileCell: UITableViewCell {
+class MyAccountCell: UITableViewCell {
     
-    @IBOutlet weak var profileImageView: UIImageView!
-    @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var iconImageView: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var notificationLabel: UILabel!
+    @IBOutlet weak var accessoryView: UIImageView!
         
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -10,7 +10,7 @@ import UIKit
 class ProfileViewController: UIViewController {
     
     var username: String!
-    var user: User?
+    var user: ReadOnlyUser?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,11 +32,6 @@ class ProfileViewController: UIViewController {
         Task {
             do {
                 let dbUser = try await UserAPI.fetchUsersByUsername(username: username)[0]
-                user = User(id: dbUser.id,
-                            username: dbUser.username,
-                            first_name: dbUser.first_name,
-                            last_name: dbUser.last_name,
-                            picture: dbUser.picture)
             } catch {
                 print(error)
             }

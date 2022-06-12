@@ -189,7 +189,7 @@ extension ExploreMapViewController {
         localSearch?.start { [unowned self] (response, error) in
             if let error = error as? MKError {
                 if error.errorCode == 4 {
-                    CustomSwiftMessages.showInfo("No results were found.", "Please search again.")
+                    CustomSwiftMessages.showInfo("No results were found.", "Please search again.", emoji: "😔")
                 } else {
                     CustomSwiftMessages.showError(errorDescription: "Something went wrong.")
                 }

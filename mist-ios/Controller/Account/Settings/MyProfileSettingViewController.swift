@@ -10,7 +10,6 @@ import UIKit
 class MyProfileSettingViewController: UITableViewController {
 
     var saveButton: UIButton!
-    @IBOutlet weak var cancelButton: UIBarButtonItem!
     @IBOutlet weak var profilePictureButton: UIButton!
     @IBOutlet weak var miniCameraButton: UIButton!
     
@@ -23,7 +22,7 @@ class MyProfileSettingViewController: UITableViewController {
             validateInput()
         }
     }
-    var profilePic: UIImage = UserService.singleton.getPicture() {
+    var profilePic: UIImage = UserService.singleton.getProfilePic() {
         didSet {
             profilePictureButton.setImage(profilePic.withRenderingMode(.alwaysOriginal), for: .normal)
             validateInput()
@@ -31,7 +30,7 @@ class MyProfileSettingViewController: UITableViewController {
     }
     
     var originalUsername: String = UserService.singleton.getUsername()
-    var originalProfilePic: UIImage = UserService.singleton.getPicture()
+    var originalProfilePic: UIImage = UserService.singleton.getProfilePic()
 
     var isSaving: Bool = false {
         didSet {
@@ -39,6 +38,7 @@ class MyProfileSettingViewController: UITableViewController {
             view.isUserInteractionEnabled = !isSaving
         }
     }
+    var rerenderProfileCallback: (() -> Void)!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +46,10 @@ class MyProfileSettingViewController: UITableViewController {
         registerNibs()
         setupButtons()
         setupImagePicker()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        rerenderProfileCallback()
     }
     
     func setupTableView() {
@@ -65,7 +69,7 @@ class MyProfileSettingViewController: UITableViewController {
         miniCameraButton.becomeRound()
         
         profilePictureButton.becomeRound()
-        profilePictureButton.imageView?.image = profilePic
+        profilePictureButton.setImage(profilePic, for: .normal)
         profilePictureButton.imageView?.contentMode = .scaleAspectFill
     }
     
@@ -131,7 +135,10 @@ class MyProfileSettingViewController: UITableViewController {
             }
             cell.textField.isEnabled = false
         } else {
+            cell.textField.autocorrectionType = .no
+            cell.textField.autocapitalizationType = .none
             cell.textField.text = username
+            cell.textField.delegate = self
             cell.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         }
         cell.selectionStyle = .none
@@ -154,11 +161,11 @@ class MyProfileSettingViewController: UITableViewController {
             do {
                 try await UserService.singleton.updateUsername(to: username)
                 try await UserService.singleton.updateProfilePic(to: profilePic)
-                handleSuccessfulSave()
-            } catch {
-                print(error.localizedDescription)
-                CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
                 isSaving = false
+                handleSuccessfulUpdate()
+            } catch {
+                isSaving = false
+                CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
             }
         }
     }
@@ -166,25 +173,31 @@ class MyProfileSettingViewController: UITableViewController {
     //MARK: - Helpers
     
     func validateInput() {
-        let isValid = !username.isEmpty && !(username == originalUsername && profilePic == originalProfilePic)
+        let isValid = username.count > 3 && !(username == originalUsername && profilePic == originalProfilePic)
         saveButton.isEnabled = isValid
     }
     
-    func handleSuccessfulSave() {
-        navigationController?.popViewController(animated: true, completion: { [unowned self] in
-            isSaving = false
-        })
+    func handleSuccessfulUpdate() {
+        CustomSwiftMessages.showSuccess("Successfully updated", "It's the little wins that count.")
+        originalUsername = username
+        originalProfilePic = profilePic
+        validateInput()
     }
     
 }
 
 // UITextField Target
 
-extension MyProfileSettingViewController {
+extension MyProfileSettingViewController: UITextFieldDelegate {
     
     @objc func textFieldDidChange(_ textField: UITextField) {
         guard let newUsername = textField.text else { return }
         username = newUsername
+    }
+    
+    // Max length UI text field: https://stackoverflow.com/questions/25223407/max-length-uitextfield
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return textField.shouldChangeCharactersGivenMaxLengthOf(20, range, string)
     }
 }
 

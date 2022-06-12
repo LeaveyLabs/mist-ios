@@ -55,7 +55,7 @@ enum AccountSections: Int, CaseIterable {
         case submissions, mentions, favorites
     }
     enum Settings: Int, CaseIterable {
-        case email, phoneNumber, password, notifications
+        case email, phoneNumber, password //, notifications
     }
     enum More: Int, CaseIterable {
         case rateMist, faq, legal, contactUs
@@ -66,6 +66,8 @@ enum AccountSections: Int, CaseIterable {
 class MyAccountViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var accountTableView: UITableView!
+    
+    var rerenderProfileCallback: (() -> Void)!
         
     //MARK: - Life Cycle
     
@@ -81,6 +83,8 @@ class MyAccountViewController: UIViewController, UITableViewDelegate, UITableVie
         accountTableView.delegate = self
         accountTableView.dataSource = self
         accountTableView.estimatedRowHeight = 50
+        accountTableView.estimatedSectionFooterHeight = 20
+        accountTableView.estimatedSectionHeaderHeight = 20
         accountTableView.sectionHeaderTopPadding = 15
         accountTableView.rowHeight = UITableView.automaticDimension //necessary when using constraints within cells
     }
@@ -90,9 +94,21 @@ class MyAccountViewController: UIViewController, UITableViewDelegate, UITableVie
         accountTableView.register(myProfileNib, forCellReuseIdentifier: Constants.SBID.Cell.MyProfile);
     }
     
+    //MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Constants.SBID.Segue.ToMyProfileSetting {
+            let myProfileSettingViewController = segue.destination as! MyProfileSettingViewController
+            myProfileSettingViewController.rerenderProfileCallback = {
+                self.accountTableView.reloadData()
+            }
+        }
+    }
+    
     //MARK: - User Interaction
      
     @IBAction func cancelButtonDidPressed(_ sender: UIBarButtonItem) {
+        rerenderProfileCallback()
         self.dismiss(animated: true, completion: nil) //bc it's the nav controller's root vc
     }
     
@@ -158,22 +174,26 @@ class MyAccountViewController: UIViewController, UITableViewDelegate, UITableVie
             switch accountSettings {
             case .email:
                 cell = accountTableView.dequeueReusableCell(withIdentifier: "SettingsSettingCell", for: indexPath)
+                cell.imageView?.image = UIImage(systemName: "envelope")
                 cell.textLabel?.text = "Email"
                 cell.detailTextLabel?.text = "adamnova@usc.edu"
                 cell.accessoryType = .none //phone number cant be changed
                 cell.selectionStyle = .none // **
             case .phoneNumber:
                 cell = accountTableView.dequeueReusableCell(withIdentifier: "SettingsSettingCell", for: indexPath)
+                cell.imageView?.image = UIImage(systemName: "phone")
                 cell.textLabel?.text = "Phone Number"
                 cell.detailTextLabel?.text = "(615) 975-4270"
                 cell.accessoryType = .none //phone number cant be changed
                 cell.selectionStyle = .none // **
             case .password:
                 cell = accountTableView.dequeueReusableCell(withIdentifier: "SettingsSettingCell", for: indexPath)
+                cell.imageView?.image = UIImage(systemName: "lock")
                 cell.textLabel?.text = "Password"
-            case .notifications:
-                cell = accountTableView.dequeueReusableCell(withIdentifier: "SettingsSettingCell", for: indexPath)
-                cell.textLabel?.text = "Notifications"
+//            case .notifications:
+//                cell = accountTableView.dequeueReusableCell(withIdentifier: "SettingsSettingCell", for: indexPath)
+//                cell.imageView?.image = UIImage(systemName: "bell")
+//                cell.textLabel?.text = "Notifications"
             }
         case .more:
             let moreSettings = AccountSections.More.init(rawValue: indexPath.row)!
@@ -212,25 +232,25 @@ class MyAccountViewController: UIViewController, UITableViewDelegate, UITableVie
             let profileSettings = AccountSections.Profile.init(rawValue: indexPath.row)!
             switch profileSettings {
             case .profile:
-                performSegue(withIdentifier: Constants.SBID.Segue.ToUsernameSetting, sender: nil)
+                performSegue(withIdentifier: Constants.SBID.Segue.ToMyProfileSetting, sender: nil)
             }
         case .friends:
             let friendsSection = AccountSections.Friends.init(rawValue: indexPath.row)!
             switch friendsSection {
             case .addFriends:
-                performSegue(withIdentifier: Constants.SBID.Segue.ToUsernameSetting, sender: nil)
+                performSegue(withIdentifier: Constants.SBID.Segue.ToMyProfileSetting, sender: nil)
             case .myFriends:
-                performSegue(withIdentifier: Constants.SBID.Segue.ToUsernameSetting, sender: nil)
+                performSegue(withIdentifier: Constants.SBID.Segue.ToMyProfileSetting, sender: nil)
             }
         case .posts:
             let postsSection = AccountSections.Posts.init(rawValue: indexPath.row)!
             switch postsSection {
             case .submissions:
-                performSegue(withIdentifier: Constants.SBID.Segue.ToUsernameSetting, sender: nil)
+                performSegue(withIdentifier: Constants.SBID.Segue.ToMyProfileSetting, sender: nil)
             case .mentions:
-                performSegue(withIdentifier: Constants.SBID.Segue.ToUsernameSetting, sender: nil)
+                performSegue(withIdentifier: Constants.SBID.Segue.ToMyProfileSetting, sender: nil)
             case .favorites:
-                performSegue(withIdentifier: Constants.SBID.Segue.ToUsernameSetting, sender: nil)
+                performSegue(withIdentifier: Constants.SBID.Segue.ToMyProfileSetting, sender: nil)
             }
         case .settings:
             let accountSettings = AccountSections.Settings.init(rawValue: indexPath.row)!
@@ -241,8 +261,8 @@ class MyAccountViewController: UIViewController, UITableViewDelegate, UITableVie
                 break
             case .password:
                 performSegue(withIdentifier: Constants.SBID.Segue.ToPasswordSetting, sender: nil)
-            case .notifications:
-                performSegue(withIdentifier: Constants.SBID.Segue.ToNotificationsSetting, sender: nil)
+//            case .notifications:
+//                performSegue(withIdentifier: Constants.SBID.Segue.ToNotificationsSetting, sender: nil)
             }
         case .more:
             let moreSettings = AccountSections.More.init(rawValue: indexPath.row)!

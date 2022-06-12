@@ -12,7 +12,7 @@ struct MessageKitUser: SenderType, Equatable {
     var senderId: String
     var displayName: String
     
-    init(user: UserProtocol) {
+    init(user: FrontendCompleteUser) { //TODO: if Sender can also be the othe person, user shouldnt be frontEndCompleteUser
         senderId = user.username
         displayName = user.first_name + " " + user.last_name
     }

@@ -108,7 +108,7 @@ class UploadProfilePictureViewController: UIViewController {
                         username: AuthContext.username,
                         firstName: AuthContext.firstName,
                         lastName: AuthContext.lastName,
-                        picture: selectedProfilePic,
+                        profilePic: selectedProfilePic,
                         email: AuthContext.email,
                         password: AuthContext.password)
                     transitionToHomeAndRequestPermissions() { [weak self] in

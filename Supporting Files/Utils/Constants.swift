@@ -83,7 +83,7 @@ struct Constants {
             static let SetupTime = "SetupTimeViewController"
         }
         struct Segue {
-            static let ToUsernameSetting = "ToUsernameSetting"
+            static let ToMyProfileSetting = "ToMyProfileSetting"
             static let ToNameSetting = "ToNameSetting"
             static let ToPasswordSetting = "ToPasswordSetting"
             static let ToNotificationsSetting = "ToNotificationsSetting"

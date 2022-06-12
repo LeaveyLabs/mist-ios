@@ -11,6 +11,7 @@ extension UITextField {
     
     // This function handles the shouldChangeCharactersIn delegate funciton of UITextField
     // Reference: https://stackoverflow.com/questions/25223407/max-length-uitextfield
+    // Max length UI text field: https://stackoverflow.com/questions/25223407/max-length-uitextfield
 
     func shouldChangeCharactersGivenMaxLengthOf(_ maxLength: Int, _ range: NSRange, _ string: String) -> Bool {
         guard let textFieldText = self.text,
