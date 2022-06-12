@@ -9,8 +9,12 @@ import Foundation
 
 enum APIError: Error {
     case CouldNotConnect
+    case ServerError
     case InvalidParameters
     case InvalidCredentials
+    case NotFound
+    case Timeout
+    case Throttled
     case NoResponse
     case Unknown
 }
@@ -51,12 +55,27 @@ class BasicAPI {
 
         if let httpResponse = (response as? HTTPURLResponse) {
             let goodRequest = (200...299).contains(httpResponse.statusCode)
-            let badRequest = (400...499).contains(httpResponse.statusCode)
+            let serverError = (500...499).contains(httpResponse.statusCode)
             if goodRequest {
                 return (data, response)
             }
-            else if badRequest {
+            else if serverError {
+                throw APIError.ServerError
+            }
+            else if httpResponse.statusCode == 400 {
                 throw APIError.InvalidParameters
+            }
+            else if httpResponse.statusCode == 403 {
+                throw APIError.InvalidCredentials
+            }
+            else if httpResponse.statusCode == 404 {
+                throw APIError.NotFound
+            }
+            else if httpResponse.statusCode == 408 {
+                throw APIError.Timeout
+            }
+            else if httpResponse.statusCode == 429 {
+                throw APIError.Throttled
             }
             else {
                 throw APIError.Unknown

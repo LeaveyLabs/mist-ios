@@ -72,18 +72,18 @@ class UserAPITest: XCTestCase {
     }
     // PATCH username
     func testPatchUserUsername() async throws {
-        let user = try await UserAPI.patchUsername(username: TestConstants.Auth.USERNAME, user: TestConstants.Auth.authedUser)
+        let user = try await UserAPI.patchUsername(username: TestConstants.Auth.USERNAME, id: TestConstants.Auth.ID)
         XCTAssertTrue(user.username == TestConstants.Auth.USERNAME)
     }
     // PATCH password
     func testPatchUserPassword() async throws {
-        let user = try await UserAPI.patchPassword(password: TestConstants.Auth.PASSWORD, user: TestConstants.Auth.authedUser)
+        let user = try await UserAPI.patchPassword(password: TestConstants.Auth.PASSWORD, id: TestConstants.Auth.ID)
         XCTAssertTrue(user.username == TestConstants.Auth.USERNAME)
     }
     // PATCH picture
     func testPatchUserPicture() async throws {
         let picture = try await UserAPI.UIImageFromURLString(url: "https://cdn.cocoacasts.com/cc00ceb0c6bff0d536f25454d50223875d5c79f1/above-the-clouds.jpg")
-        let user = try await UserAPI.patchProfilePic(image: picture, user: TestConstants.Auth.authedUser)
+        let user = try await UserAPI.patchProfilePic(image: picture, id: TestConstants.Auth.ID, username: TestConstants.Auth.USERNAME)
         XCTAssertTrue(user.id == TestConstants.Auth.ID)
     }
     func testPerformanceExample() throws {
