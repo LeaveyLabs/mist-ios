@@ -18,7 +18,6 @@ class MapViewController: UIViewController {
     @IBOutlet weak var zoomOutButton: UIButton!
     @IBOutlet weak var zoomStackView: UIStackView!
     @IBOutlet weak var trackingDimensionStackView: UIStackView!
-    @IBOutlet weak var refreshButton: UIButton!
 
     private var isThreeDimensional:Bool = true {
         didSet {
@@ -119,9 +118,6 @@ class MapViewController: UIViewController {
         mapDimensionButton.roundCorners(corners: [.topLeft, .topRight], radius: 10)
         userTrackingButton.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 10)
         applyShadowOnView(trackingDimensionStackView)
-        
-        refreshButton.roundCorners(corners: .allCorners, radius: 10)
-        applyShadowOnView(refreshButton)
     }
     
     func handleUserLocationPermissionRequest() {

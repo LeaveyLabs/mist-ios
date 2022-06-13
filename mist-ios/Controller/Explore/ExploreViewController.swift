@@ -14,6 +14,13 @@ class ExploreViewController: MapViewController {
     
     // General
     var postFilter = PostFilter()
+    var isLoadingPosts: Bool = false {
+        didSet {
+            //Should also probably disable some other interactions...
+            refreshButton.isEnabled = !isLoadingPosts
+            refreshButton.configuration?.showsActivityIndicator = isLoadingPosts
+        }
+    }
     @IBOutlet weak var customNavigationBar: UIStackView!
     @IBOutlet weak var featuredIconButton: UIButton!
     @IBOutlet weak var filterButton: UIButton!
@@ -22,6 +29,7 @@ class ExploreViewController: MapViewController {
     
     // Feed
     var tableView: UITableView!
+    var tableViewNeedsScrollToTop = false
                 
     // Search
     @IBOutlet weak var searchButton: UIButton!
@@ -36,6 +44,7 @@ class ExploreViewController: MapViewController {
     }
     
     // Map
+    @IBOutlet weak var refreshButton: UIButton!
     var selectedAnnotationView: MKAnnotationView?
     var selectedAnnotationIndex: Int? {
         guard let selected = selectedAnnotationView else { return nil }
@@ -60,7 +69,7 @@ extension ExploreViewController {
         
         setupSearchButton()
         setupFilterButton()
-        setupToggleButton()
+        setupButtons()
         setupSearchBar()
         setupTableView()
         setupCustomTapGestureRecognizerOnMap()
@@ -100,27 +109,33 @@ extension ExploreViewController {
     }
     
     @objc func reloadPosts() {
+        isLoadingPosts = true
         Task {
             do {
                 let loadedPosts = try await PostsService.newPosts()
                 renderPostsAsAnnotations(loadedPosts)
-                tableView.reloadData()
-                tableView.refreshControl!.endRefreshing()
+                tableView.refreshControl?.endRefreshing()
             } catch {
                 CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
             }
+            isLoadingPosts = false
+            tableViewNeedsScrollToTop = true
         }
     }
     
     func reloadPosts(afterReload: @escaping () -> Void?) {
+        isLoadingPosts = true
         Task {
             do {
                 let loadedPosts = try await PostsService.newPosts()
                 renderPostsAsAnnotations(loadedPosts)
+                tableView.refreshControl?.endRefreshing()
                 afterReload()
             } catch {
                 CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
             }
+            isLoadingPosts = false
+            tableViewNeedsScrollToTop = true
         }
     }
     
@@ -141,10 +156,15 @@ extension ExploreViewController {
 
 extension ExploreViewController {
     
-    func setupToggleButton() {
+    func setupButtons() {
         toggleMapFilterButton.layer.cornerCurve = .continuous
         toggleMapFilterButton.layer.cornerRadius = 10
         applyShadowOnView(toggleMapFilterButton)
+        
+        applyShadowOnView(refreshButton)
+        refreshButton.layer.cornerCurve = .continuous
+        refreshButton.layer.cornerRadius = 10
+        refreshButton.addTarget(self, action: #selector(reloadPosts as () -> ()), for: .touchUpInside)
     }
     
     @IBAction func toggleButtonDidTapped(_ sender: UIButton) {
@@ -153,6 +173,16 @@ extension ExploreViewController {
             toggleMapFilterButton.setTitle("Feed", for: .normal)
         } else {
             toggleMapFilterButton.setTitle("Map", for: .normal)
+            if tableViewNeedsScrollToTop {
+                //setting the scrollStartRow and then delaying the reloadData by 0.1 seconds should prevent issues where the new data is less than the previous data and the user scroll far down so uitableviewcells aren't rendered properly. Yet the scroll to top animation is still provided
+                let scrollStartRow = min(tableView.indexPathsForVisibleRows![0].row, 10)
+                tableView.scrollToRow(at: IndexPath(row: scrollStartRow, section: 0), at: .top, animated: false)
+                tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.tableView.reloadData()
+                }
+                tableViewNeedsScrollToTop = false
+            }
         }
     }
     
