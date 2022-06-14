@@ -9,6 +9,8 @@ import Foundation
 import CoreLocation
 import MapKit
     
+//MARK: - Search
+
 //MARK: - Search Setup
 
 extension ExploreViewController {
@@ -111,7 +113,7 @@ extension ExploreViewController: UISearchBarDelegate {
             search(for: searchBar.text) //Must be called before deactivating mySearchController since searchBar is a property of it
             mySearchController.isActive = false
         case .containing:
-            let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewController(feedType: .query, feedValue: text)
+            let newQueryFeedViewController = SearchResultsTableViewController.resultsFeedViewController(feedType: .query, feedValue: text)
             navigationController?.pushViewController(newQueryFeedViewController, animated: true)
         }
     }
@@ -142,7 +144,7 @@ extension ExploreViewController: UITableViewDelegate {
             }
         case .containing:
             let word = searchSuggestionsVC.liveResults[indexPath.row] as! Word
-            let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewController(feedType: .query, feedValue: word.text)
+            let newQueryFeedViewController = SearchResultsTableViewController.resultsFeedViewController(feedType: .query, feedValue: word.text)
             navigationController?.pushViewController(newQueryFeedViewController, animated: true)
         }
     }

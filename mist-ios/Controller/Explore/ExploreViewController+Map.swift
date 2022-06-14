@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 import MapKit
 
+//MARK: - Map
+
 //MARK: - Map Interaction
 
 extension ExploreViewController {
@@ -212,7 +214,7 @@ extension ExploreViewController {
                         posts.append(annotation.post)
                     }
                 }
-                let newVC = ResultsFeedViewController.resultsFeedViewController(feedType: .hotspot, feedValue: clusterAnnotation.title!)
+                let newVC = SearchResultsTableViewController.resultsFeedViewController(feedType: .hotspot, feedValue: clusterAnnotation.title!)
                 newVC.posts = posts
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     self.navigationController?.pushViewController(newVC, animated: true)

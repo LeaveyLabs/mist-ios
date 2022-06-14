@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ResultsFeedViewController: FeedViewController {
+class SearchResultsTableViewController: FeedViewController {
     
     // MARK: - Properties
     var feedType: FeedType!
@@ -35,9 +35,9 @@ class ResultsFeedViewController: FeedViewController {
     
     //MARK: - Custom Constructors
     
-    class func resultsFeedViewController(feedType: FeedType, feedValue: String) -> ResultsFeedViewController {
+    class func resultsFeedViewController(feedType: FeedType, feedValue: String) -> SearchResultsTableViewController {
         let viewController =
-        UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ResultsFeed) as! ResultsFeedViewController
+        UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ResultsFeed) as! SearchResultsTableViewController
         viewController.feedValue = feedValue
         viewController.feedType = feedType
         return viewController
@@ -116,7 +116,7 @@ class ResultsFeedViewController: FeedViewController {
 
 //MARK: - Post Delegation: functions with implementations unique to this class
 
-extension ResultsFeedViewController: PostDelegate {
+extension SearchResultsTableViewController: PostDelegate {
     
     func backgroundDidTapped(post: Post) {
         sendToPostViewFor(post, withRaisedKeyboard: false)

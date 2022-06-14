@@ -11,7 +11,7 @@ protocol FilterDelegate {
     func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool, _ afterFilterUpdate: @escaping () -> Void)
 }
 
-class FilterViewController: SheetViewController {
+class FilterSheetViewController: SheetViewController {
         
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var allButton: UIButton!

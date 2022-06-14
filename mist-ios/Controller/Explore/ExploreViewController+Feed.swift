@@ -8,6 +8,10 @@
 import Foundation
 import UIKit
 
+//MARK: - Table View
+
+//MARK: - Table View Setup
+
 extension ExploreViewController {
     
     func setupTableView() {

@@ -25,7 +25,7 @@ class ExploreViewController: MapViewController {
     @IBOutlet weak var featuredIconButton: UIButton!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var toggleMapFilterButton: UIButton!
-    var filterMapModalVC: FilterViewController?
+    var filterMapModalVC: FilterSheetViewController?
     
     // Feed
     var tableView: UITableView!
@@ -208,7 +208,7 @@ extension ExploreViewController {
         if let filterMapModalVC = filterMapModalVC {
             filterMapModalVC.dismiss(animated: true)
         } else {
-            filterMapModalVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Filter) as? FilterViewController
+            filterMapModalVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Filter) as? FilterSheetViewController
             if let filterMapModalVC = filterMapModalVC {
                 filterMapModalVC.selectedFilter = postFilter
                 filterMapModalVC.delegate = self
