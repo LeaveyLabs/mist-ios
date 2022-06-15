@@ -13,6 +13,7 @@ class PostAPI {
     static let TEXT_PARAM = "text"
     static let LATITUDE_PARAM = "latitude"
     static let LONGITUDE_PARAM = "longitude"
+    static let LOC_DESCRIPTION_PARAM = "location_description"
     static let AUTHOR_PARAM = "author"
     
     //TODO: implement this properly
@@ -79,6 +80,13 @@ class PostAPI {
     // Fetches all posts from database (searching with latitude + longitude)
     static func fetchPostsByLatitudeLongitude(latitude:Double, longitude:Double) async throws -> [Post] {
         let url = "\(BASE_URL)\(PATH_TO_POST_MODEL)?\(LATITUDE_PARAM)=\(latitude)&\(LONGITUDE_PARAM)=\(longitude)"
+        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
+    
+    static func fetchPostsByLocationDescription(locationDescription:String) async throws -> [Post] {
+        let url = "\(BASE_URL)\(PATH_TO_POST_MODEL)?\(LOC_DESCRIPTION_PARAM)=\(locationDescription)"
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         return try JSONDecoder().decode([Post].self, from: data)
     }
