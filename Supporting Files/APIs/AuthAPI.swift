@@ -18,18 +18,22 @@ struct TokenStruct: Codable {
 }
 
 class AuthAPI {
-    static let PATH_TO_EMAIL_REGISTRATION_ENDPOINT = "api-register-email/"
-    static let PATH_TO_EMAIL_VALIDATION_ENDPOINT = "api-validate-email/"
-    static let PATH_TO_USERNAME_VALIDATION_ENDPOINT = "api-validate-username/"
-    static let PATH_TO_API_TOKEN_ENDPOINT = "api-token/"
+    static let PATH_TO_EMAIL_REGISTRATION = "api-register-email/"
+    static let PATH_TO_EMAIL_VALIDATION = "api-validate-email/"
+    static let PATH_TO_USERNAME_VALIDATION = "api-validate-username/"
+    static let PATH_TO_PASSWORD_RESET_REQUEST = "api-request-reset-password/"
+    static let PATH_TO_PASSWORD_RESET_VALIDATION = "api-validate-reset-password/"
+    static let PATH_TO_PASSWORD_RESET_FINALIZATION = "api-finalize-reset-password/"
+    static let PATH_TO_API_TOKEN = "api-token/"
     static let AUTH_EMAIL_PARAM = "email"
     static let AUTH_CODE_PARAM = "code"
     static let AUTH_USERNAME_PARAM = "username"
+    static let AUTH_PASSWORD_PARAM = "password"
     
     // Registers email in the database
     // (and database will send verifcation email)
     static func registerEmail(email:String) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_EMAIL_REGISTRATION_ENDPOINT)"
+        let url = "\(BASE_URL)\(PATH_TO_EMAIL_REGISTRATION)"
         let obj:[String:String] = [AUTH_EMAIL_PARAM:email]
         let json = try JSONEncoder().encode(obj)
         let (_, _) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
@@ -37,7 +41,7 @@ class AuthAPI {
     
     // Validates email
     static func validateEmail(email:String, code:String) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_EMAIL_VALIDATION_ENDPOINT)"
+        let url = "\(BASE_URL)\(PATH_TO_EMAIL_VALIDATION)"
         let params:[String:String] = [
             AUTH_EMAIL_PARAM: email,
             AUTH_CODE_PARAM: code
@@ -48,7 +52,7 @@ class AuthAPI {
     
     // Validates username
     static func validateUsername(username:String) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_USERNAME_VALIDATION_ENDPOINT)"
+        let url = "\(BASE_URL)\(PATH_TO_USERNAME_VALIDATION)"
         let params:[String:String] = [AUTH_USERNAME_PARAM: username]
         let json = try JSONEncoder().encode(params)
         let (_, _) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
@@ -104,13 +108,13 @@ class AuthAPI {
     }
     
     static func fetchAuthToken(json: Data) async throws -> String {
-        let url = "\(BASE_URL)\(PATH_TO_API_TOKEN_ENDPOINT)"
+        let url = "\(BASE_URL)\(PATH_TO_API_TOKEN)"
         let (data, _) = try await BasicAPI.basicHTTPCallWithoutToken(url:url, jsonData:json, method: HTTPMethods.POST.rawValue)
         return try JSONDecoder().decode(TokenStruct.self, from: data).token
     }
     
     static func fetchAuthToken(username:String, password:String) async throws -> String {
-        let url = "\(BASE_URL)\(PATH_TO_API_TOKEN_ENDPOINT)"
+        let url = "\(BASE_URL)\(PATH_TO_API_TOKEN)"
         let params:[String:String] = [
             UserAPI.USERNAME_PARAM: username,
             UserAPI.PASSWORD_PARAM: password,
@@ -118,5 +122,32 @@ class AuthAPI {
         let json = try JSONEncoder().encode(params)
         let (data, _) = try await BasicAPI.basicHTTPCallWithoutToken(url:url, jsonData:json, method: HTTPMethods.POST.rawValue)
         return try JSONDecoder().decode(TokenStruct.self, from: data).token
+    }
+    
+    static func requestResetPassword(email:String) async throws {
+        let url = "\(BASE_URL)\(PATH_TO_PASSWORD_RESET_REQUEST)"
+        let params:[String:String] = [AUTH_EMAIL_PARAM: email]
+        let json = try JSONEncoder().encode(params)
+        let (_, _) = try await BasicAPI.basicHTTPCallWithoutToken(url:url, jsonData:json, method: HTTPMethods.POST.rawValue)
+    }
+    
+    static func validateResetPassword(email:String, code:String) async throws {
+        let url = "\(BASE_URL)\(PATH_TO_PASSWORD_RESET_VALIDATION)"
+        let params:[String:String] = [
+            AUTH_EMAIL_PARAM: email,
+            AUTH_CODE_PARAM: code,
+        ]
+        let json = try JSONEncoder().encode(params)
+        let (_, _) = try await BasicAPI.basicHTTPCallWithoutToken(url:url, jsonData:json, method: HTTPMethods.POST.rawValue)
+    }
+    
+    static func finalizeResetPassword(email:String, password:String) async throws {
+        let url = "\(BASE_URL)\(PATH_TO_PASSWORD_RESET_FINALIZATION)"
+        let params:[String:String] = [
+            AUTH_EMAIL_PARAM: email,
+            AUTH_PASSWORD_PARAM: password,
+        ]
+        let json = try JSONEncoder().encode(params)
+        let (_, _) = try await BasicAPI.basicHTTPCallWithoutToken(url:url, jsonData:json, method: HTTPMethods.POST.rawValue)
     }
 }
