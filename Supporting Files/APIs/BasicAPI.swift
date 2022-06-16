@@ -55,7 +55,7 @@ class BasicAPI {
 
         if let httpResponse = (response as? HTTPURLResponse) {
             let goodRequest = (200...299).contains(httpResponse.statusCode)
-            let serverError = (500...499).contains(httpResponse.statusCode)
+            let serverError = (400...499).contains(httpResponse.statusCode)
             if goodRequest {
                 return (data, response)
             }
