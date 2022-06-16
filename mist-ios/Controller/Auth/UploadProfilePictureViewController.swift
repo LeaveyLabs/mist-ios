@@ -111,6 +111,7 @@ class UploadProfilePictureViewController: UIViewController {
                         profilePic: selectedProfilePic,
                         email: AuthContext.email,
                         password: AuthContext.password)
+                    try await PostsService.loadInitialPosts()
                     transitionToHomeAndRequestPermissions() { [weak self] in
                         self?.isSubmitting = false
                     }
