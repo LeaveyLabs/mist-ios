@@ -30,7 +30,7 @@ class FavoriteAPI {
     }
     
     static func deleteFavorite(id:Int) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_FAVORITES)\(id)"
+        let url = "\(BASE_URL)\(PATH_TO_FAVORITES)\(id)/"
         let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
     }
 }

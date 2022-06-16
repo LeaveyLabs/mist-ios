@@ -12,7 +12,7 @@ class FlagAPI {
     static let FLAGGER_PARAM = "flagger"
     static let POST_PARAM = "post"
     
-    static func fetchFlagsByPostId(postId:String) async throws -> [Flag] {
+    static func fetchFlagsByPostId(postId:Int) async throws -> [Flag] {
         let url = "\(BASE_URL)\(PATH_TO_FLAG_MODEL)?\(POST_PARAM)=\(postId)"
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         return try JSONDecoder().decode([Flag].self, from: data)
@@ -35,7 +35,7 @@ class FlagAPI {
         return try JSONDecoder().decode(Flag.self, from: data)
     }
 
-    static func deleteFlag(id:String) async throws {
+    static func deleteFlag(id:Int) async throws {
         let url = "\(BASE_URL)\(PATH_TO_FLAG_MODEL)\(id)/"
         let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
     }
