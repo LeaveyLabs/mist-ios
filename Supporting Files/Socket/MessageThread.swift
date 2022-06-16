@@ -72,7 +72,7 @@ class MessageThread: WebSocketDelegate {
         }
     }
     
-    func didReceive(event: WebSocketEvent, client: WebSocket) {
+    func didReceive(event: WebSocketEvent, client: WebSocketClient) {
         switch event {
             case .connected(let headers):
                 print("websocket is connected: \(headers)")

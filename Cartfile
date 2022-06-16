@@ -6,4 +6,4 @@ github "daltoniam/Starscream" >= 4.0.0
 # no longer needed
 # github "eddiekaiger/SwiftyAttributes"
 
-github "chrisamanse/CircularProgressView"
+# github "chrisamanse/CircularProgressView"

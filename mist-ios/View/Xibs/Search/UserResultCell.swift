@@ -23,8 +23,8 @@ class UserResultCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func configureUserCell(user: User, parent: UIViewController) {
-        parentVC = parent
+    func configureUserCell(user: ReadOnlyUser, parent: UIViewController) {
+        parentVC = parent //remove this
         nameLabel.text = user.first_name + " " +  user.last_name
         usernameLabel.text = user.username
         profileImageView.image = UIImage(named: "adam")

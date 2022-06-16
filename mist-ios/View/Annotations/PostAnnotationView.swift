@@ -106,7 +106,7 @@ final class PostAnnotationView: MKMarkerAnnotationView {
     // Called by the viewController, because the delay differs based on if the post was just uploaded or if it was jut clicked on
     func loadPostView(on mapView: MKMapView,
                       withDelay delay: Double,
-                      withPostDelegate postDelegate: ExploreMapViewController) {
+                      withPostDelegate postDelegate: ExploreViewController) {
         swipeDelegate = postDelegate
 
         postCalloutView = PostView()

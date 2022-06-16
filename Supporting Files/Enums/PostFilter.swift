@@ -45,8 +45,9 @@ struct PostFilter {
                 attributes: heavyAttributes)
         }
         
-        postTypeString.append(middleString)
-        postTypeString.append(postTimeframeString)
+//        postTypeString.append(middleString)
+//        postTypeString.append(postTimeframeString)
+        
         return postTypeString
     }
 }

@@ -41,6 +41,8 @@ struct Constants {
             static let Sort = "SortCell"
             static let Conversation = "ConversationCell"
             static let NoConversations = "NoConversationsCell"
+            static let MyProfile = "MyProfileCell"
+            static let SimpleInput = "SimpleInputCell"
         }
         struct VC {
             //Post
@@ -58,9 +60,9 @@ struct Constants {
             //Explore
             static let Explore = "ExploreViewController"
             static let SearchSuggestions = "SearchSuggestionsTableViewController"
-            static let ResultsFeed = "ResultsFeedViewController"
+            static let ResultsFeed = "SearchResultsTableViewController"
             static let PinMapModal = "PinMapModalViewController"
-            static let Filter = "FilterViewController"
+            static let Filter = "FilterSheetViewController"
             static let MapSearch = "MapSearchViewController"
             //Messages
             static let NewMessage = "NewMessageViewController"
@@ -81,7 +83,7 @@ struct Constants {
             static let SetupTime = "SetupTimeViewController"
         }
         struct Segue {
-            static let ToUsernameSetting = "ToUsernameSetting"
+            static let ToMyProfileSetting = "ToMyProfileSetting"
             static let ToNameSetting = "ToNameSetting"
             static let ToPasswordSetting = "ToPasswordSetting"
             static let ToNotificationsSetting = "ToNotificationsSetting"

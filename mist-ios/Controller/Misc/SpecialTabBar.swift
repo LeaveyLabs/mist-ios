@@ -23,7 +23,6 @@ class SpecialTabBar: UITabBar {
     override func awakeFromNib() {
         super.awakeFromNib()
         addMiddleButton()
-        
         // Badge color acts as the flag for communicating with UITabBarDelegate
         // Nil is the default
         // Non-nil indicates that the middle button was pressed

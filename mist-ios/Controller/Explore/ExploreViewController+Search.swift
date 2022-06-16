@@ -8,30 +8,19 @@
 import Foundation
 import CoreLocation
 import MapKit
+    
+//MARK: - Search
 
-//MARK: - SearchViewController Extension
+//MARK: - Search Setup
+
+extension ExploreViewController {
     
-extension ExploreMapViewController {
-    
-    // MARK: - User Interaction
-    
-    @IBAction func searchButtonDidPressed(_ sender: UIBarButtonItem) {
-        mySearchController.isActive = true //calls its delegate's presentSearchController
-        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //eventually replace this with "dismissFilter()" when completion handler is added
-        filterMapModalVC?.dismiss(animated: false)
+    func setupSearchButton() {
+        searchButton.becomeRound()
+        applyShadowOnView(searchButton)
+        searchButton.clipsToBounds = false //for shadow to take effect
     }
     
-    @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
-        dismissPost()
-        let myAccountNavigation = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation)
-        myAccountNavigation.modalPresentationStyle = .fullScreen
-        filterMapModalVC?.dismiss(animated: false) //same as above^
-        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //makes the transition more seamless
-        self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
-    }
-}
-
-extension ExploreMapViewController: UISearchControllerDelegate {
     func setupSearchBar() {
         //self
         definesPresentationContext = true //necessary so that pushes go to the next controller
@@ -58,6 +47,31 @@ extension ExploreMapViewController: UISearchControllerDelegate {
         mySearchController.searchBar.autocapitalizationType = .none
         mySearchController.searchBar.searchBarStyle = .prominent //when setting to .minimal, the background disappears and you can see nav bar underneath. if using .minimal, add a background color to searchBar to fix this.
     }
+}
+
+// MARK: - Search User Interaction
+
+extension ExploreViewController {
+        
+    @IBAction func searchButtonDidPressed(_ sender: UIBarButtonItem) {
+        mySearchController.isActive = true //calls its delegate's presentSearchController
+        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //eventually replace this with "dismissFilter()" when completion handler is added
+        filterMapModalVC?.dismiss(animated: false)
+    }
+    
+    @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
+        dismissPost()
+        let myAccountNavigation = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation)
+        myAccountNavigation.modalPresentationStyle = .fullScreen
+        filterMapModalVC?.dismiss(animated: false) //same as above^
+        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //makes the transition more seamless
+        self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
+    }
+}
+
+// MARK: - SearchController Delegate
+
+extension ExploreViewController: UISearchControllerDelegate {
     
     func presentSearchController(_ searchController: UISearchController) {
         Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
@@ -89,7 +103,7 @@ extension ExploreMapViewController: UISearchControllerDelegate {
 
     // MARK: - UISearchBarDelegate
 
-extension ExploreMapViewController: UISearchBarDelegate {
+extension ExploreViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let text = mySearchController.searchBar.text else { return }
@@ -99,7 +113,7 @@ extension ExploreMapViewController: UISearchBarDelegate {
             search(for: searchBar.text) //Must be called before deactivating mySearchController since searchBar is a property of it
             mySearchController.isActive = false
         case .containing:
-            let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewController(feedType: .query, feedValue: text)
+            let newQueryFeedViewController = SearchResultsTableViewController.resultsFeedViewController(feedType: .query, feedValue: text)
             navigationController?.pushViewController(newQueryFeedViewController, animated: true)
         }
     }
@@ -117,7 +131,7 @@ extension ExploreMapViewController: UISearchBarDelegate {
 
     // MARK: - UITableViewDelegate
 
-extension ExploreMapViewController: UITableViewDelegate {
+extension ExploreViewController: UITableViewDelegate {
         
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
@@ -130,7 +144,7 @@ extension ExploreMapViewController: UITableViewDelegate {
             }
         case .containing:
             let word = searchSuggestionsVC.liveResults[indexPath.row] as! Word
-            let newQueryFeedViewController = ResultsFeedViewController.resultsFeedViewController(feedType: .query, feedValue: word.text)
+            let newQueryFeedViewController = SearchResultsTableViewController.resultsFeedViewController(feedType: .query, feedValue: word.text)
             navigationController?.pushViewController(newQueryFeedViewController, animated: true)
         }
     }
@@ -138,7 +152,7 @@ extension ExploreMapViewController: UITableViewDelegate {
 
 // MARK: - CLLocationManagerDelegate updating location for Map Search
 
-extension ExploreMapViewController {
+extension ExploreViewController {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
@@ -159,7 +173,7 @@ extension ExploreMapViewController {
 
 // MARK: - Map Search
 
-extension ExploreMapViewController {
+extension ExploreViewController {
     
     
     /// - Parameter suggestedCompletion: A search completion provided by `MKLocalSearchCompleter` when tapping on a search completion table row
@@ -189,7 +203,7 @@ extension ExploreMapViewController {
         localSearch?.start { [unowned self] (response, error) in
             if let error = error as? MKError {
                 if error.errorCode == 4 {
-                    CustomSwiftMessages.showInfo("No results were found.", "Please search again.")
+                    CustomSwiftMessages.showInfo("No results were found.", "Please search again.", emoji: "😔")
                 } else {
                     CustomSwiftMessages.showError(errorDescription: "Something went wrong.")
                 }

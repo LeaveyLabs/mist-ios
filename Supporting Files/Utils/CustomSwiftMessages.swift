@@ -33,13 +33,13 @@ struct CustomSwiftMessages {
         SwiftMessages.show(config: messageConfig, view: errorMessageView)
     }
     
-    static func showInfo(_ title: String, _ body: String) {
+    static func showInfo(_ title: String, _ body: String, emoji: String) {
         let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
         messageView.configureTheme(backgroundColor: .white, foregroundColor: .black)
         messageView.button?.isHidden = true
         messageView.configureContent(title: title,
                                      body: body,
-                                     iconText: "😔")
+                                     iconText: emoji)
         messageView.dismissButton.tintColor = .black
         messageView.dismissAction = {
             SwiftMessages.hide()
@@ -49,6 +49,26 @@ struct CustomSwiftMessages {
         messageConfig.presentationContext = .window(windowLevel: .normal)
         messageConfig.presentationStyle = .top
         messageConfig.duration = .seconds(seconds: 3)
+
+        SwiftMessages.show(config: messageConfig, view: messageView)
+    }
+    
+    static func showSuccess(_ title: String, _ body: String) {
+        let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
+        messageView.configureTheme(backgroundColor: .systemGreen, foregroundColor: .white)
+        messageView.button?.isHidden = true
+        messageView.configureContent(title: title,
+                                     body: body,
+                                     iconText: "😇")
+        messageView.dismissButton.tintColor = .white
+        messageView.dismissAction = {
+            SwiftMessages.hide()
+        }
+        
+        var messageConfig = SwiftMessages.Config()
+        messageConfig.presentationContext = .window(windowLevel: .normal)
+        messageConfig.presentationStyle = .top
+        messageConfig.duration = .seconds(seconds:2)
 
         SwiftMessages.show(config: messageConfig, view: messageView)
     }

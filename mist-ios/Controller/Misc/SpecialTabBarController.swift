@@ -13,8 +13,19 @@ class SpecialTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabBar.layer.applySketchShadow(color: .black, alpha: 0.3, x: 0, y: -1, blur: 5, spread: 0)
         delegate = self
+        removeLineAndAddShadow()
+    }
+    
+    func removeLineAndAddShadow() {
+        let tabBarLineHidingView = UIView()
+        tabBarLineHidingView.backgroundColor = .white
+        tabBar.addSubview(tabBarLineHidingView)
+        tabBar.sendSubviewToBack(tabBarLineHidingView)
+        tabBarLineHidingView.frame = tabBar.bounds
+        tabBarLineHidingView.frame.origin.y -= 1 //hides the tab bar line
+        tabBarLineHidingView.frame.size.height += 50 //extends down beyond safe area
+        tabBarLineHidingView.layer.applySketchShadow(color: .black, alpha: 0.3, x: 0, y: -1, blur: 5, spread: 0) //applies shadow
     }
 }
 

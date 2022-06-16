@@ -16,6 +16,8 @@ class MapViewController: UIViewController {
     @IBOutlet weak var mapDimensionButton: UIButton!
     @IBOutlet weak var zoomInButton: UIButton!
     @IBOutlet weak var zoomOutButton: UIButton!
+    @IBOutlet weak var zoomStackView: UIStackView!
+    @IBOutlet weak var trackingDimensionStackView: UIStackView!
 
     private var isThreeDimensional:Bool = true {
         didSet {
@@ -109,22 +111,13 @@ class MapViewController: UIViewController {
     }
     
     private func setupMapButtons() {
-        userTrackingButton.layer.cornerRadius = 10
-        userTrackingButton.layer.cornerCurve = .continuous
-        applyShadowOnView(userTrackingButton)
+        zoomInButton.roundCorners(corners: [.topLeft, .topRight], radius: 10)
+        zoomOutButton.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 10)
+        applyShadowOnView(zoomStackView)
         
-        mapDimensionButton.isHighlighted = true
-        mapDimensionButton.layer.cornerRadius = 10
-        mapDimensionButton.layer.cornerCurve = .continuous
-        applyShadowOnView(mapDimensionButton)
-        
-        zoomInButton.layer.cornerRadius = 10
-        zoomInButton.layer.cornerCurve = .continuous
-        applyShadowOnView(zoomInButton)
-        
-        zoomOutButton.layer.cornerRadius = 10
-        zoomOutButton.layer.cornerCurve = .continuous
-        applyShadowOnView(zoomOutButton)
+        mapDimensionButton.roundCorners(corners: [.topLeft, .topRight], radius: 10)
+        userTrackingButton.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 10)
+        applyShadowOnView(trackingDimensionStackView)
     }
     
     func handleUserLocationPermissionRequest() {
@@ -142,8 +135,10 @@ class MapViewController: UIViewController {
     }
     
     func blurStatusBar() {
-        let blurryEffect = UIBlurEffect(style: .regular)
-        let blurredStatusBar = UIVisualEffectView(effect: blurryEffect)
+//        let blurryEffect = UIBlurEffect(style: .regular)
+//        let blurredStatusBar = UIVisualEffectView(effect: blurryEffect)
+        let blurredStatusBar = UIImageView(image: UIImage.imageFromColor(color: .white))
+        blurredStatusBar.layer.applySketchShadow(color: .black, alpha: 0.3, x: 0, y: 1, blur: 5, spread: 0)
         blurredStatusBar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(blurredStatusBar)
         blurredStatusBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true

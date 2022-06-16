@@ -171,7 +171,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
                 let tbc = presentingViewController as! SpecialTabBarController
                 tbc.selectedIndex = 0
                 let homeNav = tbc.selectedViewController as! UINavigationController
-                let homeExplore = homeNav.topViewController as! ExploreMapViewController
+                let homeExplore = homeNav.topViewController as! ExploreViewController
                 homeExplore.centerMapOnUSC()
                 homeExplore.handleUpdatedFilter(PostFilter(postType: .All,
                                                            postTimeframe: 0.3),
