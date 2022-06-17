@@ -157,23 +157,17 @@ extension ExploreViewController: UITableViewDelegate {
     
 }
 
-// MARK: - CLLocationManagerDelegate updating location for Map Search
+// MARK: - CLLocationManagerDelegate
 
 extension ExploreViewController {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
-        print("locationmanager didUpdateLocations")
         
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(location) { (placemark, error) in
             guard error == nil else { return }
-            
-            self.boundingRegion = MKCoordinateRegion(center: location.coordinate,
-                                                     latitudinalMeters: 12_000,
-                                                     longitudinalMeters: 12_000)
-//            self.currentPlacemark = placemark?.first
-//            self.searchSuggestionsVC.updatePlacemark(self.currentPlacemark, boundingRegion: self.boundingRegion)
+            //Here, you can do something on a successful user location update
         }
     }
 }
@@ -198,16 +192,10 @@ extension ExploreViewController {
     
     /// - Tag: SearchRequest
     private func search(using searchRequest: MKLocalSearch.Request) {
-        //center the search around where the user is currently looking at
-        boundingRegion = MKCoordinateRegion(center: mapView.centerCoordinate,
-                                            latitudinalMeters: 6_000,
-                                            longitudinalMeters: 6_000)
-        searchRequest.region = boundingRegion //even though the user can see suggestions from all over the world, when they press search button, we want to confine the search area to results somewhat nearby them so they don't get super disoriented
-        
+        searchRequest.region = .init() //searchRequest.region is only used when the user can simply press the search button to get a broad, general search
         searchRequest.resultTypes = [.address, .pointOfInterest]
-        
         localSearch = MKLocalSearch(request: searchRequest)
-        localSearch?.start { [unowned self] (response, error) in
+        localSearch?.start { [self] (response, error) in
             if let error = error as? MKError {
                 if error.errorCode == 4 {
                     CustomSwiftMessages.showInfo("No results were found.", "Please search again.", emoji: "😔")
@@ -220,18 +208,18 @@ extension ExploreViewController {
             }
             
             if let updatedRegion = response?.boundingRegion, let places = response?.mapItems, places.count > 0 {
-                self.boundingRegion = updatedRegion
-                self.boundingRegion.span.latitudeDelta = max(minSpanDelta, self.boundingRegion.span.latitudeDelta)
+                //We allow searchRegion on the completer to be .world to allow for addresses an
+                mapView.region = updatedRegion
+                mapView.region.span.latitudeDelta = max(minSpanDelta, mapView.region.span.latitudeDelta)
+//                print(places)
+                //sort places by closest to searchCenterCoordinate
                 prepareToDismissSearchControllerForLocallySearchedMapView(itemsToDisplay: places)
             }
         }
     }
     
     //input paramater: itemsToDispaly OR a bool indicating if showOne or showAll
-    func prepareToDismissSearchControllerForLocallySearchedMapView(itemsToDisplay: [MKMapItem]) {
-        // Update map's camera
-        mapView.region = boundingRegion
-        
+    func prepareToDismissSearchControllerForLocallySearchedMapView(itemsToDisplay: [MKMapItem]) {        
         // Remove previous search annotations
         mapView.annotations.forEach { annotation in
             if let placeAnnotation = annotation as? PlaceAnnotation {

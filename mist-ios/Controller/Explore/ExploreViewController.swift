@@ -85,7 +85,6 @@ extension ExploreViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         enableInteractivePopGesture()
-        searchBarButton.centerText() //centering is dependent on size constraints, so we must wait until viewDidAppear to center the text
         // Handle controller being exposed from push/present or pop/dismiss
         if (self.isMovingToParent || self.isBeingPresented){
             // Controller is being pushed on or presented.
@@ -94,6 +93,10 @@ extension ExploreViewController {
             // Controller is being shown as result of pop/dismiss/unwind.
             mySearchController.searchBar.becomeFirstResponder()
         }
+        
+        // Dependent on map dimensions
+        searchBarButton.centerText()
+        searchSuggestionsVC.updateRegionAndPlacemark(nil, boundingRegion: MKCoordinateRegion(center: mapView.centerCoordinate, span: .init(latitudeDelta: minSpanDelta, longitudeDelta: minSpanDelta)))
     }
 }
 

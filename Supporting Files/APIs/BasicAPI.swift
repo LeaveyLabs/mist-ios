@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum APIError: Error {
+enum APIError: String, Error {
     case CouldNotConnect
     case ServerError
     case InvalidParameters
@@ -85,7 +85,8 @@ class BasicAPI {
         }
     }
     
-    static func baiscHTTPCallWithToken(url:String, jsonData:Data, method:String) async throws -> (Data, URLResponse) {        let serviceUrl = URL(string:url)!
+    static func baiscHTTPCallWithToken(url:String, jsonData:Data, method:String) async throws -> (Data, URLResponse) {
+        let serviceUrl = URL(string: url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! + "ddfdf")!
         var request = URLRequest(url: serviceUrl)
         request.httpMethod = method
         request.httpBody = jsonData

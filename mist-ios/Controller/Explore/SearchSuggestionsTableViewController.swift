@@ -61,7 +61,7 @@ class SearchSuggestionsTableViewController: UITableViewController {
 
 extension SearchSuggestionsTableViewController {
     
-    func updatePlacemark(_ placemark: CLPlacemark?, boundingRegion: MKCoordinateRegion) {
+    func updateRegionAndPlacemark(_ placemark: CLPlacemark?, boundingRegion: MKCoordinateRegion) {
         searchCompleter?.region = boundingRegion
     }
     
@@ -83,15 +83,12 @@ extension SearchSuggestionsTableViewController {
         
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let resultType = MapSearchResultType.init(rawValue: section)!
+        if searchText.isEmpty { return 0 }
         switch resultType {
         case .containing:
-            return wordResults.count
+            return max(wordResults.count, 1) //return 1 "no results" cell
         case .nearby:
-            if searchText.isEmpty {
-                return 0
-            } else {
-                return max(completerResults?.count ?? 0, 1) //return 1 "no results" cell if completerResults is nil
-            }
+            return max(completerResults?.count ?? 0, 1) //return 1 "no results" cell
         }
     }
     
@@ -99,15 +96,11 @@ extension SearchSuggestionsTableViewController {
         let resultType = MapSearchResultType.init(rawValue: indexPath.section)!
         switch resultType {
         case .containing:
-            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.WordResult, for: indexPath) as! WordResultCell
-            cell.configureWordCell(word: wordResults[indexPath.row], searchText: searchText)
-            cell.imageView?.image = UIImage(systemName: "magnifyingglass")
-            if wordResults[indexPath.row].occurrences > 0 {
-                cell.accessoryType = .disclosureIndicator
-                cell.isUserInteractionEnabled = true
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.WordResult, for: indexPath) as! SearchResultCell
+            if !wordResults.isEmpty {
+                cell.configureWordCell(word: wordResults[indexPath.row])
             } else {
-                cell.accessoryType = .none
-                cell.isUserInteractionEnabled = false
+                cell.configureNoResultsCell()
             }
             return cell
         case .nearby:
@@ -172,8 +165,10 @@ extension SearchSuggestionsTableViewController: UISearchResultsUpdating {
     
     //Update the filtered array based on the search text.
     func updateSearchResults(for searchController: UISearchController) {
-        guard let searchText = searchController.searchBar.text else { return }
-        self.searchText = searchText
+        guard let untrimmedSearchText = searchController.searchBar.text else { return }
+        searchText = untrimmedSearchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        print(searchText)
+        print(searchText.length)
         guard !searchText.isEmpty else {
             //User might have typed a word into the searchbar, but then deleted it. so lets reset the live results.
             //We dont reset live results normally because we want the previous search results to stay visible
@@ -202,26 +197,10 @@ extension SearchSuggestionsTableViewController: UISearchResultsUpdating {
     }
     
     func handleNewWordResults(_ allResults: [Word]) {
+        // Display the top three word suggestions
         wordResults = Array(allResults.sorted(by: { wordOne, wordTwo in
             wordOne.occurrences > wordTwo.occurrences
         }).prefix(3))
-        
-        //TODO: handle where user changed the text after initiating the search
-        
-        let userSearchedWordIndex = wordResults.firstIndex { word in
-            word.text == searchText
-        }
-        if let index = userSearchedWordIndex {
-            //if allresults contains current word, make it appear first.'
-            let userSearchedWordResult = wordResults.remove(at: index)
-            wordResults.insert(userSearchedWordResult, at: 0)
-        } else {
-            //otherwise, replace the third word result with a word result with 0 results that's unclickable
-            if !wordResults.isEmpty {
-                wordResults.removeLast()
-            }
-            wordResults.insert(Word(text: searchText, occurrences: 0), at: 0)
-        }
     }
     
     func handleFinishedSearch() {

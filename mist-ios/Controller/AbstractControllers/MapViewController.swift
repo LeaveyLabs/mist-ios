@@ -26,7 +26,6 @@ class MapViewController: UIViewController {
     private let locationManager = CLLocationManager()
     
     // Camera
-    var boundingRegion: MKCoordinateRegion = MKCoordinateRegion(MKMapRect.world)
     let minSpanDelta = 0.03
     var isCameraFlyingOutAndIn: Bool = false
     var isCameraFlying: Bool = false {
@@ -69,7 +68,6 @@ class MapViewController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Initialize variables
         prevZoomWidth = mapView.visibleMapRect.size.width
         prevZoom = mapView.camera.centerCoordinateDistance
@@ -242,7 +240,7 @@ extension MapViewController: MKMapViewDelegate {
         let zoomWidth = mapView.visibleMapRect.size.width
         let zoomFactor = Int(log2(zoomWidth)) - 9
         let zoom = mapView.camera.centerCoordinateDistance //centerCoordinateDistance takes pitch into account
-        
+
 //        print("zoom: " + String(zoom))
 //        print("zoomWidth: " + String(zoomWidth))
         
@@ -406,10 +404,9 @@ extension MapViewController {
                                                     CLLocationCoordinate2D(latitude: minLat, longitude: minLong)])
         let latDelta = max(minSpanDelta,  1.3 * (maxLat - minLat))
         let longDelta = max(minSpanDelta, 1.3 * (maxLong - minLong))
-        boundingRegion = MKCoordinateRegion(center: somekindofmiddle,
+        mapView.region = MKCoordinateRegion(center: somekindofmiddle,
                                             span: .init(latitudeDelta: latDelta,
                                                         longitudeDelta: longDelta))
-        mapView.region = boundingRegion
     }
     
     // Zoomin / zoomout button

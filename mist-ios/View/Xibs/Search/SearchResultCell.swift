@@ -7,7 +7,7 @@
 
 import UIKit
 
-class WordResultCell: UITableViewCell {
+class SearchResultCell: UITableViewCell {
     
     @IBOutlet weak var wordLabel: UILabel!
     @IBOutlet weak var occurencesLabel: UILabel!
@@ -21,10 +21,23 @@ class WordResultCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func configureWordCell(word: Word, searchText: String) {
+    func configureWordCell(word: Word) {
+        commonConfigure()
         wordLabel.text = word.text
         occurencesLabel.text = String(word.occurrences)
+        accessoryType = .disclosureIndicator
+        isUserInteractionEnabled = true
     }
     
+    func configureNoResultsCell() {
+        commonConfigure()
+        wordLabel.text = "No results"
+        occurencesLabel.text = ""
+        accessoryType = .none
+        isUserInteractionEnabled = false
+    }
     
+    func commonConfigure() {
+        imageView?.image = UIImage(systemName: "magnifyingglass")
+    }
 }
