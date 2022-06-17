@@ -13,7 +13,7 @@ struct Message: Codable {
     let id: Int
     let sender: String
     let receiver: String
-    let text: String
+    let body: String
     let timestamp: Double?
 }
 

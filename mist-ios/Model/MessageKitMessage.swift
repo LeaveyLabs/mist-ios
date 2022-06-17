@@ -30,7 +30,7 @@ struct MessageKitMessage: MessageType {
         message = Message(id: Int(messageId)!,
                           sender: messageKitUser.senderId,
                           receiver: "UPDATE",
-                          text: text,
+                          body: text,
                           timestamp: date.timeIntervalSince1970)
     }
 }

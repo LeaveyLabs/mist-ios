@@ -29,6 +29,7 @@ class UserAPI {
     static let PASSWORD_PARAM = "password"
     static let FIRST_NAME_PARAM = "first_name"
     static let LAST_NAME_PARAM = "last_name"
+    static let DATE_OF_BIRTH_PARAM = "date_of_birth"
     static let TEXT_PARAM = "text"
     static let TOKEN_PARAM = "token"
     static let AUTH_HEADERS:HTTPHeaders = [

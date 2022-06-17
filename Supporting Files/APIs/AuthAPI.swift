@@ -71,6 +71,7 @@ class AuthAPI {
             UserAPI.LAST_NAME_PARAM: last_name,
             UserAPI.EMAIL_PARAM: email,
             UserAPI.PASSWORD_PARAM: password,
+            UserAPI.DATE_OF_BIRTH_PARAM: "2000-01-01",
         ]
         let request = AF.upload(
             multipartFormData:

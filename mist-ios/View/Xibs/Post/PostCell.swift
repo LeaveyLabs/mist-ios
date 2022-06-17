@@ -31,7 +31,7 @@ class PostCell: UITableViewCell {
         self.post = post
         timestampLabel.text = getFormattedTimeString(postTimestamp: post.timestamp)
         locationLabel.text = post.location_description
-        messageLabel.text = post.text
+        messageLabel.text = post.body
         titleLabel.text = post.title
         likeLabel.text = String(post.averagerating)
         likeButton.isSelected = false

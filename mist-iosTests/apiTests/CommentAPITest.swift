@@ -45,7 +45,7 @@ class CommentAPITest: XCTestCase {
         let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
         do {
             let comment = try await CommentAPI.postComment(text: "hey", post: post.id, author: TestConstants.Auth.ID)
-            XCTAssertTrue(comment.text == "hey")
+            XCTAssertTrue(comment.body == "hey")
         } catch {
             print(error)
         }
@@ -55,7 +55,7 @@ class CommentAPITest: XCTestCase {
         let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
         let comment = try await CommentAPI.postComment(text: "hey", post: post.id, author: TestConstants.Auth.ID)
         let comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
-        XCTAssertTrue(comments[0].text == "hey")
+        XCTAssertTrue(comments[0].body == "hey")
     }
     // DELETE
     func testDeleteComment() async throws {

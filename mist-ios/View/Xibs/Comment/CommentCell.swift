@@ -27,7 +27,7 @@ class CommentCell: UITableViewCell {
         parentVC = parent
         self.comment = comment
         authorLabel.text = comment.author_username
-        commentLabel.text = comment.text
+        commentLabel.text = comment.body
 //        authorProfileImageView.image = UIImage(named: "adam")
         authorProfilePicButton.imageView?.layer.cornerRadius = authorProfilePicButton.frame.size.height / 2
         authorProfilePicButton.imageView?.layer.cornerCurve = .continuous

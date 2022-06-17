@@ -12,7 +12,7 @@ let DUMMY_POST_ID: Int = -1
 struct Post: Codable, Equatable {
     let id: Int
     let title: String
-    let text: String //TODO: refactor to "body", since "title", "location_description" are also text, technically
+    let body: String //TODO: refactor to "body", since "title", "location_description" are also text, technically
     let location_description: String?
     let latitude: Double?
     let longitude: Double?
@@ -30,7 +30,7 @@ struct Post: Codable, Equatable {
     
     init(id: Int = DUMMY_POST_ID,
          title: String,
-         text: String,
+         body: String,
          location_description: String?,
          latitude: Double?,
          longitude: Double?,
@@ -40,7 +40,7 @@ struct Post: Codable, Equatable {
          commentcount: Int = 0) {
         self.id = id
         self.title = title
-        self.text = text
+        self.body = body
         self.location_description = location_description
         self.latitude = latitude
         self.longitude = longitude

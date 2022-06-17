@@ -104,7 +104,7 @@ extension PostView {
         self.post = post
         timestampLabel.text = getFormattedTimeString(postTimestamp: post.timestamp)
         locationLabel.text = post.location_description
-        messageLabel.text = post.text
+        messageLabel.text = post.body
         postTitleLabel.text = post.title
         likeLabelButton.setTitle(String(post.averagerating), for: .normal)
         likeButton.isSelected = false

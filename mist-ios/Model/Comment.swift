@@ -14,7 +14,7 @@ let DUMMY_COMMENT_USERNAME: String = ""
 
 struct Comment: Codable {
     let id: Int
-    let text: String
+    let body: String
     let timestamp: Double
     let post: Int
     let author: Int
@@ -23,14 +23,14 @@ struct Comment: Codable {
     
     // Used when creating a comment
     init(id: Int = DUMMY_COMMENT_ID,
-         text: String,
+         body: String,
          timestamp: Double = DUMMY_COMMENT_TIMESTAMP,
          post: Int,
          author: Int,
          author_picture: String? = nil,
          author_username: String = DUMMY_COMMENT_USERNAME) {
         self.id = id
-        self.text = text
+        self.body = body
         self.timestamp = timestamp
         self.post = post
         self.author = author
