@@ -1236,7 +1236,6 @@
                                         </state>
                                         <connections>
                                             <action selector="exploreZoomInButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="gMd-Fa-5KJ"/>
-                                            <action selector="zoomInButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="I4b-HC-LxM"/>
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9r5-xY-ouS">
@@ -1260,7 +1259,6 @@
                                         </state>
                                         <connections>
                                             <action selector="exploreZoomOutButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="qXi-0U-wuE"/>
-                                            <action selector="zoomOutButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="Mht-cO-1dm"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1283,7 +1281,6 @@
                                         </state>
                                         <connections>
                                             <action selector="exploreMapDimensionButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="9YK-5Y-C2k"/>
-                                            <action selector="mapDimensionButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="RqT-jF-HtF"/>
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cXp-9I-VMZ">
@@ -1307,7 +1304,6 @@
                                         </state>
                                         <connections>
                                             <action selector="exploreUserTrackingButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="8Mx-7n-9d5"/>
-                                            <action selector="userTrackingButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="26b-U3-VaN"/>
                                         </connections>
                                     </button>
                                 </subviews>

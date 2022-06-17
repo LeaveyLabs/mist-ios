@@ -107,8 +107,8 @@ extension SearchSuggestionsTableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: SuggestedCompletionTableViewCell.reuseID, for: indexPath)
             if let results = completerResults, !results.isEmpty {
                 let suggestion = results[indexPath.row]
-                cell.textLabel?.attributedText = createHighlightedString(text: suggestion.title, rangeValues: suggestion.titleHighlightRanges)
-                cell.detailTextLabel?.attributedText = createHighlightedString(text: suggestion.subtitle, rangeValues: suggestion.subtitleHighlightRanges)
+                cell.textLabel?.text = suggestion.title
+                cell.detailTextLabel?.text = suggestion.subtitle
                 cell.imageView?.image = UIImage(systemName: "mappin.circle")
                 cell.accessoryType = .disclosureIndicator
             } else {
@@ -121,6 +121,7 @@ extension SearchSuggestionsTableViewController {
         }
     }
     
+    //Not being used at the moment
     private func createHighlightedString(text: String, rangeValues: [NSValue]) -> NSAttributedString {
         let attributes = [NSAttributedString.Key.backgroundColor: UIColor.white ]
         let highlightedString = NSMutableAttributedString(string: text)
