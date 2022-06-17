@@ -10,6 +10,8 @@ import MapKit
 import SwiftMessages
 
 class MapViewController: UIViewController {
+    
+    //MARK: - Properties
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var userTrackingButton: UIButton!
@@ -62,6 +64,8 @@ class MapViewController: UIViewController {
         //add up to 0.3 seconds to rotate the heading of the camera
         return Double(prevZoomFactor+2)/10 + ((180-fabs(180.0 - mapView.camera.heading)) / 180 * 0.3)
     }
+    
+    //MARK: - View Lifecycle
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,6 +123,32 @@ class MapViewController: UIViewController {
         applyShadowOnView(trackingDimensionStackView)
     }
     
+    func blurStatusBar() {
+//        let blurryEffect = UIBlurEffect(style: .regular)
+//        let blurredStatusBar = UIVisualEffectView(effect: blurryEffect)
+        let blurredStatusBar = UIImageView(image: UIImage.imageFromColor(color: .white))
+        blurredStatusBar.applyMediumShadow()
+        blurredStatusBar.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(blurredStatusBar)
+        blurredStatusBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        blurredStatusBar.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        blurredStatusBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        blurredStatusBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+    }
+}
+
+//MARK: - CLLocationManagerDelegate
+
+extension MapViewController: CLLocationManagerDelegate {
+    
+    // Setup
+    
+    private func setupLocationManager(){
+        locationManager.delegate = self
+    }
+    
+    // Helper
+    
     func handleUserLocationPermissionRequest() {
         if locationManager.authorizationStatus == .denied ||
             locationManager.authorizationStatus == .notDetermined { //this check should also exist here for when the function is called after registering/logging in
@@ -133,25 +163,22 @@ class MapViewController: UIViewController {
         }
     }
     
-    func blurStatusBar() {
-//        let blurryEffect = UIBlurEffect(style: .regular)
-//        let blurredStatusBar = UIVisualEffectView(effect: blurryEffect)
-        let blurredStatusBar = UIImageView(image: UIImage.imageFromColor(color: .white))
-        blurredStatusBar.applyMediumShadow()
-        blurredStatusBar.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(blurredStatusBar)
-        blurredStatusBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        blurredStatusBar.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        blurredStatusBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        blurredStatusBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+    //called upon creation of LocationManager and upon permission changes (either from within app or in settings)
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse || status == .authorizedAlways {
+            locationManager.startUpdatingLocation()
+        }
     }
     
-    private func setupLocationManager(){
-        locationManager.delegate = self
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
     }
-    
-    //MARK: - User Interaction
-    
+}
+
+//MARK: - User Interaction
+
+extension MapViewController {
+        
     @IBAction func userTrackingButtonDidPressed(_ sender: UIButton) {
         // Ideally: stop the camera. Otherwise, the camera might keep moving after moving to userlocation. But not sure how to do that
         
@@ -189,7 +216,8 @@ class MapViewController: UIViewController {
     
 }
 
-//https://developer.apple.com/documentation/mapkit/mkmapviewdelegate
+//MARK: - MKMapViewDelegate
+
 extension MapViewController: MKMapViewDelegate {
     
     // Updates after each view change is completed
@@ -204,7 +232,7 @@ extension MapViewController: MKMapViewDelegate {
         }
     }
     
-    //OOOOH This could be useful, i'm not using this function at all up until now
+    //This could be useful, i'm not using this function at all up until now
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         
     }
@@ -283,23 +311,9 @@ extension MapViewController: MKMapViewDelegate {
     }
 }
 
-extension MapViewController: CLLocationManagerDelegate {
-    
-    //called upon creation of LocationManager and upon permission changes (either from within app or in settings)
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse || status == .authorizedAlways {
-            locationManager.startUpdatingLocation()
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
-    }
-}
+//MARK: - Camera Adjustment
     
 extension MapViewController {
-
-    //MARK: - Helpers
     
     func centerMapOnUSC() {
         let region = mapView.regionThatFits(MKCoordinateRegion(center: Constants.Coordinates.USC, latitudinalMeters: 1200, longitudinalMeters: 1200))
@@ -374,33 +388,6 @@ extension MapViewController {
         
     }
     
-    func toggleMapDimension(_ completion: @escaping () -> Void) {
-        isThreeDimensional = !isThreeDimensional
-        
-        // Prepare the new pitch based on the new value of isThreeDimensional
-        var newPitch: Double
-        if isThreeDimensional {
-            newPitch = 50.0
-        } else {
-            newPitch = 0.0
-        }
-        
-        // Update the camera
-        isCameraFlying = true
-        let rotationCamera = MKMapCamera(lookingAtCenter: mapView.camera.centerCoordinate,
-                                         fromDistance: mapView.camera.centerCoordinateDistance,
-                                         pitch: newPitch,
-                                         heading: mapView.camera.heading)
-        UIView.animate(withDuration: cameraAnimationDuration,
-                       delay: 0,
-                       options: .curveEaseInOut,
-                       animations: {
-            self.mapView.camera = rotationCamera
-        }) { finished in
-            completion()
-        }
-    }
-    
     //This seems to work as good as it's gonna get... which is better than the slow fly in that it accounts
     //for coordinates located within, but then it cant
     func zoomInAsCloseAsPossibleOn(cluster: MKClusterAnnotation) {
@@ -437,6 +424,7 @@ extension MapViewController {
         }, completion: nil)
     }
     
+    // Zoomin / zoomout button
     func zoomByAFactorOf(_ factor: Double, _ completion: @escaping () -> Void) {
         isCameraFlying = true
         let newDistance = mapView.camera.centerCoordinateDistance * factor
@@ -455,6 +443,40 @@ extension MapViewController {
             completion()
         }
     }
+    
+    // Dimension button
+    func toggleMapDimension(_ completion: @escaping () -> Void) {
+        isThreeDimensional = !isThreeDimensional
+        
+        // Prepare the new pitch based on the new value of isThreeDimensional
+        var newPitch: Double
+        if isThreeDimensional {
+            newPitch = 50.0
+        } else {
+            newPitch = 0.0
+        }
+        
+        // Update the camera
+        isCameraFlying = true
+        let rotationCamera = MKMapCamera(lookingAtCenter: mapView.camera.centerCoordinate,
+                                         fromDistance: mapView.camera.centerCoordinateDistance,
+                                         pitch: newPitch,
+                                         heading: mapView.camera.heading)
+        UIView.animate(withDuration: cameraAnimationDuration,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: {
+            self.mapView.camera = rotationCamera
+        }) { finished in
+            completion()
+        }
+    }
+    
+}
+
+//MARK: - Annotation Selection
+
+extension MapViewController {
     
     func deselectOneAnnotationIfItExists() {
         if mapView.selectedAnnotations.count > 0 {
@@ -511,9 +533,7 @@ extension MapViewController {
     
 }
 
-
-
-
+//MARK: - Map Gradient Shadow
 
 //private func applyGradientUnderneathNavbar() {
     // Folllow this code next time: https://stackoverflow.com/questions/34269399/how-to-control-shadow-spread-and-blur

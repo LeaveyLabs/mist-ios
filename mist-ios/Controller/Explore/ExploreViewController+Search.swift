@@ -159,14 +159,20 @@ extension ExploreViewController: UITableViewDelegate {
         case .containing:
             let word = searchSuggestionsVC.wordResults[indexPath.row]
             postFilter.searchBy = .text
-            reloadPosts()
             searchBarButton.text = word.text
-            //TODO: fly to center of new posts
+            reloadPosts() {
+                let postCoordinates = self.postAnnotations.map { postAnnotation in
+                    postAnnotation.coordinate
+                }
+                let midpoint = CLLocationCoordinate2D.geographicMidpoint(betweenCoordinates: postCoordinates)
+                self.boundingRegion = MKCoordinateRegion(center: midpoint, span: .init(latitudeDelta: 1000, longitudeDelta: 1000))
+                self.mapView.region = self.boundingRegion
+            }
         case .nearby:
             let suggestion = searchSuggestionsVC.completerResults![indexPath.row]
             postFilter.searchBy = .location
-            search(for: suggestion)
             searchBarButton.text = suggestion.title
+            search(for: suggestion)
         }
         searchBarButton.searchTextField.leftView?.tintColor = .darkText
         mySearchController.isActive = false

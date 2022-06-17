@@ -100,22 +100,26 @@ extension SearchSuggestionsTableViewController {
         switch resultType {
         case .containing:
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.WordResult, for: indexPath) as! WordResultCell
-            cell.configureWordCell(word: wordResults[indexPath.row], searchText: searchText)
             cell.imageView?.image = UIImage(systemName: "magnifyingglass")
+            cell.configureWordCell(word: wordResults[indexPath.row], searchText: searchText)
+            if wordResults[indexPath.row].occurrences == 0 {
+                cell.accessoryType = .none
+                cell.isUserInteractionEnabled = false
+            }
             return cell
         case .nearby:
             let cell = tableView.dequeueReusableCell(withIdentifier: SuggestedCompletionTableViewCell.reuseID, for: indexPath)
+            cell.imageView?.image = UIImage(systemName: "mappin.circle")
             if let results = completerResults, !results.isEmpty {
                 let suggestion = results[indexPath.row]
                 cell.textLabel?.text = suggestion.title
                 cell.detailTextLabel?.text = suggestion.subtitle
-                cell.imageView?.image = UIImage(systemName: "mappin.circle")
                 cell.accessoryType = .disclosureIndicator
             } else {
                 cell.textLabel?.text = "No results"
                 cell.detailTextLabel?.text = ""
                 cell.accessoryType = .none
-                cell.imageView?.image = UIImage(systemName: "")
+                cell.isUserInteractionEnabled = false
             }
             return cell
         }
