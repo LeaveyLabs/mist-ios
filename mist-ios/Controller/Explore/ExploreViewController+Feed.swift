@@ -49,6 +49,8 @@ extension ExploreViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print(postAnnotations.count)
+        print(indexPath.row)
         if indexPath.row == 0 {
             //Create an offset of 5 from the top
             let cell = UITableViewCell()

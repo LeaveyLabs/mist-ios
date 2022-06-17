@@ -172,22 +172,28 @@ extension ExploreViewController {
     }
     
     @IBAction func toggleButtonDidTapped(_ sender: UIButton) {
+        //OR EVEN BETTER: don't make tableView hidden, jsut send it to back, that way you can scrolltotop right away after reload and dont need the flag to wait to scroll until toggle
         tableView.isHidden = !tableView.isHidden
         if tableView.isHidden {
             toggleButton.setImage(UIImage(named: "toggle-list-button"), for: .normal)
         } else {
             toggleButton.setImage(UIImage(named: "toggle-map-button"), for: .normal)
-            if tableViewNeedsScrollToTop {
-                //setting the scrollStartRow and then delaying the reloadData by 0.1 seconds should prevent issues where the new data is less than the previous data and the user scroll far down so uitableviewcells aren't rendered properly. Yet the scroll to top animation is still provided
-                let scrollStartRow = min(tableView.indexPathsForVisibleRows![0].row, 10)
-                tableView.scrollToRow(at: IndexPath(row: scrollStartRow, section: 0), at: .top, animated: false)
-                tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    self.tableView.reloadData()
-                }
-                tableViewNeedsScrollToTop = false
-            }
+            
+//            if tableViewNeedsScrollToTop {
+//                scrollToTopAndReloadData()
+//            }
         }
+    }
+    
+    func scrollToTopAndReloadData() {
+        //setting the scrollStartRow and then delaying the reloadData by 0.1 seconds should prevent issues where the new data is less than the previous data and the user scroll far down so uitableviewcells aren't rendered properly. Yet the scroll to top animation is still provided
+        let scrollStartRow = min(tableView.indexPathsForVisibleRows![0].row, 10)
+        tableView.scrollToRow(at: IndexPath(row: scrollStartRow, section: 0), at: .top, animated: false)
+        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.tableView.reloadData()
+        }
+        tableViewNeedsScrollToTop = false
     }
     
 }
