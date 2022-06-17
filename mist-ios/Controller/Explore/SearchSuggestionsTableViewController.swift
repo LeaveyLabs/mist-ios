@@ -100,9 +100,12 @@ extension SearchSuggestionsTableViewController {
         switch resultType {
         case .containing:
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.WordResult, for: indexPath) as! WordResultCell
-            cell.imageView?.image = UIImage(systemName: "magnifyingglass")
             cell.configureWordCell(word: wordResults[indexPath.row], searchText: searchText)
-            if wordResults[indexPath.row].occurrences == 0 {
+            cell.imageView?.image = UIImage(systemName: "magnifyingglass")
+            if wordResults[indexPath.row].occurrences > 0 {
+                cell.accessoryType = .disclosureIndicator
+                cell.isUserInteractionEnabled = true
+            } else {
                 cell.accessoryType = .none
                 cell.isUserInteractionEnabled = false
             }
@@ -115,6 +118,7 @@ extension SearchSuggestionsTableViewController {
                 cell.textLabel?.text = suggestion.title
                 cell.detailTextLabel?.text = suggestion.subtitle
                 cell.accessoryType = .disclosureIndicator
+                cell.isUserInteractionEnabled = true
             } else {
                 cell.textLabel?.text = "No results"
                 cell.detailTextLabel?.text = ""

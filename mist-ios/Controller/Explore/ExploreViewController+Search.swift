@@ -11,27 +11,6 @@ import MapKit
     
 //MARK: - Search Setup
 
-extension UISearchBar {
-    
-    func centerText() {
-        //get the sizes
-        let searchBarWidth = self.frame.width
-        let iconWidth = searchTextField.leftView!.frame.width + 8
-        
-        var textWidth: CGFloat
-        
-        if let searchText = searchTextField.attributedText, searchText.length != 0 {
-            textWidth = searchText.size().width
-            textWidth = min(textWidth, searchBarWidth-70) //if the text is too long
-        } else {
-            textWidth = searchTextField.attributedPlaceholder!.size().width
-        }
-        let offset = UIOffset(horizontal: ((searchBarWidth / 2) - (textWidth / 2) - iconWidth) - 2, vertical: 0) //-2 to slightly tip it towards the left to make the text feel more balanced
-        self.setPositionAdjustment(offset, for: .search)
-    }
-    
-}
-
 extension ExploreViewController {
     
     func setupSearchBarButton() {
@@ -97,31 +76,28 @@ extension ExploreViewController {
 extension ExploreViewController: UISearchControllerDelegate {
     
     func presentSearchController(_ searchController: UISearchController) {
-        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+//        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
         mySearchController.searchBar.placeholder = MapSearchResultType.randomPlaceholder()
         present(mySearchController, animated: true) {
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { //the duration of the uisearchcontroller animation
-//                self.mySearchController.view.alpha = 0.2
-//            }
             self.searchSuggestionsVC.tableView.contentInset.top -= self.view.safeAreaInsets.top - 20 //needed bc auto content inset adjustment behavior isn't reflecing safeareainsets for some reason
         }
     }
     
     func willPresentSearchController(_ searchController: UISearchController) {
-        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+//        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
     }
     
     func didPresentSearchController(_ searchController: UISearchController) {
-        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+//        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
     }
     
     func willDismissSearchController(_ searchController: UISearchController) {
-        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+//        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
         searchBarButton.centerText()
     }
     
     func didDismissSearchController(_ searchController: UISearchController) {
-        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+//        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
     }
     
 }
@@ -160,13 +136,8 @@ extension ExploreViewController: UITableViewDelegate {
             let word = searchSuggestionsVC.wordResults[indexPath.row]
             postFilter.searchBy = .text
             searchBarButton.text = word.text
-            reloadPosts() {
-                let postCoordinates = self.postAnnotations.map { postAnnotation in
-                    postAnnotation.coordinate
-                }
-                let midpoint = CLLocationCoordinate2D.geographicMidpoint(betweenCoordinates: postCoordinates)
-                self.boundingRegion = MKCoordinateRegion(center: midpoint, span: .init(latitudeDelta: 1000, longitudeDelta: 1000))
-                self.mapView.region = self.boundingRegion
+            reloadPosts() { [self] in
+                centerMapAroundAnnotations(postAnnotations)
             }
         case .nearby:
             let suggestion = searchSuggestionsVC.completerResults![indexPath.row]
@@ -248,11 +219,9 @@ extension ExploreViewController {
                 return
             }
             
-            if let updatedRegion = response?.boundingRegion {
+            if let updatedRegion = response?.boundingRegion, let places = response?.mapItems, places.count > 0 {
                 self.boundingRegion = updatedRegion
-            }
-            
-            if let places = response?.mapItems, places.count > 0 {
+                self.boundingRegion.span.latitudeDelta = max(minSpanDelta, self.boundingRegion.span.latitudeDelta)
                 prepareToDismissSearchControllerForLocallySearchedMapView(itemsToDisplay: places)
             }
         }

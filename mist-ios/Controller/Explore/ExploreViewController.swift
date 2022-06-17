@@ -33,7 +33,6 @@ class ExploreViewController: MapViewController {
     @IBOutlet weak var searchBarButton: UISearchBar!
     var mySearchController: UISearchController!
     var searchSuggestionsVC: SearchSuggestionsTableViewController!
-    var boundingRegion: MKCoordinateRegion = MKCoordinateRegion(MKMapRect.world)
     var localSearch: MKLocalSearch? {
         willSet {
             // Clear the results and cancel the currently running local search before starting a new search.

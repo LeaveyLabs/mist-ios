@@ -13,6 +13,7 @@ class MapViewController: UIViewController {
     
     //MARK: - Properties
 
+    // UI
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var userTrackingButton: UIButton!
     @IBOutlet weak var mapDimensionButton: UIButton!
@@ -20,7 +21,25 @@ class MapViewController: UIViewController {
     @IBOutlet weak var zoomOutButton: UIButton!
     @IBOutlet weak var zoomStackView: UIStackView!
     @IBOutlet weak var trackingDimensionStackView: UIStackView!
-
+    
+    // User location
+    private let locationManager = CLLocationManager()
+    
+    // Camera
+    var boundingRegion: MKCoordinateRegion = MKCoordinateRegion(MKMapRect.world)
+    let minSpanDelta = 0.03
+    var isCameraFlyingOutAndIn: Bool = false
+    var isCameraFlying: Bool = false {
+        didSet {
+            view.isUserInteractionEnabled = !isCameraFlying
+        }
+    }
+    var modifyingMap: Bool = false
+    var latitudeOffset: Double!
+    //remove one of these three
+    var prevZoomFactor: Int = 4
+    var prevZoomWidth: Double! //when the pitch increases, zoomWidth's value increases
+    var prevZoom: Double! //when pitch increases, zoom goes UP then down. when pitch decreases, zoom goes DOWN then up
     private var isThreeDimensional:Bool = true {
         didSet {
             if isThreeDimensional {
@@ -30,27 +49,12 @@ class MapViewController: UIViewController {
             }
         }
     }
-    
-    // Create a location manager to trigger user tracking
-    private let locationManager = CLLocationManager()
-    
-    var isCameraFlyingOutAndIn: Bool = false
-    var isCameraFlying: Bool = false {
-        didSet {
-            view.isUserInteractionEnabled = !isCameraFlying
-        }
+    var cameraAnimationDuration: Double {
+        //add up to 0.3 seconds to rotate the heading of the camera
+        return Double(prevZoomFactor+2)/10 + ((180-fabs(180.0 - mapView.camera.heading)) / 180 * 0.3)
     }
-    var modifyingMap: Bool = false
-    var latitudeOffset: Double!
     
-    //remove one of these three
-    var prevZoomFactor: Int = 4
-    var prevZoomWidth: Double!
-    //when the pitch increases, zoomWidth's value increases
-    var prevZoom: Double!
-    //when pitch increases, zoom goes UP then down
-    //when pitch decreases, zoom goes DOWN then up
-    
+    //Annotations
     var postAnnotations = [PostAnnotation]() {
         willSet {
             mapView.removeAnnotations(postAnnotations)
@@ -60,10 +64,6 @@ class MapViewController: UIViewController {
         }
     }
     
-    var cameraAnimationDuration: Double {
-        //add up to 0.3 seconds to rotate the heading of the camera
-        return Double(prevZoomFactor+2)/10 + ((180-fabs(180.0 - mapView.camera.heading)) / 180 * 0.3)
-    }
     
     //MARK: - View Lifecycle
         
@@ -388,40 +388,28 @@ extension MapViewController {
         
     }
     
-    //This seems to work as good as it's gonna get... which is better than the slow fly in that it accounts
-    //for coordinates located within, but then it cant
-    func zoomInAsCloseAsPossibleOn(cluster: MKClusterAnnotation) {
-        var clusterPoints = [MKMapPoint]()
-        cluster.memberAnnotations.forEach { memberAnnotation in
-            clusterPoints.append(MKMapPoint(memberAnnotation.coordinate))
+    func centerMapAroundAnnotations(_ annotations: [MKAnnotation]) {
+        var maxLat = annotations[0].coordinate.latitude
+        var minLat = annotations[0].coordinate.latitude
+        var maxLong = annotations[0].coordinate.longitude
+        var minLong = annotations[0].coordinate.longitude
+        var coordinates = [CLLocationCoordinate2D]()
+        annotations.forEach { annotation in
+            maxLat = max(maxLat, annotation.coordinate.latitude)
+            minLat = min(minLat, annotation.coordinate.latitude)
+            maxLong = max(maxLong, annotation.coordinate.longitude)
+            minLong = min(minLong, annotation.coordinate.longitude)
+            coordinates.append(annotation.coordinate)
         }
-        
-        //Center a candidate rect around the cluster
-        let rectX = mapView.visibleMapRect.width
-        let rectY = mapView.visibleMapRect.height
-        var candidateRect = MKMapRect(origin: MKMapPoint(cluster.coordinate),
-                                      size: mapView.visibleMapRect.size)
-        candidateRect = candidateRect.offsetBy(dx: -rectX / 2,
-                                               dy: -rectY / 2)
-        
-        //Shrink the canidate rect so it just fits the cluster points
-        var isCandidateRectTooSmall = false
-        while !isCandidateRectTooSmall {
-            candidateRect = candidateRect.insetBy(dx: rectX/10, dy: rectY/10)
-            clusterPoints.forEach { clusterPoint in
-                if !candidateRect.contains(clusterPoint) {
-                    isCandidateRectTooSmall = true
-                }
-            }
-        }
-        candidateRect = candidateRect.insetBy(dx: -rectX/10, dy: -rectY/10)
-//        let span = MKCoordinateRegion(candidateRect).span //could i use span to find the appropriate camera distance, then animate the camera? probably
-        UIView.animate(withDuration: cameraAnimationDuration,
-                       delay: 0,
-                       options: .curveEaseInOut,
-                       animations: {
-            self.mapView.visibleMapRect = candidateRect
-        }, completion: nil)
+        let somekindofmiddle = CLLocationCoordinate2D
+            .geographicMidpoint(betweenCoordinates:[CLLocationCoordinate2D(latitude: maxLat, longitude: maxLong),
+                                                    CLLocationCoordinate2D(latitude: minLat, longitude: minLong)])
+        let latDelta = max(minSpanDelta,  1.3 * (maxLat - minLat))
+        let longDelta = max(minSpanDelta, 1.3 * (maxLong - minLong))
+        boundingRegion = MKCoordinateRegion(center: somekindofmiddle,
+                                            span: .init(latitudeDelta: latDelta,
+                                                        longitudeDelta: longDelta))
+        mapView.region = boundingRegion
     }
     
     // Zoomin / zoomout button
@@ -555,3 +543,42 @@ extension MapViewController {
 //        gradientView.layer.addSublayer(gradientLayer)
 //        mapView.addSubview(gradientView)
 //}
+
+//MARK: - Deprecated
+
+extension MapViewController {
+    
+    func zoomInAsCloseAsPossibleOn(cluster: MKClusterAnnotation) {
+        var clusterPoints = [MKMapPoint]()
+        cluster.memberAnnotations.forEach { memberAnnotation in
+            clusterPoints.append(MKMapPoint(memberAnnotation.coordinate))
+        }
+        
+        //Center a candidate rect around the cluster
+        let rectX = mapView.visibleMapRect.width
+        let rectY = mapView.visibleMapRect.height
+        var candidateRect = MKMapRect(origin: MKMapPoint(cluster.coordinate),
+                                      size: mapView.visibleMapRect.size)
+        candidateRect = candidateRect.offsetBy(dx: -rectX / 2,
+                                               dy: -rectY / 2)
+        
+        //Shrink the canidate rect so it just fits the cluster points
+        var isCandidateRectTooSmall = false
+        while !isCandidateRectTooSmall {
+            candidateRect = candidateRect.insetBy(dx: rectX/10, dy: rectY/10)
+            clusterPoints.forEach { clusterPoint in
+                if !candidateRect.contains(clusterPoint) {
+                    isCandidateRectTooSmall = true
+                }
+            }
+        }
+        candidateRect = candidateRect.insetBy(dx: -rectX/10, dy: -rectY/10)
+//        let span = MKCoordinateRegion(candidateRect).span //could i use span to find the appropriate camera distance, then animate the camera? probably
+        UIView.animate(withDuration: cameraAnimationDuration,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: {
+            self.mapView.visibleMapRect = candidateRect
+        }, completion: nil)
+    }
+}

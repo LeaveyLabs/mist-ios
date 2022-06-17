@@ -215,6 +215,7 @@
 		47FF869D27DB87A70076A1CA /* UIImage+Thumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF869C27DB87A70076A1CA /* UIImage+Thumbnail.swift */; };
 		47FF86A127DC712F0076A1CA /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF86A027DC712F0076A1CA /* Comment.swift */; };
 		5B13B73F285CF119000ADF5E /* Experimental.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13B73E285CF119000ADF5E /* Experimental.swift */; };
+		5B13B741285D05B0000ADF5E /* UISearchBar+CenterText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13B740285D05B0000ADF5E /* UISearchBar+CenterText.swift */; };
 		5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4D9BD285C018000197080 /* String+Capitalization.swift */; };
 /* End PBXBuildFile section */
 
@@ -453,6 +454,7 @@
 		47FF869C27DB87A70076A1CA /* UIImage+Thumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Thumbnail.swift"; sourceTree = "<group>"; };
 		47FF86A027DC712F0076A1CA /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		5B13B73E285CF119000ADF5E /* Experimental.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Experimental.swift; sourceTree = "<group>"; };
+		5B13B740285D05B0000ADF5E /* UISearchBar+CenterText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+CenterText.swift"; sourceTree = "<group>"; };
 		5BE4D9BD285C018000197080 /* String+Capitalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Capitalization.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -811,6 +813,7 @@
 				478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */,
 				474A4AAF284A922100B39A98 /* UIScrollView+ToTop.swift */,
 				47061CE028517EDB0042F04C /* CALayer+Shadow.swift */,
+				5B13B740285D05B0000ADF5E /* UISearchBar+CenterText.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1396,6 +1399,7 @@
 				43483BB6280251B1001C7C6A /* EnterNameViewController.swift in Sources */,
 				4783F3BB284D6DA20073357A /* ExploreViewController+Search.swift in Sources */,
 				478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */,
+				5B13B741285D05B0000ADF5E /* UISearchBar+CenterText.swift in Sources */,
 				472A4C0028408BD800FD52B7 /* DesignableTabBarController.swift in Sources */,
 				475271972855851200DDF84D /* MyAccountCell.swift in Sources */,
 				474A4AC6284AB6D700B39A98 /* String+Indexing.swift in Sources */,
