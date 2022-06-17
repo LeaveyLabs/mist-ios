@@ -19,13 +19,12 @@ extension ExploreViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
         view.bringSubviewToFront(customNavigationBar)
-        let constraints = [
+        NSLayoutConstraint.activate([
             tableView.leftAnchor.constraint(equalTo: view.safeLeftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.safeRightAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeBottomAnchor),
             tableView.topAnchor.constraint(equalTo: customNavigationBar.bottomAnchor),
-        ]
-        NSLayoutConstraint.activate(constraints)
+        ])
         
         tableView.isHidden = true
         tableView.dataSource = self
@@ -34,7 +33,9 @@ extension ExploreViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.showsVerticalScrollIndicator = false
         tableView.refreshControl = UIRefreshControl()
-        tableView.refreshControl!.addTarget(self, action: #selector(reloadPosts(_:)), for: .valueChanged)
+        tableView.refreshControl!.addAction(.init(handler: { _ in
+            self.reloadPosts()
+        }), for: .valueChanged)
         
         let nib = UINib(nibName: Constants.SBID.Cell.Post, bundle: nil)
         self.tableView.register(nib, forCellReuseIdentifier: Constants.SBID.Cell.Post)

@@ -103,14 +103,16 @@ extension ExploreViewController {
         applyShadowOnView(refreshButton)
         refreshButton.layer.cornerCurve = .continuous
         refreshButton.layer.cornerRadius = 10
-        refreshButton.addTarget(self, action: #selector(reloadPosts(_:)), for: .touchUpInside)
+        refreshButton.addAction(.init(handler: { _ in
+            self.reloadPosts()
+        }), for: .touchUpInside)
     }
     
     func renderInitialPosts() {
         renderPostsAsAnnotations(PostsService.initialPosts)
     }
     
-    @objc func reloadPosts( _ afterReload: @escaping () -> Void = {  } ) {
+    func reloadPosts( _ closure: @escaping () -> Void = { } ) {
         isLoadingPosts = true
         Task {
             do {
@@ -125,7 +127,7 @@ extension ExploreViewController {
                 }
                 renderPostsAsAnnotations(loadedPosts)
                 tableView.refreshControl?.endRefreshing()
-                afterReload()
+                closure()
             } catch {
                 CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
             }
@@ -169,6 +171,7 @@ extension ExploreViewController {
             toggleButton.setImage(UIImage(named: "toggle-list-button"), for: .normal)
         } else {
             toggleButton.setImage(UIImage(named: "toggle-map-button"), for: .normal)
+
             
 //            if tableViewNeedsScrollToTop {
 //                scrollToTopAndReloadData()

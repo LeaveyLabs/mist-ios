@@ -85,8 +85,7 @@ class BasicAPI {
         }
     }
     
-    static func baiscHTTPCallWithToken(url:String, jsonData:Data, method:String) async throws -> (Data, URLResponse) {
-        let serviceUrl = URL(string:url)!
+    static func baiscHTTPCallWithToken(url:String, jsonData:Data, method:String) async throws -> (Data, URLResponse) {        let serviceUrl = URL(string:url)!
         var request = URLRequest(url: serviceUrl)
         request.httpMethod = method
         request.httpBody = jsonData

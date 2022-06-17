@@ -28,7 +28,7 @@ class LoadingViewController: UIViewController {
             var werePostsLoaded = false
             while !werePostsLoaded {
                 do {
-//                    try await PostsService.loadInitialPosts()
+                    try await PostsService.loadInitialPosts()
                     werePostsLoaded = true
                     flyHeartUp()
 //                    self.transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
@@ -45,6 +45,7 @@ class LoadingViewController: UIViewController {
                     } else {
                         numberOfFailures += 1
                     }
+                    sleep(2)
                 }
             }
         }

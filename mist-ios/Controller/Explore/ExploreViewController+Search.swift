@@ -26,7 +26,8 @@ extension ExploreViewController {
         searchSuggestionsVC = self.storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.SearchSuggestions) as? SearchSuggestionsTableViewController
         searchSuggestionsVC.tableView.delegate = self
         searchSuggestionsVC.tableView.contentInsetAdjustmentBehavior = .automatic //necessary for setting bottom insets properly
-        
+        setupTableViewSectionShadows()
+
         //searchController
         mySearchController = UISearchController(searchResultsController: searchSuggestionsVC)
         mySearchController.delegate = self
@@ -35,12 +36,37 @@ extension ExploreViewController {
         
         //searchBar
         mySearchController.searchBar.delegate = self // Monitor when the search button is tapped.
-        mySearchController.searchBar.scopeButtonTitles = [] //this hides a faint line under the search bar
         mySearchController.searchBar.setImage(UIImage(), for: .clear, state: .normal)
-
         mySearchController.searchBar.tintColor = .darkGray
         mySearchController.searchBar.autocapitalizationType = .none
         mySearchController.searchBar.searchBarStyle = .prominent //when setting to .minimal, the background disappears and you can see nav bar underneath. if using .minimal, add a background color to searchBar to fix this.
+    }
+    
+    func setupTableViewSectionShadows() {
+        //apply shadow only to the tableView's sections
+        let tableView = searchSuggestionsVC.tableView!
+        tableView.backgroundColor = .clear
+        tableView.subviews.forEach { subview in
+            subview.applyMediumShadow()
+        }
+        
+        //setup white map cover to compensite for tableview's clear background. make it much longer than the suggestion results tableview would ever be
+        let tableViewExtraBackgroundView = UIView.init(frame: .init(x: view.frame.minX,
+                                                     y: view.frame.minY - 500,
+                                                     width: view.frame.width,
+                                                     height: view.frame.height + 1000))
+        tableViewExtraBackgroundView.backgroundColor = .systemGroupedBackground
+        tableView.addSubview(tableViewExtraBackgroundView)
+        tableView.sendSubviewToBack(tableViewExtraBackgroundView)
+        
+        //i couldnt get constraints to work for some reason
+//        whiteMapCoverView.translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            whiteMapCoverView.bottomAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 0),
+//            whiteMapCoverView.rightAnchor.constraint(equalTo: tableView.rightAnchor),
+//            whiteMapCoverView.topAnchor.constraint(equalTo: tableView.topAnchor, constant: -1),
+//            whiteMapCoverView.centerXAnchor.constraint(equalTo: tableView.leftAnchor),
+//        ])
     }
 }
 

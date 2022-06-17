@@ -29,10 +29,10 @@ extension UIView {
     }
     
     func applyMediumShadowAboveOnly() {
-        layer.applySketchShadow(color: .black, alpha: 0.10, x: 0, y: -5, blur: 7, spread: 0)
+        layer.applySketchShadow(color: .black, alpha: 0.15, x: 0, y: -5, blur: 7, spread: 0)
     }
     
     func applyMediumShadowBelowOnly() {
-        layer.applySketchShadow(color: .black, alpha: 0.10, x: 0, y: 5, blur: 7, spread: 0)
+        layer.applySketchShadow(color: .black, alpha: 0.15, x: 0, y: 5, blur: 7, spread: 0)
     }
 }
