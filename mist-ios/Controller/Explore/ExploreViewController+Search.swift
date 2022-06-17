@@ -15,6 +15,7 @@ extension ExploreViewController {
     
     func setupSearchBarButton() {
         searchBarButton.delegate = self
+        searchBarButton.setImage(UIImage(), for: .clear, state: .normal)
     }
     
     func setupSearchBar() {
@@ -35,10 +36,18 @@ extension ExploreViewController {
         //searchBar
         mySearchController.searchBar.delegate = self // Monitor when the search button is tapped.
         mySearchController.searchBar.scopeButtonTitles = [] //this hides a faint line under the search bar
-        
+        mySearchController.searchBar.setImage(UIImage(), for: .clear, state: .normal)
+
         mySearchController.searchBar.tintColor = .darkGray
         mySearchController.searchBar.autocapitalizationType = .none
         mySearchController.searchBar.searchBarStyle = .prominent //when setting to .minimal, the background disappears and you can see nav bar underneath. if using .minimal, add a background color to searchBar to fix this.
+    }
+    
+    func resetCurrentFilteredSearch() {
+        searchBarButton.text = ""
+        searchBarButton.setImage(UIImage(systemName: "magnifyingglass"), for: .search, state: .normal)
+        postFilter.searchBy = .all
+        reloadPosts()
     }
 }
 
@@ -80,6 +89,7 @@ extension ExploreViewController: UISearchBarDelegate {
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         if searchBar == searchBarButton {
+            resetCurrentFilteredSearch()
             mySearchController.isActive = true //calls its delegate's presentSearchController
             return false
         }
@@ -87,20 +97,7 @@ extension ExploreViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let text = mySearchController.searchBar.text else { return }
-        
-        //when moving from searchController to just a searchBar, uncomment the line below.
-        //not sure how to cover the tab bar with search controller. easier just to move away from searchcontroller entirely
-//        mySearchController.searchBar.resignFirstResponder()
-        
-//        switch searchSuggestionsVC.selectedScope {
-//        case .locatedAt:
-//            search(for: searchBar.text) //Must be called before deactivating mySearchController since searchBar is a property of it
-//            mySearchController.isActive = false
-//        case .containing:
-//            let newQueryFeedViewController = SearchResultsTableViewController.resultsFeedViewController(feedType: .query, feedValue: text)
-//            navigationController?.pushViewController(newQueryFeedViewController, animated: true)
-//        }
+        mySearchController.searchBar.resignFirstResponder()
     }
     
 }
@@ -116,13 +113,18 @@ extension ExploreViewController: UITableViewDelegate {
         switch resultType {
         case .containing:
             let word = searchSuggestionsVC.wordResults[indexPath.row]
-            let newQueryFeedViewController = SearchResultsTableViewController.resultsFeedViewController(feedType: .query, feedValue: word.text)
-            navigationController?.pushViewController(newQueryFeedViewController, animated: true)
+            postFilter.searchBy = .text
+            reloadPosts()
+            mySearchController.isActive = false
+            searchBarButton.setImage(UIImage(systemName: "chevron.left"), for: .search, state: .normal)
+            searchBarButton.text = word.text
         case .nearby:
-            if let suggestion = searchSuggestionsVC.completerResults?[indexPath.row] {
-                mySearchController.isActive = false
-                search(for: suggestion)
-            }
+            let suggestion = searchSuggestionsVC.completerResults![indexPath.row]
+            postFilter.searchBy = .location
+            search(for: suggestion)
+            mySearchController.isActive = false
+            searchBarButton.setImage(UIImage(systemName: "chevron.left"), for: .search, state: .normal)
+            searchBarButton.text = suggestion.title
         }
     }
     
@@ -130,6 +132,7 @@ extension ExploreViewController: UITableViewDelegate {
         let titleView = view as! UITableViewHeaderFooterView
         titleView.textLabel?.text =  titleView.textLabel?.text?.lowercased().capitalizeFirstLetter()
     }
+    
 }
 
 // MARK: - CLLocationManagerDelegate updating location for Map Search

@@ -101,6 +101,7 @@ extension SearchSuggestionsTableViewController {
         case .containing:
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.WordResult, for: indexPath) as! WordResultCell
             cell.configureWordCell(word: wordResults[indexPath.row], searchText: searchText)
+            cell.imageView?.image = UIImage(systemName: "magnifyingglass")
             return cell
         case .nearby:
             let cell = tableView.dequeueReusableCell(withIdentifier: SuggestedCompletionTableViewCell.reuseID, for: indexPath)
@@ -108,9 +109,13 @@ extension SearchSuggestionsTableViewController {
                 let suggestion = results[indexPath.row]
                 cell.textLabel?.attributedText = createHighlightedString(text: suggestion.title, rangeValues: suggestion.titleHighlightRanges)
                 cell.detailTextLabel?.attributedText = createHighlightedString(text: suggestion.subtitle, rangeValues: suggestion.subtitleHighlightRanges)
+                cell.imageView?.image = UIImage(systemName: "mappin.circle")
+                cell.accessoryType = .disclosureIndicator
             } else {
-                cell.textLabel?.text = "No results were found"
+                cell.textLabel?.text = "No results"
                 cell.detailTextLabel?.text = ""
+                cell.accessoryType = .none
+                cell.imageView?.image = UIImage(systemName: "")
             }
             return cell
         }
@@ -140,6 +145,10 @@ extension SearchSuggestionsTableViewController: MKLocalSearchCompleterDelegate {
         // Overwrite the existing results, and then refresh the UI with the new results.
         
         completerResults = completer.results
+        completerResults?.forEach({ completion in
+            //make a call to our personal data base for an icon & number of posts nearby
+        })
+        
         handleFinishedSearch()
     }
     

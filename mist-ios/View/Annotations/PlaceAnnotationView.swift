@@ -19,7 +19,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView {
             animatesWhenAdded = true
             canShowCallout = false
             if let annotation = annotation as? PlaceAnnotation {
-                glyphImage = UIImage(systemName: annotation.category?.symbolName ?? MKPointOfInterestCategory.defaultSymbolName)
+                glyphImage = annotation.category?.symbolUIImage ?? MKPointOfInterestCategory.defaultSymbolUIImage
             }
             glyphTintColor = mistUIColor()
             markerTintColor = .white

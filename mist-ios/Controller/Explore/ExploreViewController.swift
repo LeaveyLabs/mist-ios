@@ -57,8 +57,6 @@ class ExploreViewController: MapViewController {
 
 // MARK: - View Life Cycle
 
-
-
 extension ExploreViewController {
 
     override func viewDidLoad() {
@@ -116,7 +114,16 @@ extension ExploreViewController {
         isLoadingPosts = true
         Task {
             do {
-                let loadedPosts = try await PostsService.newPosts()
+                //have a variable whcih says "reloadType. it should tell us which API to call here"
+                let loadedPosts: [Post]!
+                switch postFilter.searchBy {
+                case .all:
+                    loadedPosts = try await PostsService.newPosts()
+                case .location:
+                    loadedPosts = try await PostsService.newPostsNearby(latitude: 0, longitude: 0)
+                case .text:
+                    loadedPosts = try await PostAPI.fetchPostsByText(text: searchBarButton.text!)
+                }
                 renderPostsAsAnnotations(loadedPosts)
                 tableView.refreshControl?.endRefreshing()
             } catch {

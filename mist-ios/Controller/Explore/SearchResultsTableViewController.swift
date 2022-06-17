@@ -10,6 +10,7 @@ import UIKit
 class SearchResultsTableViewController: FeedViewController {
     
     // MARK: - Properties
+    
     var feedType: FeedType!
     var feedValue: String!
     
