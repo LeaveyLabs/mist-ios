@@ -1326,11 +1326,11 @@
                                 <rect key="frame" x="0.0" y="44" width="390" height="55"/>
                                 <subviews>
                                     <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search for mists" translatesAutoresizingMaskIntoConstraints="NO" id="f4p-DM-7no">
-                                        <rect key="frame" x="5" y="0.0" width="290" height="51"/>
+                                        <rect key="frame" x="55" y="0.0" width="280" height="51"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </searchBar>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tfh-f3-Dfd">
-                                        <rect key="frame" x="300" y="10.666666666666664" width="30" height="30"/>
+                                        <rect key="frame" x="345" y="10.666666666666664" width="30" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="30" id="FZO-Ng-jwd"/>
                                             <constraint firstAttribute="width" secondItem="tfh-f3-Dfd" secondAttribute="height" multiplier="1:1" id="G0d-H7-78Z"/>
@@ -1344,7 +1344,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WB2-a3-lNw">
-                                        <rect key="frame" x="345" y="10.666666666666664" width="30" height="30"/>
+                                        <rect key="frame" x="15" y="10.666666666666664" width="30" height="30"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="WB2-a3-lNw" secondAttribute="height" multiplier="1:1" id="8mJ-Do-HqR"/>
@@ -1363,14 +1363,14 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstItem="tfh-f3-Dfd" firstAttribute="leading" secondItem="f4p-DM-7no" secondAttribute="trailing" constant="5" id="QQA-rB-NRs"/>
-                                    <constraint firstAttribute="trailing" secondItem="WB2-a3-lNw" secondAttribute="trailing" constant="15" id="SdM-k6-nbQ"/>
+                                    <constraint firstItem="WB2-a3-lNw" firstAttribute="leading" secondItem="Z1N-Np-5Vx" secondAttribute="leading" constant="15" id="L5p-2v-6uS"/>
+                                    <constraint firstAttribute="trailing" secondItem="tfh-f3-Dfd" secondAttribute="trailing" constant="15" id="Oh1-Cq-lAs"/>
+                                    <constraint firstItem="tfh-f3-Dfd" firstAttribute="leading" secondItem="f4p-DM-7no" secondAttribute="trailing" constant="10" id="QQA-rB-NRs"/>
+                                    <constraint firstItem="f4p-DM-7no" firstAttribute="leading" secondItem="WB2-a3-lNw" secondAttribute="trailing" constant="10" id="XNP-kW-1Ys"/>
                                     <constraint firstItem="tfh-f3-Dfd" firstAttribute="centerY" secondItem="f4p-DM-7no" secondAttribute="centerY" id="aEa-I5-kOC"/>
                                     <constraint firstAttribute="height" constant="55" id="b6f-Kx-6TH"/>
-                                    <constraint firstItem="WB2-a3-lNw" firstAttribute="leading" secondItem="tfh-f3-Dfd" secondAttribute="trailing" constant="15" id="ljO-CI-Vpa"/>
                                     <constraint firstItem="WB2-a3-lNw" firstAttribute="centerY" secondItem="f4p-DM-7no" secondAttribute="centerY" id="mrW-8g-yi9"/>
                                     <constraint firstItem="f4p-DM-7no" firstAttribute="centerY" secondItem="Z1N-Np-5Vx" secondAttribute="centerY" constant="-2" id="pci-3A-wkE"/>
-                                    <constraint firstItem="f4p-DM-7no" firstAttribute="leading" secondItem="Z1N-Np-5Vx" secondAttribute="leading" constant="5" id="yvg-Uo-gbT"/>
                                 </constraints>
                             </view>
                         </subviews>

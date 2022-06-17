@@ -34,7 +34,7 @@ extension ExploreViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.showsVerticalScrollIndicator = false
         tableView.refreshControl = UIRefreshControl()
-        tableView.refreshControl!.addTarget(self, action: #selector(reloadPosts as () -> ()), for: .valueChanged)
+        tableView.refreshControl!.addTarget(self, action: #selector(reloadPosts(_:)), for: .valueChanged)
         
         let nib = UINib(nibName: Constants.SBID.Cell.Post, bundle: nil)
         self.tableView.register(nib, forCellReuseIdentifier: Constants.SBID.Cell.Post)

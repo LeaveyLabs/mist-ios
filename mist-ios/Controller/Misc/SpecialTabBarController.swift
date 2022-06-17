@@ -15,6 +15,7 @@ class SpecialTabBarController: UITabBarController {
         super.viewDidLoad()
         delegate = self
         removeLineAndAddShadow()
+        tabBar.applyMediumShadowAboveOnly()
     }
     
     func removeLineAndAddShadow() {
@@ -25,7 +26,6 @@ class SpecialTabBarController: UITabBarController {
         tabBarLineHidingView.frame = tabBar.bounds
         tabBarLineHidingView.frame.origin.y -= 1 //hides the tab bar line
         tabBarLineHidingView.frame.size.height += 50 //extends down beyond safe area
-        tabBarLineHidingView.applyMediumShadowAbove()
     }
 }
 

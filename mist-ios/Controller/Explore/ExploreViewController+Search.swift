@@ -42,13 +42,6 @@ extension ExploreViewController {
         mySearchController.searchBar.autocapitalizationType = .none
         mySearchController.searchBar.searchBarStyle = .prominent //when setting to .minimal, the background disappears and you can see nav bar underneath. if using .minimal, add a background color to searchBar to fix this.
     }
-    
-    func resetCurrentFilteredSearch() {
-        searchBarButton.text = ""
-        searchBarButton.setImage(UIImage(systemName: "magnifyingglass"), for: .search, state: .normal)
-        postFilter.searchBy = .all
-        reloadPosts()
-    }
 }
 
 // MARK: - SearchController Delegate
@@ -59,7 +52,6 @@ extension ExploreViewController: UISearchControllerDelegate {
         Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
         mySearchController.searchBar.placeholder = MapSearchResultType.randomPlaceholder()
         present(mySearchController, animated: true) {
-            self.mySearchController.searchBar.showsScopeBar = true //needed to prevent weird animation
             self.searchSuggestionsVC.tableView.contentInset.top -= self.view.safeAreaInsets.top - 20 //needed bc auto content inset adjustment behavior isn't reflecing safeareainsets for some reason
         }
     }
@@ -74,7 +66,6 @@ extension ExploreViewController: UISearchControllerDelegate {
     
     func willDismissSearchController(_ searchController: UISearchController) {
         Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-        mySearchController.searchBar.setShowsScope(false, animated: false) //needed to prevent weird animation
     }
     
     func didDismissSearchController(_ searchController: UISearchController) {
@@ -89,7 +80,9 @@ extension ExploreViewController: UISearchBarDelegate {
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         if searchBar == searchBarButton {
-            resetCurrentFilteredSearch()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { //the duration of the uisearchcontroller animation
+                self.resetCurrentFilteredSearch()
+            }
             mySearchController.isActive = true //calls its delegate's presentSearchController
             return false
         }

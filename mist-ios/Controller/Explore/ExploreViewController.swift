@@ -103,18 +103,17 @@ extension ExploreViewController {
         applyShadowOnView(refreshButton)
         refreshButton.layer.cornerCurve = .continuous
         refreshButton.layer.cornerRadius = 10
-        refreshButton.addTarget(self, action: #selector(reloadPosts as () -> ()), for: .touchUpInside)
+        refreshButton.addTarget(self, action: #selector(reloadPosts(_:)), for: .touchUpInside)
     }
     
     func renderInitialPosts() {
         renderPostsAsAnnotations(PostsService.initialPosts)
     }
     
-    @objc func reloadPosts() {
+    @objc func reloadPosts( _ afterReload: @escaping () -> Void = {  } ) {
         isLoadingPosts = true
         Task {
             do {
-                //have a variable whcih says "reloadType. it should tell us which API to call here"
                 let loadedPosts: [Post]!
                 switch postFilter.searchBy {
                 case .all:
@@ -124,21 +123,6 @@ extension ExploreViewController {
                 case .text:
                     loadedPosts = try await PostAPI.fetchPostsByText(text: searchBarButton.text!)
                 }
-                renderPostsAsAnnotations(loadedPosts)
-                tableView.refreshControl?.endRefreshing()
-            } catch {
-                CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
-            }
-            isLoadingPosts = false
-            tableViewNeedsScrollToTop = true
-        }
-    }
-    
-    func reloadPosts(afterReload: @escaping () -> Void?) {
-        isLoadingPosts = true
-        Task {
-            do {
-                let loadedPosts = try await PostsService.newPosts()
                 renderPostsAsAnnotations(loadedPosts)
                 tableView.refreshControl?.endRefreshing()
                 afterReload()
@@ -159,6 +143,13 @@ extension ExploreViewController {
             postAnnotations.append(postAnnotation)
         }
         postAnnotations.sort()
+    }
+    
+    func resetCurrentFilteredSearch() {
+        searchBarButton.text = ""
+        searchBarButton.setImage(UIImage(systemName: "magnifyingglass"), for: .search, state: .normal)
+        postFilter.searchBy = .all
+        reloadPosts {}
     }
     
 }
@@ -221,7 +212,7 @@ extension ExploreViewController: FilterDelegate {
         postFilter = newPostFilter
 //        updateFilterButtonLabel() //incase we want to handle UI updates somehow
         if shouldReload {
-            reloadPosts(afterReload: afterFilterUpdate)
+            reloadPosts(afterFilterUpdate)
         }
     }
         
