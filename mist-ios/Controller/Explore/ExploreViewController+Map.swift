@@ -17,25 +17,21 @@ extension ExploreViewController {
     
     @IBAction func exploreUserTrackingButtonDidPressed(_ sender: UIButton) {
         dismissPost()
-        dismissFilter()
         userTrackingButtonDidPressed(sender)
     }
     
     @IBAction func exploreMapDimensionButtonDidPressed(_ sender: UIButton) {
         dismissPost()
-        dismissFilter()
         mapDimensionButtonDidPressed(sender)
     }
     
     @IBAction func exploreZoomInButtonDidPressed(_ sender: UIButton) {
         dismissPost()
-        dismissFilter()
         zoomInButtonDidPressed(sender)
     }
     
     @IBAction func exploreZoomOutButtonDidPressed(_ sender: UIButton) {
         dismissPost()
-        dismissFilter()
         zoomOutButtonDidPressed(sender)
     }
     
@@ -67,7 +63,6 @@ extension ExploreViewController {
         }
         
         // Handle other purposes of the tap gesture besides just AnnotationViewInteractionDelayPrevention:
-        dismissFilter()
         deselectOneAnnotationIfItExists()
     }
     
@@ -85,7 +80,6 @@ extension ExploreViewController {
         
         selectedAnnotationView = view
         mapView.isZoomEnabled = true // AnnotationQuickSelect: 3 of 3, just in case
-        dismissFilter()
         switch annotationSelectionType {
         case .swipe:
             if let clusterAnnotation = view.cluster?.annotation as? MKClusterAnnotation {

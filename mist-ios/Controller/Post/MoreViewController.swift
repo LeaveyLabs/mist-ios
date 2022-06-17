@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MoreViewController: SheetViewController {
+class MoreViewController: CustomSheetViewController {
         
     @IBOutlet weak var closeButton: UIButton!
     var shareDelegate: ShareActivityDelegate?

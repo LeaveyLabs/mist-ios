@@ -18,14 +18,12 @@ extension ExploreViewController {
         tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
-        view.bringSubviewToFront(searchButton)
-        view.bringSubviewToFront(toggleMapFilterButton)
-        view.bringSubviewToFront(filterButton)
+        view.bringSubviewToFront(customNavigationBar)
         let constraints = [
             tableView.leftAnchor.constraint(equalTo: view.safeLeftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.safeRightAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeBottomAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: customNavigationBar.bottomAnchor),
         ]
         NSLayoutConstraint.activate(constraints)
         
@@ -52,9 +50,10 @@ extension ExploreViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
+            //Create an offset of 5 from the top
             let cell = UITableViewCell()
             cell.translatesAutoresizingMaskIntoConstraints = false
-            cell.heightAnchor.constraint(equalToConstant: filterButton.frame.height + 15).isActive = true
+            cell.heightAnchor.constraint(equalToConstant: 5).isActive = true
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             return cell
         }

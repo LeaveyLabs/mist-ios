@@ -21,18 +21,16 @@ class ExploreViewController: MapViewController {
             refreshButton.configuration?.showsActivityIndicator = isLoadingPosts
         }
     }
-    @IBOutlet weak var customNavigationBar: UIStackView!
-    @IBOutlet weak var featuredIconButton: UIButton!
+    @IBOutlet weak var customNavigationBar: UIView!
     @IBOutlet weak var filterButton: UIButton!
-    @IBOutlet weak var toggleMapFilterButton: UIButton!
-    var filterMapModalVC: FilterSheetViewController?
+    @IBOutlet weak var toggleButton: UIButton!
     
     // Feed
     var tableView: UITableView!
     var tableViewNeedsScrollToTop = false
                 
     // Search
-    @IBOutlet weak var searchButton: UIButton!
+    @IBOutlet weak var searchBarButton: UISearchBar!
     var mySearchController: UISearchController!
     var searchSuggestionsVC: SearchSuggestionsTableViewController!
     var boundingRegion: MKCoordinateRegion = MKCoordinateRegion(MKMapRect.world)
@@ -67,14 +65,13 @@ extension ExploreViewController {
         super.viewDidLoad()
         latitudeOffset = 0.00095
         
-        setupSearchButton()
-        setupFilterButton()
-        setupButtons()
+        setupSearchBarButton()
+        setupRefreshButton()
         setupSearchBar()
         setupTableView()
         setupCustomTapGestureRecognizerOnMap()
         renderInitialPosts()
-        blurStatusBar()
+        setupCustomNavigationBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,6 +100,13 @@ extension ExploreViewController {
 //MARK: - Getting posts
 
 extension ExploreViewController {
+    
+    func setupRefreshButton() {
+        applyShadowOnView(refreshButton)
+        refreshButton.layer.cornerCurve = .continuous
+        refreshButton.layer.cornerRadius = 10
+        refreshButton.addTarget(self, action: #selector(reloadPosts as () -> ()), for: .touchUpInside)
+    }
     
     func renderInitialPosts() {
         renderPostsAsAnnotations(PostsService.initialPosts)
@@ -156,23 +160,16 @@ extension ExploreViewController {
 
 extension ExploreViewController {
     
-    func setupButtons() {
-        toggleMapFilterButton.layer.cornerCurve = .continuous
-        toggleMapFilterButton.layer.cornerRadius = 10
-        applyShadowOnView(toggleMapFilterButton)
-        
-        applyShadowOnView(refreshButton)
-        refreshButton.layer.cornerCurve = .continuous
-        refreshButton.layer.cornerRadius = 10
-        refreshButton.addTarget(self, action: #selector(reloadPosts as () -> ()), for: .touchUpInside)
+    func setupCustomNavigationBar() {
+        customNavigationBar.applyMediumShadowBelowOnly()
     }
     
     @IBAction func toggleButtonDidTapped(_ sender: UIButton) {
         tableView.isHidden = !tableView.isHidden
         if tableView.isHidden {
-            toggleMapFilterButton.setTitle("Feed", for: .normal)
+            toggleButton.setImage(UIImage(named: "toggle-list-button"), for: .normal)
         } else {
-            toggleMapFilterButton.setTitle("Map", for: .normal)
+            toggleButton.setImage(UIImage(named: "toggle-map-button"), for: .normal)
             if tableViewNeedsScrollToTop {
                 //setting the scrollStartRow and then delaying the reloadData by 0.1 seconds should prevent issues where the new data is less than the previous data and the user scroll far down so uitableviewcells aren't rendered properly. Yet the scroll to top animation is still provided
                 let scrollStartRow = min(tableView.indexPathsForVisibleRows![0].row, 10)
@@ -191,51 +188,17 @@ extension ExploreViewController {
 // MARK: - Filter
 
 extension ExploreViewController {
-    
-    //MARK: - Setup
-    
-    func setupFilterButton() {
-        updateFilterButtonLabel()
-        filterButton.layer.cornerCurve = .continuous
-        filterButton.layer.cornerRadius = 10
-        applyShadowOnView(filterButton)
-    }
             
-    //MARK: - User Interaction
+    //User Interaction
     
     @IBAction func filterButtonDidTapped(_ sender: UIButton) {
         dismissPost()
-        if let filterMapModalVC = filterMapModalVC {
-            filterMapModalVC.dismiss(animated: true)
-        } else {
-            filterMapModalVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Filter) as? FilterSheetViewController
-            if let filterMapModalVC = filterMapModalVC {
-                filterMapModalVC.selectedFilter = postFilter
-                filterMapModalVC.delegate = self
-                filterMapModalVC.sheetDismissDelegate = self
-                filterMapModalVC.selectedFilter = postFilter
-                filterMapModalVC.loadViewIfNeeded() //doesnt work without this function call
-                present(filterMapModalVC, animated: true)
-            }
-        }
+        let filterVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Filter) as! FilterSheetViewController
+        filterVC.selectedFilter = postFilter
+        filterVC.delegate = self
+        filterVC.loadViewIfNeeded() //doesnt work without this function call
+        present(filterVC, animated: true)
     }
-    
-    //MARK: - Helpers
-    
-    func updateFilterButtonLabel() {
-        filterButton.setAttributedTitle(PostFilter.getFilterLabelText(for: postFilter), for: .normal)
-        if postFilter.postType == .Featured {
-//            featuredIconButton.isHidden = false
-        } else {
-//            featuredIconButton.isHidden = true
-        }
-    }
-    
-    func dismissFilter() {
-        //if you want to dismiss on drag/pan, first toggle sheet size, then make filterMapModalVC.dismiss a completion of toggleSheetSize
-        filterMapModalVC?.dismiss(animated: true)
-    }
-    
 }
 
 extension ExploreViewController: FilterDelegate {
@@ -243,7 +206,7 @@ extension ExploreViewController: FilterDelegate {
     func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool, _ afterFilterUpdate: @escaping () -> Void) {
     
         postFilter = newPostFilter
-        updateFilterButtonLabel()
+//        updateFilterButtonLabel() //incase we want to handle UI updates somehow
         if shouldReload {
             reloadPosts(afterReload: afterFilterUpdate)
         }
@@ -251,18 +214,7 @@ extension ExploreViewController: FilterDelegate {
         
 }
 
-extension ExploreViewController: childDismissDelegate { //this probably isn't necessary, but leavin ghere for now
-    func handleChildWillDismiss() {
-        
-    }
-
-    func handleChildDidDismiss() {
-        print("sheet dismissed")
-        filterMapModalVC = nil
-    }
-}
-
-//MARK: - Post Delegation: delegate functions with unique implementations to this class
+//MARK: - Post Delegation
 
 extension ExploreViewController: PostDelegate {
     

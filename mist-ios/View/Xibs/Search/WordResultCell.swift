@@ -9,7 +9,6 @@ import UIKit
 
 class WordResultCell: UITableViewCell {
     
-    var parentVC: UIViewController!
     @IBOutlet weak var wordLabel: UILabel!
     @IBOutlet weak var occurencesLabel: UILabel!
     
@@ -22,8 +21,7 @@ class WordResultCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func configureWordCell(word: Word, parent: UIViewController) {
-        parentVC = parent
+    func configureWordCell(word: Word, searchText: String) {
         wordLabel.text = word.text
         occurencesLabel.text = String(word.occurrences)
     }

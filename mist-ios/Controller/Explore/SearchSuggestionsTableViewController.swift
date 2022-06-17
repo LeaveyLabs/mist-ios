@@ -14,22 +14,19 @@ class SearchSuggestionsTableViewController: UITableViewController {
     
     //Search
     var searchText = ""
-    var selectedScope: MapSearchScope = .init(rawValue: 0)!
-    var liveResults = [Any]()
+    var wordResults = [Word]()
     
     //Map Search
     private var searchCompleter: MKLocalSearchCompleter?
     var completerResults: [MKLocalSearchCompletion]?
     
-    @IBOutlet weak var resultsLabel: UILabel!
-    @IBOutlet weak var resultsLabelView: UIView!
+    var oneSearchAlreadyFinished: Bool = false //a flag to determine when both async searches have finished
     
     //MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCells()
-        resultsLabelView.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,12 +57,11 @@ class SearchSuggestionsTableViewController: UITableViewController {
     }
 }
 
-//Public interface
+//MARK: - Public interface
 
 extension SearchSuggestionsTableViewController {
     
     func updatePlacemark(_ placemark: CLPlacemark?, boundingRegion: MKCoordinateRegion) {
-//        currentPlacemark = placemark //would only be useful for displaying a title label like "results near LA"
         searchCompleter?.region = boundingRegion
     }
     
@@ -74,37 +70,54 @@ extension SearchSuggestionsTableViewController {
 // MARK: - UITableViewDataSource
 
 extension SearchSuggestionsTableViewController {
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard !searchText.isEmpty else { return "" }
+        let resultType = MapSearchResultType.init(rawValue: section)!
+        return resultType.sectionName
+    }
         
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch selectedScope {
-        case .locatedAt:
-            return completerResults?.count ?? 0
+        let resultType = MapSearchResultType.init(rawValue: section)!
+        switch resultType {
         case .containing:
-            return liveResults.count
+            return wordResults.count
+        case .nearby:
+            if searchText.isEmpty {
+                return 0
+            } else {
+                return max(completerResults?.count ?? 0, 1) //return 1 "no results" cell if completerResults is nil
+            }
         }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch selectedScope {
-        case .locatedAt:
-            let cell = tableView.dequeueReusableCell(withIdentifier: SuggestedCompletionTableViewCell.reuseID, for: indexPath)
-            if let suggestion = completerResults?[indexPath.row] {
-                // Each suggestion is a MKLocalSearchCompletion with a title, subtitle, and ranges describing what part of the title
-                // and subtitle matched the current query string. The ranges can be used to apply helpful highlighting of the text in
-                // the completion suggestion that matches the current query fragment.
-                cell.textLabel?.attributedText = createHighlightedString(text: suggestion.title, rangeValues: suggestion.titleHighlightRanges)
-                cell.detailTextLabel?.attributedText = createHighlightedString(text: suggestion.subtitle, rangeValues: suggestion.subtitleHighlightRanges)
-            }
-            return cell
+        let resultType = MapSearchResultType.init(rawValue: indexPath.section)!
+        switch resultType {
         case .containing:
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.WordResult, for: indexPath) as! WordResultCell
-            cell.configureWordCell(word: liveResults[indexPath.row] as! Word, parent: self)
+            cell.configureWordCell(word: wordResults[indexPath.row], searchText: searchText)
+            return cell
+        case .nearby:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SuggestedCompletionTableViewCell.reuseID, for: indexPath)
+            if let results = completerResults, !results.isEmpty {
+                let suggestion = results[indexPath.row]
+                cell.textLabel?.attributedText = createHighlightedString(text: suggestion.title, rangeValues: suggestion.titleHighlightRanges)
+                cell.detailTextLabel?.attributedText = createHighlightedString(text: suggestion.subtitle, rangeValues: suggestion.subtitleHighlightRanges)
+            } else {
+                cell.textLabel?.text = "No results were found"
+                cell.detailTextLabel?.text = ""
+            }
             return cell
         }
     }
     
     private func createHighlightedString(text: String, rangeValues: [NSValue]) -> NSAttributedString {
-        let attributes = [NSAttributedString.Key.backgroundColor: mistSecondaryUIColor() ]
+        let attributes = [NSAttributedString.Key.backgroundColor: UIColor.white ]
         let highlightedString = NSMutableAttributedString(string: text)
         
         // Each `NSValue` wraps an `NSRange` that can be used as a style attribute's range with `NSAttributedString`.
@@ -117,7 +130,7 @@ extension SearchSuggestionsTableViewController {
     }
 }
 
-//MapSearch in particular
+//MARK: - MKLocalSearchCompleterDelegate
 
 extension SearchSuggestionsTableViewController: MKLocalSearchCompleterDelegate {
     
@@ -126,23 +139,16 @@ extension SearchSuggestionsTableViewController: MKLocalSearchCompleterDelegate {
         // As the user types, new completion suggestions are continuously returned to this method.
         // Overwrite the existing results, and then refresh the UI with the new results.
         
-        if !searchText.isEmpty { //Check that the user didn't delete the search query before it finished
-            completerResults = completer.results
-            tableView.reloadData()
-            resultsLabelView.isHidden = false
-            resultsLabel.text = completerResults!.isEmpty ? "No locations found": String(format:"%d locations found", completerResults!.count)
-        }
+        completerResults = completer.results
+        handleFinishedSearch()
     }
     
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
-        // Handle any errors returned from MKLocalSearchCompleter.
-//        if let error = error as NSError? {
-//            print("MKLocalSearchCompleter encountered an error: \(error.localizedDescription). The query fragment is: \"\(completer.queryFragment)\"")
-//        }
+        
     }
 }
 
-//Both map and text search
+//MARK: - UISearchResultsUpdating
 
 extension SearchSuggestionsTableViewController: UISearchResultsUpdating {
     
@@ -155,36 +161,65 @@ extension SearchSuggestionsTableViewController: UISearchResultsUpdating {
             //We dont reset live results normally because we want the previous search results to stay visible
             //until the new db call returns.
             completerResults = []
-            liveResults = []
+            wordResults = []
             tableView.reloadData()
-            resultsLabelView.isHidden = true
             return
         }
+                
+        //Nearby Seaarch
+        // Ask `MKLocalSearchCompleter` for new completion suggestions based on the change in the text entered in `UISearchBar`.
+        searchCompleter?.queryFragment = "" //when the user toggles the selected scope, the query fragment has not actually changed, so we must incorrectly and then recorrectly set it to force a new search
+        searchCompleter?.queryFragment = searchText
         
-        resultsLabelView.isHidden = false
-        resultsLabel.text = "Searching..."
-        switch selectedScope {
-        case .locatedAt:
-            // Ask `MKLocalSearchCompleter` for new completion suggestions based on the change in the text entered in `UISearchBar`.
-            searchCompleter?.queryFragment = "" //when the user toggles the selected scope, the query fragment has not actually changed, so we must incorrectly and then recorrectly set it to force a new search
-            searchCompleter?.queryFragment = searchText
-        case .containing:
-            Task {
-                do {
-                    liveResults = try await WordAPI.fetchWords(text: searchText)
-                    if !searchText.isEmpty { //Check that the user didn't delete the search query before it finished
-                        tableView.reloadData()
-                        resultsLabelView.isHidden = false
-                        resultsLabel.text = liveResults.isEmpty ? "No mists found": String(format:"%d mists found", liveResults.count)
-                    }
-                } catch {
-                    CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
-                }
+        //Containing search
+        Task {
+            do {
+                let allResults = try await WordAPI.fetchWords(text: searchText)
+                handleNewWordResults(allResults)
+                handleFinishedSearch()
+            } catch {
+                CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
             }
         }
     }
     
+    func handleNewWordResults(_ allResults: [Word]) {
+        wordResults = Array(allResults.sorted(by: { wordOne, wordTwo in
+            wordOne.occurrences > wordTwo.occurrences
+        }).prefix(3))
+        
+        //TODO: handle where user changed the text after initiating the search
+        
+        let userSearchedWordIndex = wordResults.firstIndex { word in
+            word.text == searchText
+        }
+        if let index = userSearchedWordIndex {
+            //if allresults contains current word, make it appear first.'
+            let userSearchedWordResult = wordResults.remove(at: index)
+            wordResults.insert(userSearchedWordResult, at: 0)
+        } else {
+            //otherwise, replace the third word result with a word result with 0 results that's unclickable
+            if !wordResults.isEmpty {
+                wordResults.removeLast()
+            }
+            wordResults.insert(Word(text: searchText, occurrences: 0), at: 0)
+        }
+    }
+    
+    func handleFinishedSearch() {
+        if !oneSearchAlreadyFinished {
+            oneSearchAlreadyFinished = true
+            return
+        }
+        
+        if !searchText.isEmpty { //Check that the user didn't delete the search query before it finished
+            tableView.reloadData()
+        }
+    }
+    
 }
+
+//MARK: - Suggestion TableViewCell
 
 private class SuggestedCompletionTableViewCell: UITableViewCell {
     

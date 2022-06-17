@@ -27,7 +27,7 @@ extension Constants {
     }
 }
 
-class SheetViewController: UIViewController, UIViewControllerTransitioningDelegate {
+class CustomSheetViewController: UIViewController, UIViewControllerTransitioningDelegate {
 
     @IBOutlet weak var containingView: UIView!
     lazy var mySheetPresentationController = presentationController as! UISheetPresentationController

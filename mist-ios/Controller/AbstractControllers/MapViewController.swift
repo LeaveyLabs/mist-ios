@@ -74,7 +74,6 @@ class MapViewController: UIViewController {
         setupMapButtons()
         setupMapView()
         setupLocationManager()
-        blurStatusBar()
     }
     
     // MARK: - Setup
@@ -138,7 +137,7 @@ class MapViewController: UIViewController {
 //        let blurryEffect = UIBlurEffect(style: .regular)
 //        let blurredStatusBar = UIVisualEffectView(effect: blurryEffect)
         let blurredStatusBar = UIImageView(image: UIImage.imageFromColor(color: .white))
-        blurredStatusBar.layer.applySketchShadow(color: .black, alpha: 0.3, x: 0, y: 1, blur: 5, spread: 0)
+        blurredStatusBar.applyMediumShadow()
         blurredStatusBar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(blurredStatusBar)
         blurredStatusBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -294,7 +293,7 @@ extension MapViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        CustomSwiftMessages.showError(errorDescription: "Something went wrong")
+        CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
     }
 }
     

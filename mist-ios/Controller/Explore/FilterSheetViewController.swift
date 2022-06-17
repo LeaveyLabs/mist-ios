@@ -11,7 +11,7 @@ protocol FilterDelegate {
     func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool, _ afterFilterUpdate: @escaping () -> Void)
 }
 
-class FilterSheetViewController: SheetViewController {
+class FilterSheetViewController: CustomSheetViewController {
         
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var allButton: UIButton!
@@ -32,8 +32,8 @@ class FilterSheetViewController: SheetViewController {
 //        isModalInPresentation = true //prevents the VC from being dismissed by the user
         
         setupSheet(prefersGrabberVisible: true,
-                   detents: [._detent(withIdentifier: "s", constant: 250), Constants.Detents.zil], //tall=375, short=275
-                   largestUndimmedDetentIdentifier: "zil") //zil size is useful for making transitions prettier
+                   detents: [Constants.Detents.l], //tall=375, short=275
+                   largestUndimmedDetentIdentifier: "") //zil size is useful for making transitions prettier
         
         updateButtonLabels()
         updateSliderLabel()

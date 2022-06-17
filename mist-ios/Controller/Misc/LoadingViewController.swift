@@ -23,12 +23,12 @@ class LoadingViewController: UIViewController {
             FADING_ANIMATION_DELAY = 0.7
             FADING_ANIMATION_DELAY = 1.2
         }
-        
+                
         Task {
             var werePostsLoaded = false
             while !werePostsLoaded {
                 do {
-                    try await PostsService.loadInitialPosts()
+//                    try await PostsService.loadInitialPosts()
                     werePostsLoaded = true
                     flyHeartUp()
 //                    self.transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,

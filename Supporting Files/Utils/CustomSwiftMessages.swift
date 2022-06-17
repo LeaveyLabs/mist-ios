@@ -14,6 +14,7 @@ enum PermissionType {
 
 struct CustomSwiftMessages {
     static func showError(errorDescription: String) {
+        print(errorDescription)
         let errorMessageView: CustomCardView = try! SwiftMessages.viewFromNib()
         errorMessageView.configureTheme(.error)
         errorMessageView.button?.isHidden = true

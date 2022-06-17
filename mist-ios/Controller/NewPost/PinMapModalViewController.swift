@@ -17,7 +17,7 @@ protocol PinMapModalDelegate {
 //modal with a custom size
 //https://stackoverflow.com/questions/54737884/changing-the-size-of-a-modal-view-controller
 
-class PinMapModalViewController: SheetViewController, UITextFieldDelegate {
+class PinMapModalViewController: CustomSheetViewController, UITextFieldDelegate {
 
     var completionHandler: PinMapModalCompletionHandler!
 
@@ -42,9 +42,9 @@ class PinMapModalViewController: SheetViewController, UITextFieldDelegate {
         view.addGestureRecognizer(wasTapped)
         
         locationDescriptionTextField.delegate = self
-            setupSheet(prefersGrabberVisible: true,
-                       detents: [Constants.Detents.s, Constants.Detents.xs, Constants.Detents.xl],
-                       largestUndimmedDetentIdentifier: "xl")
+        setupSheet(prefersGrabberVisible: true,
+                   detents: [Constants.Detents.s, Constants.Detents.xs, Constants.Detents.xl],
+                   largestUndimmedDetentIdentifier: "xl")
     }
     
     //MARK: - User Interaction

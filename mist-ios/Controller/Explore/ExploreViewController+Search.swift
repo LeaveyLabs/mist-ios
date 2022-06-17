@@ -9,16 +9,12 @@ import Foundation
 import CoreLocation
 import MapKit
     
-//MARK: - Search
-
 //MARK: - Search Setup
 
 extension ExploreViewController {
     
-    func setupSearchButton() {
-        searchButton.becomeRound()
-        applyShadowOnView(searchButton)
-        searchButton.clipsToBounds = false //for shadow to take effect
+    func setupSearchBarButton() {
+        searchBarButton.delegate = self
     }
     
     func setupSearchBar() {
@@ -38,34 +34,11 @@ extension ExploreViewController {
         
         //searchBar
         mySearchController.searchBar.delegate = self // Monitor when the search button is tapped.
-        mySearchController.searchBar.scopeButtonTitles = []
-        MapSearchScope.allCases.forEach { mapSearchScope in
-            mySearchController.searchBar.scopeButtonTitles?.append(mapSearchScope.displayName)
-        }
+        mySearchController.searchBar.scopeButtonTitles = [] //this hides a faint line under the search bar
         
         mySearchController.searchBar.tintColor = .darkGray
         mySearchController.searchBar.autocapitalizationType = .none
         mySearchController.searchBar.searchBarStyle = .prominent //when setting to .minimal, the background disappears and you can see nav bar underneath. if using .minimal, add a background color to searchBar to fix this.
-    }
-}
-
-// MARK: - Search User Interaction
-
-extension ExploreViewController {
-        
-    @IBAction func searchButtonDidPressed(_ sender: UIBarButtonItem) {
-        mySearchController.isActive = true //calls its delegate's presentSearchController
-        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //eventually replace this with "dismissFilter()" when completion handler is added
-        filterMapModalVC?.dismiss(animated: false)
-    }
-    
-    @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
-        dismissPost()
-        let myAccountNavigation = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation)
-        myAccountNavigation.modalPresentationStyle = .fullScreen
-        filterMapModalVC?.dismiss(animated: false) //same as above^
-        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //makes the transition more seamless
-        self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
     }
 }
 
@@ -75,10 +48,10 @@ extension ExploreViewController: UISearchControllerDelegate {
     
     func presentSearchController(_ searchController: UISearchController) {
         Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-        mySearchController.searchBar.placeholder = searchSuggestionsVC.selectedScope.randomPlaceholder
+        mySearchController.searchBar.placeholder = MapSearchResultType.randomPlaceholder()
         present(mySearchController, animated: true) {
             self.mySearchController.searchBar.showsScopeBar = true //needed to prevent weird animation
-            self.searchSuggestionsVC.tableView.contentInset.top -= self.view.safeAreaInsets.top - 10 //needed bc auto content inset adjustment behavior isn't reflecing safeareainsets for some reason
+            self.searchSuggestionsVC.tableView.contentInset.top -= self.view.safeAreaInsets.top - 20 //needed bc auto content inset adjustment behavior isn't reflecing safeareainsets for some reason
         }
     }
     
@@ -105,28 +78,31 @@ extension ExploreViewController: UISearchControllerDelegate {
 
 extension ExploreViewController: UISearchBarDelegate {
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let text = mySearchController.searchBar.text else { return }
-
-        switch searchSuggestionsVC.selectedScope {
-        case .locatedAt:
-            search(for: searchBar.text) //Must be called before deactivating mySearchController since searchBar is a property of it
-            mySearchController.isActive = false
-        case .containing:
-            let newQueryFeedViewController = SearchResultsTableViewController.resultsFeedViewController(feedType: .query, feedValue: text)
-            navigationController?.pushViewController(newQueryFeedViewController, animated: true)
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        if searchBar == searchBarButton {
+            mySearchController.isActive = true //calls its delegate's presentSearchController
+            return false
         }
+        return true
     }
     
-    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        guard let newSelectedScope = MapSearchScope(rawValue: selectedScope) else { return }
-        mySearchController.searchBar.placeholder = searchSuggestionsVC.selectedScope.randomPlaceholder
-        searchSuggestionsVC.selectedScope = newSelectedScope
-        searchSuggestionsVC.liveResults = []
-        searchSuggestionsVC.completerResults = []
-        searchSuggestionsVC.tableView.reloadData() //to get rid of the data from the previous scope
-        searchSuggestionsVC.updateSearchResults(for: mySearchController)
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let text = mySearchController.searchBar.text else { return }
+        
+        //when moving from searchController to just a searchBar, uncomment the line below.
+        //not sure how to cover the tab bar with search controller. easier just to move away from searchcontroller entirely
+//        mySearchController.searchBar.resignFirstResponder()
+        
+//        switch searchSuggestionsVC.selectedScope {
+//        case .locatedAt:
+//            search(for: searchBar.text) //Must be called before deactivating mySearchController since searchBar is a property of it
+//            mySearchController.isActive = false
+//        case .containing:
+//            let newQueryFeedViewController = SearchResultsTableViewController.resultsFeedViewController(feedType: .query, feedValue: text)
+//            navigationController?.pushViewController(newQueryFeedViewController, animated: true)
+//        }
     }
+    
 }
 
     // MARK: - UITableViewDelegate
@@ -135,18 +111,24 @@ extension ExploreViewController: UITableViewDelegate {
         
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-
-        switch searchSuggestionsVC.selectedScope {
-        case .locatedAt:
+        let resultType = MapSearchResultType.init(rawValue: indexPath.section)!
+        
+        switch resultType {
+        case .containing:
+            let word = searchSuggestionsVC.wordResults[indexPath.row]
+            let newQueryFeedViewController = SearchResultsTableViewController.resultsFeedViewController(feedType: .query, feedValue: word.text)
+            navigationController?.pushViewController(newQueryFeedViewController, animated: true)
+        case .nearby:
             if let suggestion = searchSuggestionsVC.completerResults?[indexPath.row] {
                 mySearchController.isActive = false
                 search(for: suggestion)
             }
-        case .containing:
-            let word = searchSuggestionsVC.liveResults[indexPath.row] as! Word
-            let newQueryFeedViewController = SearchResultsTableViewController.resultsFeedViewController(feedType: .query, feedValue: word.text)
-            navigationController?.pushViewController(newQueryFeedViewController, animated: true)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let titleView = view as! UITableViewHeaderFooterView
+        titleView.textLabel?.text =  titleView.textLabel?.text?.lowercased().capitalizeFirstLetter()
     }
 }
 
@@ -205,6 +187,8 @@ extension ExploreViewController {
                 if error.errorCode == 4 {
                     CustomSwiftMessages.showInfo("No results were found.", "Please search again.", emoji: "😔")
                 } else {
+                    print("ExploreViewController")
+                    print(error.localizedDescription)
                     CustomSwiftMessages.showError(errorDescription: "Something went wrong.")
                 }
                 return
