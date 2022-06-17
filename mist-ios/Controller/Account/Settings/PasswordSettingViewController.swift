@@ -127,7 +127,7 @@ class PasswordSettingViewController: UITableViewController {
                 handleSuccessfulUpdate()
             } catch {
                 isSaving = false
-                CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
+                CustomSwiftMessages.displayError(error)
             }
         }
     }

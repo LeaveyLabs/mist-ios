@@ -116,7 +116,7 @@ class CreatePasswordViewController: KUIViewController, UITextFieldDelegate {
         passwordTextField.text = ""
         confirmPasswordTextField.text = ""
         validateInput()
-        CustomSwiftMessages.showError(errorDescription: "The passwords do not match.")
+        CustomSwiftMessages.displayError("The passwords don't match.", "Please try again.")
     }
     
     func validateInput() {

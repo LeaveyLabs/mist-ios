@@ -187,7 +187,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
             } catch {
                 progressView.progress = 0
                 setAllInteractionTo(true)
-                CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
+                CustomSwiftMessages.displayError(error)
             }
         }
     }

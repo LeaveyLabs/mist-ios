@@ -41,7 +41,7 @@ class LoadingViewController: UIViewController {
                     }
                 } catch {
                     if numberOfFailures > 1 {
-                        CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
+                        CustomSwiftMessages.displayError(error)
                     } else {
                         numberOfFailures += 1
                     }

@@ -125,7 +125,7 @@ class UploadProfilePictureViewController: UIViewController {
     func handleFailure(_ error: Error) {
         isSubmitting = false
         profilePic = defaultPic
-        CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
+        CustomSwiftMessages.displayError(error)
     }
     
     func validateInput() -> Bool {

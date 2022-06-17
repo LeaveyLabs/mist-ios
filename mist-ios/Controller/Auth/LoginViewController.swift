@@ -147,7 +147,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         isSubmitting = false
         passwordTextField.text = ""
         validateInput()
-        CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
+        CustomSwiftMessages.displayError(error)
     }
     
     func validateInput() {

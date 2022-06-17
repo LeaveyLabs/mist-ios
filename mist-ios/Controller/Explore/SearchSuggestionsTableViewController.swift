@@ -191,7 +191,7 @@ extension SearchSuggestionsTableViewController: UISearchResultsUpdating {
                 handleNewWordResults(allResults)
                 handleFinishedSearch()
             } catch {
-                CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
+                CustomSwiftMessages.displayError(error)
             }
         }
     }

@@ -12,15 +12,32 @@ enum PermissionType {
     case userLocation
 }
 
+//MARK: Errors
+
 struct CustomSwiftMessages {
-    static func showError(errorDescription: String) {
+    
+    static func displayError(_ errorDescription: String, _ recoveryDescription: String) {
         print(errorDescription)
+        createAndShowError(title: errorDescription, body: recoveryDescription, emoji: "😔")
+    }
+    
+    static func displayError(_ error: Error) {
+        if let apiError = error as? APIError {
+            print(apiError)
+            createAndShowError(title: apiError.errorDescription!, body: apiError.recoverySuggestion!, emoji: "😔")
+        } else {
+            print(error.localizedDescription)
+            createAndShowError(title: "Something went wrong.", body: "Please try again later.", emoji: "😔")
+        }
+    }
+    
+    private static func createAndShowError(title: String, body: String, emoji: String) {
         let errorMessageView: CustomCardView = try! SwiftMessages.viewFromNib()
         errorMessageView.configureTheme(.error)
+        errorMessageView.configureContent(title: title,
+                                     body: body,
+                                     iconText: emoji)
         errorMessageView.button?.isHidden = true
-        errorMessageView.configureContent(title: "Something went wrong.",
-                                     body: "Please try again.",
-                                     iconText: "😔")
         errorMessageView.dismissButton.tintColor = .white
         errorMessageView.dismissAction = {
             SwiftMessages.hide()
@@ -33,6 +50,11 @@ struct CustomSwiftMessages {
 
         SwiftMessages.show(config: messageConfig, view: errorMessageView)
     }
+}
+
+//MARK: - Info
+
+extension CustomSwiftMessages {
     
     static func showInfo(_ title: String, _ body: String, emoji: String) {
         let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
@@ -53,6 +75,11 @@ struct CustomSwiftMessages {
 
         SwiftMessages.show(config: messageConfig, view: messageView)
     }
+}
+
+//MARK: - Success
+
+extension CustomSwiftMessages {
     
     static func showSuccess(_ title: String, _ body: String) {
         let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
@@ -73,6 +100,11 @@ struct CustomSwiftMessages {
 
         SwiftMessages.show(config: messageConfig, view: messageView)
     }
+}
+
+//MARK: - IDK
+
+extension CustomSwiftMessages {
     
     static func showPermissionRequest(permissionType: PermissionType, onApprove: @escaping () -> Void) {
         let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()

@@ -169,7 +169,7 @@ extension MapViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
+        CustomSwiftMessages.displayError(error)
     }
 }
 

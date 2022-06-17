@@ -202,7 +202,7 @@ extension ExploreViewController {
                 } else {
                     print("ExploreViewController")
                     print(error.localizedDescription)
-                    CustomSwiftMessages.showError(errorDescription: "Something went wrong.")
+                    CustomSwiftMessages.displayError(error)
                 }
                 return
             }

@@ -134,7 +134,7 @@ extension ExploreViewController {
                 tableView.refreshControl?.endRefreshing()
                 closure()
             } catch {
-                CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
+                CustomSwiftMessages.displayError(error)
             }
             isLoadingPosts = false
             tableViewNeedsScrollToTop = true
