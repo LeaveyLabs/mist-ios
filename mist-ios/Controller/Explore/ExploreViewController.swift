@@ -73,17 +73,20 @@ extension ExploreViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        searchBarButton.centerText()
         navigationController?.setNavigationBarHidden(true, animated: false) //for a better searchcontroller animation
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false) //for a better searchcontroller animation
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         enableInteractivePopGesture()
+        searchBarButton.centerText() //centering is dependent on size constraints, so we must wait until viewDidAppear to center the text
         // Handle controller being exposed from push/present or pop/dismiss
         if (self.isMovingToParent || self.isBeingPresented){
             // Controller is being pushed on or presented.
@@ -149,6 +152,8 @@ extension ExploreViewController {
     
     func resetCurrentFilteredSearch() {
         searchBarButton.text = ""
+        searchBarButton.centerText()
+        searchBarButton.searchTextField.leftView?.tintColor = .secondaryLabel
         searchBarButton.setImage(UIImage(systemName: "magnifyingglass"), for: .search, state: .normal)
         postFilter.searchBy = .all
         reloadPosts {}

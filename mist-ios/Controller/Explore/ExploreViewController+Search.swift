@@ -11,11 +11,34 @@ import MapKit
     
 //MARK: - Search Setup
 
+extension UISearchBar {
+    
+    func centerText() {
+        //get the sizes
+        let searchBarWidth = self.frame.width
+        let iconWidth = searchTextField.leftView!.frame.width + 8
+        
+        var textWidth: CGFloat
+        
+        if let searchText = searchTextField.attributedText, searchText.length != 0 {
+            textWidth = searchText.size().width
+            textWidth = min(textWidth, searchBarWidth-70) //if the text is too long
+        } else {
+            textWidth = searchTextField.attributedPlaceholder!.size().width
+        }
+        let offset = UIOffset(horizontal: ((searchBarWidth / 2) - (textWidth / 2) - iconWidth) - 2, vertical: 0) //-2 to slightly tip it towards the left to make the text feel more balanced
+        self.setPositionAdjustment(offset, for: .search)
+    }
+    
+}
+
 extension ExploreViewController {
     
     func setupSearchBarButton() {
         searchBarButton.delegate = self
         searchBarButton.setImage(UIImage(), for: .clear, state: .normal)
+        searchBarButton.searchTextField.leftView?.tintColor = .secondaryLabel
+        searchBarButton.searchTextField.textColor = .darkText
     }
     
     func setupSearchBar() {
@@ -33,10 +56,9 @@ extension ExploreViewController {
         mySearchController.delegate = self
         mySearchController.searchResultsUpdater = searchSuggestionsVC // requires conformance to UISearchResultsUpdating extension
         mySearchController.showsSearchResultsController = true //so white background is always visible
-        
+                
         //searchBar
         mySearchController.searchBar.delegate = self // Monitor when the search button is tapped.
-        mySearchController.searchBar.setImage(UIImage(), for: .clear, state: .normal)
         mySearchController.searchBar.tintColor = .darkGray
         mySearchController.searchBar.autocapitalizationType = .none
         mySearchController.searchBar.searchBarStyle = .prominent //when setting to .minimal, the background disappears and you can see nav bar underneath. if using .minimal, add a background color to searchBar to fix this.
@@ -78,6 +100,9 @@ extension ExploreViewController: UISearchControllerDelegate {
         Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
         mySearchController.searchBar.placeholder = MapSearchResultType.randomPlaceholder()
         present(mySearchController, animated: true) {
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { //the duration of the uisearchcontroller animation
+//                self.mySearchController.view.alpha = 0.2
+//            }
             self.searchSuggestionsVC.tableView.contentInset.top -= self.view.safeAreaInsets.top - 20 //needed bc auto content inset adjustment behavior isn't reflecing safeareainsets for some reason
         }
     }
@@ -92,6 +117,7 @@ extension ExploreViewController: UISearchControllerDelegate {
     
     func willDismissSearchController(_ searchController: UISearchController) {
         Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+        searchBarButton.centerText()
     }
     
     func didDismissSearchController(_ searchController: UISearchController) {
@@ -134,17 +160,17 @@ extension ExploreViewController: UITableViewDelegate {
             let word = searchSuggestionsVC.wordResults[indexPath.row]
             postFilter.searchBy = .text
             reloadPosts()
-            mySearchController.isActive = false
-            searchBarButton.setImage(UIImage(systemName: "chevron.left"), for: .search, state: .normal)
             searchBarButton.text = word.text
+            //TODO: fly to center of new posts
         case .nearby:
             let suggestion = searchSuggestionsVC.completerResults![indexPath.row]
             postFilter.searchBy = .location
             search(for: suggestion)
-            mySearchController.isActive = false
-            searchBarButton.setImage(UIImage(systemName: "chevron.left"), for: .search, state: .normal)
             searchBarButton.text = suggestion.title
         }
+        searchBarButton.searchTextField.leftView?.tintColor = .darkText
+        mySearchController.isActive = false
+
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
