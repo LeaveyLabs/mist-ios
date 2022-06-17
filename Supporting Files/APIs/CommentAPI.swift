@@ -21,7 +21,7 @@ class CommentAPI {
     static func postComment(text: String,
                             post: Int,
                             author: Int) async throws -> Comment {
-        let newComment = Comment(text: text,
+        let newComment = Comment(body: text,
                                  post: post,
                                  author: author)
         let url = "\(BASE_URL)\(PATH_TO_COMMENT_MODEL)"

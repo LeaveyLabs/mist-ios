@@ -111,7 +111,7 @@ class PostAPI {
                            author: Int) async throws -> Post {
         let url = "\(BASE_URL)\(PATH_TO_POST_MODEL)"
         let post = Post(title: title,
-                        text: text,
+                        body: text,
                         location_description: locationDescription,
                         latitude: latitude,
                         longitude: longitude,
