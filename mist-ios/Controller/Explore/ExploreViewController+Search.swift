@@ -137,7 +137,7 @@ extension ExploreViewController: UITableViewDelegate {
             postFilter.searchBy = .text
             searchBarButton.text = word.text
             reloadPosts() { [self] in
-                centerMapAroundAnnotations(postAnnotations)
+                centerMapAround(postAnnotations)
             }
         case .nearby:
             let suggestion = searchSuggestionsVC.completerResults![indexPath.row]
@@ -207,12 +207,19 @@ extension ExploreViewController {
                 return
             }
             
-            if let updatedRegion = response?.boundingRegion, let places = response?.mapItems, places.count > 0 {
-                //We allow searchRegion on the completer to be .world to allow for addresses an
-                mapView.region = updatedRegion
+            if let updatedRegion = response?.boundingRegion, var places = response?.mapItems {
+                //We allow the search completer's searchRegion to be .world so that specific locations from one particular place can appear
+                //However, for the "queryString" search option, where Apple provides the "Search Starbucks near here", because the region is so large, it will display Starbucks from reaaaally away too.
+                //So in the case that places.count > 0 with the queryString search, we just to display the 5 places closest to the mapView's current region.center
+                if places.count > 1 {
+                    places = Array(places.sorted(by: { first, second in
+                        mapView.centerCoordinate.distance(from: first.placemark.coordinate) < mapView.centerCoordinate.distance(from: second.placemark.coordinate)
+                    }).prefix(5))
+                    centerMapAround(places) //updates mapView.region
+                } else {
+                    mapView.region = updatedRegion
+                }
                 mapView.region.span.latitudeDelta = max(minSpanDelta, mapView.region.span.latitudeDelta)
-//                print(places)
-                //sort places by closest to searchCenterCoordinate
                 prepareToDismissSearchControllerForLocallySearchedMapView(itemsToDisplay: places)
             }
         }

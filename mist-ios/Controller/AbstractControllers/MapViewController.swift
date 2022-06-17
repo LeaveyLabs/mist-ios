@@ -26,7 +26,7 @@ class MapViewController: UIViewController {
     private let locationManager = CLLocationManager()
     
     // Camera
-    let minSpanDelta = 0.03
+    let minSpanDelta = 0.02
     var isCameraFlyingOutAndIn: Bool = false
     var isCameraFlying: Bool = false {
         didSet {
@@ -386,18 +386,25 @@ extension MapViewController {
         
     }
     
-    func centerMapAroundAnnotations(_ annotations: [MKAnnotation]) {
-        var maxLat = annotations[0].coordinate.latitude
-        var minLat = annotations[0].coordinate.latitude
-        var maxLong = annotations[0].coordinate.longitude
-        var minLong = annotations[0].coordinate.longitude
-        var coordinates = [CLLocationCoordinate2D]()
-        annotations.forEach { annotation in
-            maxLat = max(maxLat, annotation.coordinate.latitude)
-            minLat = min(minLat, annotation.coordinate.latitude)
-            maxLong = max(maxLong, annotation.coordinate.longitude)
-            minLong = min(minLong, annotation.coordinate.longitude)
-            coordinates.append(annotation.coordinate)
+    func centerMapAround(_ places: [MKMapItem]) {
+        centerMapAround(places.map({ place in place.placemark.coordinate }))
+    }
+    
+    func centerMapAround(_ annotations: [MKAnnotation]) {
+        centerMapAround(annotations.map({ annotation in annotation.coordinate }))
+    }
+    
+    func centerMapAround(_ coordinates: [CLLocationCoordinate2D]) {
+        guard !coordinates.isEmpty else { return }
+        var maxLat = coordinates[0].latitude
+        var minLat = coordinates[0].latitude
+        var maxLong = coordinates[0].longitude
+        var minLong = coordinates[0].longitude
+        coordinates.forEach { coordinate in
+            maxLat = max(maxLat, coordinate.latitude)
+            minLat = min(minLat, coordinate.latitude)
+            maxLong = max(maxLong, coordinate.longitude)
+            minLong = min(minLong, coordinate.longitude)
         }
         let somekindofmiddle = CLLocationCoordinate2D
             .geographicMidpoint(betweenCoordinates:[CLLocationCoordinate2D(latitude: maxLat, longitude: maxLong),
