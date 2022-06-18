@@ -167,8 +167,6 @@ extension SearchSuggestionsTableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let untrimmedSearchText = searchController.searchBar.text else { return }
         searchText = untrimmedSearchText.trimmingCharacters(in: .whitespacesAndNewlines)
-        print(searchText)
-        print(searchText.length)
         guard !searchText.isEmpty else {
             //User might have typed a word into the searchbar, but then deleted it. so lets reset the live results.
             //We dont reset live results normally because we want the previous search results to stay visible
@@ -188,7 +186,7 @@ extension SearchSuggestionsTableViewController: UISearchResultsUpdating {
         Task {
             do {
                 let allResults = try await WordAPI.fetchWords(text: searchText)
-                handleNewWordResults(allResults)
+                sortAndTrimNewWordResults(allResults)
                 handleFinishedSearch()
             } catch {
                 CustomSwiftMessages.displayError(error)
@@ -196,11 +194,10 @@ extension SearchSuggestionsTableViewController: UISearchResultsUpdating {
         }
     }
     
-    func handleNewWordResults(_ allResults: [Word]) {
-        // Display the top three word suggestions
+    func sortAndTrimNewWordResults(_ allResults: [Word]) {
         wordResults = Array(allResults.sorted(by: { wordOne, wordTwo in
             wordOne.occurrences > wordTwo.occurrences
-        }).prefix(3))
+        }).prefix(5))
     }
     
     func handleFinishedSearch() {

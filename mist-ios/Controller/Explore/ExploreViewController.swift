@@ -121,12 +121,13 @@ extension ExploreViewController {
         isLoadingPosts = true
         Task {
             do {
+                print(postFilter.searchBy.rawValue)
                 let loadedPosts: [Post]!
                 switch postFilter.searchBy {
                 case .all:
-                    loadedPosts = try await PostsService.newPosts()
+                    loadedPosts = try await PostAPI.fetchPosts()
                 case .location:
-                    loadedPosts = try await PostsService.newPostsNearby(latitude: 0, longitude: 0)
+                    loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: mapView.region.center.latitude, longitude: mapView.region.center.longitude)
                 case .text:
                     loadedPosts = try await PostAPI.fetchPostsByText(text: searchBarButton.text!)
                 }
@@ -142,22 +143,22 @@ extension ExploreViewController {
     }
     
     func renderPostsAsAnnotations(_ posts: [Post]) {
-        guard posts.count > 0 else { return }
-        let maxPostsToRender = 10000
+        print("ERASING POST ANNOTATIONS")
+        print(posts.count)
+
         postAnnotations = []
-        for index in 0...min(maxPostsToRender, posts.count-1) {
-            let postAnnotation = PostAnnotation(withPost: posts[index])
-            postAnnotations.append(postAnnotation)
-        }
+        postAnnotations = posts.map { post in PostAnnotation(withPost: post) }
         postAnnotations.sort()
+        
     }
     
     func resetCurrentFilteredSearch() {
+        removeExistingPlaceAnnotations()
         searchBarButton.text = ""
         searchBarButton.centerText()
         searchBarButton.searchTextField.leftView?.tintColor = .secondaryLabel
         searchBarButton.setImage(UIImage(systemName: "magnifyingglass"), for: .search, state: .normal)
-        postFilter.searchBy = .all
+        postFilter = .init()
         reloadPosts {}
     }
     

@@ -82,7 +82,6 @@ extension ConversationsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print( max(1, conversations.count))
         return max(1, conversations.count)
     }
     

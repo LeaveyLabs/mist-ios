@@ -11,13 +11,15 @@ import MapKit
     
 //MARK: - Search Setup
 
+let cornerButtonGrey = UIColor.black.withAlphaComponent(0.7)
+
 extension ExploreViewController {
     
     func setupSearchBarButton() {
         searchBarButton.delegate = self
         searchBarButton.setImage(UIImage(), for: .clear, state: .normal)
         searchBarButton.searchTextField.leftView?.tintColor = .secondaryLabel
-        searchBarButton.searchTextField.textColor = .darkText
+        searchBarButton.searchTextField.textColor = cornerButtonGrey
     }
     
     func setupSearchBar() {
@@ -38,7 +40,7 @@ extension ExploreViewController {
                 
         //searchBar
         mySearchController.searchBar.delegate = self // Monitor when the search button is tapped.
-        mySearchController.searchBar.tintColor = .darkGray
+        mySearchController.searchBar.tintColor = cornerButtonGrey
         mySearchController.searchBar.autocapitalizationType = .none
         mySearchController.searchBar.searchBarStyle = .prominent //when setting to .minimal, the background disappears and you can see nav bar underneath. if using .minimal, add a background color to searchBar to fix this.
     }
@@ -145,9 +147,8 @@ extension ExploreViewController: UITableViewDelegate {
             searchBarButton.text = suggestion.title
             search(for: suggestion)
         }
-        searchBarButton.searchTextField.leftView?.tintColor = .darkText
+        searchBarButton.searchTextField.leftView?.tintColor = cornerButtonGrey
         mySearchController.isActive = false
-
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -200,8 +201,6 @@ extension ExploreViewController {
                 if error.errorCode == 4 {
                     CustomSwiftMessages.showInfo("No results were found.", "Please search again.", emoji: "😔")
                 } else {
-                    print("ExploreViewController")
-                    print(error.localizedDescription)
                     CustomSwiftMessages.displayError(error)
                 }
                 return
@@ -220,28 +219,25 @@ extension ExploreViewController {
                     mapView.region = updatedRegion
                 }
                 mapView.region.span.latitudeDelta = max(minSpanDelta, mapView.region.span.latitudeDelta)
-                prepareToDismissSearchControllerForLocallySearchedMapView(itemsToDisplay: places)
+                
+                //Once mapView's region has been updated, we can call reloadPosts, which will reload posts around that region
+                reloadPosts() {
+                    self.prepareToDismissSearchControllerForLocallySearchedMapView(itemsToDisplay: places)
+                }
             }
         }
     }
     
     //input paramater: itemsToDispaly OR a bool indicating if showOne or showAll
-    func prepareToDismissSearchControllerForLocallySearchedMapView(itemsToDisplay: [MKMapItem]) {        
-        // Remove previous search annotations
-        mapView.annotations.forEach { annotation in
-            if let placeAnnotation = annotation as? PlaceAnnotation {
-                mapView.removeAnnotation(placeAnnotation)
-            }
-        }
+    func prepareToDismissSearchControllerForLocallySearchedMapView(itemsToDisplay: [MKMapItem]) {
+        removeExistingPlaceAnnotations()
         
         // Turn the array of MKMapItem objects into an annotation with a title and URL that can be shown on the map.
         let annotations = itemsToDisplay.compactMap { (mapItem) -> PlaceAnnotation? in
             guard let coordinate = mapItem.placemark.location?.coordinate else { return nil }
-            
             let annotation = PlaceAnnotation(coordinate: coordinate)
             annotation.title = mapItem.name
             annotation.category = mapItem.pointOfInterestCategory
-            
             return annotation
         }
         mapView.addAnnotations(annotations)

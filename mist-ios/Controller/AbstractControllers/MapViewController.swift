@@ -240,9 +240,6 @@ extension MapViewController: MKMapViewDelegate {
         let zoomWidth = mapView.visibleMapRect.size.width
         let zoomFactor = Int(log2(zoomWidth)) - 9
         let zoom = mapView.camera.centerCoordinateDistance //centerCoordinateDistance takes pitch into account
-
-//        print("zoom: " + String(zoom))
-//        print("zoomWidth: " + String(zoomWidth))
         
         // Limit minimum pitch. Doing this because of weird behavior with clicking on posts from a pitch less than 50
         if mapView.camera.pitch > 50 && !modifyingMap {
@@ -466,7 +463,7 @@ extension MapViewController {
     
 }
 
-//MARK: - Annotation Selection
+//MARK: - Annotations
 
 extension MapViewController {
     
@@ -491,6 +488,14 @@ extension MapViewController {
                     mapView.selectAnnotation(mapView.annotations[1], animated: true)
                     return
                 }
+            }
+        }
+    }
+    
+    func removeExistingPlaceAnnotations() {
+        mapView.annotations.forEach { annotation in
+            if let placeAnnotation = annotation as? PlaceAnnotation {
+                mapView.removeAnnotation(placeAnnotation)
             }
         }
     }

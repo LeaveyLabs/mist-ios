@@ -68,7 +68,7 @@ class SearchResultsTableViewController: FeedViewController {
                     tableView.reloadData();
                     indicator.stopAnimating()
                 } catch {
-                    print(error)
+                    CustomSwiftMessages.displayError(error)
                 }
             }
         case .home:
