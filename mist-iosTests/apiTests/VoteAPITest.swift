@@ -30,13 +30,6 @@ class VoteAPITest: XCTestCase {
             static let PASSWORD = "randomstringofcharacters1234"
             static let FIRST_NAME = "testing"
             static let LAST_NAME = "admin"
-            static let authedUser = AuthedUser(id: ID,
-                                               username: USERNAME,
-                                               first_name: FIRST_NAME,
-                                               last_name: LAST_NAME,
-                                               picture: nil,
-                                               email: EMAIL,
-                                               password: PASSWORD)
         }
     }
 

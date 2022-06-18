@@ -1,26 +1,23 @@
 //
-//  MatchRequestAPITest.swift
+//  MessageThreadTest.swift
 //  mist-iosTests
 //
-//  Created by Kevin Sun on 6/11/22.
+//  Created by Kevin Sun on 6/17/22.
 //
 
 import XCTest
 @testable import mist_ios
 
-class MatchRequestAPITest: XCTestCase {
+class MessageThreadTest: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        setGlobalAuthToken(token: TestConstants.Auth.TOKEN)
     }
 
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
-        setGlobalAuthToken(token: "")
     }
-
-    // AUTH CONSTANTS
+    
     struct TestConstants {
         struct Auth {
             static let TOKEN = "13929afc3930c2a332ee7e53af3d2dc62f904fc7"
@@ -41,19 +38,21 @@ class MatchRequestAPITest: XCTestCase {
             static let LAST_NAME = "admin2"
         }
     }
-
-    func testPostFetchDeleteFriendRequest() async throws {
-        let post = try await PostAPI.createPost(title: "fakeTitle", text: "fakeText", locationDescription: "fakeLocDescription", latitude: 0, longitude: 0, timestamp: 0, author: TestConstants.Auth.ID)
-        let postedMatchRequest = try await MatchRequestAPI.postMatchRequest(senderUserId: TestConstants.Auth.ID, receiverUserId: TestConstants.Auth2.ID, postId: post.id)
-        XCTAssertTrue(TestConstants.Auth.ID == postedMatchRequest.match_requesting_user)
-        setGlobalAuthToken(token: TestConstants.Auth.TOKEN)
-        let fetchedMatchRequest1 = try await MatchRequestAPI.fetchMatchRequestsBySender(senderUserId: TestConstants.Auth.ID)
-        XCTAssertTrue(postedMatchRequest.id == fetchedMatchRequest1.last!.id)
-        setGlobalAuthToken(token: TestConstants.Auth2.TOKEN)
-        let fetchedMatchRequest2 = try await MatchRequestAPI.fetchMatchRequestsByReceiver(receiverUserId: TestConstants.Auth2.ID)
-        XCTAssertTrue(postedMatchRequest.id == fetchedMatchRequest2.last!.id)
-        setGlobalAuthToken(token: TestConstants.Auth.TOKEN)
-        try await MatchRequestAPI.deleteMatchRequest(id: postedMatchRequest.id)
+    
+    func testConversation() async throws {
+        let thread1 = try MessageThread(sender: TestConstants.Auth.ID, receiver: TestConstants.Auth2.ID)
+        let thread2 = try MessageThread(sender: TestConstants.Auth2.ID, receiver: TestConstants.Auth.ID)
+        let message_texts = ["Message 1", "Message 2", "Message 3", "Message 4", "Message 5", "Message 6"]
+        do {
+            setGlobalAuthToken(token: TestConstants.Auth.TOKEN)
+            for message_text in message_texts {
+                try thread1.sendMessage(message_text: message_text)
+            }
+            sleep(4)
+            for (message_text, server_message) in zip(message_texts, thread2.server_messages) {
+                XCTAssert(message_text == server_message.body)
+            }
+        }
     }
 
     func testPerformanceExample() throws {
