@@ -10,7 +10,7 @@ import MessageKit
 import UIKit
 
 struct Message: Codable {
-    let id: Int
+    let id: Int?
     let sender: String
     let receiver: String
     let body: String
