@@ -31,19 +31,11 @@ class SearchSuggestionsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        startProvidingCompletions()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         stopProvidingCompletions()
-    }
-    
-    private func startProvidingCompletions() {
-        searchCompleter = MKLocalSearchCompleter()
-        searchCompleter?.delegate = self
-        searchCompleter?.resultTypes = [.pointOfInterest, .address, .query]
-        searchCompleter?.region = MKCoordinateRegion(MKMapRect.world) //we want the user to be able to see search suggestions from all over the world
     }
     
     private func stopProvidingCompletions() {
@@ -61,8 +53,12 @@ class SearchSuggestionsTableViewController: UITableViewController {
 
 extension SearchSuggestionsTableViewController {
     
-    func updateRegionAndPlacemark(_ placemark: CLPlacemark?, boundingRegion: MKCoordinateRegion) {
+    func startProvidingCompletions(for boundingRegion: MKCoordinateRegion) {
+        searchCompleter = MKLocalSearchCompleter()
+        searchCompleter?.delegate = self
+        searchCompleter?.resultTypes = [.pointOfInterest, .address, .query]
         searchCompleter?.region = boundingRegion
+//        searchCompleter?.region = MKCoordinateRegion(MKMapRect.world) //we want the user to be able to see search suggestions from all over the world
     }
     
 }

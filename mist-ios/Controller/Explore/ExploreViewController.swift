@@ -96,7 +96,6 @@ extension ExploreViewController {
         
         // Dependent on map dimensions
         searchBarButton.centerText()
-        searchSuggestionsVC.updateRegionAndPlacemark(nil, boundingRegion: MKCoordinateRegion(center: mapView.centerCoordinate, span: .init(latitudeDelta: minSpanDelta, longitudeDelta: minSpanDelta)))
     }
 }
 
@@ -143,13 +142,8 @@ extension ExploreViewController {
     }
     
     func renderPostsAsAnnotations(_ posts: [Post]) {
-        print("ERASING POST ANNOTATIONS")
-        print(posts.count)
-
-        postAnnotations = []
         postAnnotations = posts.map { post in PostAnnotation(withPost: post) }
         postAnnotations.sort()
-        
     }
     
     func resetCurrentFilteredSearch() {
