@@ -30,13 +30,6 @@ class FriendRequestAPITest: XCTestCase {
             static let PASSWORD = "randomstringofcharacters1234"
             static let FIRST_NAME = "testing"
             static let LAST_NAME = "admin"
-            static let authedUser = AuthedUser(id: ID,
-                                               username: USERNAME,
-                                               first_name: FIRST_NAME,
-                                               last_name: LAST_NAME,
-                                               picture: nil,
-                                               email: EMAIL,
-                                               password: PASSWORD)
         }
         struct Auth2 {
             static let TOKEN = "5b466dc2f53727127e7c63d32c98f00e5cfcb0f3"
@@ -46,13 +39,6 @@ class FriendRequestAPITest: XCTestCase {
             static let PASSWORD = "randomstringofcharacters1234"
             static let FIRST_NAME = "testing"
             static let LAST_NAME = "admin2"
-            static let authedUser = AuthedUser(id: ID,
-                                               username: USERNAME,
-                                               first_name: FIRST_NAME,
-                                               last_name: LAST_NAME,
-                                               picture: nil,
-                                               email: EMAIL,
-                                               password: PASSWORD)
         }
     }
 
