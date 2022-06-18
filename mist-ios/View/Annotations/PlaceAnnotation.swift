@@ -22,4 +22,12 @@ class PlaceAnnotation: NSObject, MKAnnotation {
         self.coordinate = coordinate
         super.init()
     }
+    
+    init(withPlace place: MKMapItem) {
+        self.coordinate = place.placemark.coordinate
+        self.title = place.placemark.name
+        self.category = place.pointOfInterestCategory
+        super.init()
+    }
+    
 }

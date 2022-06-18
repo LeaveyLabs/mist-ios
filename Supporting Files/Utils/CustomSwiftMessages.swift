@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftMessages
+import MapKit
 
 enum PermissionType {
     case userLocation
@@ -25,6 +26,12 @@ struct CustomSwiftMessages {
         if let apiError = error as? APIError {
             print(apiError)
             createAndShowError(title: apiError.errorDescription!, body: apiError.recoverySuggestion!, emoji: "😔")
+        } else if let mkError = error as? MKError {
+            if mkError.errorCode == 4 {
+                CustomSwiftMessages.showInfo("No results were found.", "Please search again.", emoji: "😔")
+            } else {
+                print(error.localizedDescription)
+            }
         } else {
             print(error.localizedDescription)
             createAndShowError(title: "Something went wrong.", body: "Please try again later.", emoji: "😔")

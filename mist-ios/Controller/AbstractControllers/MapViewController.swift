@@ -54,14 +54,8 @@ class MapViewController: UIViewController {
     }
     
     //Annotations
-    var postAnnotations = [PostAnnotation]() {
-        willSet {
-            mapView.removeAnnotations(postAnnotations)
-        }
-        didSet {
-            mapView.addAnnotations(postAnnotations)
-        }
-    }
+    var placeAnnotations = [PlaceAnnotation]()
+    var postAnnotations = [PostAnnotation]()
     
     
     //MARK: - View Lifecycle
@@ -72,7 +66,6 @@ class MapViewController: UIViewController {
         prevZoomWidth = mapView.visibleMapRect.size.width
         prevZoom = mapView.camera.centerCoordinateDistance
         
-        postAnnotations = []
         setupMapButtons()
         setupMapView()
         setupLocationManager()
@@ -383,16 +376,12 @@ extension MapViewController {
         
     }
     
-    func centerMapAround(_ places: [MKMapItem]) {
-        centerMapAround(places.map({ place in place.placemark.coordinate }))
+    func getRegionCenteredAround(_ annotations: [MKAnnotation]) -> MKCoordinateRegion? {
+        return getRegionCenteredAround(annotations.map({ annotation in annotation.coordinate }))
     }
     
-    func centerMapAround(_ annotations: [MKAnnotation]) {
-        centerMapAround(annotations.map({ annotation in annotation.coordinate }))
-    }
-    
-    func centerMapAround(_ coordinates: [CLLocationCoordinate2D]) {
-        guard !coordinates.isEmpty else { return }
+    func getRegionCenteredAround(_ coordinates: [CLLocationCoordinate2D]) -> MKCoordinateRegion? {
+        guard !coordinates.isEmpty else { return nil }
         var maxLat = coordinates[0].latitude
         var minLat = coordinates[0].latitude
         var maxLong = coordinates[0].longitude
@@ -408,7 +397,7 @@ extension MapViewController {
                                                     CLLocationCoordinate2D(latitude: minLat, longitude: minLong)])
         let latDelta = max(minSpanDelta,  1.3 * (maxLat - minLat))
         let longDelta = max(minSpanDelta, 1.3 * (maxLong - minLong))
-        mapView.region = MKCoordinateRegion(center: somekindofmiddle,
+        return MKCoordinateRegion(center: somekindofmiddle,
                                             span: .init(latitudeDelta: latDelta,
                                                         longitudeDelta: longDelta))
     }
@@ -492,6 +481,18 @@ extension MapViewController {
         }
     }
     
+    func turnPostsIntoAnnotations(_ posts: [Post]) {
+        postAnnotations = posts.map { post in PostAnnotation(withPost: post) }
+        postAnnotations.sort()
+    }
+    
+    func turnPlacesIntoAnnotations(_ places: [MKMapItem]) {
+        let closestFivePlaces = Array(places.sorted(by: { first, second in
+            mapView.centerCoordinate.distance(from: first.placemark.coordinate) < mapView.centerCoordinate.distance(from: second.placemark.coordinate)
+        }).prefix(5))
+        placeAnnotations = closestFivePlaces.map({ place in PlaceAnnotation(withPlace: place) })
+    }
+    
     func removeExistingPlaceAnnotations() {
         mapView.annotations.forEach { annotation in
             if let placeAnnotation = annotation as? PlaceAnnotation {
@@ -499,6 +500,15 @@ extension MapViewController {
             }
         }
     }
+    
+    func removeExistingPostAnnotations() {
+        mapView.annotations.forEach { annotation in
+            if let postAnnotation = annotation as? PostAnnotation {
+                mapView.removeAnnotation(postAnnotation)
+            }
+        }
+    }
+    
 }
 
 //MARK: - PreventAnnotationViewInteractionDelay

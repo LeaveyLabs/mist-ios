@@ -8,62 +8,52 @@
 import Foundation
 import UIKit
 
-//MARK: - Table View
-
 //MARK: - Table View Setup
 
 extension ExploreViewController {
     
     func setupTableView() {
-        tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(tableView)
-        view.bringSubviewToFront(customNavigationBar)
+        feed = UITableView()
+        feed.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(feed)
+        view.sendSubviewToBack(feed)
+        view.bringSubviewToFront(customNavigationBar) //important for when re-inserting tableView below view later on
         NSLayoutConstraint.activate([
-            tableView.leftAnchor.constraint(equalTo: view.safeLeftAnchor),
-            tableView.rightAnchor.constraint(equalTo: view.safeRightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeBottomAnchor),
-            tableView.topAnchor.constraint(equalTo: customNavigationBar.bottomAnchor),
+            feed.leftAnchor.constraint(equalTo: view.safeLeftAnchor),
+            feed.rightAnchor.constraint(equalTo: view.safeRightAnchor),
+            feed.bottomAnchor.constraint(equalTo: view.safeBottomAnchor),
+            feed.topAnchor.constraint(equalTo: customNavigationBar.bottomAnchor),
         ])
         
-        tableView.isHidden = true
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.estimatedRowHeight = 100
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.showsVerticalScrollIndicator = false
-        tableView.refreshControl = UIRefreshControl()
-        tableView.refreshControl!.addAction(.init(handler: { _ in
-            self.reloadPosts()
+        feed.dataSource = self
+        feed.delegate = self
+        feed.estimatedRowHeight = 100
+        feed.rowHeight = UITableView.automaticDimension
+        feed.showsVerticalScrollIndicator = false
+        feed.separatorStyle = .none
+        feed.refreshControl = UIRefreshControl()
+        feed.refreshControl!.addAction(.init(handler: { [self] _ in
+            reloadPosts(withType: .refresh)
         }), for: .valueChanged)
         
         let nib = UINib(nibName: Constants.SBID.Cell.Post, bundle: nil)
-        self.tableView.register(nib, forCellReuseIdentifier: Constants.SBID.Cell.Post)
+        self.feed.register(nib, forCellReuseIdentifier: Constants.SBID.Cell.Post)
     }
     
 }
 
+//MARK: - TableViewDataSource
+
 extension ExploreViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return postAnnotations.count + 1 //+ 1 for the offset
+        return postAnnotations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        print(postAnnotations.count)
-//        print(indexPath.row)
-        if indexPath.row == 0 {
-            //Create an offset of 5 from the top
-            let cell = UITableViewCell()
-            cell.translatesAutoresizingMaskIntoConstraints = false
-            cell.heightAnchor.constraint(equalToConstant: 5).isActive = true
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-            return cell
-        }
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
+        let cell = self.feed.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
         cell.configurePostCell(post: postAnnotations[indexPath.row].post, bubbleTrianglePosition: .left)
         cell.postDelegate = self
-        cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
         return cell
     }
     

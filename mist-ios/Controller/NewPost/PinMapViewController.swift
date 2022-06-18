@@ -37,7 +37,9 @@ class PinMapViewController: MapViewController {
     
     func handleExistingPin() {
         if let previousAnnotation = pinnedAnnotation {
+            removeExistingPostAnnotations()
             postAnnotations = [previousAnnotation]
+            mapView.addAnnotations(postAnnotations)
             mapView.camera = MKMapCamera(
                 lookingAtCenter: CLLocationCoordinate2D.init(latitude: previousAnnotation.coordinate.latitude + latitudeOffset,
                                                              longitude: previousAnnotation.coordinate.longitude),
@@ -81,7 +83,9 @@ class PinMapViewController: MapViewController {
                 let point = sender.location(in: mapView)
                 let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
                 pinnedAnnotation = PostAnnotation(justWithCoordinate: coordinate)
-                postAnnotations = [pinnedAnnotation!]
+                removeExistingPostAnnotations()
+                postAnnotations = [pinnedAnnotation!] //later, when making a unique annotation for pinmap, these previous and later lines could be removed. it's just that not making this process automatic is better for explore
+                mapView.addAnnotations(postAnnotations)
                 
                 //If a pinMapModal already exists... either... (option 1 and 3 are visible in apple maps)
                 //1 create a NEW pinMapModal, present it, then dismiss the old one without animation afterwards
@@ -154,6 +158,7 @@ class PinMapViewController: MapViewController {
                     self?.navigationController?.popViewController(animated: true)
                 } else {
                     self?.postAnnotations = []
+                    self?.removeExistingPostAnnotations()
                     self?.dismiss(animated: true)
                 }
             }

@@ -175,15 +175,18 @@ extension ExploreViewController {
         deselectOneAnnotationIfItExists()
     }
     
-    
     // To make the map fly directly to the middle of cluster locations...
     // After loading the annotations for the map, immediately center the camera around the annotation
     // (as if it had flown there), check if it's an annotation, then set the camera back to USC
     func handleNewlySubmittedPost(_ newPost: Post) {
         annotationSelectionType = .submission
-        if let newPostAnnotation = postAnnotations.first(where: { postAnnotation in
+        if let newPostIndex = postAnnotations.firstIndex(where: { postAnnotation in
             postAnnotation.post == newPost
         }) {
+            postAnnotations.insert(postAnnotations.remove(at: newPostIndex), at: 0) //put user submitted post first
+            feed.reloadData() //need to reload data after rearranging posts
+            feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+            let newPostAnnotation = postAnnotations.first!
             slowFlyTo(lat: newPostAnnotation.coordinate.latitude + latitudeOffset,
                       long: newPostAnnotation.coordinate.longitude,
                       incrementalZoom: false,

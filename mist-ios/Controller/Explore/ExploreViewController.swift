@@ -10,6 +10,10 @@ import MapKit
 
 // MARK: - Properties
 
+enum ReloadType {
+    case refresh, cancel, newSearch, newPost
+}
+
 class ExploreViewController: MapViewController {
     
     // General
@@ -19,6 +23,9 @@ class ExploreViewController: MapViewController {
             //Should also probably disable some other interactions...
             refreshButton.isEnabled = !isLoadingPosts
             refreshButton.configuration?.showsActivityIndicator = isLoadingPosts
+            if !isLoadingPosts {
+                feed.refreshControl?.endRefreshing()
+            }
         }
     }
     @IBOutlet weak var customNavigationBar: UIView!
@@ -26,8 +33,8 @@ class ExploreViewController: MapViewController {
     @IBOutlet weak var toggleButton: UIButton!
     
     // Feed
-    var tableView: UITableView!
-    var tableViewNeedsScrollToTop = false
+    var feed: UITableView!
+    var isFeedVisible = false //we have to use this flag and send tableview to the front/back instead of using isHidden so that when tableviewcells aren't rerendered when tableview reappears and so we can have a scroll to top animation before reloading tableview data
                 
     // Search
     @IBOutlet weak var searchBarButton: UISearchBar!
@@ -39,6 +46,7 @@ class ExploreViewController: MapViewController {
             localSearch?.cancel()
         }
     }
+    var newSearchResultsRegion: MKCoordinateRegion?
     
     // Map
     @IBOutlet weak var refreshButton: UIButton!
@@ -97,6 +105,7 @@ extension ExploreViewController {
         // Dependent on map dimensions
         searchBarButton.centerText()
     }
+    
 }
 
 //MARK: - Getting posts
@@ -107,53 +116,58 @@ extension ExploreViewController {
         applyShadowOnView(refreshButton)
         refreshButton.layer.cornerCurve = .continuous
         refreshButton.layer.cornerRadius = 10
-        refreshButton.addAction(.init(handler: { _ in
-            self.reloadPosts()
+        refreshButton.addAction(.init(handler: { [self] _ in
+            reloadPosts(withType: .refresh)
         }), for: .touchUpInside)
     }
     
     func renderInitialPosts() {
-        renderPostsAsAnnotations(PostsService.initialPosts)
+        turnPostsIntoAnnotations(PostsService.initialPosts)
+        mapView.addAnnotations(postAnnotations)
     }
     
-    func reloadPosts( _ closure: @escaping () -> Void = { } ) {
+    func reloadPosts(withType reloadType: ReloadType, closure: @escaping () -> Void = { } ) {
         isLoadingPosts = true
+        if !postAnnotations.isEmpty { //this should probably go somewhere else
+            feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
         Task {
             do {
-                print(postFilter.searchBy.rawValue)
                 let loadedPosts: [Post]!
                 switch postFilter.searchBy {
                 case .all:
                     loadedPosts = try await PostAPI.fetchPosts()
                 case .location:
-                    loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: mapView.region.center.latitude, longitude: mapView.region.center.longitude)
+                    loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: newSearchResultsRegion!.center.latitude, longitude: newSearchResultsRegion!.center.longitude, radius: convertLatDeltaToKms(newSearchResultsRegion!.span.latitudeDelta))
                 case .text:
                     loadedPosts = try await PostAPI.fetchPostsByText(text: searchBarButton.text!)
                 }
-                renderPostsAsAnnotations(loadedPosts)
-                tableView.refreshControl?.endRefreshing()
+                turnPostsIntoAnnotations(loadedPosts)
+                renderNewPostsOnFeedAndMap(withType: reloadType)
                 closure()
             } catch {
                 CustomSwiftMessages.displayError(error)
             }
             isLoadingPosts = false
-            tableViewNeedsScrollToTop = true
         }
     }
     
-    func renderPostsAsAnnotations(_ posts: [Post]) {
-        postAnnotations = posts.map { post in PostAnnotation(withPost: post) }
-        postAnnotations.sort()
-    }
-    
-    func resetCurrentFilteredSearch() {
+    //At this point, we have new posts to render.
+    //Scroll view should scroll to top with existing data, then reload data
+    //Map view should fly to new location, then de-render old annotations, then render new annotations
+    func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType) {
+        //TABLE VIEW
+        self.feed.reloadData()
+        
+        //MAP VIEW
+        if reloadType == .newSearch {
+            mapView.region = newSearchResultsRegion!
+        }
+        //then, in one moment, remove all existing annotations and add all new ones
         removeExistingPlaceAnnotations()
-        searchBarButton.text = ""
-        searchBarButton.centerText()
-        searchBarButton.searchTextField.leftView?.tintColor = .secondaryLabel
-        searchBarButton.setImage(UIImage(systemName: "magnifyingglass"), for: .search, state: .normal)
-        postFilter = .init()
-        reloadPosts {}
+        removeExistingPostAnnotations()
+        mapView.addAnnotations(placeAnnotations)
+        mapView.addAnnotations(postAnnotations)
     }
     
 }
@@ -167,29 +181,23 @@ extension ExploreViewController {
     }
     
     @IBAction func toggleButtonDidTapped(_ sender: UIButton) {
-        //OR EVEN BETTER: don't make tableView hidden, jsut send it to back, that way you can scrolltotop right away after reload and dont need the flag to wait to scroll until toggle
-        tableView.isHidden = !tableView.isHidden
-        if tableView.isHidden {
-            toggleButton.setImage(UIImage(named: "toggle-list-button"), for: .normal)
+        if isFeedVisible {
+            makeMapVisible()
         } else {
-            toggleButton.setImage(UIImage(named: "toggle-map-button"), for: .normal)
-
-            
-//            if tableViewNeedsScrollToTop {
-//                scrollToTopAndReloadData()
-//            }
+            makeFeedVisible()
         }
     }
     
-    func scrollToTopAndReloadData() {
-        //setting the scrollStartRow and then delaying the reloadData by 0.1 seconds should prevent issues where the new data is less than the previous data and the user scroll far down so uitableviewcells aren't rendered properly. Yet the scroll to top animation is still provided
-        let scrollStartRow = min(tableView.indexPathsForVisibleRows![0].row, 10)
-        tableView.scrollToRow(at: IndexPath(row: scrollStartRow, section: 0), at: .top, animated: false)
-        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.tableView.reloadData()
-        }
-        tableViewNeedsScrollToTop = false
+    func makeFeedVisible() {
+        view.insertSubview(feed, belowSubview: customNavigationBar)
+        toggleButton.setImage(UIImage(named: "toggle-map-button"), for: .normal)
+        isFeedVisible = true
+    }
+    
+    func makeMapVisible() {
+        view.sendSubviewToBack(feed)
+        toggleButton.setImage(UIImage(named: "toggle-list-button"), for: .normal)
+        isFeedVisible = false
     }
     
 }
@@ -208,16 +216,27 @@ extension ExploreViewController {
         filterVC.loadViewIfNeeded() //doesnt work without this function call
         present(filterVC, animated: true)
     }
+    
+    // Helper
+    
+    func resetCurrentFilteredSearch() {
+        searchBarButton.text = ""
+        searchBarButton.centerText()
+        searchBarButton.searchTextField.leftView?.tintColor = .secondaryLabel
+        searchBarButton.setImage(UIImage(systemName: "magnifyingglass"), for: .search, state: .normal)
+        postFilter = .init()
+        reloadPosts(withType: .cancel)
+    }
+    
 }
 
 extension ExploreViewController: FilterDelegate {
     
     func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool, _ afterFilterUpdate: @escaping () -> Void) {
-    
         postFilter = newPostFilter
 //        updateFilterButtonLabel() //incase we want to handle UI updates somehow
         if shouldReload {
-            reloadPosts(afterFilterUpdate)
+            reloadPosts(withType: .newSearch, closure: afterFilterUpdate)
         }
     }
         
@@ -242,7 +261,8 @@ extension ExploreViewController: PostDelegate {
         postVC.post = post
         postVC.shouldStartWithRaisedKeyboard = withRaisedKeyboard
         postVC.completionHandler = { Post in
-            self.reloadPosts()
+//            reloadPosts(withType: .refresh)
+            //TODO: uhh.. how to make sure the post is updated? i have to update the postannotation's post
         }
         navigationController!.pushViewController(postVC, animated: true)
     }

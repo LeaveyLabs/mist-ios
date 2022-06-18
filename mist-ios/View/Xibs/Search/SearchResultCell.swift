@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import MapKit
 
 class SearchResultCell: UITableViewCell {
     
-    @IBOutlet weak var wordLabel: UILabel!
-    @IBOutlet weak var occurencesLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var subtitleLabel: UILabel!
+    @IBOutlet weak var accessoryLabel: UILabel!
+    @IBOutlet weak var iconImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -22,22 +25,40 @@ class SearchResultCell: UITableViewCell {
     }
     
     func configureWordCell(word: Word) {
-        commonConfigure()
-        wordLabel.text = word.text
-        occurencesLabel.text = String(word.occurrences)
+        imageView?.image = UIImage(systemName: "magnifyingglass")
+        titleLabel.text = word.text
+//        subtitleLabel.text = ""
+        accessoryLabel.text = String(word.occurrences)
         accessoryType = .disclosureIndicator
         isUserInteractionEnabled = true
     }
     
-    func configureNoResultsCell() {
-        commonConfigure()
-        wordLabel.text = "No results"
-        occurencesLabel.text = ""
+    func configureNoWordResultsCell() {
+        imageView?.image = UIImage(systemName: "magnifyingglass")
+        titleLabel.text = "No results"
+//        subtitleLabel.text = ""
+        accessoryLabel.text = ""
         accessoryType = .none
         isUserInteractionEnabled = false
     }
     
-    func commonConfigure() {
-        imageView?.image = UIImage(systemName: "magnifyingglass")
+    //Not in use right now
+    
+    func configureLocalSearchCompletionCell(suggestion: MKLocalSearchCompletion) {
+        imageView?.image = UIImage(systemName: "mappin.circle")
+        titleLabel.text = suggestion.title
+        subtitleLabel.text = suggestion.subtitle
+        accessoryLabel.text = ""
+        accessoryType = .disclosureIndicator
+        isUserInteractionEnabled = true
+    }
+        
+    func configureNoCompleterResultsCell() {
+        imageView?.image = UIImage(systemName: "mappin.circle")
+        titleLabel.text = "No results"
+        subtitleLabel.text = ""
+        accessoryLabel.text = ""
+        accessoryType = .none
+        isUserInteractionEnabled = false
     }
 }

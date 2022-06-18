@@ -29,15 +29,14 @@ extension ExploreViewController {
         //resultsTableViewController
         searchSuggestionsVC = self.storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.SearchSuggestions) as? SearchSuggestionsTableViewController
         searchSuggestionsVC.tableView.delegate = self
-        searchSuggestionsVC.tableView.contentInsetAdjustmentBehavior = .automatic //necessary for setting bottom insets properly
-        setupTableViewSectionShadows()
+        searchSuggestionsVC.tableView.setupTableViewSectionShadows(behindView: view)
 
         //searchController
         mySearchController = UISearchController(searchResultsController: searchSuggestionsVC)
         mySearchController.delegate = self
         mySearchController.searchResultsUpdater = searchSuggestionsVC // requires conformance to UISearchResultsUpdating extension
         mySearchController.showsSearchResultsController = true //so white background is always visible
-                
+        
         //searchBar
         mySearchController.searchBar.delegate = self // Monitor when the search button is tapped.
         mySearchController.searchBar.tintColor = cornerButtonGrey
@@ -45,61 +44,15 @@ extension ExploreViewController {
         mySearchController.searchBar.searchBarStyle = .prominent //when setting to .minimal, the background disappears and you can see nav bar underneath. if using .minimal, add a background color to searchBar to fix this.
     }
     
-    func setupTableViewSectionShadows() {
-        //apply shadow only to the tableView's sections
-        let tableView = searchSuggestionsVC.tableView!
-        tableView.backgroundColor = .clear
-        tableView.subviews.forEach { subview in
-            subview.applyMediumShadow()
-        }
-        
-        //setup white map cover to compensite for tableview's clear background. make it much longer than the suggestion results tableview would ever be
-        let tableViewExtraBackgroundView = UIView.init(frame: .init(x: view.frame.minX,
-                                                     y: view.frame.minY - 500,
-                                                     width: view.frame.width,
-                                                     height: view.frame.height + 1000))
-        tableViewExtraBackgroundView.backgroundColor = .systemGroupedBackground
-        tableView.addSubview(tableViewExtraBackgroundView)
-        tableView.sendSubviewToBack(tableViewExtraBackgroundView)
-        
-        //i couldnt get constraints to work for some reason
-//        whiteMapCoverView.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            whiteMapCoverView.bottomAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 0),
-//            whiteMapCoverView.rightAnchor.constraint(equalTo: tableView.rightAnchor),
-//            whiteMapCoverView.topAnchor.constraint(equalTo: tableView.topAnchor, constant: -1),
-//            whiteMapCoverView.centerXAnchor.constraint(equalTo: tableView.leftAnchor),
-//        ])
-    }
 }
 
 // MARK: - SearchController Delegate
 
 extension ExploreViewController: UISearchControllerDelegate {
     
-    func presentSearchController(_ searchController: UISearchController) {
-//        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-        mySearchController.searchBar.placeholder = MapSearchResultType.randomPlaceholder()
-        present(mySearchController, animated: true) {
-            self.searchSuggestionsVC.tableView.contentInset.top -= self.view.safeAreaInsets.top - 20 //needed bc auto content inset adjustment behavior isn't reflecing safeareainsets for some reason
-        }
-    }
-    
-    func willPresentSearchController(_ searchController: UISearchController) {
-//        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-    }
-    
-    func didPresentSearchController(_ searchController: UISearchController) {
-//        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-    }
-    
     func willDismissSearchController(_ searchController: UISearchController) {
 //        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
         searchBarButton.centerText()
-    }
-    
-    func didDismissSearchController(_ searchController: UISearchController) {
-//        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
     }
     
 }
@@ -109,12 +62,13 @@ extension ExploreViewController: UISearchControllerDelegate {
 extension ExploreViewController: UISearchBarDelegate {
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        searchSuggestionsVC.startProvidingCompletions(for: MKCoordinateRegion(center: mapView.centerCoordinate, span: .init(latitudeDelta: minSpanDelta, longitudeDelta: minSpanDelta)))
         if searchBar == searchBarButton {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { //the duration of the uisearchcontroller animation
-                self.resetCurrentFilteredSearch()
+            if mySearchController.isActive || mySearchController.isBeingPresented { return false }
+            mySearchController.searchBar.placeholder = MapSearchResultType.randomPlaceholder()
+            present(mySearchController, animated: true) { [self] in
+                searchSuggestionsVC.startProvidingCompletions(for: MKCoordinateRegion(center: mapView.centerCoordinate, span: .init(latitudeDelta: minSpanDelta, longitudeDelta: minSpanDelta)))
+                resetCurrentFilteredSearch() //TODO: change this. if they press search and then cancel, we dont want to relocate them to a new part of the world
             }
-            mySearchController.isActive = true //calls its delegate's presentSearchController
             return false
         }
         return true
@@ -137,23 +91,21 @@ extension ExploreViewController: UITableViewDelegate {
         switch resultType {
         case .containing:
             let word = searchSuggestionsVC.wordResults[indexPath.row]
-            postFilter.searchBy = .text
             searchBarButton.text = word.text
-            reloadPosts() { [self] in
-                centerMapAround(postAnnotations)
-            }
+            postFilter.searchBy = .text
+            reloadPosts(withType: .newSearch)
         case .nearby:
-            let suggestion = searchSuggestionsVC.completerResults![indexPath.row]
-            postFilter.searchBy = .location
+            let suggestion = searchSuggestionsVC.completerResults[indexPath.row]
             searchBarButton.text = suggestion.title
-            search(for: suggestion)
+            postFilter.searchBy = .location
+            search(for: suggestion) //first gets places from Apple, then calls reloadPosts()
         }
         searchBarButton.searchTextField.leftView?.tintColor = cornerButtonGrey
         mySearchController.isActive = false
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        let titleView = view as! UITableViewHeaderFooterView
+        guard let titleView = view as? UITableViewHeaderFooterView else { return } //disregard the feed's headerView
         titleView.textLabel?.text =  titleView.textLabel?.text?.lowercased().capitalizeFirstLetter()
     }
     
@@ -194,54 +146,20 @@ extension ExploreViewController {
     
     /// - Tag: SearchRequest
     private func search(using searchRequest: MKLocalSearch.Request) {
-        searchRequest.region = mapView.region //this is important
+        searchRequest.region = mapView.region //this is important. center the search around the current visible region
         searchRequest.resultTypes = [.address, .pointOfInterest]
         localSearch = MKLocalSearch(request: searchRequest)
         localSearch?.start { [self] (response, error) in
             if let error = error as? MKError {
-                if error.errorCode == 4 {
-                    CustomSwiftMessages.showInfo("No results were found.", "Please search again.", emoji: "😔")
-                } else {
-                    CustomSwiftMessages.displayError(error)
-                }
+                CustomSwiftMessages.displayError(error)
                 return
             }
             
-            if let updatedRegion = response?.boundingRegion, var places = response?.mapItems {
-                //We allow the search completer's searchRegion to be .world so that specific locations from one particular place can appear
-                //However, for the "queryString" search option, where Apple provides the "Search Starbucks near here", because the region is so large, it will display Starbucks from reaaaally away too.
-                //So in the case that places.count > 0 with the queryString search, we just to display the 5 places closest to the mapView's current region.center
-                if places.count > 1 {
-                    places = Array(places.sorted(by: { first, second in
-                        mapView.centerCoordinate.distance(from: first.placemark.coordinate) < mapView.centerCoordinate.distance(from: second.placemark.coordinate)
-                    }).prefix(5))
-                    centerMapAround(places) //updates mapView.region
-                } else {
-                    mapView.region = updatedRegion
-                }
-                mapView.region.span.latitudeDelta = max(minSpanDelta, mapView.region.span.latitudeDelta)
-                
-                //Once mapView's region has been updated, we can call reloadPosts, which will load in the posts around that region
-                reloadPosts() {
-                    self.prepareToDismissSearchControllerForLocallySearchedMapView(itemsToDisplay: places)
-                }
-            }
+            guard let places = response?.mapItems else { return } //if we didn't get an error 4, this should be OK
+            turnPlacesIntoAnnotations(places)
+            newSearchResultsRegion = getRegionCenteredAround(placeAnnotations)
+            reloadPosts(withType: .newSearch)
         }
-    }
-    
-    //input paramater: itemsToDispaly OR a bool indicating if showOne or showAll
-    func prepareToDismissSearchControllerForLocallySearchedMapView(itemsToDisplay: [MKMapItem]) {
-        removeExistingPlaceAnnotations()
-        
-        // Turn the array of MKMapItem objects into an annotation with a title and URL that can be shown on the map.
-        let annotations = itemsToDisplay.compactMap { (mapItem) -> PlaceAnnotation? in
-            guard let coordinate = mapItem.placemark.location?.coordinate else { return nil }
-            let annotation = PlaceAnnotation(coordinate: coordinate)
-            annotation.title = mapItem.name
-            annotation.category = mapItem.pointOfInterestCategory
-            return annotation
-        }
-        mapView.addAnnotations(annotations)
     }
     
 }
