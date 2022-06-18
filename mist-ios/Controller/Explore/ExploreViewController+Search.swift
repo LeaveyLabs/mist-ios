@@ -194,7 +194,7 @@ extension ExploreViewController {
     
     /// - Tag: SearchRequest
     private func search(using searchRequest: MKLocalSearch.Request) {
-        searchRequest.region = .init() //searchRequest.region is only used when the user can simply press the search button to get a broad, general search
+        searchRequest.region = mapView.region //this is important
         searchRequest.resultTypes = [.address, .pointOfInterest]
         localSearch = MKLocalSearch(request: searchRequest)
         localSearch?.start { [self] (response, error) in
@@ -211,18 +211,17 @@ extension ExploreViewController {
                 //We allow the search completer's searchRegion to be .world so that specific locations from one particular place can appear
                 //However, for the "queryString" search option, where Apple provides the "Search Starbucks near here", because the region is so large, it will display Starbucks from reaaaally away too.
                 //So in the case that places.count > 0 with the queryString search, we just to display the 5 places closest to the mapView's current region.center
-//                if places.count > 1 {
-//                    places = Array(places.sorted(by: { first, second in
-//                        mapView.centerCoordinate.distance(from: first.placemark.coordinate) < mapView.centerCoordinate.distance(from: second.placemark.coordinate)
-//                    }).prefix(5))
-//                    centerMapAround(places) //updates mapView.region
-//                } else {
-//                    mapView.region = updatedRegion
-//                }
-                mapView.region = updatedRegion
+                if places.count > 1 {
+                    places = Array(places.sorted(by: { first, second in
+                        mapView.centerCoordinate.distance(from: first.placemark.coordinate) < mapView.centerCoordinate.distance(from: second.placemark.coordinate)
+                    }).prefix(5))
+                    centerMapAround(places) //updates mapView.region
+                } else {
+                    mapView.region = updatedRegion
+                }
                 mapView.region.span.latitudeDelta = max(minSpanDelta, mapView.region.span.latitudeDelta)
                 
-                //Once mapView's region has been updated, we can call reloadPosts, which will reload posts around that region
+                //Once mapView's region has been updated, we can call reloadPosts, which will load in the posts around that region
                 reloadPosts() {
                     self.prepareToDismissSearchControllerForLocallySearchedMapView(itemsToDisplay: places)
                 }

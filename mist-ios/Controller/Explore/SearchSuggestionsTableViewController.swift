@@ -57,8 +57,7 @@ extension SearchSuggestionsTableViewController {
         searchCompleter = MKLocalSearchCompleter()
         searchCompleter?.delegate = self
         searchCompleter?.resultTypes = [.pointOfInterest, .address, .query]
-        searchCompleter?.region = boundingRegion
-//        searchCompleter?.region = MKCoordinateRegion(MKMapRect.world) //we want the user to be able to see search suggestions from all over the world
+        searchCompleter?.region = boundingRegion //suggests places that are closest to where the map is
     }
     
 }
@@ -141,12 +140,10 @@ extension SearchSuggestionsTableViewController: MKLocalSearchCompleterDelegate {
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         // As the user types, new completion suggestions are continuously returned to this method.
         // Overwrite the existing results, and then refresh the UI with the new results.
-        
         completerResults = completer.results
         completerResults?.forEach({ completion in
             //make a call to our personal data base for an icon & number of posts nearby
         })
-        
         handleFinishedSearch()
     }
     
