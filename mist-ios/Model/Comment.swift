@@ -18,23 +18,19 @@ struct Comment: Codable {
     let timestamp: Double
     let post: Int
     let author: Int
-    let author_picture: String?
-    let author_username: String
+    let read_only_author: ReadOnlyUser?
     
     // Used when creating a comment
     init(id: Int = DUMMY_COMMENT_ID,
          body: String,
          timestamp: Double = DUMMY_COMMENT_TIMESTAMP,
          post: Int,
-         author: Int,
-         author_picture: String? = nil,
-         author_username: String = DUMMY_COMMENT_USERNAME) {
+         author: Int) {
         self.id = id
         self.body = body
         self.timestamp = timestamp
         self.post = post
         self.author = author
-        self.author_picture = author_picture
-        self.author_username = author_username
+        self.read_only_author = nil
     }
 }
