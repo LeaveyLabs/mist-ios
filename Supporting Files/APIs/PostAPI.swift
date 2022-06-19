@@ -65,10 +65,10 @@ class PostAPI {
     }
     
     // Fetches a post for a particular ID
-    static func fetchPostsByPostID(postId:Int) async throws -> [Post] {
-        let url = "\(BASE_URL)\(PATH_TO_POST_MODEL)\(postId)"
+    static func fetchPostByPostID(postId:Int) async throws -> Post {
+        let url = "\(BASE_URL)\(PATH_TO_POST_MODEL)\(postId)/"
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
-        return try JSONDecoder().decode([Post].self, from: data)
+        return try JSONDecoder().decode(Post.self, from: data)
     }
     
     // Fetches all posts from database (searching for the below text)

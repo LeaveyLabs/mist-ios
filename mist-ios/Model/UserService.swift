@@ -167,13 +167,13 @@ class UserService: NSObject {
     
     func uploadComment(text: String, postId: Int, author: Int) async throws -> (Comment, Post) {
         let newComment = try await CommentAPI.postComment(body: text, post: postId, author: author)
-        let newPost = try await PostAPI.fetchPostsByPostID(postId: postId)[0]
+        let newPost = try await PostAPI.fetchPostByPostID(postId: postId)
         return (newComment, newPost)
     }
     
     func deleteComment(commentId: Int, postId: Int) async throws -> Post {
         try await CommentAPI.deleteComment(commentId: commentId)
-        let newPost = try await PostAPI.fetchPostsByPostID(postId: postId)[0]
+        let newPost = try await PostAPI.fetchPostByPostID(postId: postId)
         return newPost
     }
     
