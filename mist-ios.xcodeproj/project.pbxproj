@@ -40,8 +40,6 @@
 		43D925222852802E00438C5C /* MatchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D925212852802E00438C5C /* MatchRequest.swift */; };
 		43D92524285280D200438C5C /* FriendRequestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D92523285280D200438C5C /* FriendRequestAPI.swift */; };
 		43D92526285280DB00438C5C /* MatchRequestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D92525285280DB00438C5C /* MatchRequestAPI.swift */; };
-		43D9B36C2855278A00E807C2 /* FlagAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D9B36B2855278A00E807C2 /* FlagAPITest.swift */; };
-		43D9B36E2855279800E807C2 /* BlockAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D9B36D2855279800E807C2 /* BlockAPITest.swift */; };
 		43D9B370285527A500E807C2 /* FavoriteAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D9B36F285527A500E807C2 /* FavoriteAPITest.swift */; };
 		43D9B372285527B100E807C2 /* FriendRequestAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D9B371285527B100E807C2 /* FriendRequestAPITest.swift */; };
 		43D9B374285527BB00E807C2 /* MatchRequestAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D9B373285527BB00E807C2 /* MatchRequestAPITest.swift */; };
@@ -273,8 +271,6 @@
 		43D925212852802E00438C5C /* MatchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchRequest.swift; sourceTree = "<group>"; };
 		43D92523285280D200438C5C /* FriendRequestAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRequestAPI.swift; sourceTree = "<group>"; };
 		43D92525285280DB00438C5C /* MatchRequestAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchRequestAPI.swift; sourceTree = "<group>"; };
-		43D9B36B2855278A00E807C2 /* FlagAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagAPITest.swift; sourceTree = "<group>"; };
-		43D9B36D2855279800E807C2 /* BlockAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockAPITest.swift; sourceTree = "<group>"; };
 		43D9B36F285527A500E807C2 /* FavoriteAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteAPITest.swift; sourceTree = "<group>"; };
 		43D9B371285527B100E807C2 /* FriendRequestAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRequestAPITest.swift; sourceTree = "<group>"; };
 		43D9B373285527BB00E807C2 /* MatchRequestAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchRequestAPITest.swift; sourceTree = "<group>"; };
@@ -526,11 +522,9 @@
 			children = (
 				43D9250928525F2500438C5C /* AuthAPITest.swift */,
 				43D9250528525BFE00438C5C /* BasicAPITest.swift */,
-				43D9B36D2855279800E807C2 /* BlockAPITest.swift */,
 				43D9250728525EFF00438C5C /* CommentAPITest.swift */,
 				43D9B36F285527A500E807C2 /* FavoriteAPITest.swift */,
 				43D9B371285527B100E807C2 /* FriendRequestAPITest.swift */,
-				43D9B36B2855278A00E807C2 /* FlagAPITest.swift */,
 				43D9B373285527BB00E807C2 /* MatchRequestAPITest.swift */,
 				43D9250D28525FBB00438C5C /* PostAPITest.swift */,
 				43D9250B28525F7F00438C5C /* UserAPITest.swift */,
@@ -1444,9 +1438,7 @@
 				43D9250E28525FBB00438C5C /* PostAPITest.swift in Sources */,
 				43D9250A28525F2500438C5C /* AuthAPITest.swift in Sources */,
 				47E74E2327CA100000467A0C /* mist_iosTests.swift in Sources */,
-				43D9B36C2855278A00E807C2 /* FlagAPITest.swift in Sources */,
 				43D9B372285527B100E807C2 /* FriendRequestAPITest.swift in Sources */,
-				43D9B36E2855279800E807C2 /* BlockAPITest.swift in Sources */,
 				43D9250628525BFE00438C5C /* BasicAPITest.swift in Sources */,
 				43D925122852607300438C5C /* VoteAPITest.swift in Sources */,
 				43D9250828525EFF00438C5C /* CommentAPITest.swift in Sources */,
