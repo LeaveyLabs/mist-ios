@@ -35,7 +35,7 @@ struct Constants {
         struct Cell {
             static let Post = "PostCell"
             static let Comment = "CommentCell"
-            static let WordResult = "WordResultCell"
+            static let SearchResult = "SearchResultCell"
             static let UserResult = "UserResultCell"
             static let FeedHeader = "FeedHeaderCell"
             static let Sort = "SortCell"
@@ -63,6 +63,7 @@ struct Constants {
             static let ResultsFeed = "SearchResultsTableViewController"
             static let PinMapModal = "PinMapModalViewController"
             static let Filter = "FilterSheetViewController"
+            static let NewFilter = "NewFilterSheetViewController"
             static let MapSearch = "MapSearchViewController"
             //Messages
             static let NewMessage = "NewMessageViewController"

@@ -127,6 +127,13 @@ class UserService: NSObject {
         saveUserToFilesystem()
     }
     
+    func updatePassword(to newPassword: String) async throws {
+        guard let frontendCompleteUser = frontendCompleteUser else { return }
+        
+        let _ = try await UserAPI.patchPassword(password: newPassword, id: frontendCompleteUser.id)
+        //no need for a local update, since we don't actually save the password locally
+    }
+    
     //MARK: - Create content
     
     func uploadPost(title: String,

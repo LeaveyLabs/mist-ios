@@ -289,7 +289,7 @@ extension AutocompleteChatViewController: MessagesDisplayDelegate {
             if isFromCurrentSender(message: message) {
                 return [.foregroundColor: UIColor.white]
             } else {
-                return [.foregroundColor: UIColor.primaryColor]
+                return [.foregroundColor: mistUIColor()]
             }
         default: return MessageLabel.defaultAttributes
         }

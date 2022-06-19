@@ -122,12 +122,12 @@ class PasswordSettingViewController: UITableViewController {
         Task {
             isSaving = true
             do {
-//                try await UserService.singleton.updatePassword(to: username)
+                try await UserService.singleton.updatePassword(to: newPassword)
                 isSaving = false
                 handleSuccessfulUpdate()
             } catch {
                 isSaving = false
-                CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
+                CustomSwiftMessages.displayError(error)
             }
         }
     }

@@ -110,7 +110,7 @@ class MessageThread: WebSocketDelegate {
             case .cancelled:
                 break
             case .error(let error):
-                print(error)
+                print(error!)
                 break
         }
     }

@@ -17,25 +17,21 @@ extension ExploreViewController {
     
     @IBAction func exploreUserTrackingButtonDidPressed(_ sender: UIButton) {
         dismissPost()
-        dismissFilter()
         userTrackingButtonDidPressed(sender)
     }
     
     @IBAction func exploreMapDimensionButtonDidPressed(_ sender: UIButton) {
         dismissPost()
-        dismissFilter()
         mapDimensionButtonDidPressed(sender)
     }
     
     @IBAction func exploreZoomInButtonDidPressed(_ sender: UIButton) {
         dismissPost()
-        dismissFilter()
         zoomInButtonDidPressed(sender)
     }
     
     @IBAction func exploreZoomOutButtonDidPressed(_ sender: UIButton) {
         dismissPost()
-        dismissFilter()
         zoomOutButtonDidPressed(sender)
     }
     
@@ -67,10 +63,24 @@ extension ExploreViewController {
         }
         
         // Handle other purposes of the tap gesture besides just AnnotationViewInteractionDelayPrevention:
-        dismissFilter()
         deselectOneAnnotationIfItExists()
     }
     
+}
+
+// MARK: - CLLocationManagerDelegate
+
+extension ExploreViewController {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(location) { (placemark, error) in
+            guard error == nil else { return }
+            //Here, you can do something on a successful user location update
+        }
+    }
 }
 
 //MARK: - MapDelegate
@@ -85,7 +95,6 @@ extension ExploreViewController {
         
         selectedAnnotationView = view
         mapView.isZoomEnabled = true // AnnotationQuickSelect: 3 of 3, just in case
-        dismissFilter()
         switch annotationSelectionType {
         case .swipe:
             if let clusterAnnotation = view.cluster?.annotation as? MKClusterAnnotation {
@@ -181,15 +190,18 @@ extension ExploreViewController {
         deselectOneAnnotationIfItExists()
     }
     
-    
     // To make the map fly directly to the middle of cluster locations...
     // After loading the annotations for the map, immediately center the camera around the annotation
     // (as if it had flown there), check if it's an annotation, then set the camera back to USC
     func handleNewlySubmittedPost(_ newPost: Post) {
         annotationSelectionType = .submission
-        if let newPostAnnotation = postAnnotations.first(where: { postAnnotation in
+        if let newPostIndex = postAnnotations.firstIndex(where: { postAnnotation in
             postAnnotation.post == newPost
         }) {
+            postAnnotations.insert(postAnnotations.remove(at: newPostIndex), at: 0) //put user submitted post first
+            feed.reloadData() //need to reload data after rearranging posts
+            feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+            let newPostAnnotation = postAnnotations.first!
             slowFlyTo(lat: newPostAnnotation.coordinate.latitude + latitudeOffset,
                       long: newPostAnnotation.coordinate.longitude,
                       incrementalZoom: false,

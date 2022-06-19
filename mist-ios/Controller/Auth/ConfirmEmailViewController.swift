@@ -191,7 +191,7 @@ extension ConfirmEmailViewController {
     func handleError(_ error: Error) {
         isSubmitting = false
         confirmEmailTextField.text = ""
-        CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
+        CustomSwiftMessages.displayError(error)
 //        errorLabel.attributedText = CustomAttributedString.errorMessage(errorText: "That didn't work.", size: 16)
 //        errorView.isHidden = false
 //        errorView.animation = "shake"

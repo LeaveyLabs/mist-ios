@@ -12,52 +12,52 @@ import MapKit
 extension MKPointOfInterestCategory {
     
     static let travelPointsOfInterest: [MKPointOfInterestCategory] = [.bakery, .brewery, .cafe, .restaurant, .winery, .hotel]
-    static let defaultSymbolName = "mappin.and.ellipse"
+    static let defaultSymbolUIImage = UIImage(systemName: "mappin.and.ellipse")!
     
-    var symbolName: String {
+    var symbolUIImage: UIImage {
         switch self {
         case .airport:
-            return "airplane"
+            return UIImage(systemName: "airplane")!
         case .atm, .bank:
-            return "banknote"
+            return UIImage(systemName: "banknote")!
         case .brewery, .winery, .restaurant:
-            return "fork.knife"
+            return UIImage(systemName: "fork.knife")!
         case .nightlife:
-            return "moon"
+            return UIImage(systemName: "moon")!
         case .foodMarket, .store:
-            return "cart"
+            return UIImage(systemName: "cart")!
         case .bakery, .cafe:
-            return "cup.and.saucer"
+            return UIImage(systemName: "cup.and.saucer")!
         case .campground, .hotel:
-            return "bed.double"
+            return UIImage(systemName: "bed.double")!
         case .pharmacy:
-            return "pills"
+            return UIImage(systemName: "pills")!
         case .carRental, .gasStation:
-            return "car"
+            return UIImage(systemName: "car")!
         case .evCharger:
-            return "bolt.car"
+            return UIImage(systemName: "bolt.car")!
         case .laundry, .store:
-            return "tshirt"
+            return UIImage(systemName: "tshirt")!
         case .university, .school:
-            return "graduationcap"
+            return UIImage(systemName: "graduationcap")!
         case .library:
-            return "book"
+            return UIImage(systemName: "book")!
         case .parking:
-            return "p.circle"
+            return UIImage(systemName: "p.circle")!
         case .theater:
-            return "theatermasks"
+            return UIImage(systemName: "theatermasks")!
         case .marina:
-            return "ferry"
+            return UIImage(systemName: "ferry")!
         case .museum:
-            return "building.columns"
+            return UIImage(systemName: "building.columns")!
         case .nationalPark, .park:
-            return "leaf"
+            return UIImage(systemName: "leaf")!
         case .postOffice:
-            return "envelope"
+            return UIImage(systemName: "envelope")!
         case .publicTransport:
-            return "bus"
+            return UIImage(systemName: "bus")!
         default:
-            return MKPointOfInterestCategory.defaultSymbolName
+            return UIImage(systemName: "mappin.and.ellipse")!
         }
     }
 }

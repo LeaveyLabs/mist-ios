@@ -10,6 +10,10 @@ import MapKit
 
 // MARK: - Properties
 
+enum ReloadType {
+    case refresh, cancel, newSearch, newPost
+}
+
 class ExploreViewController: MapViewController {
     
     // General
@@ -19,23 +23,23 @@ class ExploreViewController: MapViewController {
             //Should also probably disable some other interactions...
             refreshButton.isEnabled = !isLoadingPosts
             refreshButton.configuration?.showsActivityIndicator = isLoadingPosts
+            if !isLoadingPosts {
+                feed.refreshControl?.endRefreshing()
+            }
         }
     }
-    @IBOutlet weak var customNavigationBar: UIStackView!
-    @IBOutlet weak var featuredIconButton: UIButton!
+    @IBOutlet weak var customNavigationBar: UIView!
     @IBOutlet weak var filterButton: UIButton!
-    @IBOutlet weak var toggleMapFilterButton: UIButton!
-    var filterMapModalVC: FilterSheetViewController?
+    @IBOutlet weak var toggleButton: UIButton!
     
     // Feed
-    var tableView: UITableView!
-    var tableViewNeedsScrollToTop = false
+    var feed: UITableView!
+    var isFeedVisible = false //we have to use this flag and send tableview to the front/back instead of using isHidden so that when tableviewcells aren't rerendered when tableview reappears and so we can have a scroll to top animation before reloading tableview data
                 
     // Search
-    @IBOutlet weak var searchButton: UIButton!
+    @IBOutlet weak var searchBarButton: UISearchBar!
     var mySearchController: UISearchController!
     var searchSuggestionsVC: SearchSuggestionsTableViewController!
-    var boundingRegion: MKCoordinateRegion = MKCoordinateRegion(MKMapRect.world)
     var localSearch: MKLocalSearch? {
         willSet {
             // Clear the results and cancel the currently running local search before starting a new search.
@@ -59,35 +63,39 @@ class ExploreViewController: MapViewController {
 
 // MARK: - View Life Cycle
 
-
-
 extension ExploreViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         latitudeOffset = 0.00095
         
-        setupSearchButton()
-        setupFilterButton()
-        setupButtons()
+        setupSearchBarButton()
+        setupRefreshButton()
         setupSearchBar()
         setupTableView()
         setupCustomTapGestureRecognizerOnMap()
         renderInitialPosts()
-        blurStatusBar()
+        setupCustomNavigationBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        searchBarButton.centerText()
         navigationController?.setNavigationBarHidden(true, animated: false) //for a better searchcontroller animation
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false) //for a better searchcontroller animation
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if let userLocation = locationManager.location {
+            mapView.camera.centerCoordinate = userLocation.coordinate
+            mapView.camera.centerCoordinateDistance = 3000
+            mapView.camera.pitch = 40
+        }
         enableInteractivePopGesture()
         // Handle controller being exposed from push/present or pop/dismiss
         if (self.isMovingToParent || self.isBeingPresented){
@@ -97,57 +105,74 @@ extension ExploreViewController {
             // Controller is being shown as result of pop/dismiss/unwind.
             mySearchController.searchBar.becomeFirstResponder()
         }
+        
+        // Dependent on map dimensions
+        searchBarButton.centerText()
     }
+    
 }
 
 //MARK: - Getting posts
 
 extension ExploreViewController {
     
+    func setupRefreshButton() {
+        applyShadowOnView(refreshButton)
+        refreshButton.layer.cornerCurve = .continuous
+        refreshButton.layer.cornerRadius = 10
+        refreshButton.addAction(.init(handler: { [self] _ in
+            reloadPosts(withType: .refresh)
+        }), for: .touchUpInside)
+    }
+    
     func renderInitialPosts() {
-        renderPostsAsAnnotations(PostsService.initialPosts)
+        turnPostsIntoAnnotations(PostsService.initialPosts)
+        mapView.addAnnotations(postAnnotations)
     }
     
-    @objc func reloadPosts() {
+    func reloadPosts(withType reloadType: ReloadType, closure: @escaping () -> Void = { } ) {
         isLoadingPosts = true
+        if !postAnnotations.isEmpty { //this should probably go somewhere else
+            feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
         Task {
             do {
-                let loadedPosts = try await PostsService.newPosts()
-                renderPostsAsAnnotations(loadedPosts)
-                tableView.refreshControl?.endRefreshing()
+                let loadedPosts: [Post]!
+                switch postFilter.searchBy {
+                case .all:
+                    loadedPosts = try await PostAPI.fetchPosts()
+                case .location:
+                    let newSearchResultsRegion = getRegionCenteredAround(placeAnnotations)
+                    loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: newSearchResultsRegion!.center.latitude, longitude: newSearchResultsRegion!.center.longitude, radius: convertLatDeltaToKms(newSearchResultsRegion!.span.latitudeDelta))
+                case .text:
+                    loadedPosts = try await PostAPI.fetchPostsByText(text: searchBarButton.text!)
+                }
+                turnPostsIntoAnnotations(loadedPosts)
+                renderNewPostsOnFeedAndMap(withType: reloadType)
+                closure()
             } catch {
-                CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
+                CustomSwiftMessages.displayError(error)
             }
             isLoadingPosts = false
-            tableViewNeedsScrollToTop = true
         }
     }
     
-    func reloadPosts(afterReload: @escaping () -> Void?) {
-        isLoadingPosts = true
-        Task {
-            do {
-                let loadedPosts = try await PostsService.newPosts()
-                renderPostsAsAnnotations(loadedPosts)
-                tableView.refreshControl?.endRefreshing()
-                afterReload()
-            } catch {
-                CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
-            }
-            isLoadingPosts = false
-            tableViewNeedsScrollToTop = true
+    //At this point, we have new posts to render.
+    //Scroll view should scroll to top with existing data, then reload data
+    //Map view should fly to new location, then de-render old annotations, then render new annotations
+    func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType) {
+        //TABLE VIEW
+        self.feed.reloadData()
+        
+        //MAP VIEW
+        if reloadType == .newSearch {
+            mapView.region = getRegionCenteredAround(postAnnotations + placeAnnotations) ?? mapView.region
         }
-    }
-    
-    func renderPostsAsAnnotations(_ posts: [Post]) {
-        guard posts.count > 0 else { return }
-        let maxPostsToRender = 10000
-        postAnnotations = []
-        for index in 0...min(maxPostsToRender, posts.count-1) {
-            let postAnnotation = PostAnnotation(withPost: posts[index])
-            postAnnotations.append(postAnnotation)
-        }
-        postAnnotations.sort()
+        //then, in one moment, remove all existing annotations and add all new ones
+        removeExistingPlaceAnnotations()
+        removeExistingPostAnnotations()
+        mapView.addAnnotations(placeAnnotations)
+        mapView.addAnnotations(postAnnotations)
     }
     
 }
@@ -156,34 +181,28 @@ extension ExploreViewController {
 
 extension ExploreViewController {
     
-    func setupButtons() {
-        toggleMapFilterButton.layer.cornerCurve = .continuous
-        toggleMapFilterButton.layer.cornerRadius = 10
-        applyShadowOnView(toggleMapFilterButton)
-        
-        applyShadowOnView(refreshButton)
-        refreshButton.layer.cornerCurve = .continuous
-        refreshButton.layer.cornerRadius = 10
-        refreshButton.addTarget(self, action: #selector(reloadPosts as () -> ()), for: .touchUpInside)
+    func setupCustomNavigationBar() {
+        customNavigationBar.applyMediumShadowBelowOnly()
     }
     
     @IBAction func toggleButtonDidTapped(_ sender: UIButton) {
-        tableView.isHidden = !tableView.isHidden
-        if tableView.isHidden {
-            toggleMapFilterButton.setTitle("Feed", for: .normal)
+        if isFeedVisible {
+            makeMapVisible()
         } else {
-            toggleMapFilterButton.setTitle("Map", for: .normal)
-            if tableViewNeedsScrollToTop {
-                //setting the scrollStartRow and then delaying the reloadData by 0.1 seconds should prevent issues where the new data is less than the previous data and the user scroll far down so uitableviewcells aren't rendered properly. Yet the scroll to top animation is still provided
-                let scrollStartRow = min(tableView.indexPathsForVisibleRows![0].row, 10)
-                tableView.scrollToRow(at: IndexPath(row: scrollStartRow, section: 0), at: .top, animated: false)
-                tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    self.tableView.reloadData()
-                }
-                tableViewNeedsScrollToTop = false
-            }
+            makeFeedVisible()
         }
+    }
+    
+    func makeFeedVisible() {
+        view.insertSubview(feed, belowSubview: customNavigationBar)
+        toggleButton.setImage(UIImage(named: "toggle-map-button"), for: .normal)
+        isFeedVisible = true
+    }
+    
+    func makeMapVisible() {
+        view.sendSubviewToBack(feed)
+        toggleButton.setImage(UIImage(named: "toggle-list-button"), for: .normal)
+        isFeedVisible = false
     }
     
 }
@@ -191,49 +210,27 @@ extension ExploreViewController {
 // MARK: - Filter
 
 extension ExploreViewController {
-    
-    //MARK: - Setup
-    
-    func setupFilterButton() {
-        updateFilterButtonLabel()
-        filterButton.layer.cornerCurve = .continuous
-        filterButton.layer.cornerRadius = 10
-        applyShadowOnView(filterButton)
-    }
             
-    //MARK: - User Interaction
+    //User Interaction
     
     @IBAction func filterButtonDidTapped(_ sender: UIButton) {
         dismissPost()
-        if let filterMapModalVC = filterMapModalVC {
-            filterMapModalVC.dismiss(animated: true)
-        } else {
-            filterMapModalVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Filter) as? FilterSheetViewController
-            if let filterMapModalVC = filterMapModalVC {
-                filterMapModalVC.selectedFilter = postFilter
-                filterMapModalVC.delegate = self
-                filterMapModalVC.sheetDismissDelegate = self
-                filterMapModalVC.selectedFilter = postFilter
-                filterMapModalVC.loadViewIfNeeded() //doesnt work without this function call
-                present(filterMapModalVC, animated: true)
-            }
-        }
+        let filterVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Filter) as! FilterSheetViewController
+        filterVC.selectedFilter = postFilter
+        filterVC.delegate = self
+        filterVC.loadViewIfNeeded() //doesnt work without this function call
+        present(filterVC, animated: true)
     }
     
-    //MARK: - Helpers
+    // Helper
     
-    func updateFilterButtonLabel() {
-        filterButton.setAttributedTitle(PostFilter.getFilterLabelText(for: postFilter), for: .normal)
-        if postFilter.postType == .Featured {
-//            featuredIconButton.isHidden = false
-        } else {
-//            featuredIconButton.isHidden = true
-        }
-    }
-    
-    func dismissFilter() {
-        //if you want to dismiss on drag/pan, first toggle sheet size, then make filterMapModalVC.dismiss a completion of toggleSheetSize
-        filterMapModalVC?.dismiss(animated: true)
+    func resetCurrentFilteredSearch() {
+        searchBarButton.text = ""
+        searchBarButton.centerText()
+        searchBarButton.searchTextField.leftView?.tintColor = .secondaryLabel
+        searchBarButton.setImage(UIImage(systemName: "magnifyingglass"), for: .search, state: .normal)
+        postFilter = .init()
+        reloadPosts(withType: .cancel)
     }
     
 }
@@ -241,28 +238,16 @@ extension ExploreViewController {
 extension ExploreViewController: FilterDelegate {
     
     func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool, _ afterFilterUpdate: @escaping () -> Void) {
-    
         postFilter = newPostFilter
-        updateFilterButtonLabel()
+//        updateFilterButtonLabel() //incase we want to handle UI updates somehow
         if shouldReload {
-            reloadPosts(afterReload: afterFilterUpdate)
+            reloadPosts(withType: .newSearch, closure: afterFilterUpdate)
         }
     }
         
 }
 
-extension ExploreViewController: childDismissDelegate { //this probably isn't necessary, but leavin ghere for now
-    func handleChildWillDismiss() {
-        
-    }
-
-    func handleChildDidDismiss() {
-        print("sheet dismissed")
-        filterMapModalVC = nil
-    }
-}
-
-//MARK: - Post Delegation: delegate functions with unique implementations to this class
+//MARK: - Post Delegation
 
 extension ExploreViewController: PostDelegate {
     
@@ -281,7 +266,8 @@ extension ExploreViewController: PostDelegate {
         postVC.post = post
         postVC.shouldStartWithRaisedKeyboard = withRaisedKeyboard
         postVC.completionHandler = { Post in
-            self.reloadPosts()
+//            reloadPosts(withType: .refresh)
+            //TODO: uhh.. how to make sure the post is updated? i have to update the postannotation's post
         }
         navigationController!.pushViewController(postVC, animated: true)
     }

@@ -7,18 +7,6 @@
 
 import Foundation
 
-enum APIError: Error {
-    case CouldNotConnect
-    case ServerError
-    case InvalidParameters
-    case InvalidCredentials
-    case NotFound
-    case Timeout
-    case Throttled
-    case NoResponse
-    case Unknown
-}
-
 var AUTHTOKEN = ""
 
 func setGlobalAuthToken(token:String) {
@@ -42,7 +30,7 @@ enum HTTPMethods: String {
 
 class BasicAPI {
     static func basicHTTPCallWithoutToken(url:String, jsonData:Data, method:String) async throws -> (Data, URLResponse) {
-        let serviceUrl = URL(string:url)!
+        let serviceUrl = URL(string: url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!
         var request = URLRequest(url: serviceUrl)
         // Initialize API request
         request.httpMethod = method
@@ -86,7 +74,7 @@ class BasicAPI {
     }
     
     static func baiscHTTPCallWithToken(url:String, jsonData:Data, method:String) async throws -> (Data, URLResponse) {
-        let serviceUrl = URL(string:url)!
+        let serviceUrl = URL(string: url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!
         var request = URLRequest(url: serviceUrl)
         request.httpMethod = method
         request.httpBody = jsonData

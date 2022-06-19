@@ -9,16 +9,17 @@ import Foundation
 import CoreLocation
 import MapKit
     
-//MARK: - Search
-
 //MARK: - Search Setup
+
+let cornerButtonGrey = UIColor.black.withAlphaComponent(0.7)
 
 extension ExploreViewController {
     
-    func setupSearchButton() {
-        searchButton.becomeRound()
-        applyShadowOnView(searchButton)
-        searchButton.clipsToBounds = false //for shadow to take effect
+    func setupSearchBarButton() {
+        searchBarButton.delegate = self
+        searchBarButton.setImage(UIImage(), for: .clear, state: .normal)
+        searchBarButton.searchTextField.leftView?.tintColor = .secondaryLabel
+        searchBarButton.searchTextField.textColor = cornerButtonGrey
     }
     
     func setupSearchBar() {
@@ -28,8 +29,8 @@ extension ExploreViewController {
         //resultsTableViewController
         searchSuggestionsVC = self.storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.SearchSuggestions) as? SearchSuggestionsTableViewController
         searchSuggestionsVC.tableView.delegate = self
-        searchSuggestionsVC.tableView.contentInsetAdjustmentBehavior = .automatic //necessary for setting bottom insets properly
-        
+        searchSuggestionsVC.tableView.setupTableViewSectionShadows(behindView: view)
+
         //searchController
         mySearchController = UISearchController(searchResultsController: searchSuggestionsVC)
         mySearchController.delegate = self
@@ -38,65 +39,20 @@ extension ExploreViewController {
         
         //searchBar
         mySearchController.searchBar.delegate = self // Monitor when the search button is tapped.
-        mySearchController.searchBar.scopeButtonTitles = []
-        MapSearchScope.allCases.forEach { mapSearchScope in
-            mySearchController.searchBar.scopeButtonTitles?.append(mapSearchScope.displayName)
-        }
-        
-        mySearchController.searchBar.tintColor = .darkGray
+        mySearchController.searchBar.tintColor = cornerButtonGrey
         mySearchController.searchBar.autocapitalizationType = .none
         mySearchController.searchBar.searchBarStyle = .prominent //when setting to .minimal, the background disappears and you can see nav bar underneath. if using .minimal, add a background color to searchBar to fix this.
     }
-}
-
-// MARK: - Search User Interaction
-
-extension ExploreViewController {
-        
-    @IBAction func searchButtonDidPressed(_ sender: UIBarButtonItem) {
-        mySearchController.isActive = true //calls its delegate's presentSearchController
-        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //eventually replace this with "dismissFilter()" when completion handler is added
-        filterMapModalVC?.dismiss(animated: false)
-    }
     
-    @IBAction func myProfileButtonDidTapped(_ sender: UIBarButtonItem) {
-        dismissPost()
-        let myAccountNavigation = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation)
-        myAccountNavigation.modalPresentationStyle = .fullScreen
-        filterMapModalVC?.dismiss(animated: false) //same as above^
-        filterMapModalVC?.toggleSheetSizeTo(sheetSize: "zil") //makes the transition more seamless
-        self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
-    }
 }
 
 // MARK: - SearchController Delegate
 
 extension ExploreViewController: UISearchControllerDelegate {
     
-    func presentSearchController(_ searchController: UISearchController) {
-        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-        mySearchController.searchBar.placeholder = searchSuggestionsVC.selectedScope.randomPlaceholder
-        present(mySearchController, animated: true) {
-            self.mySearchController.searchBar.showsScopeBar = true //needed to prevent weird animation
-            self.searchSuggestionsVC.tableView.contentInset.top -= self.view.safeAreaInsets.top - 10 //needed bc auto content inset adjustment behavior isn't reflecing safeareainsets for some reason
-        }
-    }
-    
-    func willPresentSearchController(_ searchController: UISearchController) {
-        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-    }
-    
-    func didPresentSearchController(_ searchController: UISearchController) {
-        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-    }
-    
     func willDismissSearchController(_ searchController: UISearchController) {
-        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-        mySearchController.searchBar.setShowsScope(false, animated: false) //needed to prevent weird animation
-    }
-    
-    func didDismissSearchController(_ searchController: UISearchController) {
-        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+//        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
+        searchBarButton.centerText()
     }
     
 }
@@ -105,28 +61,23 @@ extension ExploreViewController: UISearchControllerDelegate {
 
 extension ExploreViewController: UISearchBarDelegate {
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let text = mySearchController.searchBar.text else { return }
-
-        switch searchSuggestionsVC.selectedScope {
-        case .locatedAt:
-            search(for: searchBar.text) //Must be called before deactivating mySearchController since searchBar is a property of it
-            mySearchController.isActive = false
-        case .containing:
-            let newQueryFeedViewController = SearchResultsTableViewController.resultsFeedViewController(feedType: .query, feedValue: text)
-            navigationController?.pushViewController(newQueryFeedViewController, animated: true)
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        if searchBar == searchBarButton {
+            if mySearchController.isActive || mySearchController.isBeingPresented { return false }
+            mySearchController.searchBar.placeholder = MapSearchResultType.randomPlaceholder()
+            present(mySearchController, animated: true) { [self] in
+                searchSuggestionsVC.startProvidingCompletions(for: MKCoordinateRegion(center: mapView.centerCoordinate, span: .init(latitudeDelta: minSpanDelta, longitudeDelta: minSpanDelta)))
+                resetCurrentFilteredSearch() //TODO: change this. if they press search and then cancel, we dont want to relocate them to a new part of the world
+            }
+            return false
         }
+        return true
     }
     
-    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        guard let newSelectedScope = MapSearchScope(rawValue: selectedScope) else { return }
-        mySearchController.searchBar.placeholder = searchSuggestionsVC.selectedScope.randomPlaceholder
-        searchSuggestionsVC.selectedScope = newSelectedScope
-        searchSuggestionsVC.liveResults = []
-        searchSuggestionsVC.completerResults = []
-        searchSuggestionsVC.tableView.reloadData() //to get rid of the data from the previous scope
-        searchSuggestionsVC.updateSearchResults(for: mySearchController)
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        mySearchController.searchBar.resignFirstResponder()
     }
+    
 }
 
     // MARK: - UITableViewDelegate
@@ -135,40 +86,29 @@ extension ExploreViewController: UITableViewDelegate {
         
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-
-        switch searchSuggestionsVC.selectedScope {
-        case .locatedAt:
-            if let suggestion = searchSuggestionsVC.completerResults?[indexPath.row] {
-                mySearchController.isActive = false
-                search(for: suggestion)
-            }
-        case .containing:
-            let word = searchSuggestionsVC.liveResults[indexPath.row] as! Word
-            let newQueryFeedViewController = SearchResultsTableViewController.resultsFeedViewController(feedType: .query, feedValue: word.text)
-            navigationController?.pushViewController(newQueryFeedViewController, animated: true)
-        }
-    }
-}
-
-// MARK: - CLLocationManagerDelegate updating location for Map Search
-
-extension ExploreViewController {
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        print("locationmanager didUpdateLocations")
+        let resultType = MapSearchResultType.init(rawValue: indexPath.section)!
         
-        let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(location) { (placemark, error) in
-            guard error == nil else { return }
-            
-            self.boundingRegion = MKCoordinateRegion(center: location.coordinate,
-                                                     latitudinalMeters: 12_000,
-                                                     longitudinalMeters: 12_000)
-//            self.currentPlacemark = placemark?.first
-//            self.searchSuggestionsVC.updatePlacemark(self.currentPlacemark, boundingRegion: self.boundingRegion)
+        switch resultType {
+        case .containing:
+            let word = searchSuggestionsVC.wordResults[indexPath.row]
+            searchBarButton.text = word.text
+            postFilter.searchBy = .text
+            reloadPosts(withType: .newSearch)
+        case .nearby:
+            let suggestion = searchSuggestionsVC.completerResults[indexPath.row]
+            searchBarButton.text = suggestion.title
+            postFilter.searchBy = .location
+            search(for: suggestion) //first gets places from Apple, then calls reloadPosts()
         }
+        searchBarButton.searchTextField.leftView?.tintColor = cornerButtonGrey
+        mySearchController.isActive = false
     }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let titleView = view as? UITableViewHeaderFooterView else { return } //disregard the feed's headerView
+        titleView.textLabel?.text =  titleView.textLabel?.text?.lowercased().capitalizeFirstLetter()
+    }
+    
 }
 
 // MARK: - Map Search
@@ -191,58 +131,19 @@ extension ExploreViewController {
     
     /// - Tag: SearchRequest
     private func search(using searchRequest: MKLocalSearch.Request) {
-        //center the search around where the user is currently looking at
-        boundingRegion = MKCoordinateRegion(center: mapView.centerCoordinate,
-                                            latitudinalMeters: 6_000,
-                                            longitudinalMeters: 6_000)
-        searchRequest.region = boundingRegion //even though the user can see suggestions from all over the world, when they press search button, we want to confine the search area to results somewhat nearby them so they don't get super disoriented
-        
+        searchRequest.region = mapView.region //this is important. center the search around the current visible region
         searchRequest.resultTypes = [.address, .pointOfInterest]
-        
         localSearch = MKLocalSearch(request: searchRequest)
-        localSearch?.start { [unowned self] (response, error) in
+        localSearch?.start { [self] (response, error) in
             if let error = error as? MKError {
-                if error.errorCode == 4 {
-                    CustomSwiftMessages.showInfo("No results were found.", "Please search again.", emoji: "😔")
-                } else {
-                    CustomSwiftMessages.showError(errorDescription: "Something went wrong.")
-                }
+                CustomSwiftMessages.displayError(error)
                 return
             }
             
-            if let updatedRegion = response?.boundingRegion {
-                self.boundingRegion = updatedRegion
-            }
-            
-            if let places = response?.mapItems, places.count > 0 {
-                prepareToDismissSearchControllerForLocallySearchedMapView(itemsToDisplay: places)
-            }
+            guard let places = response?.mapItems else { return } //if we didn't get an error 4, this should be OK
+            turnPlacesIntoAnnotations(places)
+            reloadPosts(withType: .newSearch)
         }
-    }
-    
-    //input paramater: itemsToDispaly OR a bool indicating if showOne or showAll
-    func prepareToDismissSearchControllerForLocallySearchedMapView(itemsToDisplay: [MKMapItem]) {
-        // Update map's camera
-        mapView.region = boundingRegion
-        
-        // Remove previous search annotations
-        mapView.annotations.forEach { annotation in
-            if let placeAnnotation = annotation as? PlaceAnnotation {
-                mapView.removeAnnotation(placeAnnotation)
-            }
-        }
-        
-        // Turn the array of MKMapItem objects into an annotation with a title and URL that can be shown on the map.
-        let annotations = itemsToDisplay.compactMap { (mapItem) -> PlaceAnnotation? in
-            guard let coordinate = mapItem.placemark.location?.coordinate else { return nil }
-            
-            let annotation = PlaceAnnotation(coordinate: coordinate)
-            annotation.title = mapItem.name
-            annotation.category = mapItem.pointOfInterestCategory
-            
-            return annotation
-        }
-        mapView.addAnnotations(annotations)
     }
     
 }

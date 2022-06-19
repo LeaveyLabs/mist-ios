@@ -23,7 +23,7 @@ class LoadingViewController: UIViewController {
             FADING_ANIMATION_DELAY = 0.7
             FADING_ANIMATION_DELAY = 1.2
         }
-        
+                
         Task {
             var werePostsLoaded = false
             while !werePostsLoaded {
@@ -41,10 +41,11 @@ class LoadingViewController: UIViewController {
                     }
                 } catch {
                     if numberOfFailures > 1 {
-                        CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
+                        CustomSwiftMessages.displayError(error)
                     } else {
                         numberOfFailures += 1
                     }
+                    sleep(2)
                 }
             }
         }

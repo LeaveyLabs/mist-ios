@@ -132,9 +132,6 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         
         postCalloutView.alpha = 0
         postCalloutView.isHidden = true
-//        DispatchQueue.main.asyncAfter(deadline: .now() + delay - 0.15) {
-//
-//        }
         postCalloutView.fadeIn(duration: 0.2, delay: delay - 0.15)
     }
 

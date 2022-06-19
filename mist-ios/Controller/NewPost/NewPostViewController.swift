@@ -172,6 +172,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
                 tbc.selectedIndex = 0
                 let homeNav = tbc.selectedViewController as! UINavigationController
                 let homeExplore = homeNav.topViewController as! ExploreViewController
+                homeExplore.makeMapVisible()
                 homeExplore.centerMapOnUSC()
                 homeExplore.handleUpdatedFilter(PostFilter(postType: .All,
                                                            postTimeframe: 0.3),
@@ -187,7 +188,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
             } catch {
                 progressView.progress = 0
                 setAllInteractionTo(true)
-                CustomSwiftMessages.showError(errorDescription: error.localizedDescription)
+                CustomSwiftMessages.displayError(error)
             }
         }
     }

@@ -18,3 +18,21 @@ func applyShadowOnView(_ view: UIView) {
         view.layer.masksToBounds = false
     }
 }
+
+extension UIView {
+    func applyLightShadow() {
+        layer.applySketchShadow(color: .black, alpha: 0.3, x: 0, y: 1, blur: 5, spread: 0)
+    }
+    
+    func applyMediumShadow() {
+        layer.applySketchShadow(color: .black, alpha: 0.3, x: 0, y: 1, blur: 5, spread: 0)
+    }
+    
+    func applyMediumShadowAboveOnly() {
+        layer.applySketchShadow(color: .black, alpha: 0.15, x: 0, y: -5, blur: 7, spread: 0)
+    }
+    
+    func applyMediumShadowBelowOnly() {
+        layer.applySketchShadow(color: .black, alpha: 0.15, x: 0, y: 5, blur: 7, spread: 0)
+    }
+}

@@ -10,7 +10,10 @@ import MapKit
 import SwiftMessages
 
 class MapViewController: UIViewController {
+    
+    //MARK: - Properties
 
+    // UI
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var userTrackingButton: UIButton!
     @IBOutlet weak var mapDimensionButton: UIButton!
@@ -18,7 +21,24 @@ class MapViewController: UIViewController {
     @IBOutlet weak var zoomOutButton: UIButton!
     @IBOutlet weak var zoomStackView: UIStackView!
     @IBOutlet weak var trackingDimensionStackView: UIStackView!
-
+    
+    // User location
+    let locationManager = CLLocationManager()
+    
+    // Camera
+    let minSpanDelta = 0.02
+    var isCameraFlyingOutAndIn: Bool = false
+    var isCameraFlying: Bool = false {
+        didSet {
+            view.isUserInteractionEnabled = !isCameraFlying
+        }
+    }
+    var modifyingMap: Bool = false
+    var latitudeOffset: Double!
+    //remove one of these three
+    var prevZoomFactor: Int = 4
+    var prevZoomWidth: Double! //when the pitch increases, zoomWidth's value increases
+    var prevZoom: Double! //when pitch increases, zoom goes UP then down. when pitch decreases, zoom goes DOWN then up
     private var isThreeDimensional:Bool = true {
         didSet {
             if isThreeDimensional {
@@ -28,53 +48,27 @@ class MapViewController: UIViewController {
             }
         }
     }
-    
-    // Create a location manager to trigger user tracking
-    private let locationManager = CLLocationManager()
-    
-    var isCameraFlyingOutAndIn: Bool = false
-    var isCameraFlying: Bool = false {
-        didSet {
-            view.isUserInteractionEnabled = !isCameraFlying
-        }
-    }
-    var modifyingMap: Bool = false
-    var latitudeOffset: Double!
-    
-    //remove one of these three
-    var prevZoomFactor: Int = 4
-    var prevZoomWidth: Double!
-    //when the pitch increases, zoomWidth's value increases
-    var prevZoom: Double!
-    //when pitch increases, zoom goes UP then down
-    //when pitch decreases, zoom goes DOWN then up
-    
-    var postAnnotations = [PostAnnotation]() {
-        willSet {
-            mapView.removeAnnotations(postAnnotations)
-        }
-        didSet {
-            mapView.addAnnotations(postAnnotations)
-        }
-    }
-    
     var cameraAnimationDuration: Double {
         //add up to 0.3 seconds to rotate the heading of the camera
         return Double(prevZoomFactor+2)/10 + ((180-fabs(180.0 - mapView.camera.heading)) / 180 * 0.3)
     }
+    
+    //Annotations
+    var placeAnnotations = [PlaceAnnotation]()
+    var postAnnotations = [PostAnnotation]()
+    
+    
+    //MARK: - View Lifecycle
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Initialize variables
         prevZoomWidth = mapView.visibleMapRect.size.width
         prevZoom = mapView.camera.centerCoordinateDistance
         
-        postAnnotations = []
         setupMapButtons()
         setupMapView()
         setupLocationManager()
-        blurStatusBar()
     }
     
     // MARK: - Setup
@@ -120,6 +114,32 @@ class MapViewController: UIViewController {
         applyShadowOnView(trackingDimensionStackView)
     }
     
+    func blurStatusBar() {
+//        let blurryEffect = UIBlurEffect(style: .regular)
+//        let blurredStatusBar = UIVisualEffectView(effect: blurryEffect)
+        let blurredStatusBar = UIImageView(image: UIImage.imageFromColor(color: .white))
+        blurredStatusBar.applyMediumShadow()
+        blurredStatusBar.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(blurredStatusBar)
+        blurredStatusBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        blurredStatusBar.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        blurredStatusBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        blurredStatusBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+    }
+}
+
+//MARK: - CLLocationManagerDelegate
+
+extension MapViewController: CLLocationManagerDelegate {
+    
+    // Setup
+    
+    private func setupLocationManager(){
+        locationManager.delegate = self
+    }
+    
+    // Helper
+    
     func handleUserLocationPermissionRequest() {
         if locationManager.authorizationStatus == .denied ||
             locationManager.authorizationStatus == .notDetermined { //this check should also exist here for when the function is called after registering/logging in
@@ -134,25 +154,22 @@ class MapViewController: UIViewController {
         }
     }
     
-    func blurStatusBar() {
-//        let blurryEffect = UIBlurEffect(style: .regular)
-//        let blurredStatusBar = UIVisualEffectView(effect: blurryEffect)
-        let blurredStatusBar = UIImageView(image: UIImage.imageFromColor(color: .white))
-        blurredStatusBar.layer.applySketchShadow(color: .black, alpha: 0.3, x: 0, y: 1, blur: 5, spread: 0)
-        blurredStatusBar.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(blurredStatusBar)
-        blurredStatusBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        blurredStatusBar.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        blurredStatusBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        blurredStatusBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+    //called upon creation of LocationManager and upon permission changes (either from within app or in settings)
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse || status == .authorizedAlways {
+            locationManager.startUpdatingLocation()
+        }
     }
     
-    private func setupLocationManager(){
-        locationManager.delegate = self
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        CustomSwiftMessages.displayError(error)
     }
-    
-    //MARK: - User Interaction
-    
+}
+
+//MARK: - User Interaction
+
+extension MapViewController {
+        
     @IBAction func userTrackingButtonDidPressed(_ sender: UIButton) {
         // Ideally: stop the camera. Otherwise, the camera might keep moving after moving to userlocation. But not sure how to do that
         
@@ -190,7 +207,8 @@ class MapViewController: UIViewController {
     
 }
 
-//https://developer.apple.com/documentation/mapkit/mkmapviewdelegate
+//MARK: - MKMapViewDelegate
+
 extension MapViewController: MKMapViewDelegate {
     
     // Updates after each view change is completed
@@ -205,7 +223,7 @@ extension MapViewController: MKMapViewDelegate {
         }
     }
     
-    //OOOOH This could be useful, i'm not using this function at all up until now
+    //This could be useful, i'm not using this function at all up until now
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         
     }
@@ -215,9 +233,6 @@ extension MapViewController: MKMapViewDelegate {
         let zoomWidth = mapView.visibleMapRect.size.width
         let zoomFactor = Int(log2(zoomWidth)) - 9
         let zoom = mapView.camera.centerCoordinateDistance //centerCoordinateDistance takes pitch into account
-        
-//        print("zoom: " + String(zoom))
-//        print("zoomWidth: " + String(zoomWidth))
         
         // Limit minimum pitch. Doing this because of weird behavior with clicking on posts from a pitch less than 50
         if mapView.camera.pitch > 50 && !modifyingMap {
@@ -284,23 +299,9 @@ extension MapViewController: MKMapViewDelegate {
     }
 }
 
-extension MapViewController: CLLocationManagerDelegate {
-    
-    //called upon creation of LocationManager and upon permission changes (either from within app or in settings)
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse || status == .authorizedAlways {
-            locationManager.startUpdatingLocation()
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        CustomSwiftMessages.showError(errorDescription: "Something went wrong")
-    }
-}
+//MARK: - Camera Adjustment
     
 extension MapViewController {
-
-    //MARK: - Helpers
     
     func centerMapOnUSC() {
         let region = mapView.regionThatFits(MKCoordinateRegion(center: Constants.Coordinates.USC, latitudinalMeters: 1200, longitudinalMeters: 1200))
@@ -375,6 +376,53 @@ extension MapViewController {
         
     }
     
+    func getRegionCenteredAround(_ annotations: [MKAnnotation]) -> MKCoordinateRegion? {
+        return getRegionCenteredAround(annotations.map({ annotation in annotation.coordinate }))
+    }
+    
+    func getRegionCenteredAround(_ coordinates: [CLLocationCoordinate2D]) -> MKCoordinateRegion? {
+        guard !coordinates.isEmpty else { return nil }
+        var maxLat = coordinates[0].latitude
+        var minLat = coordinates[0].latitude
+        var maxLong = coordinates[0].longitude
+        var minLong = coordinates[0].longitude
+        coordinates.forEach { coordinate in
+            maxLat = max(maxLat, coordinate.latitude)
+            minLat = min(minLat, coordinate.latitude)
+            maxLong = max(maxLong, coordinate.longitude)
+            minLong = min(minLong, coordinate.longitude)
+        }
+        let somekindofmiddle = CLLocationCoordinate2D
+            .geographicMidpoint(betweenCoordinates:[CLLocationCoordinate2D(latitude: maxLat, longitude: maxLong),
+                                                    CLLocationCoordinate2D(latitude: minLat, longitude: minLong)])
+        let latDelta = max(minSpanDelta,  1.3 * (maxLat - minLat))
+        let longDelta = max(minSpanDelta, 1.3 * (maxLong - minLong))
+        return MKCoordinateRegion(center: somekindofmiddle,
+                                            span: .init(latitudeDelta: latDelta,
+                                                        longitudeDelta: longDelta))
+    }
+    
+    // Zoomin / zoomout button
+    func zoomByAFactorOf(_ factor: Double, _ completion: @escaping () -> Void) {
+        isCameraFlying = true
+        let newDistance = mapView.camera.centerCoordinateDistance * factor
+        let newPitch = min(mapView.camera.pitch, 30) //I use 30 instead of 50 just to add the extra pitch transition to make it more dnamic when zooming out
+        //Note: you have to actually set a newPitch value like above. It seems that if you use the old pitch value for rotationCamera, sometimes the camera won't actually be changed for some reason
+        let rotationCamera = MKMapCamera(lookingAtCenter: mapView.camera.centerCoordinate,
+                                         fromDistance: newDistance,
+                                         pitch: newPitch,
+                                         heading: mapView.camera.heading)
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: {
+            self.mapView.camera = rotationCamera
+        }) { finished in
+            completion()
+        }
+    }
+    
+    // Dimension button
     func toggleMapDimension(_ completion: @escaping () -> Void) {
         isThreeDimensional = !isThreeDimensional
         
@@ -402,8 +450,123 @@ extension MapViewController {
         }
     }
     
-    //This seems to work as good as it's gonna get... which is better than the slow fly in that it accounts
-    //for coordinates located within, but then it cant
+}
+
+//MARK: - Annotations
+
+extension MapViewController {
+    
+    func deselectOneAnnotationIfItExists() {
+        if mapView.selectedAnnotations.count > 0 {
+            print("deselecting one because it exists")
+            mapView.deselectAnnotation(mapView.selectedAnnotations[0], animated: true)
+        }
+    }
+    
+    func deselectAllAnnotations() {
+        for annotation in mapView.annotations {
+            mapView.deselectAnnotation(annotation, animated: true)
+        }
+    }
+    
+    func reselectOneAnnotationIfItExists() {
+        if mapView.annotations.count > 1 {
+            for annotation in mapView.annotations {
+                if annotation .isKind(of: MKUserLocation.self) == false {
+                    print("trying to reselect a non user annotation")
+                    mapView.selectAnnotation(mapView.annotations[1], animated: true)
+                    return
+                }
+            }
+        }
+    }
+    
+    func turnPostsIntoAnnotations(_ posts: [Post]) {
+        postAnnotations = posts.map { post in PostAnnotation(withPost: post) }
+        postAnnotations.sort()
+    }
+    
+    func turnPlacesIntoAnnotations(_ places: [MKMapItem]) {
+        let closestFivePlaces = Array(places.sorted(by: { first, second in
+            mapView.centerCoordinate.distance(from: first.placemark.coordinate) < mapView.centerCoordinate.distance(from: second.placemark.coordinate)
+        }).prefix(5))
+        placeAnnotations = closestFivePlaces.map({ place in PlaceAnnotation(withPlace: place) })
+    }
+    
+    func removeExistingPlaceAnnotations() {
+        mapView.annotations.forEach { annotation in
+            if let placeAnnotation = annotation as? PlaceAnnotation {
+                mapView.removeAnnotation(placeAnnotation)
+            }
+        }
+    }
+    
+    func removeExistingPostAnnotations() {
+        mapView.annotations.forEach { annotation in
+            if let postAnnotation = annotation as? PostAnnotation {
+                mapView.removeAnnotation(postAnnotation)
+            }
+        }
+    }
+    
+}
+
+//MARK: - PreventAnnotationViewInteractionDelay
+
+//This code is needed on the Map
+extension MapViewController {
+    
+    // AnnotationQuickSelect: 1 of 3
+    // Allows for noticeably faster zooms to the annotationview
+    // Turns isZoomEnabled off and on immediately before and after a click on the map.
+    // This means that in case the tap happened to be on an annotation, there's less delay.
+    // Downside: double tap features are not possible
+    //https://stackoverflow.com/questions/35639388/tapping-an-mkannotation-to-select-it-is-really-slow
+    func setupGestureRecognizerToPreventInteractionDelay() {
+        let quickSelectGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleMapTapForAnnotationQuickSelect(_:)))
+        quickSelectGestureRecognizer.numberOfTapsRequired = 1
+        quickSelectGestureRecognizer.numberOfTouchesRequired = 1
+        mapView.addGestureRecognizer(quickSelectGestureRecognizer)
+    }
+
+    // AnnotationQuickSelect: 2 of 3
+    @objc func handleMapTapForAnnotationQuickSelect(_ sender: UITapGestureRecognizer? = nil) {
+        //disabling zoom, so the didSelect triggers immediately
+        mapView.isZoomEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.mapView.isZoomEnabled = true // in case the tap was not an annotation
+        }
+    }
+    
+}
+
+//MARK: - Map Gradient Shadow
+
+//private func applyGradientUnderneathNavbar() {
+    // Folllow this code next time: https://stackoverflow.com/questions/34269399/how-to-control-shadow-spread-and-blur
+    
+//        let gradient: CAGradientLayer = CAGradientLayer()
+//        gradient.colors = [UIColor.gray.cgColor, UIColor.white.cgColor, UIColor.white.cgColor, UIColor.white.cgColor]
+//        gradient.locations = [0.0 , 1.0, 2.0, 3.0]
+//        gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
+//        gradient.endPoint = CGPoint(x: 0.0, y: 3.0)
+//        gradient.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: mapView.frame.size.height / 3)
+//        gradient.opacity = 0.3
+////        mapView.layer.insertSublayer(gradient, at: 1)
+//
+//        var gradientView = UIView(frame: CGRect(x: 0, y: 0, width: mapView.frame.size.width, height: mapView.frame.size.height / 3))
+//        let gradientLayer:CAGradientLayer = CAGradientLayer()
+//        gradientLayer.frame.size = gradientView.frame.size
+//        gradientLayer.colors = [UIColor.black.cgColor,UIColor.white.cgColor]
+//        gradientLayer.opacity = 0.2
+//        gradientView.layer.addSublayer(gradientLayer)
+//        mapView.addSubview(gradientView)
+//}
+
+//MARK: - Deprecated
+
+extension MapViewController {
+    
     func zoomInAsCloseAsPossibleOn(cluster: MKClusterAnnotation) {
         var clusterPoints = [MKMapPoint]()
         cluster.memberAnnotations.forEach { memberAnnotation in
@@ -437,102 +600,4 @@ extension MapViewController {
             self.mapView.visibleMapRect = candidateRect
         }, completion: nil)
     }
-    
-    func zoomByAFactorOf(_ factor: Double, _ completion: @escaping () -> Void) {
-        isCameraFlying = true
-        let newDistance = mapView.camera.centerCoordinateDistance * factor
-        let newPitch = min(mapView.camera.pitch, 30) //I use 30 instead of 50 just to add the extra pitch transition to make it more dnamic when zooming out
-        //Note: you have to actually set a newPitch value like above. It seems that if you use the old pitch value for rotationCamera, sometimes the camera won't actually be changed for some reason
-        let rotationCamera = MKMapCamera(lookingAtCenter: mapView.camera.centerCoordinate,
-                                         fromDistance: newDistance,
-                                         pitch: newPitch,
-                                         heading: mapView.camera.heading)
-        UIView.animate(withDuration: 0.3,
-                       delay: 0,
-                       options: .curveEaseInOut,
-                       animations: {
-            self.mapView.camera = rotationCamera
-        }) { finished in
-            completion()
-        }
-    }
-    
-    func deselectOneAnnotationIfItExists() {
-        if mapView.selectedAnnotations.count > 0 {
-            print("deselecting one because it exists")
-            mapView.deselectAnnotation(mapView.selectedAnnotations[0], animated: true)
-        }
-    }
-    
-    func deselectAllAnnotations() {
-        for annotation in mapView.annotations {
-            mapView.deselectAnnotation(annotation, animated: true)
-        }
-    }
-    
-    func reselectOneAnnotationIfItExists() {
-        if mapView.annotations.count > 1 {
-            for annotation in mapView.annotations {
-                if annotation .isKind(of: MKUserLocation.self) == false {
-                    print("trying to reselect a non user annotation")
-                    mapView.selectAnnotation(mapView.annotations[1], animated: true)
-                    return
-                }
-            }
-        }
-    }
 }
-
-//MARK: - PreventAnnotationViewInteractionDelay
-
-//This code is needed on the Map
-extension MapViewController {
-    
-    // AnnotationQuickSelect: 1 of 3
-    // Allows for noticeably faster zooms to the annotationview
-    // Turns isZoomEnabled off and on immediately before and after a click on the map.
-    // This means that in case the tap happened to be on an annotation, there's less delay.
-    // Downside: double tap features are not possible
-    //https://stackoverflow.com/questions/35639388/tapping-an-mkannotation-to-select-it-is-really-slow
-    func setupGestureRecognizerToPreventInteractionDelay() {
-        let quickSelectGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleMapTapForAnnotationQuickSelect(_:)))
-        quickSelectGestureRecognizer.numberOfTapsRequired = 1
-        quickSelectGestureRecognizer.numberOfTouchesRequired = 1
-        mapView.addGestureRecognizer(quickSelectGestureRecognizer)
-    }
-
-    // AnnotationQuickSelect: 2 of 3
-    @objc func handleMapTapForAnnotationQuickSelect(_ sender: UITapGestureRecognizer? = nil) {
-        //disabling zoom, so the didSelect triggers immediately
-        mapView.isZoomEnabled = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.mapView.isZoomEnabled = true // in case the tap was not an annotation
-        }
-    }
-    
-}
-
-
-
-
-
-//private func applyGradientUnderneathNavbar() {
-    // Folllow this code next time: https://stackoverflow.com/questions/34269399/how-to-control-shadow-spread-and-blur
-    
-//        let gradient: CAGradientLayer = CAGradientLayer()
-//        gradient.colors = [UIColor.gray.cgColor, UIColor.white.cgColor, UIColor.white.cgColor, UIColor.white.cgColor]
-//        gradient.locations = [0.0 , 1.0, 2.0, 3.0]
-//        gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
-//        gradient.endPoint = CGPoint(x: 0.0, y: 3.0)
-//        gradient.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: mapView.frame.size.height / 3)
-//        gradient.opacity = 0.3
-////        mapView.layer.insertSublayer(gradient, at: 1)
-//
-//        var gradientView = UIView(frame: CGRect(x: 0, y: 0, width: mapView.frame.size.width, height: mapView.frame.size.height / 3))
-//        let gradientLayer:CAGradientLayer = CAGradientLayer()
-//        gradientLayer.frame.size = gradientView.frame.size
-//        gradientLayer.colors = [UIColor.black.cgColor,UIColor.white.cgColor]
-//        gradientLayer.opacity = 0.2
-//        gradientView.layer.addSublayer(gradientLayer)
-//        mapView.addSubview(gradientView)
-//}

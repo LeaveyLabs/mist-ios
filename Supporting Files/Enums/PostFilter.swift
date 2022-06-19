@@ -9,6 +9,7 @@ import Foundation
 
 struct PostFilter {
     var postType: PostType = .All
+    var searchBy: SearchBy = .all
     var postTimeframe: Float = 1
     
     static func getFilterLabelText(for postFilter: PostFilter) -> NSAttributedString {
@@ -45,9 +46,7 @@ struct PostFilter {
                 attributes: heavyAttributes)
         }
         
-//        postTypeString.append(middleString)
-//        postTypeString.append(postTimeframeString)
-        
+        middleString.append(postTimeframeString) //we are deliberatley not appending this to the final string for now
         return postTypeString
     }
 }
@@ -74,3 +73,6 @@ enum PostType: String {
     }
 }
 
+enum SearchBy: String {
+    case all, text, location
+}

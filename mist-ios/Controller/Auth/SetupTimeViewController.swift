@@ -25,7 +25,6 @@ class SetupTimeViewController: UIViewController {
     
     @IBAction func didPressedContinueButton(_ sender: Any) {
         let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ChooseUsername)
-        print(vc)
         navigationController?.pushViewController(vc, animated: true)
     }
 }
