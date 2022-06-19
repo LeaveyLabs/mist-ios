@@ -157,7 +157,6 @@ extension ExploreViewController {
             
             guard let places = response?.mapItems else { return } //if we didn't get an error 4, this should be OK
             turnPlacesIntoAnnotations(places)
-            newSearchResultsRegion = getRegionCenteredAround(placeAnnotations)
             reloadPosts(withType: .newSearch)
         }
     }

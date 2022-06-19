@@ -46,7 +46,6 @@ class ExploreViewController: MapViewController {
             localSearch?.cancel()
         }
     }
-    var newSearchResultsRegion: MKCoordinateRegion?
     
     // Map
     @IBOutlet weak var refreshButton: UIButton!
@@ -138,6 +137,7 @@ extension ExploreViewController {
                 case .all:
                     loadedPosts = try await PostAPI.fetchPosts()
                 case .location:
+                    let newSearchResultsRegion = getRegionCenteredAround(placeAnnotations)
                     loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: newSearchResultsRegion!.center.latitude, longitude: newSearchResultsRegion!.center.longitude, radius: convertLatDeltaToKms(newSearchResultsRegion!.span.latitudeDelta))
                 case .text:
                     loadedPosts = try await PostAPI.fetchPostsByText(text: searchBarButton.text!)
@@ -161,7 +161,7 @@ extension ExploreViewController {
         
         //MAP VIEW
         if reloadType == .newSearch {
-            mapView.region = newSearchResultsRegion!
+            mapView.region = getRegionCenteredAround(postAnnotations + placeAnnotations) ?? mapView.region
         }
         //then, in one moment, remove all existing annotations and add all new ones
         removeExistingPlaceAnnotations()

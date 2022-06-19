@@ -117,6 +117,7 @@ extension SearchSuggestionsTableViewController: MKLocalSearchCompleterDelegate {
     
     /// - Tag: QueryResults
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        print("COMPLETER RESULTS SEARCH FINISHED")
         completerResults = completer.results
         completerResults.forEach({ completion in
             //make a call to our personal data base for an icon & number of posts nearby
@@ -139,12 +140,14 @@ extension SearchSuggestionsTableViewController: UISearchResultsUpdating {
         searchText = untrimmedSearchText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !searchText.isEmpty else {
             //Remove all results immediately when the user deletes all the searchText
+            searchCompleter.queryFragment = "" //reset searchQuery. important in case the user types in "b", deletes "b", then types in "b" again
             completerResults = []
             wordResults = []
             tableView.reloadData()
             return
         }
         
+        didOneSearchAlreadyFinish = false
         startNearbySearch(with: searchText)
         startWordSearch(with: searchText)
     }
@@ -155,8 +158,6 @@ extension SearchSuggestionsTableViewController: UISearchResultsUpdating {
 extension SearchSuggestionsTableViewController {
         
     func startNearbySearch(with searchText: String) {
-        //Start a nearby Seaarch
-        searchCompleter.queryFragment = "" //when the user toggles the selected scope, the query fragment has not actually changed, so we must incorrectly and then recorrectly set it to force a new search
         searchCompleter.queryFragment = searchText //queries new suggestions from apple
     }
     
@@ -164,6 +165,7 @@ extension SearchSuggestionsTableViewController {
         Task {
             do {
                 let allResults = try await WordAPI.fetchWords(text: searchText)
+                print("WORD RESULTS SEARCH FINISHED")
                 sortAndTrimNewWordResults(allResults)
                 handleFinishedSearch()
             } catch {
@@ -183,11 +185,12 @@ extension SearchSuggestionsTableViewController {
             didOneSearchAlreadyFinish = true
             return
         }
-        didOneSearchAlreadyFinish = false
         
         guard !searchText.isEmpty else { return } //If the user deleted all the searchText before the searchQuery finished, we don't want to display any results
+        
+        print("RELOADING DATA")
+        print(wordResults.count)
         tableView.reloadData()
-
     }
     
 }
