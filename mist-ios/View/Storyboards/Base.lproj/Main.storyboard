@@ -39,7 +39,7 @@
                                             <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30" scale="default" weight="regular"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="submitButtonDidPressed:" destination="L6U-1B-3Sc" eventType="touchUpInside" id="k0L-34-R4b"/>
+                                            <action selector="submitCommentButtonDidPressed:" destination="L6U-1B-3Sc" eventType="touchUpInside" id="Gmd-t7-YBT"/>
                                         </connections>
                                     </button>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ipv-OJ-vdL">
@@ -92,7 +92,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yu9-Lz-qJX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="437" y="503"/>
+            <point key="canvasLocation" x="-6609" y="-22"/>
         </scene>
         <!--Direct Message-->
         <scene sceneID="sct-Dt-BWV">
@@ -1031,8 +1031,7 @@
                                                     <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30" scale="default" weight="regular"/>
                                                 </buttonConfiguration>
                                                 <connections>
-                                                    <action selector="submitButtonDidPressed:" destination="L6U-1B-3Sc" eventType="touchUpInside" id="Yom-ub-eQA"/>
-                                                    <action selector="submitButtonDidPressed:" destination="xtL-jg-0Sy" eventType="touchUpInside" id="dvz-SJ-RbV"/>
+                                                    <action selector="submitCommentButtonDidPressed:" destination="xtL-jg-0Sy" eventType="touchUpInside" id="zzZ-15-O7j"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1088,7 +1087,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fGf-4b-NgQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6608" y="-22"/>
+            <point key="canvasLocation" x="437" y="503"/>
         </scene>
         <!--Search Results Table View Controller-->
         <scene sceneID="yhj-Eh-XEO">
@@ -1428,7 +1427,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Ig-Wa-BCh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1012" y="503"/>
+            <point key="canvasLocation" x="-989" y="503"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="KxK-kh-BBG">
@@ -2107,6 +2106,9 @@ You can message people in two ways: 
                                                     </datePicker>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Iic-TR-uAk" customClass="NewPostTextView" customModule="mist_ios" customModuleProvider="target">
                                                         <rect key="frame" x="15" y="62.999999999999986" width="325" height="49"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="49" id="TyY-Qg-LLG"/>
+                                                        </constraints>
                                                         <color key="textColor" systemColor="labelColor"/>
                                                         <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next"/>

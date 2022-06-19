@@ -9,8 +9,8 @@ import UIKit
 import CoreLocation
 import MapKit
 
-let BODY_PLACEHOLDER_TEXT = "To the barista at Starbucks..."
-let TITLE_PLACEHOLDER_TEXT = "A cute title"
+let BODY_PLACEHOLDER_TEXT = "Pour your heart out"
+let TITLE_PLACEHOLDER_TEXT = "A cute, catchy title"
 let LOCATION_PLACEHOLDER_TEXT = "Drop a pin"
 let TEXT_LENGTH_BEYOND_MAX_PERMITTED = 5
 
