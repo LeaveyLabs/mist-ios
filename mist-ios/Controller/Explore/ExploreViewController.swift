@@ -76,11 +76,16 @@ extension ExploreViewController {
         setupCustomTapGestureRecognizerOnMap()
         renderInitialPosts()
         setupCustomNavigationBar()
+        
+        if let userLocation = locationManager.location {
+            mapView.camera.centerCoordinate = userLocation.coordinate
+            mapView.camera.centerCoordinateDistance = 3000
+            mapView.camera.pitch = 40
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        searchBarButton.centerText()
         navigationController?.setNavigationBarHidden(true, animated: false) //for a better searchcontroller animation
     }
     
@@ -91,11 +96,6 @@ extension ExploreViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let userLocation = locationManager.location {
-            mapView.camera.centerCoordinate = userLocation.coordinate
-            mapView.camera.centerCoordinateDistance = 3000
-            mapView.camera.pitch = 40
-        }
         enableInteractivePopGesture()
         // Handle controller being exposed from push/present or pop/dismiss
         if (self.isMovingToParent || self.isBeingPresented){
@@ -131,10 +131,10 @@ extension ExploreViewController {
     }
     
     func reloadPosts(withType reloadType: ReloadType, closure: @escaping () -> Void = { } ) {
-        isLoadingPosts = true
         if !postAnnotations.isEmpty { //this should probably go somewhere else
-            feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false) //cant be true
         }
+        isLoadingPosts = true //must come after the above scrollToTop call
         Task {
             do {
                 let loadedPosts: [Post]!

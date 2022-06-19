@@ -48,9 +48,9 @@ struct FrontendReadOnlyUser: ReadOnlyUserBackendProperties {
 
     // Frontend-only properties
     let first_last: String
-    let profilePic: ProfilePicWrapper
+    let profilePic: UIImage
     
-    init(readOnlyUser: ReadOnlyUser, profilePic: ProfilePicWrapper) {
+    init(readOnlyUser: ReadOnlyUser, profilePic: UIImage) {
         self.id = readOnlyUser.id
         self.username = readOnlyUser.username
         self.first_name = readOnlyUser.first_name

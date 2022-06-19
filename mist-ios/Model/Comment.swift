@@ -18,19 +18,18 @@ struct Comment: Codable {
     let timestamp: Double
     let post: Int
     let author: Int
-    let read_only_author: ReadOnlyUser?
+    let read_only_author: ReadOnlyUser
     
     // Used when creating a comment
     init(id: Int = DUMMY_COMMENT_ID,
          body: String,
          timestamp: Double = DUMMY_COMMENT_TIMESTAMP,
-         post: Int,
-         author: Int) {
+         post: Int) {
         self.id = id
         self.body = body
         self.timestamp = timestamp
         self.post = post
-        self.author = author
-        self.read_only_author = nil
+        self.author = UserService.singleton.getId()
+        self.read_only_author = UserService.singleton.getUserAsReadOnlyUser()
     }
 }

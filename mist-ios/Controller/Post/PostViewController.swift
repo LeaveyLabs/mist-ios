@@ -10,21 +10,25 @@ import UIKit
 let COMMENT_PLACEHOLDER_TEXT = "wait this is so..."
 typealias UpdatedPostCompletionHandler = ((Post) -> Void)
 
-class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIViewControllerTransitioningDelegate {
+class PostViewController: KUIViewController, UIViewControllerTransitioningDelegate {
+    
+    //MARK: - Properties
     
     @IBOutlet weak var commentView: UIView!
     @IBOutlet weak var commentProfileImage: UIImageView!
     @IBOutlet weak var commentTextView: UITextView!
     @IBOutlet weak var commentButton: UIButton!
     var commentPlaceholderLabel: UILabel!
-    var indicator = UIActivityIndicatorView()
+    var shouldStartWithRaisedKeyboard: Bool!
     
+    //MARK: - Comments
+    var post: Post! // PostVC should never be created without a post
+    var comments = [Comment]()
+    var commentProfilePics = [Int: UIImage]()
     @IBOutlet weak var postTableView: UITableView!
+    var indicator = UIActivityIndicatorView()
     var completionHandler: UpdatedPostCompletionHandler?
     
-    var post: Post! // PostVC should never be created without a post
-    var comments: [Comment] = []
-    var shouldStartWithRaisedKeyboard: Bool!
     
     //MARK: Lifecycle
     
@@ -34,8 +38,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         setupTableView()
         setupCommentView()
         commentPlaceholderLabel = commentTextView.addAndReturnPlaceholderLabel(withText: COMMENT_PLACEHOLDER_TEXT)
-        loadComments();
-        disableCommentButton()
+        loadComments()
         shouldKUIViewKeyboardDismissOnBackgroundTouch = true
         
         //User Interaction
@@ -64,8 +67,7 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     
     //MARK: - Initialization
     
-    //create a postVC for a given post. postVC should never exist without a post
-    class func createPostVCForPost(_ post: Post) -> PostViewController {
+    class func createPostVC(with post: Post) -> PostViewController {
         let postVC =
         UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
         postVC.post = post
@@ -75,10 +77,10 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
     //MARK: - Setup
     
     func setupTableView() {
-        postTableView.estimatedRowHeight = 100;
-        postTableView.rowHeight = UITableView.automaticDimension; // is this necessary?
-        postTableView.delegate = self;
-        postTableView.dataSource = self;
+        postTableView.estimatedRowHeight = 100
+        postTableView.rowHeight = UITableView.automaticDimension
+        postTableView.dataSource = self
+        postTableView.separatorStyle = .none
         
         let postNib = UINib(nibName: Constants.SBID.Cell.Post, bundle: nil);
         postTableView.register(postNib, forCellReuseIdentifier: Constants.SBID.Cell.Post);
@@ -98,12 +100,14 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         
         commentView.borders(for: [UIRectEdge.top])
         
-        commentTextView.delegate = self;
+        commentTextView.delegate = self
         commentTextView.layer.borderWidth = 1
         commentTextView.layer.borderColor = UIColor.lightGray.cgColor
         commentTextView.layer.cornerRadius = 15
         commentTextView.textContainer.lineFragmentPadding = 0
         commentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        
+        commentButton.isEnabled = false
     }
     
     //MARK: - User Interaction
@@ -117,60 +121,64 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func submitButtonDidPressed(_ sender: UIButton) {
-        if (commentTextView.text.isEmpty) { return }
+    @IBAction func submitCommentButtonDidPressed(_ sender: UIButton) {
+        guard !commentTextView.text.isEmpty else { return }
         Task {
             do {
-                disableCommentButton()
-                let newCommentAndUpdatedPost = try await UserService.singleton.uploadComment(
-                    text: commentTextView.text,
-                    postId: post.id,
-                    author: UserService.singleton.getId())
-                //If successful
-                commentTextView.text = ""
-                postTableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
-                commentTextView.resignFirstResponder()
-                
-                // This might be best if handled in postservice
-                comments.append(newCommentAndUpdatedPost.0)
-                post = newCommentAndUpdatedPost.1
-                
-                postTableView.reloadData()
-                print(comments)
-                //postTableView.setContentOffset(CGPoint(x: 0, y: CGFloat.greatestFiniteMagnitude), animated: false)
+                commentButton.isEnabled = false
+                let newCommentAndUpdatedPost = try await UserService.singleton.uploadComment(text: commentTextView.text,
+                                                                                             postId: post.id,
+                                                                                             author: UserService.singleton.getId())
+                handleSuccessfulCommentSubmission(newComment: newCommentAndUpdatedPost.0, updatedPost: newCommentAndUpdatedPost.1)
+            } catch {
+                CustomSwiftMessages.displayError(error)
             }
-            catch {
-                //If failure
-                print("\(error)")
-            }
-            //Whether successful or failure
-            enableCommentButton() //i think this executes whether successful or not... need to check by creating a failed comment upload though
+            commentButton.isEnabled = true
         }
     }
     
-    //MARK: - Db Calls
-    
+}
+
+//MARK: - Db Calls
+
+extension PostViewController {
+        
     func loadComments() {
         Task {
             do {
                 comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
-                print("loaded comments")
-                postTableView.reloadData();
+                commentProfilePics = try await loadCommentThumbnails(for: comments)
+                postTableView.reloadData()
             } catch {
-                print(error)
+                CustomSwiftMessages.displayError(error)
             }
         }
     }
     
-    //MARK: - TextView delegate
+    func loadCommentThumbnails(for comments: [Comment]) async throws -> [Int: UIImage] {
+      var thumbnails: [Int: UIImage] = [:]
+      try await withThrowingTaskGroup(of: (Int, UIImage).self) { group in
+        for comment in comments {
+          group.addTask {
+              return (comment.id, try await UserAPI.UIImageFromURLString(url: comment.read_only_author.picture))
+          }
+        }
+        for try await (id, thumbnail) in group {
+          thumbnails[id] = thumbnail
+        }
+      }
+      return thumbnails
+    }
     
+}
+
+//MARK: - TextViewDelegate
+
+extension PostViewController: UITextViewDelegate {
+        
     func textViewDidChange(_ textView: UITextView) {
         commentPlaceholderLabel.isHidden = !commentTextView.text.isEmpty
-        if validateAllFields() {
-            enableCommentButton()
-        } else {
-            disableCommentButton()
-        }
+        commentButton.isEnabled = validateAllFields()
     }
     
     //dismiss keyboard when user presses "return"
@@ -181,43 +189,58 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         }
         return true
     }
+}
 
-    // MARK: - TableView Data Source
+// MARK: - TableViewDataSource
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1;
-    }
+extension PostViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return comments.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath.row == 0) {
-            if let post = post {
-                let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-                cell.configurePostCell(post: post, bubbleTrianglePosition: .left)
-                cell.postDelegate = self
-                cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-                return cell
-            }
+        if indexPath.row == 0 {
+            let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
+            cell.configurePostCell(post: post, bubbleTrianglePosition: .left)
+            cell.postDelegate = self
+            return cell
         }
         //else the cell is a comment
         let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Comment, for: indexPath) as! CommentCell
-        cell.configureCommentCell(comment: comments[indexPath.row-1], parent: self)
-        cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+        let comment = comments[indexPath.row-1]
+        let commentAuthor = FrontendReadOnlyUser(readOnlyUser: comment.read_only_author,
+                                                 profilePic: commentProfilePics[comment.id]!)
+        cell.configureCommentCell(comment: comment, author: commentAuthor)
+        cell.commentDelegate = self
         return cell
     }
+}
+
+//MARK: - CommentDelegate
+
+extension PostViewController: CommentDelegate {
     
-    
-    // MARK: - TableView Delegate
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("post was tapped")
+    func handleCommentProfilePicTap(commentAuthor: FrontendReadOnlyUser) {
+        let profileVC = ProfileViewController.createProfileVC(with: commentAuthor)
+        navigationController!.present(profileVC, animated: true)
     }
+        
+}
+
+// MARK: - Helpers
+
+extension PostViewController {
     
-    //MARK: - Helpers
-    
+    func handleSuccessfulCommentSubmission(newComment: Comment, updatedPost: Post) {
+        clearAllFields()
+        commentTextView.resignFirstResponder()
+        postTableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
+        comments.append(newComment)
+        post = updatedPost
+        postTableView.reloadData()
+    }
+        
     func validateAllFields() -> Bool {
         return commentTextView.text != ""
     }
@@ -226,23 +249,14 @@ class PostViewController: KUIViewController, UITableViewDelegate, UITableViewDat
         commentTextView.text! = ""
     }
     
-    func enableCommentButton() {
-        commentButton.isEnabled = true;
-        commentButton.alpha = 1;
-    }
-    
-    func disableCommentButton() {
-        commentButton.isEnabled = false;
-        commentButton.alpha = 0.99;
-    }
 }
 
-//MARK: - Post Delegation: functions with unique implementations to this class
+//MARK: - PostDelegate
 
 extension PostViewController: PostDelegate {
     
     func backgroundDidTapped(post: Post) {
-        //Do nothing
+        commentTextView.resignFirstResponder()
     }
     
     func commentDidTapped(post: Post) {
