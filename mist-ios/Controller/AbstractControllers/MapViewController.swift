@@ -23,7 +23,7 @@ class MapViewController: UIViewController {
     @IBOutlet weak var trackingDimensionStackView: UIStackView!
     
     // User location
-    private let locationManager = CLLocationManager()
+    let locationManager = CLLocationManager()
     
     // Camera
     let minSpanDelta = 0.02

@@ -91,6 +91,11 @@ extension ExploreViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if let userLocation = locationManager.location {
+            mapView.camera.centerCoordinate = userLocation.coordinate
+            mapView.camera.centerCoordinateDistance = 3000
+            mapView.camera.pitch = 40
+        }
         enableInteractivePopGesture()
         // Handle controller being exposed from push/present or pop/dismiss
         if (self.isMovingToParent || self.isBeingPresented){
