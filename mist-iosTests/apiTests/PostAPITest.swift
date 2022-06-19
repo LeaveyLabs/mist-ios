@@ -39,18 +39,28 @@ class PostAPITest: XCTestCase {
         XCTAssertTrue(post.title == "hey")
     }
     
+    // GET by ID
+    func testGetPostByPostID() async throws {
+        let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
+        let fetchedPost = try await PostAPI.fetchPostByPostID(postId: post.id)
+        XCTAssertTrue(fetchedPost.title == "hey")
+    }
+    
     // GET by latitude and longitude
     func testGetPostByLatitudeLongitude() async throws {
+        let _ = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
         let posts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: 1.0, longitude: 2.0)
         XCTAssertTrue(posts[0].title == "hey")
     }
     // GET by text
     func testGetPostByWord() async throws {
+        let _ = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
         let posts = try await PostAPI.fetchPostsByWords(words: ["hey"])
         XCTAssertTrue(posts[0].title == "hey")
     }
     // GET by author
     func testGetPostByAuthor() async throws {
+        let _ = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
         let posts = try await PostAPI.fetchPostsByAuthor(userId: TestConstants.Auth.ID)
         XCTAssertTrue(posts[0].title == "hey")
     }
