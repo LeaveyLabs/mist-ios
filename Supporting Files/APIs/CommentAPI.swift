@@ -9,7 +9,7 @@ import Foundation
 
 class CommentAPI {
     static let PATH_TO_COMMENT_MODEL = "api/comments/"
-    static let POST_ID_PARAM = "post_id"
+    static let POST_ID_PARAM = "post"
     // Fetch comments from database with the given postID
     static func fetchCommentsByPostID(post:Int) async throws -> [Comment] {
         let url = "\(BASE_URL)\(PATH_TO_COMMENT_MODEL)?\(POST_ID_PARAM)=\(post)"
