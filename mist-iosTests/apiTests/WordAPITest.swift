@@ -36,9 +36,10 @@ class WordAPITest: XCTestCase {
     // GET words
     func testGetWordByText() async throws {
         let _ = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
-        let word = try await WordAPI.fetchWords(text: "hey")
+        let word = try await WordAPI.fetchWords(search_word: "hey", wrapper_words:[])
         XCTAssertTrue(word[0].text == "hey")
     }
+    
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.

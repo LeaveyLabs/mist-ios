@@ -45,8 +45,8 @@ class PostAPITest: XCTestCase {
         XCTAssertTrue(posts[0].title == "hey")
     }
     // GET by text
-    func testGetPostByText() async throws {
-        let posts = try await PostAPI.fetchPostsByText(text: "hey")
+    func testGetPostByWord() async throws {
+        let posts = try await PostAPI.fetchPostsByWords(words: ["hey"])
         XCTAssertTrue(posts[0].title == "hey")
     }
     // GET by author

@@ -145,7 +145,7 @@ extension ExploreViewController {
                     let newSearchResultsRegion = getRegionCenteredAround(placeAnnotations)
                     loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: newSearchResultsRegion!.center.latitude, longitude: newSearchResultsRegion!.center.longitude, radius: convertLatDeltaToKms(newSearchResultsRegion!.span.latitudeDelta))
                 case .text:
-                    loadedPosts = try await PostAPI.fetchPostsByText(text: searchBarButton.text!)
+                    loadedPosts = try await PostAPI.fetchPostsByWords(words: [searchBarButton.text!])
                 }
                 turnPostsIntoAnnotations(loadedPosts)
                 renderNewPostsOnFeedAndMap(withType: reloadType)

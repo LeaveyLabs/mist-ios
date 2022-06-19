@@ -64,7 +64,7 @@ class SearchResultsTableViewController: FeedViewController {
         case .query: //if query, query those posts
             Task {
                 do {
-                    posts = try await PostAPI.fetchPostsByText(text: feedValue)
+                    posts = try await PostAPI.fetchPostsByWords(words: [feedValue])
                     tableView.reloadData();
                     indicator.stopAnimating()
                 } catch {
