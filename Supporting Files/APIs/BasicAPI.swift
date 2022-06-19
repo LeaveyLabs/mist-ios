@@ -30,7 +30,7 @@ enum HTTPMethods: String {
 
 class BasicAPI {
     static func basicHTTPCallWithoutToken(url:String, jsonData:Data, method:String) async throws -> (Data, URLResponse) {
-        let serviceUrl = URL(string: url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!
+        let serviceUrl = URL(string: url)!
         var request = URLRequest(url: serviceUrl)
         // Initialize API request
         request.httpMethod = method
