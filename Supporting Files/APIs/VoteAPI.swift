@@ -26,12 +26,11 @@ class VoteAPI {
     }
     
     // Post vote to database
-    static func postVote(voter:Int, post:Int, rating:Int) async throws -> Vote {
+    static func postVote(voter:Int, post:Int) async throws -> Vote {
         let url = "\(BASE_URL)\(PATH_TO_VOTE_MODEL)"
         let params:[String:Int] = [
             VOTER_PARAM: voter,
             POST_PARAM: post,
-            RATING_PARAM: rating,
         ]
         let json = try JSONEncoder().encode(params)
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)

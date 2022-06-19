@@ -36,13 +36,13 @@ class VoteAPITest: XCTestCase {
     // POST
     func testPostVote() async throws {
         let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
-        let vote = try await VoteAPI.postVote(voter: TestConstants.Auth.ID, post: post.id, rating: 5)
+        let vote = try await VoteAPI.postVote(voter: TestConstants.Auth.ID, post: post.id)
         XCTAssertTrue(vote.voter == TestConstants.Auth.ID)
     }
     // DELETE
     func testDeleteVote() async throws {
         let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
-        let vote = try await VoteAPI.postVote(voter: TestConstants.Auth.ID, post: post.id, rating: 5)
+        let vote = try await VoteAPI.postVote(voter: TestConstants.Auth.ID, post: post.id)
         try await VoteAPI.deleteVote(voter: vote.voter, post: vote.post)
     }
 
