@@ -9,8 +9,19 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
-    var username: String!
-    var user: ReadOnlyUser?
+    //MARK: - Properties
+    
+    var user: FrontendReadOnlyUser!
+    
+    //MARK: - Constructors
+    
+    class func createProfileVC(with user: FrontendReadOnlyUser) -> ProfileViewController {
+        let profileVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Profile) as! ProfileViewController
+        profileVC.user = user
+        return profileVC
+    }
+    
+    //MARK: - Lifecycl;e
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,14 +39,17 @@ class ProfileViewController: UIViewController {
     
     //MARK: -Db Calls
     
-    func loadProfile() {
-        Task {
-            do {
-                let dbUser = try await UserAPI.fetchUsersByUsername(username: username)[0]
-            } catch {
-                print(error)
-            }
-        }
-    }
+//    func loadProfile() {
+//        Task {
+//            do {
+//                let readOnlyUserResults = try await UserAPI.fetchUsersByUsername(username: username)
+//                guard readOnlyUserResults.count == 1 else { throw APIError.NotFound }
+//                user = FrontendReadOnlyUser(readOnlyUser: readOnlyUserResults[0],
+//                                            profilePic: profilePic)
+//            } catch {
+//                CustomSwiftMessages.displayError(error)
+//            }
+//        }
+//    }
 
 }

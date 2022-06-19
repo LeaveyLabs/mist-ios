@@ -7,46 +7,47 @@
 
 import UIKit
 
+protocol CommentDelegate {
+    func handleCommentProfilePicTap(commentAuthor: FrontendReadOnlyUser)
+}
+
 class CommentCell: UITableViewCell {
+    
+    //MARK: - Properties
 
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var authorProfilePicButton: UIButton!
     @IBOutlet weak var commentLabel: UILabel!
     @IBOutlet weak var backgroundBubbleView: UIView!
     
-    var parentVC: UIViewController!
+    var commentDelegate: CommentDelegate!
     var comment: Comment!
+    var author: FrontendReadOnlyUser!
+    
+    //MARK: - Initializer
+    
+    func configureCommentCell(comment: Comment, author: FrontendReadOnlyUser) {
+        self.comment = comment
+        self.author = author
+        authorLabel.text = comment.author_username
+        commentLabel.text = comment.body
+        authorProfilePicButton.setImage(author.profilePic, for: .normal)
+    }
+    
+    //MARK: - Lifecycle
     
     override func awakeFromNib() {
         super.awakeFromNib()
         setupBubbleArrow()
-    }
-    
-    func configureCommentCell(comment: Comment, parent: PostViewController) {
-//        timestampLabel.text = getFormattedTimeString(postTimestamp: comment.timestamp)
-        parentVC = parent
-        self.comment = comment
-        authorLabel.text = comment.author_username
-        commentLabel.text = comment.body
-//        authorProfileImageView.image = UIImage(named: "adam")
         authorProfilePicButton.imageView?.layer.cornerRadius = authorProfilePicButton.frame.size.height / 2
         authorProfilePicButton.imageView?.layer.cornerCurve = .continuous
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
     }
     
     //MARK: -User Interaction
         
     @IBAction func didPressedAuthorProfilePic(_ sender: UIButton) {
-        if let postVC = parentVC as? PostViewController {
-            let profileVC = postVC.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Profile) as! ProfileViewController
-            profileVC.username = comment.author_username
-            postVC.navigationController!.present(profileVC, animated: true)
-        }
+        commentDelegate.handleCommentProfilePicTap(commentAuthor: author)
     }
-    
     
     //MARK: -Setup
     

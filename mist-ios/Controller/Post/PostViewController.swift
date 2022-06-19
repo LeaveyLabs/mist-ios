@@ -23,7 +23,8 @@ class PostViewController: KUIViewController, UIViewControllerTransitioningDelega
     
     //MARK: - Comments
     var post: Post! // PostVC should never be created without a post
-    var comments: [Comment] = []
+    var comments = [Comment]()
+    var commentProfilePics = [Int: UIImage]()
     @IBOutlet weak var postTableView: UITableView!
     var indicator = UIActivityIndicatorView()
     var completionHandler: UpdatedPostCompletionHandler?
@@ -66,8 +67,7 @@ class PostViewController: KUIViewController, UIViewControllerTransitioningDelega
     
     //MARK: - Initialization
     
-    //create a postVC for a given post. postVC should never exist without a post
-    class func createPostVCForPost(_ post: Post) -> PostViewController {
+    class func createPostVC(with post: Post) -> PostViewController {
         let postVC =
         UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
         postVC.post = post
@@ -80,6 +80,7 @@ class PostViewController: KUIViewController, UIViewControllerTransitioningDelega
         postTableView.estimatedRowHeight = 100
         postTableView.rowHeight = UITableView.automaticDimension
         postTableView.dataSource = self
+        postTableView.separatorStyle = .none
         
         let postNib = UINib(nibName: Constants.SBID.Cell.Post, bundle: nil);
         postTableView.register(postNib, forCellReuseIdentifier: Constants.SBID.Cell.Post);
@@ -147,12 +148,29 @@ extension PostViewController {
         Task {
             do {
                 comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
+                commentProfilePics = try await loadCommentThumbnails(for: comments)
                 postTableView.reloadData()
             } catch {
                 CustomSwiftMessages.displayError(error)
             }
         }
     }
+    
+    func loadCommentThumbnails(for comments: [Comment]) async throws -> [Int: UIImage] {
+      var thumbnails: [Int: UIImage] = [:]
+      try await withThrowingTaskGroup(of: (Int, UIImage).self) { group in
+        for comment in comments {
+          group.addTask {
+              return (comment.id, try await UserAPI.UIImageFromURLString(url: comment.author_picture))
+          }
+        }
+        for try await (id, thumbnail) in group {
+          thumbnails[id] = thumbnail
+        }
+      }
+      return thumbnails
+    }
+    
 }
 
 //MARK: - TextViewDelegate
@@ -178,30 +196,38 @@ extension PostViewController: UITextViewDelegate {
 
 extension PostViewController: UITableViewDataSource {
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1;
-    }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return comments.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath.row == 0) {
-            if let post = post {
-                let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-                cell.configurePostCell(post: post, bubbleTrianglePosition: .left)
-                cell.postDelegate = self
-                cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-                return cell
-            }
+        if indexPath.row == 0 {
+            let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
+            cell.configurePostCell(post: post, bubbleTrianglePosition: .left)
+            cell.postDelegate = self
+            return cell
         }
         //else the cell is a comment
         let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Comment, for: indexPath) as! CommentCell
-        cell.configureCommentCell(comment: comments[indexPath.row-1], parent: self)
-        cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+        let comment = comments[indexPath.row-1]
+        let commentAuthorWithoutProfilePic = ReadOnlyUser(id: comment.author, username: comment.author_username, first_name: "NEED", last_name: "NEED", picture: comment.author_picture)
+        let commentAuthor = FrontendReadOnlyUser(readOnlyUser: commentAuthorWithoutProfilePic,
+                                                 profilePic: commentProfilePics[comment.id]!)
+        cell.configureCommentCell(comment: comment, author: commentAuthor)
+        cell.commentDelegate = self
         return cell
     }
+}
+
+//MARK: - CommentDelegate
+
+extension PostViewController: CommentDelegate {
+    
+    func handleCommentProfilePicTap(commentAuthor: FrontendReadOnlyUser) {
+        let profileVC = ProfileViewController.createProfileVC(with: commentAuthor)
+        navigationController!.present(profileVC, animated: true)
+    }
+        
 }
 
 // MARK: - Helpers
