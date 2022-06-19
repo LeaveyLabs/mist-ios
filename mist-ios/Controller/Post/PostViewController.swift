@@ -126,10 +126,9 @@ class PostViewController: KUIViewController, UIViewControllerTransitioningDelega
         Task {
             do {
                 commentButton.isEnabled = false
-                let newCommentAndUpdatedPost = try await UserService.singleton.uploadComment(
-                    text: commentTextView.text,
-                    postId: post.id,
-                    author: UserService.singleton.getId())
+                let newCommentAndUpdatedPost = try await UserService.singleton.uploadComment(text: commentTextView.text,
+                                                                                             postId: post.id,
+                                                                                             author: UserService.singleton.getId())
                 handleSuccessfulCommentSubmission(newComment: newCommentAndUpdatedPost.0, updatedPost: newCommentAndUpdatedPost.1)
             } catch {
                 CustomSwiftMessages.displayError(error)
@@ -161,7 +160,7 @@ extension PostViewController {
       try await withThrowingTaskGroup(of: (Int, UIImage).self) { group in
         for comment in comments {
           group.addTask {
-              return (comment.id, try await UserAPI.UIImageFromURLString(url: comment.author_picture))
+              return (comment.id, try await UserAPI.UIImageFromURLString(url: comment.read_only_author.picture))
           }
         }
         for try await (id, thumbnail) in group {
@@ -210,8 +209,7 @@ extension PostViewController: UITableViewDataSource {
         //else the cell is a comment
         let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Comment, for: indexPath) as! CommentCell
         let comment = comments[indexPath.row-1]
-        let commentAuthorWithoutProfilePic = ReadOnlyUser(id: comment.author, username: comment.author_username, first_name: "NEED", last_name: "NEED", picture: comment.author_picture)
-        let commentAuthor = FrontendReadOnlyUser(readOnlyUser: commentAuthorWithoutProfilePic,
+        let commentAuthor = FrontendReadOnlyUser(readOnlyUser: comment.read_only_author,
                                                  profilePic: commentProfilePics[comment.id]!)
         cell.configureCommentCell(comment: comment, author: commentAuthor)
         cell.commentDelegate = self

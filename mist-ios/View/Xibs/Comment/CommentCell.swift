@@ -15,21 +15,26 @@ class CommentCell: UITableViewCell {
     
     //MARK: - Properties
 
+    //UI
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var authorProfilePicButton: UIButton!
     @IBOutlet weak var commentLabel: UILabel!
     @IBOutlet weak var backgroundBubbleView: UIView!
     
-    var commentDelegate: CommentDelegate!
+    //Information
     var comment: Comment!
     var author: FrontendReadOnlyUser!
+    
+    //Delegate
+    var commentDelegate: CommentDelegate!
+
     
     //MARK: - Initializer
     
     func configureCommentCell(comment: Comment, author: FrontendReadOnlyUser) {
         self.comment = comment
         self.author = author
-        authorLabel.text = comment.author_username
+        authorLabel.text = author.username
         commentLabel.text = comment.body
         authorProfilePicButton.setImage(author.profilePic, for: .normal)
     }
