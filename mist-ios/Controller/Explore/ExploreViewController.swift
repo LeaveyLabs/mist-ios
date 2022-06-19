@@ -131,10 +131,10 @@ extension ExploreViewController {
     }
     
     func reloadPosts(withType reloadType: ReloadType, closure: @escaping () -> Void = { } ) {
-        isLoadingPosts = true
         if !postAnnotations.isEmpty { //this should probably go somewhere else
-            feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false) //cant be true
         }
+        isLoadingPosts = true //must come after the above scrollToTop call
         Task {
             do {
                 let loadedPosts: [Post]!
