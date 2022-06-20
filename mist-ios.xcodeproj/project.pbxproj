@@ -215,6 +215,8 @@
 		5B13B73F285CF119000ADF5E /* Experimental.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13B73E285CF119000ADF5E /* Experimental.swift */; };
 		5B13B741285D05B0000ADF5E /* UISearchBar+CenterText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13B740285D05B0000ADF5E /* UISearchBar+CenterText.swift */; };
 		5B13B743285D3877000ADF5E /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13B742285D3877000ADF5E /* Error.swift */; };
+		5B4D589D28603A46002E2F94 /* PostCellTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D589B28603A46002E2F94 /* PostCellTwo.swift */; };
+		5B4D58A22860C90B002E2F94 /* PostCellTwo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B4D58A12860C90B002E2F94 /* PostCellTwo.xib */; };
 		5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4D9BD285C018000197080 /* String+Capitalization.swift */; };
 		5BF78337285D955F003C3955 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78336285D955F003C3955 /* Map.swift */; };
 		5BF78339285E4477003C3955 /* UITableView+SectionShadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78338285E4477003C3955 /* UITableView+SectionShadow.swift */; };
@@ -455,6 +457,8 @@
 		5B13B73E285CF119000ADF5E /* Experimental.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Experimental.swift; sourceTree = "<group>"; };
 		5B13B740285D05B0000ADF5E /* UISearchBar+CenterText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+CenterText.swift"; sourceTree = "<group>"; };
 		5B13B742285D3877000ADF5E /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		5B4D589B28603A46002E2F94 /* PostCellTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellTwo.swift; sourceTree = "<group>"; };
+		5B4D58A12860C90B002E2F94 /* PostCellTwo.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostCellTwo.xib; sourceTree = "<group>"; };
 		5BE4D9BD285C018000197080 /* String+Capitalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Capitalization.swift"; sourceTree = "<group>"; };
 		5BF78336285D955F003C3955 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		5BF78338285E4477003C3955 /* UITableView+SectionShadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+SectionShadow.swift"; sourceTree = "<group>"; };
@@ -697,6 +701,8 @@
 			children = (
 				479AA1EE27DCE9A700EA0DFC /* PostCell.swift */,
 				47E295D9284BBB1400A680CC /* PostCell.xib */,
+				5B4D589B28603A46002E2F94 /* PostCellTwo.swift */,
+				5B4D58A12860C90B002E2F94 /* PostCellTwo.xib */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -1223,6 +1229,7 @@
 				47527192285584F400DDF84D /* MyProfileCell.xib in Resources */,
 				475271982855851200DDF84D /* MyAccountCell.xib in Resources */,
 				434F4599285522C8003672C7 /* Main.storyboard in Resources */,
+				5B4D58A22860C90B002E2F94 /* PostCellTwo.xib in Resources */,
 				47EE290028414B2300C6425C /* CustomCenteredView.xib in Resources */,
 				4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */,
 				47E2B1C32800E9EB00131B8D /* MyCommentCell.xib in Resources */,
@@ -1377,6 +1384,7 @@
 				472A4BF428408BD800FD52B7 /* SpringImageView.swift in Sources */,
 				43D925202852802600438C5C /* FriendRequest.swift in Sources */,
 				47AC881F28480AE1000150CA /* UIButton+RightSideImage.swift in Sources */,
+				5B4D589D28603A46002E2F94 /* PostCellTwo.swift in Sources */,
 				472F8D1A28505F4600DB69C4 /* PostDelegate.swift in Sources */,
 				478A7899284E708D0058C845 /* CLLocationCoordinate+Distance.swift in Sources */,
 				474A5DA827F4079D004215F9 /* MyProfileViewController.swift in Sources */,

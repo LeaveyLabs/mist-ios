@@ -26,7 +26,6 @@ extension ExploreViewController {
         ])
         
         feed.dataSource = self
-        feed.delegate = self
         feed.estimatedRowHeight = 100
         feed.rowHeight = UITableView.automaticDimension
         feed.showsVerticalScrollIndicator = false
@@ -37,7 +36,8 @@ extension ExploreViewController {
         }), for: .valueChanged)
         
         let nib = UINib(nibName: Constants.SBID.Cell.Post, bundle: nil)
-        self.feed.register(nib, forCellReuseIdentifier: Constants.SBID.Cell.Post)
+        feed.register(nib, forCellReuseIdentifier: Constants.SBID.Cell.Post)
+        feed.register(PostCellTwo.self, forCellReuseIdentifier: "PostCellTwo")
     }
     
 }
@@ -51,9 +51,16 @@ extension ExploreViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.feed.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-        cell.configurePostCell(post: postAnnotations[indexPath.row].post, bubbleTrianglePosition: .left)
-        cell.postDelegate = self
+//        let cell = self.feed.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
+//        cell.configurePostCell(post: postAnnotations[indexPath.row].post, bubbleTrianglePosition: .left)
+//        cell.postDelegate = self
+//        return cell
+        
+        let cell = self.feed.dequeueReusableCell(withIdentifier: "PostCellTwo", for: indexPath) as! PostCellTwo
+        cell.selectionStyle = .none
+        cell.configurePostCell(post: postAnnotations[indexPath.row].post,
+                               postDelegate: self,
+                               bubbleTrianglePosition: .left)
         return cell
     }
     

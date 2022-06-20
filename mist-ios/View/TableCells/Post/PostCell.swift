@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Social
 
 class PostCell: UITableViewCell {
     
