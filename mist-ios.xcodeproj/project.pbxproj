@@ -178,7 +178,6 @@
 		47D5B3672844116A004CDE6C /* UIView+AddBorders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D5B3662844116A004CDE6C /* UIView+AddBorders.swift */; };
 		47D5B36A28441296004CDE6C /* CustomSwiftMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D5B36928441296004CDE6C /* CustomSwiftMessages.swift */; };
 		47D9FD1E28457D72004E4BE3 /* NewPostContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D9FD1D28457D72004E4BE3 /* NewPostContext.swift */; };
-		47E295D4284BB3E100A680CC /* NibViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E295D3284BB3E100A680CC /* NibViewController.swift */; };
 		47E295D6284BB79600A680CC /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E295D5284BB79600A680CC /* PostView.swift */; };
 		47E295D8284BB7B000A680CC /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47E295D7284BB7B000A680CC /* PostView.xib */; };
 		47E2B1BD27FFC52900131B8D /* ShadowNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */; };
@@ -414,7 +413,6 @@
 		47D5B3662844116A004CDE6C /* UIView+AddBorders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AddBorders.swift"; sourceTree = "<group>"; };
 		47D5B36928441296004CDE6C /* CustomSwiftMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwiftMessages.swift; sourceTree = "<group>"; };
 		47D9FD1D28457D72004E4BE3 /* NewPostContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostContext.swift; sourceTree = "<group>"; };
-		47E295D3284BB3E100A680CC /* NibViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibViewController.swift; sourceTree = "<group>"; };
 		47E295D5284BB79600A680CC /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		47E295D7284BB7B000A680CC /* PostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostView.xib; sourceTree = "<group>"; };
 		47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowNavigationController.swift; sourceTree = "<group>"; };
@@ -759,7 +757,7 @@
 			path = CLLocationCoordinate;
 			sourceTree = "<group>";
 		};
-		478A789F284EBD5A0058C845 /* Misc */ = {
+		478A789F284EBD5A0058C845 /* App */ = {
 			isa = PBXGroup;
 			children = (
 				478A789D284EBD510058C845 /* LoadingViewController.swift */,
@@ -767,7 +765,7 @@
 				4316238B2834F8A600169AA9 /* SpecialTabBarController.swift */,
 				43A05BDC2835008B0085A99B /* SpecialTabBar.swift */,
 			);
-			path = Misc;
+			path = App;
 			sourceTree = "<group>";
 		};
 		479683F6282817F900CA23BA /* Annotations */ = {
@@ -817,16 +815,6 @@
 				5BF78338285E4477003C3955 /* UITableView+SectionShadow.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		47AE72A827F77AF400A5E94C /* Settings */ = {
-			isa = PBXGroup;
-			children = (
-				47EE95F927F64C00003B351E /* MyAccountViewController.swift */,
-				47AE72A927F77B0B00A5E94C /* MyProfileSettingViewController.swift */,
-				4752718228557C1300DDF84D /* PasswordSettingViewController.swift */,
-			);
-			path = Settings;
 			sourceTree = "<group>";
 		};
 		47CEEE96285451F7008947FC /* Buttons */ = {
@@ -969,14 +957,14 @@
 			isa = PBXGroup;
 			children = (
 				4752719B2855A6ED00DDF84D /* AbstractControllers */,
-				478A789F284EBD5A0058C845 /* Misc */,
+				478A789F284EBD5A0058C845 /* App */,
 				43770C4927EE8BED00F31CCF /* Auth */,
-				475B1F8927FB868300ED59CD /* Messages */,
-				47F4EFD127E10C1300861F30 /* Post */,
 				4700F8C427DE4641006C2E08 /* Explore */,
+				47F4EFD127E10C1300861F30 /* Post */,
 				47FF86A427DC76000076A1CA /* NewPost */,
+				5B4D58A82860E22B002E2F94 /* Friends */,
+				475B1F8927FB868300ED59CD /* Messages */,
 				47FF86A327DC75F00076A1CA /* Account */,
-				47E295D3284BB3E100A680CC /* NibViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1063,10 +1051,11 @@
 		47FF86A327DC75F00076A1CA /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				47EE95F927F64C00003B351E /* MyAccountViewController.swift */,
+				47AE72A927F77B0B00A5E94C /* MyProfileSettingViewController.swift */,
+				4752718228557C1300DDF84D /* PasswordSettingViewController.swift */,
 				471F92D0280159430079F8CA /* SegmentedControlCell.swift */,
-				47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */,
 				474A5DA727F4079D004215F9 /* MyProfileViewController.swift */,
-				47AE72A827F77AF400A5E94C /* Settings */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -1089,6 +1078,14 @@
 				5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */,
 			);
 			path = UIImageView;
+			sourceTree = "<group>";
+		};
+		5B4D58A82860E22B002E2F94 /* Friends */ = {
+			isa = PBXGroup;
+			children = (
+				47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */,
+			);
+			path = Friends;
 			sourceTree = "<group>";
 		};
 		5BE4D9BC285C017100197080 /* String */ = {
@@ -1334,7 +1331,6 @@
 				47FF869D27DB87A70076A1CA /* UIImage+Thumbnail.swift in Sources */,
 				4780E5B6283308250012B741 /* MessageKitMessage.swift in Sources */,
 				4752717C28553F6200DDF84D /* ProfilePicWrapper.swift in Sources */,
-				47E295D4284BB3E100A680CC /* NibViewController.swift in Sources */,
 				47266AD227FF5531005DEDB1 /* UIView+LoadFromNib.swift in Sources */,
 				4700F8B427DD7BBA006C2E08 /* FlagAPI.swift in Sources */,
 				47630EB9283F437F00FA4DF7 /* SetupTimeViewController.swift in Sources */,
