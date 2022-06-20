@@ -101,9 +101,7 @@ class PostViewController: KUIViewController, UIViewControllerTransitioningDelega
     func setupCommentView() {
 //        commentTextView.inputAccessoryView = commentView
 //        postTableView.keyboardDismissMode = .interactive
-
-        commentProfileImage.layer.cornerRadius = commentProfileImage.frame.size.height / 2
-        commentProfileImage.layer.cornerCurve = .continuous
+        commentProfileImage.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
         
         commentView.borders(for: [UIRectEdge.top])
         
@@ -134,13 +132,12 @@ class PostViewController: KUIViewController, UIViewControllerTransitioningDelega
             do {
                 commentButton.isEnabled = false
                 let newComment = try await UserService.singleton.uploadComment(text: commentTextView.text,
-                                                                               postId: post.id,
-                                                                               author: UserService.singleton.getId())
+                                                                               postId: post.id)
                 handleSuccessfulCommentSubmission(newComment: newComment)
             } catch {
+                commentButton.isEnabled = true
                 CustomSwiftMessages.displayError(error)
             }
-            commentButton.isEnabled = true
         }
     }
     
@@ -185,7 +182,7 @@ extension PostViewController: UITextViewDelegate {
         
     func textViewDidChange(_ textView: UITextView) {
         commentPlaceholderLabel.isHidden = !commentTextView.text.isEmpty
-        commentButton.isEnabled = validateAllFields()
+        validateAllFields()
     }
     
     //dismiss keyboard when user presses "return"
@@ -217,8 +214,7 @@ extension PostViewController: UITableViewDataSource {
         let comment = comments[indexPath.row-1]
         let commentAuthor = FrontendReadOnlyUser(readOnlyUser: comment.read_only_author,
                                                  profilePic: commentProfilePics[comment.id]!)
-        cell.configureCommentCell(comment: comment, author: commentAuthor)
-        cell.commentDelegate = self
+        cell.configureCommentCell(comment: comment, delegate: self, author: commentAuthor)
         return cell
     }
 }
@@ -242,17 +238,19 @@ extension PostViewController {
         clearAllFields()
         commentTextView.resignFirstResponder()
         postTableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
-        comments.append(newComment)
         post.commentcount += 1
+        comments.append(newComment)
+        commentProfilePics[newComment.id] = UserService.singleton.getProfilePic()
         postTableView.reloadData()
     }
         
-    func validateAllFields() -> Bool {
-        return commentTextView.text != ""
+    func validateAllFields() {
+        commentButton.isEnabled = commentTextView.text != ""
     }
     
     func clearAllFields() {
         commentTextView.text! = ""
+        validateAllFields()
     }
     
 }

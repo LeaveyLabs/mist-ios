@@ -68,9 +68,7 @@ class MyProfileSettingViewController: UITableViewController {
 
         miniCameraButton.becomeRound()
         
-        profilePictureButton.becomeRound()
-        profilePictureButton.setImage(profilePic, for: .normal)
-        profilePictureButton.imageView?.contentMode = .scaleAspectFill
+        profilePictureButton.imageView?.becomeProfilePicImageView(with: profilePic)
     }
     
     func setupSaveButton() {

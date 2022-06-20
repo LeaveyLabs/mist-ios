@@ -31,12 +31,13 @@ class CommentCell: UITableViewCell {
     
     //MARK: - Initializer
     
-    func configureCommentCell(comment: Comment, author: FrontendReadOnlyUser) {
+    func configureCommentCell(comment: Comment, delegate: CommentDelegate, author: FrontendReadOnlyUser) {
         self.comment = comment
+        self.commentDelegate = delegate
         self.author = author
         authorLabel.text = author.username
         commentLabel.text = comment.body
-        authorProfilePicButton.setImage(author.profilePic, for: .normal)
+        authorProfilePicButton.imageView?.becomeProfilePicImageView(with: author.profilePic)
     }
     
     //MARK: - Lifecycle
@@ -44,8 +45,6 @@ class CommentCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setupBubbleArrow()
-        authorProfilePicButton.imageView?.layer.cornerRadius = authorProfilePicButton.frame.size.height / 2
-        authorProfilePicButton.imageView?.layer.cornerCurve = .continuous
     }
     
     //MARK: -User Interaction

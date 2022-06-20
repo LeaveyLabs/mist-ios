@@ -168,10 +168,10 @@ class UserService: NSObject {
         try await PostAPI.deletePost(id: postId)
     }
     
-    func uploadComment(text: String, postId: Int, author: Int) async throws -> Comment {
-        let newComment = try await CommentAPI.postComment(body: text, post: postId, author: author)
+    func uploadComment(text: String, postId: Int) async throws -> Comment {
+        let newComment = try await CommentAPI.postComment(body: text, post: postId, author: frontendCompleteUser!.id)
         return newComment
-        //No need for local update, since comments aren't stored within the user
+        //No need for local update, since comments aren't stored locally
     }
     
     func deleteComment(commentId: Int, postId: Int) async throws {

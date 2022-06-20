@@ -67,11 +67,7 @@ class UploadProfilePictureViewController: UIViewController {
         // Setup miniCameraButton
         miniCameraButton.isHidden = !validateInput()
         miniCameraButton.becomeRound()
-        
-        // Setup profilePictureButton
-        profilePictureButton.becomeRound()
-        profilePictureButton.imageView?.contentMode = .scaleAspectFill
-        
+        profilePictureButton.imageView?.becomeProfilePicImageView(with: UIImage(systemName: "camera.circle")!)
     }
     
     func setupImagePicker() {
