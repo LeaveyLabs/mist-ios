@@ -15,13 +15,13 @@ class PostViewController: KUIViewController, UIViewControllerTransitioningDelega
     //MARK: - Properties
     
     //UI
-    @IBOutlet weak var postTableView: UITableView!
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var commentView: UIView!
     @IBOutlet weak var commentProfileImage: UIImageView!
     @IBOutlet weak var commentTextView: UITextView!
     @IBOutlet weak var commentButton: UIButton!
     var commentPlaceholderLabel: UILabel!
-    var indicator = UIActivityIndicatorView()
+    var activityIndicator = UIActivityIndicatorView(style: .medium)
     
     //Flags
     var shouldStartWithRaisedKeyboard: Bool!
@@ -37,6 +37,15 @@ class PostViewController: KUIViewController, UIViewControllerTransitioningDelega
     
     //Misc
     var prepareForDismiss: UpdatedPostCompletionHandler?
+    
+    //MARK: - Initialization
+    
+    class func createPostVC(with post: Post) -> PostViewController {
+        let postVC =
+        UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
+        postVC.post = post
+        return postVC
+    }
     
     //MARK: Lifecycle
     
@@ -73,26 +82,21 @@ class PostViewController: KUIViewController, UIViewControllerTransitioningDelega
         }
     }
     
-    //MARK: - Initialization
-    
-    class func createPostVC(with post: Post) -> PostViewController {
-        let postVC =
-        UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
-        postVC.post = post
-        return postVC
-    }
-    
     //MARK: - Setup
     
     func setupTableView() {
-        postTableView.estimatedRowHeight = 100
-        postTableView.rowHeight = UITableView.automaticDimension
-        postTableView.dataSource = self
-        postTableView.separatorStyle = .none
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.dataSource = self
+        tableView.separatorStyle = .none
         
-        postTableView.register(PostCell.self, forCellReuseIdentifier: Constants.SBID.Cell.Post);
-        let commentNib = UINib(nibName: Constants.SBID.Cell.Comment, bundle: nil);
-        postTableView.register(commentNib, forCellReuseIdentifier: Constants.SBID.Cell.Comment);
+        tableView.register(PostCell.self, forCellReuseIdentifier: Constants.SBID.Cell.Post)
+        let commentNib = UINib(nibName: Constants.SBID.Cell.Comment, bundle: nil)
+        tableView.register(commentNib, forCellReuseIdentifier: Constants.SBID.Cell.Comment)
+        
+        
+        tableView.tableFooterView = activityIndicator
+        activityIndicator.startAnimating()
         
         //we are choosing to leave out this functionality for now
         //postTableView.keyboardDismissMode = .onDrag
@@ -152,10 +156,11 @@ extension PostViewController {
             do {
                 comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
                 commentProfilePics = try await loadCommentThumbnails(for: comments)
-                postTableView.reloadData()
+                tableView.reloadData()
             } catch {
                 CustomSwiftMessages.displayError(error)
             }
+            activityIndicator.stopAnimating()
         }
     }
     
@@ -205,12 +210,12 @@ extension PostViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
             cell.configurePostCell(post: post, nestedPostViewDelegate: self, bubbleTrianglePosition: .left)
             return cell
         }
         //else the cell is a comment
-        let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Comment, for: indexPath) as! CommentCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Comment, for: indexPath) as! CommentCell
         let comment = comments[indexPath.row-1]
         let commentAuthor = FrontendReadOnlyUser(readOnlyUser: comment.read_only_author,
                                                  profilePic: commentProfilePics[comment.id]!)
@@ -237,11 +242,11 @@ extension PostViewController {
     func handleSuccessfulCommentSubmission(newComment: Comment) {
         clearAllFields()
         commentTextView.resignFirstResponder()
-        postTableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
+        tableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
         post.commentcount += 1
         comments.append(newComment)
         commentProfilePics[newComment.id] = UserService.singleton.getProfilePic()
-        postTableView.reloadData()
+        tableView.reloadData()
     }
         
     func validateAllFields() {

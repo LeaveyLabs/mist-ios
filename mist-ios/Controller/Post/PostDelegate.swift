@@ -82,6 +82,7 @@ extension PostDelegate where Self: UIViewController {
             } catch {
                 CustomSwiftMessages.displayError(error)
             }
+            favoriteTasks.removeFirst()
         })
     }
     

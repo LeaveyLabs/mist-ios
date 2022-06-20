@@ -80,26 +80,32 @@ import MapKit
     }
     
     @IBAction func favoriteButtonDidpressed(_ sender: UIButton) {
-        // UI Updates
+        // Local Updates
         favoriteButton.isSelected = !favoriteButton.isSelected
+        if favoriteButton.isSelected {
+            favoriteButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+        } else {
+            favoriteButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
+        }
         
-        // Data updates
+        // Remote and storage updates
         postDelegate?.handleFavorite(post: post, upload: favoriteButton.isSelected)
     }
     
     @IBAction func likeButtonDidPressed(_ sender: UIButton) {
-        // UI Updates
+        // Local Updates
+        likeButton.isSelected = !likeButton.isSelected
         if likeButton.isSelected {
-            likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! - 1), for: .normal)
-            post.votecount -= 1
-            likeButton.isSelected = false
-        } else {
             likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! + 1), for: .normal)
             post.votecount += 1
-            likeButton.isSelected = true
+            likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else {
+            likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! - 1), for: .normal)
+            post.votecount -= 1
+            likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         }
         
-        // Data updates
+        // Remote and storage updates
         postDelegate?.handleVote(post: post, upload: likeButton.isSelected)
     }
     
@@ -121,7 +127,7 @@ extension PostView {
         
 //        print("CONFIGURING POST")
 //        print("get votes:" )
-        print(UserService.singleton.getVotesForPost(postId: post.id))
+//        print(UserService.singleton.getVotesForPost(postId: post.id))
         likeButton.isSelected = !UserService.singleton.getVotesForPost(postId: post.id).isEmpty
         favoriteButton.isSelected = UserService.singleton.getIsFavoritedForPost(postId: post.id)
         

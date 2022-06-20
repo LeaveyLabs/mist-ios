@@ -113,7 +113,7 @@
                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="05q-NO-lLn" userLabel="Left Stack View">
                                     <rect key="frame" x="0.0" y="0.0" width="260" height="30"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="96P-sk-B4A">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="96P-sk-B4A">
                                             <rect key="frame" x="0.0" y="0.0" width="35" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="35" id="QTc-Co-Lbn"/>
@@ -123,7 +123,6 @@
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="24"/>
                                             </state>
-                                            <state key="selected" image="heart.fill" catalog="system"/>
                                             <connections>
                                                 <action selector="likeButtonDidPressed:" destination="-1" eventType="touchUpInside" id="g4e-uX-71u"/>
                                             </connections>
@@ -174,7 +173,7 @@
                                                 <action selector="dmButtonDidPressed:" destination="-1" eventType="touchUpInside" id="qH7-Tq-qeT"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lXS-wm-c4S">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lXS-wm-c4S">
                                             <rect key="frame" x="80" y="0.0" width="40" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="40" id="Yae-yk-0eG"/>
@@ -183,9 +182,6 @@
                                             <state key="normal" image="bookmark" catalog="system">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20"/>
-                                            </state>
-                                            <state key="selected" image="bookmark.fill" catalog="system">
-                                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="17"/>
                                             </state>
                                             <connections>
                                                 <action selector="favoriteButtonDidpressed:" destination="-1" eventType="touchUpInside" id="GKi-is-Vyu"/>
@@ -241,12 +237,10 @@
     </objects>
     <resources>
         <image name="bookmark" catalog="system" width="112" height="128"/>
-        <image name="bookmark.fill" catalog="system" width="112" height="128"/>
         <image name="bubble.left" catalog="system" width="128" height="110"/>
         <image name="clock" catalog="system" width="128" height="121"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
         <image name="heart" catalog="system" width="128" height="109"/>
-        <image name="heart.fill" catalog="system" width="128" height="109"/>
         <image name="mappin" catalog="system" width="105" height="128"/>
         <image name="paperplane" catalog="system" width="128" height="118"/>
         <systemColor name="placeholderTextColor">
