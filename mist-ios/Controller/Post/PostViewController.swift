@@ -14,21 +14,29 @@ class PostViewController: KUIViewController, UIViewControllerTransitioningDelega
     
     //MARK: - Properties
     
+    //UI
+    @IBOutlet weak var postTableView: UITableView!
     @IBOutlet weak var commentView: UIView!
     @IBOutlet weak var commentProfileImage: UIImageView!
     @IBOutlet weak var commentTextView: UITextView!
     @IBOutlet weak var commentButton: UIButton!
     var commentPlaceholderLabel: UILabel!
+    var indicator = UIActivityIndicatorView()
+    
+    //Flags
     var shouldStartWithRaisedKeyboard: Bool!
     
-    //MARK: - Comments
+    //Data
     var post: Post! // PostVC should never be created without a post
     var comments = [Comment]()
     var commentProfilePics = [Int: UIImage]()
-    @IBOutlet weak var postTableView: UITableView!
-    var indicator = UIActivityIndicatorView()
-    var completionHandler: UpdatedPostCompletionHandler?
     
+    //PostDelegate
+    var voteTasks: [Task<Void, Never>] = []
+    var favoriteTasks: [Task<Void, Never>] = []
+    
+    //Misc
+    var prepareForDismiss: UpdatedPostCompletionHandler?
     
     //MARK: Lifecycle
     
@@ -59,7 +67,7 @@ class PostViewController: KUIViewController, UIViewControllerTransitioningDelega
         super.viewWillDisappear(animated)
         if isBeingDismissed {
             commentTextView.text = ""
-            if let completionHandler = completionHandler{
+            if let completionHandler = prepareForDismiss{
                 completionHandler(post)
             }
         }
@@ -126,10 +134,10 @@ class PostViewController: KUIViewController, UIViewControllerTransitioningDelega
         Task {
             do {
                 commentButton.isEnabled = false
-                let newCommentAndUpdatedPost = try await UserService.singleton.uploadComment(text: commentTextView.text,
-                                                                                             postId: post.id,
-                                                                                             author: UserService.singleton.getId())
-                handleSuccessfulCommentSubmission(newComment: newCommentAndUpdatedPost.0, updatedPost: newCommentAndUpdatedPost.1)
+                let newComment = try await UserService.singleton.uploadComment(text: commentTextView.text,
+                                                                               postId: post.id,
+                                                                               author: UserService.singleton.getId())
+                handleSuccessfulCommentSubmission(newComment: newComment)
             } catch {
                 CustomSwiftMessages.displayError(error)
             }
@@ -232,12 +240,12 @@ extension PostViewController: CommentDelegate {
 
 extension PostViewController {
     
-    func handleSuccessfulCommentSubmission(newComment: Comment, updatedPost: Post) {
+    func handleSuccessfulCommentSubmission(newComment: Comment) {
         clearAllFields()
         commentTextView.resignFirstResponder()
         postTableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
         comments.append(newComment)
-        post = updatedPost
+        post.commentcount += 1
         postTableView.reloadData()
     }
         
@@ -255,11 +263,11 @@ extension PostViewController {
 
 extension PostViewController: PostDelegate {
     
-    func backgroundDidTapped(post: Post) {
+    func handleBackgroundTap(post: Post) {
         commentTextView.resignFirstResponder()
     }
     
-    func commentDidTapped(post: Post) {
+    func handleCommentButtonTap(post: Post) {
         commentTextView.becomeFirstResponder()
     }
     

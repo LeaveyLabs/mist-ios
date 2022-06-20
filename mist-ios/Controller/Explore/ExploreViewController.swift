@@ -59,6 +59,10 @@ class ExploreViewController: MapViewController {
     }
     var annotationSelectionType: AnnotationSelectionType = .normal
     
+    //PostDelegate
+    var voteTasks: [Task<Void, Never>] = []
+    var favoriteTasks: [Task<Void, Never>] = []
+    
 }
 
 // MARK: - View Life Cycle
@@ -251,11 +255,11 @@ extension ExploreViewController: FilterDelegate {
 
 extension ExploreViewController: PostDelegate {
     
-    func backgroundDidTapped(post: Post) {
+    func handleBackgroundTap(post: Post) {
         sendToPostViewFor(post, withRaisedKeyboard: false)
     }
     
-    func commentDidTapped(post: Post) {
+    func handleCommentButtonTap(post: Post) {
         sendToPostViewFor(post, withRaisedKeyboard: true)
     }
     
@@ -265,11 +269,24 @@ extension ExploreViewController: PostDelegate {
         let postVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
         postVC.post = post
         postVC.shouldStartWithRaisedKeyboard = withRaisedKeyboard
-        postVC.completionHandler = { Post in
-//            reloadPosts(withType: .refresh)
-            //TODO: uhh.. how to make sure the post is updated? i have to update the postannotation's post
+        postVC.prepareForDismiss = { [self] updatedPost in
+            handleUpdatedPost(updatedPost: updatedPost)
         }
         navigationController!.pushViewController(postVC, animated: true)
+    }
+    
+    func handleUpdatedPost(updatedPost: Post) {
+        //Update data
+        let index = postAnnotations.firstIndex { postAnnotation in postAnnotation.post.id == updatedPost.id }!
+        postAnnotations[index].post = updatedPost //this is the data which both feed and selectedAnnotationView depend on
+        
+        //Rerender the currently selectedPostAnnotationView if one exists
+        if let selectedPostAnnotationView = selectedAnnotationView as? PostAnnotationView {
+            selectedPostAnnotationView.rerenderCalloutForUpdatedPost()
+        }
+        
+        //Rerender feed
+        feed.reloadData()
     }
 
 }

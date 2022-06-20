@@ -152,7 +152,10 @@ extension ExploreViewController {
     }
 
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        selectedAnnotationView = nil
+        if let deselectedPostAnnotationView = selectedAnnotationView as? PostAnnotationView {
+            handleUpdatedPost(updatedPost: deselectedPostAnnotationView.postCalloutView!.post)
+            selectedAnnotationView = nil
+        }
     }
     
     override func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {

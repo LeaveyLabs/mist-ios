@@ -14,6 +14,10 @@ class SearchResultsTableViewController: FeedViewController {
     var feedType: FeedType!
     var feedValue: String!
     
+    //PostDelegate
+    var voteTasks: [Task<Void, Never>] = []
+    var favoriteTasks: [Task<Void, Never>] = []
+    
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
@@ -119,11 +123,11 @@ class SearchResultsTableViewController: FeedViewController {
 
 extension SearchResultsTableViewController: PostDelegate {
     
-    func backgroundDidTapped(post: Post) {
+    func handleBackgroundTap(post: Post) {
         sendToPostViewFor(post, withRaisedKeyboard: false)
     }
     
-    func commentDidTapped(post: Post) {
+    func handleCommentButtonTap(post: Post) {
         sendToPostViewFor(post, withRaisedKeyboard: true)
     }
     
@@ -133,7 +137,8 @@ extension SearchResultsTableViewController: PostDelegate {
         let postVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
         postVC.post = post
         postVC.shouldStartWithRaisedKeyboard = withRaisedKeyboard
-        postVC.completionHandler = { Post in
+        postVC.prepareForDismiss = { Post in
+            //TODO: this isn't good enough as is. need to also update the post of that particular row
             self.tableView.reloadData()
         }
         navigationController!.pushViewController(postVC, animated: true)

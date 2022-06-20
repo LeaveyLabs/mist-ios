@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="CommentCell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CommentCell" rowHeight="106" id="7Lf-tX-Otk" customClass="CommentCell" customModule="mist_ios" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="390" height="106"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7Lf-tX-Otk" id="41s-gV-vCI">
+                <rect key="frame" x="0.0" y="0.0" width="390" height="106"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PKG-OD-T7w">
+                        <rect key="frame" x="66" y="27.5" width="309" height="71.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="omg so cute @kevinsun did you dm them" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cd9-6T-PPr">
+                                <rect key="frame" x="12" y="5" width="285" height="52"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="19"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                        <constraints>
+                            <constraint firstItem="cd9-6T-PPr" firstAttribute="leading" secondItem="PKG-OD-T7w" secondAttribute="leading" constant="12" id="79o-Wu-2Qj"/>
+                            <constraint firstItem="cd9-6T-PPr" firstAttribute="top" secondItem="PKG-OD-T7w" secondAttribute="top" constant="10" id="R4j-Rg-Ia6"/>
+                            <constraint firstAttribute="trailing" secondItem="cd9-6T-PPr" secondAttribute="trailing" constant="12" id="g1L-Kx-Wto"/>
+                            <constraint firstAttribute="bottom" secondItem="cd9-6T-PPr" secondAttribute="bottom" constant="10" id="g7x-qB-xma"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="@adamvnovak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Miy-mz-pTZ">
+                        <rect key="frame" x="78" y="4.5" width="93.5" height="20"/>
+                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="14"/>
+                        <color key="textColor" systemColor="systemGrayColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IXa-b6-del">
+                        <rect key="frame" x="15" y="56" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="4cL-Uh-zOV"/>
+                            <constraint firstAttribute="width" secondItem="IXa-b6-del" secondAttribute="height" id="kWA-k9-wm9"/>
+                        </constraints>
+                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                        <state key="normal" title="asdf" image="adam"/>
+                        <connections>
+                            <action selector="didPressedAuthorProfilePic:" destination="7Lf-tX-Otk" eventType="touchUpInside" id="elZ-wO-XcF"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="PKG-OD-T7w" firstAttribute="leading" secondItem="IXa-b6-del" secondAttribute="trailing" constant="11" id="ATR-kg-C3s"/>
+                    <constraint firstItem="PKG-OD-T7w" firstAttribute="top" secondItem="Miy-mz-pTZ" secondAttribute="bottom" constant="1" id="NWL-fP-9tn"/>
+                    <constraint firstItem="IXa-b6-del" firstAttribute="leading" secondItem="41s-gV-vCI" secondAttribute="leading" constant="15" id="TYD-BM-unK"/>
+                    <constraint firstAttribute="trailing" secondItem="PKG-OD-T7w" secondAttribute="trailing" constant="15" id="cq8-sj-h09"/>
+                    <constraint firstItem="Miy-mz-pTZ" firstAttribute="top" secondItem="41s-gV-vCI" secondAttribute="top" constant="4.5" id="hQd-ct-Cql"/>
+                    <constraint firstAttribute="bottom" secondItem="PKG-OD-T7w" secondAttribute="bottom" constant="7" id="hXY-9y-dWQ"/>
+                    <constraint firstItem="IXa-b6-del" firstAttribute="bottom" secondItem="PKG-OD-T7w" secondAttribute="bottom" constant="-3" id="k8i-lG-01o"/>
+                    <constraint firstItem="Miy-mz-pTZ" firstAttribute="leading" secondItem="cd9-6T-PPr" secondAttribute="leading" id="kqc-xM-FX7"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="authorLabel" destination="Miy-mz-pTZ" id="Tdm-Y1-1hh"/>
+                <outlet property="authorProfilePicButton" destination="IXa-b6-del" id="wZv-sK-n11"/>
+                <outlet property="backgroundBubbleView" destination="PKG-OD-T7w" id="wWN-Q2-USK"/>
+                <outlet property="commentLabel" destination="cd9-6T-PPr" id="K0l-7H-BeQ"/>
+            </connections>
+            <point key="canvasLocation" x="-68.115942028985515" y="14.0625"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="adam" width="893" height="880"/>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

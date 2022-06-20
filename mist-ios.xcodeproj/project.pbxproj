@@ -570,7 +570,7 @@
 			path = Storyboards;
 			sourceTree = "<group>";
 		};
-		470BD12E27DB1D9A00DD4622 /* Xibs */ = {
+		470BD12E27DB1D9A00DD4622 /* TableCells */ = {
 			isa = PBXGroup;
 			children = (
 				477A6FD427DF86260020F864 /* Feed */,
@@ -578,9 +578,8 @@
 				4752718128556A6E00DDF84D /* Comment */,
 				4752717F28556A3F00DDF84D /* Search */,
 				47CEEE9928546B49008947FC /* MyAccount */,
-				47EE28FC28414A7200C6425C /* CustomSwiftMessages */,
 			);
-			path = Xibs;
+			path = TableCells;
 			sourceTree = "<group>";
 		};
 		4726C6AF27CA1DE90093400C /* Enums */ = {
@@ -696,8 +695,6 @@
 		4752718028556A5A00DDF84D /* Post */ = {
 			isa = PBXGroup;
 			children = (
-				47E295D5284BB79600A680CC /* PostView.swift */,
-				47E295D7284BB7B000A680CC /* PostView.xib */,
 				479AA1EE27DCE9A700EA0DFC /* PostCell.swift */,
 				47E295D9284BBB1400A680CC /* PostCell.xib */,
 			);
@@ -791,6 +788,9 @@
 		479AA1F927DD0EC000EA0DFC /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				47E295D5284BB79600A680CC /* PostView.swift */,
+				47E295D7284BB7B000A680CC /* PostView.xib */,
+				47EE28FC28414A7200C6425C /* CustomSwiftMessages */,
 				474A5DA427F40606004215F9 /* RoundedImageView.swift */,
 				479AA20227DD4AA900EA0DFC /* KUIViewController.swift */,
 				47A3D71C27D5940D003DBEA5 /* NewPostTextView.swift */,
@@ -959,7 +959,7 @@
 			children = (
 				479AA1F927DD0EC000EA0DFC /* CustomViews */,
 				479683F6282817F900CA23BA /* Annotations */,
-				470BD12E27DB1D9A00DD4622 /* Xibs */,
+				470BD12E27DB1D9A00DD4622 /* TableCells */,
 				470BD12D27DB1D8700DD4622 /* Storyboards */,
 				47E74E1427CA0FFF00467A0C /* Assets.xcassets */,
 			);

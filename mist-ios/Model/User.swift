@@ -84,10 +84,9 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties {
     var profilePicWrapper: ProfilePicWrapper
     var token: String
     var votes: [Vote]
-//    var authoredPosts: [Post]
-//    var favoritedPosts: [Post]
+    var favorites: [Favorite]
     
-    init(completeUser: CompleteUser, profilePic: ProfilePicWrapper, token: String, votes: [Vote]) {
+    init(completeUser: CompleteUser, profilePic: ProfilePicWrapper, token: String, votes: [Vote] = [], favorites: [Favorite] = []) {
         self.id = completeUser.id
         self.username = completeUser.username
         self.first_name = completeUser.first_name
@@ -98,7 +97,6 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties {
         self.profilePicWrapper = profilePic
         self.token = token
         self.votes = votes
-//        self.authoredPosts = authoredPosts
-//        self.favoritedPosts = favoritedPosts
+        self.favorites = favorites
     }
 }

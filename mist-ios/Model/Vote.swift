@@ -12,5 +12,4 @@ struct Vote: Codable {
     let voter: Int;
     let post: Int;
     let timestamp: Double;
-    let rating: Int;
 }
