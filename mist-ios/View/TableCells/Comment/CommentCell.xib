@@ -17,10 +17,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PKG-OD-T7w">
-                        <rect key="frame" x="66" y="27.5" width="309" height="71.5"/>
+                        <rect key="frame" x="66" y="27.5" width="302" height="71.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="omg so cute @kevinsun did you dm them" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cd9-6T-PPr">
-                                <rect key="frame" x="12" y="5" width="285" height="52"/>
+                                <rect key="frame" x="12" y="5" width="278" height="52"/>
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="19"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -57,7 +57,7 @@
                     <constraint firstItem="PKG-OD-T7w" firstAttribute="leading" secondItem="IXa-b6-del" secondAttribute="trailing" constant="11" id="ATR-kg-C3s"/>
                     <constraint firstItem="PKG-OD-T7w" firstAttribute="top" secondItem="Miy-mz-pTZ" secondAttribute="bottom" constant="1" id="NWL-fP-9tn"/>
                     <constraint firstItem="IXa-b6-del" firstAttribute="leading" secondItem="41s-gV-vCI" secondAttribute="leading" constant="15" id="TYD-BM-unK"/>
-                    <constraint firstAttribute="trailing" secondItem="PKG-OD-T7w" secondAttribute="trailing" constant="15" id="cq8-sj-h09"/>
+                    <constraint firstAttribute="trailing" secondItem="PKG-OD-T7w" secondAttribute="trailing" constant="22" id="cq8-sj-h09"/>
                     <constraint firstItem="Miy-mz-pTZ" firstAttribute="top" secondItem="41s-gV-vCI" secondAttribute="top" constant="4.5" id="hQd-ct-Cql"/>
                     <constraint firstAttribute="bottom" secondItem="PKG-OD-T7w" secondAttribute="bottom" constant="7" id="hXY-9y-dWQ"/>
                     <constraint firstItem="IXa-b6-del" firstAttribute="bottom" secondItem="PKG-OD-T7w" secondAttribute="bottom" constant="-3" id="k8i-lG-01o"/>

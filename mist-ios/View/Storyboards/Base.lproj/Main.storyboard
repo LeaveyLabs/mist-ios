@@ -83,10 +83,10 @@
                     </view>
                     <connections>
                         <outlet property="bottomConstraintForKeyboard" destination="Bbt-SW-GIZ" id="kHa-pa-Vms"/>
-                        <outlet property="commentButton" destination="9Te-PH-iCc" id="0fK-DK-CKR"/>
+                        <outlet property="commentAccessoryView" destination="CrT-TW-jr0" id="Cdx-cb-h2C"/>
                         <outlet property="commentProfileImage" destination="CQR-wF-TqD" id="Mn4-Gj-lWZ"/>
+                        <outlet property="commentSubmitButton" destination="9Te-PH-iCc" id="0fK-DK-CKR"/>
                         <outlet property="commentTextView" destination="ipv-OJ-vdL" id="Ltb-qf-d0e"/>
-                        <outlet property="commentView" destination="CrT-TW-jr0" id="Cdx-cb-h2C"/>
                         <outlet property="tableView" destination="aTY-DU-uzZ" id="D7P-C8-6Md"/>
                     </connections>
                 </viewController>
@@ -976,64 +976,16 @@
                                 <rect key="frame" x="0.0" y="44" width="390" height="766"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="qCS-CF-xHF">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="706.66666666666663"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="766"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7rc-Ne-Ws7" userLabel="Comment View">
-                                        <rect key="frame" x="0.0" y="706.66666666666663" width="390" height="59.333333333333371"/>
-                                        <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="2oL-ZT-wEB">
-                                                <rect key="frame" x="17" y="9.6666666666667425" width="40" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="2oL-ZT-wEB" secondAttribute="height" id="3oc-Px-FHX"/>
-                                                    <constraint firstAttribute="width" constant="40" id="EHG-Az-BfG"/>
-                                                </constraints>
-                                            </imageView>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bq1-qJ-1bN">
-                                                <rect key="frame" x="69" y="10" width="256" height="39.333333333333336"/>
-                                                <color key="backgroundColor" systemColor="systemGray6Color"/>
-                                                <color key="textColor" systemColor="labelColor"/>
-                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
-                                            </textView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Dk-N6-QGh" userLabel="Comment Button">
-                                                <rect key="frame" x="340" y="14" width="30" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="0jq-gk-zpS"/>
-                                                    <constraint firstAttribute="width" secondItem="7Dk-N6-QGh" secondAttribute="height" id="Bvq-ys-TX4"/>
-                                                </constraints>
-                                                <color key="tintColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" image="arrow.turn.right.up" catalog="system">
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30" scale="default" weight="regular"/>
-                                                </buttonConfiguration>
-                                                <connections>
-                                                    <action selector="submitCommentButtonDidPressed:" destination="xtL-jg-0Sy" eventType="touchUpInside" id="zzZ-15-O7j"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" constant="10" id="ABc-Kt-BTm"/>
-                                            <constraint firstItem="bq1-qJ-1bN" firstAttribute="top" secondItem="7rc-Ne-Ws7" secondAttribute="top" constant="10" id="Dov-HY-q8X"/>
-                                            <constraint firstItem="2oL-ZT-wEB" firstAttribute="leading" secondItem="7rc-Ne-Ws7" secondAttribute="leading" constant="17" id="HvG-Pc-CA5"/>
-                                            <constraint firstAttribute="trailing" secondItem="7Dk-N6-QGh" secondAttribute="trailing" constant="20" symbolic="YES" id="TZW-oW-eh7"/>
-                                            <constraint firstAttribute="bottom" secondItem="2oL-ZT-wEB" secondAttribute="bottom" constant="9.6699999999999999" id="V6w-tn-hcb"/>
-                                            <constraint firstItem="bq1-qJ-1bN" firstAttribute="leading" secondItem="2oL-ZT-wEB" secondAttribute="trailing" constant="12" id="YR4-95-3iz"/>
-                                            <constraint firstAttribute="bottom" secondItem="7Dk-N6-QGh" secondAttribute="bottom" constant="15.33" id="Zki-Cl-4Pe"/>
-                                            <constraint firstItem="7Dk-N6-QGh" firstAttribute="leading" secondItem="bq1-qJ-1bN" secondAttribute="trailing" constant="15" id="z9Q-qh-SCX"/>
-                                        </constraints>
-                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstItem="7rc-Ne-Ws7" firstAttribute="top" secondItem="qCS-CF-xHF" secondAttribute="bottom" id="55d-b0-OUB"/>
+                                    <constraint firstAttribute="bottom" secondItem="qCS-CF-xHF" secondAttribute="bottom" id="3By-Dw-p9W"/>
                                     <constraint firstAttribute="trailing" secondItem="qCS-CF-xHF" secondAttribute="trailing" id="KPi-bO-lj9"/>
-                                    <constraint firstItem="7rc-Ne-Ws7" firstAttribute="leading" secondItem="Kp0-mP-Z8j" secondAttribute="leading" id="NFu-59-Ym2"/>
                                     <constraint firstItem="qCS-CF-xHF" firstAttribute="top" secondItem="Kp0-mP-Z8j" secondAttribute="top" id="TDd-TK-Tvb"/>
-                                    <constraint firstAttribute="bottom" secondItem="7rc-Ne-Ws7" secondAttribute="bottom" id="dyt-5p-UdO"/>
-                                    <constraint firstAttribute="trailing" secondItem="7rc-Ne-Ws7" secondAttribute="trailing" id="x9c-dd-Qdn"/>
                                     <constraint firstItem="qCS-CF-xHF" firstAttribute="leading" secondItem="Kp0-mP-Z8j" secondAttribute="leading" id="yOU-Ze-6bb"/>
                                 </constraints>
                             </view>
@@ -1055,15 +1007,61 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="bottomConstraintForKeyboard" destination="dyt-5p-UdO" id="8rW-YX-DcV"/>
-                        <outlet property="commentButton" destination="7Dk-N6-QGh" id="xbZ-JH-vOC"/>
-                        <outlet property="commentProfileImage" destination="2oL-ZT-wEB" id="4fc-Wn-dqk"/>
+                        <outlet property="commentAccessoryView" destination="7rc-Ne-Ws7" id="GWO-vR-d1d"/>
+                        <outlet property="commentProfileImage" destination="2oL-ZT-wEB" id="aTZ-j8-9DM"/>
+                        <outlet property="commentSubmitButton" destination="7Dk-N6-QGh" id="xbZ-JH-vOC"/>
                         <outlet property="commentTextView" destination="bq1-qJ-1bN" id="Byl-O8-lBR"/>
-                        <outlet property="commentView" destination="7rc-Ne-Ws7" id="WSA-iH-VdK"/>
                         <outlet property="tableView" destination="qCS-CF-xHF" id="Pj2-yc-njE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fGf-4b-NgQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="7rc-Ne-Ws7" userLabel="Comment View" customClass="ComposeCommentView" customModule="mist_ios" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="390" height="59.333333333333336"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="2oL-ZT-wEB">
+                            <rect key="frame" x="15" y="9.3333333333333357" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="2oL-ZT-wEB" secondAttribute="height" id="3oc-Px-FHX"/>
+                                <constraint firstAttribute="width" constant="40" id="EHG-Az-BfG"/>
+                            </constraints>
+                        </imageView>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bq1-qJ-1bN">
+                            <rect key="frame" x="65" y="10" width="265" height="39.333333333333336"/>
+                            <color key="backgroundColor" systemColor="systemGray6Color"/>
+                            <color key="textColor" systemColor="labelColor"/>
+                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                        </textView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Dk-N6-QGh" userLabel="Comment Button">
+                            <rect key="frame" x="340" y="9.3333333333333357" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="0jq-gk-zpS"/>
+                                <constraint firstAttribute="width" secondItem="7Dk-N6-QGh" secondAttribute="height" id="Bvq-ys-TX4"/>
+                            </constraints>
+                            <color key="tintColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="arrow.turn.right.up" catalog="system" title="">
+                                <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30" scale="default" weight="regular"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="submitCommentButtonDidPressed:" destination="xtL-jg-0Sy" eventType="touchUpInside" id="zzZ-15-O7j"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <viewLayoutGuide key="safeArea" id="AMO-uP-Dy2"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" constant="10" id="ABc-Kt-BTm"/>
+                        <constraint firstItem="bq1-qJ-1bN" firstAttribute="top" secondItem="7rc-Ne-Ws7" secondAttribute="top" constant="10" id="Dov-HY-q8X"/>
+                        <constraint firstItem="2oL-ZT-wEB" firstAttribute="leading" secondItem="7rc-Ne-Ws7" secondAttribute="leading" constant="15" id="HvG-Pc-CA5"/>
+                        <constraint firstAttribute="trailing" secondItem="7Dk-N6-QGh" secondAttribute="trailing" constant="10" id="TZW-oW-eh7"/>
+                        <constraint firstAttribute="bottom" secondItem="2oL-ZT-wEB" secondAttribute="bottom" constant="10" id="V6w-tn-hcb"/>
+                        <constraint firstItem="bq1-qJ-1bN" firstAttribute="leading" secondItem="2oL-ZT-wEB" secondAttribute="trailing" constant="10" id="YR4-95-3iz"/>
+                        <constraint firstAttribute="bottom" secondItem="7Dk-N6-QGh" secondAttribute="bottom" constant="10" id="Zki-Cl-4Pe"/>
+                        <constraint firstItem="7Dk-N6-QGh" firstAttribute="leading" secondItem="bq1-qJ-1bN" secondAttribute="trailing" constant="10" id="z9Q-qh-SCX"/>
+                    </constraints>
+                </view>
             </objects>
             <point key="canvasLocation" x="474" y="503"/>
         </scene>

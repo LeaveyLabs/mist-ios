@@ -44,7 +44,7 @@ class PostCell: UITableViewCell {
             postView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),]
         verticalConstraints.forEach { constraint in constraint.priority = .defaultHigh } //in order to prevent conflicts with "UIView-Encapsulated-Layout-Height" of cell's contentView upon initial load
         NSLayoutConstraint.activate([
-            postView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -55),
+            postView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -52),
             postView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 2),
             verticalConstraints[0],
             verticalConstraints[1],

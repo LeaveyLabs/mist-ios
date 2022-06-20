@@ -7,21 +7,32 @@
 
 import UIKit
 
-let COMMENT_PLACEHOLDER_TEXT = "wait this is so..."
+let COMMENT_PLACEHOLDER_TEXT = "@ibrahimmm this you?"
 typealias UpdatedPostCompletionHandler = ((Post) -> Void)
 
-class PostViewController: KUIViewController, UIViewControllerTransitioningDelegate {
+class PostViewController: UIViewController, UIViewControllerTransitioningDelegate {
     
     //MARK: - Properties
     
     //UI
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var commentView: UIView!
-    @IBOutlet weak var commentProfileImage: UIImageView!
-    @IBOutlet weak var commentTextView: UITextView!
-    @IBOutlet weak var commentButton: UIButton!
-    var commentPlaceholderLabel: UILabel!
     var activityIndicator = UIActivityIndicatorView(style: .medium)
+
+    @IBOutlet weak var commentTextView: UITextView!
+    @IBOutlet weak var commentAccessoryView: UIView!
+    lazy var wrappedAccessoryView: SafeAreaInputAccessoryViewWrapperView = {
+        return SafeAreaInputAccessoryViewWrapperView(for: commentAccessoryView)
+    }()
+    
+    @IBOutlet weak var commentProfileImage: UIImageView!
+    @IBOutlet weak var commentSubmitButton: UIButton!
+    var commentPlaceholderLabel: UILabel!
+    override var canBecomeFirstResponder: Bool {
+        get { return true } //means that the inputAccessoryView will always be enabled
+    }
+    override var inputAccessoryView: UIView {
+        get { return wrappedAccessoryView }
+    }
     
     //Flags
     var shouldStartWithRaisedKeyboard: Bool!
@@ -54,22 +65,23 @@ class PostViewController: KUIViewController, UIViewControllerTransitioningDelega
         
         setupTableView()
         setupCommentView()
-        commentPlaceholderLabel = commentTextView.addAndReturnPlaceholderLabel(withText: COMMENT_PLACEHOLDER_TEXT)
         loadComments()
-        shouldKUIViewKeyboardDismissOnBackgroundTouch = true
         
         //User Interaction
         //(1 of 2) for enabling swipe left to go back with a bar button item
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
-
-        //Misc
-        if shouldStartWithRaisedKeyboard {
-            commentTextView.becomeFirstResponder()
-        }
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated);
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if shouldStartWithRaisedKeyboard {
+//            commentTextView.becomeFirstResponder() //not working right now
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -99,15 +111,11 @@ class PostViewController: KUIViewController, UIViewControllerTransitioningDelega
         activityIndicator.startAnimating()
         
         //we are choosing to leave out this functionality for now
-        //postTableView.keyboardDismissMode = .onDrag
+        tableView.keyboardDismissMode = .interactive
     }
     
     func setupCommentView() {
-//        commentTextView.inputAccessoryView = commentView
-//        postTableView.keyboardDismissMode = .interactive
         commentProfileImage.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
-        
-        commentView.borders(for: [UIRectEdge.top])
         
         commentTextView.delegate = self
         commentTextView.layer.borderWidth = 1
@@ -115,8 +123,11 @@ class PostViewController: KUIViewController, UIViewControllerTransitioningDelega
         commentTextView.layer.cornerRadius = 15
         commentTextView.textContainer.lineFragmentPadding = 0
         commentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        
-        commentButton.isEnabled = false
+        commentAccessoryView.borders(for: [UIRectEdge.top])
+        commentTextView.inputAccessoryView = wrappedAccessoryView
+        commentPlaceholderLabel = commentTextView.addAndReturnPlaceholderLabel(withText: COMMENT_PLACEHOLDER_TEXT)
+
+        commentSubmitButton.isEnabled = false
     }
     
     //MARK: - User Interaction
@@ -134,12 +145,12 @@ class PostViewController: KUIViewController, UIViewControllerTransitioningDelega
         guard !commentTextView.text.isEmpty else { return }
         Task {
             do {
-                commentButton.isEnabled = false
+                commentSubmitButton.isEnabled = false
                 let newComment = try await UserService.singleton.uploadComment(text: commentTextView.text,
                                                                                postId: post.id)
                 handleSuccessfulCommentSubmission(newComment: newComment)
             } catch {
-                commentButton.isEnabled = true
+                commentSubmitButton.isEnabled = true
                 CustomSwiftMessages.displayError(error)
             }
         }
@@ -250,7 +261,7 @@ extension PostViewController {
     }
         
     func validateAllFields() {
-        commentButton.isEnabled = commentTextView.text != ""
+        commentSubmitButton.isEnabled = commentTextView.text != ""
     }
     
     func clearAllFields() {

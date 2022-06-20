@@ -50,20 +50,20 @@
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Doheny Library" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hUc-aP-KHZ">
-                                    <rect key="frame" x="23" y="0.0" width="153" height="20"/>
+                                    <rect key="frame" x="23" y="0.0" width="183" height="20"/>
                                     <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
                                     <color key="textColor" systemColor="systemGrayColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8V3-eu-htZ">
-                                    <rect key="frame" x="179" y="0.0" width="5" height="20"/>
+                                    <rect key="frame" x="209" y="0.0" width="5" height="20"/>
                                     <color key="backgroundColor" red="0.96078431369999995" green="0.94117647059999998" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="5" id="eP6-TS-Tti"/>
                                     </constraints>
                                 </view>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="KGT-5M-NJR">
-                                    <rect key="frame" x="187" y="0.5" width="20" height="19"/>
+                                    <rect key="frame" x="217" y="0.5" width="20" height="19"/>
                                     <color key="tintColor" systemColor="systemGrayColor"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="20" id="uiT-hb-Y0u"/>
@@ -71,14 +71,16 @@
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="regular"/>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 days ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NEB-ah-MBr">
-                                    <rect key="frame" x="210" y="0.0" width="140" height="20"/>
+                                    <rect key="frame" x="240" y="0.0" width="110" height="20"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="110" id="Fgv-ah-szr"/>
+                                    </constraints>
                                     <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
                                     <color key="textColor" systemColor="systemGrayColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
                             <constraints>
-                                <constraint firstItem="NEB-ah-MBr" firstAttribute="width" secondItem="hUc-aP-KHZ" secondAttribute="width" multiplier="0.915033" id="MrD-eZ-N5M"/>
                                 <constraint firstAttribute="height" constant="20" id="twF-yH-RQc"/>
                             </constraints>
                         </stackView>
