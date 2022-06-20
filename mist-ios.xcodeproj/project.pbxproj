@@ -151,7 +151,6 @@
 		479683F5282817CC00CA23BA /* PostAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479683F4282817CC00CA23BA /* PostAnnotationView.swift */; };
 		479683F82828180C00CA23BA /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479683F72828180C00CA23BA /* ClusterAnnotationView.swift */; };
 		479683FA28283ED700CA23BA /* MKClusterAnnotation+*.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479683F928283ED700CA23BA /* MKClusterAnnotation+*.swift */; };
-		479AA1F027DCE9A700EA0DFC /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479AA1EE27DCE9A700EA0DFC /* PostCell.swift */; };
 		479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479AA1F227DCF2BD00EA0DFC /* PostViewController.swift */; };
 		479AA1F527DCFFCB00EA0DFC /* UIView+TopBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479AA1F427DCFFCB00EA0DFC /* UIView+TopBorder.swift */; };
 		479AA1FD27DD109F00EA0DFC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479AA1FC27DD109F00EA0DFC /* Constants.swift */; };
@@ -182,7 +181,6 @@
 		47E295D4284BB3E100A680CC /* NibViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E295D3284BB3E100A680CC /* NibViewController.swift */; };
 		47E295D6284BB79600A680CC /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E295D5284BB79600A680CC /* PostView.swift */; };
 		47E295D8284BB7B000A680CC /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47E295D7284BB7B000A680CC /* PostView.xib */; };
-		47E295DA284BBB1400A680CC /* PostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47E295D9284BBB1400A680CC /* PostCell.xib */; };
 		47E2B1BD27FFC52900131B8D /* ShadowNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */; };
 		47E2B1BF2800C1CD00131B8D /* UITextView+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E2B1BE2800C1CD00131B8D /* UITextView+Placeholder.swift */; };
 		47E2B1C22800E9EB00131B8D /* MyCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E2B1C02800E9EB00131B8D /* MyCommentCell.swift */; };
@@ -215,8 +213,7 @@
 		5B13B73F285CF119000ADF5E /* Experimental.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13B73E285CF119000ADF5E /* Experimental.swift */; };
 		5B13B741285D05B0000ADF5E /* UISearchBar+CenterText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13B740285D05B0000ADF5E /* UISearchBar+CenterText.swift */; };
 		5B13B743285D3877000ADF5E /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13B742285D3877000ADF5E /* Error.swift */; };
-		5B4D589D28603A46002E2F94 /* PostCellTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D589B28603A46002E2F94 /* PostCellTwo.swift */; };
-		5B4D58A22860C90B002E2F94 /* PostCellTwo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B4D58A12860C90B002E2F94 /* PostCellTwo.xib */; };
+		5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D589B28603A46002E2F94 /* PostCell.swift */; };
 		5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4D9BD285C018000197080 /* String+Capitalization.swift */; };
 		5BF78337285D955F003C3955 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78336285D955F003C3955 /* Map.swift */; };
 		5BF78339285E4477003C3955 /* UITableView+SectionShadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78338285E4477003C3955 /* UITableView+SectionShadow.swift */; };
@@ -387,7 +384,6 @@
 		479683F4282817CC00CA23BA /* PostAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAnnotationView.swift; sourceTree = "<group>"; };
 		479683F72828180C00CA23BA /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
 		479683F928283ED700CA23BA /* MKClusterAnnotation+*.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKClusterAnnotation+*.swift"; sourceTree = "<group>"; };
-		479AA1EE27DCE9A700EA0DFC /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		479AA1F227DCF2BD00EA0DFC /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		479AA1F427DCFFCB00EA0DFC /* UIView+TopBorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+TopBorder.swift"; sourceTree = "<group>"; };
 		479AA1FC27DD109F00EA0DFC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -420,7 +416,6 @@
 		47E295D3284BB3E100A680CC /* NibViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibViewController.swift; sourceTree = "<group>"; };
 		47E295D5284BB79600A680CC /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		47E295D7284BB7B000A680CC /* PostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostView.xib; sourceTree = "<group>"; };
-		47E295D9284BBB1400A680CC /* PostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostCell.xib; sourceTree = "<group>"; };
 		47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowNavigationController.swift; sourceTree = "<group>"; };
 		47E2B1BE2800C1CD00131B8D /* UITextView+Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Placeholder.swift"; sourceTree = "<group>"; };
 		47E2B1C02800E9EB00131B8D /* MyCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommentCell.swift; sourceTree = "<group>"; };
@@ -457,8 +452,7 @@
 		5B13B73E285CF119000ADF5E /* Experimental.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Experimental.swift; sourceTree = "<group>"; };
 		5B13B740285D05B0000ADF5E /* UISearchBar+CenterText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+CenterText.swift"; sourceTree = "<group>"; };
 		5B13B742285D3877000ADF5E /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
-		5B4D589B28603A46002E2F94 /* PostCellTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellTwo.swift; sourceTree = "<group>"; };
-		5B4D58A12860C90B002E2F94 /* PostCellTwo.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostCellTwo.xib; sourceTree = "<group>"; };
+		5B4D589B28603A46002E2F94 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		5BE4D9BD285C018000197080 /* String+Capitalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Capitalization.swift"; sourceTree = "<group>"; };
 		5BF78336285D955F003C3955 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		5BF78338285E4477003C3955 /* UITableView+SectionShadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+SectionShadow.swift"; sourceTree = "<group>"; };
@@ -699,10 +693,7 @@
 		4752718028556A5A00DDF84D /* Post */ = {
 			isa = PBXGroup;
 			children = (
-				479AA1EE27DCE9A700EA0DFC /* PostCell.swift */,
-				47E295D9284BBB1400A680CC /* PostCell.xib */,
-				5B4D589B28603A46002E2F94 /* PostCellTwo.swift */,
-				5B4D58A12860C90B002E2F94 /* PostCellTwo.xib */,
+				5B4D589B28603A46002E2F94 /* PostCell.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -1220,7 +1211,6 @@
 				47527193285584F400DDF84D /* SimpleInputCell.xib in Resources */,
 				47C2835027DED77500A19128 /* FeedHeaderCell.xib in Resources */,
 				47061CDD285172A10042F04C /* CustomCardView.xib in Resources */,
-				47E295DA284BBB1400A680CC /* PostCell.xib in Resources */,
 				434F459A285522C8003672C7 /* Loading.storyboard in Resources */,
 				47E295D8284BB7B000A680CC /* PostView.xib in Resources */,
 				47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */,
@@ -1229,7 +1219,6 @@
 				47527192285584F400DDF84D /* MyProfileCell.xib in Resources */,
 				475271982855851200DDF84D /* MyAccountCell.xib in Resources */,
 				434F4599285522C8003672C7 /* Main.storyboard in Resources */,
-				5B4D58A22860C90B002E2F94 /* PostCellTwo.xib in Resources */,
 				47EE290028414B2300C6425C /* CustomCenteredView.xib in Resources */,
 				4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */,
 				47E2B1C32800E9EB00131B8D /* MyCommentCell.xib in Resources */,
@@ -1384,7 +1373,7 @@
 				472A4BF428408BD800FD52B7 /* SpringImageView.swift in Sources */,
 				43D925202852802600438C5C /* FriendRequest.swift in Sources */,
 				47AC881F28480AE1000150CA /* UIButton+RightSideImage.swift in Sources */,
-				5B4D589D28603A46002E2F94 /* PostCellTwo.swift in Sources */,
+				5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */,
 				472F8D1A28505F4600DB69C4 /* PostDelegate.swift in Sources */,
 				478A7899284E708D0058C845 /* CLLocationCoordinate+Distance.swift in Sources */,
 				474A5DA827F4079D004215F9 /* MyProfileViewController.swift in Sources */,
@@ -1392,7 +1381,6 @@
 				436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */,
 				47A3D70E27D55BB3003DBEA5 /* Time.swift in Sources */,
 				43770C4B27EE8C0F00F31CCF /* LoginViewController.swift in Sources */,
-				479AA1F027DCE9A700EA0DFC /* PostCell.swift in Sources */,
 				47A3D70027D50CF1003DBEA5 /* FeedViewController.swift in Sources */,
 				43483BB42802519C001C7C6A /* CreatePasswordViewController.swift in Sources */,
 				47E295D6284BB79600A680CC /* PostView.swift in Sources */,

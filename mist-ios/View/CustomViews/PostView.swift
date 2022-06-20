@@ -119,8 +119,8 @@ extension PostView {
         postTitleLabel.text = post.title
         likeLabelButton.setTitle(String(post.votecount), for: .normal)
         
-        print("CONFIGURING POST")
-        print("get votes:" )
+//        print("CONFIGURING POST")
+//        print("get votes:" )
         print(UserService.singleton.getVotesForPost(postId: post.id))
         likeButton.isSelected = !UserService.singleton.getVotesForPost(postId: post.id).isEmpty
         favoriteButton.isSelected = UserService.singleton.getIsFavoritedForPost(postId: post.id)

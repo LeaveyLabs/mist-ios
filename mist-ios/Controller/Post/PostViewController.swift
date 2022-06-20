@@ -90,8 +90,7 @@ class PostViewController: KUIViewController, UIViewControllerTransitioningDelega
         postTableView.dataSource = self
         postTableView.separatorStyle = .none
         
-        let postNib = UINib(nibName: Constants.SBID.Cell.Post, bundle: nil);
-        postTableView.register(postNib, forCellReuseIdentifier: Constants.SBID.Cell.Post);
+        postTableView.register(PostCell.self, forCellReuseIdentifier: Constants.SBID.Cell.Post);
         let commentNib = UINib(nibName: Constants.SBID.Cell.Comment, bundle: nil);
         postTableView.register(commentNib, forCellReuseIdentifier: Constants.SBID.Cell.Comment);
         
@@ -210,8 +209,7 @@ extension PostViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-            cell.configurePostCell(post: post, bubbleTrianglePosition: .left)
-            cell.postDelegate = self
+            cell.configurePostCell(post: post, nestedPostViewDelegate: self, bubbleTrianglePosition: .left)
             return cell
         }
         //else the cell is a comment
