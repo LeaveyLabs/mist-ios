@@ -983,7 +983,7 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="qCS-CF-xHF" secondAttribute="bottom" id="3By-Dw-p9W"/>
+                                    <constraint firstAttribute="bottom" secondItem="qCS-CF-xHF" secondAttribute="bottom" priority="999" id="Bs1-Jh-rf7"/>
                                     <constraint firstAttribute="trailing" secondItem="qCS-CF-xHF" secondAttribute="trailing" id="KPi-bO-lj9"/>
                                     <constraint firstItem="qCS-CF-xHF" firstAttribute="top" secondItem="Kp0-mP-Z8j" secondAttribute="top" id="TDd-TK-Tvb"/>
                                     <constraint firstItem="qCS-CF-xHF" firstAttribute="leading" secondItem="Kp0-mP-Z8j" secondAttribute="leading" id="yOU-Ze-6bb"/>
@@ -1020,29 +1020,29 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="2oL-ZT-wEB">
-                            <rect key="frame" x="15" y="9.3333333333333357" width="40" height="40"/>
+                            <rect key="frame" x="15" y="6.3333333333333321" width="43" height="43"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="2oL-ZT-wEB" secondAttribute="height" id="3oc-Px-FHX"/>
-                                <constraint firstAttribute="width" constant="40" id="EHG-Az-BfG"/>
+                                <constraint firstAttribute="width" constant="43" id="EHG-Az-BfG"/>
                             </constraints>
                         </imageView>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bq1-qJ-1bN">
-                            <rect key="frame" x="65" y="10" width="265" height="39.333333333333336"/>
+                            <rect key="frame" x="73" y="10" width="257" height="39.333333333333336"/>
                             <color key="backgroundColor" systemColor="systemGray6Color"/>
                             <color key="textColor" systemColor="labelColor"/>
                             <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
                             <textInputTraits key="textInputTraits" keyboardType="twitter"/>
                         </textView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Dk-N6-QGh" userLabel="Comment Button">
-                            <rect key="frame" x="340" y="9.3333333333333357" width="40" height="40"/>
+                            <rect key="frame" x="337" y="6.3333333333333321" width="43" height="43"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="40" id="0jq-gk-zpS"/>
+                                <constraint firstAttribute="height" constant="43" id="0jq-gk-zpS"/>
                                 <constraint firstAttribute="width" secondItem="7Dk-N6-QGh" secondAttribute="height" id="Bvq-ys-TX4"/>
                             </constraints>
                             <color key="tintColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" image="arrow.turn.right.up" catalog="system" title="">
-                                <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30" scale="default" weight="regular"/>
+                                <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30" scale="default" weight="medium"/>
                             </buttonConfiguration>
                             <connections>
                                 <action selector="submitCommentButtonDidPressed:" destination="xtL-jg-0Sy" eventType="touchUpInside" id="zzZ-15-O7j"/>
@@ -1054,12 +1054,12 @@
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" priority="999" constant="10" id="ABc-Kt-BTm"/>
                         <constraint firstItem="bq1-qJ-1bN" firstAttribute="top" secondItem="7rc-Ne-Ws7" secondAttribute="top" priority="999" constant="10" id="Dov-HY-q8X"/>
+                        <constraint firstItem="7Dk-N6-QGh" firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" id="Gs5-lR-yPc"/>
                         <constraint firstItem="2oL-ZT-wEB" firstAttribute="leading" secondItem="7rc-Ne-Ws7" secondAttribute="leading" priority="999" constant="15" id="HvG-Pc-CA5"/>
                         <constraint firstAttribute="trailing" secondItem="7Dk-N6-QGh" secondAttribute="trailing" priority="999" constant="10" id="TZW-oW-eh7"/>
-                        <constraint firstAttribute="bottom" secondItem="2oL-ZT-wEB" secondAttribute="bottom" priority="999" constant="10" id="V6w-tn-hcb"/>
-                        <constraint firstItem="bq1-qJ-1bN" firstAttribute="leading" secondItem="2oL-ZT-wEB" secondAttribute="trailing" priority="999" constant="10" id="YR4-95-3iz"/>
-                        <constraint firstAttribute="bottom" secondItem="7Dk-N6-QGh" secondAttribute="bottom" priority="999" constant="10" id="Zki-Cl-4Pe"/>
-                        <constraint firstItem="7Dk-N6-QGh" firstAttribute="leading" secondItem="bq1-qJ-1bN" secondAttribute="trailing" priority="999" constant="10" id="z9Q-qh-SCX"/>
+                        <constraint firstItem="bq1-qJ-1bN" firstAttribute="leading" secondItem="2oL-ZT-wEB" secondAttribute="trailing" priority="999" constant="15" id="YR4-95-3iz"/>
+                        <constraint firstItem="2oL-ZT-wEB" firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" id="Z7h-kL-Ix5"/>
+                        <constraint firstItem="7Dk-N6-QGh" firstAttribute="leading" secondItem="bq1-qJ-1bN" secondAttribute="trailing" priority="999" constant="7" id="z9Q-qh-SCX"/>
                     </constraints>
                 </view>
             </objects>

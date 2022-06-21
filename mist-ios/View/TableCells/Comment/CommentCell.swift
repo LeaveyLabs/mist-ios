@@ -11,6 +11,14 @@ protocol CommentDelegate {
     func handleCommentProfilePicTap(commentAuthor: FrontendReadOnlyUser)
 }
 
+extension UIView {
+    func becomeCommentView() {
+        applyLightLeftShadow()
+        layer.cornerRadius = 10
+        layer.cornerCurve = .continuous
+    }
+}
+
 class CommentCell: UITableViewCell {
     
     //MARK: - Properties
@@ -37,7 +45,7 @@ class CommentCell: UITableViewCell {
         self.commentDelegate = delegate
         self.author = author
         timestampLabel.text = getShortFormattedTimeString(timestamp: comment.timestamp)
-        authorUsernameButton.titleLabel!.text = "@" + author.username
+        authorUsernameButton.setTitle("@" + author.username, for: .normal)
         commentLabel.text = comment.body
         authorProfilePicButton.imageView?.becomeProfilePicImageView(with: author.profilePic)
     }
@@ -62,10 +70,7 @@ class CommentCell: UITableViewCell {
         triangleView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
         backgroundBubbleView.addSubview(triangleView)
         backgroundBubbleView.sendSubviewToBack(triangleView)
-//        addLeftTriangleLayer(to: triangleView)
-        backgroundBubbleView.applyLightLeftShadow()
-        backgroundBubbleView.layer.cornerRadius = 10
-        backgroundBubbleView.layer.cornerCurve = .continuous
+        backgroundBubbleView.becomeCommentView()
     }
     
     //https://stackoverflow.com/questions/30650343/triangle-uiview-swift

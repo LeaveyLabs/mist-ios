@@ -20,9 +20,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
 
     @IBOutlet weak var commentTextView: UITextView!
     @IBOutlet var commentAccessoryView: UIView!
-    lazy var wrappedAccessoryView: SafeAreaInputAccessoryViewWrapperView = {
-        return SafeAreaInputAccessoryViewWrapperView(for: commentAccessoryView)
-    }()
+    var wrappedAccessoryView: SafeAreaInputAccessoryViewWrapperView!
     
     @IBOutlet weak var commentProfileImage: UIImageView!
     @IBOutlet weak var commentSubmitButton: UIButton!
@@ -67,9 +65,17 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         setupCommentView()
         loadComments()
         
+        view.keyboardLayoutGuide.topAnchor.constraint(equalTo: tableView.bottomAnchor).isActive = true
+        let tableViewTap = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
+        tableView.addGestureRecognizer(tableViewTap)
+                
         //User Interaction
         //(1 of 2) for enabling swipe left to go back with a bar button item
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+    }
+    
+    @objc func dismissKeyboard() {
+        commentTextView.resignFirstResponder()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -114,20 +120,28 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         tableView.keyboardDismissMode = .interactive
     }
     
-    func setupCommentView() {
-        commentProfileImage.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
-        
-        commentTextView.delegate = self
+    func oldBecomeCommentCode() { //Deprecated
         commentTextView.layer.borderWidth = 1
         commentTextView.layer.borderColor = UIColor.lightGray.cgColor
         commentTextView.layer.cornerRadius = 15
         commentTextView.textContainer.lineFragmentPadding = 0
         commentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         commentAccessoryView.borders(for: [UIRectEdge.top])
+    }
+    
+    func setupCommentView() {
+        commentProfileImage.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
+        
+        commentTextView.delegate = self
+        commentTextView.becomeCommentView()
+        commentAccessoryView.borders(for: [UIRectEdge.top])
+        wrappedAccessoryView = SafeAreaInputAccessoryViewWrapperView(for: commentAccessoryView)
         commentTextView.inputAccessoryView = wrappedAccessoryView
-        commentPlaceholderLabel = commentTextView.addAndReturnPlaceholderLabel(withText: COMMENT_PLACEHOLDER_TEXT)
 
-        commentTextView.inputAccessoryView!.constraints.forEach { $0.priority = UILayoutPriority.init(999)}
+        commentTextView.textContainer.lineFragmentPadding = 0
+        commentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        commentPlaceholderLabel = commentTextView.addAndReturnPlaceholderLabel(withText: COMMENT_PLACEHOLDER_TEXT)
+        
         commentSubmitButton.isEnabled = false
     }
     
