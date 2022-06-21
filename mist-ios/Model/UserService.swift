@@ -82,7 +82,7 @@ class UserService: NSObject {
     
     func deleteMyAccount() async throws {
         guard let frontendCompleteUser = frontendCompleteUser else { return }
-        try await UserAPI.deleteUser(id: frontendCompleteUser.id)
+        try await UserAPI.deleteUser(user_id: frontendCompleteUser.id)
         logOut()
     }
     
@@ -169,7 +169,7 @@ class UserService: NSObject {
     }
     
     func deletePost(postId: Int) async throws {
-        try await PostAPI.deletePost(id: postId)
+        try await PostAPI.deletePost(post_id: postId)
     }
     
     func uploadComment(text: String, postId: Int) async throws -> Comment {
@@ -179,7 +179,7 @@ class UserService: NSObject {
     }
     
     func deleteComment(commentId: Int, postId: Int) async throws {
-        try await CommentAPI.deleteComment(commentId: commentId)
+        try await CommentAPI.deleteComment(comment_id: commentId)
     }
     
     func insertTemporaryLocalVote(_ vote: Vote) {

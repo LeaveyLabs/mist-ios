@@ -133,8 +133,8 @@ class PostAPI {
     }
     
     // Deletes post from the database
-    static func deletePost(id:Int) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_POST_MODEL)\(id)/"
+    static func deletePost(post_id:Int) async throws {
+        let url = "\(BASE_URL)\(PATH_TO_POST_MODEL)\(post_id)/"
         let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
     }
 }

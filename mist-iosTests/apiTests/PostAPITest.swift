@@ -68,7 +68,7 @@ class PostAPITest: XCTestCase {
     // DELETE
     func testDeletePost() async throws {
         let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
-        try await PostAPI.deletePost(id: post.id)
+        try await PostAPI.deletePost(post_id: post.id)
     }
 
     func testPerformanceExample() throws {

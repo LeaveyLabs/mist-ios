@@ -35,8 +35,8 @@ class BlockAPI {
         return try JSONDecoder().decode(Block.self, from: data)
     }
     
-    static func deleteBlock(id:Int) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_BLOCK_MODEL)\(id)/"
+    static func deleteBlock(block_id:Int) async throws {
+        let url = "\(BASE_URL)\(PATH_TO_BLOCK_MODEL)\(block_id)/"
         let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
     }
 }

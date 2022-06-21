@@ -35,8 +35,8 @@ class FriendRequestAPI {
         return try JSONDecoder().decode(FriendRequest.self, from: data)
     }
     
-    static func deleteFriendRequest(id:Int) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_FRIEND_REQUESTS)\(id)/"
+    static func deleteFriendRequest(friend_request_id:Int) async throws {
+        let url = "\(BASE_URL)\(PATH_TO_FRIEND_REQUESTS)\(friend_request_id)/"
         let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
     }
 }

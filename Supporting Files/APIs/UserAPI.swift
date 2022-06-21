@@ -137,8 +137,8 @@ class UserAPI {
         return try JSONDecoder().decode(CompleteUser.self, from: data)
     }
     
-    static func deleteUser(id:Int) async throws {
-        let url =  "\(BASE_URL)\(PATH_TO_USER_MODEL)\(id)/"
+    static func deleteUser(user_id:Int) async throws {
+        let url =  "\(BASE_URL)\(PATH_TO_USER_MODEL)\(user_id)/"
         let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
     }
     

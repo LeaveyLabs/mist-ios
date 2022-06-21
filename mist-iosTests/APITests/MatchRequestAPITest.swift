@@ -53,7 +53,7 @@ class MatchRequestAPITest: XCTestCase {
         let fetchedMatchRequest2 = try await MatchRequestAPI.fetchMatchRequestsByReceiver(receiverUserId: TestConstants.Auth2.ID)
         XCTAssertTrue(postedMatchRequest.id == fetchedMatchRequest2.last!.id)
         setGlobalAuthToken(token: TestConstants.Auth.TOKEN)
-        try await MatchRequestAPI.deleteMatchRequest(id: postedMatchRequest.id)
+        try await MatchRequestAPI.deleteMatchRequest(match_request_id: postedMatchRequest.id)
     }
 
     func testPerformanceExample() throws {

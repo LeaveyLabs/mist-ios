@@ -73,7 +73,7 @@ extension PostDelegate where Self: UIViewController {
                     if isAdding {
                         let _ = try await FavoriteAPI.postFavorite(userId: UserService.singleton.getId(), postId: postId)
                     } else {
-                        let _ = try await FavoriteAPI.deleteFavorite(id: postId)
+                        let _ = try await FavoriteAPI.deleteFavorite(favorite_id: postId)
                     }
                 } catch {
                     UserService.singleton.removeTemporaryLocalFavorite(temporaryLocalFavorite)
@@ -106,7 +106,7 @@ extension PostDelegate where Self: UIViewController {
                     if isAdding {
                         let _ = try await VoteAPI.postVote(voter: UserService.singleton.getId(), post: postId)
                     } else {
-                        let _ = try await VoteAPI.deleteVote(id: postId)
+                        let _ = try await VoteAPI.deleteVote(vote_id: postId)
                     }
                 } catch {
                     UserService.singleton.removeTemporaryLocalVote(temporaryLocalVote) //undo singleton change
