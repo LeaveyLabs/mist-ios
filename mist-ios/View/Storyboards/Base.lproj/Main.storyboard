@@ -1027,11 +1027,14 @@
                             </constraints>
                         </imageView>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bq1-qJ-1bN">
-                            <rect key="frame" x="73" y="10" width="257" height="39.333333333333336"/>
+                            <rect key="frame" x="73" y="6.3333333333333321" width="257" height="43"/>
                             <color key="backgroundColor" systemColor="systemGray6Color"/>
+                            <constraints>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="43" id="MSD-DM-Gea"/>
+                            </constraints>
                             <color key="textColor" systemColor="labelColor"/>
                             <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
-                            <textInputTraits key="textInputTraits" keyboardType="twitter"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardType="twitter"/>
                         </textView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Dk-N6-QGh" userLabel="Comment Button">
                             <rect key="frame" x="337" y="6.3333333333333321" width="43" height="43"/>
@@ -1052,7 +1055,7 @@
                     <viewLayoutGuide key="safeArea" id="AMO-uP-Dy2"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" priority="999" constant="10" id="ABc-Kt-BTm"/>
+                        <constraint firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" constant="10" id="ABc-Kt-BTm"/>
                         <constraint firstItem="bq1-qJ-1bN" firstAttribute="top" secondItem="7rc-Ne-Ws7" secondAttribute="top" priority="999" constant="10" id="Dov-HY-q8X"/>
                         <constraint firstItem="7Dk-N6-QGh" firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" id="Gs5-lR-yPc"/>
                         <constraint firstItem="2oL-ZT-wEB" firstAttribute="leading" secondItem="7rc-Ne-Ws7" secondAttribute="leading" priority="999" constant="15" id="HvG-Pc-CA5"/>

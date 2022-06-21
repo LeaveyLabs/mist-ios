@@ -59,8 +59,6 @@
 		47061CD028510E4C0042F04C /* MKPlacemark+Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47061CCF28510E4C0042F04C /* MKPlacemark+Address.swift */; };
 		47061CD228511C750042F04C /* MapSearchResultType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47061CD128511C750042F04C /* MapSearchResultType.swift */; };
 		47061CDA285170CB0042F04C /* FeedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47061CD9285170CB0042F04C /* FeedType.swift */; };
-		47061CDD285172A10042F04C /* CustomCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47061CDC285172A10042F04C /* CustomCardView.xib */; };
-		47061CDF285172BF0042F04C /* CustomCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47061CDE285172BF0042F04C /* CustomCardView.swift */; };
 		470F271327DE6F5800C6DDAF /* SearchSuggestionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271227DE6F5800C6DDAF /* SearchSuggestionsTableViewController.swift */; };
 		470F271827DE758100C6DDAF /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271627DE758100C6DDAF /* SearchResultCell.swift */; };
 		470F271927DE758100C6DDAF /* SearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 470F271727DE758100C6DDAF /* SearchResultCell.xib */; };
@@ -213,6 +211,8 @@
 		5B13B743285D3877000ADF5E /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13B742285D3877000ADF5E /* Error.swift */; };
 		5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D589B28603A46002E2F94 /* PostCell.swift */; };
 		5B4D58A72860D7FB002E2F94 /* UIImageView+ProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */; };
+		5BB624B228620D4A00DCD45B /* CustomCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B128620D4A00DCD45B /* CustomCardView.swift */; };
+		5BB624B428620D5F00DCD45B /* CustomCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BB624B328620D5F00DCD45B /* CustomCardView.xib */; };
 		5BCC68D928611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */; };
 		5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4D9BD285C018000197080 /* String+Capitalization.swift */; };
 		5BF78337285D955F003C3955 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78336285D955F003C3955 /* Map.swift */; };
@@ -288,8 +288,6 @@
 		47061CCF28510E4C0042F04C /* MKPlacemark+Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKPlacemark+Address.swift"; sourceTree = "<group>"; };
 		47061CD128511C750042F04C /* MapSearchResultType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchResultType.swift; sourceTree = "<group>"; };
 		47061CD9285170CB0042F04C /* FeedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedType.swift; sourceTree = "<group>"; };
-		47061CDC285172A10042F04C /* CustomCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCardView.xib; sourceTree = "<group>"; };
-		47061CDE285172BF0042F04C /* CustomCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCardView.swift; sourceTree = "<group>"; };
 		470F271227DE6F5800C6DDAF /* SearchSuggestionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsTableViewController.swift; sourceTree = "<group>"; };
 		470F271627DE758100C6DDAF /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		470F271727DE758100C6DDAF /* SearchResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchResultCell.xib; sourceTree = "<group>"; };
@@ -452,6 +450,8 @@
 		5B13B742285D3877000ADF5E /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		5B4D589B28603A46002E2F94 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ProfilePic.swift"; sourceTree = "<group>"; };
+		5BB624B128620D4A00DCD45B /* CustomCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCardView.swift; sourceTree = "<group>"; };
+		5BB624B328620D5F00DCD45B /* CustomCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCardView.xib; sourceTree = "<group>"; };
 		5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeAreaInputAccessoryViewWrapperView.swift; sourceTree = "<group>"; };
 		5BE4D9BD285C018000197080 /* String+Capitalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Capitalization.swift"; sourceTree = "<group>"; };
 		5BF78336285D955F003C3955 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
@@ -571,6 +571,7 @@
 		470BD12E27DB1D9A00DD4622 /* TableCells */ = {
 			isa = PBXGroup;
 			children = (
+				47EE28FC28414A7200C6425C /* CustomSwiftMessages */,
 				477A6FD427DF86260020F864 /* Feed */,
 				4752718028556A5A00DDF84D /* Post */,
 				4752718128556A6E00DDF84D /* Comment */,
@@ -784,7 +785,7 @@
 		479AA1F927DD0EC000EA0DFC /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
-				47EE28FC28414A7200C6425C /* CustomSwiftMessages */,
+				5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */,
 				47E295D5284BB79600A680CC /* PostView.swift */,
 				47E295D7284BB7B000A680CC /* PostView.xib */,
 				474A5DA427F40606004215F9 /* RoundedImageView.swift */,
@@ -1020,11 +1021,10 @@
 		47EE28FC28414A7200C6425C /* CustomSwiftMessages */ = {
 			isa = PBXGroup;
 			children = (
-				5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */,
-				47061CDC285172A10042F04C /* CustomCardView.xib */,
-				47061CDE285172BF0042F04C /* CustomCardView.swift */,
 				47EE28FF28414B2300C6425C /* CustomCenteredView.xib */,
 				47EE28FD28414AF700C6425C /* CustomCenteredView.swift */,
+				5BB624B128620D4A00DCD45B /* CustomCardView.swift */,
+				5BB624B328620D5F00DCD45B /* CustomCardView.xib */,
 			);
 			path = CustomSwiftMessages;
 			sourceTree = "<group>";
@@ -1218,7 +1218,6 @@
 			files = (
 				47527193285584F400DDF84D /* SimpleInputCell.xib in Resources */,
 				47C2835027DED77500A19128 /* FeedHeaderCell.xib in Resources */,
-				47061CDD285172A10042F04C /* CustomCardView.xib in Resources */,
 				434F459A285522C8003672C7 /* Loading.storyboard in Resources */,
 				47E295D8284BB7B000A680CC /* PostView.xib in Resources */,
 				47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */,
@@ -1230,6 +1229,7 @@
 				47EE290028414B2300C6425C /* CustomCenteredView.xib in Resources */,
 				4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */,
 				47E2B1C32800E9EB00131B8D /* MyCommentCell.xib in Resources */,
+				5BB624B428620D5F00DCD45B /* CustomCardView.xib in Resources */,
 				470F271D27DE764F00C6DDAF /* UserResultCell.xib in Resources */,
 				478A78A1284EBF180058C845 /* Launch.storyboard in Resources */,
 				472A4C0228408BD800FD52B7 /* LoadingView.xib in Resources */,
@@ -1312,7 +1312,6 @@
 				47AE72AA27F77B0B00A5E94C /* MyProfileSettingViewController.swift in Sources */,
 				47527194285584F400DDF84D /* SimpleInputCell.swift in Sources */,
 				47EE28F22840991800C6425C /* PermissionsViewController.swift in Sources */,
-				47061CDF285172BF0042F04C /* CustomCardView.swift in Sources */,
 				47FF418328403AE700A44968 /* CustomAttributedString.swift in Sources */,
 				472A4BF728408BD800FD52B7 /* BlurView.swift in Sources */,
 				47A3D70C27D55A3A003DBEA5 /* PostsService.swift in Sources */,
@@ -1345,6 +1344,7 @@
 				472A4BFD28408BD800FD52B7 /* DesignableButton.swift in Sources */,
 				4700F8B627DD7BBA006C2E08 /* BasicAPI.swift in Sources */,
 				471F92D1280159430079F8CA /* SegmentedControlCell.swift in Sources */,
+				5BB624B228620D4A00DCD45B /* CustomCardView.swift in Sources */,
 				47EE28F82840AE8200C6425C /* TestViewController.swift in Sources */,
 				477A6FD627DFB0450020F864 /* Color.swift in Sources */,
 				47061CDA285170CB0042F04C /* FeedType.swift in Sources */,
