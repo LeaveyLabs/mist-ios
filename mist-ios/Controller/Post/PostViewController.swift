@@ -65,7 +65,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         setupCommentView()
         loadComments()
         
-        view.keyboardLayoutGuide.topAnchor.constraint(equalTo: tableView.bottomAnchor).isActive = true
+        self.view.keyboardLayoutGuide.topAnchor.constraint(equalTo: self.tableView.bottomAnchor).isActive = true
         let tableViewTap = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
         tableView.addGestureRecognizer(tableViewTap)
                 
@@ -86,7 +86,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         super.viewDidAppear(animated)
         
         if shouldStartWithRaisedKeyboard {
-//            commentTextView.becomeFirstResponder() //not working right nowvcdc  
+//            commentTextView.becomeFirstResponder() //not working right nowv
         }
     }
     
@@ -106,18 +106,14 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.separatorStyle = .none
-        
+        tableView.keyboardDismissMode = .interactive
+        tableView.sectionFooterHeight = 50
+
         tableView.register(PostCell.self, forCellReuseIdentifier: Constants.SBID.Cell.Post)
         let commentNib = UINib(nibName: Constants.SBID.Cell.Comment, bundle: nil)
         tableView.register(commentNib, forCellReuseIdentifier: Constants.SBID.Cell.Comment)
-        
-        
-        tableView.tableFooterView = activityIndicator
-        activityIndicator.startAnimating()
-        
-        //we are choosing to leave out this functionality for now
-        tableView.keyboardDismissMode = .interactive
     }
     
     func oldBecomeCommentCode() { //Deprecated
@@ -180,6 +176,7 @@ extension PostViewController {
     func loadComments() {
         Task {
             do {
+                activityIndicator.startAnimating()
                 comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
                 commentProfilePics = try await loadCommentThumbnails(for: comments)
                 tableView.reloadData()
@@ -187,6 +184,7 @@ extension PostViewController {
                 CustomSwiftMessages.displayError(error)
             }
             activityIndicator.stopAnimating()
+            tableView.sectionFooterHeight = 0
         }
     }
     
@@ -237,7 +235,7 @@ extension PostViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-            cell.configurePostCell(post: post, nestedPostViewDelegate: self, bubbleTrianglePosition: .left)
+            cell.configurePostCell(post: post, nestedPostViewDelegate: self, bubbleTrianglePosition: .left, isWithinPostVC: true)
             return cell
         }
         //else the cell is a comment
@@ -247,6 +245,13 @@ extension PostViewController: UITableViewDataSource {
                                                  profilePic: commentProfilePics[comment.id]!)
         cell.configureCommentCell(comment: comment, delegate: self, author: commentAuthor)
         return cell
+    }
+}
+
+extension PostViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return activityIndicator
     }
 }
 

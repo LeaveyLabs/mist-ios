@@ -53,7 +53,8 @@ extension ExploreViewController: UITableViewDataSource {
         cell.selectionStyle = .none
         cell.configurePostCell(post: postAnnotations[indexPath.row].post,
                                nestedPostViewDelegate: self,
-                               bubbleTrianglePosition: .left)
+                               bubbleTrianglePosition: .left,
+                               isWithinPostVC: false)
         return cell
     }
     

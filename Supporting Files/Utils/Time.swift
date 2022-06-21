@@ -50,13 +50,13 @@ func getShortFormattedTimeString(timestamp: Double) -> String {
             return String(elapsedTimeSincePost.minutes) + "min"
         }
         //if hours ago
-        else if getDayOfWeek(currentTimeMillis: timestamp) == getDayOfWeek(currentTimeMillis: currentTimeMillis()) {
+        else {
             return String(elapsedTimeSincePost.hours) + "hr"
         }
     }
     //if the post happened within the last week
     else if elapsedTimeSincePost.days < 7 {
-        return String(elapsedTimeSincePost.days) + "day"
+        return String(elapsedTimeSincePost.days) + "d"
     }
     //if the post happened longer than a week ago
     else if elapsedTimeSincePost.weeks < 52 {

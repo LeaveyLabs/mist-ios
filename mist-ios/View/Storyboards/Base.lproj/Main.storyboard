@@ -972,31 +972,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kp0-mP-Z8j" userLabel="KUIView">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="qCS-CF-xHF">
                                 <rect key="frame" x="0.0" y="44" width="390" height="766"/>
-                                <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="qCS-CF-xHF">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="766"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                    </tableView>
-                                </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="qCS-CF-xHF" secondAttribute="bottom" priority="999" id="Bs1-Jh-rf7"/>
-                                    <constraint firstAttribute="trailing" secondItem="qCS-CF-xHF" secondAttribute="trailing" id="KPi-bO-lj9"/>
-                                    <constraint firstItem="qCS-CF-xHF" firstAttribute="top" secondItem="Kp0-mP-Z8j" secondAttribute="top" id="TDd-TK-Tvb"/>
-                                    <constraint firstItem="qCS-CF-xHF" firstAttribute="leading" secondItem="Kp0-mP-Z8j" secondAttribute="leading" id="yOU-Ze-6bb"/>
-                                </constraints>
-                            </view>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2Wi-ND-8KG"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Kp0-mP-Z8j" firstAttribute="leading" secondItem="2Wi-ND-8KG" secondAttribute="leading" id="1yq-Er-dhG"/>
-                            <constraint firstItem="Kp0-mP-Z8j" firstAttribute="trailing" secondItem="2Wi-ND-8KG" secondAttribute="trailing" id="S0h-dN-tNV"/>
-                            <constraint firstItem="Kp0-mP-Z8j" firstAttribute="top" secondItem="2Wi-ND-8KG" secondAttribute="top" id="i4x-Bg-cyQ"/>
-                            <constraint firstItem="Kp0-mP-Z8j" firstAttribute="bottom" secondItem="2Wi-ND-8KG" secondAttribute="bottom" id="mTk-L1-gei"/>
+                            <constraint firstItem="qCS-CF-xHF" firstAttribute="top" secondItem="2Wi-ND-8KG" secondAttribute="top" id="7yy-jr-WTh"/>
+                            <constraint firstItem="qCS-CF-xHF" firstAttribute="trailing" secondItem="2Wi-ND-8KG" secondAttribute="trailing" id="aFx-qs-jzu"/>
+                            <constraint firstItem="qCS-CF-xHF" firstAttribute="leading" secondItem="2Wi-ND-8KG" secondAttribute="leading" id="dSE-Ra-ZPU"/>
+                            <constraint firstItem="qCS-CF-xHF" firstAttribute="bottom" secondItem="2Wi-ND-8KG" secondAttribute="bottom" priority="250" id="dqA-Uy-qRo"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="TKg-Ef-Yxd">

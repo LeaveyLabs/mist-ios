@@ -47,7 +47,9 @@ class CommentCell: UITableViewCell {
         timestampLabel.text = getShortFormattedTimeString(timestamp: comment.timestamp)
         authorUsernameButton.setTitle("@" + author.username, for: .normal)
         commentLabel.text = comment.body
-        authorProfilePicButton.imageView?.becomeProfilePicImageView(with: author.profilePic)
+        UIView.performWithoutAnimation {
+            authorProfilePicButton.imageView?.becomeProfilePicImageView(with: author.profilePic)
+        }
     }
     
     //MARK: - Lifecycle
