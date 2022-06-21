@@ -22,8 +22,15 @@ extension UIView {
         sendSubviewToBack(triangleView)
         layer.cornerRadius = 20
         layer.cornerCurve = .continuous
-        applyShadowOnView(self)
-        
+        switch arrowPosition {
+        case .left:
+            applyMediumLeftLeaningShadow()
+        case .bottom:
+            applyMediumShadow()
+        case .right:
+            applyMediumRightLeaningShadow()
+        }
+
         // Set constraints for triangle view
         var constraints = [
             triangleView.heightAnchor.constraint(equalToConstant: 80),

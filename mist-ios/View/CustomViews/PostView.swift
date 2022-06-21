@@ -119,7 +119,7 @@ extension PostView {
     // Otherwise you'll get loads of constraint errors in the console
     func configurePost(post: Post, bubbleTrianglePosition: BubbleTrianglePosition) {
         self.post = post
-        timestampLabel.text = getFormattedTimeString(postTimestamp: post.timestamp)
+        timestampLabel.text = getFormattedTimeString(timestamp: post.timestamp)
         locationLabel.text = post.location_description
         messageLabel.text = post.body
         postTitleLabel.text = post.title

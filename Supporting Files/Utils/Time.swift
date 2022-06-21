@@ -12,7 +12,7 @@ func currentTimeMillis() -> Double {
 }
 
 struct ElapsedTime {
-    let seconds, minutes, hours, days, months, years: Int
+    let seconds, minutes, hours, days, weeks, months, years: Int
 }
 
 enum FilterTimescale {
@@ -28,32 +28,62 @@ extension TimeInterval{
         let minutes = (elapsedTime / 60) % 60
         let hours = (elapsedTime / 3600)
         let days = hours / 24
+        let weeks = days / 7
         let months = days / 30
         let years = months / 12
 
-        return ElapsedTime(seconds: seconds, minutes: minutes, hours: hours, days: days, months: months, years: years)
+        return ElapsedTime(seconds: seconds, minutes: minutes, hours: hours, days: days, weeks: weeks, months: months, years: years)
     }
 }
 
-func getFormattedTimeString(postTimestamp: Double) -> String {
-    let elapsedTimeSincePost = NSDate().timeIntervalSince1970.getElapsedTime(since: postTimestamp)
+func getShortFormattedTimeString(timestamp: Double) -> String {
+    let elapsedTimeSincePost = NSDate().timeIntervalSince1970.getElapsedTime(since: timestamp)
     
     //if the post happened today
     if elapsedTimeSincePost.years == 0 && elapsedTimeSincePost.months == 0 && elapsedTimeSincePost.days == 0 {
         //if seconds ago
         if elapsedTimeSincePost.hours == 0 && elapsedTimeSincePost.minutes == 0 {
-            return "Seconds ago"
+            return "now"
+        }
+        //if if minutes ago
+        else if elapsedTimeSincePost.hours == 0 {
+            return String(elapsedTimeSincePost.minutes) + "min"
+        }
+        //if hours ago
+        else if getDayOfWeek(currentTimeMillis: timestamp) == getDayOfWeek(currentTimeMillis: currentTimeMillis()) {
+            return String(elapsedTimeSincePost.hours) + "hr"
+        }
+    }
+    //if the post happened within the last week
+    else if elapsedTimeSincePost.days < 7 {
+        return String(elapsedTimeSincePost.days) + "day"
+    }
+    //if the post happened longer than a week ago
+    else if elapsedTimeSincePost.weeks < 52 {
+        return String(elapsedTimeSincePost.weeks) + "wk"
+    }
+    return String(elapsedTimeSincePost.years) + "yr"
+}
+
+func getFormattedTimeString(timestamp: Double) -> String {
+    let elapsedTimeSincePost = NSDate().timeIntervalSince1970.getElapsedTime(since: timestamp)
+    
+    //if the post happened today
+    if elapsedTimeSincePost.years == 0 && elapsedTimeSincePost.months == 0 && elapsedTimeSincePost.days == 0 {
+        //if seconds ago
+        if elapsedTimeSincePost.hours == 0 && elapsedTimeSincePost.minutes == 0 {
+            return "Just now"
         }
         //if if minutes ago
         else if elapsedTimeSincePost.hours == 0 {
             if elapsedTimeSincePost.minutes == 0 {
                 return String(elapsedTimeSincePost.minutes) + " min ago"
             } else {
-//                return String(elapsedTimeSincePost.minutes) + " mins ago"
+                return String(elapsedTimeSincePost.minutes) + " mins ago"
             }
         }
         //if hours ago
-        else if getDayOfWeek(currentTimeMillis: postTimestamp) == getDayOfWeek(currentTimeMillis: currentTimeMillis()) {
+        else if getDayOfWeek(currentTimeMillis: timestamp) == getDayOfWeek(currentTimeMillis: currentTimeMillis()) {
             if (elapsedTimeSincePost.hours == 0) {
                 return String(elapsedTimeSincePost.hours) + " hour ago"
             } else {
@@ -63,10 +93,10 @@ func getFormattedTimeString(postTimestamp: Double) -> String {
     }
     //if the post happened within the last week
     else if elapsedTimeSincePost.days < 7 {
-        return getRecentFormattedDate(currentTimeMillis: postTimestamp)
+        return getRecentFormattedDate(currentTimeMillis: timestamp)
     }
     //if the post happened longer than a week ago
-    return getFormattedDate(currentTimeMillis: postTimestamp)
+    return getFormattedDate(currentTimeMillis: timestamp)
 }
 
 func getDateAndTimeForNewPost(selectedDate: Date) -> (String, String) {

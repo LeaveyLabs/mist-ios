@@ -19,7 +19,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     var activityIndicator = UIActivityIndicatorView(style: .medium)
 
     @IBOutlet weak var commentTextView: UITextView!
-    @IBOutlet weak var commentAccessoryView: UIView!
+    @IBOutlet var commentAccessoryView: UIView!
     lazy var wrappedAccessoryView: SafeAreaInputAccessoryViewWrapperView = {
         return SafeAreaInputAccessoryViewWrapperView(for: commentAccessoryView)
     }()
@@ -80,7 +80,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         super.viewDidAppear(animated)
         
         if shouldStartWithRaisedKeyboard {
-//            commentTextView.becomeFirstResponder() //not working right now
+//            commentTextView.becomeFirstResponder() //not working right nowvcdc  
         }
     }
     
@@ -127,6 +127,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         commentTextView.inputAccessoryView = wrappedAccessoryView
         commentPlaceholderLabel = commentTextView.addAndReturnPlaceholderLabel(withText: COMMENT_PLACEHOLDER_TEXT)
 
+        commentTextView.inputAccessoryView!.constraints.forEach { $0.priority = UILayoutPriority.init(999)}
         commentSubmitButton.isEnabled = false
     }
     

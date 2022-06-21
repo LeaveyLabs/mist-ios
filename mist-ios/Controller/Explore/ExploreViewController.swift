@@ -186,7 +186,7 @@ extension ExploreViewController {
 extension ExploreViewController {
     
     func setupCustomNavigationBar() {
-        customNavigationBar.applyMediumShadowBelowOnly()
+        customNavigationBar.applyMediumBottomOnlyShadow()
     }
     
     @IBAction func toggleButtonDidTapped(_ sender: UIButton) {

@@ -17,6 +17,7 @@ import UIKit
  such as the Home screen indicator on iPhone X.
  */
 public class SafeAreaInputAccessoryViewWrapperView: UIView {
+    
     private var addedConstraints = [NSLayoutConstraint]() {
         didSet {
             NSLayoutConstraint.deactivate(oldValue)
@@ -33,12 +34,12 @@ public class SafeAreaInputAccessoryViewWrapperView: UIView {
         
         addSubview(view)
         
+        view.translatesAutoresizingMaskIntoConstraints = false
+
         // Allow 'self' to be sized based on autolayout constraints. Without
         // this, the frame would have to be set manually.
         autoresizingMask = .flexibleHeight
-        
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
+                
         defer {
             let leadingAnchor: NSLayoutXAxisAnchor
             let trailingAnchor: NSLayoutXAxisAnchor
@@ -73,6 +74,7 @@ public class SafeAreaInputAccessoryViewWrapperView: UIView {
     public override var intrinsicContentSize: CGSize {
         // Allow 'self' to be sized based on autolayout constraints. Without
         // this, the frame would have to be set manually.
+//        return subviews[0].frame.size
         return .zero
     }
 }
@@ -82,8 +84,9 @@ public extension SafeAreaInputAccessoryViewWrapperView {
     /// NOTE: This is not used internally, but rather, it's a convenience helper for views that
     /// might need to adjust their constraints or insets based on this size.
     /// This will also work when changing the size of the application window due to iPad Multitasking.
-    public func computedSize() -> CGSize {
-        return systemLayoutSizeFitting(CGSize(width: UIApplication.shared.keyWindow?.bounds.width ?? UIScreen.main.bounds.width,
+    func computedSize() -> CGSize {
+        let keyWindow = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.flatMap { $0.windows }.first { $0.isKeyWindow }
+        return systemLayoutSizeFitting(CGSize(width: keyWindow?.bounds.width ?? UIScreen.main.bounds.width,
                                               height: .greatestFiniteMagnitude),
                                        withHorizontalFittingPriority: .required,
                                        verticalFittingPriority: .fittingSizeLevel)

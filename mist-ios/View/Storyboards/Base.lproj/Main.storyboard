@@ -1015,7 +1015,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fGf-4b-NgQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <view contentMode="scaleToFill" id="7rc-Ne-Ws7" userLabel="Comment View" customClass="ComposeCommentView" customModule="mist_ios" customModuleProvider="target">
+                <view contentMode="scaleToFill" id="7rc-Ne-Ws7" userLabel="Comment View">
                     <rect key="frame" x="0.0" y="0.0" width="390" height="59.333333333333336"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -1031,7 +1031,7 @@
                             <color key="backgroundColor" systemColor="systemGray6Color"/>
                             <color key="textColor" systemColor="labelColor"/>
                             <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
-                            <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                            <textInputTraits key="textInputTraits" keyboardType="twitter"/>
                         </textView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Dk-N6-QGh" userLabel="Comment Button">
                             <rect key="frame" x="340" y="9.3333333333333357" width="40" height="40"/>
@@ -1052,14 +1052,14 @@
                     <viewLayoutGuide key="safeArea" id="AMO-uP-Dy2"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" constant="10" id="ABc-Kt-BTm"/>
-                        <constraint firstItem="bq1-qJ-1bN" firstAttribute="top" secondItem="7rc-Ne-Ws7" secondAttribute="top" constant="10" id="Dov-HY-q8X"/>
-                        <constraint firstItem="2oL-ZT-wEB" firstAttribute="leading" secondItem="7rc-Ne-Ws7" secondAttribute="leading" constant="15" id="HvG-Pc-CA5"/>
-                        <constraint firstAttribute="trailing" secondItem="7Dk-N6-QGh" secondAttribute="trailing" constant="10" id="TZW-oW-eh7"/>
-                        <constraint firstAttribute="bottom" secondItem="2oL-ZT-wEB" secondAttribute="bottom" constant="10" id="V6w-tn-hcb"/>
-                        <constraint firstItem="bq1-qJ-1bN" firstAttribute="leading" secondItem="2oL-ZT-wEB" secondAttribute="trailing" constant="10" id="YR4-95-3iz"/>
-                        <constraint firstAttribute="bottom" secondItem="7Dk-N6-QGh" secondAttribute="bottom" constant="10" id="Zki-Cl-4Pe"/>
-                        <constraint firstItem="7Dk-N6-QGh" firstAttribute="leading" secondItem="bq1-qJ-1bN" secondAttribute="trailing" constant="10" id="z9Q-qh-SCX"/>
+                        <constraint firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" priority="999" constant="10" id="ABc-Kt-BTm"/>
+                        <constraint firstItem="bq1-qJ-1bN" firstAttribute="top" secondItem="7rc-Ne-Ws7" secondAttribute="top" priority="999" constant="10" id="Dov-HY-q8X"/>
+                        <constraint firstItem="2oL-ZT-wEB" firstAttribute="leading" secondItem="7rc-Ne-Ws7" secondAttribute="leading" priority="999" constant="15" id="HvG-Pc-CA5"/>
+                        <constraint firstAttribute="trailing" secondItem="7Dk-N6-QGh" secondAttribute="trailing" priority="999" constant="10" id="TZW-oW-eh7"/>
+                        <constraint firstAttribute="bottom" secondItem="2oL-ZT-wEB" secondAttribute="bottom" priority="999" constant="10" id="V6w-tn-hcb"/>
+                        <constraint firstItem="bq1-qJ-1bN" firstAttribute="leading" secondItem="2oL-ZT-wEB" secondAttribute="trailing" priority="999" constant="10" id="YR4-95-3iz"/>
+                        <constraint firstAttribute="bottom" secondItem="7Dk-N6-QGh" secondAttribute="bottom" priority="999" constant="10" id="Zki-Cl-4Pe"/>
+                        <constraint firstItem="7Dk-N6-QGh" firstAttribute="leading" secondItem="bq1-qJ-1bN" secondAttribute="trailing" priority="999" constant="10" id="z9Q-qh-SCX"/>
                     </constraints>
                 </view>
             </objects>

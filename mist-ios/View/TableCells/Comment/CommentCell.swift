@@ -16,10 +16,11 @@ class CommentCell: UITableViewCell {
     //MARK: - Properties
 
     //UI
-    @IBOutlet weak var authorLabel: UILabel!
+    @IBOutlet weak var authorUsernameButton: UIButton!
     @IBOutlet weak var authorProfilePicButton: UIButton!
     @IBOutlet weak var commentLabel: UILabel!
     @IBOutlet weak var backgroundBubbleView: UIView!
+    @IBOutlet weak var timestampLabel: UILabel!
     
     //Information
     var comment: Comment!
@@ -35,7 +36,8 @@ class CommentCell: UITableViewCell {
         self.comment = comment
         self.commentDelegate = delegate
         self.author = author
-        authorLabel.text = author.username
+        timestampLabel.text = getShortFormattedTimeString(timestamp: comment.timestamp)
+        authorUsernameButton.titleLabel!.text = "@" + author.username
         commentLabel.text = comment.body
         authorProfilePicButton.imageView?.becomeProfilePicImageView(with: author.profilePic)
     }
@@ -49,7 +51,7 @@ class CommentCell: UITableViewCell {
     
     //MARK: -User Interaction
         
-    @IBAction func didPressedAuthorProfilePic(_ sender: UIButton) {
+    @IBAction func didPressedAuthorButton(_ sender: UIButton) {
         commentDelegate.handleCommentProfilePicTap(commentAuthor: author)
     }
     
@@ -60,7 +62,8 @@ class CommentCell: UITableViewCell {
         triangleView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
         backgroundBubbleView.addSubview(triangleView)
         backgroundBubbleView.sendSubviewToBack(triangleView)
-        addLeftTriangleLayer(to: triangleView)
+//        addLeftTriangleLayer(to: triangleView)
+        backgroundBubbleView.applyLightLeftShadow()
         backgroundBubbleView.layer.cornerRadius = 10
         backgroundBubbleView.layer.cornerCurve = .continuous
     }
