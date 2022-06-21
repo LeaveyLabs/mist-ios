@@ -77,8 +77,7 @@ extension PostDelegate where Self: UIViewController {
                     }
                 } catch {
                     UserService.singleton.removeTemporaryLocalFavorite(temporaryLocalFavorite)
-                    //TODO: must undo UI Updates here, too...
-                    CustomSwiftMessages.displayError(error)
+                    throw error
                 }
                 favoriteTasks.removeFirst()
             })
@@ -87,8 +86,8 @@ extension PostDelegate where Self: UIViewController {
     
     //heres the thing: we want
     func singletonAndRemoteVoteUpdate(postId: Int, isAdding: Bool) {
-        
-        // Immediate local update
+        // Synchronous viewController update
+        // Synchronous singleton update
         let temporaryLocalVote = Vote(id: Int.random(in: 0..<Int.max),
                                       voter: UserService.singleton.getId(),
                                       post: postId,
@@ -108,7 +107,9 @@ extension PostDelegate where Self: UIViewController {
                         let _ = try await VoteAPI.deleteVote(id: postId)
                     }
                 } catch {
-                    UserService.singleton.removeTemporaryLocalVote(temporaryLocalVote)
+                    UserService.singleton.removeTemporaryLocalVote(temporaryLocalVote) //undo singleton change
+                    //undo viewController change
+                    //reloadData to ensure
                     CustomSwiftMessages.displayError(error)
                 }
                 voteTasks.removeFirst()
