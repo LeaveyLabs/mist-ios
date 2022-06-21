@@ -122,12 +122,20 @@ class SearchResultsTableViewController: FeedViewController {
 
 extension SearchResultsTableViewController: PostDelegate {
     
-    func handleBackgroundTap(post: Post) {
-        sendToPostViewFor(post, withRaisedKeyboard: false)
+    func handleVote(postId: Int, isAdding: Bool) {
+        //
     }
     
-    func handleCommentButtonTap(post: Post) {
-        sendToPostViewFor(post, withRaisedKeyboard: true)
+    func handleFavorite(postId: Int, isAdding: Bool) {
+        //
+    }
+    
+    func handleBackgroundTap(postId: Int) {
+//        sendToPostViewFor(p, withRaisedKeyboard: false)
+    }
+    
+    func handleCommentButtonTap(postId: Int) {
+//        sendToPostViewFor(post, withRaisedKeyboard: true)
     }
     
     // Helpers

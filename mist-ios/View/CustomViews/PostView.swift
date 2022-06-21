@@ -8,7 +8,21 @@
 import UIKit
 import MapKit
 
-@MainActor
+class PostButton: UIButton {
+    var isSelectedImage: UIImage!
+    var isNotSelectedImage: UIImage!
+    
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                setImage(isSelectedImage, for: .normal)
+            } else {
+                setImage(isNotSelectedImage, for: .normal)
+            }
+        }
+    }
+}
+
 @IBDesignable class PostView: SpringView {
         
     //MARK: - Properties
@@ -25,12 +39,13 @@ import MapKit
     @IBOutlet weak var messageLabel: UILabel!
     
     @IBOutlet weak var moreButton: UIButton!
-    @IBOutlet weak var favoriteButton: UIButton!
-    @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var favoriteButton: PostButton!
+    @IBOutlet weak var likeButton: PostButton!
     @IBOutlet weak var likeLabelButton: UIButton! // We can't have the likeButton expand the whole stackview, and we also need a button in the rest of the stackview to prevent the post from being dismissed.
     
     //Data
-    var post: Post!
+    var postId: Int!
+    var authorId: Int!
 
     //Delegation
     var postDelegate: PostDelegate?
@@ -52,6 +67,11 @@ import MapKit
         contentView.frame = self.bounds
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(contentView)
+        
+        favoriteButton.isSelectedImage = UIImage(systemName: "bookmark.fill")!
+        favoriteButton.isNotSelectedImage = UIImage(systemName: "bookmark")!
+        likeButton.isSelectedImage = UIImage(systemName: "heart.fill")!
+        likeButton.isNotSelectedImage = UIImage(systemName: "heart")!
     }
         
     //MARK: - User Interaction
@@ -59,54 +79,45 @@ import MapKit
     // This action should be detected by a button, because the button will also prevent touches from
     // being passed through to the mapview
     @IBAction func backgroundButtonDidPressed(_ sender: UIButton) {
-        postDelegate?.handleBackgroundTap(post: post)
+        postDelegate?.handleBackgroundTap(postId: postId)
     }
     
     // The labelButton is actually just a button which we want to behave like the background.
     @IBAction func likeLabelButtonDidPressed(_ sender: UIButton) {
-        postDelegate?.handleBackgroundTap(post: post)
+        postDelegate?.handleBackgroundTap(postId: postId)
     }
     
     @IBAction func commentButtonDidPressed(_ sender: UIButton) {
-        postDelegate?.handleCommentButtonTap(post: post)
+        postDelegate?.handleCommentButtonTap(postId: postId)
     }
     
     @IBAction func dmButtonDidPressed(_ sender: UIButton) {
-        postDelegate?.handleDmTap(post: post)
+        postDelegate?.handleDmTap(postId: postId, authorId: authorId)
     }
     
     @IBAction func moreButtonDidPressed(_ sender: UIButton) {
-        postDelegate?.handleMoreTap(post: post)
+        postDelegate?.handleMoreTap()
     }
     
     @IBAction func favoriteButtonDidpressed(_ sender: UIButton) {
-        // Local Updates
+        // UI Updates
         favoriteButton.isSelected = !favoriteButton.isSelected
-        if favoriteButton.isSelected {
-            favoriteButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-        } else {
-            favoriteButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
-        }
         
         // Remote and storage updates
-        postDelegate?.handleFavorite(post: post, upload: favoriteButton.isSelected)
+        postDelegate?.handleFavorite(postId: postId, isAdding: favoriteButton.isSelected)
     }
     
     @IBAction func likeButtonDidPressed(_ sender: UIButton) {
-        // Local Updates
+        // UI Updates
         likeButton.isSelected = !likeButton.isSelected
         if likeButton.isSelected {
             likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! + 1), for: .normal)
-            post.votecount += 1
-            likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         } else {
             likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! - 1), for: .normal)
-            post.votecount -= 1
-            likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         }
         
         // Remote and storage updates
-        postDelegate?.handleVote(post: post, upload: likeButton.isSelected)
+        postDelegate?.handleVote(postId: postId, isAdding: likeButton.isSelected)
     }
     
 }
@@ -118,16 +129,13 @@ extension PostView {
     // Note: the constraints for the PostView should already be set-up when this is called.
     // Otherwise you'll get loads of constraint errors in the console
     func configurePost(post: Post, bubbleTrianglePosition: BubbleTrianglePosition) {
-        self.post = post
+        self.postId = post.id
+        self.authorId = post.author
         timestampLabel.text = getFormattedTimeString(timestamp: post.timestamp)
         locationLabel.text = post.location_description
         messageLabel.text = post.body
         postTitleLabel.text = post.title
         likeLabelButton.setTitle(String(post.votecount), for: .normal)
-        
-//        print("CONFIGURING POST")
-//        print("get votes:" )
-//        print(UserService.singleton.getVotesForPost(postId: post.id))
         likeButton.isSelected = !UserService.singleton.getVotesForPost(postId: post.id).isEmpty
         favoriteButton.isSelected = UserService.singleton.getIsFavoritedForPost(postId: post.id)
         
@@ -135,10 +143,9 @@ extension PostView {
     }
     
     func reconfigurePost(updatedPost: Post) {
-        likeLabelButton.setTitle(String(post.votecount), for: .normal)
-        
-        likeButton.isSelected = !UserService.singleton.getVotesForPost(postId: post.id).isEmpty
-        favoriteButton.isSelected = UserService.singleton.getIsFavoritedForPost(postId: post.id)
+        likeLabelButton.setTitle(String(updatedPost.votecount), for: .normal)
+        likeButton.isSelected = !UserService.singleton.getVotesForPost(postId: updatedPost.id).isEmpty
+        favoriteButton.isSelected = UserService.singleton.getIsFavoritedForPost(postId: updatedPost.id)
     }
     
 }

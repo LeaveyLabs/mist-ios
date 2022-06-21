@@ -12,6 +12,8 @@ class UserService: NSObject {
     static var singleton = UserService()
     
     private var frontendCompleteUser: FrontendCompleteUser?
+    private var votes: [Vote] = []
+    private var favorites: [Favorite] = []
     private var localFileLocation: URL!
     
     //private initializer because there will only ever be one instance of UserService, the singleton
@@ -62,14 +64,12 @@ class UserService: NSObject {
         setGlobalAuthToken(token: token)
         let completeUser = try await UserAPI.fetchAuthedUserByToken(token: token)
         let profilePicUIImage = try await UserAPI.UIImageFromURLString(url: completeUser.picture)
-        let votes = try await VoteAPI.fetchVotesByUser(voter: completeUser.id)
-        let favorites = try await FavoriteAPI.fetchFavoritesByUser(userId: completeUser.id)
+        votes = try await VoteAPI.fetchVotesByUser(voter: completeUser.id)
+        favorites = try await FavoriteAPI.fetchFavoritesByUser(userId: completeUser.id)
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
                                                     profilePic: ProfilePicWrapper(image: profilePicUIImage,
                                                                                   withCompresssion: false),
-                                                    token: token,
-                                                    votes: votes,
-                                                    favorites: favorites)
+                                                    token: token)
         // Local update
         saveUserToFilesystem()
     }
@@ -103,13 +103,12 @@ class UserService: NSObject {
     func getFirstLastName() -> String { return frontendCompleteUser!.first_name + " " + frontendCompleteUser!.last_name }
     func getEmail() -> String { return frontendCompleteUser!.email }
     func getProfilePic() -> UIImage { return frontendCompleteUser!.profilePicWrapper.image }
-    func getVotes() -> [Vote] { return frontendCompleteUser!.votes }
-    func getFavorites() -> [Favorite] { return frontendCompleteUser!.favorites }
+    func getFavorites() -> [Favorite] { return favorites }
     func getVotesForPost(postId: Int) -> [Vote] {
-        return frontendCompleteUser!.votes.filter { vote in vote.post == postId }
+        return votes.filter { $0.post == postId }
     }
     func getIsFavoritedForPost(postId: Int) -> Bool {
-        return frontendCompleteUser!.favorites.contains(where: { favorite in favorite.post == postId })
+        return favorites.contains(where: { $0.post == postId })
     }
     
     //MARK: - Update account
@@ -142,6 +141,11 @@ class UserService: NSObject {
         
         let _ = try await UserAPI.patchPassword(password: newPassword, id: frontendCompleteUser.id)
         //no need for a local update, since we don't actually save the password locally
+    }
+    
+    func updateUserInteractionsAfterLoadingPosts(_ newVotes: [Vote], _ newFavorites: [Favorite]) {
+        votes = newVotes
+        favorites = newFavorites
     }
     
     //MARK: - Create content
@@ -178,66 +182,20 @@ class UserService: NSObject {
         try await CommentAPI.deleteComment(commentId: commentId)
     }
     
-    func uploadVote(postId: Int) async throws {
-        //Local updates occur immediately so that post rendering based on user's favorites works properly
-        let placeholderVote = Vote(id: -1,
-                                   voter: frontendCompleteUser!.id,
-                                   post: postId,
-                                   timestamp: Date().timeIntervalSince1970)
-        frontendCompleteUser!.votes.append(placeholderVote)
-        do {
-            let syncedVote = try await VoteAPI.postVote(voter: frontendCompleteUser!.id, post: postId)
-            frontendCompleteUser!.votes.removeAll { vote in vote.id == placeholderVote.id }
-            frontendCompleteUser!.votes.append(syncedVote)
-        } catch {
-            frontendCompleteUser!.votes.removeAll { vote in vote.id == placeholderVote.id }
-            throw error
-        }
-        saveUserToFilesystem()
+    func insertTemporaryLocalVote(_ vote: Vote) {
+        votes.append(vote)
     }
     
-    func deleteVote(postId: Int) async throws {
-        //Local updates occur immediately so that post rendering based on user's favorites works properly
-        let voteToDelete = frontendCompleteUser!.votes.first { vote in vote.post == postId }!
-        frontendCompleteUser!.votes.removeAll { vote in vote.id == voteToDelete.id }
-        do {
-            try await VoteAPI.deleteVote(id: voteToDelete.id)
-        } catch {
-            frontendCompleteUser!.votes.append(voteToDelete) //delete failed, so add the vote back
-            throw error
-        }
-        saveUserToFilesystem()
+    func removeTemporaryLocalVote(_ vote: Vote) {
+        votes.removeAll { $0.id == vote.id }
     }
     
-    func uploadFavorite(postId: Int) async throws {
-        //Local updates occur immediately so that post rendering based on user's favorites works properly
-        let placeholderFavorite = Favorite(id: -1,
-                                           timestamp: Date().timeIntervalSince1970,
-                                           post: postId,
-                                           favoriting_user: frontendCompleteUser!.id)
-        frontendCompleteUser!.favorites.append(placeholderFavorite)
-        do {
-            let syncedFavorite = try await FavoriteAPI.postFavorite(userId: frontendCompleteUser!.id, postId: postId)
-            frontendCompleteUser!.favorites.removeAll { favorite in favorite.id == placeholderFavorite.id }
-            frontendCompleteUser!.favorites.append(syncedFavorite)
-        } catch {
-            frontendCompleteUser!.favorites.removeAll { favorite in favorite.id == placeholderFavorite.id }
-            throw error
-        }
-        saveUserToFilesystem()
+    func insertTemporaryLocalFavorite(_ favorite: Favorite) {
+        favorites.append(favorite)
     }
     
-    func deleteFavorite(postId: Int) async throws {
-        //Local updates occur immediately so that post rendering based on user's favorites works properly
-        let favoriteToDelete = frontendCompleteUser!.favorites.first { favorite in favorite.post == postId }!
-        frontendCompleteUser!.favorites.removeAll { favorite in favorite.id == favoriteToDelete.id }
-        do {
-            try await FavoriteAPI.deleteFavorite(id: favoriteToDelete.id)
-        } catch {
-            frontendCompleteUser!.favorites.append(favoriteToDelete) //delete failed, so add the favorite back
-            throw error
-        }
-        saveUserToFilesystem()
+    func removeTemporaryLocalFavorite(_ favorite: Favorite) {
+        votes.removeAll { $0.id == favorite.id }
     }
     
     //MARK: - Filesystem
@@ -280,3 +238,56 @@ class UserService: NSObject {
     
 }
 
+
+
+//func uploadVote(postId: Int) async throws {
+//        let placeholderVote = Vote(id: -1,
+//                                   voter: frontendCompleteUser!.id,
+//                                   post: postId,
+//                                   timestamp: Date().timeIntervalSince1970)
+//        frontendCompleteUser!.votes.append(placeholderVote)
+//
+//
+//        do {
+//            let _ = try await VoteAPI.postVote(voter: frontendCompleteUser!.id, post: postId)
+//        } catch {
+//            frontendCompleteUser!.votes.removeAll { vote in vote.id == placeholderVote.id }
+//            throw error
+//        }
+//    }
+//
+//    func deleteVote(postId: Int) async throws {
+//        let voteToDelete = frontendCompleteUser!.votes.first { vote in vote.post == postId }!
+//        frontendCompleteUser!.votes.removeAll { vote in vote.id == voteToDelete.id }
+//        do {
+//            try await VoteAPI.deleteVote(id: voteToDelete.id)
+//        } catch {
+//            frontendCompleteUser!.votes.append(voteToDelete) //delete failed, so add the vote back
+//            throw error
+//        }
+//    }
+//
+//    func uploadFavorite(postId: Int) async throws {
+//        let placeholderFavorite = Favorite(id: -1,
+//                                           timestamp: Date().timeIntervalSince1970,
+//                                           post: postId,
+//                                           favoriting_user: frontendCompleteUser!.id)
+//        frontendCompleteUser!.favorites.append(placeholderFavorite)
+//        do {
+//            let _ = try await FavoriteAPI.postFavorite(userId: frontendCompleteUser!.id, postId: postId)
+//        } catch {
+//            frontendCompleteUser!.favorites.removeAll { favorite in favorite.id == placeholderFavorite.id }
+//            throw error
+//        }
+//    }
+//
+//    func deleteFavorite(postId: Int) async throws {
+//        let favoriteToDelete = frontendCompleteUser!.favorites.first { favorite in favorite.post == postId }!
+//        frontendCompleteUser!.favorites.removeAll { favorite in favorite.id == favoriteToDelete.id }
+//        do {
+//            try await FavoriteAPI.deleteFavorite(id: favoriteToDelete.id)
+//        } catch {
+//            frontendCompleteUser!.favorites.append(favoriteToDelete) //delete failed, so add the favorite back
+//            throw error
+//        }
+//    }

@@ -11,11 +11,13 @@ class PostCell: UITableViewCell {
     
     var postView: PostView!
     var topConstraint: NSLayoutConstraint!
+    var bottomConstraint: NSLayoutConstraint!
     
     //MARK: - Public Interface
     
     func configurePostCell(post: Post, nestedPostViewDelegate: PostDelegate, bubbleTrianglePosition: BubbleTrianglePosition, isWithinPostVC: Bool) {
         topConstraint.constant = isWithinPostVC ? 5 : topConstraint.constant
+        bottomConstraint.constant = isWithinPostVC ? -20 : bottomConstraint.constant
         postView.postDelegate = nestedPostViewDelegate
         UIView.performWithoutAnimation { //this is necessary with our current approach to the input accessory view and keyboardlayoutguide. tableview ends up getting animated, but that creates weird animations for the cells, too. so dont allow the cell updates to animate
             postView.configurePost(post: post, bubbleTrianglePosition: bubbleTrianglePosition) //must come after setting constraints
@@ -31,7 +33,7 @@ class PostCell: UITableViewCell {
     }
     
     @objc func handleCellBackgroundViewTap() {
-        postView.postDelegate?.handleBackgroundTap(post: postView.post)
+        postView.postDelegate?.handleBackgroundTap(postId: postView.postId)
     }
     
     //MARK: - Suggestion TableViewCell
@@ -42,15 +44,16 @@ class PostCell: UITableViewCell {
         postView = PostView()
         postView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(postView)
-        topConstraint = postView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20)
-        let verticalConstraints = [
-            postView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
-            topConstraint!]
-        verticalConstraints.forEach { $0.priority = .defaultHigh } //in order to prevent conflicts with "UIView-Encapsulated-Layout-Height" of cell's contentView upon initial load
+        topConstraint = postView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 25)
+        bottomConstraint = postView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+        topConstraint.priority = .defaultHigh
+        bottomConstraint.priority = .defaultHigh //in order to prevent conflicts with "UIView-Encapsulated-Layout-Height" of cell's contentView upon initial load
         NSLayoutConstraint.activate([
             postView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -52),
             postView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 2),
-        ] + verticalConstraints)
+            topConstraint,
+            bottomConstraint
+        ])
     }
         
     required init?(coder aDecoder: NSCoder) {

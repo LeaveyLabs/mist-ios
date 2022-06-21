@@ -140,7 +140,7 @@ extension PostAnnotationView {
     }
     
     //The callout is currently presented, and we want to update the postView's UI with the new data
-    func rerenderCalloutForUpdatedPost() {
+    func rerenderCalloutForUpdatedPostData() {
         postCalloutView!.reconfigurePost(updatedPost: (annotation as! PostAnnotation).post)
     }
 

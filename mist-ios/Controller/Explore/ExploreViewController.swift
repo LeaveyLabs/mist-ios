@@ -91,6 +91,7 @@ extension ExploreViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false) //for a better searchcontroller animation
+        reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -109,7 +110,6 @@ extension ExploreViewController {
             // Controller is being shown as result of pop/dismiss/unwind.
             mySearchController.searchBar.becomeFirstResponder()
         }
-        
         // Dependent on map dimensions
         searchBarButton.centerText()
     }
@@ -138,20 +138,12 @@ extension ExploreViewController {
         if !postAnnotations.isEmpty { //this should probably go somewhere else
             feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false) //cant be true
         }
-        isLoadingPosts = true //must come after the above scrollToTop call
         Task {
             do {
-                let loadedPosts: [Post]!
-                switch postFilter.searchBy {
-                case .all:
-                    loadedPosts = try await PostAPI.fetchPosts()
-                case .location:
-                    let newSearchResultsRegion = getRegionCenteredAround(placeAnnotations)
-                    loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: newSearchResultsRegion!.center.latitude, longitude: newSearchResultsRegion!.center.longitude, radius: convertLatDeltaToKms(newSearchResultsRegion!.span.latitudeDelta))
-                case .text:
-                    loadedPosts = try await PostAPI.fetchPostsByWords(words: [searchBarButton.text!])
-                }
-                turnPostsIntoAnnotations(loadedPosts)
+                isLoadingPosts = true
+                let (newPosts, newVotes, newFavorites) = try await loadPostsAndUserInteractions()
+                UserService.singleton.updateUserInteractionsAfterLoadingPosts(newVotes, newFavorites)
+                turnPostsIntoAnnotations(newPosts)
                 renderNewPostsOnFeedAndMap(withType: reloadType)
                 closure()
             } catch {
@@ -159,6 +151,38 @@ extension ExploreViewController {
             }
             isLoadingPosts = false
         }
+    }
+    
+    func loadPostsAndUserInteractions() async throws -> ([Post], [Vote], [Favorite]) {
+        async let loadedVotes = VoteAPI.fetchVotesByUser(voter: UserService.singleton.getId())
+        async let loadedFavorites = FavoriteAPI.fetchFavoritesByUser(userId: UserService.singleton.getId())
+        switch self.postFilter.searchBy {
+        case .all:
+            async let loadedPosts = PostAPI.fetchPosts()
+            return try await (loadedPosts, loadedVotes, loadedFavorites)
+        case .location:
+            let newSearchResultsRegion = getRegionCenteredAround(placeAnnotations)
+            async let loadedPosts = PostAPI.fetchPostsByLatitudeLongitude(latitude: newSearchResultsRegion!.center.latitude, longitude: newSearchResultsRegion!.center.longitude, radius: convertLatDeltaToKms(newSearchResultsRegion!.span.latitudeDelta))
+            return try await (loadedPosts, loadedVotes, loadedFavorites)
+        case .text:
+            async let loadedPosts = PostAPI.fetchPostsByWords(words: [searchBarButton.text!])
+            return try await (loadedPosts, loadedVotes, loadedFavorites)
+        }
+    }
+    
+    func loadCommentThumbnails(for comments: [Comment]) async throws -> [Int: UIImage] {
+      var thumbnails: [Int: UIImage] = [:]
+      try await withThrowingTaskGroup(of: (Int, UIImage).self) { group in
+        for comment in comments {
+          group.addTask {
+              return (comment.id, try await UserAPI.UIImageFromURLString(url: comment.read_only_author.picture))
+          }
+        }
+        for try await (id, thumbnail) in group {
+          thumbnails[id] = thumbnail
+        }
+      }
+      return thumbnails
     }
     
     //At this point, we have new posts to render.
@@ -190,11 +214,22 @@ extension ExploreViewController {
     }
     
     @IBAction func toggleButtonDidTapped(_ sender: UIButton) {
+        reloadData()
         if isFeedVisible {
             makeMapVisible()
         } else {
             makeFeedVisible()
         }
+    }
+    
+    // Called upon every viewWillAppear and map/feed toggle
+    func reloadData() {
+        //Map
+        if let selectedPostAnnotationView = selectedAnnotationView as? PostAnnotationView {
+            selectedPostAnnotationView.rerenderCalloutForUpdatedPostData()
+        }
+        //Feed
+        feed.reloadData()
     }
     
     func makeFeedVisible() {
@@ -255,12 +290,25 @@ extension ExploreViewController: FilterDelegate {
 
 extension ExploreViewController: PostDelegate {
     
-    func handleBackgroundTap(post: Post) {
-        sendToPostViewFor(post, withRaisedKeyboard: false)
+    func handleVote(postId: Int, isAdding: Bool) {
+        viewControllerDataUpdateForVote(updatedPostId: postId, isAdding: isAdding)
+        singletonAndRemoteVoteUpdate(postId: postId, isAdding: isAdding)
+        
+//        reloadData()
     }
     
-    func handleCommentButtonTap(post: Post) {
-        sendToPostViewFor(post, withRaisedKeyboard: true)
+    func handleFavorite(postId: Int, isAdding: Bool) {
+        singletonAndRemoteFavoriteUpdate(postId: postId, isAdding: isAdding)
+    }
+    
+    func handleBackgroundTap(postId: Int) {
+        let tappedPostAnnotation = postAnnotations.first { $0.post.id == postId }!
+        sendToPostViewFor(tappedPostAnnotation.post, withRaisedKeyboard: false)
+    }
+    
+    func handleCommentButtonTap(postId: Int) {
+        let tappedPostAnnotation = postAnnotations.first { $0.post.id == postId }!
+        sendToPostViewFor(tappedPostAnnotation.post, withRaisedKeyboard: true)
     }
     
     // Helpers
@@ -270,23 +318,21 @@ extension ExploreViewController: PostDelegate {
         postVC.post = post
         postVC.shouldStartWithRaisedKeyboard = withRaisedKeyboard
         postVC.prepareForDismiss = { [self] updatedPost in
-            handleUpdatedPost(updatedPost: updatedPost)
+            viewControllerDataUpdateForEntirePost(updatedPost)
         }
         navigationController!.pushViewController(postVC, animated: true)
     }
     
-    func handleUpdatedPost(updatedPost: Post) {
+    //Called after postVC is dimissed
+    func viewControllerDataUpdateForEntirePost(_ updatedPost: Post) {
         //Update data
-        let index = postAnnotations.firstIndex { postAnnotation in postAnnotation.post.id == updatedPost.id }!
-        postAnnotations[index].post = updatedPost //this is the data which both feed and selectedAnnotationView depend on
-        
-        //Rerender the currently selectedPostAnnotationView if one exists
-        if let selectedPostAnnotationView = selectedAnnotationView as? PostAnnotationView {
-            selectedPostAnnotationView.rerenderCalloutForUpdatedPost()
-        }
-        
-        //Rerender feed
-        feed.reloadData()
+        let index = postAnnotations.firstIndex { $0.post.id == updatedPost.id }!
+        postAnnotations[index].post = updatedPost
+    }
+    
+    func viewControllerDataUpdateForVote(updatedPostId: Int, isAdding: Bool) {
+        let index = postAnnotations.firstIndex { $0.post.id == updatedPostId }!
+        postAnnotations[index].post.votecount += isAdding ? 1 : -1
     }
 
 }

@@ -36,7 +36,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     var shouldStartWithRaisedKeyboard: Bool!
     
     //Data
-    var post: Post! // PostVC should never be created without a post
+    var post: Post! //both PostViewController and PostCell's PostView have a "Post" object. When postview handles interaction, it updates its own post. Because of that, this post object should only be used when setting up the post
     var comments = [Comment]()
     var commentProfilePics = [Int: UIImage]()
     
@@ -92,7 +92,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if isBeingDismissed {
+        if isAboutToClose {
             commentTextView.text = ""
             if let completionHandler = prepareForDismiss{
                 completionHandler(post)
@@ -157,8 +157,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         Task {
             do {
                 commentSubmitButton.isEnabled = false
-                let newComment = try await UserService.singleton.uploadComment(text: commentTextView.text,
-                                                                               postId: post.id)
+                let newComment = try await UserService.singleton.uploadComment(text: commentTextView.text, postId: post.id)
                 handleSuccessfulCommentSubmission(newComment: newComment)
             } catch {
                 commentSubmitButton.isEnabled = true
@@ -196,6 +195,7 @@ extension PostViewController {
               return (comment.id, try await UserAPI.UIImageFromURLString(url: comment.read_only_author.picture))
           }
         }
+        // Obtain results from the child tasks, sequentially, in order of completion
         for try await (id, thumbnail) in group {
           thumbnails[id] = thumbnail
         }
@@ -295,11 +295,26 @@ extension PostViewController {
 
 extension PostViewController: PostDelegate {
     
-    func handleBackgroundTap(post: Post) {
+    func handleVote(postId: Int, isAdding: Bool) {
+        //First, start the remote & file storage data updates
+        singletonAndRemoteVoteUpdate(postId: postId, isAdding: isAdding)
+        
+        //Then, handle viewController data updates
+        post.votecount += isAdding ? 1 : -1
+        
+        //No need to reload data, because there's only one postView in this vc which was already updated within the view
+    }
+    
+    func handleFavorite(postId: Int, isAdding: Bool) {
+        singletonAndRemoteFavoriteUpdate(postId: postId, isAdding: isAdding)
+        //No need to reload data, because there's only one postView in this vc which was already updated within the view
+    }
+    
+    func handleBackgroundTap(postId: Int) {
         commentTextView.resignFirstResponder()
     }
     
-    func handleCommentButtonTap(post: Post) {
+    func handleCommentButtonTap(postId: Int) {
         commentTextView.becomeFirstResponder()
     }
     
