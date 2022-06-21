@@ -77,7 +77,7 @@ extension PostDelegate where Self: UIViewController {
                     }
                 } catch {
                     UserService.singleton.removeTemporaryLocalFavorite(temporaryLocalFavorite)
-                    throw error
+                    CustomSwiftMessages.displayError(error)
                 }
                 favoriteTasks.removeFirst()
             })
@@ -87,6 +87,8 @@ extension PostDelegate where Self: UIViewController {
     //heres the thing: we want
     func singletonAndRemoteVoteUpdate(postId: Int, isAdding: Bool) {
         // Synchronous viewController update
+        
+        
         // Synchronous singleton update
         let temporaryLocalVote = Vote(id: Int.random(in: 0..<Int.max),
                                       voter: UserService.singleton.getId(),
