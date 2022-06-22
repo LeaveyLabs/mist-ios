@@ -22,7 +22,7 @@ class MessageThread: WebSocketDelegate {
         self.sender = sender
         self.receiver = receiver
         self.unsent_messages = []
-        self.server_messages = try await MessageAPI.fetchMessagesBySenderAndReceiver(sender: sender, receiver: receiver)
+        self.server_messages = []
         self.connected = false
         
         let params:[String:String] = ["type": "init",
