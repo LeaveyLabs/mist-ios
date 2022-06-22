@@ -117,7 +117,6 @@ extension SearchSuggestionsTableViewController: MKLocalSearchCompleterDelegate {
     
     /// - Tag: QueryResults
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        print("COMPLETER RESULTS SEARCH FINISHED")
         completerResults = completer.results
         completerResults.forEach({ completion in
             //make a call to our personal data base for an icon & number of posts nearby
@@ -165,7 +164,6 @@ extension SearchSuggestionsTableViewController {
         Task {
             do {
                 let allResults = try await WordAPI.fetchWords(search_word: searchText, wrapper_words: [])
-                print("WORD RESULTS SEARCH FINISHED")
                 sortAndTrimNewWordResults(allResults)
                 handleFinishedSearch()
             } catch {
@@ -188,8 +186,6 @@ extension SearchSuggestionsTableViewController {
         
         guard !searchText.isEmpty else { return } //If the user deleted all the searchText before the searchQuery finished, we don't want to display any results
         
-        print("RELOADING DATA")
-        print(wordResults.count)
         tableView.reloadData()
     }
     

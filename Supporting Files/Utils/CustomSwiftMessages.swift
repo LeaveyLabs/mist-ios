@@ -28,7 +28,7 @@ struct CustomSwiftMessages {
             createAndShowError(title: apiError.errorDescription!, body: apiError.recoverySuggestion!, emoji: "😔")
         } else if let mkError = error as? MKError {
             if mkError.errorCode == 4 {
-                CustomSwiftMessages.showInfo("No results were found.", "Please search again.", emoji: "😔")
+                createAndShowError(title: "Something went wrong.", body: "Please try again later.", emoji: "😔")
             } else {
                 print(error.localizedDescription)
             }
@@ -39,23 +39,26 @@ struct CustomSwiftMessages {
     }
     
     private static func createAndShowError(title: String, body: String, emoji: String) {
-        let errorMessageView: CustomCardView = try! SwiftMessages.viewFromNib()
-        errorMessageView.configureTheme(.error)
-        errorMessageView.configureContent(title: title,
-                                     body: body,
-                                     iconText: emoji)
-        errorMessageView.button?.isHidden = true
-        errorMessageView.dismissButton.tintColor = .white
-        errorMessageView.dismissAction = {
-            SwiftMessages.hide()
+        DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
+            let errorMessageView: CustomCardView = try! SwiftMessages.viewFromNib()
+            errorMessageView.configureTheme(.error)
+            errorMessageView.configureContent(title: title,
+                                         body: body,
+                                         iconText: emoji)
+            errorMessageView.button?.isHidden = true
+            errorMessageView.dismissButton.tintColor = .white
+            errorMessageView.dismissAction = {
+                SwiftMessages.hide()
+            }
+            
+            var messageConfig = SwiftMessages.Config()
+            messageConfig.presentationContext = .window(windowLevel: .normal)
+            messageConfig.presentationStyle = .top
+            messageConfig.duration = .seconds(seconds: 3)
+            
+            SwiftMessages.hideAll()
+            SwiftMessages.show(config: messageConfig, view: errorMessageView)
         }
-        
-        var messageConfig = SwiftMessages.Config()
-        messageConfig.presentationContext = .window(windowLevel: .normal)
-        messageConfig.presentationStyle = .top
-        messageConfig.duration = .seconds(seconds: 3)
-
-        SwiftMessages.show(config: messageConfig, view: errorMessageView)
     }
 }
 
@@ -64,23 +67,25 @@ struct CustomSwiftMessages {
 extension CustomSwiftMessages {
     
     static func showInfo(_ title: String, _ body: String, emoji: String) {
-        let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
-        messageView.configureTheme(backgroundColor: .white, foregroundColor: .black)
-        messageView.button?.isHidden = true
-        messageView.configureContent(title: title,
-                                     body: body,
-                                     iconText: emoji)
-        messageView.dismissButton.tintColor = .black
-        messageView.dismissAction = {
-            SwiftMessages.hide()
-        }
-        
-        var messageConfig = SwiftMessages.Config()
-        messageConfig.presentationContext = .window(windowLevel: .normal)
-        messageConfig.presentationStyle = .top
-        messageConfig.duration = .seconds(seconds: 3)
+        DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
+            let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
+            messageView.configureTheme(backgroundColor: .white, foregroundColor: .black)
+            messageView.button?.isHidden = true
+            messageView.configureContent(title: title,
+                                         body: body,
+                                         iconText: emoji)
+            messageView.dismissButton.tintColor = .black
+            messageView.dismissAction = {
+                SwiftMessages.hide()
+            }
+            
+            var messageConfig = SwiftMessages.Config()
+            messageConfig.presentationContext = .window(windowLevel: .normal)
+            messageConfig.presentationStyle = .top
+            messageConfig.duration = .seconds(seconds: 3)
 
-        SwiftMessages.show(config: messageConfig, view: messageView)
+            SwiftMessages.show(config: messageConfig, view: messageView)
+        }
     }
 }
 
@@ -89,23 +94,25 @@ extension CustomSwiftMessages {
 extension CustomSwiftMessages {
     
     static func showSuccess(_ title: String, _ body: String) {
-        let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
-        messageView.configureTheme(backgroundColor: .systemGreen, foregroundColor: .white)
-        messageView.button?.isHidden = true
-        messageView.configureContent(title: title,
-                                     body: body,
-                                     iconText: "😇")
-        messageView.dismissButton.tintColor = .white
-        messageView.dismissAction = {
-            SwiftMessages.hide()
-        }
-        
-        var messageConfig = SwiftMessages.Config()
-        messageConfig.presentationContext = .window(windowLevel: .normal)
-        messageConfig.presentationStyle = .top
-        messageConfig.duration = .seconds(seconds:2)
+        DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
+            let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
+            messageView.configureTheme(backgroundColor: .systemGreen, foregroundColor: .white)
+            messageView.button?.isHidden = true
+            messageView.configureContent(title: title,
+                                         body: body,
+                                         iconText: "😇")
+            messageView.dismissButton.tintColor = .white
+            messageView.dismissAction = {
+                SwiftMessages.hide()
+            }
+            
+            var messageConfig = SwiftMessages.Config()
+            messageConfig.presentationContext = .window(windowLevel: .normal)
+            messageConfig.presentationStyle = .top
+            messageConfig.duration = .seconds(seconds:2)
 
-        SwiftMessages.show(config: messageConfig, view: messageView)
+            SwiftMessages.show(config: messageConfig, view: messageView)
+        }
     }
 }
 
@@ -114,50 +121,55 @@ extension CustomSwiftMessages {
 extension CustomSwiftMessages {
     
     static func showPermissionRequest(permissionType: PermissionType, onApprove: @escaping () -> Void) {
-        let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
-        
-        var title, body: String
-        switch permissionType {
-        case .userLocation:
-            title = "Would you like to share your current location?"
-            body = "This makes finding and submitting mists even easier."
+        DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
+
+            let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
+            
+            var title, body: String
+            switch permissionType {
+            case .userLocation:
+                title = "Would you like to share your current location?"
+                body = "This makes finding and submitting mists even easier."
+            }
+            messageView.configureContent(title: title, body: body, iconText: "🦄")
+            messageView.approveAction = {
+                SwiftMessages.hide()
+                onApprove()
+            }
+            messageView.dismissAction = {
+                SwiftMessages.hide()
+            }
+            
+            messageView.configureBackgroundView(width: 300)
+            messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+            messageView.backgroundView.layer.cornerRadius = 10
+            SwiftMessages.show(config: middlePresentationConfig(), view: messageView)
         }
-        messageView.configureContent(title: title, body: body, iconText: "🦄")
-        messageView.approveAction = {
-            SwiftMessages.hide()
-            onApprove()
-        }
-        messageView.dismissAction = {
-            SwiftMessages.hide()
-        }
-        
-        messageView.configureBackgroundView(width: 300)
-        messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
-        messageView.backgroundView.layer.cornerRadius = 10
-        SwiftMessages.show(config: middlePresentationConfig(), view: messageView)
     }
     
     static func showAlert(onDiscard: @escaping () -> Void, onSave: @escaping () -> Void) {
-        let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
-        messageView.configureContent(title: "Before you go", body: "Would you like to save this post as a draft?", iconText: "🗑")
-        
-        let approveString = AttributedString(CustomAttributedString.createFor(text: "Save", fontName: Constants.Font.Heavy, size: 20))
-        let dismissStirng = AttributedString(CustomAttributedString.createFor(text: "Discard", fontName: Constants.Font.Medium, size: 19))
-        messageView.approveButton.configuration!.attributedTitle = approveString
-        messageView.dismissButton.configuration!.attributedTitle = dismissStirng
-        messageView.approveAction = {
-            SwiftMessages.hide()
-            onSave()
+        DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
+            let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
+            messageView.configureContent(title: "Before you go", body: "Would you like to save this post as a draft?", iconText: "🗑")
+            
+            let approveString = AttributedString(CustomAttributedString.createFor(text: "Save", fontName: Constants.Font.Heavy, size: 20))
+            let dismissStirng = AttributedString(CustomAttributedString.createFor(text: "Discard", fontName: Constants.Font.Medium, size: 19))
+            messageView.approveButton.configuration!.attributedTitle = approveString
+            messageView.dismissButton.configuration!.attributedTitle = dismissStirng
+            messageView.approveAction = {
+                SwiftMessages.hide()
+                onSave()
+            }
+            messageView.dismissAction = {
+                SwiftMessages.hide()
+                onDiscard()
+            }
+            
+            messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+            messageView.backgroundView.layer.cornerRadius = 10
+            messageView.configureBackgroundView(width: 300)
+            SwiftMessages.show(config: middlePresentationConfig(), view: messageView)
         }
-        messageView.dismissAction = {
-            SwiftMessages.hide()
-            onDiscard()
-        }
-        
-        messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
-        messageView.backgroundView.layer.cornerRadius = 10
-        messageView.configureBackgroundView(width: 300)
-        SwiftMessages.show(config: middlePresentationConfig(), view: messageView)
     }
     
     static func showSettingsAlertController(title: String, message: String, on controller: UIViewController) {

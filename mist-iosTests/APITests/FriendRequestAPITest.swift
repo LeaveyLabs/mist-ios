@@ -52,7 +52,7 @@ class FriendRequestAPITest: XCTestCase {
         let fetchedFriendRequest2 = try await FriendRequestAPI.fetchFriendRequestsByReceiver(receiverUserId: TestConstants.Auth2.ID)
         XCTAssertTrue(postedFriendRequest.id == fetchedFriendRequest2.last!.id)
         setGlobalAuthToken(token: TestConstants.Auth.TOKEN)
-        try await FriendRequestAPI.deleteFriendRequest(id: postedFriendRequest.id)
+        try await FriendRequestAPI.deleteFriendRequest(friend_request_id: postedFriendRequest.id)
     }
 
     func testPerformanceExample() throws {

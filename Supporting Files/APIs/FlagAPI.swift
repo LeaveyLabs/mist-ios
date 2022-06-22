@@ -34,9 +34,19 @@ class FlagAPI {
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         return try JSONDecoder().decode(Flag.self, from: data)
     }
+    
+    static func deleteFlag(flaggerId:Int, postId:Int) async throws {
+        let flags = try await fetchFlagsByFlagger(flaggerId: flaggerId)
+        for flag in flags {
+            if flag.post == postId {
+                let _ = try await deleteFlag(flag_id: flag.id)
+                break
+            }
+        }
+    }
 
-    static func deleteFlag(id:Int) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_FLAG_MODEL)\(id)/"
+    static func deleteFlag(flag_id:Int) async throws {
+        let url = "\(BASE_URL)\(PATH_TO_FLAG_MODEL)\(flag_id)/"
         let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
     }
 }

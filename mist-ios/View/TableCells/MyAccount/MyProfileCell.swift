@@ -18,9 +18,7 @@ class MyProfileCell: UITableViewCell {
         
         usernameLabel.text = UserService.singleton.getUsername()
         nameLabel.text = UserService.singleton.getFirstLastName()
-        profileImageView.contentMode = .scaleAspectFill
-        profileImageView.image = UserService.singleton.getProfilePic()
-        profileImageView.becomeRound()
+        profileImageView.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
     }
     
     override func prepareForReuse() {

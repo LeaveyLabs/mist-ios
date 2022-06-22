@@ -458,7 +458,6 @@ extension MapViewController {
     
     func deselectOneAnnotationIfItExists() {
         if mapView.selectedAnnotations.count > 0 {
-            print("deselecting one because it exists")
             mapView.deselectAnnotation(mapView.selectedAnnotations[0], animated: true)
         }
     }
@@ -473,7 +472,6 @@ extension MapViewController {
         if mapView.annotations.count > 1 {
             for annotation in mapView.annotations {
                 if annotation .isKind(of: MKUserLocation.self) == false {
-                    print("trying to reselect a non user annotation")
                     mapView.selectAnnotation(mapView.annotations[1], animated: true)
                     return
                 }

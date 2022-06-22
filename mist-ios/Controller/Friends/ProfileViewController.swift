@@ -11,6 +11,13 @@ class ProfileViewController: UIViewController {
     
     //MARK: - Properties
     
+    //UI
+    @IBOutlet weak var profilePicUIImageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var friendStatusView: UIView!
+    
+    //Data
     var user: FrontendReadOnlyUser!
     
     //MARK: - Constructors
@@ -25,6 +32,9 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        profilePicUIImageView.becomeProfilePicImageView(with: user.profilePic)
+        nameLabel.text = user.first_last
+        usernameLabel.text = "@" + user.username
     }
     
     //MARK: User Interaction

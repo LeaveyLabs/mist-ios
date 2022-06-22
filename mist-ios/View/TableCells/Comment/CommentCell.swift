@@ -11,15 +11,24 @@ protocol CommentDelegate {
     func handleCommentProfilePicTap(commentAuthor: FrontendReadOnlyUser)
 }
 
+extension UIView {
+    func becomeCommentView() {
+        applyLightLeftShadow()
+        layer.cornerRadius = 10
+        layer.cornerCurve = .continuous
+    }
+}
+
 class CommentCell: UITableViewCell {
     
     //MARK: - Properties
 
     //UI
-    @IBOutlet weak var authorLabel: UILabel!
+    @IBOutlet weak var authorUsernameButton: UIButton!
     @IBOutlet weak var authorProfilePicButton: UIButton!
     @IBOutlet weak var commentLabel: UILabel!
     @IBOutlet weak var backgroundBubbleView: UIView!
+    @IBOutlet weak var timestampLabel: UILabel!
     
     //Information
     var comment: Comment!
@@ -31,12 +40,16 @@ class CommentCell: UITableViewCell {
     
     //MARK: - Initializer
     
-    func configureCommentCell(comment: Comment, author: FrontendReadOnlyUser) {
+    func configureCommentCell(comment: Comment, delegate: CommentDelegate, author: FrontendReadOnlyUser) {
         self.comment = comment
+        self.commentDelegate = delegate
         self.author = author
-        authorLabel.text = author.username
+        timestampLabel.text = getShortFormattedTimeString(timestamp: comment.timestamp)
+        authorUsernameButton.setTitle("@" + author.username, for: .normal)
         commentLabel.text = comment.body
-        authorProfilePicButton.setImage(author.profilePic, for: .normal)
+        UIView.performWithoutAnimation {
+            authorProfilePicButton.imageView?.becomeProfilePicImageView(with: author.profilePic)
+        }
     }
     
     //MARK: - Lifecycle
@@ -44,13 +57,11 @@ class CommentCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setupBubbleArrow()
-        authorProfilePicButton.imageView?.layer.cornerRadius = authorProfilePicButton.frame.size.height / 2
-        authorProfilePicButton.imageView?.layer.cornerCurve = .continuous
     }
     
     //MARK: -User Interaction
         
-    @IBAction func didPressedAuthorProfilePic(_ sender: UIButton) {
+    @IBAction func didPressedAuthorButton(_ sender: UIButton) {
         commentDelegate.handleCommentProfilePicTap(commentAuthor: author)
     }
     
@@ -61,9 +72,7 @@ class CommentCell: UITableViewCell {
         triangleView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
         backgroundBubbleView.addSubview(triangleView)
         backgroundBubbleView.sendSubviewToBack(triangleView)
-        addLeftTriangleLayer(to: triangleView)
-        backgroundBubbleView.layer.cornerRadius = 10
-        backgroundBubbleView.layer.cornerCurve = .continuous
+        backgroundBubbleView.becomeCommentView()
     }
     
     //https://stackoverflow.com/questions/30650343/triangle-uiview-swift

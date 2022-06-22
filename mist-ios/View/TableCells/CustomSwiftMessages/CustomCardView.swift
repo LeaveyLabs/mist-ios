@@ -2,7 +2,7 @@
 //  CustomCardView.swift
 //  mist-ios
 //
-//  Created by Adam Novak on 2022/06/08.
+//  Created by Adam Monterey on 6/21/22.
 //
 
 import Foundation

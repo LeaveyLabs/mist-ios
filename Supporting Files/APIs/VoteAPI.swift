@@ -45,10 +45,18 @@ class VoteAPI {
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         return try JSONDecoder().decode(Vote.self, from: data)
     }
+    
+    static func deleteVote(voter:Int, post:Int) async throws  {
+        let userVotes = try await VoteAPI.fetchVotesByVoterAndPost(voter: voter, post: post)
+        guard userVotes.count == 1 else {
+            throw APIError.NotFound
+        }
+        let _ = try await VoteAPI.deleteVote(vote_id: userVotes[0].id)
+    }
 
     // Deletes vote from database
-    static func deleteVote(id:Int) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_VOTE_MODEL)\(id)/"
+    static func deleteVote(vote_id:Int) async throws {
+        let url = "\(BASE_URL)\(PATH_TO_VOTE_MODEL)\(vote_id)/"
         let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
     }
 }

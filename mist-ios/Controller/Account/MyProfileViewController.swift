@@ -13,6 +13,7 @@ class MyProfileViewController: FeedViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.separatorStyle = .none
     }
     
     // MARK: - UserInteraction
@@ -46,7 +47,7 @@ class MyProfileViewController: FeedViewController {
                 default:
                     posts = try await PostAPI.fetchPosts();
                 }
-                tableView.reloadData();
+                tableView.reloadData()
                 tableView.refreshControl!.endRefreshing()
                 indicator.stopAnimating()
             } catch {
@@ -65,19 +66,15 @@ class MyProfileViewController: FeedViewController {
         case 0:
             let cell = self.tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath)
             cell.selectionStyle = .none
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             return cell
         case 1:
             let cell = self.tableView.dequeueReusableCell(withIdentifier: "SegmentedControlCell", for: indexPath) as! SegmentedControlCell
             cell.configureSegmentedControlCell(parent: self)
             cell.selectionStyle = .none
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             return cell
         default:
             let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-            cell.configurePostCell(post: posts[indexPath.row], bubbleTrianglePosition: .left)
-            //cell.postDelegate = self
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+//            cell.configurePostCell(post: posts[indexPath.row], postDelegate: nil, bubbleTrianglePosition: .left)
             return cell
         }
     }

@@ -37,10 +37,8 @@ class ConversationsViewController: UIViewController {
     
     private func setupMyAccountButton() {
         accountButton = UIButton(frame: .init(x: 0, y: 0, width: 30, height: 30))
-        accountButton.setImage(UserService.singleton.getProfilePic(), for: .normal)
         accountButton.addTarget(self, action: #selector(presentMyAccount), for: .touchUpInside)
-        accountButton.contentMode = .scaleAspectFill
-        accountButton.becomeRound() //if creating programmaticallly, must set a width and height of the view before calling becomeRound()
+        accountButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
 
         let accountBarItem = UIBarButtonItem(customView: accountButton)
         accountBarItem.customView?.translatesAutoresizingMaskIntoConstraints = false

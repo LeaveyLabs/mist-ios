@@ -83,11 +83,11 @@
                     </view>
                     <connections>
                         <outlet property="bottomConstraintForKeyboard" destination="Bbt-SW-GIZ" id="kHa-pa-Vms"/>
-                        <outlet property="commentButton" destination="9Te-PH-iCc" id="0fK-DK-CKR"/>
+                        <outlet property="commentAccessoryView" destination="CrT-TW-jr0" id="Cdx-cb-h2C"/>
                         <outlet property="commentProfileImage" destination="CQR-wF-TqD" id="Mn4-Gj-lWZ"/>
+                        <outlet property="commentSubmitButton" destination="9Te-PH-iCc" id="0fK-DK-CKR"/>
                         <outlet property="commentTextView" destination="ipv-OJ-vdL" id="Ltb-qf-d0e"/>
-                        <outlet property="commentView" destination="CrT-TW-jr0" id="Cdx-cb-h2C"/>
-                        <outlet property="postTableView" destination="aTY-DU-uzZ" id="D7P-C8-6Md"/>
+                        <outlet property="tableView" destination="aTY-DU-uzZ" id="D7P-C8-6Md"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yu9-Lz-qJX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -575,28 +575,6 @@
             </objects>
             <point key="canvasLocation" x="-1763" y="2562"/>
         </scene>
-        <!--Nib View Controller-->
-        <scene sceneID="2CE-0b-HB7">
-            <objects>
-                <viewController storyboardIdentifier="NibViewController" id="xoD-mS-ZO7" customClass="NibViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="mlw-tY-dsY">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AuU-NZ-swd" customClass="PostView" customModule="mist_ios" customModuleProvider="target">
-                                <rect key="frame" x="16" y="528" width="358" height="266"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </view>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="83c-ZY-I3d"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="l1A-vI-R7f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-6609" y="630"/>
-        </scene>
         <!--Special Tab Bar Controller-->
         <scene sceneID="PLu-W2-ENU">
             <objects>
@@ -737,7 +715,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AJx-pr-tDd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-7294" y="-22"/>
+            <point key="canvasLocation" x="-6609" y="630"/>
         </scene>
         <!--Account-->
         <scene sceneID="MmO-ha-Hcx">
@@ -994,79 +972,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kp0-mP-Z8j" userLabel="KUIView">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="qCS-CF-xHF">
                                 <rect key="frame" x="0.0" y="44" width="390" height="766"/>
-                                <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="qCS-CF-xHF">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="706.66666666666663"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                    </tableView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7rc-Ne-Ws7" userLabel="Comment View">
-                                        <rect key="frame" x="0.0" y="706.66666666666663" width="390" height="59.333333333333371"/>
-                                        <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="2oL-ZT-wEB">
-                                                <rect key="frame" x="17" y="9.6666666666667425" width="40" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="2oL-ZT-wEB" secondAttribute="height" id="3oc-Px-FHX"/>
-                                                    <constraint firstAttribute="width" constant="40" id="EHG-Az-BfG"/>
-                                                </constraints>
-                                            </imageView>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bq1-qJ-1bN">
-                                                <rect key="frame" x="69" y="10" width="256" height="39.333333333333336"/>
-                                                <color key="backgroundColor" systemColor="systemGray6Color"/>
-                                                <color key="textColor" systemColor="labelColor"/>
-                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
-                                            </textView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Dk-N6-QGh" userLabel="Comment Button">
-                                                <rect key="frame" x="340" y="14" width="30" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="0jq-gk-zpS"/>
-                                                    <constraint firstAttribute="width" secondItem="7Dk-N6-QGh" secondAttribute="height" id="Bvq-ys-TX4"/>
-                                                </constraints>
-                                                <color key="tintColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" image="arrow.turn.right.up" catalog="system">
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30" scale="default" weight="regular"/>
-                                                </buttonConfiguration>
-                                                <connections>
-                                                    <action selector="submitCommentButtonDidPressed:" destination="xtL-jg-0Sy" eventType="touchUpInside" id="zzZ-15-O7j"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" constant="10" id="ABc-Kt-BTm"/>
-                                            <constraint firstItem="bq1-qJ-1bN" firstAttribute="top" secondItem="7rc-Ne-Ws7" secondAttribute="top" constant="10" id="Dov-HY-q8X"/>
-                                            <constraint firstItem="2oL-ZT-wEB" firstAttribute="leading" secondItem="7rc-Ne-Ws7" secondAttribute="leading" constant="17" id="HvG-Pc-CA5"/>
-                                            <constraint firstAttribute="trailing" secondItem="7Dk-N6-QGh" secondAttribute="trailing" constant="20" symbolic="YES" id="TZW-oW-eh7"/>
-                                            <constraint firstAttribute="bottom" secondItem="2oL-ZT-wEB" secondAttribute="bottom" constant="9.6699999999999999" id="V6w-tn-hcb"/>
-                                            <constraint firstItem="bq1-qJ-1bN" firstAttribute="leading" secondItem="2oL-ZT-wEB" secondAttribute="trailing" constant="12" id="YR4-95-3iz"/>
-                                            <constraint firstAttribute="bottom" secondItem="7Dk-N6-QGh" secondAttribute="bottom" constant="15.33" id="Zki-Cl-4Pe"/>
-                                            <constraint firstItem="7Dk-N6-QGh" firstAttribute="leading" secondItem="bq1-qJ-1bN" secondAttribute="trailing" constant="15" id="z9Q-qh-SCX"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstItem="7rc-Ne-Ws7" firstAttribute="top" secondItem="qCS-CF-xHF" secondAttribute="bottom" id="55d-b0-OUB"/>
-                                    <constraint firstAttribute="trailing" secondItem="qCS-CF-xHF" secondAttribute="trailing" id="KPi-bO-lj9"/>
-                                    <constraint firstItem="7rc-Ne-Ws7" firstAttribute="leading" secondItem="Kp0-mP-Z8j" secondAttribute="leading" id="NFu-59-Ym2"/>
-                                    <constraint firstItem="qCS-CF-xHF" firstAttribute="top" secondItem="Kp0-mP-Z8j" secondAttribute="top" id="TDd-TK-Tvb"/>
-                                    <constraint firstAttribute="bottom" secondItem="7rc-Ne-Ws7" secondAttribute="bottom" id="dyt-5p-UdO"/>
-                                    <constraint firstAttribute="trailing" secondItem="7rc-Ne-Ws7" secondAttribute="trailing" id="x9c-dd-Qdn"/>
-                                    <constraint firstItem="qCS-CF-xHF" firstAttribute="leading" secondItem="Kp0-mP-Z8j" secondAttribute="leading" id="yOU-Ze-6bb"/>
-                                </constraints>
-                            </view>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2Wi-ND-8KG"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Kp0-mP-Z8j" firstAttribute="leading" secondItem="2Wi-ND-8KG" secondAttribute="leading" id="1yq-Er-dhG"/>
-                            <constraint firstItem="Kp0-mP-Z8j" firstAttribute="trailing" secondItem="2Wi-ND-8KG" secondAttribute="trailing" id="S0h-dN-tNV"/>
-                            <constraint firstItem="Kp0-mP-Z8j" firstAttribute="top" secondItem="2Wi-ND-8KG" secondAttribute="top" id="i4x-Bg-cyQ"/>
-                            <constraint firstItem="Kp0-mP-Z8j" firstAttribute="bottom" secondItem="2Wi-ND-8KG" secondAttribute="bottom" id="mTk-L1-gei"/>
+                            <constraint firstItem="qCS-CF-xHF" firstAttribute="top" secondItem="2Wi-ND-8KG" secondAttribute="top" id="7yy-jr-WTh"/>
+                            <constraint firstItem="qCS-CF-xHF" firstAttribute="trailing" secondItem="2Wi-ND-8KG" secondAttribute="trailing" id="aFx-qs-jzu"/>
+                            <constraint firstItem="qCS-CF-xHF" firstAttribute="leading" secondItem="2Wi-ND-8KG" secondAttribute="leading" id="dSE-Ra-ZPU"/>
+                            <constraint firstItem="qCS-CF-xHF" firstAttribute="bottom" secondItem="2Wi-ND-8KG" secondAttribute="bottom" priority="250" id="dqA-Uy-qRo"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="TKg-Ef-Yxd">
@@ -1077,17 +995,66 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="bottomConstraintForKeyboard" destination="dyt-5p-UdO" id="8rW-YX-DcV"/>
-                        <outlet property="commentButton" destination="7Dk-N6-QGh" id="xbZ-JH-vOC"/>
-                        <outlet property="commentProfileImage" destination="2oL-ZT-wEB" id="4fc-Wn-dqk"/>
+                        <outlet property="commentAccessoryView" destination="7rc-Ne-Ws7" id="GWO-vR-d1d"/>
+                        <outlet property="commentProfileImage" destination="2oL-ZT-wEB" id="aTZ-j8-9DM"/>
+                        <outlet property="commentSubmitButton" destination="7Dk-N6-QGh" id="xbZ-JH-vOC"/>
                         <outlet property="commentTextView" destination="bq1-qJ-1bN" id="Byl-O8-lBR"/>
-                        <outlet property="commentView" destination="7rc-Ne-Ws7" id="WSA-iH-VdK"/>
-                        <outlet property="postTableView" destination="qCS-CF-xHF" id="Pj2-yc-njE"/>
+                        <outlet property="tableView" destination="qCS-CF-xHF" id="Pj2-yc-njE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fGf-4b-NgQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="7rc-Ne-Ws7" userLabel="Comment View">
+                    <rect key="frame" x="0.0" y="0.0" width="390" height="59.333333333333336"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="2oL-ZT-wEB">
+                            <rect key="frame" x="15" y="6.3333333333333321" width="43" height="43"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="2oL-ZT-wEB" secondAttribute="height" id="3oc-Px-FHX"/>
+                                <constraint firstAttribute="width" constant="43" id="EHG-Az-BfG"/>
+                            </constraints>
+                        </imageView>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bq1-qJ-1bN">
+                            <rect key="frame" x="73" y="6.3333333333333321" width="257" height="43"/>
+                            <color key="backgroundColor" systemColor="systemGray6Color"/>
+                            <constraints>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="43" id="MSD-DM-Gea"/>
+                            </constraints>
+                            <color key="textColor" systemColor="labelColor"/>
+                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardType="twitter"/>
+                        </textView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Dk-N6-QGh" userLabel="Comment Button">
+                            <rect key="frame" x="337" y="6.3333333333333321" width="43" height="43"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="43" id="0jq-gk-zpS"/>
+                                <constraint firstAttribute="width" secondItem="7Dk-N6-QGh" secondAttribute="height" id="Bvq-ys-TX4"/>
+                            </constraints>
+                            <color key="tintColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="arrow.turn.right.up" catalog="system" title="">
+                                <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30" scale="default" weight="medium"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="submitCommentButtonDidPressed:" destination="xtL-jg-0Sy" eventType="touchUpInside" id="zzZ-15-O7j"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <viewLayoutGuide key="safeArea" id="AMO-uP-Dy2"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" constant="10" id="ABc-Kt-BTm"/>
+                        <constraint firstItem="bq1-qJ-1bN" firstAttribute="top" secondItem="7rc-Ne-Ws7" secondAttribute="top" priority="999" constant="10" id="Dov-HY-q8X"/>
+                        <constraint firstItem="7Dk-N6-QGh" firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" id="Gs5-lR-yPc"/>
+                        <constraint firstItem="2oL-ZT-wEB" firstAttribute="leading" secondItem="7rc-Ne-Ws7" secondAttribute="leading" priority="999" constant="15" id="HvG-Pc-CA5"/>
+                        <constraint firstAttribute="trailing" secondItem="7Dk-N6-QGh" secondAttribute="trailing" priority="999" constant="10" id="TZW-oW-eh7"/>
+                        <constraint firstItem="bq1-qJ-1bN" firstAttribute="leading" secondItem="2oL-ZT-wEB" secondAttribute="trailing" priority="999" constant="15" id="YR4-95-3iz"/>
+                        <constraint firstItem="2oL-ZT-wEB" firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" id="Z7h-kL-Ix5"/>
+                        <constraint firstItem="7Dk-N6-QGh" firstAttribute="leading" secondItem="bq1-qJ-1bN" secondAttribute="trailing" priority="999" constant="7" id="z9Q-qh-SCX"/>
+                    </constraints>
+                </view>
             </objects>
-            <point key="canvasLocation" x="437" y="503"/>
+            <point key="canvasLocation" x="474" y="503"/>
         </scene>
         <!--Search Results Table View Controller-->
         <scene sceneID="yhj-Eh-XEO">
@@ -1437,21 +1404,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="onp-GH-hco" customClass="RoundedImageView" customModule="mist_ios" customModuleProvider="target">
-                                <rect key="frame" x="124" y="66" width="143" height="158"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="onp-GH-hco" customClass="RoundedImageView" customModule="mist_ios" customModuleProvider="target">
+                                <rect key="frame" x="120" y="104" width="150" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="Aqh-d5-Ogt"/>
+                                    <constraint firstAttribute="width" secondItem="onp-GH-hco" secondAttribute="height" multiplier="1:1" id="Pwz-iG-WVN"/>
+                                </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Adam Novak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDh-hd-9ul">
-                                <rect key="frame" x="104" y="222" width="182" height="41"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adam Novak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDh-hd-9ul">
+                                <rect key="frame" x="104" y="262" width="182" height="41"/>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="30"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="@adamvnovak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W3a-GG-5aG">
-                                <rect key="frame" x="137" y="266" width="116" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -1481,9 +1443,8 @@
                                     <action selector="cancelButtonDidPressed:" destination="KKi-Sx-eAl" eventType="touchUpInside" id="3PM-uu-MBo"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iYr-eL-glx">
-                                <rect key="frame" x="116" y="320" width="158" height="46"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iYr-eL-glx">
+                                <rect key="frame" x="128.33333333333331" y="355" width="133.33333333333331" height="36"/>
                                 <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" image="person.crop.circle.badge.plus" catalog="system" title="Add Friend" imagePadding="6">
@@ -1491,21 +1452,40 @@
                                     <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@adamvnovak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W3a-GG-5aG">
+                                <rect key="frame" x="137" y="311" width="116" height="25"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="sJV-Uf-tOy"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="W3a-GG-5aG" firstAttribute="centerX" secondItem="zDM-BA-NN5" secondAttribute="centerX" id="1a9-cJ-wPT"/>
                             <constraint firstItem="Ytd-X7-2hj" firstAttribute="leading" secondItem="sJV-Uf-tOy" secondAttribute="leading" constant="15" id="27W-Nd-rOY"/>
+                            <constraint firstItem="W3a-GG-5aG" firstAttribute="top" secondItem="fDh-hd-9ul" secondAttribute="bottom" constant="8" symbolic="YES" id="3k4-qo-Mpc"/>
+                            <constraint firstItem="iYr-eL-glx" firstAttribute="top" secondItem="W3a-GG-5aG" secondAttribute="bottom" constant="19" id="5Nn-P5-ocO"/>
+                            <constraint firstItem="onp-GH-hco" firstAttribute="centerX" secondItem="zDM-BA-NN5" secondAttribute="centerX" id="FOg-ln-4SP"/>
                             <constraint firstItem="iaB-dd-3Tv" firstAttribute="top" secondItem="sJV-Uf-tOy" secondAttribute="top" constant="15" id="UKh-tl-4F5"/>
+                            <constraint firstItem="fDh-hd-9ul" firstAttribute="centerX" secondItem="zDM-BA-NN5" secondAttribute="centerX" id="m8N-rC-uif"/>
                             <constraint firstItem="Ytd-X7-2hj" firstAttribute="top" secondItem="zDM-BA-NN5" secondAttribute="topMargin" constant="15" id="nQr-Nr-Lrb"/>
+                            <constraint firstItem="iYr-eL-glx" firstAttribute="centerX" secondItem="zDM-BA-NN5" secondAttribute="centerX" id="qLi-7T-LRf"/>
+                            <constraint firstItem="onp-GH-hco" firstAttribute="top" secondItem="sJV-Uf-tOy" secondAttribute="top" constant="60" id="rpa-kN-FpV"/>
                             <constraint firstAttribute="trailing" secondItem="iaB-dd-3Tv" secondAttribute="trailing" constant="15" id="x1r-tE-ezi"/>
+                            <constraint firstItem="fDh-hd-9ul" firstAttribute="top" secondItem="onp-GH-hco" secondAttribute="bottom" constant="8" symbolic="YES" id="yKn-oF-Onr"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Mk0-Kw-vGC"/>
+                    <connections>
+                        <outlet property="nameLabel" destination="fDh-hd-9ul" id="8Vc-DW-lsk"/>
+                        <outlet property="profilePicUIImageView" destination="onp-GH-hco" id="ngw-dF-W6e"/>
+                        <outlet property="usernameLabel" destination="W3a-GG-5aG" id="wif-tr-jba"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EmX-wU-zZ9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2320" y="1335"/>
+            <point key="canvasLocation" x="1374" y="503"/>
         </scene>
         <!--dummy-->
         <scene sceneID="sMQ-dh-kZ2">
@@ -1571,7 +1551,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cdv-h6-88r">
-                                <rect key="frame" x="10" y="64" width="89.666666666666671" height="31"/>
+                                <rect key="frame" x="10" y="64" width="90" height="31"/>
                                 <color key="tintColor" systemColor="labelColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
                                 <state key="normal" title="Share" image="square.and.arrow.up" catalog="system"/>
@@ -2076,21 +2056,21 @@ You can message people in two ways: 
                                 <rect key="frame" x="0.0" y="88" width="390" height="722"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qc3-QU-TX3" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="281.66666666666669"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="279"/>
                                         <subviews>
                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.0099999997764825821" translatesAutoresizingMaskIntoConstraints="NO" id="JSX-W4-xgB">
                                                 <rect key="frame" x="0.0" y="0.0" width="390" height="2.666666666666667"/>
                                             </progressView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x2W-5m-lTz" userLabel="PostBubbleView">
-                                                <rect key="frame" x="15" y="19.666666666666686" width="355" height="252"/>
+                                                <rect key="frame" x="15" y="11.666666666666657" width="355" height="257.33333333333337"/>
                                                 <subviews>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="OVP-oT-mo6" customClass="NewPostTextView" customModule="mist_ios" customModuleProvider="target">
-                                                        <rect key="frame" x="15" y="112" width="325" height="125"/>
+                                                        <rect key="frame" x="15" y="122.33333333333331" width="325" height="120"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="125" id="VRm-Oa-ncq"/>
+                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="120" id="VRm-Oa-ncq"/>
                                                         </constraints>
                                                         <color key="textColor" systemColor="labelColor"/>
-                                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
+                                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="19"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                     </textView>
                                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="sig-rt-C7E">
@@ -2105,25 +2085,31 @@ You can message people in two ways: 
                                                         </connections>
                                                     </datePicker>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Iic-TR-uAk" customClass="NewPostTextView" customModule="mist_ios" customModuleProvider="target">
-                                                        <rect key="frame" x="15" y="62.999999999999986" width="325" height="49"/>
+                                                        <rect key="frame" x="15" y="62.999999999999986" width="325" height="54.333333333333329"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="49" id="TyY-Qg-LLG"/>
                                                         </constraints>
                                                         <color key="textColor" systemColor="labelColor"/>
-                                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
+                                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="28"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next"/>
                                                     </textView>
                                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a5L-OJ-Izu">
                                                         <rect key="frame" x="163" y="13" width="189" height="35"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="12:36pm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xkj-ys-7oA">
+                                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TiV-1T-iab" userLabel="Time Label Wrapper">
                                                                 <rect key="frame" x="102" y="0.0" width="78" height="35"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                <color key="backgroundColor" red="0.89803922179999995" green="0.88235294819999999" blue="0.91372549530000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
-                                                                <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="12:36pm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xkj-ys-7oA">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="78" height="35"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
+                                                                        <nil key="textColor"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                </subviews>
+                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                            </view>
                                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qVp-9C-glT">
                                                                 <rect key="frame" x="10" y="0.0" width="86" height="35"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -2131,13 +2117,11 @@ You can message people in two ways: 
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Wednesday" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xzW-Cv-IO5">
                                                                         <rect key="frame" x="8" y="0.0" width="75" height="35"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                        <color key="backgroundColor" red="0.89803922179999995" green="0.88235294819999999" blue="0.91372549530000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                 </subviews>
-                                                                <color key="backgroundColor" red="0.89803922179999995" green="0.88235294819999999" blue="0.91372549530000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             </view>
                                                         </subviews>
                                                         <color key="backgroundColor" red="0.96078431369999995" green="0.94117647059999998" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2147,7 +2131,7 @@ You can message people in two ways: 
                                                     </view>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Scd-dZ-nEi">
                                                         <rect key="frame" x="10" y="13" width="156" height="35"/>
-                                                        <color key="backgroundColor" red="0.89803922179999995" green="0.88235294819999999" blue="0.91372549530000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <color key="backgroundColor" red="0.95686274770000002" green="0.94117647410000005" blue="0.97254908080000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
                                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="15" maxY="0.0"/>
@@ -2173,7 +2157,7 @@ You can message people in two ways: 
                                                     <constraint firstItem="a5L-OJ-Izu" firstAttribute="centerY" secondItem="Scd-dZ-nEi" secondAttribute="centerY" id="gXf-Ux-IOT"/>
                                                     <constraint firstItem="a5L-OJ-Izu" firstAttribute="leading" secondItem="Scd-dZ-nEi" secondAttribute="trailing" constant="-3" id="gif-Pa-rAk"/>
                                                     <constraint firstItem="Scd-dZ-nEi" firstAttribute="top" secondItem="x2W-5m-lTz" secondAttribute="top" constant="13" id="kGB-78-w6H"/>
-                                                    <constraint firstItem="OVP-oT-mo6" firstAttribute="top" secondItem="Iic-TR-uAk" secondAttribute="bottom" id="n71-a7-YxE"/>
+                                                    <constraint firstItem="OVP-oT-mo6" firstAttribute="top" secondItem="Iic-TR-uAk" secondAttribute="bottom" constant="5" id="n71-a7-YxE"/>
                                                     <constraint firstAttribute="trailing" secondItem="OVP-oT-mo6" secondAttribute="trailing" constant="15" id="obi-ik-ZK9"/>
                                                     <constraint firstItem="Iic-TR-uAk" firstAttribute="leading" secondItem="x2W-5m-lTz" secondAttribute="leading" constant="15" id="veK-7D-xPr"/>
                                                     <constraint firstItem="sig-rt-C7E" firstAttribute="trailing" secondItem="a5L-OJ-Izu" secondAttribute="trailing" constant="-2" id="wWh-RV-u6F"/>
@@ -2186,7 +2170,7 @@ You can message people in two ways: 
                                             <constraint firstAttribute="trailing" secondItem="x2W-5m-lTz" secondAttribute="trailing" constant="20" symbolic="YES" id="Mxh-Tf-xGu"/>
                                             <constraint firstAttribute="bottom" secondItem="x2W-5m-lTz" secondAttribute="bottom" constant="10" id="Ndo-0C-cYc"/>
                                             <constraint firstItem="JSX-W4-xgB" firstAttribute="top" secondItem="qc3-QU-TX3" secondAttribute="top" id="UNb-n4-uX9"/>
-                                            <constraint firstItem="x2W-5m-lTz" firstAttribute="top" secondItem="JSX-W4-xgB" secondAttribute="bottom" constant="18" id="eYu-oi-yZ9"/>
+                                            <constraint firstItem="x2W-5m-lTz" firstAttribute="top" secondItem="JSX-W4-xgB" secondAttribute="bottom" constant="10" id="eYu-oi-yZ9"/>
                                             <constraint firstItem="JSX-W4-xgB" firstAttribute="leading" secondItem="qc3-QU-TX3" secondAttribute="leading" id="hMs-4L-RKq"/>
                                             <constraint firstItem="x2W-5m-lTz" firstAttribute="leading" secondItem="qc3-QU-TX3" secondAttribute="leading" constant="15" id="qec-9c-CaJ"/>
                                         </constraints>
@@ -2267,6 +2251,7 @@ You can message people in two ways: 
                         <outlet property="progressView" destination="JSX-W4-xgB" id="Gbk-lh-KUd"/>
                         <outlet property="scrollView" destination="0vN-fR-xob" id="Oar-0N-ez1"/>
                         <outlet property="timeLabel" destination="Xkj-ys-7oA" id="vFd-xD-9r6"/>
+                        <outlet property="timeLabelWrapperView" destination="TiV-1T-iab" id="age-Q8-bsf"/>
                         <outlet property="titleTextView" destination="Iic-TR-uAk" id="dIv-Md-wT3"/>
                     </connections>
                 </viewController>

@@ -14,6 +14,10 @@ class SearchResultsTableViewController: FeedViewController {
     var feedType: FeedType!
     var feedValue: String!
     
+    //PostDelegate
+    var voteTasks: [Task<Void, Never>] = []
+    var favoriteTasks: [Task<Void, Never>] = []
+    
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
@@ -21,6 +25,7 @@ class SearchResultsTableViewController: FeedViewController {
         
         tableView.estimatedRowHeight = 80
         tableView.refreshControl = nil //disable pull down top refresh
+        tableView.separatorStyle = .none
         navigationItem.title = feedValue
     }
     
@@ -99,13 +104,10 @@ class SearchResultsTableViewController: FeedViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.FeedHeader, for: indexPath) as! FeedHeaderCell
             cell.feedHeaderLabel.text = feedValue
             cell.feedType = feedType
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             return cell
         }
         let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-        cell.configurePostCell(post: posts[indexPath.row-1], bubbleTrianglePosition: .left)
-        cell.postDelegate = self
-        cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+        cell.configurePostCell(post: posts[indexPath.row-1], nestedPostViewDelegate: self, bubbleTrianglePosition: .left, isWithinPostVC: false)
         return cell
     }
     
@@ -119,12 +121,20 @@ class SearchResultsTableViewController: FeedViewController {
 
 extension SearchResultsTableViewController: PostDelegate {
     
-    func backgroundDidTapped(post: Post) {
-        sendToPostViewFor(post, withRaisedKeyboard: false)
+    func handleVote(postId: Int, isAdding: Bool) {
+        //
     }
     
-    func commentDidTapped(post: Post) {
-        sendToPostViewFor(post, withRaisedKeyboard: true)
+    func handleFavorite(postId: Int, isAdding: Bool) {
+        //
+    }
+    
+    func handleBackgroundTap(postId: Int) {
+//        sendToPostViewFor(p, withRaisedKeyboard: false)
+    }
+    
+    func handleCommentButtonTap(postId: Int) {
+//        sendToPostViewFor(post, withRaisedKeyboard: true)
     }
     
     // Helpers
@@ -133,7 +143,8 @@ extension SearchResultsTableViewController: PostDelegate {
         let postVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
         postVC.post = post
         postVC.shouldStartWithRaisedKeyboard = withRaisedKeyboard
-        postVC.completionHandler = { Post in
+        postVC.prepareForDismiss = { Post in
+            //TODO: this isn't good enough as is. need to also update the post of that particular row
             self.tableView.reloadData()
         }
         navigationController!.pushViewController(postVC, animated: true)

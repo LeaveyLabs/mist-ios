@@ -27,7 +27,6 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: false)
-        print("user selected cluster annotation view!")
     }
     
     required init?(coder aDecoder: NSCoder) {

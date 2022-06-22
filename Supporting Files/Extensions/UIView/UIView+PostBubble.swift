@@ -16,14 +16,25 @@ enum BubbleTrianglePosition {
 extension UIView {
     
     func transformIntoPostBubble(arrowPosition: BubbleTrianglePosition) {
+        if let viewWithTag = self.viewWithTag(999) { //remove existing triangle bubble
+            viewWithTag.removeFromSuperview()
+        }
         let triangleView = UIButton(type: .custom)
+        triangleView.tag = 999
         triangleView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
         addSubview(triangleView)
         sendSubviewToBack(triangleView)
         layer.cornerRadius = 20
         layer.cornerCurve = .continuous
-        applyShadowOnView(self)
-        
+        switch arrowPosition {
+        case .left:
+            applyMediumLeftLeaningShadow()
+        case .bottom:
+            applyMediumShadow()
+        case .right:
+            applyMediumRightLeaningShadow()
+        }
+
         // Set constraints for triangle view
         var constraints = [
             triangleView.heightAnchor.constraint(equalToConstant: 80),

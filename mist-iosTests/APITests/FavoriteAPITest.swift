@@ -39,7 +39,7 @@ class FavoriteAPITest: XCTestCase {
         XCTAssertTrue(post.id == postedFavorite.post)
         let fetchedFavorite = try await FavoriteAPI.fetchFavoritesByUser(userId: TestConstants.Auth.ID)
         XCTAssertTrue(postedFavorite.id == fetchedFavorite.last!.id)
-        try await FavoriteAPI.deleteFavorite(id: postedFavorite.id)
+        try await FavoriteAPI.deleteFavorite(favorite_id: postedFavorite.id)
     }
 
     func testPerformanceExample() throws {

@@ -54,7 +54,7 @@ class CommentAPITest: XCTestCase {
     func testDeleteComment() async throws {
         let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
         let comment = try await CommentAPI.postComment(body: "hey", post: post.id, author: TestConstants.Auth.ID)
-        try await CommentAPI.deleteComment(commentId: comment.id)
+        try await CommentAPI.deleteComment(comment_id: comment.id)
     }
 
     func testPerformanceExample() throws {

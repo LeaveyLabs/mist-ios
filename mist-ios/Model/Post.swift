@@ -12,15 +12,14 @@ let DUMMY_POST_ID: Int = -1
 struct Post: Codable, Equatable {
     let id: Int
     let title: String
-    let body: String //TODO: refactor to "body", since "title", "location_description" are also text, technically
+    let body: String
     let location_description: String?
     let latitude: Double?
     let longitude: Double?
     let timestamp: Double
     let author: Int
-    let averagerating: Int
-    let commentcount: Int
-//  voteCount: Int
+    var votecount: Int
+    var commentcount: Int
     
     //MARK: - Initializers
     
@@ -36,7 +35,7 @@ struct Post: Codable, Equatable {
          longitude: Double?,
          timestamp: Double,
          author: Int,
-         averagerating: Int = 0,
+         votecount: Int = 0,
          commentcount: Int = 0) {
         self.id = id
         self.title = title
@@ -46,7 +45,7 @@ struct Post: Codable, Equatable {
         self.longitude = longitude
         self.timestamp = timestamp
         self.author = author
-        self.averagerating = averagerating
+        self.votecount = votecount
         self.commentcount = commentcount
     }
 }
