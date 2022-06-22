@@ -45,6 +45,14 @@ class VoteAPI {
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         return try JSONDecoder().decode(Vote.self, from: data)
     }
+    
+    static func deleteVote(voter:Int, post:Int) async throws  {
+        let votesToDelete = try await fetchVotesByVoterAndPost(voter: voter, post: post)
+        for vote in votesToDelete {
+            let _ = try await deleteVote(vote_id: vote.id)
+            break
+        }
+    }
 
     // Deletes vote from database
     static func deleteVote(vote_id:Int) async throws {
