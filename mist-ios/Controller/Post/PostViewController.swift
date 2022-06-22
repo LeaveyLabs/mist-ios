@@ -340,7 +340,6 @@ extension PostViewController: PostDelegate {
     
     func handleBackgroundTap(postId: Int) {
         commentTextView.resignFirstResponder()
-        CustomSwiftMessages.displayError("asdf", "hi")
     }
     
     func handleCommentButtonTap(postId: Int) {
