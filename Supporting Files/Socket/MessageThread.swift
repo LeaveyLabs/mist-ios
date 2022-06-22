@@ -18,11 +18,11 @@ class MessageThread: WebSocketDelegate {
     var socket: WebSocket;
     var connected: Bool;
     
-    init(sender: Int, receiver: Int) throws {
+    init(sender: Int, receiver: Int) async throws {
         self.sender = sender
         self.receiver = receiver
         self.unsent_messages = []
-        self.server_messages = []
+        self.server_messages = try await MessageAPI.fetchMessagesBySenderAndReceiver(sender: sender, receiver: receiver)
         self.connected = false
         
         let params:[String:String] = ["type": "init",
