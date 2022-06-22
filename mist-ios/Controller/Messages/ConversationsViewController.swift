@@ -8,15 +8,15 @@
 import UIKit
 
 struct Conversation {
-    var otherUser: ReadOnlyUser
-    var firstMessage: Message
+    var otherUser: FrontendReadOnlyUser
+    var messageThread: MessageThread
 }
 
 class ConversationsViewController: UIViewController {
     
-    @IBOutlet weak var conversationsTableView: UITableView!
-    @IBOutlet weak var mistTitle: UIView! //no longer in use
-    var accountButton: UIButton!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var accountButton: UIButton!
+    @IBOutlet weak var customNavigationBar: UIView!
     
     var conversations: [Conversation] = []
 
@@ -24,28 +24,23 @@ class ConversationsViewController: UIViewController {
         super.viewDidLoad()
         setupTableView()
         setupMyAccountButton()
+        navigationController?.isNavigationBarHidden = true
+        customNavigationBar.applyLightBottomOnlyShadow()
     }
     
     //MARK: - Setup
     
     private func setupTableView() {
-        conversationsTableView.delegate = self
-        conversationsTableView.dataSource = self
-        conversationsTableView.estimatedRowHeight = 100;
-        conversationsTableView.rowHeight = UITableView.automaticDimension
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .none
     }
     
     private func setupMyAccountButton() {
-        accountButton = UIButton(frame: .init(x: 0, y: 0, width: 30, height: 30))
         accountButton.addTarget(self, action: #selector(presentMyAccount), for: .touchUpInside)
         accountButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
-
-        let accountBarItem = UIBarButtonItem(customView: accountButton)
-        accountBarItem.customView?.translatesAutoresizingMaskIntoConstraints = false
-        accountBarItem.customView?.heightAnchor.constraint(equalToConstant: accountButton.frame.height).isActive = true
-        accountBarItem.customView?.widthAnchor.constraint(equalToConstant: accountButton.frame.width).isActive = true
-        
-        navigationItem.rightBarButtonItem = accountBarItem
     }
     
     @objc func presentMyAccount() {
@@ -77,6 +72,10 @@ extension ConversationsViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         1
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return conversations.count == 0 ? tableView.frame.height / 4 : 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

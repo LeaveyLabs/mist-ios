@@ -151,7 +151,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rij-Yr-z4d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1763" y="3961"/>
+            <point key="canvasLocation" x="-234" y="3262"/>
         </scene>
         <!--Pin Map Modal View Controller-->
         <scene sceneID="vuc-nS-kaA">
@@ -1746,40 +1746,56 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="WSE-Y6-pMB">
-                                <rect key="frame" x="0.0" y="88" width="390" height="756"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="WSE-Y6-pMB">
+                                <rect key="frame" x="0.0" y="99" width="390" height="745"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="NoConversationsCell" rowHeight="195" id="Zs9-wk-hzb">
-                                        <rect key="frame" x="0.0" y="49" width="390" height="195"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="NoConversationsCell" rowHeight="240" id="Zs9-wk-hzb">
+                                        <rect key="frame" x="0.0" y="49" width="390" height="240"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Zs9-wk-hzb" id="Fv8-WE-xo4">
-                                            <rect key="frame" x="0.0" y="0.0" width="390" height="195"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="390" height="240"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gcf-dG-eUk">
-                                                    <rect key="frame" x="20" y="20" width="350" height="155"/>
-                                                    <string key="text">You have no messages yet 😞
-
-You can message people in two ways: 
-1. Drop a mist and wait for them to reply 🙏 2. Dm someone who wrote about you 😏</string>
-                                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🫠" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gcf-dG-eUk">
+                                                    <rect key="frame" x="150" y="11" width="90" height="89"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="90" id="sx8-ju-Thj"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="90"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No matches yet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hmR-he-T4G">
+                                                    <rect key="frame" x="121.66666666666669" y="120" width="147" height="0.0"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="When you reply to someone’s mist or they reply to yours, you can chat here. " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uh5-EF-10m">
+                                                    <rect key="frame" x="66" y="126.99999999999999" width="258" height="38.333333333333329"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="258" id="qfZ-Dl-VHf"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="Gcf-dG-eUk" firstAttribute="leading" secondItem="Fv8-WE-xo4" secondAttribute="leading" constant="20" symbolic="YES" id="B8t-za-yXv"/>
-                                                <constraint firstItem="Gcf-dG-eUk" firstAttribute="top" secondItem="Fv8-WE-xo4" secondAttribute="top" constant="20" id="DFy-Vb-XNp"/>
-                                                <constraint firstAttribute="bottom" secondItem="Gcf-dG-eUk" secondAttribute="bottom" constant="20" id="mX0-Jt-8vT"/>
-                                                <constraint firstAttribute="trailing" secondItem="Gcf-dG-eUk" secondAttribute="trailing" constant="20" id="oLJ-k5-qI5"/>
+                                                <constraint firstItem="Uh5-EF-10m" firstAttribute="top" secondItem="hmR-he-T4G" secondAttribute="bottom" constant="7" id="0WG-ux-Liy"/>
+                                                <constraint firstItem="hmR-he-T4G" firstAttribute="centerY" secondItem="Fv8-WE-xo4" secondAttribute="centerY" id="5VG-Ni-44Y"/>
+                                                <constraint firstItem="hmR-he-T4G" firstAttribute="top" secondItem="Gcf-dG-eUk" secondAttribute="bottom" constant="20" id="6Pf-aF-Qbi"/>
+                                                <constraint firstItem="Gcf-dG-eUk" firstAttribute="centerX" secondItem="Fv8-WE-xo4" secondAttribute="centerX" id="Nhb-tA-q1Y"/>
+                                                <constraint firstItem="Uh5-EF-10m" firstAttribute="centerX" secondItem="Fv8-WE-xo4" secondAttribute="centerX" id="VNG-dL-fpj"/>
+                                                <constraint firstItem="hmR-he-T4G" firstAttribute="centerX" secondItem="Fv8-WE-xo4" secondAttribute="centerX" id="dux-dI-QoG"/>
+                                                <constraint firstItem="Gcf-dG-eUk" firstAttribute="top" secondItem="Fv8-WE-xo4" secondAttribute="topMargin" id="xvg-hs-FeG"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ConversationCell" rowHeight="80" id="94i-qI-Jx6">
-                                        <rect key="frame" x="0.0" y="244" width="390" height="80"/>
+                                        <rect key="frame" x="0.0" y="289" width="390" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="94i-qI-Jx6" id="L5P-b3-dyh">
                                             <rect key="frame" x="0.0" y="0.0" width="390" height="80"/>
@@ -1815,40 +1831,59 @@ You can message people in two ways: 
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TaJ-4h-cFp">
+                                <rect key="frame" x="0.0" y="44" width="390" height="55"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Conversations" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fVs-qT-Doq">
+                                        <rect key="frame" x="22.666666666666671" y="11.666666666666664" width="180.66666666666663" height="38.333333333333336"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="28"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4X2-Dw-upd">
+                                        <rect key="frame" x="337.66666666666669" y="12.666666666666664" width="30" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="hTT-UW-NqZ"/>
+                                            <constraint firstAttribute="height" constant="30" id="txl-yu-957"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Button" image="adam"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="fVs-qT-Doq" secondAttribute="bottom" constant="5" id="4tj-pX-TUx"/>
+                                    <constraint firstAttribute="height" constant="55" id="BhF-qT-QGq"/>
+                                    <constraint firstItem="4X2-Dw-upd" firstAttribute="centerY" secondItem="TaJ-4h-cFp" secondAttribute="centerY" id="IIv-V5-Ki0"/>
+                                    <constraint firstItem="fVs-qT-Doq" firstAttribute="leading" secondItem="TaJ-4h-cFp" secondAttribute="leading" constant="22.5" id="acK-Sb-FFE"/>
+                                    <constraint firstAttribute="trailing" secondItem="4X2-Dw-upd" secondAttribute="trailing" constant="22.5" id="wmU-6q-W9B"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="RjK-TR-yFD"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="WSE-Y6-pMB" firstAttribute="leading" secondItem="RjK-TR-yFD" secondAttribute="leading" id="1g2-zK-4Cu"/>
+                            <constraint firstItem="RjK-TR-yFD" firstAttribute="trailing" secondItem="TaJ-4h-cFp" secondAttribute="trailing" id="MoZ-cm-Vk0"/>
+                            <constraint firstItem="WSE-Y6-pMB" firstAttribute="trailing" secondItem="RjK-TR-yFD" secondAttribute="trailing" id="P3T-x8-oQa"/>
+                            <constraint firstAttribute="bottom" secondItem="WSE-Y6-pMB" secondAttribute="bottom" id="RIJ-yX-Mxl"/>
+                            <constraint firstItem="TaJ-4h-cFp" firstAttribute="leading" secondItem="RjK-TR-yFD" secondAttribute="leading" id="jI4-2A-7TK"/>
+                            <constraint firstItem="TaJ-4h-cFp" firstAttribute="top" secondItem="RjK-TR-yFD" secondAttribute="top" id="uOX-gh-AHI"/>
+                            <constraint firstItem="WSE-Y6-pMB" firstAttribute="top" secondItem="TaJ-4h-cFp" secondAttribute="bottom" id="uVg-w4-UrM"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Conversations" id="gdG-aN-X7P"/>
+                    <navigationItem key="navigationItem" title="Conversations" largeTitleDisplayMode="always" id="gdG-aN-X7P"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="conversationsTableView" destination="WSE-Y6-pMB" id="sD8-ze-Px7"/>
-                        <outlet property="mistTitle" destination="X7a-uT-nly" id="LKK-e2-eQx"/>
+                        <outlet property="accountButton" destination="4X2-Dw-upd" id="n6f-P0-Rze"/>
+                        <outlet property="customNavigationBar" destination="TaJ-4h-cFp" id="92M-wy-NZ0"/>
+                        <outlet property="tableView" destination="WSE-Y6-pMB" id="sD8-ze-Px7"/>
                         <segue destination="h1m-Q9-Hfd" kind="show" identifier="unusedIdentifier" id="w6b-ry-ZtW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ded-fb-iUb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <view contentMode="scaleToFill" id="X7a-uT-nly">
-                    <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="mist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uWC-Hb-yVh">
-                            <rect key="frame" x="38" y="-5" width="61" height="44"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="32"/>
-                            <color key="textColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mist-heart" translatesAutoresizingMaskIntoConstraints="NO" id="lvP-DV-7KK">
-                            <rect key="frame" x="2" y="0.0" width="30" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
-                        </imageView>
-                    </subviews>
-                    <viewLayoutGuide key="safeArea" id="o5z-kg-fzR"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                </view>
             </objects>
-            <point key="canvasLocation" x="-1763" y="3262"/>
+            <point key="canvasLocation" x="-1763.0769230769231" y="3261.6113744075828"/>
         </scene>
         <!--Chat-->
         <scene sceneID="lLk-8l-KdD">
@@ -1887,7 +1922,10 @@ You can message people in two ways: 
                         <viewLayoutGuide key="safeArea" id="QWO-Vg-jju"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="mBS-g4-c1b"/>
+                    <navigationItem key="navigationItem" id="mBS-g4-c1b">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="chevron.left" catalog="system" id="esC-8Q-gpy"/>
+                        <barButtonItem key="rightBarButtonItem" image="ellipsis" catalog="system" id="i2r-Of-yDY"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="03q-ce-R5r" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2655,7 +2693,6 @@ You can message people in two ways: 
         <image name="location" catalog="system" width="128" height="118"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="minus" catalog="system" width="128" height="24"/>
-        <image name="mist-heart" width="190" height="176"/>
         <image name="person.2" catalog="system" width="128" height="81"/>
         <image name="person.crop.circle.badge.plus" catalog="system" width="128" height="113"/>
         <image name="plus" catalog="system" width="128" height="113"/>

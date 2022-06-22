@@ -9,19 +9,19 @@ import Foundation
 
 
 extension UIImage {
-    
+        
     func blur() -> UIImage {
         let currentFilter = CIFilter(name: "CIGaussianBlur")
         let beginImage = CIImage(image: self)
         currentFilter!.setValue(beginImage, forKey: kCIInputImageKey)
-        currentFilter!.setValue(300, forKey: kCIInputRadiusKey)
+        currentFilter!.setValue(50, forKey: kCIInputRadiusKey)
 
         let cropFilter = CIFilter(name: "CICrop")
         cropFilter!.setValue(currentFilter!.outputImage, forKey: kCIInputImageKey)
         cropFilter!.setValue(CIVector(cgRect: beginImage!.extent), forKey: "inputRectangle")
 
         let output = cropFilter!.outputImage
-        let cgimg = context.createCGImage(output!, from: output!.extent)
+        let cgimg = CIContext(options: nil).createCGImage(output!, from: output!.extent)
         let processedImage = UIImage(cgImage: cgimg!)
         return processedImage
     }

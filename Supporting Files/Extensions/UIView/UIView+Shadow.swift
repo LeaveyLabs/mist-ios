@@ -55,6 +55,10 @@ extension UIView {
     func applyMediumBottomOnlyShadow() {
         layer.applySketchShadow(color: .black, alpha: 0.15, x: 0, y: 5, blur: 7, spread: 0)
     }
+    
+    func applyLightBottomOnlyShadow() {
+        layer.applySketchShadow(color: .black, alpha: 0.08, x: 0, y: 5, blur: 5, spread: 0)
+    }
 }
 
 

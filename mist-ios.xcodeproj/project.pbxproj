@@ -215,6 +215,7 @@
 		5BB624B228620D4A00DCD45B /* CustomCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B128620D4A00DCD45B /* CustomCardView.swift */; };
 		5BB624B428620D5F00DCD45B /* CustomCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BB624B328620D5F00DCD45B /* CustomCardView.xib */; };
 		5BB624B628622C8500DCD45B /* UIViewController+DismissFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */; };
+		5BB624B92863CA2600DCD45B /* UINavigationItem+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B82863CA2600DCD45B /* UINavigationItem+UIButton.swift */; };
 		5BCC68D928611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */; };
 		5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4D9BD285C018000197080 /* String+Capitalization.swift */; };
 		5BF78337285D955F003C3955 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78336285D955F003C3955 /* Map.swift */; };
@@ -456,6 +457,7 @@
 		5BB624B128620D4A00DCD45B /* CustomCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCardView.swift; sourceTree = "<group>"; };
 		5BB624B328620D5F00DCD45B /* CustomCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCardView.xib; sourceTree = "<group>"; };
 		5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+DismissFlag.swift"; sourceTree = "<group>"; };
+		5BB624B82863CA2600DCD45B /* UINavigationItem+UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem+UIButton.swift"; sourceTree = "<group>"; };
 		5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeAreaInputAccessoryViewWrapperView.swift; sourceTree = "<group>"; };
 		5BE4D9BD285C018000197080 /* String+Capitalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Capitalization.swift"; sourceTree = "<group>"; };
 		5BF78336285D955F003C3955 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
@@ -726,8 +728,8 @@
 		475B1F8927FB868300ED59CD /* Messages */ = {
 			isa = PBXGroup;
 			children = (
-				475B1F8A27FB86C000ED59CD /* ConversationsViewController.swift */,
 				47234BEC28063D9C0031D7A5 /* NewMessageViewController.swift */,
+				475B1F8A27FB86C000ED59CD /* ConversationsViewController.swift */,
 				477499882832D0CF0067C26C /* ChatViewController.swift */,
 				4780E5B32832F0560012B741 /* SimpleChatViewController.swift */,
 				477499862832CF540067C26C /* AutocompleteChatViewController.swift */,
@@ -802,6 +804,7 @@
 		47A3D71B27D593F0003DBEA5 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				5BB624B72863CA1300DCD45B /* UINavigation */,
 				5B4D58A52860D7E5002E2F94 /* UIImageView */,
 				5BE4D9BC285C017100197080 /* String */,
 				47CEEE96285451F7008947FC /* Buttons */,
@@ -813,7 +816,6 @@
 				47D5B36828441180004CDE6C /* UIView */,
 				474A5DA927F40CB1004215F9 /* UISegmentedControl+Twitter.swift */,
 				479683F22826494100CA23BA /* UIColor+Theme.swift */,
-				478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */,
 				474A4AAF284A922100B39A98 /* UIScrollView+ToTop.swift */,
 				5B13B740285D05B0000ADF5E /* UISearchBar+CenterText.swift */,
 				5BF78338285E4477003C3955 /* UITableView+SectionShadow.swift */,
@@ -1094,6 +1096,15 @@
 			path = Friends;
 			sourceTree = "<group>";
 		};
+		5BB624B72863CA1300DCD45B /* UINavigation */ = {
+			isa = PBXGroup;
+			children = (
+				478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */,
+				5BB624B82863CA2600DCD45B /* UINavigationItem+UIButton.swift */,
+			);
+			path = UINavigation;
+			sourceTree = "<group>";
+		};
 		5BE4D9BC285C017100197080 /* String */ = {
 			isa = PBXGroup;
 			children = (
@@ -1311,6 +1322,7 @@
 				479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */,
 				43A05BDD2835008B0085A99B /* SpecialTabBar.swift in Sources */,
 				47EE95FA27F64C00003B351E /* MyAccountViewController.swift in Sources */,
+				5BB624B92863CA2600DCD45B /* UINavigationItem+UIButton.swift in Sources */,
 				43E30CFE2826355C00DBEB57 /* UploadProfilePictureViewController.swift in Sources */,
 				5B13B73F285CF119000ADF5E /* Experimental.swift in Sources */,
 				47266AD427FF69C9005DEDB1 /* UIViewController+Loading.swift in Sources */,

@@ -24,7 +24,7 @@ protocol PostDelegate: ShareActivityDelegate, AnyObject {
 extension PostDelegate where Self: UIViewController {
     
     func handleDmTap(postId: Int, authorId: Int) {
-        let newMessageVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewMessage) as! NewMessageViewController
+        let newMessageVC = NewMessageViewController.create(postId: postId, authorId: authorId)
         let navigationController = UINavigationController(rootViewController: newMessageVC)
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true, completion: nil)
