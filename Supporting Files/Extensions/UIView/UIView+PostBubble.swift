@@ -16,7 +16,11 @@ enum BubbleTrianglePosition {
 extension UIView {
     
     func transformIntoPostBubble(arrowPosition: BubbleTrianglePosition) {
+        if let viewWithTag = self.viewWithTag(999) { //remove existing triangle bubble
+            viewWithTag.removeFromSuperview()
+        }
         let triangleView = UIButton(type: .custom)
+        triangleView.tag = 999
         triangleView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
         addSubview(triangleView)
         sendSubviewToBack(triangleView)

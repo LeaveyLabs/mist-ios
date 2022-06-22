@@ -20,7 +20,7 @@ class PostCell: UITableViewCell {
         bottomConstraint.constant = isWithinPostVC ? -20 : bottomConstraint.constant
         postView.postDelegate = nestedPostViewDelegate
         UIView.performWithoutAnimation { //this is necessary with our current approach to the input accessory view and keyboardlayoutguide. tableview ends up getting animated, but that creates weird animations for the cells, too. so dont allow the cell updates to animate
-            postView.configurePost(post: post, bubbleTrianglePosition: bubbleTrianglePosition) //must come after setting constraints
+            postView.configurePost(post: post) //must come after setting constraints
         }
         ensureTapsDontPreventScrolling()
     }

@@ -127,7 +127,7 @@ extension PostAnnotationView {
         ])
         
         let postAnnotation = annotation as! PostAnnotation
-        postCalloutView.configurePost(post: postAnnotation.post, bubbleTrianglePosition: .bottom)
+        postCalloutView.configurePost(post: postAnnotation.post)
         postCalloutView.postDelegate = postDelegate
 
         //Do i need to call some of these? I dont think so.

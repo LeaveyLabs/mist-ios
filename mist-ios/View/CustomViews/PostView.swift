@@ -132,7 +132,7 @@ extension PostView {
     
     // Note: the constraints for the PostView should already be set-up when this is called.
     // Otherwise you'll get loads of constraint errors in the console
-    func configurePost(post: Post, bubbleTrianglePosition: BubbleTrianglePosition) {
+    func configurePost(post: Post) {
         self.postId = post.id
         self.authorId = post.author
         timestampLabel.text = getFormattedTimeString(timestamp: post.timestamp)
@@ -143,7 +143,13 @@ extension PostView {
         likeButton.isSelected = !UserService.singleton.getVotesForPost(postId: post.id).isEmpty
         favoriteButton.isSelected = UserService.singleton.getIsFavoritedForPost(postId: post.id)
         
-        backgroundBubbleView.transformIntoPostBubble(arrowPosition: bubbleTrianglePosition)
+        var arrowPosition: BubbleTrianglePosition!
+        if let _ = superview as? PostAnnotationView {
+            arrowPosition = .bottom
+        } else {
+            arrowPosition = post.author == UserService.singleton.getId() ? .right : .left
+        }
+        backgroundBubbleView.transformIntoPostBubble(arrowPosition: arrowPosition)
     }
     
     func reconfigurePost(updatedPost: Post) {
