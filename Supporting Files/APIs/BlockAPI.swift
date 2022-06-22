@@ -35,6 +35,16 @@ class BlockAPI {
         return try JSONDecoder().decode(Block.self, from: data)
     }
     
+    static func deleteBlock(blockingUserId:Int, blockedUserId:Int) async throws {
+        let blocks = try await fetchBlocksByBlockedUser(blockedUserId: blockingUserId)
+        for block in blocks {
+            if block.blocked_user == blockedUserId {
+                let _ = try await deleteBlock(block_id: block.id)
+                break
+            }
+        }
+    }
+    
     static func deleteBlock(block_id:Int) async throws {
         let url = "\(BASE_URL)\(PATH_TO_BLOCK_MODEL)\(block_id)/"
         let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)

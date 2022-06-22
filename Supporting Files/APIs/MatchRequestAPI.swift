@@ -37,6 +37,16 @@ class MatchRequestAPI {
         return try JSONDecoder().decode(MatchRequest.self, from: data)
     }
     
+    static func deleteMatchRequest(senderUserId:Int, receiverUserId:Int) async throws {
+        let matchRequests = try await fetchMatchRequestsBySender(senderUserId: senderUserId)
+        for matchRequest in matchRequests {
+            if matchRequest.match_requested_user == receiverUserId {
+                let _ = try await deleteMatchRequest(match_request_id: matchRequest.id)
+                break
+            }
+        }
+    }
+    
     static func deleteMatchRequest(match_request_id:Int) async throws {
         let url = "\(BASE_URL)\(PATH_TO_MATCH_REQUEST)\(match_request_id)/"
         let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)

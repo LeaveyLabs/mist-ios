@@ -29,6 +29,16 @@ class FavoriteAPI {
         return try JSONDecoder().decode(Favorite.self, from: data)
     }
     
+    static func deleteFavorite(userId:Int, postId:Int) async throws {
+        let favoritesToDelete = try await fetchFavoritesByUser(userId: userId)
+        for favorite in favoritesToDelete {
+            if favorite.post == postId {
+                let _ = try await deleteFavorite(favorite_id: favorite.id)
+                break
+            }
+        }
+    }
+    
     static func deleteFavorite(favorite_id:Int) async throws {
         let url = "\(BASE_URL)\(PATH_TO_FAVORITES)\(favorite_id)/"
         let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
