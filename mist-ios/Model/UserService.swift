@@ -182,20 +182,54 @@ class UserService: NSObject {
         try await CommentAPI.deleteComment(comment_id: commentId)
     }
     
-    func insertTemporaryLocalVote(_ vote: Vote) {
-        votes.append(vote)
-    }
-    
     func removeTemporaryLocalVote(_ vote: Vote) {
         votes.removeAll { $0.id == vote.id }
     }
     
-    func insertTemporaryLocalFavorite(_ favorite: Favorite) {
-        favorites.append(favorite)
+    func handleVoteUpdate(postId: Int, _ isAdding: Bool) -> Vote {
+        if isAdding {
+            let newVote = Vote(id: Int.random(in: 0..<Int.max),
+                                          voter: UserService.singleton.getId(),
+                                          post: postId,
+                                          timestamp: Date().timeIntervalSince1970)
+            votes.append(newVote)
+            return newVote
+        } else {
+            let voteToDelete = votes.first { $0.post == postId }!
+            votes.removeAll { $0.id == voteToDelete.id }
+            return voteToDelete
+        }
     }
     
-    func removeTemporaryLocalFavorite(_ favorite: Favorite) {
-        votes.removeAll { $0.id == favorite.id }
+    func handleFailedVoteUpdate(with vote: Vote, _ wasFailedAdd: Bool) {
+        if wasFailedAdd {
+            votes.removeAll { $0.id == vote.id }
+        } else {
+            votes.append(vote)
+        }
+    }
+    
+    func handleFavoriteUpdate(postId: Int, _ isAdding: Bool) -> Favorite {
+        if isAdding {
+            let newFavorite = Favorite(id: Int.random(in: 0..<Int.max),
+                                                  timestamp: Date().timeIntervalSince1970,
+                                                  post: postId,
+                                                  favoriting_user: UserService.singleton.getId())
+            favorites.append(newFavorite)
+            return newFavorite
+        } else {
+            let favoriteToDelete = favorites.first { $0.post == postId }!
+            favorites.removeAll { $0.id == favoriteToDelete.id }
+            return favoriteToDelete
+        }
+    }
+    
+    func handleFailedFavoriteUpdate(with favorite: Favorite, _ wasFailedAdd: Bool) {
+        if wasFailedAdd {
+            favorites.removeAll { $0.id == favorite.id }
+        } else {
+            favorites.append(favorite)
+        }
     }
     
     //MARK: - Filesystem

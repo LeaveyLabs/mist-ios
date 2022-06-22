@@ -296,18 +296,62 @@ extension PostViewController {
 extension PostViewController: PostDelegate {
     
     func handleVote(postId: Int, isAdding: Bool) {
-        //First, start the remote & file storage data updates
-        singletonAndRemoteVoteUpdate(postId: postId, isAdding: isAdding)
-        
-        //Then, handle viewController data updates
+        // Synchronous viewController update
         post.votecount += isAdding ? 1 : -1
         
-        //No need to reload data, because there's only one postView in this vc which was already updated within the view
+        // Synchronous singleton update
+        let vote = UserService.singleton.handleVoteUpdate(postId: postId, isAdding)
+
+        // Asynchronous remote update
+        if voteTasks.count == 2 {
+            voteTasks.removeLast()
+        } else {
+            voteTasks.append(Task {
+//            defer { voteTasks.removeFirst() }
+                do {
+                    if isAdding {
+                        let _ = try await VoteAPI.postVote(voter: UserService.singleton.getId(), post: postId)
+                    } else {
+                        let syncedVoteToDelete = try await VoteAPI.fetchVotesByVoterAndPost(voter: UserService.singleton.getId(), post: postId)[0]
+                        let _ = try await VoteAPI.deleteVote(vote_id: syncedVoteToDelete.id)
+                    }
+                } catch {
+                    UserService.singleton.handleFailedVoteUpdate(with: vote, isAdding)//undo singleton change
+                    post.votecount += isAdding ? -1 : 1 //undo viewController change
+                    (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
+                    CustomSwiftMessages.displayError(error)
+                }
+                voteTasks.removeFirst()
+            })
+        }
     }
     
     func handleFavorite(postId: Int, isAdding: Bool) {
-        singletonAndRemoteFavoriteUpdate(postId: postId, isAdding: isAdding)
-        //No need to reload data, because there's only one postView in this vc which was already updated within the view
+        // Synchronous singleton update
+        let favorite = UserService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
+
+        // Asynchronous remote update
+        if favoriteTasks.count == 2 {
+            favoriteTasks.removeLast()
+        } else {
+            favoriteTasks.append(Task {
+    //            defer { favoriteTasks.removeFirst() }
+                do {
+                    if isAdding {
+                        let _ = try await FavoriteAPI.postFavorite(userId: UserService.singleton.getId(), postId: postId)
+                    } else {
+                        let userFavorites = try await FavoriteAPI.fetchFavoritesByUser(userId: UserService.singleton.getId())
+                        let syncedFavoriteToDelete = userFavorites.first { $0.post == postId }!
+                        let _ = try await FavoriteAPI.deleteFavorite(favorite_id: syncedFavoriteToDelete.id)
+                    }
+                } catch {
+                    UserService.singleton.handleFailedFavoriteUpdate(with: favorite, isAdding)//undo singleton change
+                    (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
+                    CustomSwiftMessages.displayError(error)
+                }
+                favoriteTasks.removeFirst()
+            })
+        }
     }
     
     func handleBackgroundTap(postId: Int) {
