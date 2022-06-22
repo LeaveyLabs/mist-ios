@@ -28,7 +28,7 @@ struct CustomSwiftMessages {
             createAndShowError(title: apiError.errorDescription!, body: apiError.recoverySuggestion!, emoji: "😔")
         } else if let mkError = error as? MKError {
             if mkError.errorCode == 4 {
-                CustomSwiftMessages.showInfo("No results were found.", "Please search again.", emoji: "😔")
+                createAndShowError(title: "Something went wrong.", body: "Please try again later.", emoji: "😔")
             } else {
                 print(error.localizedDescription)
             }

@@ -41,6 +41,8 @@ class PostCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: Constants.SBID.Cell.Post)
         
+        selectionStyle = .none
+        
         postView = PostView()
         postView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(postView)

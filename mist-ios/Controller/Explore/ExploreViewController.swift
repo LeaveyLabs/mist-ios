@@ -59,10 +59,6 @@ class ExploreViewController: MapViewController {
     }
     var annotationSelectionType: AnnotationSelectionType = .normal
     
-    //PostDelegate
-    var voteTasks: [Task<Void, Never>] = []
-    var favoriteTasks: [Task<Void, Never>] = []
-    
 }
 
 // MARK: - View Life Cycle
@@ -295,31 +291,26 @@ extension ExploreViewController: PostDelegate {
     func handleVote(postId: Int, isAdding: Bool) {
         // Synchronous viewController update
         let index = postAnnotations.firstIndex { $0.post.id == postId }!
+        let originalVoteCount = postAnnotations[index].post.votecount
         postAnnotations[index].post.votecount += isAdding ? 1 : -1
         
         // Synchronous singleton update
         let vote = UserService.singleton.handleVoteUpdate(postId: postId, isAdding)
         
         // Asynchronous remote update
-        if voteTasks.count == 2 {
-            voteTasks.removeLast()
-        } else {
-            voteTasks.append(Task {
-//            defer { voteTasks.removeFirst() }
-                do {
-                    if isAdding {
-                        let _ = try await VoteAPI.postVote(voter: UserService.singleton.getId(), post: postId)
-                    } else {
-                        try await VoteAPI.deleteVote(voter: UserService.singleton.getId(), post: postId)
-                    }
-                } catch {
-                    UserService.singleton.handleFailedVoteUpdate(with: vote, isAdding) //undo singleton data change
-                    postAnnotations[index].post.votecount += isAdding ? -1 : 1 //undo viewController data change
-                    reloadData() //reloadData to ensure undos are visible
-                    CustomSwiftMessages.displayError(error)
+        Task {
+            do {
+                if isAdding {
+                    let _ = try await VoteAPI.postVote(voter: UserService.singleton.getId(), post: postId)
+                } else {
+                    try await VoteAPI.deleteVote(voter: UserService.singleton.getId(), post: postId)
                 }
-//                voteTasks.removeFirst()
-            })
+            } catch {
+                UserService.singleton.handleFailedVoteUpdate(with: vote, isAdding) //undo singleton data change
+                postAnnotations[index].post.votecount = originalVoteCount //undo viewController data change
+                reloadData() //reloadData to ensure undos are visible
+                CustomSwiftMessages.displayError(error)
+            }
         }
     }
     
@@ -328,24 +319,18 @@ extension ExploreViewController: PostDelegate {
         let favorite = UserService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
 
         // Asynchronous remote update
-        if favoriteTasks.count == 2 {
-            favoriteTasks.removeLast()
-        } else {
-            favoriteTasks.append(Task {
-    //            defer { favoriteTasks.removeFirst() }
-                do {
-                    if isAdding {
-                        let _ = try await FavoriteAPI.postFavorite(userId: UserService.singleton.getId(), postId: postId)
-                    } else {
-                        try await FavoriteAPI.deleteFavorite(userId: UserService.singleton.getId(), postId: postId)
-                    }
-                } catch {
-                    UserService.singleton.handleFailedFavoriteUpdate(with: favorite, isAdding)//undo singleton data change
-                    reloadData() //reloadData to ensure undos are visible
-                    CustomSwiftMessages.displayError(error)
+        Task {
+            do {
+                if isAdding {
+                    let _ = try await FavoriteAPI.postFavorite(userId: UserService.singleton.getId(), postId: postId)
+                } else {
+                    try await FavoriteAPI.deleteFavorite(userId: UserService.singleton.getId(), postId: postId)
                 }
-//                favoriteTasks.removeFirst()
-            })
+            } catch {
+                UserService.singleton.handleFailedFavoriteUpdate(with: favorite, isAdding)//undo singleton data change
+                reloadData() //reloadData to ensure undos are visible
+                CustomSwiftMessages.displayError(error)
+            }
         }
     }
     

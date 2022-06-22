@@ -26,6 +26,7 @@ extension ExploreViewController {
         ])
         
         feed.dataSource = self
+        feed.tableFooterView = UIView(frame: .init(x: 0, y: 0, width: 100, height: 50))
         feed.estimatedRowHeight = 100
         feed.rowHeight = UITableView.automaticDimension
         feed.showsVerticalScrollIndicator = false
@@ -50,7 +51,6 @@ extension ExploreViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.feed.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-        cell.selectionStyle = .none
         cell.configurePostCell(post: postAnnotations[indexPath.row].post,
                                nestedPostViewDelegate: self,
                                bubbleTrianglePosition: .left,

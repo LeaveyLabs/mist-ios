@@ -25,6 +25,7 @@ class SearchResultsTableViewController: FeedViewController {
         
         tableView.estimatedRowHeight = 80
         tableView.refreshControl = nil //disable pull down top refresh
+        tableView.separatorStyle = .none
         navigationItem.title = feedValue
     }
     
@@ -103,12 +104,10 @@ class SearchResultsTableViewController: FeedViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.FeedHeader, for: indexPath) as! FeedHeaderCell
             cell.feedHeaderLabel.text = feedValue
             cell.feedType = feedType
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             return cell
         }
         let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
         cell.configurePostCell(post: posts[indexPath.row-1], nestedPostViewDelegate: self, bubbleTrianglePosition: .left, isWithinPostVC: false)
-        cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
         return cell
     }
     

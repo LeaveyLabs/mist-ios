@@ -83,8 +83,9 @@ extension ExploreViewController: UISearchBarDelegate {
     // MARK: - UITableViewDelegate
 
 extension ExploreViewController: UITableViewDelegate {
-        
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView == feed { return }
         tableView.deselectRow(at: indexPath, animated: false)
         let resultType = MapSearchResultType.init(rawValue: indexPath.section)!
         

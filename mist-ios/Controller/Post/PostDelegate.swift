@@ -17,11 +17,6 @@ protocol PostDelegate: ShareActivityDelegate, AnyObject {
     // Require subclass implementation
     func handleCommentButtonTap(postId: Int)
     func handleBackgroundTap(postId: Int)
-    
-    //Task management
-    //there should only ever be a maximum of two tasks at a time. If a third task is about to be created, it must be the same type of action as the first task, so the second and third task cancel out. Instead of adding that third task, the second task should be removed (handled below)
-    var voteTasks: [Task<Void, Never>] { get set }
-    var favoriteTasks: [Task<Void, Never>] { get set }
 }
 
 // Defining functions which are consistent across all PostDelegates
