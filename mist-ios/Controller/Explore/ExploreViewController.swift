@@ -226,16 +226,12 @@ extension ExploreViewController {
     func reloadData() {
         //Map
         if let selectedPostAnnotationView = selectedAnnotationView as? PostAnnotationView {
-            print("RERENDERING CALLOUT")
             selectedPostAnnotationView.rerenderCalloutForUpdatedPostData()
-            
-            //ohhh
-            //when we reload in all the posts, of course the selected annotaiton view wont be valid anymore
-            //we need to deselect that annotation view
-            //we're not handling the "selectedAnnotationView" properly, basically
         }
         //Feed
-        feed.reloadData()
+        DispatchQueue.main.async { // somehow, this prevents a strange animation for the reload
+            self.feed.reloadData()
+        }
     }
     
     func makeFeedVisible() {
@@ -314,16 +310,15 @@ extension ExploreViewController: PostDelegate {
                     if isAdding {
                         let _ = try await VoteAPI.postVote(voter: UserService.singleton.getId(), post: postId)
                     } else {
-                        let syncedVoteToDelete = try await VoteAPI.fetchVotesByVoterAndPost(voter: UserService.singleton.getId(), post: postId)[0]
-                        let _ = try await VoteAPI.deleteVote(vote_id: syncedVoteToDelete.id)
+                        try await VoteAPI.deleteVote(voter: UserService.singleton.getId(), post: postId)
                     }
                 } catch {
-                    UserService.singleton.handleFailedVoteUpdate(with: vote, isAdding) //undo singleton change
-                    postAnnotations[index].post.votecount += isAdding ? -1 : 1 //undo viewController change
+                    UserService.singleton.handleFailedVoteUpdate(with: vote, isAdding) //undo singleton data change
+                    postAnnotations[index].post.votecount += isAdding ? -1 : 1 //undo viewController data change
                     reloadData() //reloadData to ensure undos are visible
                     CustomSwiftMessages.displayError(error)
                 }
-                voteTasks.removeFirst()
+//                voteTasks.removeFirst()
             })
         }
     }
@@ -342,16 +337,14 @@ extension ExploreViewController: PostDelegate {
                     if isAdding {
                         let _ = try await FavoriteAPI.postFavorite(userId: UserService.singleton.getId(), postId: postId)
                     } else {
-                        let userFavorites = try await FavoriteAPI.fetchFavoritesByUser(userId: UserService.singleton.getId())
-                        let syncedFavoriteToDelete = userFavorites.first { $0.post == postId }!
-                        let _ = try await FavoriteAPI.deleteFavorite(favorite_id: syncedFavoriteToDelete.id)
+                        try await FavoriteAPI.deleteFavorite(userId: UserService.singleton.getId(), postId: postId)
                     }
                 } catch {
-                    UserService.singleton.handleFailedFavoriteUpdate(with: favorite, isAdding)//undo singleton change
+                    UserService.singleton.handleFailedFavoriteUpdate(with: favorite, isAdding)//undo singleton data change
                     reloadData() //reloadData to ensure undos are visible
                     CustomSwiftMessages.displayError(error)
                 }
-                favoriteTasks.removeFirst()
+//                favoriteTasks.removeFirst()
             })
         }
     }

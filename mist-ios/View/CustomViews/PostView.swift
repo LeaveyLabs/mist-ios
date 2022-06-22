@@ -101,14 +101,17 @@ class PostButton: UIButton {
     
     @IBAction func favoriteButtonDidpressed(_ sender: UIButton) {
         // UI Updates
+        favoriteButton.isEnabled = false
         favoriteButton.isSelected = !favoriteButton.isSelected
         
         // Remote and storage updates
         postDelegate?.handleFavorite(postId: postId, isAdding: favoriteButton.isSelected)
+        favoriteButton.isEnabled = true
     }
     
     @IBAction func likeButtonDidPressed(_ sender: UIButton) {
         // UI Updates
+        likeButton.isEnabled = false
         likeButton.isSelected = !likeButton.isSelected
         if likeButton.isSelected {
             likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! + 1), for: .normal)
@@ -118,6 +121,7 @@ class PostButton: UIButton {
         
         // Remote and storage updates
         postDelegate?.handleVote(postId: postId, isAdding: likeButton.isSelected)
+        likeButton.isEnabled = true
     }
     
 }

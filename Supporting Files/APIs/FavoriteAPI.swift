@@ -30,13 +30,12 @@ class FavoriteAPI {
     }
     
     static func deleteFavorite(userId:Int, postId:Int) async throws {
-        let favoritesToDelete = try await fetchFavoritesByUser(userId: userId)
-        for favorite in favoritesToDelete {
-            if favorite.post == postId {
-                let _ = try await deleteFavorite(favorite_id: favorite.id)
-                break
-            }
+        let userFavorites = try await FavoriteAPI.fetchFavoritesByUser(userId: userId)
+        let favoriteToDelete = userFavorites.first { $0.post == postId }
+        guard let favoriteToDelete = favoriteToDelete else {
+            throw APIError.NotFound
         }
+        let _ = try await FavoriteAPI.deleteFavorite(favorite_id: favoriteToDelete.id)
     }
     
     static func deleteFavorite(favorite_id:Int) async throws {

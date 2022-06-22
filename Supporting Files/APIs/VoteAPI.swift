@@ -47,11 +47,11 @@ class VoteAPI {
     }
     
     static func deleteVote(voter:Int, post:Int) async throws  {
-        let votesToDelete = try await fetchVotesByVoterAndPost(voter: voter, post: post)
-        for vote in votesToDelete {
-            let _ = try await deleteVote(vote_id: vote.id)
-            break
+        let userVotes = try await VoteAPI.fetchVotesByVoterAndPost(voter: voter, post: post)
+        guard userVotes.count == 1 else {
+            throw APIError.NotFound
         }
+        let _ = try await VoteAPI.deleteVote(vote_id: userVotes[0].id)
     }
 
     // Deletes vote from database

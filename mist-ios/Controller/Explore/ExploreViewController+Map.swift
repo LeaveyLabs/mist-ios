@@ -152,11 +152,7 @@ extension ExploreViewController {
     }
 
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        //shouldnt actually be necessary, because we're doing a localDataUpdate on each user interaction with a postView
-//        if let deselectedPostAnnotationView = selectedAnnotationView as? PostAnnotationView {
-//            localDataUpdateForEntirePost(deselectedPostAnnotationView.postCalloutView!.post)
-//            selectedAnnotationView = nil
-//        }
+        selectedAnnotationView = nil
     }
     
     override func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {

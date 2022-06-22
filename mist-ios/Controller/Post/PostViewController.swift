@@ -312,8 +312,7 @@ extension PostViewController: PostDelegate {
                     if isAdding {
                         let _ = try await VoteAPI.postVote(voter: UserService.singleton.getId(), post: postId)
                     } else {
-                        let syncedVoteToDelete = try await VoteAPI.fetchVotesByVoterAndPost(voter: UserService.singleton.getId(), post: postId)[0]
-                        let _ = try await VoteAPI.deleteVote(vote_id: syncedVoteToDelete.id)
+                        try await VoteAPI.deleteVote(voter: UserService.singleton.getId(), post: postId)
                     }
                 } catch {
                     UserService.singleton.handleFailedVoteUpdate(with: vote, isAdding)//undo singleton change
@@ -340,9 +339,7 @@ extension PostViewController: PostDelegate {
                     if isAdding {
                         let _ = try await FavoriteAPI.postFavorite(userId: UserService.singleton.getId(), postId: postId)
                     } else {
-                        let userFavorites = try await FavoriteAPI.fetchFavoritesByUser(userId: UserService.singleton.getId())
-                        let syncedFavoriteToDelete = userFavorites.first { $0.post == postId }!
-                        let _ = try await FavoriteAPI.deleteFavorite(favorite_id: syncedFavoriteToDelete.id)
+                        try await FavoriteAPI.deleteFavorite(userId: UserService.singleton.getId(), postId: postId)
                     }
                 } catch {
                     UserService.singleton.handleFailedFavoriteUpdate(with: favorite, isAdding)//undo singleton change
