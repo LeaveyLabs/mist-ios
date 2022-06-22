@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 
-typealias PinMapCompletionHandler = ((PostAnnotation) -> Void)
+typealias PinMapCompletionHandler = ((PostAnnotation?) -> Void)
 
 class PinMapViewController: MapViewController {
 
@@ -81,6 +81,7 @@ class PinMapViewController: MapViewController {
     }
         
     @IBAction func backButtonDidPressed(_ sender: UIButton) {
+        completionHandler(pinnedAnnotation)
         navigationController?.popViewController(animated: true)
     }
     
@@ -158,15 +159,16 @@ class PinMapViewController: MapViewController {
             }
             
             //completion handler returns nil on fail, locationDescription of pin on success
-            pinMapModalVC.completionHandler = { [weak self] (locationDescription) in
+            pinMapModalVC.completionHandler = { [self] (locationDescription) in
                 if locationDescription != nil {
-                    self?.completionHandler((self?.pinnedAnnotation!)!)
+                    completionHandler(pinnedAnnotation)
                     pinMapModalVC.dismiss(animated: false)
-                    self?.navigationController?.popViewController(animated: true)
+                    navigationController?.popViewController(animated: true)
                 } else {
-                    self?.postAnnotations = []
-                    self?.removeExistingPostAnnotations()
-                    self?.dismiss(animated: true)
+                    postAnnotations = []
+                    pinnedAnnotation = nil
+                    removeExistingPostAnnotations()
+                    dismiss(animated: true)
                 }
             }
             self.pinMapModalVC = pinMapModalVC

@@ -2056,21 +2056,21 @@ You can message people in two ways: 
                                 <rect key="frame" x="0.0" y="88" width="390" height="722"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qc3-QU-TX3" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="281.66666666666669"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="279"/>
                                         <subviews>
                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.0099999997764825821" translatesAutoresizingMaskIntoConstraints="NO" id="JSX-W4-xgB">
                                                 <rect key="frame" x="0.0" y="0.0" width="390" height="2.666666666666667"/>
                                             </progressView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x2W-5m-lTz" userLabel="PostBubbleView">
-                                                <rect key="frame" x="15" y="19.666666666666686" width="355" height="252"/>
+                                                <rect key="frame" x="15" y="11.666666666666657" width="355" height="257.33333333333337"/>
                                                 <subviews>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="OVP-oT-mo6" customClass="NewPostTextView" customModule="mist_ios" customModuleProvider="target">
-                                                        <rect key="frame" x="15" y="112" width="325" height="125"/>
+                                                        <rect key="frame" x="15" y="122.33333333333331" width="325" height="120"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="125" id="VRm-Oa-ncq"/>
+                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="120" id="VRm-Oa-ncq"/>
                                                         </constraints>
                                                         <color key="textColor" systemColor="labelColor"/>
-                                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
+                                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="19"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                     </textView>
                                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="sig-rt-C7E">
@@ -2085,25 +2085,31 @@ You can message people in two ways: 
                                                         </connections>
                                                     </datePicker>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Iic-TR-uAk" customClass="NewPostTextView" customModule="mist_ios" customModuleProvider="target">
-                                                        <rect key="frame" x="15" y="62.999999999999986" width="325" height="49"/>
+                                                        <rect key="frame" x="15" y="62.999999999999986" width="325" height="54.333333333333329"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="49" id="TyY-Qg-LLG"/>
                                                         </constraints>
                                                         <color key="textColor" systemColor="labelColor"/>
-                                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
+                                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="28"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next"/>
                                                     </textView>
                                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a5L-OJ-Izu">
                                                         <rect key="frame" x="163" y="13" width="189" height="35"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="12:36pm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xkj-ys-7oA">
+                                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TiV-1T-iab" userLabel="Time Label Wrapper">
                                                                 <rect key="frame" x="102" y="0.0" width="78" height="35"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                <color key="backgroundColor" red="0.89803922179999995" green="0.88235294819999999" blue="0.91372549530000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
-                                                                <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="12:36pm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xkj-ys-7oA">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="78" height="35"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
+                                                                        <nil key="textColor"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                </subviews>
+                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                            </view>
                                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qVp-9C-glT">
                                                                 <rect key="frame" x="10" y="0.0" width="86" height="35"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -2111,13 +2117,11 @@ You can message people in two ways: 
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Wednesday" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xzW-Cv-IO5">
                                                                         <rect key="frame" x="8" y="0.0" width="75" height="35"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                        <color key="backgroundColor" red="0.89803922179999995" green="0.88235294819999999" blue="0.91372549530000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                 </subviews>
-                                                                <color key="backgroundColor" red="0.89803922179999995" green="0.88235294819999999" blue="0.91372549530000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             </view>
                                                         </subviews>
                                                         <color key="backgroundColor" red="0.96078431369999995" green="0.94117647059999998" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2127,7 +2131,7 @@ You can message people in two ways: 
                                                     </view>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Scd-dZ-nEi">
                                                         <rect key="frame" x="10" y="13" width="156" height="35"/>
-                                                        <color key="backgroundColor" red="0.89803922179999995" green="0.88235294819999999" blue="0.91372549530000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <color key="backgroundColor" red="0.95686274770000002" green="0.94117647410000005" blue="0.97254908080000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
                                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="15" maxY="0.0"/>
@@ -2153,7 +2157,7 @@ You can message people in two ways: 
                                                     <constraint firstItem="a5L-OJ-Izu" firstAttribute="centerY" secondItem="Scd-dZ-nEi" secondAttribute="centerY" id="gXf-Ux-IOT"/>
                                                     <constraint firstItem="a5L-OJ-Izu" firstAttribute="leading" secondItem="Scd-dZ-nEi" secondAttribute="trailing" constant="-3" id="gif-Pa-rAk"/>
                                                     <constraint firstItem="Scd-dZ-nEi" firstAttribute="top" secondItem="x2W-5m-lTz" secondAttribute="top" constant="13" id="kGB-78-w6H"/>
-                                                    <constraint firstItem="OVP-oT-mo6" firstAttribute="top" secondItem="Iic-TR-uAk" secondAttribute="bottom" id="n71-a7-YxE"/>
+                                                    <constraint firstItem="OVP-oT-mo6" firstAttribute="top" secondItem="Iic-TR-uAk" secondAttribute="bottom" constant="5" id="n71-a7-YxE"/>
                                                     <constraint firstAttribute="trailing" secondItem="OVP-oT-mo6" secondAttribute="trailing" constant="15" id="obi-ik-ZK9"/>
                                                     <constraint firstItem="Iic-TR-uAk" firstAttribute="leading" secondItem="x2W-5m-lTz" secondAttribute="leading" constant="15" id="veK-7D-xPr"/>
                                                     <constraint firstItem="sig-rt-C7E" firstAttribute="trailing" secondItem="a5L-OJ-Izu" secondAttribute="trailing" constant="-2" id="wWh-RV-u6F"/>
@@ -2166,7 +2170,7 @@ You can message people in two ways: 
                                             <constraint firstAttribute="trailing" secondItem="x2W-5m-lTz" secondAttribute="trailing" constant="20" symbolic="YES" id="Mxh-Tf-xGu"/>
                                             <constraint firstAttribute="bottom" secondItem="x2W-5m-lTz" secondAttribute="bottom" constant="10" id="Ndo-0C-cYc"/>
                                             <constraint firstItem="JSX-W4-xgB" firstAttribute="top" secondItem="qc3-QU-TX3" secondAttribute="top" id="UNb-n4-uX9"/>
-                                            <constraint firstItem="x2W-5m-lTz" firstAttribute="top" secondItem="JSX-W4-xgB" secondAttribute="bottom" constant="18" id="eYu-oi-yZ9"/>
+                                            <constraint firstItem="x2W-5m-lTz" firstAttribute="top" secondItem="JSX-W4-xgB" secondAttribute="bottom" constant="10" id="eYu-oi-yZ9"/>
                                             <constraint firstItem="JSX-W4-xgB" firstAttribute="leading" secondItem="qc3-QU-TX3" secondAttribute="leading" id="hMs-4L-RKq"/>
                                             <constraint firstItem="x2W-5m-lTz" firstAttribute="leading" secondItem="qc3-QU-TX3" secondAttribute="leading" constant="15" id="qec-9c-CaJ"/>
                                         </constraints>
@@ -2247,6 +2251,7 @@ You can message people in two ways: 
                         <outlet property="progressView" destination="JSX-W4-xgB" id="Gbk-lh-KUd"/>
                         <outlet property="scrollView" destination="0vN-fR-xob" id="Oar-0N-ez1"/>
                         <outlet property="timeLabel" destination="Xkj-ys-7oA" id="vFd-xD-9r6"/>
+                        <outlet property="timeLabelWrapperView" destination="TiV-1T-iab" id="age-Q8-bsf"/>
                         <outlet property="titleTextView" destination="Iic-TR-uAk" id="dIv-Md-wT3"/>
                     </connections>
                 </viewController>
