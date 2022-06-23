@@ -183,17 +183,6 @@ class UserAPI {
           }
         }
         return frontendUsers
-//
-//
-//        let picPaths = users.reduce(into: [Int: String]()) {
-//            $0[$1.id] = $1.picture
-//        }
-//        print(picPaths)
-//        let profilePics = try await UserAPI.batchFetchProfilePicsForPicPaths(picPaths)
-//
-//        print(profilePics)
-//        return Dictionary(uniqueKeysWithValues:
-//            profilePics.map { key, value in (key, FrontendReadOnlyUser(readOnlyUser: users[key], profilePic: value)) })
     }
     
     static func batchFetchProfilePicsForPicPaths(_ picPaths: [Int: String]) async throws -> [Int: UIImage] {

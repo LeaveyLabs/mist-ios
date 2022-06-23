@@ -39,10 +39,34 @@ class SimpleChatViewController: ChatViewController {
     @IBOutlet weak var customNavigationBar: UIView!
     
     //Data
+    var conversation: Conversation!
     var postId: Int!
     var authorId: Int!
     
-    var isNewMessageFromPost: Bool = true
+    //Flags
+    var isPresentedFromPost: Bool = true
+        
+    var isSenderHidden: Bool! {
+        didSet {
+            senderProfileNameButton.setTitle("You", for: .normal)
+            if isSenderHidden {
+                senderProfilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic().blur())
+            } else {
+                senderProfilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
+            }
+        }
+    }
+    var isReceiverHidden: Bool! {
+        didSet {
+            if isReceiverHidden {
+                senderProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.profilePic.blur())
+                receiverProfileNameButton.setTitle("???", for: .normal)
+            } else {
+                senderProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.profilePic)
+                receiverProfileNameButton.setTitle(conversation.sangdaebang.first_name, for: .normal)
+            }
+        }
+    }
     
     //MARK: - Initialization
     
@@ -59,27 +83,28 @@ class SimpleChatViewController: ChatViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCustomNavigationBar()
-        senderProfilePicButton.imageView?.becomeProfilePicImageView(with: senderProfilePicButton.imageView!.image!.blur())
-        receiverProfilePicButton.imageView?.becomeProfilePicImageView(with: receiverProfilePicButton.imageView!.image!.blur())
+        setupHiddenProfiles() //NOTE: must come after setting up the data
         
+        //if the conversation already exists in Service, just load the data in here
+        //if the conversation does not already exist, you need to create a new one and load in the user's data
+        //so when do we load the user's data? that coudl take a few seconds. whenever the postview is rendered? that seems to make the most sense. you can do an async let, and then await it when presenting SimpleChatViewController
         
-        if isNewMessageFromPost {
-            xButton.setImage(UIImage(systemName: "xmark"), for: .normal)
-            
-            //We want to start with the messageInputBar's textView as first responder
-            //But for some reason, without this delay, self (the VC) remains the first responder
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.03) {
-                self.messageInputBar.inputTextView.becomeFirstResponder()
-            }
+        if isPresentedFromPost {
+            setupWhenPresentedFromPost()
         }
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
     //MARK: - Setup
+    
+    func setupHiddenProfiles() {
+        //If they haven't sent you a message yet, they're hidden.
+        isReceiverHidden = !MatchRequestService.singleton.hasReceivedMatchRequestFrom(conversation.sangdaebang.id)
+        
+        //If you haven't matched with them AND you haven't received a message from them, you're hidden.
+        //The extra check is because we don't want to hide you when you're writing the very first message.
+        isSenderHidden = !MatchRequestService.singleton.isMatchedWith(conversation.sangdaebang.id) && MatchRequestService.singleton.hasReceivedMatchRequestFrom(conversation.sangdaebang.id)
+    }
     
     func setupCustomNavigationBar() {
         navigationController?.isNavigationBarHidden = true
@@ -91,6 +116,16 @@ class SimpleChatViewController: ChatViewController {
         messagesCollectionView.topAnchor.constraint(equalTo: customNavigationBar.bottomAnchor).isActive = true
     }
     
+    func setupWhenPresentedFromPost() {
+        xButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+        
+        //We want to start with the messageInputBar's textView as first responder
+        //But for some reason, without this delay, self (the VC) remains the first responder
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.03) {
+            self.messageInputBar.inputTextView.becomeFirstResponder()
+        }
+    }
+    
     //MARK: - User Interaction
 
     @IBAction func xButtonDidPressed(_ sender: UIBarButtonItem) {
@@ -100,13 +135,21 @@ class SimpleChatViewController: ChatViewController {
     }
     
     @IBAction func senderProfileDidTapped(_ sender: UIBarButtonItem) {
-        let profileVC = ProfileViewController.create(for: UserService.singleton.getUserAsFrontendReadOnlyUser())
-        navigationController!.present(profileVC, animated: true)
+        if isSenderHidden {
+            //do nothing for now
+        } else {
+            let profileVC = ProfileViewController.create(for: UserService.singleton.getUserAsFrontendReadOnlyUser())
+            navigationController!.present(profileVC, animated: true)
+        }
     }
     
     @IBAction func receiverProfileDidTapped(_ sender: UIBarButtonItem) {
-        let profileVC = ProfileViewController.create(for: UserService.singleton.getUserAsFrontendReadOnlyUser())
-        navigationController!.present(profileVC, animated: true)
+        if isReceiverHidden {
+            //somehow tell the user //hey! they're hidden right now!
+        } else {
+            let profileVC = ProfileViewController.create(for: conversation.sangdaebang)
+            navigationController!.present(profileVC, animated: true)
+        }
     }
     
     //MARK: - ChatViewController

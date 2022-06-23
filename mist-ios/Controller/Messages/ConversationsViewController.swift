@@ -8,7 +8,7 @@
 import UIKit
 
 struct Conversation {
-    var otherUser: FrontendReadOnlyUser
+    var sangdaebang: FrontendReadOnlyUser
     var messageThread: MessageThread
 }
 
