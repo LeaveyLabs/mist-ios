@@ -229,11 +229,7 @@ class MyAccountViewController: UIViewController, UITableViewDelegate, UITableVie
         guard let settingsSection = AccountSections.init(rawValue: indexPath.section) else { return }
         switch settingsSection {
         case .profile:
-            let profileSettings = AccountSections.Profile.init(rawValue: indexPath.row)!
-            switch profileSettings {
-            case .profile:
-                performSegue(withIdentifier: Constants.SBID.Segue.ToMyProfileSetting, sender: nil)
-            }
+            performSegue(withIdentifier: Constants.SBID.Segue.ToMyProfileSetting, sender: nil)
         case .friends:
             let friendsSection = AccountSections.Friends.init(rawValue: indexPath.row)!
             switch friendsSection {

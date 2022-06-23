@@ -38,7 +38,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     //Data
     var post: Post! //both PostViewController and PostCell's PostView have a "Post" object. When postview handles interaction, it updates its own post. Because of that, this post object should only be used when setting up the post
     var comments = [Comment]()
-    var commentProfilePics = [Int: UIImage]()
+    var commentAuthors = [Int: FrontendReadOnlyUser]()
     
     //Misc
     var prepareForDismiss: UpdatedPostCompletionHandler?
@@ -175,7 +175,8 @@ extension PostViewController {
             do {
                 activityIndicator.startAnimating()
                 comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
-                commentProfilePics = try await loadCommentThumbnails(for: comments)
+                commentAuthors = try await UserAPI.batchTurnUsersIntoFrontendUsers(comments.map { $0.read_only_author })
+                print(commentAuthors)
                 tableView.reloadData()
             } catch {
                 CustomSwiftMessages.displayError(error)
@@ -183,22 +184,6 @@ extension PostViewController {
             activityIndicator.stopAnimating()
             tableView.sectionFooterHeight = 0
         }
-    }
-    
-    func loadCommentThumbnails(for comments: [Comment]) async throws -> [Int: UIImage] {
-      var thumbnails: [Int: UIImage] = [:]
-      try await withThrowingTaskGroup(of: (Int, UIImage).self) { group in
-        for comment in comments {
-          group.addTask {
-              return (comment.id, try await UserAPI.UIImageFromURLString(url: comment.read_only_author.picture))
-          }
-        }
-        // Obtain results from the child tasks, sequentially, in order of completion
-        for try await (id, thumbnail) in group {
-          thumbnails[id] = thumbnail
-        }
-      }
-      return thumbnails
     }
     
 }
@@ -239,9 +224,7 @@ extension PostViewController: UITableViewDataSource {
         //else the cell is a comment
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Comment, for: indexPath) as! CommentCell
         let comment = comments[indexPath.row-1]
-        let commentAuthor = FrontendReadOnlyUser(readOnlyUser: comment.read_only_author,
-                                                 profilePic: commentProfilePics[comment.id]!)
-        cell.configureCommentCell(comment: comment, delegate: self, author: commentAuthor)
+        cell.configureCommentCell(comment: comment, delegate: self, author: commentAuthors[comment.author]!)
         return cell
     }
 }
@@ -258,7 +241,7 @@ extension PostViewController: UITableViewDelegate {
 extension PostViewController: CommentDelegate {
     
     func handleCommentProfilePicTap(commentAuthor: FrontendReadOnlyUser) {
-        let profileVC = ProfileViewController.createProfileVC(with: commentAuthor)
+        let profileVC = ProfileViewController.create(for: commentAuthor)
         navigationController!.present(profileVC, animated: true)
     }
         
@@ -274,7 +257,7 @@ extension PostViewController {
         tableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
         post.commentcount += 1
         comments.append(newComment)
-        commentProfilePics[newComment.id] = UserService.singleton.getProfilePic()
+        commentAuthors[newComment.id] = UserService.singleton.getUserAsFrontendReadOnlyUser()
         tableView.reloadData()
     }
         

@@ -360,6 +360,17 @@ extension MapViewController {
                                          heading: 0)
         isCameraFlying = true
         isCameraFlyingOutAndIn = true
+        
+        //EXPERIMENTAL
+//        UIView.animateKeyframes(withDuration: duration*2, delay: 0, options: .calculationModeCubic, animations: {
+//            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.5) {
+//                self.mapView.camera = preRotationCamera
+//            }
+//            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5) {
+//                self.mapView.camera = finalCamera
+//            }
+//        })
+        
         UIView.animate(withDuration: duration*2,
                        delay: 0,
                        options: .curveEaseIn,

@@ -22,7 +22,7 @@ class ProfileViewController: UIViewController {
     
     //MARK: - Constructors
     
-    class func createProfileVC(with user: FrontendReadOnlyUser) -> ProfileViewController {
+    class func create(for user: FrontendReadOnlyUser) -> ProfileViewController {
         let profileVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Profile) as! ProfileViewController
         profileVC.user = user
         return profileVC

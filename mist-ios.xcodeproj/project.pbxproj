@@ -216,6 +216,7 @@
 		5BB624B428620D5F00DCD45B /* CustomCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BB624B328620D5F00DCD45B /* CustomCardView.xib */; };
 		5BB624B628622C8500DCD45B /* UIViewController+DismissFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */; };
 		5BB624B92863CA2600DCD45B /* UINavigationItem+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B82863CA2600DCD45B /* UINavigationItem+UIButton.swift */; };
+		5BB624BE2864308E00DCD45B /* MessageThreadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624BD2864308E00DCD45B /* MessageThreadService.swift */; };
 		5BCC68D928611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */; };
 		5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4D9BD285C018000197080 /* String+Capitalization.swift */; };
 		5BF78337285D955F003C3955 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78336285D955F003C3955 /* Map.swift */; };
@@ -458,6 +459,7 @@
 		5BB624B328620D5F00DCD45B /* CustomCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCardView.xib; sourceTree = "<group>"; };
 		5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+DismissFlag.swift"; sourceTree = "<group>"; };
 		5BB624B82863CA2600DCD45B /* UINavigationItem+UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem+UIButton.swift"; sourceTree = "<group>"; };
+		5BB624BD2864308E00DCD45B /* MessageThreadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageThreadService.swift; sourceTree = "<group>"; };
 		5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeAreaInputAccessoryViewWrapperView.swift; sourceTree = "<group>"; };
 		5BE4D9BD285C018000197080 /* String+Capitalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Capitalization.swift"; sourceTree = "<group>"; };
 		5BF78336285D955F003C3955 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
@@ -927,22 +929,9 @@
 		47E74E3B27CA14B800467A0C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4700F8B827DD7BE3006C2E08 /* Flag.swift */,
-				4700F8B927DD7BE3006C2E08 /* Vote.swift */,
-				47A3D70527D54F3C003DBEA5 /* Post.swift */,
-				47A3D70B27D55A3A003DBEA5 /* PostsService.swift */,
-				47A3D70727D54F6F003DBEA5 /* User.swift */,
-				47A3D71127D57A6D003DBEA5 /* UserService.swift */,
-				47FF86A027DC712F0076A1CA /* Comment.swift */,
-				439E44F927DFE20600E244D6 /* Word.swift */,
-				4369DB0B282EC465009215D4 /* Message.swift */,
-				4780E5B728330C570012B741 /* MessageKitUser.swift */,
-				4780E5B5283308250012B741 /* MessageKitMessage.swift */,
-				43D9251728526ECA00438C5C /* Block.swift */,
-				43D9251B28527E1800438C5C /* Favorite.swift */,
-				43D9251F2852802600438C5C /* FriendRequest.swift */,
-				43D925212852802E00438C5C /* MatchRequest.swift */,
-				4752717B28553F6200DDF84D /* ProfilePicWrapper.swift */,
+				5BB624BC28641A5600DCD45B /* Messages */,
+				5BB624BB28641A3100DCD45B /* Users */,
+				5BB624BA28641A0D00DCD45B /* Posts */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1103,6 +1092,44 @@
 				5BB624B82863CA2600DCD45B /* UINavigationItem+UIButton.swift */,
 			);
 			path = UINavigation;
+			sourceTree = "<group>";
+		};
+		5BB624BA28641A0D00DCD45B /* Posts */ = {
+			isa = PBXGroup;
+			children = (
+				47A3D70527D54F3C003DBEA5 /* Post.swift */,
+				47A3D70B27D55A3A003DBEA5 /* PostsService.swift */,
+				439E44F927DFE20600E244D6 /* Word.swift */,
+				47FF86A027DC712F0076A1CA /* Comment.swift */,
+				4700F8B927DD7BE3006C2E08 /* Vote.swift */,
+				4700F8B827DD7BE3006C2E08 /* Flag.swift */,
+				43D9251B28527E1800438C5C /* Favorite.swift */,
+			);
+			path = Posts;
+			sourceTree = "<group>";
+		};
+		5BB624BB28641A3100DCD45B /* Users */ = {
+			isa = PBXGroup;
+			children = (
+				47A3D70727D54F6F003DBEA5 /* User.swift */,
+				47A3D71127D57A6D003DBEA5 /* UserService.swift */,
+				43D9251728526ECA00438C5C /* Block.swift */,
+				43D9251F2852802600438C5C /* FriendRequest.swift */,
+				43D925212852802E00438C5C /* MatchRequest.swift */,
+				4752717B28553F6200DDF84D /* ProfilePicWrapper.swift */,
+			);
+			path = Users;
+			sourceTree = "<group>";
+		};
+		5BB624BC28641A5600DCD45B /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				4369DB0B282EC465009215D4 /* Message.swift */,
+				4780E5B728330C570012B741 /* MessageKitUser.swift */,
+				4780E5B5283308250012B741 /* MessageKitMessage.swift */,
+				5BB624BD2864308E00DCD45B /* MessageThreadService.swift */,
+			);
+			path = Messages;
 			sourceTree = "<group>";
 		};
 		5BE4D9BC285C017100197080 /* String */ = {
@@ -1346,6 +1373,7 @@
 				47F10DC12852CFE100E1A3DC /* UIImage+FromColor.swift in Sources */,
 				4718331228445A7C0061F9F3 /* UIView+PostBubble.swift in Sources */,
 				47F10DC72853DA0600E1A3DC /* UIImage+Blur.swift in Sources */,
+				5BB624BE2864308E00DCD45B /* MessageThreadService.swift in Sources */,
 				47FF869D27DB87A70076A1CA /* UIImage+Thumbnail.swift in Sources */,
 				4780E5B6283308250012B741 /* MessageKitMessage.swift in Sources */,
 				4752717C28553F6200DDF84D /* ProfilePicWrapper.swift in Sources */,
@@ -1648,14 +1676,14 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.1;
-				DEVELOPMENT_TEAM = 5JEM6D7V78;
+				DEVELOPMENT_TEAM = SHD3A2G97F;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mist-ios/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Mist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_NSContactsUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = always;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "when in use";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "To search for nearby locations, Mist needs access to your location while in the app.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app wants access to your photo library.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1672,7 +1700,7 @@
 				);
 				MARKETING_VERSION = 0.1;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "app.getmist.mist-ios2";
+				PRODUCT_BUNDLE_IDENTIFIER = "app.getmist.mist-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1694,14 +1722,14 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.1;
-				DEVELOPMENT_TEAM = 5JEM6D7V78;
+				DEVELOPMENT_TEAM = SHD3A2G97F;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mist-ios/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Mist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_NSContactsUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = always;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "when in use";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "To search for nearby locations, Mist needs access to your location while in the app.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app wants access to your photo library.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1717,7 +1745,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "app.getmist.mist-ios2";
+				PRODUCT_BUNDLE_IDENTIFIER = "app.getmist.mist-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;

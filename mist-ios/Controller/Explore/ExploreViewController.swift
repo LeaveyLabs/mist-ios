@@ -65,14 +65,20 @@ class ExploreViewController: MapViewController {
 
 extension ExploreViewController {
 
+    override func loadView() {
+        super.loadView()
+        setupTableView()
+        setupSearchBar()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         latitudeOffset = 0.00095
         
+        makeFeedVisible()
+        
         setupSearchBarButton()
         setupRefreshButton()
-        setupSearchBar()
-        setupTableView()
         setupCustomTapGestureRecognizerOnMap()
         renderInitialPosts()
         setupCustomNavigationBar()

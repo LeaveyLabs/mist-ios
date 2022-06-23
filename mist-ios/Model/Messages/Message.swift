@@ -7,14 +7,17 @@
 
 import Foundation
 import MessageKit
-import UIKit
 
-struct Message: Codable {
-    let id: Int?
-    let sender: String
-    let receiver: String
+struct Message: Codable, Comparable {
+    let id: Int
+    let sender: Int
+    let receiver: Int
     let body: String
-    let timestamp: Double?
+    let timestamp: Double
+    
+    static func < (lhs: Message, rhs: Message) -> Bool {
+        lhs.timestamp < rhs.timestamp
+    }
 }
 
 

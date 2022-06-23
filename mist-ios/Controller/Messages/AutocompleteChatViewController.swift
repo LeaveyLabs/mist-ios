@@ -127,12 +127,12 @@ final class AutocompleteChatViewController: ChatViewController {
 
     func isPreviousMessageSameSender(at indexPath: IndexPath) -> Bool {
         guard indexPath.section - 1 >= 0 else { return false }
-        return messageList[indexPath.section].user == messageList[indexPath.section - 1].user
+        return messageList[indexPath.section].sender.senderId == messageList[indexPath.section - 1].sender.senderId
     }
 
     func isNextMessageSameSender(at indexPath: IndexPath) -> Bool {
         guard indexPath.section + 1 < messageList.count else { return false }
-        return messageList[indexPath.section].user == messageList[indexPath.section + 1].user
+        return messageList[indexPath.section].sender.senderId == messageList[indexPath.section + 1].sender.senderId
     }
 
     func setTypingIndicatorViewHidden(_ isHidden: Bool, performUpdates updates: (() -> Void)? = nil) {

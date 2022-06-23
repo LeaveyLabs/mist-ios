@@ -150,4 +150,65 @@ class UserAPI {
         let (data, _) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         return UIImage(data: data) ?? UIImage(systemName: "person.crop.circle")!
     }
+    
+    //MARK: - Batch Calls
+    
+    static func batchFetchUsersFromUserIds(_ userIds: Set<Int>) async throws -> [Int: ReadOnlyUser] {
+      var users: [Int: ReadOnlyUser] = [:]
+      try await withThrowingTaskGroup(of: (Int, ReadOnlyUser).self) { group in
+        for userId in userIds {
+          group.addTask {
+              return (userId, try await UserAPI.fetchUsersByUserId(userId: userId))
+          }
+        }
+        // Obtain results from the child tasks, sequentially, in order of completion
+        for try await (userId, user) in group {
+          users[userId] = user
+        }
+      }
+      return users
+    }
+    
+    static func batchTurnUsersIntoFrontendUsers(_ users: [ReadOnlyUser]) async throws -> [Int: FrontendReadOnlyUser] {
+        var frontendUsers: [Int: FrontendReadOnlyUser] = [:]
+        try await withThrowingTaskGroup(of: (Int, FrontendReadOnlyUser).self) { group in
+          for user in users {
+            group.addTask {
+                return (user.id, FrontendReadOnlyUser(readOnlyUser: user, profilePic: try await UIImageFromURLString(url: user.picture!)))
+            }
+          }
+          // Obtain results from the child tasks, sequentially, in order of completion
+          for try await (userId, frontendUser) in group {
+            frontendUsers[userId] = frontendUser
+          }
+        }
+        return frontendUsers
+//
+//
+//        let picPaths = users.reduce(into: [Int: String]()) {
+//            $0[$1.id] = $1.picture
+//        }
+//        print(picPaths)
+//        let profilePics = try await UserAPI.batchFetchProfilePicsForPicPaths(picPaths)
+//
+//        print(profilePics)
+//        return Dictionary(uniqueKeysWithValues:
+//            profilePics.map { key, value in (key, FrontendReadOnlyUser(readOnlyUser: users[key], profilePic: value)) })
+    }
+    
+    static func batchFetchProfilePicsForPicPaths(_ picPaths: [Int: String]) async throws -> [Int: UIImage] {
+      var thumbnails: [Int: UIImage] = [:]
+      try await withThrowingTaskGroup(of: (Int, UIImage).self) { group in
+          for (userId, picPath) in picPaths {
+              group.addTask {
+                  return (userId, try await UserAPI.UIImageFromURLString(url: picPath))
+              }
+          }
+         // Obtain results from the child tasks, sequentially, in order of completion
+         for try await (id, thumbnail) in group {
+            thumbnails[id] = thumbnail
+         }
+      }
+      return thumbnails
+    }
 }

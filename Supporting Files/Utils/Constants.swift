@@ -67,6 +67,7 @@ struct Constants {
             static let MapSearch = "MapSearchViewController"
             //Messages
             static let NewMessage = "NewMessageViewController"
+            static let Chat = "ChatViewController"
             //Navigation Controllers
             static let NewMessageNavigation = "NewMessageNavigationController"
             static let NewPostNavigation = "NewPostNavigationController"

@@ -116,9 +116,12 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
     
     func configureMessageInputBar() {
         messageInputBar.delegate = self
-        messageInputBar.inputTextView.tintColor = .primaryColor
-        messageInputBar.sendButton.setTitleColor(.primaryColor, for: .normal)
-        messageInputBar.sendButton.setTitleColor(UIColor.blue, for: .highlighted)
+        messageInputBar.inputTextView.tintColor = mistUIColor()
+        messageInputBar.sendButton.setTitleColor(mistUIColor(), for: .normal)
+//        messageInputBar.sendButton.setTitleColor(
+//            mistUIColor().withAlphaComponent(0.3),
+//            for: .highlighted
+//        )
     }
     
     // MARK: - Helpers
@@ -150,7 +153,7 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
     // MARK: - MessagesDataSource
 
     func currentSender() -> SenderType {
-        return MessageKitUser(user: UserService.singleton.getUser()!)
+        return UserService.singleton.getUser()
     }
 
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
@@ -278,7 +281,9 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         // Resign first responder for iPad split view
         inputBar.inputTextView.resignFirstResponder()
         DispatchQueue.global(qos: .default).async {
-            // fake send request task
+
+            //TODO: here is where we do the task to send the message to the socket
+            
             sleep(1)
             DispatchQueue.main.async { [weak self] in
                 inputBar.sendButton.stopAnimating()
@@ -291,10 +296,12 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
 
     private func insertMessages(_ data: [Any]) {
         for component in data {
-            let user = UserService.singleton.getUser()!
-
             if let str = component as? String {
-                let message = MessageKitMessage(text: str, messageKitUser: MessageKitUser(user: user), messageId: UUID().uuidString, date: Date())
+                let message = MessageKitMessage(text: str,
+                                                sender: UserService.singleton.getUser(),
+                                                receiver: UserService.singleton.getUser(), //TODO: change
+                                                messageId: String(Int.random(in: 0..<Int.max)),
+                                                date: Date())
                 insertMessage(message)
             }
         }

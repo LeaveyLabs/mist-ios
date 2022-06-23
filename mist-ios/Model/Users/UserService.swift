@@ -88,13 +88,17 @@ class UserService: NSObject {
     
     //MARK: - Getters
     
-    func getUser() -> FrontendCompleteUser? { return frontendCompleteUser }
+    func getUser() -> FrontendCompleteUser { return frontendCompleteUser! }
     func getUserAsReadOnlyUser() -> ReadOnlyUser {
         return ReadOnlyUser(id: frontendCompleteUser!.id,
                             username: frontendCompleteUser!.username,
                             first_name: frontendCompleteUser!.first_name,
                             last_name: frontendCompleteUser!.last_name,
                             picture: frontendCompleteUser!.picture)
+    }
+    func getUserAsFrontendReadOnlyUser() -> FrontendReadOnlyUser {
+        return FrontendReadOnlyUser(readOnlyUser: getUserAsReadOnlyUser(),
+                                    profilePic: frontendCompleteUser!.profilePicWrapper.image)
     }
     func getId() -> Int { return frontendCompleteUser!.id }
     func getUsername() -> String { return frontendCompleteUser!.username }

@@ -10,26 +10,23 @@ import MessageKit
 
 struct MessageKitMessage: MessageType {
     // MessageType Protocol members
-    var user: MessageKitUser
     var messageId: String
     var sentDate: Date
     var kind: MessageKind
-    var sender: SenderType {
-        return user
-    }
+    var sender: SenderType
     
     // Custom members
     var message: Message
     
-    init(text: String, messageKitUser: MessageKitUser, messageId: String, date: Date) {
+    init(text: String, sender: SenderType, receiver: SenderType, messageId: String, date: Date) {
         self.kind = .attributedText(NSAttributedString(string: text))
-        self.user = messageKitUser
+        self.sender = sender
         self.messageId = messageId
         self.sentDate = date
-        
+                
         message = Message(id: Int(messageId)!,
-                          sender: messageKitUser.senderId,
-                          receiver: "UPDATE",
+                          sender: Int(sender.senderId)!,
+                          receiver: Int(receiver.senderId)!,
                           body: text,
                           timestamp: date.timeIntervalSince1970)
     }
