@@ -144,6 +144,7 @@ extension ExploreViewController {
             do {
                 isLoadingPosts = true
                 let (newPosts, newVotes, newFavorites) = try await loadPostsAndUserInteractions()
+//                try await loadEverything()
                 UserService.singleton.updateUserInteractionsAfterLoadingPosts(newVotes, newFavorites)
                 turnPostsIntoAnnotations(newPosts)
                 renderNewPostsOnFeedAndMap(withType: reloadType)
@@ -295,28 +296,18 @@ extension ExploreViewController: FilterDelegate {
 extension ExploreViewController: PostDelegate {
     
     func handleVote(postId: Int, isAdding: Bool) {
-        // Synchronous viewController update
+        // viewController update
         let index = postAnnotations.firstIndex { $0.post.id == postId }!
         let originalVoteCount = postAnnotations[index].post.votecount
         postAnnotations[index].post.votecount += isAdding ? 1 : -1
         
-        // Synchronous singleton update
-        let vote = UserService.singleton.handleVoteUpdate(postId: postId, isAdding)
-        
-        // Asynchronous remote update
-        Task {
-            do {
-                if isAdding {
-                    let _ = try await VoteAPI.postVote(voter: UserService.singleton.getId(), post: postId)
-                } else {
-                    try await VoteAPI.deleteVote(voter: UserService.singleton.getId(), post: postId)
-                }
-            } catch {
-                UserService.singleton.handleFailedVoteUpdate(with: vote, isAdding) //undo singleton data change
-                postAnnotations[index].post.votecount = originalVoteCount //undo viewController data change
-                reloadData() //reloadData to ensure undos are visible
-                CustomSwiftMessages.displayError(error)
-            }
+        // Singleton & remote update
+        do {
+            try UserService.singleton.handleVoteUpdate(postId: postId, isAdding)
+        } catch {
+            postAnnotations[index].post.votecount = originalVoteCount //undo viewController data change
+            reloadData() //reloadData to ensure undos are visible
+            CustomSwiftMessages.displayError(error)
         }
     }
     

@@ -22,7 +22,7 @@ class UserService: NSObject {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         localFileLocation = documentsDirectory.appendingPathComponent("myaccount.json")
         if FileManager.default.fileExists(atPath: localFileLocation.path) {
-            loadUserFromFilesystem()
+            Task { await self.loadUserFromFilesystem() }
         }
     }
     
@@ -56,7 +56,7 @@ class UserService: NSObject {
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
                                                     profilePic: newProfilePicWrapper,
                                                     token: token)
-        saveUserToFilesystem()
+        Task { await self.saveUserToFilesystem() }
     }
     
     func logIn(json: Data) async throws {
@@ -71,11 +71,11 @@ class UserService: NSObject {
                                                                                   withCompresssion: false),
                                                     token: token)
         // Local update
-        saveUserToFilesystem()
+        Task { await self.saveUserToFilesystem() }
     }
     
-    func logOut() {
-        eraseUserFromFilesystem()
+    func logOut() async {
+        await self.eraseUserFromFilesystem()
         frontendCompleteUser = nil
         setGlobalAuthToken(token: "")
     }
@@ -83,7 +83,7 @@ class UserService: NSObject {
     func deleteMyAccount() async throws {
         guard let frontendCompleteUser = frontendCompleteUser else { return }
         try await UserAPI.deleteUser(user_id: frontendCompleteUser.id)
-        logOut()
+        await logOut()
     }
     
     //MARK: - Getters
@@ -123,7 +123,7 @@ class UserService: NSObject {
         
         let updatedCompleteUser = try await UserAPI.patchUsername(username: newUsername, id: frontendCompleteUser.id)
         self.frontendCompleteUser!.username = updatedCompleteUser.username
-        saveUserToFilesystem()
+        Task { await self.saveUserToFilesystem() }
     }
     
     // No need to return new profilePic bc it is updated globally
@@ -137,7 +137,7 @@ class UserService: NSObject {
                                                                     username: frontendCompleteUser.username)
         self.frontendCompleteUser!.profilePicWrapper = newProfilePicWrapper
         self.frontendCompleteUser!.picture = updatedCompleteUser.picture
-        saveUserToFilesystem()
+        Task { await self.saveUserToFilesystem() }
     }
     
     func updatePassword(to newPassword: String) async throws {
@@ -168,7 +168,7 @@ class UserService: NSObject {
                                                    longitude: longitude,
                                                    timestamp: timestamp,
                                                    author: UserService.singleton.getId())
-        saveUserToFilesystem()
+        Task { await self.saveUserToFilesystem() }
         return newPost
     }
     
@@ -190,26 +190,80 @@ class UserService: NSObject {
         votes.removeAll { $0.id == vote.id }
     }
     
-    func handleVoteUpdate(postId: Int, _ isAdding: Bool) -> Vote {
+//    func handleVoteUpdate(postId: Int, _ isAdding: Bool) throws {
+//        var changedVote: Vote
+//        if isAdding {
+//            changedVote = Vote(id: Int.random(in: 0..<Int.max),
+//                                          voter: UserService.singleton.getId(),
+//                                          post: postId,
+//                                          timestamp: Date().timeIntervalSince1970)
+//            votes.append(changedVote)
+//        } else {
+//            changedVote = votes.first { $0.post == postId }!
+//            votes.removeAll { $0.id == changedVote.id }
+//        }
+//
+//        Task {
+//            do {
+//                if isAdding {
+//                    let _ = try await VoteAPI.postVote(voter: UserService.singleton.getId(), post: postId)
+//                } else {
+//                    try await VoteAPI.deleteVote(voter: UserService.singleton.getId(), post: postId)
+//                }
+//            } catch {
+//                handleFailedVoteUpdate(with: changedVote, isAdding)
+//                throw(error)
+//            }
+//        }
+//    }
+//
+//    func handleFailedVoteUpdate(with vote: Vote, _ wasFailedAdd: Bool) {
+//        if wasFailedAdd {
+//            votes.removeAll { $0.id == vote.id }
+//        } else {
+//            votes.append(vote)
+//        }
+//    }
+    
+    //EXPERIMENTAL
+    func handleVoteUpdate(postId: Int, _ isAdding: Bool) throws {
         if isAdding {
-            let newVote = Vote(id: Int.random(in: 0..<Int.max),
-                                          voter: UserService.singleton.getId(),
-                                          post: postId,
-                                          timestamp: Date().timeIntervalSince1970)
-            votes.append(newVote)
-            return newVote
+            try handleVoteAdd(postId: postId)
         } else {
-            let voteToDelete = votes.first { $0.post == postId }!
-            votes.removeAll { $0.id == voteToDelete.id }
-            return voteToDelete
+            try handleVoteDelete(postId: postId)
+        }
+    }
+
+    
+    func handleVoteDelete(postId: Int) throws {
+        let deletedVote = votes.first { $0.post == postId }!
+        votes.removeAll { $0.id == deletedVote.id }
+        
+        Task {
+            do {
+                try await VoteAPI.deleteVote(voter: UserService.singleton.getId(), post: postId)
+            } catch {
+                votes.append(deletedVote)
+                throw(error)
+            }
         }
     }
     
-    func handleFailedVoteUpdate(with vote: Vote, _ wasFailedAdd: Bool) {
-        if wasFailedAdd {
-            votes.removeAll { $0.id == vote.id }
-        } else {
-            votes.append(vote)
+    
+    func handleVoteAdd(postId: Int) throws {
+        let addedVote = Vote(id: Int.random(in: 0..<Int.max),
+                                      voter: UserService.singleton.getId(),
+                                      post: postId,
+                                      timestamp: Date().timeIntervalSince1970)
+        votes.append(addedVote)
+        
+        Task {
+            do {
+                let _ = try await VoteAPI.postVote(voter: UserService.singleton.getId(), post: postId)
+            } catch {
+                votes.removeAll { $0.id == addedVote.id }
+                throw(error)
+            }
         }
     }
     
@@ -238,7 +292,7 @@ class UserService: NSObject {
     
     //MARK: - Filesystem
     
-    func saveUserToFilesystem() {
+    func saveUserToFilesystem() async {
         do {
             print("SAVING USER DATA")
             guard var frontendCompleteUser = frontendCompleteUser else { return }
@@ -252,7 +306,7 @@ class UserService: NSObject {
         }
     }
     
-    func loadUserFromFilesystem() {
+    func loadUserFromFilesystem() async {
         do {
             print("LOADING USER DATA")
             let data = try Data(contentsOf: self.localFileLocation)
@@ -264,7 +318,7 @@ class UserService: NSObject {
         }
     }
     
-    func eraseUserFromFilesystem() {
+    func eraseUserFromFilesystem() async {
         do {
             print("ERASING USER DATA")
             setGlobalAuthToken(token: "")

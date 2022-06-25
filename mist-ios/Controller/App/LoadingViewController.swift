@@ -7,6 +7,17 @@
 
 import UIKit
 
+func loadEverything() async throws {
+    try await withThrowingTaskGroup(of: Void.self) { group in
+        group.addTask { try await PostsService.loadPostsAndUserInteractions() } //this handles votes, favorites, and flags right now
+        group.addTask { try await MessageThreadService.singleton.loadMessageThreads() }
+        group.addTask { try await MatchRequestService.singleton.loadMatchRequests() }
+        group.addTask { try await BlockService.singleton.loadBlocks() }
+        group.addTask { try await FriendRequestService.singleton.loadFriendRequests() }
+        try await group.waitForAll()
+    }
+}
+
 class LoadingViewController: UIViewController {
     
     let SHOULD_ANIMATE = false
@@ -14,7 +25,6 @@ class LoadingViewController: UIViewController {
     var FADING_ANIMATION_DURATION = 0.0
 
     @IBOutlet weak var heartImageView: SpringImageView!
-    var numberOfFailures = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,15 +35,13 @@ class LoadingViewController: UIViewController {
         }
                 
         Task {
+            var numberOfFailures = 0
             var werePostsLoaded = false
             while !werePostsLoaded {
                 do {
-                    try await PostsService.loadInitialPostsAndUserInteractions()
+                    try await loadEverything()
                     werePostsLoaded = true
                     flyHeartUp()
-//                    self.transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
-//                                                viewControllerID: "SearchDebugViewController",
-//                                                duration: self.FADING_ANIMATION_DURATION) { _ in}
                     DispatchQueue.main.asyncAfter(deadline: .now() + FADING_ANIMATION_DELAY) {
                         self.transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
                                                     viewControllerID: Constants.SBID.VC.TabBarController,

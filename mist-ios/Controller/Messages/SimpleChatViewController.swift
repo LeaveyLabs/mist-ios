@@ -98,12 +98,11 @@ class SimpleChatViewController: ChatViewController {
     //MARK: - Setup
     
     func setupHiddenProfiles() {
-        //If they haven't sent you a message yet, they're hidden.
+        //The receiver is hidden until you receive a message from them.
         isReceiverHidden = !MatchRequestService.singleton.hasReceivedMatchRequestFrom(conversation.sangdaebang.id)
         
-        //If you haven't matched with them AND you haven't received a message from them, you're hidden.
-        //The extra check is because we don't want to hide you when you're writing the very first message.
-        isSenderHidden = !MatchRequestService.singleton.isMatchedWith(conversation.sangdaebang.id) && MatchRequestService.singleton.hasReceivedMatchRequestFrom(conversation.sangdaebang.id)
+        //The only case you're hidden is if you received a message from them but haven't accepted it yet.
+        isSenderHidden = MatchRequestService.singleton.hasReceivedMatchRequestFrom(conversation.sangdaebang.id) && !MatchRequestService.singleton.hasSentMatchRequestTo(conversation.sangdaebang.id)
     }
     
     func setupCustomNavigationBar() {

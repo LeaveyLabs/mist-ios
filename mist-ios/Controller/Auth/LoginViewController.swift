@@ -132,7 +132,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
                     let json = try JSONEncoder().encode(params)
                     // Send it over to login
                     try await UserService.singleton.logIn(json: json)
-                    try await PostsService.loadInitialPostsAndUserInteractions()
+                    try await loadEverything()
                     transitionToHomeAndRequestPermissions() { [weak self] in
                         self?.isSubmitting = false
                     }

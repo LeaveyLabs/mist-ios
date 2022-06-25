@@ -217,6 +217,9 @@
 		5BB624B628622C8500DCD45B /* UIViewController+DismissFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */; };
 		5BB624B92863CA2600DCD45B /* UINavigationItem+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B82863CA2600DCD45B /* UINavigationItem+UIButton.swift */; };
 		5BB624BE2864308E00DCD45B /* MessageThreadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624BD2864308E00DCD45B /* MessageThreadService.swift */; };
+		5BB624C128678A8900DCD45B /* MatchRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624C028678A8900DCD45B /* MatchRequestService.swift */; };
+		5BB624C5286790D400DCD45B /* BlockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624C4286790D400DCD45B /* BlockService.swift */; };
+		5BB624C72867933000DCD45B /* FriendRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624C62867933000DCD45B /* FriendRequestService.swift */; };
 		5BCC68D928611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */; };
 		5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4D9BD285C018000197080 /* String+Capitalization.swift */; };
 		5BF78337285D955F003C3955 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78336285D955F003C3955 /* Map.swift */; };
@@ -460,6 +463,9 @@
 		5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+DismissFlag.swift"; sourceTree = "<group>"; };
 		5BB624B82863CA2600DCD45B /* UINavigationItem+UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem+UIButton.swift"; sourceTree = "<group>"; };
 		5BB624BD2864308E00DCD45B /* MessageThreadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageThreadService.swift; sourceTree = "<group>"; };
+		5BB624C028678A8900DCD45B /* MatchRequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchRequestService.swift; sourceTree = "<group>"; };
+		5BB624C4286790D400DCD45B /* BlockService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockService.swift; sourceTree = "<group>"; };
+		5BB624C62867933000DCD45B /* FriendRequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRequestService.swift; sourceTree = "<group>"; };
 		5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeAreaInputAccessoryViewWrapperView.swift; sourceTree = "<group>"; };
 		5BE4D9BD285C018000197080 /* String+Capitalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Capitalization.swift"; sourceTree = "<group>"; };
 		5BF78336285D955F003C3955 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
@@ -1113,10 +1119,10 @@
 			children = (
 				47A3D70727D54F6F003DBEA5 /* User.swift */,
 				47A3D71127D57A6D003DBEA5 /* UserService.swift */,
-				43D9251728526ECA00438C5C /* Block.swift */,
-				43D9251F2852802600438C5C /* FriendRequest.swift */,
-				43D925212852802E00438C5C /* MatchRequest.swift */,
 				4752717B28553F6200DDF84D /* ProfilePicWrapper.swift */,
+				5BB624BF28678A6F00DCD45B /* MatchRequest */,
+				5BB624C22867909400DCD45B /* Block */,
+				5BB624C32867909F00DCD45B /* FriendRequest */,
 			);
 			path = Users;
 			sourceTree = "<group>";
@@ -1130,6 +1136,33 @@
 				5BB624BD2864308E00DCD45B /* MessageThreadService.swift */,
 			);
 			path = Messages;
+			sourceTree = "<group>";
+		};
+		5BB624BF28678A6F00DCD45B /* MatchRequest */ = {
+			isa = PBXGroup;
+			children = (
+				43D925212852802E00438C5C /* MatchRequest.swift */,
+				5BB624C028678A8900DCD45B /* MatchRequestService.swift */,
+			);
+			path = MatchRequest;
+			sourceTree = "<group>";
+		};
+		5BB624C22867909400DCD45B /* Block */ = {
+			isa = PBXGroup;
+			children = (
+				43D9251728526ECA00438C5C /* Block.swift */,
+				5BB624C4286790D400DCD45B /* BlockService.swift */,
+			);
+			path = Block;
+			sourceTree = "<group>";
+		};
+		5BB624C32867909F00DCD45B /* FriendRequest */ = {
+			isa = PBXGroup;
+			children = (
+				43D9251F2852802600438C5C /* FriendRequest.swift */,
+				5BB624C62867933000DCD45B /* FriendRequestService.swift */,
+			);
+			path = FriendRequest;
 			sourceTree = "<group>";
 		};
 		5BE4D9BC285C017100197080 /* String */ = {
@@ -1376,6 +1409,7 @@
 				5BB624BE2864308E00DCD45B /* MessageThreadService.swift in Sources */,
 				47FF869D27DB87A70076A1CA /* UIImage+Thumbnail.swift in Sources */,
 				4780E5B6283308250012B741 /* MessageKitMessage.swift in Sources */,
+				5BB624C128678A8900DCD45B /* MatchRequestService.swift in Sources */,
 				4752717C28553F6200DDF84D /* ProfilePicWrapper.swift in Sources */,
 				438D6F222862D1BB00A074FA /* MessageAPI.swift in Sources */,
 				47266AD227FF5531005DEDB1 /* UIView+LoadFromNib.swift in Sources */,
@@ -1392,6 +1426,7 @@
 				472A4BFD28408BD800FD52B7 /* DesignableButton.swift in Sources */,
 				4700F8B627DD7BBA006C2E08 /* BasicAPI.swift in Sources */,
 				471F92D1280159430079F8CA /* SegmentedControlCell.swift in Sources */,
+				5BB624C5286790D400DCD45B /* BlockService.swift in Sources */,
 				5BB624B228620D4A00DCD45B /* CustomCardView.swift in Sources */,
 				47EE28F82840AE8200C6425C /* TestViewController.swift in Sources */,
 				477A6FD627DFB0450020F864 /* Color.swift in Sources */,
@@ -1468,6 +1503,7 @@
 				5BF78337285D955F003C3955 /* Map.swift in Sources */,
 				479AA1FD27DD109F00EA0DFC /* Constants.swift in Sources */,
 				472A4BEE28408BD800FD52B7 /* DesignableImageView.swift in Sources */,
+				5BB624C72867933000DCD45B /* FriendRequestService.swift in Sources */,
 				47EA3E0027E013EB00381218 /* PostAnnotation.swift in Sources */,
 				43D9251C28527E1800438C5C /* Favorite.swift in Sources */,
 				47CBF6F128356A7C00096514 /* FilterSheetViewController.swift in Sources */,
