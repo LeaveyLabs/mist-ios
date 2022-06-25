@@ -7,63 +7,41 @@
 
 import UIKit
 
-let COMMENT_PLACEHOLDER_TEXT = "wait this is so..."
+let COMMENT_PLACEHOLDER_TEXT = "@ibrahimmm this you?"
 typealias UpdatedPostCompletionHandler = ((Post) -> Void)
 
-class PostViewController: KUIViewController, UIViewControllerTransitioningDelegate {
+class PostViewController: UIViewController, UIViewControllerTransitioningDelegate {
     
     //MARK: - Properties
     
-    @IBOutlet weak var commentView: UIView!
-    @IBOutlet weak var commentProfileImage: UIImageView!
+    //UI
+    @IBOutlet weak var tableView: UITableView!
+    var activityIndicator = UIActivityIndicatorView(style: .medium)
+
     @IBOutlet weak var commentTextView: UITextView!
-    @IBOutlet weak var commentButton: UIButton!
+    @IBOutlet var commentAccessoryView: UIView!
+    var wrappedAccessoryView: SafeAreaInputAccessoryViewWrapperView!
+    
+    @IBOutlet weak var commentProfileImage: UIImageView!
+    @IBOutlet weak var commentSubmitButton: UIButton!
     var commentPlaceholderLabel: UILabel!
+    override var canBecomeFirstResponder: Bool {
+        get { return true } //means that the inputAccessoryView will always be enabled
+    }
+    override var inputAccessoryView: UIView {
+        get { return wrappedAccessoryView }
+    }
+    
+    //Flags
     var shouldStartWithRaisedKeyboard: Bool!
     
-    //MARK: - Comments
-    var post: Post! // PostVC should never be created without a post
+    //Data
+    var post: Post! //both PostViewController and PostCell's PostView have a "Post" object. When postview handles interaction, it updates its own post. Because of that, this post object should only be used when setting up the post
     var comments = [Comment]()
     var commentProfilePics = [Int: UIImage]()
-    @IBOutlet weak var postTableView: UITableView!
-    var indicator = UIActivityIndicatorView()
-    var completionHandler: UpdatedPostCompletionHandler?
     
-    
-    //MARK: Lifecycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad();
-        
-        setupTableView()
-        setupCommentView()
-        commentPlaceholderLabel = commentTextView.addAndReturnPlaceholderLabel(withText: COMMENT_PLACEHOLDER_TEXT)
-        loadComments()
-        shouldKUIViewKeyboardDismissOnBackgroundTouch = true
-        
-        //User Interaction
-        //(1 of 2) for enabling swipe left to go back with a bar button item
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
-
-        //Misc
-        if shouldStartWithRaisedKeyboard {
-            commentTextView.becomeFirstResponder()
-        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated);
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        if isBeingDismissed {
-            commentTextView.text = ""
-            if let completionHandler = completionHandler{
-                completionHandler(post)
-            }
-        }
-    }
+    //Misc
+    var prepareForDismiss: UpdatedPostCompletionHandler?
     
     //MARK: - Initialization
     
@@ -74,40 +52,91 @@ class PostViewController: KUIViewController, UIViewControllerTransitioningDelega
         return postVC
     }
     
+    //MARK: Lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad();
+        
+        commentTextView.becomeFirstResponder()
+        
+        setupTableView()
+        setupCommentView()
+        loadComments()
+        
+        self.view.keyboardLayoutGuide.topAnchor.constraint(equalTo: self.tableView.bottomAnchor).isActive = true
+        let tableViewTap = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
+        tableView.addGestureRecognizer(tableViewTap)
+                
+        //User Interaction
+        //(1 of 2) for enabling swipe left to go back with a bar button item
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+    }
+    
+    @objc func dismissKeyboard() {
+        commentTextView.resignFirstResponder()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if shouldStartWithRaisedKeyboard {
+//            commentTextView.becomeFirstResponder() //not working right nowv
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if isAboutToClose {
+            commentTextView.text = ""
+            if let completionHandler = prepareForDismiss{
+                completionHandler(post)
+            }
+        }
+    }
+    
     //MARK: - Setup
     
     func setupTableView() {
-        postTableView.estimatedRowHeight = 100
-        postTableView.rowHeight = UITableView.automaticDimension
-        postTableView.dataSource = self
-        postTableView.separatorStyle = .none
-        
-        let postNib = UINib(nibName: Constants.SBID.Cell.Post, bundle: nil);
-        postTableView.register(postNib, forCellReuseIdentifier: Constants.SBID.Cell.Post);
-        let commentNib = UINib(nibName: Constants.SBID.Cell.Comment, bundle: nil);
-        postTableView.register(commentNib, forCellReuseIdentifier: Constants.SBID.Cell.Comment);
-        
-        //we are choosing to leave out this functionality for now
-        //postTableView.keyboardDismissMode = .onDrag
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.separatorStyle = .none
+        tableView.keyboardDismissMode = .interactive
+        tableView.sectionFooterHeight = 50
+
+        tableView.register(PostCell.self, forCellReuseIdentifier: Constants.SBID.Cell.Post)
+        let commentNib = UINib(nibName: Constants.SBID.Cell.Comment, bundle: nil)
+        tableView.register(commentNib, forCellReuseIdentifier: Constants.SBID.Cell.Comment)
     }
     
-    func setupCommentView() {
-//        commentTextView.inputAccessoryView = commentView
-//        postTableView.keyboardDismissMode = .interactive
-
-        commentProfileImage.layer.cornerRadius = commentProfileImage.frame.size.height / 2
-        commentProfileImage.layer.cornerCurve = .continuous
-        
-        commentView.borders(for: [UIRectEdge.top])
-        
-        commentTextView.delegate = self
+    func oldBecomeCommentCode() { //Deprecated
         commentTextView.layer.borderWidth = 1
         commentTextView.layer.borderColor = UIColor.lightGray.cgColor
         commentTextView.layer.cornerRadius = 15
         commentTextView.textContainer.lineFragmentPadding = 0
         commentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        commentAccessoryView.borders(for: [UIRectEdge.top])
+    }
+    
+    func setupCommentView() {
+        commentProfileImage.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
         
-        commentButton.isEnabled = false
+        commentTextView.delegate = self
+        commentTextView.becomeCommentView()
+        commentAccessoryView.borders(for: [UIRectEdge.top])
+        wrappedAccessoryView = SafeAreaInputAccessoryViewWrapperView(for: commentAccessoryView)
+        commentTextView.inputAccessoryView = wrappedAccessoryView
+
+        commentTextView.textContainer.lineFragmentPadding = 0
+        commentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        commentPlaceholderLabel = commentTextView.addAndReturnPlaceholderLabel(withText: COMMENT_PLACEHOLDER_TEXT)
+        
+        commentSubmitButton.isEnabled = false
     }
     
     //MARK: - User Interaction
@@ -125,15 +154,13 @@ class PostViewController: KUIViewController, UIViewControllerTransitioningDelega
         guard !commentTextView.text.isEmpty else { return }
         Task {
             do {
-                commentButton.isEnabled = false
-                let newCommentAndUpdatedPost = try await UserService.singleton.uploadComment(text: commentTextView.text,
-                                                                                             postId: post.id,
-                                                                                             author: UserService.singleton.getId())
-                handleSuccessfulCommentSubmission(newComment: newCommentAndUpdatedPost.0, updatedPost: newCommentAndUpdatedPost.1)
+                commentSubmitButton.isEnabled = false
+                let newComment = try await UserService.singleton.uploadComment(text: commentTextView.text, postId: post.id)
+                handleSuccessfulCommentSubmission(newComment: newComment)
             } catch {
+                commentSubmitButton.isEnabled = true
                 CustomSwiftMessages.displayError(error)
             }
-            commentButton.isEnabled = true
         }
     }
     
@@ -146,12 +173,15 @@ extension PostViewController {
     func loadComments() {
         Task {
             do {
+                activityIndicator.startAnimating()
                 comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
                 commentProfilePics = try await loadCommentThumbnails(for: comments)
-                postTableView.reloadData()
+                tableView.reloadData()
             } catch {
                 CustomSwiftMessages.displayError(error)
             }
+            activityIndicator.stopAnimating()
+            tableView.sectionFooterHeight = 0
         }
     }
     
@@ -163,6 +193,7 @@ extension PostViewController {
               return (comment.id, try await UserAPI.UIImageFromURLString(url: comment.read_only_author.picture))
           }
         }
+        // Obtain results from the child tasks, sequentially, in order of completion
         for try await (id, thumbnail) in group {
           thumbnails[id] = thumbnail
         }
@@ -178,7 +209,7 @@ extension PostViewController: UITextViewDelegate {
         
     func textViewDidChange(_ textView: UITextView) {
         commentPlaceholderLabel.isHidden = !commentTextView.text.isEmpty
-        commentButton.isEnabled = validateAllFields()
+        validateAllFields()
     }
     
     //dismiss keyboard when user presses "return"
@@ -201,19 +232,24 @@ extension PostViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-            cell.configurePostCell(post: post, bubbleTrianglePosition: .left)
-            cell.postDelegate = self
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
+            cell.configurePostCell(post: post, nestedPostViewDelegate: self, bubbleTrianglePosition: .left, isWithinPostVC: true)
             return cell
         }
         //else the cell is a comment
-        let cell = postTableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Comment, for: indexPath) as! CommentCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Comment, for: indexPath) as! CommentCell
         let comment = comments[indexPath.row-1]
         let commentAuthor = FrontendReadOnlyUser(readOnlyUser: comment.read_only_author,
                                                  profilePic: commentProfilePics[comment.id]!)
-        cell.configureCommentCell(comment: comment, author: commentAuthor)
-        cell.commentDelegate = self
+        cell.configureCommentCell(comment: comment, delegate: self, author: commentAuthor)
         return cell
+    }
+}
+
+extension PostViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return activityIndicator
     }
 }
 
@@ -232,21 +268,23 @@ extension PostViewController: CommentDelegate {
 
 extension PostViewController {
     
-    func handleSuccessfulCommentSubmission(newComment: Comment, updatedPost: Post) {
+    func handleSuccessfulCommentSubmission(newComment: Comment) {
         clearAllFields()
         commentTextView.resignFirstResponder()
-        postTableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
+        tableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
+        post.commentcount += 1
         comments.append(newComment)
-        post = updatedPost
-        postTableView.reloadData()
+        commentProfilePics[newComment.id] = UserService.singleton.getProfilePic()
+        tableView.reloadData()
     }
         
-    func validateAllFields() -> Bool {
-        return commentTextView.text != ""
+    func validateAllFields() {
+        commentSubmitButton.isEnabled = commentTextView.text != ""
     }
     
     func clearAllFields() {
         commentTextView.text! = ""
+        validateAllFields()
     }
     
 }
@@ -255,11 +293,56 @@ extension PostViewController {
 
 extension PostViewController: PostDelegate {
     
-    func backgroundDidTapped(post: Post) {
+    func handleVote(postId: Int, isAdding: Bool) {
+        // Synchronous viewController update
+        let originalVoteCount = post.votecount
+        post.votecount += isAdding ? 1 : -1
+        
+        // Synchronous singleton update
+        let vote = UserService.singleton.handleVoteUpdate(postId: postId, isAdding)
+
+        // Asynchronous remote update
+        Task {
+            do {
+                if isAdding {
+                    let _ = try await VoteAPI.postVote(voter: UserService.singleton.getId(), post: postId)
+                } else {
+                    try await VoteAPI.deleteVote(voter: UserService.singleton.getId(), post: postId)
+                }
+            } catch {
+                UserService.singleton.handleFailedVoteUpdate(with: vote, isAdding)//undo singleton change
+                post.votecount = originalVoteCount //undo viewController change
+                (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
+                CustomSwiftMessages.displayError(error)
+            }
+        }
+    }
+    
+    func handleFavorite(postId: Int, isAdding: Bool) {
+        // Synchronous singleton update
+        let favorite = UserService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
+
+        // Asynchronous remote update
+        Task {
+            do {
+                if isAdding {
+                    let _ = try await FavoriteAPI.postFavorite(userId: UserService.singleton.getId(), postId: postId)
+                } else {
+                    try await FavoriteAPI.deleteFavorite(userId: UserService.singleton.getId(), postId: postId)
+                }
+            } catch {
+                UserService.singleton.handleFailedFavoriteUpdate(with: favorite, isAdding)//undo singleton change
+                (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
+                CustomSwiftMessages.displayError(error)
+            }
+        }
+    }
+    
+    func handleBackgroundTap(postId: Int) {
         commentTextView.resignFirstResponder()
     }
     
-    func commentDidTapped(post: Post) {
+    func handleCommentButtonTap(postId: Int) {
         commentTextView.becomeFirstResponder()
     }
     

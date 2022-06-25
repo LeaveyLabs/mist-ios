@@ -20,19 +20,64 @@ func applyShadowOnView(_ view: UIView) {
 }
 
 extension UIView {
-    func applyLightShadow() {
-        layer.applySketchShadow(color: .black, alpha: 0.3, x: 0, y: 1, blur: 5, spread: 0)
+    func applyLightLeftShadow() {
+        layer.applySketchShadow(color: .black, alpha: 0.10, x: -2, y: 2, blur: 2, spread: 0)
     }
     
     func applyMediumShadow() {
         layer.applySketchShadow(color: .black, alpha: 0.3, x: 0, y: 1, blur: 5, spread: 0)
     }
     
-    func applyMediumShadowAboveOnly() {
+    func applyLightShadow() {
+        layer.applySketchShadow(color: .black, alpha: 0.10, x: 0, y: 1, blur: 5, spread: 0)
+    }
+    
+    func applyLightRightLeaningShadow() {
+        layer.applySketchShadow(color: .black, alpha: 0.10, x: 2, y: 2, blur: 5, spread: 0)
+    }
+    
+    func applyMediumRightLeaningShadow() {
+        layer.applySketchShadow(color: .black, alpha: 0.2, x: 2, y: 2, blur: 5, spread: 0)
+    }
+    
+    func applyMediumLeftLeaningShadow() {
+        layer.applySketchShadow(color: .black, alpha: 0.2, x: -2, y: 2, blur: 5, spread: 0)
+    }
+    
+    func applyMediumBottomLeaningShadow() {
+        layer.applySketchShadow(color: .black, alpha: 0.3, x: 0, y: 2, blur: 5, spread: 0)
+    }
+    
+    func applyMediumTopOnlyShadow() {
         layer.applySketchShadow(color: .black, alpha: 0.15, x: 0, y: -5, blur: 7, spread: 0)
     }
     
-    func applyMediumShadowBelowOnly() {
+    func applyMediumBottomOnlyShadow() {
         layer.applySketchShadow(color: .black, alpha: 0.15, x: 0, y: 5, blur: 7, spread: 0)
     }
+}
+
+
+extension CALayer {
+  func applySketchShadow(
+    color: UIColor = .black,
+    alpha: Float = 0.5,
+    x: CGFloat = 0,
+    y: CGFloat = 2,
+    blur: CGFloat = 4,
+    spread: CGFloat = 0)
+  {
+    masksToBounds = false
+    shadowColor = color.cgColor
+    shadowOpacity = alpha
+    shadowOffset = CGSize(width: x, height: y)
+    shadowRadius = blur / 2.0
+    if spread == 0 {
+      shadowPath = nil
+    } else {
+      let dx = -spread
+      let rect = bounds.insetBy(dx: dx, dy: dx)
+      shadowPath = UIBezierPath(rect: rect).cgPath
+    }
+  }
 }

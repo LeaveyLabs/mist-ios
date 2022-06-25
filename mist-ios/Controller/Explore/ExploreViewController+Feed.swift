@@ -26,7 +26,7 @@ extension ExploreViewController {
         ])
         
         feed.dataSource = self
-        feed.delegate = self
+        feed.tableFooterView = UIView(frame: .init(x: 0, y: 0, width: 100, height: 50))
         feed.estimatedRowHeight = 100
         feed.rowHeight = UITableView.automaticDimension
         feed.showsVerticalScrollIndicator = false
@@ -36,8 +36,7 @@ extension ExploreViewController {
             reloadPosts(withType: .refresh)
         }), for: .valueChanged)
         
-        let nib = UINib(nibName: Constants.SBID.Cell.Post, bundle: nil)
-        self.feed.register(nib, forCellReuseIdentifier: Constants.SBID.Cell.Post)
+        feed.register(PostCell.self, forCellReuseIdentifier: Constants.SBID.Cell.Post)
     }
     
 }
@@ -52,8 +51,10 @@ extension ExploreViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.feed.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-        cell.configurePostCell(post: postAnnotations[indexPath.row].post, bubbleTrianglePosition: .left)
-        cell.postDelegate = self
+        cell.configurePostCell(post: postAnnotations[indexPath.row].post,
+                               nestedPostViewDelegate: self,
+                               bubbleTrianglePosition: .left,
+                               isWithinPostVC: false)
         return cell
     }
     

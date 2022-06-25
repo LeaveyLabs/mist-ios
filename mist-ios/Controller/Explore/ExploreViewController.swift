@@ -87,6 +87,7 @@ extension ExploreViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false) //for a better searchcontroller animation
+        reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -105,7 +106,6 @@ extension ExploreViewController {
             // Controller is being shown as result of pop/dismiss/unwind.
             mySearchController.searchBar.becomeFirstResponder()
         }
-        
         // Dependent on map dimensions
         searchBarButton.centerText()
     }
@@ -134,20 +134,12 @@ extension ExploreViewController {
         if !postAnnotations.isEmpty { //this should probably go somewhere else
             feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false) //cant be true
         }
-        isLoadingPosts = true //must come after the above scrollToTop call
         Task {
             do {
-                let loadedPosts: [Post]!
-                switch postFilter.searchBy {
-                case .all:
-                    loadedPosts = try await PostAPI.fetchPosts()
-                case .location:
-                    let newSearchResultsRegion = getRegionCenteredAround(placeAnnotations)
-                    loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: newSearchResultsRegion!.center.latitude, longitude: newSearchResultsRegion!.center.longitude, radius: convertLatDeltaToKms(newSearchResultsRegion!.span.latitudeDelta))
-                case .text:
-                    loadedPosts = try await PostAPI.fetchPostsByWords(words: [searchBarButton.text!])
-                }
-                turnPostsIntoAnnotations(loadedPosts)
+                isLoadingPosts = true
+                let (newPosts, newVotes, newFavorites) = try await loadPostsAndUserInteractions()
+                UserService.singleton.updateUserInteractionsAfterLoadingPosts(newVotes, newFavorites)
+                turnPostsIntoAnnotations(newPosts)
                 renderNewPostsOnFeedAndMap(withType: reloadType)
                 closure()
             } catch {
@@ -155,6 +147,38 @@ extension ExploreViewController {
             }
             isLoadingPosts = false
         }
+    }
+    
+    func loadPostsAndUserInteractions() async throws -> ([Post], [Vote], [Favorite]) {
+        async let loadedVotes = VoteAPI.fetchVotesByUser(voter: UserService.singleton.getId())
+        async let loadedFavorites = FavoriteAPI.fetchFavoritesByUser(userId: UserService.singleton.getId())
+        switch self.postFilter.searchBy {
+        case .all:
+            async let loadedPosts = PostAPI.fetchPosts()
+            return try await (loadedPosts, loadedVotes, loadedFavorites)
+        case .location:
+            let newSearchResultsRegion = getRegionCenteredAround(placeAnnotations)
+            async let loadedPosts = PostAPI.fetchPostsByLatitudeLongitude(latitude: newSearchResultsRegion!.center.latitude, longitude: newSearchResultsRegion!.center.longitude, radius: convertLatDeltaToKms(newSearchResultsRegion!.span.latitudeDelta))
+            return try await (loadedPosts, loadedVotes, loadedFavorites)
+        case .text:
+            async let loadedPosts = PostAPI.fetchPostsByWords(words: [searchBarButton.text!])
+            return try await (loadedPosts, loadedVotes, loadedFavorites)
+        }
+    }
+    
+    func loadCommentThumbnails(for comments: [Comment]) async throws -> [Int: UIImage] {
+      var thumbnails: [Int: UIImage] = [:]
+      try await withThrowingTaskGroup(of: (Int, UIImage).self) { group in
+        for comment in comments {
+          group.addTask {
+              return (comment.id, try await UserAPI.UIImageFromURLString(url: comment.read_only_author.picture))
+          }
+        }
+        for try await (id, thumbnail) in group {
+          thumbnails[id] = thumbnail
+        }
+      }
+      return thumbnails
     }
     
     //At this point, we have new posts to render.
@@ -182,14 +206,27 @@ extension ExploreViewController {
 extension ExploreViewController {
     
     func setupCustomNavigationBar() {
-        customNavigationBar.applyMediumShadowBelowOnly()
+        customNavigationBar.applyMediumBottomOnlyShadow()
     }
     
     @IBAction func toggleButtonDidTapped(_ sender: UIButton) {
+        reloadData()
         if isFeedVisible {
             makeMapVisible()
         } else {
             makeFeedVisible()
+        }
+    }
+    
+    // Called upon every viewWillAppear and map/feed toggle
+    func reloadData() {
+        //Map
+        if let selectedPostAnnotationView = selectedAnnotationView as? PostAnnotationView {
+            selectedPostAnnotationView.rerenderCalloutForUpdatedPostData()
+        }
+        //Feed
+        DispatchQueue.main.async { // somehow, this prevents a strange animation for the reload
+            self.feed.reloadData()
         }
     }
     
@@ -251,12 +288,60 @@ extension ExploreViewController: FilterDelegate {
 
 extension ExploreViewController: PostDelegate {
     
-    func backgroundDidTapped(post: Post) {
-        sendToPostViewFor(post, withRaisedKeyboard: false)
+    func handleVote(postId: Int, isAdding: Bool) {
+        // Synchronous viewController update
+        let index = postAnnotations.firstIndex { $0.post.id == postId }!
+        let originalVoteCount = postAnnotations[index].post.votecount
+        postAnnotations[index].post.votecount += isAdding ? 1 : -1
+        
+        // Synchronous singleton update
+        let vote = UserService.singleton.handleVoteUpdate(postId: postId, isAdding)
+        
+        // Asynchronous remote update
+        Task {
+            do {
+                if isAdding {
+                    let _ = try await VoteAPI.postVote(voter: UserService.singleton.getId(), post: postId)
+                } else {
+                    try await VoteAPI.deleteVote(voter: UserService.singleton.getId(), post: postId)
+                }
+            } catch {
+                UserService.singleton.handleFailedVoteUpdate(with: vote, isAdding) //undo singleton data change
+                postAnnotations[index].post.votecount = originalVoteCount //undo viewController data change
+                reloadData() //reloadData to ensure undos are visible
+                CustomSwiftMessages.displayError(error)
+            }
+        }
     }
     
-    func commentDidTapped(post: Post) {
-        sendToPostViewFor(post, withRaisedKeyboard: true)
+    func handleFavorite(postId: Int, isAdding: Bool) {
+        // Synchronous singleton update
+        let favorite = UserService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
+
+        // Asynchronous remote update
+        Task {
+            do {
+                if isAdding {
+                    let _ = try await FavoriteAPI.postFavorite(userId: UserService.singleton.getId(), postId: postId)
+                } else {
+                    try await FavoriteAPI.deleteFavorite(userId: UserService.singleton.getId(), postId: postId)
+                }
+            } catch {
+                UserService.singleton.handleFailedFavoriteUpdate(with: favorite, isAdding)//undo singleton data change
+                reloadData() //reloadData to ensure undos are visible
+                CustomSwiftMessages.displayError(error)
+            }
+        }
+    }
+    
+    func handleBackgroundTap(postId: Int) {
+        let tappedPostAnnotation = postAnnotations.first { $0.post.id == postId }!
+        sendToPostViewFor(tappedPostAnnotation.post, withRaisedKeyboard: false)
+    }
+    
+    func handleCommentButtonTap(postId: Int) {
+        let tappedPostAnnotation = postAnnotations.first { $0.post.id == postId }!
+        sendToPostViewFor(tappedPostAnnotation.post, withRaisedKeyboard: true)
     }
     
     // Helpers
@@ -265,11 +350,12 @@ extension ExploreViewController: PostDelegate {
         let postVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
         postVC.post = post
         postVC.shouldStartWithRaisedKeyboard = withRaisedKeyboard
-        postVC.completionHandler = { Post in
-//            reloadPosts(withType: .refresh)
-            //TODO: uhh.. how to make sure the post is updated? i have to update the postannotation's post
+        postVC.prepareForDismiss = { [self] updatedPost in
+            //Update data to prepare for the next reloadData() upon self.willAppear()
+            let index = postAnnotations.firstIndex { $0.post.id == updatedPost.id }!
+            postAnnotations[index].post = updatedPost
         }
         navigationController!.pushViewController(postVC, animated: true)
     }
-
+    
 }

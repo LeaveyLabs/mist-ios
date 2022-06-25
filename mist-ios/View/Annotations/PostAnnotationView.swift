@@ -83,6 +83,7 @@ final class PostAnnotationView: MKMarkerAnnotationView {
                     postCalloutView.removeFromSuperview()
                 })
             }
+            
         }
     }
     
@@ -100,8 +101,11 @@ final class PostAnnotationView: MKMarkerAnnotationView {
 
         return nil
     }
+}
+
+extension PostAnnotationView {
     
-    //MARK: - Helpers
+    //MARK: - Public Interface
     
     // Called by the viewController, because the delay differs based on if the post was just uploaded or if it was jut clicked on
     func loadPostView(on mapView: MKMapView,
@@ -117,13 +121,13 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         
         NSLayoutConstraint.activate([
             postCalloutView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -100),
-            postCalloutView.widthAnchor.constraint(equalTo: mapView.widthAnchor, constant: -30),
+            postCalloutView.widthAnchor.constraint(equalTo: mapView.widthAnchor, constant: -50),
             postCalloutView.heightAnchor.constraint(lessThanOrEqualTo: mapView.heightAnchor, multiplier: 0.75, constant: -140),
             postCalloutView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
         ])
         
         let postAnnotation = annotation as! PostAnnotation
-        postCalloutView.configurePost(post: postAnnotation.post, bubbleTrianglePosition: .bottom)
+        postCalloutView.configurePost(post: postAnnotation.post)
         postCalloutView.postDelegate = postDelegate
 
         //Do i need to call some of these? I dont think so.
@@ -133,6 +137,11 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         postCalloutView.alpha = 0
         postCalloutView.isHidden = true
         postCalloutView.fadeIn(duration: 0.2, delay: delay - 0.15)
+    }
+    
+    //The callout is currently presented, and we want to update the postView's UI with the new data
+    func rerenderCalloutForUpdatedPostData() {
+        postCalloutView!.reconfigurePost(updatedPost: (annotation as! PostAnnotation).post)
     }
 
 }

@@ -7,41 +7,30 @@
 
 import Foundation
 
-protocol PostDelegate: ShareActivityDelegate {
+protocol PostDelegate: ShareActivityDelegate, AnyObject {
     // Implemented below
-    func likeDidTapped(post: Post)
-    func favoriteDidTapped(post: Post)
-    func dmDidTapped(post: Post)
-    func moreDidTapped(post: Post)
+    func handleDmTap(postId: Int, authorId: Int)
+    func handleMoreTap()
+    func handleVote(postId: Int, isAdding: Bool)
+    func handleFavorite(postId: Int, isAdding: Bool)
     
     // Require subclass implementation
-    func commentDidTapped(post: Post)
-    func backgroundDidTapped(post: Post)
+    func handleCommentButtonTap(postId: Int)
+    func handleBackgroundTap(postId: Int)
 }
 
 // Defining functions which are consistent across all PostDelegates
 
 extension PostDelegate where Self: UIViewController {
     
-    func likeDidTapped(post: Post) {
-        //do something
-    }
-    
-    func favoriteDidTapped(post: Post) {
-        //do something
-    }
-    
-    func dmDidTapped(post: Post) {
-        
-        
+    func handleDmTap(postId: Int, authorId: Int) {
         let newMessageVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewMessage) as! NewMessageViewController
         let navigationController = UINavigationController(rootViewController: newMessageVC)
-//        let newMessageNavVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewMessageNavigation) as! UINavigationController
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true, completion: nil)
     }
     
-    func moreDidTapped(post: Post) {
+    func handleMoreTap() {
         let moreVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.More) as! MoreViewController
         moreVC.loadViewIfNeeded() //doesnt work without this function call
         moreVC.shareDelegate = self
@@ -50,7 +39,6 @@ extension PostDelegate where Self: UIViewController {
     
     // ShareActivityDelegate
     func presentShareActivityVC() {
-        print("hehe")
         if let url = NSURL(string: "https://www.getmist.app")  {
             let objectsToShare: [Any] = [url]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
@@ -58,5 +46,5 @@ extension PostDelegate where Self: UIViewController {
             present(activityVC, animated: true)
         }
     }
-    
+
 }

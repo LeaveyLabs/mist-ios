@@ -29,6 +29,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var dateLabelWrapperView: UIView! // To add padding around dateLabel to shrink its size
+    @IBOutlet weak var timeLabelWrapperView: UIView!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet var titleTextView: NewPostTextView!
     @IBOutlet var bodyTextView: NewPostTextView!
@@ -36,7 +37,34 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     var bodyPlaceholderLabel: UILabel!
     var textViewToolbar: UIToolbar?
     
-    var currentlyPinnedAnnotation: PostAnnotation?
+    var currentlyPinnedAnnotation: PostAnnotation? {
+        didSet {
+            if let newAnnotation = currentlyPinnedAnnotation {
+                locationButton.setTitle(newAnnotation.title, for: .normal)
+                locationButton.setTitleColor(.black, for: .normal)
+                locationButton.tintColor = .black
+            } else {
+                locationButton.setTitle(LOCATION_PLACEHOLDER_TEXT, for: .normal)
+                locationButton.setTitleColor(.placeholderText, for: .normal)
+                locationButton.tintColor = .placeholderText
+            }
+            validateAllFields()
+        }
+    }
+    var hasUserTappedDateLabel: Bool = false {
+        didSet {
+            let (date, _) = getDateAndTimeForNewPost(selectedDate: datePicker.date)
+            dateLabel.text = date
+            dateLabel.textColor = .black
+        }
+    }
+    var hasUserTappedTimeLabel: Bool = false {
+        didSet {
+            let (_, time) = getDateAndTimeForNewPost(selectedDate: datePicker.date)
+            timeLabel.text = time
+            timeLabel.textColor = .black
+        }
+    }
     var postStartTime: DispatchTime?
     
     @IBOutlet weak var progressView: UIProgressView!
@@ -62,6 +90,8 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         currentlyPinnedAnnotation = NewPostContext.annotation
         titleTextView.text = NewPostContext.title
         bodyTextView.text = NewPostContext.body
+        hasUserTappedTimeLabel = NewPostContext.hasUserTappedTimeLabel
+        hasUserTappedDateLabel = NewPostContext.hasUserTappedDateLabel
     }
     
     func saveToNewPostContext() {
@@ -69,6 +99,8 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         NewPostContext.body = bodyTextView.text
         NewPostContext.timestamp = datePicker.date.timeIntervalSince1970
         NewPostContext.annotation = currentlyPinnedAnnotation
+        NewPostContext.hasUserTappedDateLabel = hasUserTappedDateLabel
+        NewPostContext.hasUserTappedTimeLabel = hasUserTappedTimeLabel
     }
     
     func setupTextViews() {
@@ -92,6 +124,11 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         locationButton.layer.cornerRadius = 10
         locationButton.layer.cornerCurve = .continuous
         locationButton.setImageToRightSide()
+        
+        //shadow button
+        locationButton.applyLightShadow()
+        locationButton.tintColor = .placeholderText
+        locationButton.setTitleColor(.placeholderText, for: .normal)
     }
     
     func setupDatePicker() {
@@ -100,17 +137,23 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         datePicker.minimumDate = Calendar.current.date(byAdding: .month,
                                                        value: -1,
                                                        to: Date())
-
         dateLabelWrapperView.layer.cornerRadius = 10
         dateLabelWrapperView.layer.cornerCurve = .continuous
         dateLabelWrapperView.layer.masksToBounds = true //necessary for curving edges
-        timeLabel.layer.cornerRadius = 10
-        timeLabel.layer.cornerCurve = .continuous
-        timeLabel.layer.masksToBounds = true //necessary for curving edges
+        timeLabelWrapperView.layer.cornerRadius = 10
+        timeLabelWrapperView.layer.cornerCurve = .continuous
+        timeLabelWrapperView.layer.masksToBounds = true //necessary for curving edge
         
-        let (date, time) = getDateAndTimeForNewPost(selectedDate: datePicker.date)
-        dateLabel.text = date
-        timeLabel.text = time
+        dateLabel.text = "Day"
+        timeLabel.text = "Time"
+        
+        //shadow button
+        dateLabelWrapperView.applyLightShadow()
+        timeLabelWrapperView.applyLightShadow()
+        dateLabelWrapperView.backgroundColor = mistSecondaryUIColor()
+        timeLabelWrapperView.backgroundColor = mistSecondaryUIColor()
+        dateLabel.textColor = .placeholderText
+        timeLabel.textColor = .placeholderText
     }
     
     func setupProgressView() {
@@ -129,11 +172,19 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     
     @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
         let (date, time) = getDateAndTimeForNewPost(selectedDate: datePicker.date)
-        dateLabel.text = date
-        timeLabel.text = time
+        if hasUserTappedDateLabel {
+            dateLabel.text = date
+        }
+        if hasUserTappedTimeLabel {
+            timeLabel.text = time
+        }
     }
     
     @IBAction func datePickerEditingBegin(_ sender: Any, forEvent event: UIEvent) {
+        let isTapWithinDateLabel = true
+        let isTapWithinTimeLabel = true
+        hasUserTappedDateLabel = isTapWithinDateLabel || hasUserTappedDateLabel
+        hasUserTappedTimeLabel = isTapWithinTimeLabel || hasUserTappedTimeLabel
         // Could add code to determine which label was pressed aka which label to highlight
         // To do this, set user interaction of labels/uiview to yes, and then manually pass the touch event through
         // https://stackoverflow.com/questions/2793242/detect-if-certain-uiview-was-touched-amongst-other-uiviews
@@ -199,11 +250,8 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
             pinMapVC.pinnedAnnotation = currentlyPinnedAnnotation // Load the currently pinned annotation, if one exists
             pinMapVC.completionHandler = { [self] (newAnnotation) in
                 currentlyPinnedAnnotation = newAnnotation
-                locationButton!.setTitle(newAnnotation.title, for: .normal)
-                validateAllFields()
             }
         }
-        // Don't prepare for RulesVC Segue
     }
     
     //MARK: - TextView
@@ -315,7 +363,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     func validateAllFields() {
         if bodyTextView.text!.count == 0 || bodyTextView.text!.count > bodyTextView.maxLength ||
             titleTextView.text!.count == 0 || titleTextView.text!.count > titleTextView.maxLength ||
-            currentlyPinnedAnnotation == nil {
+            currentlyPinnedAnnotation == nil && hasUserTappedDateLabel && hasUserTappedTimeLabel {
             postButton.isEnabled = false
         } else {
             postButton.isEnabled = true
