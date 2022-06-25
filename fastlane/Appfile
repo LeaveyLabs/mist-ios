@@ -1,0 +1,8 @@
+app_identifier("app.getmist.mist-ios") # The bundle identifier of your app
+apple_id("kevinsun127@gmail.com") # Your Apple email address
+
+itc_team_id("125194444") # App Store Connect Team ID
+team_id("SHD3A2G97F") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
