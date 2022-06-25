@@ -9,7 +9,7 @@ import UIKit
 
 func loadEverything() async throws {
     try await withThrowingTaskGroup(of: Void.self) { group in
-        group.addTask { try await PostService.loadPostsAndUserInteractions() }
+        group.addTask { try await PostService.singleton.loadPosts() }
         
         group.addTask { try await FavoriteService.singleton.loadFavorites() }
         group.addTask { try await VoteService.singleton.loadVotes() }
@@ -19,6 +19,7 @@ func loadEverything() async throws {
         group.addTask { try await MatchRequestService.singleton.loadMatchRequests() }
         group.addTask { try await BlockService.singleton.loadBlocks() }
         group.addTask { try await FriendRequestService.singleton.loadFriendRequests() }
+        
         try await group.waitForAll()
     }
 }

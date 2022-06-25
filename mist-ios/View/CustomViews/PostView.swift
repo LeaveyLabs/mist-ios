@@ -140,8 +140,8 @@ extension PostView {
         messageLabel.text = post.body
         postTitleLabel.text = post.title
         likeLabelButton.setTitle(String(post.votecount), for: .normal)
-        likeButton.isSelected = !UserService.singleton.getVotesForPost(postId: post.id).isEmpty
-        favoriteButton.isSelected = UserService.singleton.getIsFavoritedForPost(postId: post.id)
+        likeButton.isSelected = !VoteService.singleton.votesForPost(postId: post.id).isEmpty
+        favoriteButton.isSelected = FavoriteService.singleton.hasFavoritedPost(postId)
         
         var arrowPosition: BubbleTrianglePosition!
         if let _ = superview as? PostAnnotationView {
@@ -154,8 +154,8 @@ extension PostView {
     
     func reconfigurePost(updatedPost: Post) {
         likeLabelButton.setTitle(String(updatedPost.votecount), for: .normal)
-        likeButton.isSelected = !UserService.singleton.getVotesForPost(postId: updatedPost.id).isEmpty
-        favoriteButton.isSelected = UserService.singleton.getIsFavoritedForPost(postId: updatedPost.id)
+        likeButton.isSelected = !VoteService.singleton.votesForPost(postId: updatedPost.id).isEmpty
+        favoriteButton.isSelected = FavoriteService.singleton.hasFavoritedPost(updatedPost.id)
     }
     
 }

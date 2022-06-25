@@ -10,17 +10,44 @@ import MapKit
 
 class PostService: NSObject {
     
-    static var initialPosts = [Post]()
+    static var singleton = PostService()
     
-//    static func loadInitialPosts() async throws {
-//        initialPosts = try await PostAPI.fetchPosts()
-//    }
-//
-    static func loadPostsAndUserInteractions() async throws {
-        async let loadedVotes = VoteAPI.fetchVotesByUser(voter: UserService.singleton.getId())
-        async let loadedFavorites = FavoriteAPI.fetchFavoritesByUser(userId: UserService.singleton.getId())
-        async let loadedPosts = PostAPI.fetchPosts()
-        initialPosts = try await loadedPosts
-        UserService.singleton.updateUserInteractionsAfterLoadingPosts(try await loadedVotes, try await loadedFavorites)
+    //TODo: add postFilter to PostService object
+    private var posts = [Post]()
+    
+    //MARK: - Initialization
+    
+    private override init(){
+        super.init()
     }
+    
+    func loadPosts() async throws {
+        posts = try await PostAPI.fetchPosts()
+    }
+    
+    func getPosts() -> [Post] {
+        return posts
+    }
+    
+    func uploadPost(title: String,
+                    text: String,
+                    locationDescription: String?,
+                    latitude: Double?,
+                    longitude: Double?,
+                    timestamp: Double) async throws -> Post {
+        // DB update
+        let newPost = try await PostAPI.createPost(title: title,
+                                                   text: text,
+                                                   locationDescription: locationDescription,
+                                                   latitude: latitude,
+                                                   longitude: longitude,
+                                                   timestamp: timestamp,
+                                                   author: UserService.singleton.getId())
+        return newPost
+    }
+    
+    func deletePost(postId: Int) async throws {
+        try await PostAPI.deletePost(post_id: postId)
+    }
+    
 }

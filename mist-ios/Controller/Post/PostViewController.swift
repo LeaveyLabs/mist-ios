@@ -155,7 +155,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         Task {
             do {
                 commentSubmitButton.isEnabled = false
-                let newComment = try await UserService.singleton.uploadComment(text: commentTextView.text, postId: post.id)
+                let newComment = try await CommentService.singleton.uploadComment(text: commentTextView.text, postId: post.id)
                 handleSuccessfulCommentSubmission(newComment: newComment)
             } catch {
                 commentSubmitButton.isEnabled = true
@@ -176,7 +176,6 @@ extension PostViewController {
                 activityIndicator.startAnimating()
                 comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
                 commentAuthors = try await UserAPI.batchTurnUsersIntoFrontendUsers(comments.map { $0.read_only_author })
-                print(commentAuthors)
                 tableView.reloadData()
             } catch {
                 CustomSwiftMessages.displayError(error)
@@ -276,7 +275,68 @@ extension PostViewController {
 
 extension PostViewController: PostDelegate {
     
-    //old method. this should be removed in favor of the new handleVote()
+    func handleVote(postId: Int, isAdding: Bool) {
+        // viewController update
+        let originalVoteCount = post.votecount
+        post.votecount += isAdding ? 1 : -1
+        
+        // Singleton & remote update
+        do {
+            try VoteService.singleton.handleVoteUpdate(postId: postId, isAdding)
+        } catch {
+            post.votecount = originalVoteCount //undo viewController data change
+            (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
+            CustomSwiftMessages.displayError(error)
+        }
+    }
+    
+    func handleFavorite(postId: Int, isAdding: Bool) {
+        // Singleton & remote update
+        do {
+            try FavoriteService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
+        } catch {
+            (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
+            CustomSwiftMessages.displayError(error)
+        }
+    }
+    
+    func handleBackgroundTap(postId: Int) {
+        commentTextView.resignFirstResponder()
+    }
+    
+    func handleCommentButtonTap(postId: Int) {
+        commentTextView.becomeFirstResponder()
+    }
+    
+}
+
+//    func handleFavorite(postId: Int, isAdding: Bool) {
+//        // Synchronous singleton update
+//        let favorite = UserService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
+//
+//        // Asynchronous remote update
+//        Task {
+//            do {
+//                if isAdding {
+//                    let _ = try await FavoriteAPI.postFavorite(userId: UserService.singleton.getId(), postId: postId)
+//                } else {
+//                    try await FavoriteAPI.deleteFavorite(userId: UserService.singleton.getId(), postId: postId)
+//                }
+//            } catch {
+//                UserService.singleton.handleFailedFavoriteUpdate(with: favorite, isAdding)//undo singleton change
+//                (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
+//                CustomSwiftMessages.displayError(error)
+//            }
+//        }
+//    }
+
+
+
+
+
+
+
+//old method. this should be removed in favor of the new handleVote()
 //    func handleVote(postId: Int, isAdding: Bool) {
 //        // Synchronous viewController update
 //        let originalVoteCount = post.votecount
@@ -301,49 +361,3 @@ extension PostViewController: PostDelegate {
 //            }
 //        }
 //    }
-    
-    func handleVote(postId: Int, isAdding: Bool) {
-        // viewController update
-        let originalVoteCount = post.votecount
-        post.votecount += isAdding ? 1 : -1
-        
-        // Singleton & remote update
-        do {
-            try UserService.singleton.handleVoteUpdate(postId: postId, isAdding)
-        } catch {
-            post.votecount = originalVoteCount //undo viewController data change
-            (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
-            CustomSwiftMessages.displayError(error)
-        }
-    }
-    
-    
-    func handleFavorite(postId: Int, isAdding: Bool) {
-        // Synchronous singleton update
-        let favorite = UserService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
-
-        // Asynchronous remote update
-        Task {
-            do {
-                if isAdding {
-                    let _ = try await FavoriteAPI.postFavorite(userId: UserService.singleton.getId(), postId: postId)
-                } else {
-                    try await FavoriteAPI.deleteFavorite(userId: UserService.singleton.getId(), postId: postId)
-                }
-            } catch {
-                UserService.singleton.handleFailedFavoriteUpdate(with: favorite, isAdding)//undo singleton change
-                (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
-                CustomSwiftMessages.displayError(error)
-            }
-        }
-    }
-    
-    func handleBackgroundTap(postId: Int) {
-        commentTextView.resignFirstResponder()
-    }
-    
-    func handleCommentButtonTap(postId: Int) {
-        commentTextView.becomeFirstResponder()
-    }
-    
-}

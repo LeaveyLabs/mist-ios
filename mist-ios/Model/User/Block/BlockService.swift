@@ -42,7 +42,7 @@ class BlockService: NSObject {
         return isBlockedBy(userId) || hasBlocked(userId)
     }
     
-    //MARK: - Writers
+    //MARK: - Updaters
     
     func blockUser(_ userToBeBlockedId: Int) throws {
         let newBlock = Block(id: Int.random(in: 0..<Int.max), blocked_user: userToBeBlockedId, blocking_user: UserService.singleton.getId(), timestamp: Date().timeIntervalSince1970)

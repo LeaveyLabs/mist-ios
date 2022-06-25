@@ -142,7 +142,7 @@ class PinMapViewController: MapViewController {
     
     // Could implement later
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        print("did deselect")
+        
     }
     
     func presentModal(xsIndentFirst: Bool) {

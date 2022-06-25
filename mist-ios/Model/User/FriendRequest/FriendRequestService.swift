@@ -35,4 +35,34 @@ class FriendRequestService: NSObject {
     func isBlockedByOrHasBlocked(_ userId: Int) -> Bool {
         return hasRequested(userId) || hasBeenRequestedBy(userId)
     }
+    
+    //MARK: - Updaters
+    
+    func sendFriendRequest(_ userToBeFriendedId: Int) throws {
+        let newFriendRequest = FriendRequest(id: Int.random(in: 0..<Int.max), friend_requesting_user: UserService.singleton.getId(), friend_requested_user: userToBeFriendedId, timestamp: Date().timeIntervalSince1970)
+        usersWhoYouFriendRequested.append(newFriendRequest)
+        Task {
+            do {
+                let _ = try await FriendRequestAPI.postFriendRequest(senderUserId: UserService.singleton.getId(), receiverUserId: userToBeFriendedId)
+            } catch {
+                usersWhoYouFriendRequested.removeAll { $0.id == newFriendRequest.id }
+                throw(error)
+            }
+        }
+    }
+    
+    func deleteFriendRequest(_ userToBeUnFriendedId: Int) throws {
+        let friedRequestToDelete = usersWhoYouFriendRequested.first { $0.friend_requested_user == userToBeUnFriendedId }!
+        usersWhoYouFriendRequested.removeAll { $0.id == friedRequestToDelete.id }
+        
+        Task {
+            do {
+                let _ = try await FriendRequestAPI.deleteFriendRequest(senderUserId: UserService.singleton.getId(), receiverUserId: userToBeUnFriendedId)
+            } catch {
+                usersWhoYouFriendRequested.append(friedRequestToDelete)
+                throw(error)
+            }
+        }
+    }
+    
 }

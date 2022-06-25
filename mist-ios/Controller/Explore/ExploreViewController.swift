@@ -132,7 +132,7 @@ extension ExploreViewController {
     }
     
     func renderInitialPosts() {
-        turnPostsIntoAnnotations(PostService.initialPosts)
+        turnPostsIntoAnnotations(PostService.singleton.getPosts())
         mapView.addAnnotations(postAnnotations)
     }
     
@@ -143,10 +143,8 @@ extension ExploreViewController {
         Task {
             do {
                 isLoadingPosts = true
-                let (newPosts, newVotes, newFavorites) = try await loadPostsAndUserInteractions()
-//                try await loadEverything()
-                UserService.singleton.updateUserInteractionsAfterLoadingPosts(newVotes, newFavorites)
-                turnPostsIntoAnnotations(newPosts)
+                try await loadEverything()
+                turnPostsIntoAnnotations(PostService.singleton.getPosts())
                 renderNewPostsOnFeedAndMap(withType: reloadType)
                 closure()
             } catch {
@@ -303,7 +301,7 @@ extension ExploreViewController: PostDelegate {
         
         // Singleton & remote update
         do {
-            try UserService.singleton.handleVoteUpdate(postId: postId, isAdding)
+            try VoteService.singleton.handleVoteUpdate(postId: postId, isAdding)
         } catch {
             postAnnotations[index].post.votecount = originalVoteCount //undo viewController data change
             reloadData() //reloadData to ensure undos are visible
@@ -312,22 +310,12 @@ extension ExploreViewController: PostDelegate {
     }
     
     func handleFavorite(postId: Int, isAdding: Bool) {
-        // Synchronous singleton update
-        let favorite = UserService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
-
-        // Asynchronous remote update
-        Task {
-            do {
-                if isAdding {
-                    let _ = try await FavoriteAPI.postFavorite(userId: UserService.singleton.getId(), postId: postId)
-                } else {
-                    try await FavoriteAPI.deleteFavorite(userId: UserService.singleton.getId(), postId: postId)
-                }
-            } catch {
-                UserService.singleton.handleFailedFavoriteUpdate(with: favorite, isAdding)//undo singleton data change
-                reloadData() //reloadData to ensure undos are visible
-                CustomSwiftMessages.displayError(error)
-            }
+        // Singleton & remote update
+        do {
+            try FavoriteService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
+        } catch {
+            reloadData() //reloadData to ensure undos are visible
+            CustomSwiftMessages.displayError(error)
         }
     }
     

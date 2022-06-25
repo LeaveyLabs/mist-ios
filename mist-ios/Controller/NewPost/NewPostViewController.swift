@@ -212,7 +212,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         animateProgressBar()
         Task {
             do {
-                let syncedPost = try await UserService.singleton.uploadPost(title: titleTextView.text!,
+                let syncedPost = try await PostService.singleton.uploadPost(title: titleTextView.text!,
                                                                         text: bodyTextView.text!,
                                                                         locationDescription: locationButton.titleLabel!.text!,
                                                                         latitude: currentlyPinnedAnnotation!.coordinate.latitude,

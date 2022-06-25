@@ -220,6 +220,10 @@
 		5BB624C128678A8900DCD45B /* MatchRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624C028678A8900DCD45B /* MatchRequestService.swift */; };
 		5BB624C5286790D400DCD45B /* BlockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624C4286790D400DCD45B /* BlockService.swift */; };
 		5BB624C72867933000DCD45B /* FriendRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624C62867933000DCD45B /* FriendRequestService.swift */; };
+		5BB624CD2867A50600DCD45B /* FlagService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624CC2867A50600DCD45B /* FlagService.swift */; };
+		5BB624CF2867A50F00DCD45B /* FavoriteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624CE2867A50F00DCD45B /* FavoriteService.swift */; };
+		5BB624D12867A51500DCD45B /* VoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624D02867A51500DCD45B /* VoteService.swift */; };
+		5BB624D32867A56100DCD45B /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624D22867A56100DCD45B /* CommentService.swift */; };
 		5BCC68D928611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */; };
 		5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4D9BD285C018000197080 /* String+Capitalization.swift */; };
 		5BF78337285D955F003C3955 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78336285D955F003C3955 /* Map.swift */; };
@@ -466,6 +470,10 @@
 		5BB624C028678A8900DCD45B /* MatchRequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchRequestService.swift; sourceTree = "<group>"; };
 		5BB624C4286790D400DCD45B /* BlockService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockService.swift; sourceTree = "<group>"; };
 		5BB624C62867933000DCD45B /* FriendRequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRequestService.swift; sourceTree = "<group>"; };
+		5BB624CC2867A50600DCD45B /* FlagService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagService.swift; sourceTree = "<group>"; };
+		5BB624CE2867A50F00DCD45B /* FavoriteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteService.swift; sourceTree = "<group>"; };
+		5BB624D02867A51500DCD45B /* VoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteService.swift; sourceTree = "<group>"; };
+		5BB624D22867A56100DCD45B /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
 		5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeAreaInputAccessoryViewWrapperView.swift; sourceTree = "<group>"; };
 		5BE4D9BD285C018000197080 /* String+Capitalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Capitalization.swift"; sourceTree = "<group>"; };
 		5BF78336285D955F003C3955 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
@@ -1169,6 +1177,7 @@
 			isa = PBXGroup;
 			children = (
 				47FF86A027DC712F0076A1CA /* Comment.swift */,
+				5BB624D22867A56100DCD45B /* CommentService.swift */,
 			);
 			path = Comment;
 			sourceTree = "<group>";
@@ -1177,6 +1186,7 @@
 			isa = PBXGroup;
 			children = (
 				4700F8B927DD7BE3006C2E08 /* Vote.swift */,
+				5BB624D02867A51500DCD45B /* VoteService.swift */,
 			);
 			path = Vote;
 			sourceTree = "<group>";
@@ -1185,6 +1195,7 @@
 			isa = PBXGroup;
 			children = (
 				43D9251B28527E1800438C5C /* Favorite.swift */,
+				5BB624CE2867A50F00DCD45B /* FavoriteService.swift */,
 			);
 			path = Favorite;
 			sourceTree = "<group>";
@@ -1193,6 +1204,7 @@
 			isa = PBXGroup;
 			children = (
 				4700F8B827DD7BE3006C2E08 /* Flag.swift */,
+				5BB624CC2867A50600DCD45B /* FlagService.swift */,
 			);
 			path = Flag;
 			sourceTree = "<group>";
@@ -1367,6 +1379,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				47D5B3672844116A004CDE6C /* UIView+AddBorders.swift in Sources */,
+				5BB624CF2867A50F00DCD45B /* FavoriteService.swift in Sources */,
 				472A4C0128408BD800FD52B7 /* AsyncButton.swift in Sources */,
 				479AA1F527DCFFCB00EA0DFC /* UIView+TopBorder.swift in Sources */,
 				47A3D71027D55BDD003DBEA5 /* PostFilter.swift in Sources */,
@@ -1403,6 +1416,7 @@
 				47E74E0E27CA0FFE00467A0C /* SceneDelegate.swift in Sources */,
 				4752717E28555DC800DDF84D /* UIImage+Compress.swift in Sources */,
 				47E2B1BF2800C1CD00131B8D /* UITextView+Placeholder.swift in Sources */,
+				5BB624CD2867A50600DCD45B /* FlagService.swift in Sources */,
 				479683FA28283ED700CA23BA /* MKClusterAnnotation+*.swift in Sources */,
 				478BA27F283E85F500C35507 /* AuthContext.swift in Sources */,
 				478A789B284E73970058C845 /* CLLocationCoordiante+Midpoint.swift in Sources */,
@@ -1413,6 +1427,7 @@
 				472A4BFE28408BD800FD52B7 /* SpringTextField.swift in Sources */,
 				479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */,
 				43A05BDD2835008B0085A99B /* SpecialTabBar.swift in Sources */,
+				5BB624D32867A56100DCD45B /* CommentService.swift in Sources */,
 				47EE95FA27F64C00003B351E /* MyAccountViewController.swift in Sources */,
 				5BB624B92863CA2600DCD45B /* UINavigationItem+UIButton.swift in Sources */,
 				43E30CFE2826355C00DBEB57 /* UploadProfilePictureViewController.swift in Sources */,
@@ -1427,6 +1442,7 @@
 				472A4BF728408BD800FD52B7 /* BlurView.swift in Sources */,
 				47A3D70C27D55A3A003DBEA5 /* PostService.swift in Sources */,
 				47A3D71D27D5940D003DBEA5 /* NewPostTextView.swift in Sources */,
+				5BB624D12867A51500DCD45B /* VoteService.swift in Sources */,
 				472A4BFC28408BD800FD52B7 /* SpringView.swift in Sources */,
 				47CE900A27E058090004B756 /* PinMapViewController.swift in Sources */,
 				47C2834F27DED77500A19128 /* FeedHeaderCell.swift in Sources */,
