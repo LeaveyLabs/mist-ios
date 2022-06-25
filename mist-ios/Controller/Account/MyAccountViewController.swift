@@ -287,12 +287,10 @@ class MyAccountViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func handleLogoutButtonPressed() {
         //optionally: present an alert before they log out
-        Task {
-            await UserService.singleton.logOut()
-            transitionToStoryboard(storyboardID: Constants.SBID.SB.Auth,
-                                   viewControllerID: Constants.SBID.VC.AuthNavigation,
-                                   duration: 0) { _ in }
-        }
+        UserService.singleton.logOut()
+        transitionToStoryboard(storyboardID: Constants.SBID.SB.Auth,
+                               viewControllerID: Constants.SBID.VC.AuthNavigation,
+                               duration: 0) { _ in }
     }
 
 }

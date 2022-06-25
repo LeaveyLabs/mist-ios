@@ -25,12 +25,10 @@ class MyProfileViewController: FeedViewController {
     
     //TEMPORARY
     @IBAction func onLogoutButtonPressed(_ sender: UIBarButtonItem) {
-        Task {
-            await UserService.singleton.logOut()
-            transitionToStoryboard(storyboardID: Constants.SBID.SB.Auth,
-                                   viewControllerID: Constants.SBID.VC.AuthNavigation,
-                                   duration: 0) { _ in }
-        }
+        UserService.singleton.logOut()
+        transitionToStoryboard(storyboardID: Constants.SBID.SB.Auth,
+                               viewControllerID: Constants.SBID.VC.AuthNavigation,
+                               duration: 0) { _ in }
     }
     
         

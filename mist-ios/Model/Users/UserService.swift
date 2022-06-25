@@ -17,12 +17,12 @@ class UserService: NSObject {
     private var localFileLocation: URL!
     
     //private initializer because there will only ever be one instance of UserService, the singleton
-    private override init(){
+    private override init() {
         super.init()
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         localFileLocation = documentsDirectory.appendingPathComponent("myaccount.json")
         if FileManager.default.fileExists(atPath: localFileLocation.path) {
-            Task { await self.loadUserFromFilesystem() }
+            self.loadUserFromFilesystem()
         }
     }
     
@@ -74,8 +74,8 @@ class UserService: NSObject {
         Task { await self.saveUserToFilesystem() }
     }
     
-    func logOut() async {
-        await self.eraseUserFromFilesystem()
+    func logOut()  {
+        eraseUserFromFilesystem()
         frontendCompleteUser = nil
         setGlobalAuthToken(token: "")
     }
@@ -83,7 +83,7 @@ class UserService: NSObject {
     func deleteMyAccount() async throws {
         guard let frontendCompleteUser = frontendCompleteUser else { return }
         try await UserAPI.deleteUser(user_id: frontendCompleteUser.id)
-        await logOut()
+        logOut()
     }
     
     //MARK: - Getters
@@ -306,7 +306,7 @@ class UserService: NSObject {
         }
     }
     
-    func loadUserFromFilesystem() async {
+    func loadUserFromFilesystem() {
         do {
             print("LOADING USER DATA")
             let data = try Data(contentsOf: self.localFileLocation)
@@ -318,7 +318,7 @@ class UserService: NSObject {
         }
     }
     
-    func eraseUserFromFilesystem() async {
+    func eraseUserFromFilesystem() {
         do {
             print("ERASING USER DATA")
             setGlobalAuthToken(token: "")
