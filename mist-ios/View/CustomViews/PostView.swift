@@ -45,7 +45,7 @@ class PostButton: UIButton {
     
     //Data
     var postId: Int!
-    var authorId: Int!
+    var postAuthor: ReadOnlyUser!
 
     //Delegation
     var postDelegate: PostDelegate?
@@ -60,6 +60,13 @@ class PostButton: UIButton {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         customInit()
+    }
+    
+    deinit {
+        //Commenting this out for now
+        //When you scroll through a bunch of posts, then posts get rendered and then derendered, and then you scroll back, you don't want to keep reloading those profile pics.
+        //Ideally, we create a cache, but not worth the time right now on 6/25/22
+//        postDelegate?.discardProfilePicTask(postId: postId)
     }
     
     private func customInit() {
@@ -92,7 +99,7 @@ class PostButton: UIButton {
     }
     
     @IBAction func dmButtonDidPressed(_ sender: UIButton) {
-        postDelegate?.handleDmTap(postId: postId, authorId: authorId)
+        postDelegate?.handleDmTap(postId: postId, author: postAuthor)
     }
     
     @IBAction func moreButtonDidPressed(_ sender: UIButton) {
@@ -134,7 +141,10 @@ extension PostView {
     // Otherwise you'll get loads of constraint errors in the console
     func configurePost(post: Post) {
         self.postId = post.id
-        self.authorId = post.author
+        self.postAuthor = post.read_only_author
+        
+        postDelegate?.beginLoadingAuthorProfilePic(postId: postId, author: post.read_only_author)
+        
         timestampLabel.text = getFormattedTimeString(timestamp: post.timestamp)
         locationLabel.text = post.location_description
         messageLabel.text = post.body

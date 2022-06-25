@@ -18,6 +18,7 @@ struct Post: Codable, Equatable {
     let longitude: Double?
     let timestamp: Double
     let author: Int
+    let read_only_author: ReadOnlyUser
     var votecount: Int
     var commentcount: Int
     
@@ -47,5 +48,6 @@ struct Post: Codable, Equatable {
         self.author = author
         self.votecount = votecount
         self.commentcount = commentcount
+        self.read_only_author = UserService.singleton.getUserAsReadOnlyUser()
     }
 }

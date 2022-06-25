@@ -26,7 +26,7 @@ import UIKit
 import MessageKit
 import InputBarAccessoryView
 
-final class AutocompleteChatViewController: ChatViewController {
+final class AutocompleteChatViewController: MessageKitViewController {
 
     lazy var joinChatButton: UIButton = {
         let button = UIButton()

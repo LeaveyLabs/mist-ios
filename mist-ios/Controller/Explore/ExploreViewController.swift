@@ -59,6 +59,8 @@ class ExploreViewController: MapViewController {
     }
     var annotationSelectionType: AnnotationSelectionType = .normal
     
+    //PostDelegate
+    var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] = [:]
 }
 
 // MARK: - View Life Cycle

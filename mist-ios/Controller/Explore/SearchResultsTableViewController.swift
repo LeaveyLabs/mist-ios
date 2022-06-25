@@ -15,8 +15,7 @@ class SearchResultsTableViewController: FeedViewController {
     var feedValue: String!
     
     //PostDelegate
-    var voteTasks: [Task<Void, Never>] = []
-    var favoriteTasks: [Task<Void, Never>] = []
+    var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] = [:]
     
     // MARK: - Life Cycle
 

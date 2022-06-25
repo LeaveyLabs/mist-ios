@@ -1,309 +1,230 @@
 /*
-MIT License
-
-Copyright (c) 2017-2020 MessageKit
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
+ MIT License
+ 
+ Copyright (c) 2017-2019 MessageKit
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE.
+ */
 
 import UIKit
+import MapKit
 import MessageKit
-import InputBarAccessoryView
 
-/// A base class for the example controllers
-class ChatViewController: MessagesViewController, MessagesDataSource {
-
-    // MARK: - Public properties
-
-    lazy var messageList: [MessageKitMessage] = []
+class ChatViewController: MessageKitViewController {
     
-    private(set) lazy var refreshControl: UIRefreshControl = {
-        let control = UIRefreshControl()
-        control.addTarget(self, action: #selector(loadMoreMessages), for: .valueChanged)
-        return control
-    }()
+    //MARK: - Propreties
 
-    // MARK: - Private properties
-
-    private let formatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        return formatter
-    }()
-
-    // MARK: - Lifecycle
-
+    //UI
+    @IBOutlet weak var senderProfilePicButton: UIButton!
+    @IBOutlet weak var senderProfileNameButton: UIButton!
+    @IBOutlet weak var receiverProfilePicButton: UIButton!
+    @IBOutlet weak var receiverProfileNameButton: UIButton!
+    @IBOutlet weak var xButton: UIButton!
+    @IBOutlet weak var customNavigationBar: UIView!
+    
+    //Data
+    var conversation: Conversation!
+    
+    //Flags
+    var isPresentedFromPost: Bool = true
+        
+    var isSenderHidden: Bool! {
+        didSet {
+            senderProfileNameButton.setTitle("You", for: .normal)
+            if isSenderHidden {
+                senderProfilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic().blur())
+            } else {
+                senderProfilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
+            }
+        }
+    }
+    var isReceiverHidden: Bool! {
+        didSet {
+            if isReceiverHidden {
+                senderProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.profilePic.blur())
+                receiverProfileNameButton.setTitle("???", for: .normal)
+            } else {
+                senderProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.profilePic)
+                receiverProfileNameButton.setTitle(conversation.sangdaebang.first_name, for: .normal)
+            }
+        }
+    }
+    
+    //MARK: - Initialization
+    
+    //Currently, postId is not being used
+    class func create(postId: Int, author: FrontendReadOnlyUser) -> ChatViewController {
+        let chatVC =
+        UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Chat) as! ChatViewController
+        if let existingConversation = MessageThreadService.singleton.getConversationWith(userId: author.id) {
+            chatVC.conversation = existingConversation
+        } else {
+            chatVC.conversation = MessageThreadService.singleton.openConversationWith(user: author)!
+        }
+        return chatVC
+    }
+    
+    //MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupCustomNavigationBar()
+        setupHiddenProfiles() //NOTE: must come after setting up the data
         
-        configureMessageCollectionView()
-        configureMessageInputBar()
-        loadFirstMessages()
-        title = "MessageKit"
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        //if the conversation already exists in Service, just load the data in here
+        //if the conversation does not already exist, you need to create a new one and load in the user's data
+        //so when do we load the user's data? that coudl take a few seconds. whenever the postview is rendered? that seems to make the most sense. you can do an async let, and then await it when presenting SimpleChatViewController
         
-//        MockSocket.shared.connect(with: [SampleData.shared.nathan, SampleData.shared.wu])
-//            .onNewMessage { [weak self] message in
-//                self?.insertMessage(message)
-//        }
+        if isPresentedFromPost {
+            setupWhenPresentedFromPost()
+        }
+        
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-//        MockSocket.shared.disconnect()
-    }
-
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+    //MARK: - Setup
+    
+    func setupHiddenProfiles() {
+        //The receiver is hidden until you receive a message from them.
+        isReceiverHidden = !MatchRequestService.singleton.hasReceivedMatchRequestFrom(conversation.sangdaebang.id)
+        
+        //The only case you're hidden is if you received a message from them but haven't accepted it yet.
+        isSenderHidden = MatchRequestService.singleton.hasReceivedMatchRequestFrom(conversation.sangdaebang.id) && !MatchRequestService.singleton.hasSentMatchRequestTo(conversation.sangdaebang.id)
     }
     
-    func loadFirstMessages() {
-        DispatchQueue.global(qos: .userInitiated).async {
-//            let count = UserDefaults.standard.mockMessagesCount()
-//            SampleData.shared.getMessages(count: count) { messages in
-//                DispatchQueue.main.async {
-//                    self.messageList = messages
-//                    self.messagesCollectionView.reloadData()
-//                    self.messagesCollectionView.scrollToLastItem()
-//                }
-//            }
+    func setupCustomNavigationBar() {
+        navigationController?.isNavigationBarHidden = true
+        customNavigationBar.applyLightBottomOnlyShadow()
+        view.sendSubviewToBack(messagesCollectionView)
+        
+        //Remove top constraint which was set in super's super, MessagesViewController. Then, add a new one.
+        view.constraints.first { $0.firstAnchor == messagesCollectionView.topAnchor }!.isActive = false
+        messagesCollectionView.topAnchor.constraint(equalTo: customNavigationBar.bottomAnchor).isActive = true
+    }
+    
+    func setupWhenPresentedFromPost() {
+        xButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+        
+        //We want to start with the messageInputBar's textView as first responder
+        //But for some reason, without this delay, self (the VC) remains the first responder
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.03) {
+            self.messageInputBar.inputTextView.becomeFirstResponder()
         }
     }
     
-    @objc func loadMoreMessages() {
-//        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1) {
-//            SampleData.shared.getMessages(count: 20) { messages in
-//                DispatchQueue.main.async {
-//                    self.messageList.insert(contentsOf: messages, at: 0)
-//                    self.messagesCollectionView.reloadDataAndKeepOffset()
-//                    self.refreshControl.endRefreshing()
-//                }
-//            }
-//        }
+    //MARK: - User Interaction
+
+    @IBAction func xButtonDidPressed(_ sender: UIBarButtonItem) {
+        messageInputBar.inputTextView.resignFirstResponder()
+        self.resignFirstResponder() //to prevent the inputAccessory from staying on the screen after dismiss
+        self.dismiss(animated: true)
     }
     
-    func configureMessageCollectionView() {
-        
-        messagesCollectionView.messagesDataSource = self
-        messagesCollectionView.messageCellDelegate = self
-        
-        scrollsToLastItemOnKeyboardBeginsEditing = true // default false
-        maintainPositionOnKeyboardFrameChanged = true // default false
-
-        showMessageTimestampOnSwipeLeft = true // default false
-        
-        messagesCollectionView.refreshControl = refreshControl
-    }
-    
-    func configureMessageInputBar() {
-        messageInputBar.delegate = self
-        messageInputBar.inputTextView.tintColor = mistUIColor()
-        messageInputBar.sendButton.setTitleColor(mistUIColor(), for: .normal)
-//        messageInputBar.sendButton.setTitleColor(
-//            mistUIColor().withAlphaComponent(0.3),
-//            for: .highlighted
-//        )
-    }
-    
-    // MARK: - Helpers
-    
-    func insertMessage(_ message: MessageKitMessage) {
-        messageList.append(message)
-        // Reload last section to update header/footer labels and insert a new one
-        messagesCollectionView.performBatchUpdates({
-            messagesCollectionView.insertSections([messageList.count - 1])
-            if messageList.count >= 2 {
-                messagesCollectionView.reloadSections([messageList.count - 2])
-            }
-        }, completion: { [weak self] _ in
-            if self?.isLastSectionVisible() == true {
-                self?.messagesCollectionView.scrollToLastItem(animated: true)
-            }
-        })
-    }
-    
-    func isLastSectionVisible() -> Bool {
-        
-        guard !messageList.isEmpty else { return false }
-        
-        let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
-        
-        return messagesCollectionView.indexPathsForVisibleItems.contains(lastIndexPath)
-    }
-
-    // MARK: - MessagesDataSource
-
-    func currentSender() -> SenderType {
-        return UserService.singleton.getUser()
-    }
-
-    func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
-        return messageList.count
-    }
-
-    func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
-        return messageList[indexPath.section]
-    }
-
-    func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        if indexPath.section % 3 == 0 {
-            return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+    @IBAction func senderProfileDidTapped(_ sender: UIBarButtonItem) {
+        if isSenderHidden {
+            //do nothing for now
+        } else {
+            let profileVC = ProfileViewController.create(for: UserService.singleton.getUserAsFrontendReadOnlyUser())
+            navigationController!.present(profileVC, animated: true)
         }
+    }
+    
+    @IBAction func receiverProfileDidTapped(_ sender: UIBarButtonItem) {
+        if isReceiverHidden {
+            //somehow tell the user //hey! they're hidden right now!
+        } else {
+            let profileVC = ProfileViewController.create(for: conversation.sangdaebang)
+            navigationController!.present(profileVC, animated: true)
+        }
+    }
+    
+    //MARK: - ChatViewController
+    
+    override func configureMessageCollectionView() {
+        super.configureMessageCollectionView()
+        messagesCollectionView.messagesLayoutDelegate = self
+        messagesCollectionView.messagesDisplayDelegate = self
+    }
+    
+    func textCellSizeCalculator(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CellSizeCalculator? {
         return nil
     }
-
-    func cellBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        return NSAttributedString(string: "Read", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
-    }
-
-    func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        let name = message.sender.displayName
-        return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1)])
-    }
-
-    func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        let dateString = formatter.string(from: message.sentDate)
-        return NSAttributedString(string: dateString, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption2)])
-    }
     
-    func textCell(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UICollectionViewCell? {
-        return nil
-    }
 }
 
-// MARK: - MessageCellDelegate
+// MARK: - MessagesDisplayDelegate
 
-extension ChatViewController: MessageCellDelegate {
-    func didTapAvatar(in cell: MessageCollectionViewCell) {
-        print("Avatar tapped")
+extension ChatViewController: MessagesDisplayDelegate {
+    
+    // MARK: - Text Messages
+    
+    func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        return isFromCurrentSender(message: message) ? .white : .darkText
     }
     
-    func didTapMessage(in cell: MessageCollectionViewCell) {
-        print("Message tapped")
+    func detectorAttributes(for detector: DetectorType, and message: MessageType, at indexPath: IndexPath) -> [NSAttributedString.Key: Any] {
+        switch detector {
+        case .hashtag, .mention: return [.foregroundColor: UIColor.blue]
+        default: return MessageLabel.defaultAttributes
+        }
     }
     
-    func didTapImage(in cell: MessageCollectionViewCell) {
-        print("Image tapped")
+    func enabledDetectors(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> [DetectorType] {
+        return [.url, .address, .phoneNumber, .date, .transitInformation, .mention, .hashtag]
     }
     
-    func didTapCellTopLabel(in cell: MessageCollectionViewCell) {
-        print("Top cell label tapped")
+    // MARK: - All Messages
+    
+    func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        return isFromCurrentSender(message: message) ? .blue : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
     }
     
-    func didTapCellBottomLabel(in cell: MessageCollectionViewCell) {
-        print("Bottom cell label tapped")
+    func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
+        
+        let tail: MessageStyle.TailCorner = isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft
+        return .bubbleTail(tail, .curved)
     }
     
-    func didTapMessageTopLabel(in cell: MessageCollectionViewCell) {
-        print("Top message label tapped")
-    }
-    
-    func didTapMessageBottomLabel(in cell: MessageCollectionViewCell) {
-        print("Bottom label tapped")
-    }
-
-    func didTapAccessoryView(in cell: MessageCollectionViewCell) {
-        print("Accessory view tapped")
+    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+//        let avatar = SampleData.shared.getAvatarFor(sender: message.sender)
+//        avatarView.set(avatar: avatar)
+        avatarView.set(avatar: Avatar(image: UIImage(named: "adam"), initials: "AN"))
     }
 
 }
 
-// MARK: - MessageLabelDelegate
+// MARK: - MessagesLayoutDelegate
 
-extension ChatViewController: MessageLabelDelegate {
+extension ChatViewController: MessagesLayoutDelegate {
     
-    func didSelectDate(_ date: Date) {
-        print("Date Selected: \(date)")
-    }
-    
-    func didSelectPhoneNumber(_ phoneNumber: String) {
-        print("Phone Number Selected: \(phoneNumber)")
+    func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        return 18
     }
     
-    func didSelectURL(_ url: URL) {
-        print("URL Selected: \(url)")
+    func cellBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        return 17
     }
     
-    func didSelectTransitInformation(_ transitInformation: [String: String]) {
-        print("TransitInformation Selected: \(transitInformation)")
+    func messageTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        return 20
     }
-
-    func didSelectMention(_ mention: String) {
-        print("Mention selected: \(mention)")
-    }
-}
-
-// MARK: - MessageInputBarDelegate
-
-extension ChatViewController: InputBarAccessoryViewDelegate {
-
-    @objc
-    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        processInputBar(messageInputBar)
-    }
-
-    func processInputBar(_ inputBar: InputBarAccessoryView) {
-        // Here we can parse for which substrings were autocompleted
-        let attributedText = inputBar.inputTextView.attributedText!
-        let range = NSRange(location: 0, length: attributedText.length)
-        attributedText.enumerateAttribute(.autocompleted, in: range, options: []) { (_, range, _) in
-
-            let substring = attributedText.attributedSubstring(from: range)
-            let context = substring.attribute(.autocompletedContext, at: 0, effectiveRange: nil)
-            print("Autocompleted: `", substring, "` with context: ", context ?? [])
-        }
-
-        let components = inputBar.inputTextView.components
-        inputBar.inputTextView.text = String()
-        inputBar.invalidatePlugins()
-        // Send button activity animation
-        inputBar.sendButton.startAnimating()
-        inputBar.inputTextView.placeholder = "Sending..."
-        // Resign first responder for iPad split view
-        inputBar.inputTextView.resignFirstResponder()
-        DispatchQueue.global(qos: .default).async {
-
-            //TODO: here is where we do the task to send the message to the socket
-            
-            sleep(1)
-            DispatchQueue.main.async { [weak self] in
-                inputBar.sendButton.stopAnimating()
-                inputBar.inputTextView.placeholder = "Aa"
-                self?.insertMessages(components)
-                self?.messagesCollectionView.scrollToLastItem(animated: true)
-            }
-        }
-    }
-
-    private func insertMessages(_ data: [Any]) {
-        for component in data {
-            if let str = component as? String {
-                let message = MessageKitMessage(text: str,
-                                                sender: UserService.singleton.getUser(),
-                                                receiver: UserService.singleton.getUser(), //TODO: change
-                                                messageId: String(Int.random(in: 0..<Int.max)),
-                                                date: Date())
-                insertMessage(message)
-            }
-        }
+    
+    func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        return 16
     }
 }

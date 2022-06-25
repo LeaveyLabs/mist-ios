@@ -94,65 +94,6 @@
             </objects>
             <point key="canvasLocation" x="-6609" y="-22"/>
         </scene>
-        <!--Direct Message-->
-        <scene sceneID="sct-Dt-BWV">
-            <objects>
-                <viewController storyboardIdentifier="NewMessageViewController" id="Mdt-Lg-LrC" customClass="NewMessageViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="63H-L2-JQq">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="0HP-h1-CwR" customClass="RoundedImageView" customModule="mist_ios" customModuleProvider="target">
-                                <rect key="frame" x="36" y="112" width="100" height="100"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="*********" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="st2-j7-9nT">
-                                <rect key="frame" x="23" y="226" width="126" height="41"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="30"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="@*******" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b47-Hq-NIu">
-                                <rect key="frame" x="51" y="259" width="71" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="The author can see your profile, but you can't see theirs until they choose to reveal themselves. " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="53B-ST-Neq">
-                                <rect key="frame" x="45" y="292" width="300" height="53"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="13"/>
-                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="Sh0-T0-t6I"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Direct Message" id="Pe0-Tw-iI1">
-                        <barButtonItem key="leftBarButtonItem" image="xmark" catalog="system" id="6Xw-SX-yS4">
-                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <connections>
-                                <action selector="xButtonDidPressed:" destination="Mdt-Lg-LrC" id="nUh-kF-SUq"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="ellipsis" catalog="system" id="a5T-Jf-zjD">
-                            <connections>
-                                <action selector="sendButtonDidPressed:" destination="Mdt-Lg-LrC" id="n3M-Rd-aJ8"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="authorProfilePic" destination="0HP-h1-CwR" id="I4G-G1-P9f"/>
-                        <outlet property="moreButton" destination="a5T-Jf-zjD" id="qIh-uL-9kB"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rij-Yr-z4d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-234" y="3262"/>
-        </scene>
         <!--Pin Map Modal View Controller-->
         <scene sceneID="vuc-nS-kaA">
             <objects>
@@ -1886,10 +1827,10 @@
             </objects>
             <point key="canvasLocation" x="-2478" y="3262"/>
         </scene>
-        <!--Simple Chat View Controller-->
+        <!--Chat View Controller-->
         <scene sceneID="H9I-Cn-ewq">
             <objects>
-                <viewController storyboardIdentifier="ChatViewController" id="h1m-Q9-Hfd" customClass="SimpleChatViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChatViewController" id="h1m-Q9-Hfd" customClass="ChatViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uYA-KE-QpC">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2746,9 +2687,6 @@
         </scene>
     </scenes>
     <designables>
-        <designable name="0HP-h1-CwR">
-            <size key="intrinsicContentSize" width="893" height="880"/>
-        </designable>
         <designable name="fF8-vG-5X7">
             <size key="intrinsicContentSize" width="893" height="880"/>
         </designable>

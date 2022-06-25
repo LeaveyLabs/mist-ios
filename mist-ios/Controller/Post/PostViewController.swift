@@ -36,9 +36,12 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     var shouldStartWithRaisedKeyboard: Bool!
     
     //Data
-    var post: Post! //both PostViewController and PostCell's PostView have a "Post" object. When postview handles interaction, it updates its own post. Because of that, this post object should only be used when setting up the post
+    var post: Post!
     var comments = [Comment]()
     var commentAuthors = [Int: FrontendReadOnlyUser]()
+    
+    //PostDelegate
+    var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] = [:]
     
     //Misc
     var prepareForDismiss: UpdatedPostCompletionHandler?
@@ -114,7 +117,8 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         tableView.register(commentNib, forCellReuseIdentifier: Constants.SBID.Cell.Comment)
     }
     
-    func oldBecomeCommentCode() { //Deprecated
+    @available(*, deprecated, message: "Because !")
+    func oldBecomeCommentCode() {
         commentTextView.layer.borderWidth = 1
         commentTextView.layer.borderColor = UIColor.lightGray.cgColor
         commentTextView.layer.cornerRadius = 15

@@ -50,4 +50,23 @@ class MessageThreadService: NSObject {
         //then register notification listeners on the size of each messageThread's server_messages
     }
     
+    func getConversationWith(userId: Int) -> Conversation? {
+        if let pair = messageThreads.first(where: { $0.key.id == userId }) {
+            return Conversation(sangdaebang: pair.key, messageThread: pair.value)
+        } else {
+            return nil
+        }
+    }
+    
+    func openConversationWith(user: FrontendReadOnlyUser) -> Conversation? {
+        do {
+            let newMessageThread = try MessageThread(sender: UserService.singleton.getId(), receiver: user.id)
+            messageThreads[user] = newMessageThread
+            return Conversation(sangdaebang: user, messageThread: newMessageThread)
+        } catch {
+            print("This should never happen")
+        }
+        return nil
+    }
+    
 }
