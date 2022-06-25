@@ -132,7 +132,7 @@ extension ExploreViewController {
     }
     
     func renderInitialPosts() {
-        turnPostsIntoAnnotations(PostsService.initialPosts)
+        turnPostsIntoAnnotations(PostService.initialPosts)
         mapView.addAnnotations(postAnnotations)
     }
     

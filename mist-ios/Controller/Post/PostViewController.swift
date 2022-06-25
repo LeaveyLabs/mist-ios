@@ -276,7 +276,7 @@ extension PostViewController {
 
 extension PostViewController: PostDelegate {
     
-    //old method
+    //old method. this should be removed in favor of the new handleVote()
 //    func handleVote(postId: Int, isAdding: Bool) {
 //        // Synchronous viewController update
 //        let originalVoteCount = post.votecount

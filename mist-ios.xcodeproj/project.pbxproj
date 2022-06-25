@@ -157,7 +157,7 @@
 		47A3D70227D524F4003DBEA5 /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70127D524F4003DBEA5 /* NewPostViewController.swift */; };
 		47A3D70627D54F3C003DBEA5 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70527D54F3C003DBEA5 /* Post.swift */; };
 		47A3D70827D54F6F003DBEA5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70727D54F6F003DBEA5 /* User.swift */; };
-		47A3D70C27D55A3A003DBEA5 /* PostsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70B27D55A3A003DBEA5 /* PostsService.swift */; };
+		47A3D70C27D55A3A003DBEA5 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70B27D55A3A003DBEA5 /* PostService.swift */; };
 		47A3D70E27D55BB3003DBEA5 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70D27D55BB3003DBEA5 /* Time.swift */; };
 		47A3D71027D55BDD003DBEA5 /* PostFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70F27D55BDD003DBEA5 /* PostFilter.swift */; };
 		47A3D71227D57A6D003DBEA5 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D71127D57A6D003DBEA5 /* UserService.swift */; };
@@ -399,7 +399,7 @@
 		47A3D70127D524F4003DBEA5 /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
 		47A3D70527D54F3C003DBEA5 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		47A3D70727D54F6F003DBEA5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		47A3D70B27D55A3A003DBEA5 /* PostsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsService.swift; sourceTree = "<group>"; };
+		47A3D70B27D55A3A003DBEA5 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 		47A3D70D27D55BB3003DBEA5 /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		47A3D70F27D55BDD003DBEA5 /* PostFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFilter.swift; sourceTree = "<group>"; };
 		47A3D71127D57A6D003DBEA5 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
@@ -935,9 +935,9 @@
 		47E74E3B27CA14B800467A0C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5BB624BC28641A5600DCD45B /* Messages */,
-				5BB624BB28641A3100DCD45B /* Users */,
-				5BB624BA28641A0D00DCD45B /* Posts */,
+				5BB624BC28641A5600DCD45B /* Message */,
+				5BB624BB28641A3100DCD45B /* User */,
+				5BB624BA28641A0D00DCD45B /* Post */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1100,21 +1100,21 @@
 			path = UINavigation;
 			sourceTree = "<group>";
 		};
-		5BB624BA28641A0D00DCD45B /* Posts */ = {
+		5BB624BA28641A0D00DCD45B /* Post */ = {
 			isa = PBXGroup;
 			children = (
 				47A3D70527D54F3C003DBEA5 /* Post.swift */,
-				47A3D70B27D55A3A003DBEA5 /* PostsService.swift */,
+				47A3D70B27D55A3A003DBEA5 /* PostService.swift */,
 				439E44F927DFE20600E244D6 /* Word.swift */,
-				47FF86A027DC712F0076A1CA /* Comment.swift */,
-				4700F8B927DD7BE3006C2E08 /* Vote.swift */,
-				4700F8B827DD7BE3006C2E08 /* Flag.swift */,
-				43D9251B28527E1800438C5C /* Favorite.swift */,
+				5BB624CB28679FD900DCD45B /* Flag */,
+				5BB624CA28679FD400DCD45B /* Favorite */,
+				5BB624C928679FD000DCD45B /* Vote */,
+				5BB624C828679FC200DCD45B /* Comment */,
 			);
-			path = Posts;
+			path = Post;
 			sourceTree = "<group>";
 		};
-		5BB624BB28641A3100DCD45B /* Users */ = {
+		5BB624BB28641A3100DCD45B /* User */ = {
 			isa = PBXGroup;
 			children = (
 				47A3D70727D54F6F003DBEA5 /* User.swift */,
@@ -1124,10 +1124,10 @@
 				5BB624C22867909400DCD45B /* Block */,
 				5BB624C32867909F00DCD45B /* FriendRequest */,
 			);
-			path = Users;
+			path = User;
 			sourceTree = "<group>";
 		};
-		5BB624BC28641A5600DCD45B /* Messages */ = {
+		5BB624BC28641A5600DCD45B /* Message */ = {
 			isa = PBXGroup;
 			children = (
 				4369DB0B282EC465009215D4 /* Message.swift */,
@@ -1135,7 +1135,7 @@
 				4780E5B5283308250012B741 /* MessageKitMessage.swift */,
 				5BB624BD2864308E00DCD45B /* MessageThreadService.swift */,
 			);
-			path = Messages;
+			path = Message;
 			sourceTree = "<group>";
 		};
 		5BB624BF28678A6F00DCD45B /* MatchRequest */ = {
@@ -1163,6 +1163,38 @@
 				5BB624C62867933000DCD45B /* FriendRequestService.swift */,
 			);
 			path = FriendRequest;
+			sourceTree = "<group>";
+		};
+		5BB624C828679FC200DCD45B /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				47FF86A027DC712F0076A1CA /* Comment.swift */,
+			);
+			path = Comment;
+			sourceTree = "<group>";
+		};
+		5BB624C928679FD000DCD45B /* Vote */ = {
+			isa = PBXGroup;
+			children = (
+				4700F8B927DD7BE3006C2E08 /* Vote.swift */,
+			);
+			path = Vote;
+			sourceTree = "<group>";
+		};
+		5BB624CA28679FD400DCD45B /* Favorite */ = {
+			isa = PBXGroup;
+			children = (
+				43D9251B28527E1800438C5C /* Favorite.swift */,
+			);
+			path = Favorite;
+			sourceTree = "<group>";
+		};
+		5BB624CB28679FD900DCD45B /* Flag */ = {
+			isa = PBXGroup;
+			children = (
+				4700F8B827DD7BE3006C2E08 /* Flag.swift */,
+			);
+			path = Flag;
 			sourceTree = "<group>";
 		};
 		5BE4D9BC285C017100197080 /* String */ = {
@@ -1393,7 +1425,7 @@
 				5BB624B628622C8500DCD45B /* UIViewController+DismissFlag.swift in Sources */,
 				47FF418328403AE700A44968 /* CustomAttributedString.swift in Sources */,
 				472A4BF728408BD800FD52B7 /* BlurView.swift in Sources */,
-				47A3D70C27D55A3A003DBEA5 /* PostsService.swift in Sources */,
+				47A3D70C27D55A3A003DBEA5 /* PostService.swift in Sources */,
 				47A3D71D27D5940D003DBEA5 /* NewPostTextView.swift in Sources */,
 				472A4BFC28408BD800FD52B7 /* SpringView.swift in Sources */,
 				47CE900A27E058090004B756 /* PinMapViewController.swift in Sources */,

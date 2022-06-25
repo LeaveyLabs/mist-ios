@@ -9,7 +9,12 @@ import UIKit
 
 func loadEverything() async throws {
     try await withThrowingTaskGroup(of: Void.self) { group in
-        group.addTask { try await PostsService.loadPostsAndUserInteractions() } //this handles votes, favorites, and flags right now
+        group.addTask { try await PostService.loadPostsAndUserInteractions() }
+        
+        group.addTask { try await FavoriteService.singleton.loadFavorites() }
+        group.addTask { try await VoteService.singleton.loadVotes() }
+        group.addTask { try await FlagService.singleton.loadFlags() }
+        
         group.addTask { try await MessageThreadService.singleton.loadMessageThreads() }
         group.addTask { try await MatchRequestService.singleton.loadMatchRequests() }
         group.addTask { try await BlockService.singleton.loadBlocks() }

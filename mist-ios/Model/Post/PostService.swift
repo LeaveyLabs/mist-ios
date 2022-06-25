@@ -8,7 +8,7 @@
 import Foundation
 import MapKit
 
-class PostsService: NSObject {
+class PostService: NSObject {
     
     static var initialPosts = [Post]()
     
