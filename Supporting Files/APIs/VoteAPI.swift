@@ -14,6 +14,7 @@ enum VoteError: Error {
 
 class VoteAPI {
     static let PATH_TO_VOTE_MODEL = "api/votes/"
+    static let PATH_TO_CUSTOM_DELETE_VOTE_ENDPOINT = "api/delete-vote/"
     static let VOTER_PARAM = "voter"
     static let POST_PARAM = "post"
     static let RATING_PARAM = "rating"
@@ -47,11 +48,10 @@ class VoteAPI {
     }
     
     static func deleteVote(voter:Int, post:Int) async throws  {
-        let userVotes = try await VoteAPI.fetchVotesByVoterAndPost(voter: voter, post: post)
-        guard userVotes.count == 1 else {
-            throw APIError.NotFound
-        }
-        let _ = try await VoteAPI.deleteVote(vote_id: userVotes[0].id)
+        let endpoint = "\(BASE_URL)\(PATH_TO_CUSTOM_DELETE_VOTE_ENDPOINT)"
+        let params = "\(VOTER_PARAM)=\(voter)&\(POST_PARAM)=\(post)"
+        let url = "\(endpoint)?\(params)"
+        let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
     }
 
     // Deletes vote from database

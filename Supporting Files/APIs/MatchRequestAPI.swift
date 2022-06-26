@@ -9,6 +9,7 @@ import Foundation
 
 class MatchRequestAPI {
     static let PATH_TO_MATCH_REQUEST = "api/match-requests/"
+    static let PATH_TO_CUSTOM_DELETE_MATCH_REQUEST_ENDPOINT = "api/delete-match-request/"
     static let SENDER_PARAM = "match_requesting_user"
     static let RECEIVER_PARAM = "match_requested_user"
     static let POST_PARAM = "post"
@@ -38,13 +39,10 @@ class MatchRequestAPI {
     }
     
     static func deleteMatchRequest(senderUserId:Int, receiverUserId:Int) async throws {
-        let matchRequests = try await fetchMatchRequestsBySender(senderUserId: senderUserId)
-        for matchRequest in matchRequests {
-            if matchRequest.match_requested_user == receiverUserId {
-                let _ = try await deleteMatchRequest(match_request_id: matchRequest.id)
-                break
-            }
-        }
+        let endpoint = "\(BASE_URL)\(PATH_TO_CUSTOM_DELETE_MATCH_REQUEST_ENDPOINT)"
+        let params = "\(SENDER_PARAM)=\(senderUserId)&\(RECEIVER_PARAM)=\(receiverUserId)"
+        let url = "\(endpoint)?\(params)"
+        let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
     }
     
     static func deleteMatchRequest(match_request_id:Int) async throws {

@@ -9,6 +9,7 @@ import Foundation
 
 class FriendRequestAPI {
     static let PATH_TO_FRIEND_REQUESTS = "api/friend-requests/"
+    static let PATH_TO_CUSTOM_DELETE_FRIEND_REQUEST_ENDPOINT = "api/delete-friend-request/"
     static let SENDER_PARAM = "friend_requesting_user"
     static let RECEIVER_PARAM = "friend_requested_user"
     
@@ -36,13 +37,10 @@ class FriendRequestAPI {
     }
     
     static func deleteFriendRequest(senderUserId:Int, receiverUserId:Int) async throws {
-        let friendRequests = try await fetchFriendRequestsBySender(senderUserId: senderUserId)
-        for friendRequest in friendRequests {
-            if friendRequest.friend_requested_user == receiverUserId {
-                let _ = try await deleteFriendRequest(friend_request_id: friendRequest.id)
-                break
-            }
-        }
+        let endpoint = "\(BASE_URL)\(PATH_TO_CUSTOM_DELETE_FRIEND_REQUEST_ENDPOINT)"
+        let params = "\(SENDER_PARAM)=\(senderUserId)&\(RECEIVER_PARAM)=\(receiverUserId)"
+        let url = "\(endpoint)?\(params)"
+        let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
     }
     
     static func deleteFriendRequest(friend_request_id:Int) async throws {
