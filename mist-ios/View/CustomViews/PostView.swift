@@ -8,16 +8,20 @@
 import UIKit
 import MapKit
 
-class PostButton: UIButton {
+class ToggleButton: UIButton {
     var isSelectedImage: UIImage!
+    var isSelectedTitle: String!
     var isNotSelectedImage: UIImage!
+    var isNotSelectedTitle: String!
     
     override var isSelected: Bool {
         didSet {
             if isSelected {
                 setImage(isSelectedImage, for: .normal)
+                setTitle(isSelectedTitle, for: .normal)
             } else {
                 setImage(isNotSelectedImage, for: .normal)
+                setTitle(isNotSelectedTitle, for: .normal)
             }
         }
     }
@@ -38,9 +42,9 @@ class PostButton: UIButton {
     @IBOutlet weak var postTitleLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
     
+    @IBOutlet weak var dmButton: UIButton!
     @IBOutlet weak var moreButton: UIButton!
-    @IBOutlet weak var favoriteButton: PostButton!
-    @IBOutlet weak var likeButton: PostButton!
+    @IBOutlet weak var likeButton: ToggleButton!
     @IBOutlet weak var likeLabelButton: UIButton! // We can't have the likeButton expand the whole stackview, and we also need a button in the rest of the stackview to prevent the post from being dismissed.
     
     //Data
@@ -75,8 +79,8 @@ class PostButton: UIButton {
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(contentView)
         
-        favoriteButton.isSelectedImage = UIImage(systemName: "bookmark.fill")!
-        favoriteButton.isNotSelectedImage = UIImage(systemName: "bookmark")!
+        likeButton.isSelectedTitle = ""
+        likeButton.isNotSelectedTitle = ""
         likeButton.isSelectedImage = UIImage(systemName: "heart.fill")!
         likeButton.isNotSelectedImage = UIImage(systemName: "heart")!
     }
@@ -99,21 +103,11 @@ class PostButton: UIButton {
     }
     
     @IBAction func dmButtonDidPressed(_ sender: UIButton) {
-        postDelegate?.handleDmTap(postId: postId, author: postAuthor)
+        postDelegate?.handleDmTap(postId: postId, author: postAuthor, dmButton: dmButton)
     }
     
     @IBAction func moreButtonDidPressed(_ sender: UIButton) {
-        postDelegate?.handleMoreTap()
-    }
-    
-    @IBAction func favoriteButtonDidpressed(_ sender: UIButton) {
-        // UI Updates
-        favoriteButton.isEnabled = false
-        favoriteButton.isSelected = !favoriteButton.isSelected
-        
-        // Remote and storage updates
-        postDelegate?.handleFavorite(postId: postId, isAdding: favoriteButton.isSelected)
-        favoriteButton.isEnabled = true
+        postDelegate?.handleMoreTap(postId: postId)
     }
     
     @IBAction func likeButtonDidPressed(_ sender: UIButton) {
@@ -151,7 +145,12 @@ extension PostView {
         postTitleLabel.text = post.title
         likeLabelButton.setTitle(String(post.votecount), for: .normal)
         likeButton.isSelected = !VoteService.singleton.votesForPost(postId: post.id).isEmpty
-        favoriteButton.isSelected = FavoriteService.singleton.hasFavoritedPost(postId)
+        
+        if post.author == UserService.singleton.getId() {
+            dmButton.isHidden = true
+        } else {
+            dmButton.isHidden = false
+        }
         
         var arrowPosition: BubbleTrianglePosition!
         if let _ = superview as? PostAnnotationView {
@@ -165,7 +164,6 @@ extension PostView {
     func reconfigurePost(updatedPost: Post) {
         likeLabelButton.setTitle(String(updatedPost.votecount), for: .normal)
         likeButton.isSelected = !VoteService.singleton.votesForPost(postId: updatedPost.id).isEmpty
-        favoriteButton.isSelected = FavoriteService.singleton.hasFavoritedPost(updatedPost.id)
     }
     
 }

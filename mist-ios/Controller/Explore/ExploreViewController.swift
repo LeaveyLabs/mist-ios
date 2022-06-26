@@ -311,16 +311,6 @@ extension ExploreViewController: PostDelegate {
         }
     }
     
-    func handleFavorite(postId: Int, isAdding: Bool) {
-        // Singleton & remote update
-        do {
-            try FavoriteService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
-        } catch {
-            reloadData() //reloadData to ensure undos are visible
-            CustomSwiftMessages.displayError(error)
-        }
-    }
-    
     func handleBackgroundTap(postId: Int) {
         let tappedPostAnnotation = postAnnotations.first { $0.post.id == postId }!
         sendToPostViewFor(tappedPostAnnotation.post, withRaisedKeyboard: false)

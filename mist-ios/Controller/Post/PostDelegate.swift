@@ -9,10 +9,11 @@ import Foundation
 
 protocol PostDelegate: ShareActivityDelegate, AnyObject {
     // Implemented below
-    func handleMoreTap()
+    func handleMoreTap(postId: Int)
     func handleVote(postId: Int, isAdding: Bool)
     func handleFavorite(postId: Int, isAdding: Bool)
-    func handleDmTap(postId: Int, author: ReadOnlyUser)
+    func handleFlag(postId: Int, isAdding: Bool)
+    func handleDmTap(postId: Int, author: ReadOnlyUser, dmButton: UIButton)
     func beginLoadingAuthorProfilePic(postId: Int, author: ReadOnlyUser)
     func discardProfilePicTask(postId: Int)
     
@@ -43,7 +44,12 @@ extension PostDelegate where Self: UIViewController {
         loadAuthorProfilePicTasks.removeValue(forKey: postId)
     }
 
-    func handleDmTap(postId: Int, author: ReadOnlyUser) {
+    func handleDmTap(postId: Int, author: ReadOnlyUser, dmButton: UIButton) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            if !dmButton.isButtonCustomLoadingIndicatorVisible {
+                dmButton.loadingIndicator(true)
+            }
+        }
         Task {
             if let frontendAuthor = await loadAuthorProfilePicTasks[postId]!.value {
                 DispatchQueue.main.async { [self] in
@@ -55,13 +61,32 @@ extension PostDelegate where Self: UIViewController {
             } else {
                 // :(
             }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35, execute: {
+                dmButton.loadingIndicator(false)
+            })
         }
     }
     
-    func handleMoreTap() {
-        let moreVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.PostMore) as! PostMoreViewController
-        moreVC.loadViewIfNeeded() //doesnt work without this function call
-        moreVC.shareDelegate = self
+    func handleFavorite(postId: Int, isAdding: Bool) {
+        // Singleton & remote update
+        do {
+            try FavoriteService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
+        } catch {
+            CustomSwiftMessages.displayError(error)
+        }
+    }
+    
+    func handleFlag(postId: Int, isAdding: Bool) {
+        // Singleton & remote update
+        do {
+            try FlagService.singleton.handleFlagUpdate(postId: postId, isAdding)
+        } catch {
+            CustomSwiftMessages.displayError(error)
+        }
+    }
+    
+    func handleMoreTap(postId: Int) {
+        let moreVC = PostMoreViewController.create(postId: postId, postDelegate: self)
         present(moreVC, animated: true)
     }
     
@@ -75,4 +100,37 @@ extension PostDelegate where Self: UIViewController {
         }
     }
 
+}
+
+extension UIButton {
+    
+    var isButtonCustomLoadingIndicatorVisible: Bool {
+        get {
+            return viewWithTag(808404) != nil
+        }
+    }
+    
+    func loadingIndicator(_ show: Bool) {
+        let tag = 808404
+        if show {
+            
+            self.isEnabled = false
+            self.alpha = 0.5
+            let indicator = UIActivityIndicatorView()
+            indicator.color = .black
+            let buttonHeight = self.bounds.size.height
+            let buttonWidth = self.bounds.size.width
+            indicator.center = CGPoint(x: buttonWidth/2, y: buttonHeight/2)
+            indicator.tag = tag
+            self.addSubview(indicator)
+            indicator.startAnimating()
+        } else {
+            self.isEnabled = true
+            self.alpha = 1.0
+            if let indicator = self.viewWithTag(tag) as? UIActivityIndicatorView {
+                indicator.stopAnimating()
+                indicator.removeFromSuperview()
+            }
+        }
+    }
 }

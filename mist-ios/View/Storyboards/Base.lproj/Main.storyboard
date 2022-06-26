@@ -1465,70 +1465,120 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cdv-h6-88r">
-                                <rect key="frame" x="10" y="64" width="90" height="31"/>
-                                <color key="tintColor" systemColor="labelColor"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
-                                <state key="normal" title="Share" image="square.and.arrow.up" catalog="system"/>
-                                <state key="selected" title="Best" image="cup.and.saucer.fill" catalog="system">
-                                    <color key="titleColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <buttonConfiguration key="configuration" style="plain" image="square.and.arrow.up" catalog="system" title="Share" imagePadding="8"/>
-                                <connections>
-                                    <action selector="shareButton:" destination="T5e-wC-mjN" eventType="touchUpInside" id="vBv-N3-DhE"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hzi-0y-WHM">
-                                <rect key="frame" x="15" y="202" width="360" height="41.666666666666657"/>
-                                <color key="backgroundColor" systemColor="systemGray6Color"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Z1f-UG-0Ah">
+                                <rect key="frame" x="15" y="520" width="360" height="213"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cdv-h6-88r" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="360" height="70"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="70" id="d1w-uO-sSq"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <inset key="titleEdgeInsets" minX="31" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="Share" image="square.and.arrow.up" catalog="system">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
+                                        </state>
+                                        <state key="selected" title="Best" image="cup.and.saucer.fill" catalog="system">
+                                            <color key="titleColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="shareButton:" destination="T5e-wC-mjN" eventType="touchUpInside" id="vBv-N3-DhE"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fnb-ap-Flc">
+                                        <rect key="frame" x="0.0" y="70" width="360" height="1"/>
+                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="89E-Zf-vDh"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOI-fF-YuU" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="71" width="360" height="70"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="70" id="CUM-D1-gel"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="titleEdgeInsets" minX="33" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="Save" image="bookmark" catalog="system">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="favoriteButtonDidpressed:" destination="T5e-wC-mjN" eventType="touchUpInside" id="1lO-WK-eVr"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v8Q-ab-gKw">
+                                        <rect key="frame" x="0.0" y="141" width="360" height="1"/>
+                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="anv-Jq-4X1"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="77k-qe-emv" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="142" width="360" height="70"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="70" id="LQe-Tg-J9e"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <inset key="titleEdgeInsets" minX="30" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="Report" image="flag" catalog="system">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="reportButton:" destination="T5e-wC-mjN" eventType="touchUpInside" id="qBG-Je-h3m"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8VC-31-MpF">
+                                        <rect key="frame" x="0.0" y="212" width="360" height="1"/>
+                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="Dof-t8-dUb"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hzi-0y-WHM">
+                                <rect key="frame" x="10" y="743" width="370" height="60"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="kPy-VH-usB"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Close"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Close">
-                                    <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
+                                    <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="closeButtonDidPressed:" destination="T5e-wC-mjN" eventType="touchUpInside" id="H57-0t-WdV"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOI-fF-YuU">
-                                <rect key="frame" x="10" y="110" width="83.666666666666671" height="31"/>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="7" maxY="0.0"/>
-                                <state key="normal" title="Save" image="bookmark" catalog="system"/>
-                                <buttonConfiguration key="configuration" style="plain" image="bookmark" catalog="system" title="Save" imagePadding="10"/>
-                                <connections>
-                                    <action selector="saveButton:" destination="T5e-wC-mjN" eventType="touchUpInside" id="kua-Cd-C1L"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="77k-qe-emv">
-                                <rect key="frame" x="10" y="156" width="97" height="31"/>
-                                <color key="tintColor" systemColor="labelColor"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
-                                <state key="normal" title="New" image="sparkles" catalog="system"/>
-                                <buttonConfiguration key="configuration" style="plain" image="flag" catalog="system" title="Report" imagePadding="9"/>
-                                <connections>
-                                    <action selector="reportButton:" destination="T5e-wC-mjN" eventType="touchUpInside" id="qBG-Je-h3m"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="mNJ-HO-8cJ"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="cdv-h6-88r" firstAttribute="leading" secondItem="mNJ-HO-8cJ" secondAttribute="leading" constant="10" id="4h0-CT-xvG"/>
-                            <constraint firstItem="mNJ-HO-8cJ" firstAttribute="trailing" secondItem="Hzi-0y-WHM" secondAttribute="trailing" constant="15" id="858-92-R4d"/>
-                            <constraint firstItem="77k-qe-emv" firstAttribute="top" secondItem="dOI-fF-YuU" secondAttribute="bottom" constant="15" id="Cr2-4J-cYa"/>
-                            <constraint firstItem="Hzi-0y-WHM" firstAttribute="leading" secondItem="mNJ-HO-8cJ" secondAttribute="leading" constant="15" id="CyT-pB-ZR4"/>
-                            <constraint firstItem="77k-qe-emv" firstAttribute="leading" secondItem="mNJ-HO-8cJ" secondAttribute="leading" constant="10" id="Dpl-zg-o4m"/>
-                            <constraint firstItem="Hzi-0y-WHM" firstAttribute="top" secondItem="77k-qe-emv" secondAttribute="bottom" constant="15" id="FtD-eb-bKs"/>
-                            <constraint firstItem="dOI-fF-YuU" firstAttribute="leading" secondItem="mNJ-HO-8cJ" secondAttribute="leading" constant="10" id="Qfu-7Y-QPM"/>
-                            <constraint firstItem="cdv-h6-88r" firstAttribute="top" secondItem="mNJ-HO-8cJ" secondAttribute="top" constant="20" id="Qnp-j4-uJb"/>
-                            <constraint firstItem="dOI-fF-YuU" firstAttribute="top" secondItem="cdv-h6-88r" secondAttribute="bottom" constant="15" id="nXR-zr-qb2"/>
+                            <constraint firstItem="mNJ-HO-8cJ" firstAttribute="trailing" secondItem="Hzi-0y-WHM" secondAttribute="trailing" constant="10" id="858-92-R4d"/>
+                            <constraint firstItem="Hzi-0y-WHM" firstAttribute="leading" secondItem="mNJ-HO-8cJ" secondAttribute="leading" constant="10" id="CyT-pB-ZR4"/>
+                            <constraint firstItem="mNJ-HO-8cJ" firstAttribute="bottom" secondItem="Hzi-0y-WHM" secondAttribute="bottom" constant="7" id="J6z-7f-MI3"/>
+                            <constraint firstItem="Z1f-UG-0Ah" firstAttribute="leading" secondItem="mNJ-HO-8cJ" secondAttribute="leading" constant="15" id="aB8-ZY-kDz"/>
+                            <constraint firstItem="Hzi-0y-WHM" firstAttribute="top" secondItem="Z1f-UG-0Ah" secondAttribute="bottom" constant="10" id="axX-DO-VZG"/>
+                            <constraint firstItem="mNJ-HO-8cJ" firstAttribute="trailing" secondItem="Z1f-UG-0Ah" secondAttribute="trailing" constant="15" id="j2W-LZ-D2D"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="closeButton" destination="Hzi-0y-WHM" id="hzX-RQ-UOK"/>
+                        <outlet property="favoriteButton" destination="dOI-fF-YuU" id="AYX-gU-amv"/>
+                        <outlet property="flagButton" destination="77k-qe-emv" id="Hb3-wb-6pz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q8w-RR-S7I" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2689,72 +2739,77 @@
             <point key="canvasLocation" x="-1269" y="1173"/>
         </scene>
         <!--Chat More View Controller-->
-        <scene sceneID="2Ir-RU-KP0">
+        <scene sceneID="ica-1n-8eE">
             <objects>
-                <viewController storyboardIdentifier="ChatMoreViewController" id="3ef-4f-aj3" customClass="ChatMoreViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="HOr-iT-a7O">
+                <viewController storyboardIdentifier="ChatMoreViewController" id="N5k-ch-ZKw" customClass="ChatMoreViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ySC-KK-6NF">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XEu-7Y-e7x">
-                                <rect key="frame" x="10" y="64" width="370" height="31"/>
-                                <color key="tintColor" systemColor="labelColor"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
-                                <state key="normal" title="Share" image="square.and.arrow.up" catalog="system"/>
-                                <state key="selected" title="Best" image="cup.and.saucer.fill" catalog="system">
-                                    <color key="titleColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <buttonConfiguration key="configuration" style="plain" image="hand.raised" catalog="system" title="Block" imagePadding="9"/>
-                                <connections>
-                                    <action selector="blockButton:" destination="3ef-4f-aj3" eventType="touchUpInside" id="81j-9S-FO3"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vr1-MD-h8F">
-                                <rect key="frame" x="15" y="156" width="360" height="41.666666666666657"/>
-                                <color key="backgroundColor" systemColor="systemGray6Color"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lp7-D4-ObY">
+                                <rect key="frame" x="15" y="662" width="360" height="71"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZEF-ba-1Lk" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="360" height="70"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="70" id="ne1-cf-XYt"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <inset key="titleEdgeInsets" minX="32" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="Block" image="hand.raised" catalog="system">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="blockButton:" destination="N5k-ch-ZKw" eventType="touchUpInside" id="c3S-5O-Nji"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EEL-il-KFA">
+                                        <rect key="frame" x="0.0" y="70" width="360" height="1"/>
+                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="KPf-Hd-aEX"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="il1-GW-GHl">
+                                <rect key="frame" x="10" y="743" width="370" height="60"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="bAd-ul-EUT"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Close"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Close">
-                                    <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
+                                    <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="closeButtonDidPressed:" destination="3ef-4f-aj3" eventType="touchUpInside" id="I5A-gk-VhU"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZjC-zy-8m4">
-                                <rect key="frame" x="10" y="110" width="370" height="31"/>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="7" maxY="0.0"/>
-                                <state key="normal" title="Save" image="bookmark" catalog="system"/>
-                                <buttonConfiguration key="configuration" style="plain" image="hands.sparkles" catalog="system" title="We met" imagePadding="5"/>
-                                <connections>
-                                    <action selector="weMetButton:" destination="3ef-4f-aj3" eventType="touchUpInside" id="veg-to-t2n"/>
+                                    <action selector="closeButtonDidPressed:" destination="N5k-ch-ZKw" eventType="touchUpInside" id="r4W-jj-EiG"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="Uga-Db-cwj"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <viewLayoutGuide key="safeArea" id="Z0L-un-hwS"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Uga-Db-cwj" firstAttribute="trailing" secondItem="ZjC-zy-8m4" secondAttribute="trailing" constant="10" id="0t7-Xi-9Ug"/>
-                            <constraint firstItem="XEu-7Y-e7x" firstAttribute="top" secondItem="Uga-Db-cwj" secondAttribute="top" constant="20" id="1aN-Sb-Ed4"/>
-                            <constraint firstItem="Vr1-MD-h8F" firstAttribute="top" secondItem="ZjC-zy-8m4" secondAttribute="bottom" constant="15" id="2T5-Df-DLd"/>
-                            <constraint firstItem="Uga-Db-cwj" firstAttribute="trailing" secondItem="Vr1-MD-h8F" secondAttribute="trailing" constant="15" id="3uK-5s-TZ3"/>
-                            <constraint firstItem="Uga-Db-cwj" firstAttribute="trailing" secondItem="XEu-7Y-e7x" secondAttribute="trailing" constant="10" id="En3-x6-ifx"/>
-                            <constraint firstItem="Vr1-MD-h8F" firstAttribute="leading" secondItem="Uga-Db-cwj" secondAttribute="leading" constant="15" id="FM7-OR-pbF"/>
-                            <constraint firstItem="ZjC-zy-8m4" firstAttribute="leading" secondItem="Uga-Db-cwj" secondAttribute="leading" constant="10" id="HJL-lz-Eqj"/>
-                            <constraint firstItem="XEu-7Y-e7x" firstAttribute="leading" secondItem="Uga-Db-cwj" secondAttribute="leading" constant="10" id="Lik-z3-V9G"/>
-                            <constraint firstItem="XEu-7Y-e7x" firstAttribute="leading" secondItem="Uga-Db-cwj" secondAttribute="leading" constant="10" id="aha-OW-970"/>
-                            <constraint firstItem="ZjC-zy-8m4" firstAttribute="top" secondItem="XEu-7Y-e7x" secondAttribute="bottom" constant="15" id="d2w-Tm-Jym"/>
-                            <constraint firstItem="ZjC-zy-8m4" firstAttribute="leading" secondItem="Uga-Db-cwj" secondAttribute="leading" constant="10" id="fPQ-g5-pK5"/>
+                            <constraint firstItem="il1-GW-GHl" firstAttribute="top" secondItem="lp7-D4-ObY" secondAttribute="bottom" constant="10" id="4F0-yk-63r"/>
+                            <constraint firstItem="il1-GW-GHl" firstAttribute="leading" secondItem="Z0L-un-hwS" secondAttribute="leading" constant="10" id="JOk-oI-Whu"/>
+                            <constraint firstItem="Z0L-un-hwS" firstAttribute="trailing" secondItem="lp7-D4-ObY" secondAttribute="trailing" constant="15" id="Luo-4g-gVC"/>
+                            <constraint firstItem="Z0L-un-hwS" firstAttribute="bottom" secondItem="il1-GW-GHl" secondAttribute="bottom" constant="7" id="SXI-2s-LJZ"/>
+                            <constraint firstItem="Z0L-un-hwS" firstAttribute="trailing" secondItem="il1-GW-GHl" secondAttribute="trailing" constant="10" id="Vlj-Wv-Lu5"/>
+                            <constraint firstItem="lp7-D4-ObY" firstAttribute="leading" secondItem="Z0L-un-hwS" secondAttribute="leading" constant="15" id="VyS-R0-M1x"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="closeButton" destination="Vr1-MD-h8F" id="JUn-ws-yH5"/>
+                        <outlet property="closeButton" destination="il1-GW-GHl" id="Bhh-w0-357"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="x97-ip-L5i" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lpd-zf-jmT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-286" y="3262"/>
         </scene>
@@ -2790,7 +2845,6 @@
         <image name="flag" catalog="system" width="128" height="121"/>
         <image name="hand.raised" catalog="system" width="128" height="128"/>
         <image name="hands.clap" catalog="system" width="128" height="117"/>
-        <image name="hands.sparkles" catalog="system" width="122" height="128"/>
         <image name="location" catalog="system" width="128" height="118"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="minus" catalog="system" width="128" height="24"/>

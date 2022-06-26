@@ -294,16 +294,6 @@ extension PostViewController: PostDelegate {
         }
     }
     
-    func handleFavorite(postId: Int, isAdding: Bool) {
-        // Singleton & remote update
-        do {
-            try FavoriteService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
-        } catch {
-            (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
-            CustomSwiftMessages.displayError(error)
-        }
-    }
-    
     func handleBackgroundTap(postId: Int) {
         commentTextView.resignFirstResponder()
     }

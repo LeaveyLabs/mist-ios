@@ -35,7 +35,16 @@ class FlagService: NSObject {
     
     //MARK: - Updaters
     
-    func flagPost(_ postToBeFlagged: Int) throws {
+    // Intermediate layer
+    func handleFlagUpdate(postId: Int, _ isAdding: Bool) throws {
+        if isAdding {
+            try flagPost(postId)
+        } else {
+            try unFlagPost(postId)
+        }
+    }
+    
+    private func flagPost(_ postToBeFlagged: Int) throws {
         let newFlag = Flag(id: Int.random(in: 0..<Int.max), flagger: UserService.singleton.getId(), post: postToBeFlagged, timestamp: Date().timeIntervalSince1970, rating: 0)
         flagsFromYou.append(newFlag)
         Task {
@@ -48,7 +57,7 @@ class FlagService: NSObject {
         }
     }
     
-    func unFlagPost(_ postToBeUnFlagged: Int) throws {
+    private func unFlagPost(_ postToBeUnFlagged: Int) throws {
         let flagToDelete = flagsFromYou.first { $0.post == postToBeUnFlagged }!
         flagsFromYou.removeAll { $0.id == flagToDelete.id }
         

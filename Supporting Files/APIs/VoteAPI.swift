@@ -54,7 +54,6 @@ class VoteAPI {
         let _ = try await VoteAPI.deleteVote(vote_id: userVotes[0].id)
     }
 
-    // Deletes vote from database
     static func deleteVote(vote_id:Int) async throws {
         let url = "\(BASE_URL)\(PATH_TO_VOTE_MODEL)\(vote_id)/"
         let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
