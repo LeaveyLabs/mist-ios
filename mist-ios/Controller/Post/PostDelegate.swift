@@ -46,9 +46,7 @@ extension PostDelegate where Self: UIViewController {
 
     func handleDmTap(postId: Int, author: ReadOnlyUser, dmButton: UIButton) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            if !dmButton.isButtonCustomLoadingIndicatorVisible {
-                dmButton.loadingIndicator(true)
-            }
+            dmButton.loadingIndicator(true)
         }
         Task {
             if let frontendAuthor = await loadAuthorProfilePicTasks[postId]!.value {
@@ -57,13 +55,13 @@ extension PostDelegate where Self: UIViewController {
                     let navigationController = UINavigationController(rootViewController: chatVC)
                     navigationController.modalPresentationStyle = .fullScreen
                     present(navigationController, animated: true, completion: nil)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                        dmButton.loadingIndicator(false)
+                    }
                 }
             } else {
-                // :(
+                print("this should never be reached")
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35, execute: {
-                dmButton.loadingIndicator(false)
-            })
         }
     }
     
@@ -113,7 +111,6 @@ extension UIButton {
     func loadingIndicator(_ show: Bool) {
         let tag = 808404
         if show {
-            
             self.isEnabled = false
             self.alpha = 0.5
             let indicator = UIActivityIndicatorView()
