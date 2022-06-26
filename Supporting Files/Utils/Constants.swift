@@ -48,7 +48,7 @@ struct Constants {
             //Post
             static let Post = "PostViewController"
             static let SortBy = "SortByViewController"
-            static let More = "MoreViewController"
+            static let PostMore = "PostMoreViewController"
             //NewPost
             static let NewPost = "NewPostViewController"
             static let Rules = "RulesViewController"
@@ -67,6 +67,7 @@ struct Constants {
             static let MapSearch = "MapSearchViewController"
             //Messages
             static let Chat = "ChatViewController"
+            static let ChatMore = "ChatMoreViewController"
             //Navigation Controllers
             static let NewPostNavigation = "NewPostNavigationController"
             static let MyAccountNavigation = "MyAccountNavigationController"

@@ -28,6 +28,7 @@ protocol PostDelegate: ShareActivityDelegate, AnyObject {
 extension PostDelegate where Self: UIViewController {
     
     func beginLoadingAuthorProfilePic(postId: Int, author: ReadOnlyUser) {
+        if loadAuthorProfilePicTasks[postId] != nil { return } //Task was already started
         loadAuthorProfilePicTasks[postId] = Task {
             do {
                 return try await FrontendReadOnlyUser(readOnlyUser: author, profilePic: UserAPI.UIImageFromURLString(url: author.picture))
@@ -58,7 +59,7 @@ extension PostDelegate where Self: UIViewController {
     }
     
     func handleMoreTap() {
-        let moreVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.More) as! MoreViewController
+        let moreVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.PostMore) as! PostMoreViewController
         moreVC.loadViewIfNeeded() //doesnt work without this function call
         moreVC.shareDelegate = self
         present(moreVC, animated: true)

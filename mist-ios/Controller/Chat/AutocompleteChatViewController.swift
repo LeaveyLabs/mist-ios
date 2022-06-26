@@ -190,13 +190,12 @@ final class AutocompleteChatViewController: MessageKitViewController {
         // Load some data asyncronously for the given session.prefix
         DispatchQueue.global(qos: .default).async {
             // fake background loading task
-            var array: [AutocompleteCompletion] = []
-            //TODO: set array equal to results of autocompletion
-            sleep(1)
-            DispatchQueue.main.async { [weak self] in
-                self?.asyncCompletions = array
-                self?.autocompleteManager.reloadData()
-            }
+//            var array: [AutocompleteCompletion] = UserAPI.getSuggestedUsersGivenText()
+//            sleep(1)
+//            DispatchQueue.main.async { [weak self] in
+//                self?.asyncCompletions = array
+//                self?.autocompleteManager.reloadData()
+//            }
         }
     }
 }

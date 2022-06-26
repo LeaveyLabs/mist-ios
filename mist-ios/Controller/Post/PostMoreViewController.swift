@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MoreViewController: CustomSheetViewController {
+class PostMoreViewController: CustomSheetViewController {
         
     @IBOutlet weak var closeButton: UIButton!
     var shareDelegate: ShareActivityDelegate?
@@ -28,10 +28,6 @@ class MoreViewController: CustomSheetViewController {
         dismiss(animated: true) { [self] in
             shareDelegate?.presentShareActivityVC()
         }
-    }
-    
-    func activityViewDidDismiss() {
-        self.dismiss(animated: true)
     }
     
     @IBAction func saveButton(_ sender: UIButton) {

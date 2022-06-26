@@ -18,7 +18,7 @@ enum AccountSections: Int, CaseIterable {
         case .friends:
             return "FRIENDS"
         case .posts:
-            return "POSTS"
+            return "MISTS"
         case .settings:
             return "SETTINGS"
         case .more:

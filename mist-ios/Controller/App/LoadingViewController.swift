@@ -15,7 +15,7 @@ func loadEverything() async throws {
         group.addTask { try await VoteService.singleton.loadVotes() }
         group.addTask { try await FlagService.singleton.loadFlags() }
         
-        group.addTask { try await MessageThreadService.singleton.loadMessageThreads() }
+        group.addTask { try await ConversationService.singleton.loadMessageThreads() }
         group.addTask { try await MatchRequestService.singleton.loadMatchRequests() }
         group.addTask { try await BlockService.singleton.loadBlocks() }
         group.addTask { try await FriendRequestService.singleton.loadFriendRequests() }

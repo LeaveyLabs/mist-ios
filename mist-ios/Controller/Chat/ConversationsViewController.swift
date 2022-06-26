@@ -7,22 +7,16 @@
 
 import UIKit
 
-struct Conversation {
-    var sangdaebang: FrontendReadOnlyUser
-    var messageThread: MessageThread
-}
-
 class ConversationsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var accountButton: UIButton!
     @IBOutlet weak var customNavigationBar: UIView!
     
-    var conversations: [Conversation] = []
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        registerNibs()
         setupMyAccountButton()
         navigationController?.isNavigationBarHidden = true
         customNavigationBar.applyLightBottomOnlyShadow()
@@ -36,6 +30,11 @@ class ConversationsViewController: UIViewController {
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
+    }
+    
+    private func registerNibs() {
+        let conversationNib = UINib(nibName: Constants.SBID.Cell.Conversation, bundle: nil)
+        tableView.register(conversationNib, forCellReuseIdentifier: Constants.SBID.Cell.Conversation)
     }
     
     private func setupMyAccountButton() {
@@ -58,11 +57,9 @@ extension ConversationsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        if conversations.count == 0 { return }
-        else {
-            //create simpleChatConversation
-            //set simpleChatConversation.user to conversations[indexPath].user
-            //push to simpleChatConversation
+        if ConversationService.singleton.getCount() > 0 {
+            let chatVC = ChatViewController.create(conversation: ConversationService.singleton.getConversationAt(index: indexPath.row)!)
+            navigationController?.pushViewController(chatVC, animated: true)
         }
     }
     
@@ -75,23 +72,19 @@ extension ConversationsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return conversations.count == 0 ? tableView.frame.height / 4 : 0
+        return ConversationService.singleton.getCount() == 0 ? tableView.frame.height / 4 : 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return max(1, conversations.count)
+        return max(1, ConversationService.singleton.getCount())
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (conversations.count == 0) {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "NoConversationsCell", for: indexPath)
-            return cell
-        }
-        else {
-            var conversation = conversations[indexPath.row]
-            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Conversation)! //as
-            //cell.configureConversationCell(conversation: conversations[indexPath.row], parent: self)
-
+        if ConversationService.singleton.getCount() == 0 {
+            return tableView.dequeueReusableCell(withIdentifier: "NoConversationsCell", for: indexPath)
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Conversation) as! ConversationCell
+            cell.configureWith(conversation: ConversationService.singleton.getConversationAt(index: indexPath.row)!)
             return cell
         }
     }

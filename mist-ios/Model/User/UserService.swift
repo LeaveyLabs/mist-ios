@@ -98,20 +98,6 @@ class UserService: NSObject {
         Task { await self.saveUserToFilesystem() }
     }
     
-    //MARK: - Logout and delete user
-    
-    func logOut()  {
-        eraseUserFromFilesystem()
-        frontendCompleteUser = nil
-        setGlobalAuthToken(token: "")
-    }
-    
-    func deleteMyAccount() async throws {
-        guard let frontendCompleteUser = frontendCompleteUser else { return }
-        try await UserAPI.deleteUser(user_id: frontendCompleteUser.id)
-        logOut()
-    }
-    
     //MARK: - Update user
     
     // No need to return new profilePic bc it is updated globally
@@ -142,6 +128,20 @@ class UserService: NSObject {
         
         let _ = try await UserAPI.patchPassword(password: newPassword, id: frontendCompleteUser.id)
         //no need for a local update, since we don't actually save the password locally
+    }
+    
+    //MARK: - Logout and delete user
+    
+    func logOut()  {
+        eraseUserFromFilesystem()
+        frontendCompleteUser = nil
+        setGlobalAuthToken(token: "")
+    }
+    
+    func deleteMyAccount() async throws {
+        guard let frontendCompleteUser = frontendCompleteUser else { return }
+        try await UserAPI.deleteUser(user_id: frontendCompleteUser.id)
+        logOut()
     }
     
     //MARK: - Filesystem

@@ -56,11 +56,12 @@ class ChatViewController: MessageKitViewController {
     }
     var isReceiverHidden: Bool! {
         didSet {
+            
             if isReceiverHidden {
-                senderProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.profilePic.blur())
+                receiverProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.profilePic.blur())
                 receiverProfileNameButton.setTitle("???", for: .normal)
             } else {
-                senderProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.profilePic)
+                receiverProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.profilePic)
                 receiverProfileNameButton.setTitle(conversation.sangdaebang.first_name, for: .normal)
             }
         }
@@ -70,13 +71,18 @@ class ChatViewController: MessageKitViewController {
     
     //Currently, postId is not being used
     class func create(postId: Int, author: FrontendReadOnlyUser) -> ChatViewController {
-        let chatVC =
-        UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Chat) as! ChatViewController
-        if let existingConversation = MessageThreadService.singleton.getConversationWith(userId: author.id) {
+        let chatVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Chat) as! ChatViewController
+        if let existingConversation = ConversationService.singleton.getConversationWith(userId: author.id) {
             chatVC.conversation = existingConversation
         } else {
-            chatVC.conversation = MessageThreadService.singleton.openConversationWith(user: author)!
+            chatVC.conversation = ConversationService.singleton.openConversationWith(user: author)!
         }
+        return chatVC
+    }
+    
+    class func create(conversation: Conversation) -> ChatViewController {
+        let chatVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Chat) as! ChatViewController
+        chatVC.conversation = conversation
         return chatVC
     }
     
@@ -129,13 +135,20 @@ class ChatViewController: MessageKitViewController {
     
     //MARK: - User Interaction
 
-    @IBAction func xButtonDidPressed(_ sender: UIBarButtonItem) {
-        messageInputBar.inputTextView.resignFirstResponder()
-        self.resignFirstResponder() //to prevent the inputAccessory from staying on the screen after dismiss
-        self.dismiss(animated: true)
+    @IBAction func xButtonDidPressed(_ sender: UIButton) {
+        if isPresentedFromPost {
+            messageInputBar.inputTextView.resignFirstResponder()
+            self.resignFirstResponder() //to prevent the inputAccessory from staying on the screen after dismiss
+            self.dismiss(animated: true)
+            if conversation.messageThread.server_messages.isEmpty {
+                ConversationService.singleton.closeConversationWith(userId: conversation.sangdaebang.id)
+            }
+        } else {
+            navigationController?.popViewController(animated: true)
+        }
     }
     
-    @IBAction func senderProfileDidTapped(_ sender: UIBarButtonItem) {
+    @IBAction func senderProfileDidTapped(_ sender: UIButton) {
         if isSenderHidden {
             //do nothing for now
         } else {
@@ -144,13 +157,19 @@ class ChatViewController: MessageKitViewController {
         }
     }
     
-    @IBAction func receiverProfileDidTapped(_ sender: UIBarButtonItem) {
+    @IBAction func receiverProfileDidTapped(_ sender: UIButton) {
         if isReceiverHidden {
             //somehow tell the user //hey! they're hidden right now!
         } else {
             let profileVC = ProfileViewController.create(for: conversation.sangdaebang)
             navigationController!.present(profileVC, animated: true)
         }
+    }
+    
+    @IBAction func moreButtonDidTapped(_ sender: UIButton) {
+        let moreVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.ChatMore) as! ChatMoreViewController
+        moreVC.loadViewIfNeeded() //doesnt work without this function call
+        present(moreVC, animated: true)
     }
     
     //MARK: - ChatViewController
