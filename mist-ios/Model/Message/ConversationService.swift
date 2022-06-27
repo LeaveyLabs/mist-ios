@@ -72,7 +72,9 @@ class ConversationService: NSObject {
     func openConversationWith(user: FrontendReadOnlyUser) -> Conversation? {
         do {
             let newMessageThread = try MessageThread(sender: UserService.singleton.getId(), receiver: user.id)
-            return Conversation(sangdaebang: user, messageThread: newMessageThread)
+            let newConversation = Conversation(sangdaebang: user, messageThread: newMessageThread)
+            conversations.append(newConversation)
+            return newConversation
         } catch {
             print("This should never happen")
         }

@@ -106,7 +106,6 @@ class MessageKitViewController: MessagesViewController, MessagesDataSource {
     }
     
     func configureMessageInputBar() {
-        messageInputBar.delegate = self
         messageInputBar.inputTextView.tintColor = mistUIColor()
         messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
         messageInputBar.sendButton.setTitleColor(mistUIColor(), for: .normal)
@@ -244,61 +243,5 @@ extension MessageKitViewController: MessageLabelDelegate {
 
     func didSelectMention(_ mention: String) {
         print("Mention selected: \(mention)")
-    }
-}
-
-// MARK: - MessageInputBarDelegate
-
-extension MessageKitViewController: InputBarAccessoryViewDelegate {
-
-    @objc
-    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        processInputBar(messageInputBar)
-    }
-
-    func processInputBar(_ inputBar: InputBarAccessoryView) {
-        // Here we can parse for which substrings were autocompleted
-        let attributedText = inputBar.inputTextView.attributedText!
-        let range = NSRange(location: 0, length: attributedText.length)
-        attributedText.enumerateAttribute(.autocompleted, in: range, options: []) { (_, range, _) in
-
-            let substring = attributedText.attributedSubstring(from: range)
-            let context = substring.attribute(.autocompletedContext, at: 0, effectiveRange: nil)
-            print("Autocompleted: `", substring, "` with context: ", context ?? [])
-        }
-
-        let components = inputBar.inputTextView.components
-        inputBar.inputTextView.text = String()
-        inputBar.invalidatePlugins()
-        // Send button activity animation
-        inputBar.sendButton.startAnimating()
-        inputBar.inputTextView.placeholder = "Sending..."
-        // Resign first responder for iPad split view
-        inputBar.inputTextView.resignFirstResponder()
-        DispatchQueue.global(qos: .default).async {
-
-            //TODO: here is where we do the task to send the message to the socket
-            
-            sleep(1)
-            DispatchQueue.main.async { [weak self] in
-                inputBar.sendButton.stopAnimating()
-                inputBar.inputTextView.placeholder = self?.INPUTBAR_PLACEHOLDER
-                self?.insertMessages(components)
-                self?.messagesCollectionView.scrollToLastItem(animated: true)
-            }
-        }
-    }
-
-    private func insertMessages(_ data: [Any]) {
-        for component in data {
-            if let str = component as? String {
-                let message = MessageKitMessage(text: str,
-                                                sender: UserService.singleton.getUser(),
-                                                receiver: UserService.singleton.getUser(), //TODO: change
-                                                messageId: String(Int.random(in: 0..<Int.max)),
-                                                date: Date())
-                insertMessage(message)
-            }
-        }
     }
 }

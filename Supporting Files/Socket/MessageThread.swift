@@ -78,6 +78,7 @@ class MessageThread: WebSocketDelegate {
         switch event {
             case .connected(let headers):
                 print("websocket is connected: \(headers)")
+                self.connected = true
                 self.socket.write(data: init_data)
                 clearUnsentMessages()
             case .disconnected(let reason, let code):

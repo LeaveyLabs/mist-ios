@@ -23,8 +23,8 @@
  */
 
 import UIKit
-import MapKit
 import MessageKit
+import InputBarAccessoryView
 
 class ChatViewController: MessageKitViewController {
     
@@ -90,14 +90,27 @@ class ChatViewController: MessageKitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        messageInputBar.delegate = self
         setupCustomNavigationBar()
         setupHiddenProfiles() //NOTE: must come after setting up the data
+        setupMessages()
         if isPresentedFromPost {
             setupWhenPresentedFromPost()
         }
     }
     
     //MARK: - Setup
+    
+    func setupMessages() {
+        print(conversation.messageThread.server_messages)
+        conversation.messageThread.server_messages.forEach { message in
+            messageList.append(MessageKitMessage(text: message.body,
+                                                 sender: message.sender == UserService.singleton.getId() ? UserService.singleton.getUserAsFrontendReadOnlyUser() : conversation.sangdaebang,
+                                                 receiver: message.receiver == UserService.singleton.getId() ? UserService.singleton.getUserAsFrontendReadOnlyUser() : conversation.sangdaebang,
+                                                 messageId: String(message.id),
+                                                 date: Date(timeIntervalSince1970: message.timestamp)))
+        }
+    }
     
     func setupHiddenProfiles() {
         //The receiver is hidden until you receive a message from them.
@@ -179,6 +192,64 @@ class ChatViewController: MessageKitViewController {
     }
     
 }
+
+// MARK: - MessageInputBarDelegate
+
+extension ChatViewController: InputBarAccessoryViewDelegate {
+
+    @objc
+    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
+        processInputBar(messageInputBar)
+    }
+
+    func processInputBar(_ inputBar: InputBarAccessoryView) {
+        // Here we can parse for which substrings were autocompleted
+        let attributedText = inputBar.inputTextView.attributedText!
+        let range = NSRange(location: 0, length: attributedText.length)
+        attributedText.enumerateAttribute(.autocompleted, in: range, options: []) { (_, range, _) in
+
+//            let substring = attributedText.attributedSubstring(from: range)
+//            let context = substring.attribute(.autocompletedContext, at: 0, effectiveRange: nil)
+//            print("Autocompleted: `", substring, "` with context: ", context ?? [])
+        }
+
+        let components = inputBar.inputTextView.components
+        inputBar.inputTextView.text = String()
+        inputBar.invalidatePlugins()
+        // Send button activity animation
+        inputBar.sendButton.startAnimating()
+        inputBar.inputTextView.placeholder = "Sending..."
+        // Resign first responder for iPad split view
+        inputBar.inputTextView.resignFirstResponder()
+        
+        guard let messageString = components[0] as? String else { return }
+        Task {
+            do {
+                try conversation.messageThread.sendMessage(message_text: messageString)
+                
+                //if this was the first message between two people:
+                    //send a match request
+                
+                
+                DispatchQueue.main.async { [self] in
+                    inputBar.sendButton.stopAnimating()
+                    inputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
+                    let message = MessageKitMessage(text: messageString,
+                                                    sender: UserService.singleton.getUserAsFrontendReadOnlyUser(),
+                                                    receiver: conversation.sangdaebang,
+                                                    messageId: String(Int.random(in: 0..<Int.max)),
+                                                    date: Date())
+                    insertMessage(message)
+                    messagesCollectionView.scrollToLastItem(animated: true)
+                }
+            } catch {
+                CustomSwiftMessages.displayError(error)
+            }
+        }
+    }
+    
+}
+
 
 // MARK: - MessagesDisplayDelegate
 

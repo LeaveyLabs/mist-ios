@@ -512,14 +512,13 @@ make that cute barista’s day,
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mYi-g1-Pco">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mYi-g1-Pco">
                                 <rect key="frame" x="320" y="689.33333333333337" width="40" height="20"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="CLu-r2-f3p"/>
+                                    <constraint firstAttribute="width" constant="40" id="VAM-R5-Z4t"/>
                                     <constraint firstAttribute="height" constant="20" id="gXY-Hx-DsS"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <connections>
                                     <action selector="learnMoreButtonDidPressed:" destination="dJp-Dv-LgT" eventType="touchUpInside" id="uju-km-Q3u"/>
                                 </connections>
@@ -529,7 +528,6 @@ make that cute barista’s day,
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="w0n-QH-4eX" firstAttribute="leading" secondItem="bC3-mt-2uA" secondAttribute="leading" constant="30" id="3V3-mA-qIc"/>
-                            <constraint firstItem="mYi-g1-Pco" firstAttribute="leading" secondItem="Jac-xu-4nd" secondAttribute="trailing" constant="-40" id="5hQ-Ej-MzC"/>
                             <constraint firstItem="hQ6-f1-lGW" firstAttribute="leading" secondItem="bC3-mt-2uA" secondAttribute="leading" constant="30" id="B3h-9h-qBf"/>
                             <constraint firstItem="Jac-xu-4nd" firstAttribute="leading" secondItem="bC3-mt-2uA" secondAttribute="leading" constant="30" id="EEu-VE-Bup"/>
                             <constraint firstItem="mYi-g1-Pco" firstAttribute="top" secondItem="Jac-xu-4nd" secondAttribute="top" id="JXn-TE-hCZ"/>
@@ -537,6 +535,7 @@ make that cute barista’s day,
                             <constraint firstItem="VfI-kc-q4b" firstAttribute="top" secondItem="bC3-mt-2uA" secondAttribute="top" constant="30" id="O56-qB-jgd"/>
                             <constraint firstItem="hQ6-f1-lGW" firstAttribute="top" secondItem="RnK-5v-xjh" secondAttribute="bottom" constant="35" id="Oxr-D3-O93"/>
                             <constraint firstItem="RnK-5v-xjh" firstAttribute="top" secondItem="VfI-kc-q4b" secondAttribute="bottom" id="P6e-WV-2ox"/>
+                            <constraint firstItem="bC3-mt-2uA" firstAttribute="trailing" secondItem="mYi-g1-Pco" secondAttribute="trailing" constant="30" id="VOb-fL-c5P"/>
                             <constraint firstItem="RnK-5v-xjh" firstAttribute="leading" secondItem="bC3-mt-2uA" secondAttribute="leading" constant="25" id="WQ1-J9-qRv"/>
                             <constraint firstItem="w0n-QH-4eX" firstAttribute="bottom" secondItem="bC3-mt-2uA" secondAttribute="bottom" constant="-15" id="Z8t-11-BmA"/>
                             <constraint firstItem="bC3-mt-2uA" firstAttribute="trailing" secondItem="Jac-xu-4nd" secondAttribute="trailing" constant="30" id="ZaS-jv-WCS"/>
