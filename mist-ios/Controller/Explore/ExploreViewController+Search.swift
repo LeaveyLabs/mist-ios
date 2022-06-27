@@ -98,10 +98,17 @@ extension ExploreViewController: UITableViewDelegate {
             PostService.singleton.updateFilter(newSearchBy: .text)
             reloadPosts(withType: .newSearch)
         case .nearby:
-            let suggestion = searchSuggestionsVC.completerResults[indexPath.row]
-            searchBarButton.text = suggestion.title
-            PostService.singleton.updateFilter(newSearchBy: .location)
-            search(for: suggestion) //first gets places from Apple, then calls reloadPosts()
+            if indexPath.row == 0 {
+                let query = searchSuggestionsVC.completerResults[indexPath.row].title
+                searchBarButton.text = query
+                PostService.singleton.updateFilter(newSearchBy: .location)
+                search(for: query)
+            } else {
+                let suggestion = searchSuggestionsVC.completerResults[indexPath.row]
+                searchBarButton.text = suggestion.title
+                PostService.singleton.updateFilter(newSearchBy: .location)
+                search(for: suggestion) //first gets places from Apple, then calls reloadPosts(0
+            }
         }
         searchBarButton.searchTextField.leftView?.tintColor = cornerButtonGrey
         mySearchController.isActive = false
@@ -127,11 +134,11 @@ extension ExploreViewController {
     
     /// - Parameter queryString: A search string from the text the user entered into `UISearchBar`
     //Not in use right now. We only let the user search via suggestions. If we let the user search for locations by typing in "star" and pressing search button, then we would need to uncomment this
-//    private func search(for queryString: String?) {
-//        let searchRequest = MKLocalSearch.Request()
-//        searchRequest.naturalLanguageQuery = queryString
-//        search(using: searchRequest)
-//    }
+    private func search(for queryString: String?) {
+        let searchRequest = MKLocalSearch.Request()
+        searchRequest.naturalLanguageQuery = queryString
+        search(using: searchRequest)
+    }
     
     /// - Tag: SearchRequest
     private func search(using searchRequest: MKLocalSearch.Request) {

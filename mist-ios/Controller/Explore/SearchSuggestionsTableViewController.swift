@@ -49,7 +49,7 @@ extension SearchSuggestionsTableViewController {
     
     func startProvidingCompletions(for region: MKCoordinateRegion) {
         searchCompleter.delegate = self
-        searchCompleter.resultTypes = [.pointOfInterest, .address, .query]
+        searchCompleter.resultTypes = [.pointOfInterest, .address]
         searchCompleter.region = MKCoordinateRegion(center: .init(latitude: 40.7128, longitude: -74.0060), latitudinalMeters: 1000, longitudinalMeters: 1000)
         //TODO: for some reason, when you uncomment this line below and you set the searchCompleter region to places that are actually nearby you, then the
         searchCompleter.region = region
@@ -77,7 +77,7 @@ extension SearchSuggestionsTableViewController {
         case .containing:
             return max(wordResults.count, 1) //return 1 "no results" cell
         case .nearby:
-            return max(completerResults.count, 1) //return 1 "no results" cell
+            return max(completerResults.count + 1, 1) //return 1 "no results" cell. +1 is for the current search string
         }
     }
     
@@ -96,11 +96,18 @@ extension SearchSuggestionsTableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: SuggestedCompletionTableViewCell.reuseID, for: indexPath)
             cell.imageView?.image = UIImage(systemName: "mappin.circle")
             if !completerResults.isEmpty {
-                let suggestion = completerResults[indexPath.row]
-                cell.textLabel?.text = suggestion.title
-                cell.detailTextLabel?.text = suggestion.subtitle
-                cell.accessoryType = .disclosureIndicator
-                cell.isUserInteractionEnabled = true
+                if indexPath.row == 0 {
+                    cell.textLabel?.text = searchText
+                    cell.detailTextLabel?.text = "Nearby"
+                    cell.accessoryType = .disclosureIndicator
+                    cell.isUserInteractionEnabled = true
+                } else {
+                    let suggestion = completerResults[indexPath.row-1]
+                    cell.textLabel?.text = suggestion.title
+                    cell.detailTextLabel?.text = suggestion.subtitle
+                    cell.accessoryType = .disclosureIndicator
+                    cell.isUserInteractionEnabled = true
+                }
             } else {
                 cell.textLabel?.text = "No results"
                 cell.detailTextLabel?.text = ""
