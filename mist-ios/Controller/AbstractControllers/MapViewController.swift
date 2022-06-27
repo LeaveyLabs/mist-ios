@@ -492,7 +492,6 @@ extension MapViewController {
     
     func turnPostsIntoAnnotations(_ posts: [Post]) {
         postAnnotations = posts.map { post in PostAnnotation(withPost: post) }
-        postAnnotations.sort()
     }
     
     func turnPlacesIntoAnnotations(_ places: [MKMapItem]) {

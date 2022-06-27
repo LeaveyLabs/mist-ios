@@ -107,7 +107,7 @@ extension ExploreViewController {
             mySearchController.searchBar.becomeFirstResponder()
         }
         // Dependent on map dimensions
-        searchBarButton.centerText()
+//        searchBarButton.centerText()
     }
     
 }
@@ -135,9 +135,7 @@ extension ExploreViewController {
         if !postAnnotations.isEmpty { //this should probably go somewhere else
             feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false) //cant be true
         }
-        if isLoadingPosts {
-            reloadTask!.cancel()
-        }
+        if isLoadingPosts { reloadTask!.cancel() }
         reloadTask = Task {
             do {
                 isLoadingPosts = true
@@ -147,8 +145,10 @@ extension ExploreViewController {
                 renderNewPostsOnFeedAndMap(withType: reloadType)
                 closure()
             } catch {
-                isLoadingPosts = false
-                CustomSwiftMessages.displayError(error)
+                if !Task.isCancelled {
+                    CustomSwiftMessages.displayError(error)
+                    isLoadingPosts = false
+                }
             }
         }
     }
@@ -235,14 +235,14 @@ extension ExploreViewController {
     // Helper
     
     func resetCurrentFilter() {
-//        searchBarButton.text = ""
+        searchBarButton.text = ""
 //        searchBarButton.centerText()
-//        searchBarButton.searchTextField.leftView?.tintColor = .secondaryLabel
-//        searchBarButton.setImage(UIImage(systemName: "magnifyingglass"), for: .search, state: .normal)
-//        placeAnnotations = []
-//        removeExistingPlaceAnnotationsFromMap()
-//        PostService.singleton.resetFilter()
-//        reloadPosts(withType: .cancel)
+        searchBarButton.searchTextField.leftView?.tintColor = .secondaryLabel
+        searchBarButton.setImage(UIImage(systemName: "magnifyingglass"), for: .search, state: .normal)
+        placeAnnotations = []
+        removeExistingPlaceAnnotationsFromMap()
+        PostService.singleton.resetFilter()
+        reloadPosts(withType: .cancel)
     }
     
 }

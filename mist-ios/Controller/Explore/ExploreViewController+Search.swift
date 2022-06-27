@@ -53,7 +53,7 @@ extension ExploreViewController: UISearchControllerDelegate {
     
     func willDismissSearchController(_ searchController: UISearchController) {
 //        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-        searchBarButton.centerText()
+//        searchBarButton.centerText()
     }
     
 }

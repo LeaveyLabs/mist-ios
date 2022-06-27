@@ -95,8 +95,8 @@ extension SearchSuggestionsTableViewController {
             cell.imageView?.image = UIImage(systemName: "mappin.circle")
             if !completerResults.isEmpty {
                 if indexPath.row == 0 {
-                    cell.textLabel?.text = searchText
-                    cell.detailTextLabel?.text = "Nearby"
+                    cell.textLabel?.text = searchText // + "\""
+                    cell.detailTextLabel?.text = "Nearby search"
                     cell.accessoryType = .disclosureIndicator
                     cell.isUserInteractionEnabled = true
                 } else {

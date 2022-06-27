@@ -92,15 +92,9 @@ class ChatViewController: MessageKitViewController {
         super.viewDidLoad()
         setupCustomNavigationBar()
         setupHiddenProfiles() //NOTE: must come after setting up the data
-        
-        //if the conversation already exists in Service, just load the data in here
-        //if the conversation does not already exist, you need to create a new one and load in the user's data
-        //so when do we load the user's data? that coudl take a few seconds. whenever the postview is rendered? that seems to make the most sense. you can do an async let, and then await it when presenting SimpleChatViewController
-        
         if isPresentedFromPost {
             setupWhenPresentedFromPost()
         }
-        
     }
     
     //MARK: - Setup
@@ -210,18 +204,14 @@ extension ChatViewController: MessagesDisplayDelegate {
     // MARK: - All Messages
     
     func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-        return isFromCurrentSender(message: message) ? .blue : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+        return isFromCurrentSender(message: message) ? .white : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
     }
     
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
-        
-        let tail: MessageStyle.TailCorner = isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft
-        return .bubbleTail(tail, .curved)
+        return .bubbleOutline(.gray)
     }
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
-//        let avatar = SampleData.shared.getAvatarFor(sender: message.sender)
-//        avatarView.set(avatar: avatar)
         avatarView.set(avatar: Avatar(image: UIImage(named: "adam"), initials: "AN"))
     }
 

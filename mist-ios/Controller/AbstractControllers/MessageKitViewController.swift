@@ -31,13 +31,14 @@ class MessageKitViewController: MessagesViewController, MessagesDataSource {
 
     // MARK: - Public properties
 
+    let INPUTBAR_PLACEHOLDER = "Message"
     lazy var messageList: [MessageKitMessage] = []
     
-    private(set) lazy var refreshControl: UIRefreshControl = {
-        let control = UIRefreshControl()
-        control.addTarget(self, action: #selector(loadMoreMessages), for: .valueChanged)
-        return control
-    }()
+//    private(set) lazy var refreshControl: UIRefreshControl = {
+//        let control = UIRefreshControl()
+//        control.addTarget(self, action: #selector(loadMoreMessages), for: .valueChanged)
+//        return control
+//    }()
 
     // MARK: - Private properties
 
@@ -67,15 +68,6 @@ class MessageKitViewController: MessagesViewController, MessagesDataSource {
 //        }
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-//        MockSocket.shared.disconnect()
-    }
-
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-    
     func loadFirstMessages() {
         DispatchQueue.global(qos: .userInitiated).async {
 //            let count = UserDefaults.standard.mockMessagesCount()
@@ -102,7 +94,6 @@ class MessageKitViewController: MessagesViewController, MessagesDataSource {
     }
     
     func configureMessageCollectionView() {
-        
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messageCellDelegate = self
         
@@ -111,12 +102,13 @@ class MessageKitViewController: MessagesViewController, MessagesDataSource {
 
         showMessageTimestampOnSwipeLeft = true // default false
         
-        messagesCollectionView.refreshControl = refreshControl
+//        messagesCollectionView.refreshControl = refreshControl
     }
     
     func configureMessageInputBar() {
         messageInputBar.delegate = self
         messageInputBar.inputTextView.tintColor = mistUIColor()
+        messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
         messageInputBar.sendButton.setTitleColor(mistUIColor(), for: .normal)
 //        messageInputBar.sendButton.setTitleColor(
 //            mistUIColor().withAlphaComponent(0.3),
@@ -153,7 +145,7 @@ class MessageKitViewController: MessagesViewController, MessagesDataSource {
     // MARK: - MessagesDataSource
 
     func currentSender() -> SenderType {
-        return UserService.singleton.getUser()
+        return UserService.singleton.getUserAsFrontendReadOnlyUser()
     }
 
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
@@ -172,17 +164,20 @@ class MessageKitViewController: MessagesViewController, MessagesDataSource {
     }
 
     func cellBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        return NSAttributedString(string: "Read", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+        return nil
+//        return NSAttributedString(string: "Read", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
     }
 
     func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        let name = message.sender.displayName
-        return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1)])
+        return nil
+//        let name = message.sender.displayName
+//        return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1)])
     }
 
     func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        let dateString = formatter.string(from: message.sentDate)
-        return NSAttributedString(string: dateString, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption2)])
+        return nil
+//        let dateString = formatter.string(from: message.sentDate)
+//        return NSAttributedString(string: dateString, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption2)])
     }
     
     func textCell(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UICollectionViewCell? {
@@ -287,7 +282,7 @@ extension MessageKitViewController: InputBarAccessoryViewDelegate {
             sleep(1)
             DispatchQueue.main.async { [weak self] in
                 inputBar.sendButton.stopAnimating()
-                inputBar.inputTextView.placeholder = "Aa"
+                inputBar.inputTextView.placeholder = self?.INPUTBAR_PLACEHOLDER
                 self?.insertMessages(components)
                 self?.messagesCollectionView.scrollToLastItem(animated: true)
             }

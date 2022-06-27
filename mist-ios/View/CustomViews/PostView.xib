@@ -39,31 +39,30 @@
                             </connections>
                         </button>
                         <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="YJY-MB-ihA" userLabel="Top Stack">
-                            <rect key="frame" x="15" y="13" width="350" height="20"/>
+                            <rect key="frame" x="12" y="13" width="353" height="20"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mappin" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="rUV-hb-JFP">
-                                    <rect key="frame" x="0.0" y="-0.5" width="20" height="20"/>
+                                    <rect key="frame" x="0.0" y="-0.5" width="15" height="20"/>
                                     <color key="tintColor" systemColor="systemGrayColor"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" secondItem="rUV-hb-JFP" secondAttribute="height" id="7E2-1P-c5X"/>
-                                        <constraint firstAttribute="width" constant="20" id="ov7-gd-62g"/>
+                                        <constraint firstAttribute="width" constant="15" id="ov7-gd-62g"/>
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Doheny Library" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hUc-aP-KHZ">
-                                    <rect key="frame" x="23" y="0.0" width="183" height="20"/>
-                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                    <rect key="frame" x="18" y="0.0" width="206" height="20"/>
+                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
                                     <color key="textColor" systemColor="systemGrayColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8V3-eu-htZ">
-                                    <rect key="frame" x="209" y="0.0" width="5" height="20"/>
+                                    <rect key="frame" x="227" y="0.0" width="5" height="20"/>
                                     <color key="backgroundColor" red="0.96078431369999995" green="0.94117647059999998" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="5" id="eP6-TS-Tti"/>
                                     </constraints>
                                 </view>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="KGT-5M-NJR">
-                                    <rect key="frame" x="217" y="0.5" width="20" height="19"/>
+                                    <rect key="frame" x="235" y="0.5" width="20" height="19"/>
                                     <color key="tintColor" systemColor="systemGrayColor"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="20" id="uiT-hb-Y0u"/>
@@ -71,11 +70,11 @@
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="regular"/>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 days ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NEB-ah-MBr">
-                                    <rect key="frame" x="240" y="0.0" width="110" height="20"/>
+                                    <rect key="frame" x="258" y="0.0" width="95" height="20"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="110" id="Fgv-ah-szr"/>
+                                        <constraint firstAttribute="width" constant="95" id="Fgv-ah-szr"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="12"/>
                                     <color key="textColor" systemColor="systemGrayColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -208,7 +207,7 @@
                         <constraint firstItem="TEZ-zU-2nv" firstAttribute="leading" secondItem="YJY-MB-ihA" secondAttribute="trailing" constant="10" id="mtU-sD-QUr"/>
                         <constraint firstAttribute="trailing" secondItem="n8O-is-nrf" secondAttribute="trailing" constant="15" id="rHg-D1-GIM"/>
                         <constraint firstItem="pod-hU-jCs" firstAttribute="leading" secondItem="bob-45-2Dc" secondAttribute="leading" constant="15" id="rvD-27-pWL"/>
-                        <constraint firstItem="YJY-MB-ihA" firstAttribute="leading" secondItem="bob-45-2Dc" secondAttribute="leading" constant="15" id="toQ-xe-jR6"/>
+                        <constraint firstItem="YJY-MB-ihA" firstAttribute="leading" secondItem="bob-45-2Dc" secondAttribute="leading" constant="12" id="toQ-xe-jR6"/>
                     </constraints>
                 </view>
             </subviews>
