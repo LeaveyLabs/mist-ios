@@ -174,7 +174,7 @@ class UserAPI {
         try await withThrowingTaskGroup(of: (Int, FrontendReadOnlyUser).self) { group in
           for user in users {
             group.addTask {
-                return (user.id, FrontendReadOnlyUser(readOnlyUser: user, profilePic: try await UIImageFromURLString(url: user.picture!)))
+                return (user.id, FrontendReadOnlyUser(readOnlyUser: user, profilePic: try await UIImageFromURLString(url: user.picture)))
             }
           }
           // Obtain results from the child tasks, sequentially, in order of completion

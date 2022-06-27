@@ -21,6 +21,20 @@ struct Message: Codable, Comparable {
 }
 
 
+struct MessageIntermediate: Codable {
+    let type: String
+    let sender: Int
+    let receiver: Int
+    let body: String
+    let token: String
+}
+
+struct ConversationStarter: Codable {
+    let type: String
+    let sender: Int
+    let receiver: Int
+}
+
 // Likely no longer needed, but leave here just in case for now
 
 //extension Message: Codable {

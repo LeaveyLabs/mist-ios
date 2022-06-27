@@ -18,17 +18,17 @@ class MessageThread: WebSocketDelegate {
     var socket: WebSocket;
     var connected: Bool;
     
-    init(sender: Int, receiver: Int) throws {
+    init(sender: Int, receiver: Int, previousMessages: [Message]) throws {
         self.sender = sender
         self.receiver = receiver
         self.unsent_messages = []
-        self.server_messages = []
+        self.server_messages = previousMessages
         self.connected = false
         
-        let params:[String:String] = ["type": "init",
-                                      "sender": String(self.sender),
-                                      "receiver": String(self.receiver)]
-        let json = try JSONEncoder().encode(params)
+        let conversationStarter = ConversationStarter(type: "init",
+                                                      sender: self.sender,
+                                                      receiver: self.receiver)
+        let json = try JSONEncoder().encode(conversationStarter)
         self.init_data = json
         
         let request = URLRequest(url: URL(string: "wss://mist-chat-test.herokuapp.com/")!)
@@ -44,12 +44,12 @@ class MessageThread: WebSocketDelegate {
     func sendMessage(message_text:String) throws {
         // If we're connected, then send it
         if (connected) {
-            let params:[String:String] = ["type": "message",
-                                          "sender": String(self.sender),
-                                          "receiver": String(self.receiver),
-                                          "body": message_text,
-                                          "token": getGlobalAuthToken()]
-            let json = try JSONEncoder().encode(params)
+            let messageIntermediate = MessageIntermediate(type: "message",
+                                                          sender: self.sender,
+                                                          receiver: self.receiver,
+                                                          body: message_text,
+                                                          token: getGlobalAuthToken())
+            let json = try JSONEncoder().encode(messageIntermediate)
             self.socket.write(data:json)
         }
         // Otherwise, put it on the queue of unsent messages
@@ -60,13 +60,13 @@ class MessageThread: WebSocketDelegate {
     
     func clearUnsentMessages() {
         for unsent_message in unsent_messages {
-            let params:[String:String] = ["type": "message",
-                                          "sender": String(self.sender),
-                                          "receiver": String(self.receiver),
-                                          "body": unsent_message,
-                                          "token": getGlobalAuthToken()]
+            let messageIntermediate = MessageIntermediate(type: "message",
+                                                          sender: self.sender,
+                                                          receiver: self.receiver,
+                                                          body: unsent_message,
+                                                          token: getGlobalAuthToken())
             do {
-                let json = try JSONEncoder().encode(params)
+                let json = try JSONEncoder().encode(messageIntermediate)
                 self.socket.write(data:json)
             } catch {
                 print("JSON could not parse unsent message.")
@@ -88,18 +88,13 @@ class MessageThread: WebSocketDelegate {
                 do {
                     let new_message = try JSONDecoder().decode(Message.self, from: string.data(using: .utf8)!)
                     self.server_messages.append(new_message)
-                } catch {
-                    print("Not a message.")
-                }
+                } catch {}
             case .binary(let data):
                 print("Received data: \(data.count)")
                 do {
                     let new_message = try JSONDecoder().decode(Message.self, from: data)
                     self.server_messages.append(new_message)
-                    print(self.server_messages)
-                } catch {
-                    print("Not a message.")
-                }
+                } catch {}
             case .ping(_):
                 break
             case .pong(_):

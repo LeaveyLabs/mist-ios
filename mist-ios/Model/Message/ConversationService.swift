@@ -19,35 +19,29 @@ class ConversationService: NSObject {
     
     func loadMessageThreads() async throws {
         //Get all messages
-        async let sentMessages = MessageAPI.fetchMessagesBySender(sender: UserService.singleton.getId())
-        async let receivedMessages = MessageAPI.fetchMessagesByReceiver(receiver: UserService.singleton.getId())
-        let allMessages = try await sentMessages + receivedMessages
+        let conversations = try await MessageAPI.fetchConversations()
         
         //Organize all the messages into their respective threads
         var messageThreadsByUserIds: [Int: MessageThread] = [:]
-        try allMessages.forEach { message in
-            if let messageThread = messageThreadsByUserIds[message.sender] {
-                messageThread.server_messages.append(message)
-            } else {
-                messageThreadsByUserIds[message.sender] = try MessageThread(sender: UserService.singleton.getId(),
-                                                               receiver: message.sender)
-                messageThreadsByUserIds[message.sender]!.server_messages.append(message)
-            }
+        for (userId, messages) in conversations {
+            messageThreadsByUserIds[userId] = try MessageThread(sender: UserService.singleton.getId(),
+                                                                receiver: userId,
+                                                                previousMessages: messages)
         }
                  
         //Get the frontendusers (users and their profile pics) for each thread
         let users = try await UserAPI.batchFetchUsersFromUserIds(Set(Array(messageThreadsByUserIds.keys)))
         let frontendUsers = try await UserAPI.batchTurnUsersIntoFrontendUsers(users.map { $0.value })
         
-        conversations = frontendUsers.map {key, value in
+        self.conversations = frontendUsers.map {key, value in
             Conversation(sangdaebang: value, messageThread: messageThreadsByUserIds[key]!)
         }
         
         //Sort the messages within each conversation
-        conversations.forEach { $0.messageThread.server_messages.sort() }
+        self.conversations.forEach { $0.messageThread.server_messages.sort() }
         
         //Sort the conversations based on the most recent message
-        conversations.sort()
+        self.conversations.sort()
         
         //then register notification listeners on the size of each messageThread's server_messages
     }
@@ -71,7 +65,7 @@ class ConversationService: NSObject {
     
     func openConversationWith(user: FrontendReadOnlyUser) -> Conversation? {
         do {
-            let newMessageThread = try MessageThread(sender: UserService.singleton.getId(), receiver: user.id)
+            let newMessageThread = try MessageThread(sender: UserService.singleton.getId(), receiver: user.id, previousMessages: [])
             let newConversation = Conversation(sangdaebang: user, messageThread: newMessageThread)
             conversations.append(newConversation)
             return newConversation
