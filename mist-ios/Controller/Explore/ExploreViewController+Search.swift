@@ -160,8 +160,7 @@ extension ExploreViewController {
     
     //if the map wasnt originally near the user's location, but then the center of the response is close to the user's location, apple overrided the search. in that case, don't display anything and tell the user to search again
     func didAppleOverrideLocalSearchRegion(_ responseRegion: MKCoordinateRegion) -> Bool {
-        if let userLocation = locationManager.location {        print(mapView.region.center.distance(from: userLocation.coordinate))
-            print(responseRegion.center.distance(from: userLocation.coordinate))
+        if let userLocation = locationManager.location {
             if mapView.region.center.distance(from: userLocation.coordinate) > 10000 && responseRegion.center.distance(from: userLocation.coordinate) < 2500 {
                 return true
             }
