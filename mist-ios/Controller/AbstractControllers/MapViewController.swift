@@ -496,13 +496,13 @@ extension MapViewController {
     }
     
     func turnPlacesIntoAnnotations(_ places: [MKMapItem]) {
-        let closestFivePlaces = Array(places.sorted(by: { first, second in
+        let closestPlaces = Array(places.sorted(by: { first, second in
             mapView.centerCoordinate.distance(from: first.placemark.coordinate) < mapView.centerCoordinate.distance(from: second.placemark.coordinate)
-        }).prefix(5))
-        placeAnnotations = closestFivePlaces.map({ place in PlaceAnnotation(withPlace: place) })
+        }).prefix(8))
+        placeAnnotations = closestPlaces.map({ place in PlaceAnnotation(withPlace: place) })
     }
     
-    func removeExistingPlaceAnnotations() {
+    func removeExistingPlaceAnnotationsFromMap() {
         mapView.annotations.forEach { annotation in
             if let placeAnnotation = annotation as? PlaceAnnotation {
                 mapView.removeAnnotation(placeAnnotation)
@@ -510,7 +510,7 @@ extension MapViewController {
         }
     }
     
-    func removeExistingPostAnnotations() {
+    func removeExistingPostAnnotationsFromMap() {
         mapView.annotations.forEach { annotation in
             if let postAnnotation = annotation as? PostAnnotation {
                 mapView.removeAnnotation(postAnnotation)

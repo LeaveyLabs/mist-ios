@@ -16,8 +16,21 @@ enum ReloadType {
 
 class ExploreViewController: MapViewController {
     
-    // General
-    var postFilter = PostFilter()
+    //experimental, for debugging purposes only
+    var appleregion: MKCoordinateRegion = .init()
+    
+    // UI
+    @IBOutlet weak var customNavigationBar: UIView!
+    @IBOutlet weak var filterButton: UIButton!
+    @IBOutlet weak var toggleButton: UIButton!
+    @IBOutlet weak var searchBarButton: UISearchBar!
+    @IBOutlet weak var refreshButton: UIButton!
+    var feed: UITableView!
+    var mySearchController: UISearchController!
+    var searchSuggestionsVC: SearchSuggestionsTableViewController!
+    
+    //Flags
+    var reloadTask: Task<Void, Never>?
     var isLoadingPosts: Bool = false {
         didSet {
             //Should also probably disable some other interactions...
@@ -28,36 +41,15 @@ class ExploreViewController: MapViewController {
             }
         }
     }
-    @IBOutlet weak var customNavigationBar: UIView!
-    @IBOutlet weak var filterButton: UIButton!
-    @IBOutlet weak var toggleButton: UIButton!
-    
-    // Feed
-    var feed: UITableView!
     var isFeedVisible = false //we have to use this flag and send tableview to the front/back instead of using isHidden so that when tableviewcells aren't rerendered when tableview reappears and so we can have a scroll to top animation before reloading tableview data
-                
-    // Search
-    @IBOutlet weak var searchBarButton: UISearchBar!
-    var mySearchController: UISearchController!
-    var searchSuggestionsVC: SearchSuggestionsTableViewController!
-    var localSearch: MKLocalSearch? {
-        willSet {
-            // Clear the results and cancel the currently running local search before starting a new search.
-            localSearch?.cancel()
-        }
-    }
-    
+    var annotationSelectionType: AnnotationSelectionType = .normal
+        
     // Map
-    @IBOutlet weak var refreshButton: UIButton!
     var selectedAnnotationView: MKAnnotationView?
     var selectedAnnotationIndex: Int? {
         guard let selected = selectedAnnotationView else { return nil }
         return postAnnotations.firstIndex(of: selected.annotation as! PostAnnotation)
     }
-    enum AnnotationSelectionType { // Flag for didSelect(annotation)
-        case submission, swipe, normal
-    }
-    var annotationSelectionType: AnnotationSelectionType = .normal
     
     //PostDelegate
     var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] = [:]
@@ -138,54 +130,27 @@ extension ExploreViewController {
         mapView.addAnnotations(postAnnotations)
     }
     
+    //TODO: if there's a reload task in progress, cancel it, and wait for the most recent one
     func reloadPosts(withType reloadType: ReloadType, closure: @escaping () -> Void = { } ) {
         if !postAnnotations.isEmpty { //this should probably go somewhere else
             feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false) //cant be true
         }
-        Task {
+        if isLoadingPosts {
+            reloadTask!.cancel()
+        }
+        reloadTask = Task {
             do {
                 isLoadingPosts = true
-                try await loadEverything()
+                try await loadEverything() //takes into account the updated post filter in PostsService
+                isLoadingPosts = false
                 turnPostsIntoAnnotations(PostService.singleton.getPosts())
                 renderNewPostsOnFeedAndMap(withType: reloadType)
                 closure()
             } catch {
+                isLoadingPosts = false
                 CustomSwiftMessages.displayError(error)
             }
-            isLoadingPosts = false
         }
-    }
-    
-    func loadPostsAndUserInteractions() async throws -> ([Post], [Vote], [Favorite]) {
-        async let loadedVotes = VoteAPI.fetchVotesByUser(voter: UserService.singleton.getId())
-        async let loadedFavorites = FavoriteAPI.fetchFavoritesByUser(userId: UserService.singleton.getId())
-        switch self.postFilter.searchBy {
-        case .all:
-            async let loadedPosts = PostAPI.fetchPosts()
-            return try await (loadedPosts, loadedVotes, loadedFavorites)
-        case .location:
-            let newSearchResultsRegion = getRegionCenteredAround(placeAnnotations)
-            async let loadedPosts = PostAPI.fetchPostsByLatitudeLongitude(latitude: newSearchResultsRegion!.center.latitude, longitude: newSearchResultsRegion!.center.longitude, radius: convertLatDeltaToKms(newSearchResultsRegion!.span.latitudeDelta))
-            return try await (loadedPosts, loadedVotes, loadedFavorites)
-        case .text:
-            async let loadedPosts = PostAPI.fetchPostsByWords(words: [searchBarButton.text!])
-            return try await (loadedPosts, loadedVotes, loadedFavorites)
-        }
-    }
-    
-    func loadCommentThumbnails(for comments: [Comment]) async throws -> [Int: UIImage] {
-      var thumbnails: [Int: UIImage] = [:]
-      try await withThrowingTaskGroup(of: (Int, UIImage).self) { group in
-        for comment in comments {
-          group.addTask {
-              return (comment.id, try await UserAPI.UIImageFromURLString(url: comment.read_only_author.picture))
-          }
-        }
-        for try await (id, thumbnail) in group {
-          thumbnails[id] = thumbnail
-        }
-      }
-      return thumbnails
     }
     
     //At this point, we have new posts to render.
@@ -197,11 +162,12 @@ extension ExploreViewController {
         
         //MAP VIEW
         if reloadType == .newSearch {
-            mapView.region = getRegionCenteredAround(postAnnotations + placeAnnotations) ?? mapView.region
+            mapView.region = appleregion
+            mapView.region = getRegionCenteredAround(postAnnotations + placeAnnotations) ?? PostService.singleton.getFilter().region
         }
         //then, in one moment, remove all existing annotations and add all new ones
-        removeExistingPlaceAnnotations()
-        removeExistingPostAnnotations()
+        removeExistingPlaceAnnotationsFromMap()
+        removeExistingPostAnnotationsFromMap()
         mapView.addAnnotations(placeAnnotations)
         mapView.addAnnotations(postAnnotations)
     }
@@ -260,7 +226,7 @@ extension ExploreViewController {
     @IBAction func filterButtonDidTapped(_ sender: UIButton) {
         dismissPost()
         let filterVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Filter) as! FilterSheetViewController
-        filterVC.selectedFilter = postFilter
+        filterVC.selectedFilter = PostService.singleton.getFilter() //TODO: just use the singleton directly, don't need to pass it intermediately
         filterVC.delegate = self
         filterVC.loadViewIfNeeded() //doesnt work without this function call
         present(filterVC, animated: true)
@@ -268,13 +234,15 @@ extension ExploreViewController {
     
     // Helper
     
-    func resetCurrentFilteredSearch() {
-        searchBarButton.text = ""
-        searchBarButton.centerText()
-        searchBarButton.searchTextField.leftView?.tintColor = .secondaryLabel
-        searchBarButton.setImage(UIImage(systemName: "magnifyingglass"), for: .search, state: .normal)
-        postFilter = .init()
-        reloadPosts(withType: .cancel)
+    func resetCurrentFilter() {
+//        searchBarButton.text = ""
+//        searchBarButton.centerText()
+//        searchBarButton.searchTextField.leftView?.tintColor = .secondaryLabel
+//        searchBarButton.setImage(UIImage(systemName: "magnifyingglass"), for: .search, state: .normal)
+//        placeAnnotations = []
+//        removeExistingPlaceAnnotationsFromMap()
+//        PostService.singleton.resetFilter()
+//        reloadPosts(withType: .cancel)
     }
     
 }
@@ -282,7 +250,7 @@ extension ExploreViewController {
 extension ExploreViewController: FilterDelegate {
     
     func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool, _ afterFilterUpdate: @escaping () -> Void) {
-        postFilter = newPostFilter
+        PostService.singleton.updateFilter(newPostFilter: newPostFilter)
 //        updateFilterButtonLabel() //incase we want to handle UI updates somehow
         if shouldReload {
             reloadPosts(withType: .newSearch, closure: afterFilterUpdate)

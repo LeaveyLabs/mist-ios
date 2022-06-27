@@ -6,11 +6,14 @@
 //
 
 import Foundation
+import MapKit
 
 struct PostFilter {
-    var postType: PostType = .All
     var searchBy: SearchBy = .all
+    var postType: PostType = .All
     var postTimeframe: Float = 1
+    var region: MKCoordinateRegion = .init(.world)
+    var text: String? = nil
     
     static func getFilterLabelText(for postFilter: PostFilter) -> NSAttributedString {
         var postTypeString, middleString, postTimeframeString: NSMutableAttributedString

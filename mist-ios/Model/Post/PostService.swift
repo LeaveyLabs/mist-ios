@@ -14,6 +14,7 @@ class PostService: NSObject {
     
     //TODo: add postFilter to PostService object
     private var posts = [Post]()
+    private var postFilter = PostFilter()
     
     //MARK: - Initialization
     
@@ -22,11 +23,53 @@ class PostService: NSObject {
     }
     
     func loadPosts() async throws {
-        posts = try await PostAPI.fetchPosts()
+        print(postFilter.searchBy)
+        switch postFilter.searchBy {
+        case .all:
+            posts = try await PostAPI.fetchPosts()
+        case .location:
+            posts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: postFilter.region.center.latitude, longitude: postFilter.region.center.longitude, radius: convertLatDeltaToKms(postFilter.region.span.latitudeDelta))
+        case .text:
+            posts = try await PostAPI.fetchPostsByWords(words: [postFilter.text ?? ""])
+        }
     }
     
     func getPosts() -> [Post] {
         return posts
+    }
+    
+    func getFilter() -> PostFilter {
+        return postFilter
+    }
+    
+    //MARK: - Update filter
+    
+    func resetFilter() {
+        postFilter = .init()
+    }
+    
+    func updateFilter(newPostFilter: PostFilter) {
+        postFilter = newPostFilter
+    }
+    
+    func updateFilter(newText: String?) {
+        postFilter.text = newText
+    }
+    
+    func updateFilter(newTimeframe: Float) {
+        postFilter.postTimeframe = newTimeframe
+    }
+    
+    func updateFilter(newPostType: PostType) {
+        postFilter.postType = newPostType
+    }
+    
+    func updateFilter(newSearchBy: SearchBy) {
+        postFilter.searchBy = newSearchBy
+    }
+    
+    func updateFilter(newRegion: MKCoordinateRegion) {
+        postFilter.region = newRegion
     }
     
     func uploadPost(title: String,

@@ -42,6 +42,7 @@ struct CustomSwiftMessages {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let errorMessageView: CustomCardView = try! SwiftMessages.viewFromNib()
             errorMessageView.configureTheme(.error)
+            errorMessageView.applyMediumShadow()
             errorMessageView.configureContent(title: title,
                                          body: body,
                                          iconText: emoji)
@@ -70,6 +71,7 @@ extension CustomSwiftMessages {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
             messageView.configureTheme(backgroundColor: .white, foregroundColor: .black)
+            messageView.applyMediumShadow()
             messageView.button?.isHidden = true
             messageView.configureContent(title: title,
                                          body: body,
@@ -97,6 +99,7 @@ extension CustomSwiftMessages {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
             messageView.configureTheme(backgroundColor: .systemGreen, foregroundColor: .white)
+            messageView.applyMediumShadow()
             messageView.button?.isHidden = true
             messageView.configureContent(title: title,
                                          body: body,

@@ -50,6 +50,8 @@ extension SearchSuggestionsTableViewController {
     func startProvidingCompletions(for region: MKCoordinateRegion) {
         searchCompleter.delegate = self
         searchCompleter.resultTypes = [.pointOfInterest, .address, .query]
+        searchCompleter.region = MKCoordinateRegion(center: .init(latitude: 40.7128, longitude: -74.0060), latitudinalMeters: 1000, longitudinalMeters: 1000)
+        //TODO: for some reason, when you uncomment this line below and you set the searchCompleter region to places that are actually nearby you, then the
         searchCompleter.region = region
     }
 }
@@ -155,7 +157,7 @@ extension SearchSuggestionsTableViewController: UISearchResultsUpdating {
 //MARK: - Search Helpers
 
 extension SearchSuggestionsTableViewController {
-        
+
     func startNearbySearch(with searchText: String) {
         searchCompleter.queryFragment = searchText //queries new suggestions from apple
     }
@@ -167,7 +169,11 @@ extension SearchSuggestionsTableViewController {
                 sortAndTrimNewWordResults(allResults)
                 handleFinishedSearch()
             } catch {
-                CustomSwiftMessages.displayError(error)
+                if (error as! APIError).rawValue == APIError.Throttled.rawValue {
+                    print("throttled. not throwing a custom swift message for now")
+                } else {
+                    CustomSwiftMessages.displayError(error)
+                }
             }
         }
     }
