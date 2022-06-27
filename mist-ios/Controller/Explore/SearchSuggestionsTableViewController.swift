@@ -50,8 +50,6 @@ extension SearchSuggestionsTableViewController {
     func startProvidingCompletions(for region: MKCoordinateRegion) {
         searchCompleter.delegate = self
         searchCompleter.resultTypes = [.pointOfInterest, .address]
-        searchCompleter.region = MKCoordinateRegion(center: .init(latitude: 40.7128, longitude: -74.0060), latitudinalMeters: 1000, longitudinalMeters: 1000)
-        //TODO: for some reason, when you uncomment this line below and you set the searchCompleter region to places that are actually nearby you, then the
         searchCompleter.region = region
     }
 }
