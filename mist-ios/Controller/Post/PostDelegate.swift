@@ -51,7 +51,7 @@ extension PostDelegate where Self: UIViewController {
         Task {
             if let frontendAuthor = await loadAuthorProfilePicTasks[postId]!.value {
                 DispatchQueue.main.async { [self] in
-                    let chatVC = ChatViewController.create(postId: postId, author: frontendAuthor)
+                    let chatVC = ChatViewController.createFromPost(postId: postId, author: frontendAuthor)
                     let navigationController = UINavigationController(rootViewController: chatVC)
                     navigationController.modalPresentationStyle = .fullScreen
                     present(navigationController, animated: true, completion: nil)

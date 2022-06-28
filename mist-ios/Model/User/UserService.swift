@@ -148,7 +148,6 @@ class UserService: NSObject {
     
     func saveUserToFilesystem() async {
         do {
-            print("SAVING USER DATA")
             guard var frontendCompleteUser = frontendCompleteUser else { return }
             frontendCompleteUser.token = getGlobalAuthToken() //this shouldn't be necessary, but to be safe
             let encoder = JSONEncoder()
@@ -162,7 +161,6 @@ class UserService: NSObject {
     
     func loadUserFromFilesystem() {
         do {
-            print("LOADING USER DATA")
             let data = try Data(contentsOf: self.localFileLocation)
             frontendCompleteUser = try JSONDecoder().decode(FrontendCompleteUser.self, from: data)
             guard let frontendCompleteUser = frontendCompleteUser else { return }
@@ -174,7 +172,6 @@ class UserService: NSObject {
     
     func eraseUserFromFilesystem() {
         do {
-            print("ERASING USER DATA")
             setGlobalAuthToken(token: "")
             try FileManager.default.removeItem(at: self.localFileLocation)
         } catch {

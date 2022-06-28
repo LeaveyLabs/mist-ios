@@ -72,7 +72,12 @@ extension ConversationsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return ConversationService.singleton.getCount() == 0 ? tableView.frame.height / 4 : 0
+        if ConversationService.singleton.getCount() == 0 {
+            return tableView.frame.height / 4
+        } else {
+            tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+            return 0 //for some reason, tableViews cant have a default header shorter than like 20 pixels. so if you return 10, it gets minned to 20
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
