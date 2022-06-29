@@ -11,5 +11,6 @@ struct MatchRequest: Codable {
     let id: Int;
     let match_requesting_user: Int;
     let match_requested_user: Int;
+    let post: Int;
     let timestamp: Double;
 }
