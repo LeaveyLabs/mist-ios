@@ -210,10 +210,12 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         scrollView.scrollToTop()
         view.endEditing(true)
         animateProgressBar()
+        guard let trimmedTitleText = titleTextView?.text.trimmingCharacters(in: .whitespaces) else { return }
+        guard let trimmedBodyText = bodyTextView?.text.trimmingCharacters(in: .whitespaces) else { return }
         Task {
             do {
-                let syncedPost = try await PostService.singleton.uploadPost(title: titleTextView.text!,
-                                                                        text: bodyTextView.text!,
+                let syncedPost = try await PostService.singleton.uploadPost(title: trimmedTitleText,
+                                                                        text: trimmedBodyText,
                                                                         locationDescription: locationButton.titleLabel!.text!,
                                                                         latitude: currentlyPinnedAnnotation!.coordinate.latitude,
                                                                         longitude: currentlyPinnedAnnotation!.coordinate.longitude,
@@ -283,19 +285,19 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         // Don't allow " " as first character
-        if text == " " {
-            if textView.text.count == 0 {
-                return false
-            }
-        } else if text == "\n" {
+        if text == " " && textView.text.count == 0 {
+            return false
+        }
+        if text == "\n" {
             // Don't allow newline in title. Instead, skip to bodyTextView
             if textView == titleTextView {
                 bodyTextView.becomeFirstResponder()
                 return false
             } else {
-                return shouldAllowNewline(in: textView.text, at: range.location)
+                return textView.shouldAllowNewline(in: textView.text, at: range.location)
             }
         }
+        
         // Only return true if the length of text is within the limit
         let newPostTextView = textView as! NewPostTextView
         return textView.shouldChangeTextGivenMaxLengthOf(newPostTextView.maxLength + TEXT_LENGTH_BEYOND_MAX_PERMITTED, range, text)
@@ -368,33 +370,5 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         } else {
             postButton.isEnabled = true
         }
-    }
-    
-    func shouldAllowNewline(in existingText: String, at index: Int) -> Bool {
-
-        // Two conditions under which to not allow a newline:
-        let isFirstCharacter = index == 0
-        var isThreeTimesInARow = false
-        
-        var isNewlineBeforeTwice = false
-        let isEditingFirstTwoCharacters = index <= 1
-        if !isEditingFirstTwoCharacters {
-            isNewlineBeforeTwice = existingText.substring(with: index-2..<index) == "\n\n"
-        }
-        var isNewlineBeforeAndAfter = false
-        let isEditingFirstOrLastCharacters = index == 0 || index == existingText.count
-        if !isEditingFirstOrLastCharacters {
-            isNewlineBeforeAndAfter = existingText.substring(with: index-1..<index) == "\n" &&
-            existingText.substring(with: index..<index+1) == "\n"
-        }
-        var isNewlineAfterTwice = false
-        let isEditingLastTwoCharacters = index >= existingText.count-1
-        if !isEditingLastTwoCharacters {
-            isNewlineAfterTwice = existingText.substring(with: index..<index+2) == "\n\n"
-        }
-        
-        isThreeTimesInARow = isNewlineBeforeTwice || isNewlineBeforeAndAfter || isNewlineAfterTwice
-        
-        return !(isFirstCharacter || isThreeTimesInARow)
     }
 }

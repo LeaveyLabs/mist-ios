@@ -45,7 +45,8 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     
     //Misc
     var prepareForDismiss: UpdatedPostCompletionHandler?
-    
+    let MAX_COMMENT_LENGTH = 499
+
     //MARK: - Initialization
     
     class func createPostVC(with post: Post) -> PostViewController {
@@ -155,11 +156,11 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     }
     
     @IBAction func submitCommentButtonDidPressed(_ sender: UIButton) {
-        guard !commentTextView.text.isEmpty else { return }
+        guard let trimmedCommentText = commentTextView?.text.trimmingCharacters(in: .whitespaces) else { return }
         Task {
             do {
                 commentSubmitButton.isEnabled = false
-                let newComment = try await CommentService.singleton.uploadComment(text: commentTextView.text, postId: post.id)
+                let newComment = try await CommentService.singleton.uploadComment(text: trimmedCommentText, postId: post.id)
                 handleSuccessfulCommentSubmission(newComment: newComment)
             } catch {
                 commentSubmitButton.isEnabled = true
@@ -200,13 +201,13 @@ extension PostViewController: UITextViewDelegate {
         validateAllFields()
     }
     
-    //dismiss keyboard when user presses "return"
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" {
-            textView.resignFirstResponder()
+        // Don't allow " " as first character
+        if text == " " && textView.text.count == 0 {
             return false
         }
-        return true
+        // Only return true if the length of text is within the limit
+        return textView.shouldChangeTextGivenMaxLengthOf(MAX_COMMENT_LENGTH + TEXT_LENGTH_BEYOND_MAX_PERMITTED, range, text)
     }
 }
 

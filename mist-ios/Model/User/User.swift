@@ -54,12 +54,13 @@ struct FrontendReadOnlyUser: ReadOnlyUserBackendProperties, SenderType, Hashable
     // Frontend-only properties
     let first_last: String
     let profilePic: UIImage
+    let blurredPic: UIImage
     
     //MessageKit's SenderType
     var senderId: String { return String(id) }
     var displayName: String { return first_name }
     
-    init(readOnlyUser: ReadOnlyUser, profilePic: UIImage) {
+    init(readOnlyUser: ReadOnlyUser, profilePic: UIImage, blurredPic: UIImage? = nil) {
         self.id = readOnlyUser.id
         self.username = readOnlyUser.username
         self.first_name = readOnlyUser.first_name
@@ -68,6 +69,7 @@ struct FrontendReadOnlyUser: ReadOnlyUserBackendProperties, SenderType, Hashable
         
         self.first_last = first_name + " " + last_name
         self.profilePic = profilePic
+        self.blurredPic = blurredPic == nil ? profilePic.blur() : blurredPic!
     }
     
     //Equatable

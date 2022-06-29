@@ -28,21 +28,28 @@ class ConversationService: NSObject {
                                                                 receiver: userId,
                                                                 previousMessages: messages)
         }
-                 
+        
         //Get the frontendusers (users and their profile pics) for each thread
         let users = try await UserAPI.batchFetchUsersFromUserIds(Set(Array(messageThreadsByUserIds.keys)))
+
         let frontendUsers = try await UserAPI.batchTurnUsersIntoFrontendUsers(users.map { $0.value })
-        
         self.conversations = frontendUsers.map {key, value in
             Conversation(sangdaebang: value, messageThread: messageThreadsByUserIds[key]!)
         }
+        
+//        let frontendUsers = users.map { FrontendReadOnlyUser(readOnlyUser: $0.value, profilePic: UIImage(named: "adam")!)}
+//        self.conversations = frontendUsers.map({ user in
+//            Conversation(sangdaebang: user, messageThread: messageThreadsByUserIds[user.id]!)
+//        })
+//
+ 
         
         //Sort the messages within each conversation
         self.conversations.forEach { $0.messageThread.server_messages.sort() }
         
         //Sort the conversations based on the most recent message
         self.conversations.sort()
-        
+
         //then register notification listeners on the size of each messageThread's server_messages
     }
     

@@ -31,8 +31,11 @@ class ChatViewController: MessagesViewController {
     //MARK: - Propreties
     
     let INPUTBAR_PLACEHOLDER = "Message"
+    let MAX_MESSAGE_LENGTH = 999
     lazy var messageList: [MessageKitMessage] = []
     
+    let LOAD_MESSAGES_INTERVAL = 50
+    private var lastLoadIndex: Int = 0
     private(set) lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
         control.addTarget(self, action: #selector(loadMoreMessages), for: .valueChanged)
@@ -65,7 +68,7 @@ class ChatViewController: MessagesViewController {
         didSet {
             senderProfileNameButton.setTitle("You", for: .normal)
             if isSenderHidden {
-                senderProfilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic().blur())
+                senderProfilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getBlurredPic())
             } else {
                 senderProfilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
             }
@@ -75,7 +78,7 @@ class ChatViewController: MessagesViewController {
     var isReceiverHidden: Bool! {
         didSet {
             if isReceiverHidden {
-                receiverProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.profilePic.blur())
+                receiverProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.blurredPic)
                 receiverProfileNameButton.setTitle("???", for: .normal)
             } else {
                 receiverProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.profilePic)
@@ -110,7 +113,7 @@ class ChatViewController: MessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMessagesCollectionView()
-        setupMessages()
+        loadFirstmessages()
         setupMessageInputBar()
         setupCustomNavigationBar()
         setupHiddenProfiles() //NOTE: must come after setting up the data
@@ -140,21 +143,18 @@ class ChatViewController: MessagesViewController {
         let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout
         layout?.sectionInset = UIEdgeInsets(top: 1, left: 8, bottom: 2, right: 8)
         layout?.setMessageOutgoingAvatarSize(.zero)
-        layout?.setMessageIncomingAvatarSize(.init(width: 40, height: 40))
+        layout?.setMessageIncomingAvatarSize(.init(width: 35, height: 35))
         layout?.setMessageOutgoingMessageBottomLabelAlignment(LabelAlignment(textAlignment: .right, textInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 12)))
-        additionalBottomInset = 5 //this is nice
+        additionalBottomInset = 5
+        layout?.setMessageOutgoingMessagePadding(.init(top: 0, left: 70, bottom: 0, right: 4)) //limit message max width
+        layout?.setMessageIncomingMessagePadding(.init(top: 0, left: 4, bottom: 0, right: 70)) //limit message max width
     }
         
-    func setupMessages() {
-        conversation.messageThread.server_messages.prefix(10).forEach {
-            messageList.append(turnMessageIntoMessageKitMessage($0))
-        }
-    }
-    
     func setupMessageInputBar() {
         messageInputBar.inputTextView.tintColor = mistUIColor()
         messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
         messageInputBar.sendButton.setTitleColor(mistUIColor(), for: .normal)
+        messageInputBar.inputTextView.delegate = self
     }
     
     func setupCustomNavigationBar() {
@@ -210,6 +210,10 @@ class ChatViewController: MessagesViewController {
     }
     
     @IBAction func receiverProfileDidTapped(_ sender: UIButton) {
+        handleReceiverProfileDidTapped()
+    }
+    
+    func handleReceiverProfileDidTapped() {
         if isReceiverHidden {
             //somehow tell the user //hey! they're hidden right now!
         } else {
@@ -226,38 +230,34 @@ class ChatViewController: MessagesViewController {
     
     // MARK: - Helpers
     
-    func insertMessage(_ message: MessageKitMessage) {
-        messageList.append(message)
-        // Reload last section to update header/footer labels and insert a new one
-        messagesCollectionView.performBatchUpdates({
-            messagesCollectionView.insertSections([messageList.count - 1])
-            if messageList.count >= 2 {
-                messagesCollectionView.reloadSections([messageList.count - 2])
-            }
-        }, completion: { [weak self] _ in
-            if self?.isLastSectionVisible() == true {
-                self?.messagesCollectionView.scrollToLastItem(animated: true)
-            }
+    func loadFirstmessages() {
+        lastLoadIndex = conversation.messageThread.server_messages.count - 1
+        let startLoadIndex = max(lastLoadIndex-LOAD_MESSAGES_INTERVAL, 0) //should never access a -1 of array
+        Array(conversation.messageThread.server_messages[startLoadIndex...lastLoadIndex]).reversed().forEach({ message in
+            messageList.insert((turnMessageIntoMessageKitMessage(message)), at: 0)
         })
-    }
-    
-    @objc func loadMoreMessages() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [self] in
-            conversation.messageThread.server_messages.prefix(10).forEach {
-                messageList.append((turnMessageIntoMessageKitMessage($0)))
-//                self.messageList.insert(contentsOf: messages, at: 0)
-            }
-            messagesCollectionView.reloadDataAndKeepOffset()
-            refreshControl.endRefreshing()
+        print(startLoadIndex, lastLoadIndex)
+        lastLoadIndex = startLoadIndex
+        if lastLoadIndex == 0 {
+            messagesCollectionView.refreshControl = nil
         }
     }
     
-    func turnMessageIntoMessageKitMessage(_ message: Message) -> MessageKitMessage {
-        return MessageKitMessage(text: message.body,
-                                 sender: message.sender == UserService.singleton.getId() ? UserService.singleton.getUserAsFrontendReadOnlyUser() : conversation.sangdaebang,
-                                 receiver: message.receiver == UserService.singleton.getId() ? UserService.singleton.getUserAsFrontendReadOnlyUser() : conversation.sangdaebang,
-                                 messageId: String(message.id),
-                                 date: Date(timeIntervalSince1970: message.timestamp))
+    //if new cells come in, I think i dont need to change the lastLoadIndex. lastLoadIndex i keep adding messages to the front of the array. upon a new message, i append it at the end
+    @objc func loadMoreMessages() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [self] in
+            let startLoadIndex = max(lastLoadIndex-LOAD_MESSAGES_INTERVAL, 0) //should never access a -1 of array
+            Array(conversation.messageThread.server_messages[startLoadIndex...lastLoadIndex]).reversed().forEach({ message in
+                messageList.insert((turnMessageIntoMessageKitMessage(message)), at: 0)
+            })
+            print(startLoadIndex, lastLoadIndex)
+            lastLoadIndex = startLoadIndex
+            messagesCollectionView.reloadDataAndKeepOffset() //what does this do
+            refreshControl.endRefreshing()
+            if lastLoadIndex == 0 {
+                messagesCollectionView.refreshControl = nil
+            }
+        }
     }
     
     func isLastSectionVisible() -> Bool {
@@ -283,6 +283,29 @@ class ChatViewController: MessagesViewController {
     func isNextMessageSameSender(at indexPath: IndexPath) -> Bool {
         guard indexPath.section + 1 < messageList.count else { return false }
         return messageList[indexPath.section].sender.senderId == messageList[indexPath.section + 1].sender.senderId
+    }
+    
+    // MARK: - UICollectionViewDataSource
+    
+    public override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let messagesDataSource = messagesCollectionView.messagesDataSource else {
+            fatalError("Ouch. nil data source for messages")
+        }
+
+        // Very important to check this when overriding `cellForItemAt`
+        // Super method will handle returning the typing indicator cell
+        guard !isSectionReservedForTypingIndicator(indexPath.section) else {
+            return super.collectionView(collectionView, cellForItemAt: indexPath)
+        }
+
+        let message = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
+        if case .custom = message.kind {
+            let cell = messagesCollectionView.dequeueReusableCell(SimpleCollectionCell.self, for: indexPath)
+            cell.configure(with: message, at: indexPath, and: messagesCollectionView)
+            return cell
+        }
+        return super.collectionView(collectionView, cellForItemAt: indexPath)
     }
 }
 
@@ -332,7 +355,7 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         processInputBar(messageInputBar)
     }
-
+    
     func processInputBar(_ inputBar: InputBarAccessoryView) {
         let messageString = inputBar.inputTextView.attributedText.string
         inputBar.inputTextView.text = String()
@@ -357,7 +380,8 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
     func handleSuccessfulMessage(_ messageString: String) {
         messageInputBar.sendButton.stopAnimating()
         messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
-        let message = MessageKitMessage(text: messageString,
+        let attributedMessage = NSAttributedString(string: messageString, attributes: [.font: UIFont(name: Constants.Font.Medium, size: 15)!])
+        let message = MessageKitMessage(text: attributedMessage,
                                         sender: UserService.singleton.getUserAsFrontendReadOnlyUser(),
                                         receiver: conversation.sangdaebang,
                                         messageId: String(Int.random(in: 0..<Int.max)),
@@ -366,6 +390,39 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         messagesCollectionView.scrollToLastItem(animated: true)
     }
     
+    func insertMessage(_ message: MessageKitMessage) {
+        messageList.append(message)
+        // Reload last section to update header/footer labels and insert a new one
+        messagesCollectionView.performBatchUpdates({
+            messagesCollectionView.insertSections([messageList.count - 1])
+            if messageList.count >= 2 {
+                messagesCollectionView.reloadSections([messageList.count - 2])
+            }
+        }, completion: { [weak self] _ in
+            if self?.isLastSectionVisible() == true {
+                self?.messagesCollectionView.scrollToLastItem(animated: true)
+            }
+        })
+    }
+    
+    func turnMessageIntoMessageKitMessage(_ message: Message) -> MessageKitMessage {
+        let attributedMessage = NSAttributedString(string: message.body, attributes: [.font: UIFont(name: Constants.Font.Medium, size: 15)!])
+        return MessageKitMessage(text: attributedMessage,
+                                 sender: message.sender == UserService.singleton.getId() ? UserService.singleton.getUserAsFrontendReadOnlyUser() : conversation.sangdaebang,
+                                 receiver: message.receiver == UserService.singleton.getId() ? UserService.singleton.getUserAsFrontendReadOnlyUser() : conversation.sangdaebang,
+                                 messageId: String(message.id),
+                                 date: Date(timeIntervalSince1970: message.timestamp))
+    }
+    
+}
+
+//MARK: - UITextViewDelegate
+
+extension ChatViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        // Only return true if the length of text is within the limit
+        return textView.shouldChangeTextGivenMaxLengthOf(MAX_MESSAGE_LENGTH, range, text)
+    }
 }
 
 
@@ -382,23 +439,48 @@ extension ChatViewController: MessagesDisplayDelegate {
     }
         
     func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-        return isFromCurrentSender(message: message) ? .white : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
-    }
-    
-    func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-        return isFromCurrentSender(message: message) ? .white : .darkText
+        return isFromCurrentSender(message: message) ? .white : .lightGray.withAlphaComponent(0.25)
     }
     
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
-        return isFromCurrentSender(message: message) ? .bubbleOutline(.gray) : .bubble
+        //the more simple way:
+        return isFromCurrentSender(message: message) ? .bubbleOutline(.lightGray.withAlphaComponent(0.5)) : .bubble
+        
+//        var corners: UIRectCorner = []
+//
+//        if isFromCurrentSender(message: message) {
+//            corners.formUnion(.topLeft)
+//            corners.formUnion(.bottomLeft)
+//            if !isPreviousMessageSameSender(at: indexPath) || isTimeLabelVisible(at: indexPath) {
+//                corners.formUnion(.topRight)
+//            }
+//            if !isNextMessageSameSender(at: indexPath) || isTimeLabelVisible(at: indexPath) {
+//                corners.formUnion(.bottomRight)
+//            }
+//        } else {
+//            corners.formUnion(.topRight)
+//            corners.formUnion(.bottomRight)
+//            if !isPreviousMessageSameSender(at: indexPath) || isTimeLabelVisible(at: nextIndexPath(for: indexPath, in: messagesCollectionView)) {
+//                corners.formUnion(.topLeft)
+//            }
+//            if !isNextMessageSameSender(at: indexPath) {
+//                corners.formUnion(.bottomLeft)
+//            }
+//        }
+//
+//        return .custom { view in
+//            let radius: CGFloat = 16
+//            let path = UIBezierPath(roundedRect: view.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+//            let mask = CAShapeLayer()
+//            mask.path = path.cgPath
+//            view.layer.mask = mask
+//        }
     }
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
         avatarView.isHidden = isNextMessageSameSender(at: indexPath)
-//        let theirPic = isReceiverHidden ? conversation.sangdaebang.profilePic.blur() : conversation.sangdaebang.profilePic
-        //blurring takes a lot of energy... do this on a background thread?
-        //or save it on a cache / within the user object?
-        avatarView.set(avatar: Avatar(image: conversation.sangdaebang.profilePic, initials: ""))
+        let theirPic = isReceiverHidden ? conversation.sangdaebang.blurredPic : conversation.sangdaebang.profilePic
+        avatarView.set(avatar: Avatar(image: theirPic, initials: ""))
     }
 
 }
@@ -408,13 +490,13 @@ extension ChatViewController: MessagesDisplayDelegate {
 extension ChatViewController: MessagesLayoutDelegate {
     
     func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return isTimeLabelVisible(at: indexPath) ? 18 : 0
+        return isTimeLabelVisible(at: indexPath) ? 60 : 0
     }
     
     func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return isFromCurrentSender(message: message) && messageList.last?.messageId == message.messageId ? 16 : 0
     }
-    
+        
 //    func textCellSizeCalculator(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CellSizeCalculator? {
 //        return self.textMessageSizeCalculator
 //    }
@@ -425,12 +507,9 @@ extension ChatViewController: MessagesLayoutDelegate {
 // MARK: - MessageCellDelegate
 
 extension ChatViewController: MessageCellDelegate {
-    func didTapAvatar(in cell: MessageCollectionViewCell) {
-        print("Avatar tapped")
-    }
     
-    func didTapMessage(in cell: MessageCollectionViewCell) {
-        print("Message tapped")
+    func didTapAvatar(in cell: MessageCollectionViewCell) {
+        handleReceiverProfileDidTapped()
     }
 
 }
@@ -448,3 +527,24 @@ extension ChatViewController: MessageLabelDelegate {
     }
 }
 
+
+private func nextIndexPath(for currentIndexPath: IndexPath, in tableView: UICollectionView) -> IndexPath? {
+    var nextRow = 0
+    var nextSection = 0
+    var iteration = 0
+    var startRow = currentIndexPath.row
+    for section in currentIndexPath.section ..< tableView.numberOfSections {
+        nextSection = section
+        for row in startRow ..< tableView.numberOfItems(inSection: section) {
+            nextRow = row
+            iteration += 1
+            if iteration == 2 {
+                let nextIndexPath = IndexPath(row: nextRow, section: nextSection)
+                return nextIndexPath
+            }
+        }
+        startRow = 0
+    }
+
+    return nil
+}

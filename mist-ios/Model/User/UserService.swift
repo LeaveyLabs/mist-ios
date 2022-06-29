@@ -26,7 +26,6 @@ class UserService: NSObject {
         localFileLocation = documentsDirectory.appendingPathComponent(LOCAL_FILE_APPENDING_PATH)
         
         if FileManager.default.fileExists(atPath: localFileLocation.path) {
-            //TODO: consider doing the "loadEverything" either: here, logIn(), or createUser(), and making it a member of UserService
             self.loadUserFromFilesystem()
         }
     }
@@ -49,7 +48,8 @@ class UserService: NSObject {
     }
     func getUserAsFrontendReadOnlyUser() -> FrontendReadOnlyUser {
         return FrontendReadOnlyUser(readOnlyUser: getUserAsReadOnlyUser(),
-                                    profilePic: frontendCompleteUser!.profilePicWrapper.image)
+                                    profilePic: frontendCompleteUser!.profilePicWrapper.image,
+                                    blurredPic: frontendCompleteUser!.profilePicWrapper.blurredImage)
     }
     
     //Properties
@@ -60,6 +60,7 @@ class UserService: NSObject {
     func getFirstLastName() -> String { return frontendCompleteUser!.first_name + " " + frontendCompleteUser!.last_name }
     func getEmail() -> String { return frontendCompleteUser!.email }
     func getProfilePic() -> UIImage { return frontendCompleteUser!.profilePicWrapper.image }
+    func getBlurredPic() -> UIImage { return frontendCompleteUser!.profilePicWrapper.blurredImage }
     
     //MARK: - Login and create user
     

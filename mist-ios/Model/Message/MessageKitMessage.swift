@@ -18,8 +18,8 @@ struct MessageKitMessage: MessageType {
     // Custom members
     var message: Message
     
-    init(text: String, sender: SenderType, receiver: SenderType, messageId: String, date: Date) {
-        self.kind = .attributedText(NSAttributedString(string: text))
+    init(text: NSAttributedString, sender: SenderType, receiver: SenderType, messageId: String, date: Date) {
+        self.kind = .attributedText(text)
         self.sender = sender
         self.messageId = messageId
         self.sentDate = date
@@ -27,7 +27,7 @@ struct MessageKitMessage: MessageType {
         message = Message(id: Int(messageId)!,
                           sender: Int(sender.senderId)!,
                           receiver: Int(receiver.senderId)!,
-                          body: text,
+                          body: text.string,
                           timestamp: date.timeIntervalSince1970)
     }
 }
