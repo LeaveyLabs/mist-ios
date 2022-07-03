@@ -126,7 +126,7 @@ extension ExploreViewController {
     }
     
     func renderInitialPosts() {
-        turnPostsIntoAnnotations(PostService.singleton.getPosts())
+        turnPostsIntoAnnotations(PostService.singleton.getExplorePosts())
         mapView.addAnnotations(postAnnotations)
     }
     
@@ -141,7 +141,7 @@ extension ExploreViewController {
                 isLoadingPosts = true
                 try await loadEverything() //takes into account the updated post filter in PostsService
                 isLoadingPosts = false
-                turnPostsIntoAnnotations(PostService.singleton.getPosts())
+                turnPostsIntoAnnotations(PostService.singleton.getExplorePosts())
                 renderNewPostsOnFeedAndMap(withType: reloadType)
                 closure()
             } catch {
@@ -163,7 +163,7 @@ extension ExploreViewController {
         //MAP VIEW
         if reloadType == .newSearch {
             mapView.region = appleregion
-            mapView.region = getRegionCenteredAround(postAnnotations + placeAnnotations) ?? PostService.singleton.getFilter().region
+            mapView.region = getRegionCenteredAround(postAnnotations + placeAnnotations) ?? PostService.singleton.getExploreFilter().region
         }
         //then, in one moment, remove all existing annotations and add all new ones
         removeExistingPlaceAnnotationsFromMap()
@@ -226,7 +226,7 @@ extension ExploreViewController {
     @IBAction func filterButtonDidTapped(_ sender: UIButton) {
         dismissPost()
         let filterVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Filter) as! FilterSheetViewController
-        filterVC.selectedFilter = PostService.singleton.getFilter() //TODO: just use the singleton directly, don't need to pass it intermediately
+        filterVC.selectedFilter = PostService.singleton.getExploreFilter() //TODO: just use the singleton directly, don't need to pass it intermediately
         filterVC.delegate = self
         filterVC.loadViewIfNeeded() //doesnt work without this function call
         present(filterVC, animated: true)
@@ -292,10 +292,7 @@ extension ExploreViewController: PostDelegate {
     // Helpers
     
     func sendToPostViewFor(_ post: Post, withRaisedKeyboard: Bool) {
-        let postVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
-        postVC.post = post
-        postVC.shouldStartWithRaisedKeyboard = withRaisedKeyboard
-        postVC.prepareForDismiss = { [self] updatedPost in
+        let postVC = PostViewController.createPostVC(with: post, shouldStartWithRaisedKeyboard: withRaisedKeyboard) { [self] updatedPost in
             //Update data to prepare for the next reloadData() upon self.willAppear()
             let index = postAnnotations.firstIndex { $0.post.id == updatedPost.id }!
             postAnnotations[index].post = updatedPost

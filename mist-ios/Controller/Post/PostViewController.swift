@@ -49,10 +49,12 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
 
     //MARK: - Initialization
     
-    class func createPostVC(with post: Post) -> PostViewController {
+    class func createPostVC(with post: Post, shouldStartWithRaisedKeyboard: Bool, completionHandler: UpdatedPostCompletionHandler?) -> PostViewController {
         let postVC =
         UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
         postVC.post = post
+        postVC.shouldStartWithRaisedKeyboard = shouldStartWithRaisedKeyboard
+        postVC.prepareForDismiss = completionHandler
         return postVC
     }
     

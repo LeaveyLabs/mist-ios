@@ -13,9 +13,8 @@ protocol PostDelegate: ShareActivityDelegate, AnyObject {
     func handleVote(postId: Int, isAdding: Bool)
     func handleFavorite(postId: Int, isAdding: Bool)
     func handleFlag(postId: Int, isAdding: Bool)
-    func handleDmTap(postId: Int, author: ReadOnlyUser, dmButton: UIButton)
+    func handleDmTap(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String)
     func beginLoadingAuthorProfilePic(postId: Int, author: ReadOnlyUser)
-    func discardProfilePicTask(postId: Int)
     
     // Require subclass implementation
     func handleCommentButtonTap(postId: Int)
@@ -40,18 +39,14 @@ extension PostDelegate where Self: UIViewController {
         }
     }
 
-    func discardProfilePicTask(postId: Int) {
-        loadAuthorProfilePicTasks.removeValue(forKey: postId)
-    }
-
-    func handleDmTap(postId: Int, author: ReadOnlyUser, dmButton: UIButton) {
+    func handleDmTap(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             dmButton.loadingIndicator(true)
         }
         Task {
             if let frontendAuthor = await loadAuthorProfilePicTasks[postId]!.value {
                 DispatchQueue.main.async { [self] in
-                    let chatVC = ChatViewController.createFromPost(postId: postId, author: frontendAuthor)
+                    let chatVC = ChatViewController.createFromPost(postId: postId, postAuthor: frontendAuthor, postTitle: title)
                     let navigationController = UINavigationController(rootViewController: chatVC)
                     navigationController.modalPresentationStyle = .fullScreen
                     present(navigationController, animated: true, completion: nil)

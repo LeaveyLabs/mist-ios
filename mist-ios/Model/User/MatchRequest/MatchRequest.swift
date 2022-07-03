@@ -8,6 +8,9 @@
 import Foundation
 
 struct MatchRequest: Codable {
+    static let PLACEHOLDER_ID = -1
+    static let DELETED_POST_TITLE = "This mist has been deleted."
+    
     let id: Int;
     let match_requesting_user: Int;
     let match_requested_user: Int;

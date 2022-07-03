@@ -32,23 +32,23 @@ class ChatViewController: MessagesViewController {
     
     let INPUTBAR_PLACEHOLDER = "Message"
     let MAX_MESSAGE_LENGTH = 999
-    lazy var messageList: [MessageKitMessage] = []
+    var chatObjects = [MessageType]()
     
     let LOAD_MESSAGES_INTERVAL = 50
-    private var lastLoadIndex: Int = 0
+    private lazy var lastLoadIndex: Int = conversation.messageThread.server_messages.count - 1
     private(set) lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
-        control.addTarget(self, action: #selector(loadMoreMessages), for: .valueChanged)
+        control.addAction(.init(handler: { [self] _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [self] in
+                renderMoreMessagesAndMatchRequests()
+                messagesCollectionView.reloadDataAndKeepOffset() //what does this do
+                refreshControl.endRefreshing()
+            }
+        }), for: .valueChanged)
         return control
     }()
     
 //    private lazy var textMessageSizeCalculator: CustomTextLayoutSizeCalculator = CustomTextLayoutSizeCalculator(layout: self.messagesCollectionView.messagesCollectionViewFlowLayout)
-
-    private let formatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        return formatter
-    }()
 
     //UI
     @IBOutlet weak var senderProfilePicButton: UIButton!
@@ -60,9 +60,10 @@ class ChatViewController: MessagesViewController {
     
     //Data
     var conversation: Conversation!
-    
+    var placeholderMessageKitMatchRequest: MessageKitMatch? = nil
+
     //Flags
-    var isPresentedFromPost: Bool = false
+    var isRespondingToPost: Bool = false
         
     var isSenderHidden: Bool! {
         didSet {
@@ -90,15 +91,22 @@ class ChatViewController: MessagesViewController {
     
     //MARK: - Initialization
     
-    //Currently, postId is not being used
-    class func createFromPost(postId: Int, author: FrontendReadOnlyUser) -> ChatViewController {
+    class func createFromPost(postId: Int, postAuthor: FrontendReadOnlyUser, postTitle: String) -> ChatViewController {
         let chatVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Chat) as! ChatViewController
-        chatVC.isPresentedFromPost = true
-        if let existingConversation = ConversationService.singleton.getConversationWith(userId: author.id) {
+        chatVC.isRespondingToPost = true
+        
+        //Load in the conversation
+        if let existingConversation = ConversationService.singleton.getConversationWith(userId: postAuthor.id) {
             chatVC.conversation = existingConversation
         } else {
-            chatVC.conversation = ConversationService.singleton.openConversationWith(user: author)!
+            chatVC.conversation = ConversationService.singleton.openConversationWith(user: postAuthor)!
         }
+        
+        //Create a placeholderMatchRequest if neither user has sent a match request for this post yet
+        if !chatVC.conversation.matchRequests.contains(where: { $0.post == postId }) {
+            chatVC.createPlaceholderMatchRequest(with: postAuthor.id, postId: postId, postTitle: postTitle)
+        }
+        
         return chatVC
     }
     
@@ -111,17 +119,41 @@ class ChatViewController: MessagesViewController {
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
+        messagesCollectionView = MessagesCollectionView(frame: .zero, collectionViewLayout: CustomMessagesFlowLayout()) //for registering custom MessageSizeCalculator for MessageKitMatch
+        
         super.viewDidLoad()
         setupMessagesCollectionView()
-        loadFirstmessages()
+        
+        if let matchRequest = placeholderMessageKitMatchRequest, chatObjects.count == 0 {
+            chatObjects.insert(matchRequest, at: 0)
+        }
+        renderMoreMessagesAndMatchRequests()
         setupMessageInputBar()
         setupCustomNavigationBar()
         setupHiddenProfiles() //NOTE: must come after setting up the data
-        if isPresentedFromPost {
+        if isRespondingToPost {
             setupWhenPresentedFromPost()
         }
+        
         DispatchQueue.main.async { //scroll on the next cycle so that collectionView's data is loaded in beforehand
             self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController!.setNavigationBarHidden(true, animated: animated)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
+            self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
+        }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        //if is pushing a view controller
+        if !self.isAboutToClose {
+            navigationController?.setNavigationBarHidden(false, animated: animated)
+            navigationController?.navigationBar.tintColor = .black //otherwise it's blue... idk why
         }
     }
     
@@ -133,6 +165,10 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.messageCellDelegate = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
+        messagesCollectionView.delegate = self
+                
+        let nib = UINib(nibName: String(describing: MatchCollectionCell.self), bundle: nil)
+        messagesCollectionView.register(nib, forCellWithReuseIdentifier: String(describing: MatchCollectionCell.self))
 //        self.messagesCollectionView.register(CustomTextMessageContentCell.self)
         
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
@@ -180,7 +216,7 @@ class ChatViewController: MessagesViewController {
         
         //We want to start with the messageInputBar's textView as first responder
         //But for some reason, without this delay, self (the VC) remains the first responder
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.03) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.messageInputBar.inputTextView.becomeFirstResponder()
         }
     }
@@ -188,13 +224,14 @@ class ChatViewController: MessagesViewController {
     //MARK: - User Interaction
 
     @IBAction func xButtonDidPressed(_ sender: UIButton) {
-        if isPresentedFromPost {
+        if isRespondingToPost {
             messageInputBar.inputTextView.resignFirstResponder()
             self.resignFirstResponder() //to prevent the inputAccessory from staying on the screen after dismiss
             self.dismiss(animated: true)
             if conversation.messageThread.server_messages.isEmpty {
                 ConversationService.singleton.closeConversationWith(userId: conversation.sangdaebang.id)
             }
+            //if the placeholder matchrequest is still in place,
         } else {
             navigationController?.popViewController(animated: true)
         }
@@ -230,45 +267,54 @@ class ChatViewController: MessagesViewController {
     
     // MARK: - Helpers
     
-    func loadFirstmessages() {
-        lastLoadIndex = conversation.messageThread.server_messages.count - 1
+    //TODO: move the three sorting functions below to Conversation eventually
+    func renderMoreMessagesAndMatchRequests() {
         let startLoadIndex = max(lastLoadIndex-LOAD_MESSAGES_INTERVAL, 0) //should never access a -1 of array
         Array(conversation.messageThread.server_messages[startLoadIndex...lastLoadIndex]).reversed().forEach({ message in
-            messageList.insert((turnMessageIntoMessageKitMessage(message)), at: 0)
+            insertMatchRequestIfNecessary(before: message)
+            chatObjects.insert((turnMessageIntoMessageKitMessage(message)), at: 0)
         })
-        print(startLoadIndex, lastLoadIndex)
+        
         lastLoadIndex = startLoadIndex
         if lastLoadIndex == 0 {
+            insertMatchRequestAtVeryTopIfNecessary()
             messagesCollectionView.refreshControl = nil
         }
     }
     
-    //if new cells come in, I think i dont need to change the lastLoadIndex. lastLoadIndex i keep adding messages to the front of the array. upon a new message, i append it at the end
-    @objc func loadMoreMessages() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [self] in
-            let startLoadIndex = max(lastLoadIndex-LOAD_MESSAGES_INTERVAL, 0) //should never access a -1 of array
-            Array(conversation.messageThread.server_messages[startLoadIndex...lastLoadIndex]).reversed().forEach({ message in
-                messageList.insert((turnMessageIntoMessageKitMessage(message)), at: 0)
-            })
-            print(startLoadIndex, lastLoadIndex)
-            lastLoadIndex = startLoadIndex
-            messagesCollectionView.reloadDataAndKeepOffset() //what does this do
-            refreshControl.endRefreshing()
-            if lastLoadIndex == 0 {
-                messagesCollectionView.refreshControl = nil
+    //if there's a matchRequest which is after the upcoming message but before the most recent message, insert it
+    func insertMatchRequestIfNecessary(before upcomingMessage: Message) {
+        //what i want to do: if there are NO messages
+        for matchRequest in conversation.matchRequests {
+            guard let first = chatObjects.first else {
+                if matchRequest.timestamp > upcomingMessage.timestamp {
+                    chatObjects.insert(turnMatchRequestIntoMessageKitMatchRequest(matchRequest), at: 0)
+                }
+                return
+            }
+            if matchRequest.timestamp < first.sentDate.timeIntervalSince1970 && matchRequest.timestamp > upcomingMessage.timestamp {
+                chatObjects.insert(turnMatchRequestIntoMessageKitMatchRequest(matchRequest), at: 0)
+            }
+        }
+    }
+    
+    func insertMatchRequestAtVeryTopIfNecessary() {
+        for matchRequest in conversation.matchRequests {
+            if matchRequest.timestamp < chatObjects[0].sentDate.timeIntervalSince1970 {
+                chatObjects.insert(turnMatchRequestIntoMessageKitMatchRequest(matchRequest), at: 0)
             }
         }
     }
     
     func isLastSectionVisible() -> Bool {
-        guard !messageList.isEmpty else { return false }
-        let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
+        guard !chatObjects.isEmpty else { return false }
+        let lastIndexPath = IndexPath(item: 0, section: chatObjects.count - 1)
         return messagesCollectionView.indexPathsForVisibleItems.contains(lastIndexPath)
     }
     
     func isTimeLabelVisible(at indexPath: IndexPath) -> Bool {
         guard indexPath.section > 0 else { return true }
-        let elapsedTimeSincePreviousMessage =  messageList[indexPath.section].sentDate.timeIntervalSince1970.getElapsedTime(since: messageList[indexPath.section-1].sentDate.timeIntervalSince1970)
+        let elapsedTimeSincePreviousMessage =  chatObjects[indexPath.section].sentDate.timeIntervalSince1970.getElapsedTime(since: chatObjects[indexPath.section-1].sentDate.timeIntervalSince1970)
         if elapsedTimeSincePreviousMessage.hours > 0 {
             return true
         }
@@ -277,12 +323,12 @@ class ChatViewController: MessagesViewController {
     
     func isPreviousMessageSameSender(at indexPath: IndexPath) -> Bool {
         guard indexPath.section - 1 >= 0 else { return false }
-        return messageList[indexPath.section].sender.senderId == messageList[indexPath.section - 1].sender.senderId
+        return chatObjects[indexPath.section].sender.senderId == chatObjects[indexPath.section - 1].sender.senderId
     }
 
     func isNextMessageSameSender(at indexPath: IndexPath) -> Bool {
-        guard indexPath.section + 1 < messageList.count else { return false }
-        return messageList[indexPath.section].sender.senderId == messageList[indexPath.section + 1].sender.senderId
+        guard indexPath.section + 1 < chatObjects.count else { return false }
+        return chatObjects[indexPath.section].sender.senderId == chatObjects[indexPath.section + 1].sender.senderId
     }
     
     // MARK: - UICollectionViewDataSource
@@ -299,14 +345,29 @@ class ChatViewController: MessagesViewController {
             return super.collectionView(collectionView, cellForItemAt: indexPath)
         }
 
-        let message = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
-        if case .custom = message.kind {
-            let cell = messagesCollectionView.dequeueReusableCell(SimpleCollectionCell.self, for: indexPath)
-            cell.configure(with: message, at: indexPath, and: messagesCollectionView)
+        if let messageKitMatch = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView) as? MessageKitMatch {
+            let cell = messagesCollectionView.dequeueReusableCell(MatchCollectionCell.self, for: indexPath)
+            cell.configure(with: messageKitMatch,
+                           sangdaebang: conversation.sangdaebang,
+                           delegate: self,
+                           isSangdaebangHidden: isReceiverHidden,
+                           isEnabled: messageKitMatch.matchRequest.read_only_post != nil)
             return cell
         }
         return super.collectionView(collectionView, cellForItemAt: indexPath)
     }
+}
+
+//MARK: - MatchRequestCellDelegate
+
+extension ChatViewController: MatchRequestCellDelegate {
+    
+    func matchRequestCellDidTapped(postId: Int) {
+        guard let post = PostService.singleton.getConversationPost(postId: postId) else { return }
+        let postVC = PostViewController.createPostVC(with: post, shouldStartWithRaisedKeyboard: false, completionHandler: nil)
+        navigationController!.pushViewController(postVC, animated: true)
+    }
+    
 }
 
 //MARK: - MessagesDataSource
@@ -318,11 +379,11 @@ extension ChatViewController: MessagesDataSource {
     }
 
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
-        return messageList.count
+        return chatObjects.count
     }
 
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
-        return messageList[indexPath.section]
+        return chatObjects[indexPath.section]
     }
 
     func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
@@ -357,24 +418,34 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
     }
     
     func processInputBar(_ inputBar: InputBarAccessoryView) {
-        let messageString = inputBar.inputTextView.attributedText.string
+        let messageString = inputBar.inputTextView.attributedText.string.trimmingCharacters(in: .whitespaces)
         inputBar.inputTextView.text = String()
         inputBar.sendButton.startAnimating()
         inputBar.inputTextView.placeholder = "Sending..."
         inputBar.inputTextView.resignFirstResponder()
         Task {
             do {
+                if let placeholderMatchRequest = placeholderMessageKitMatchRequest {
+                    try await sendMatchRequestAlongsideMessage(placeholderMatchRequest)
+                }
                 try conversation.messageThread.sendMessage(message_text: messageString)
-                //if this was the first message between two people:
-                    //send a match request
+                
+
+                //TODO: we sent the message above. but then we need to handle when the message actually does or doesnt successfully send
                 
                 DispatchQueue.main.async { [weak self] in
                     self?.handleSuccessfulMessage(messageString)
                 }
             } catch {
                 CustomSwiftMessages.displayError(error)
+                //here, we should also undo the match request in case the match request was successful but the sendMessage was not
             }
         }
+    }
+    
+    func sendMatchRequestAlongsideMessage(_ placeholderMatchRequest: MessageKitMatch) async throws {
+        try await ConversationService.singleton.sendMatchRequest(to: conversation.sangdaebang.id, forPostId: placeholderMatchRequest.matchRequest.post)
+        placeholderMessageKitMatchRequest = nil
     }
     
     func handleSuccessfulMessage(_ messageString: String) {
@@ -389,19 +460,20 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         insertMessage(message)
         messagesCollectionView.scrollToLastItem(animated: true)
     }
-    
+        
     func insertMessage(_ message: MessageKitMessage) {
-        messageList.append(message)
+        chatObjects.append(message)
         // Reload last section to update header/footer labels and insert a new one
         messagesCollectionView.performBatchUpdates({
-            messagesCollectionView.insertSections([messageList.count - 1])
-            if messageList.count >= 2 {
-                messagesCollectionView.reloadSections([messageList.count - 2])
+            messagesCollectionView.insertSections([chatObjects.count - 1])
+            if chatObjects.count >= 2 {
+                messagesCollectionView.reloadSections([chatObjects.count - 2])
             }
-        }, completion: { [weak self] _ in
-            if self?.isLastSectionVisible() == true {
-                self?.messagesCollectionView.scrollToLastItem(animated: true)
-            }
+        }, completion: { [] _ in
+            //The below code was left from the MessageKit demo, but i dont think this is the right approach
+//            if self?.isLastSectionVisible() == true {
+//                self?.messagesCollectionView.scrollToLastItem(animated: true)
+//            }
         })
     }
     
@@ -412,6 +484,25 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
                                  receiver: message.receiver == UserService.singleton.getId() ? UserService.singleton.getUserAsFrontendReadOnlyUser() : conversation.sangdaebang,
                                  messageId: String(message.id),
                                  date: Date(timeIntervalSince1970: message.timestamp))
+    }
+    
+    func turnMatchRequestIntoMessageKitMatchRequest(_ matchRequest: MatchRequest) -> MessageKitMatch {
+        let postTitle = matchRequest.read_only_post?.title ?? MatchRequest.DELETED_POST_TITLE
+        return MessageKitMatch(matchRequest: matchRequest,
+                               postTitle: postTitle,
+                               matchRequester: matchRequest.match_requesting_user == UserService.singleton.getId() ? UserService.singleton.getUserAsFrontendReadOnlyUser() : conversation.sangdaebang)
+    }
+    
+    func createPlaceholderMatchRequest(with userId: Int, postId: Int, postTitle: String)  {
+        let placeholderMatchRequest = MatchRequest(id: MatchRequest.PLACEHOLDER_ID,
+                     match_requesting_user: UserService.singleton.getId(),
+                     match_requested_user: userId,
+                     post: postId,
+                     read_only_post: nil,
+                     timestamp: Date().timeIntervalSince1970)
+        placeholderMessageKitMatchRequest = MessageKitMatch(matchRequest: placeholderMatchRequest,
+                            postTitle: postTitle,
+                            matchRequester: UserService.singleton.getUserAsFrontendReadOnlyUser())
     }
     
 }
@@ -443,38 +534,7 @@ extension ChatViewController: MessagesDisplayDelegate {
     }
     
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
-        //the more simple way:
         return isFromCurrentSender(message: message) ? .bubbleOutline(.lightGray.withAlphaComponent(0.5)) : .bubble
-        
-//        var corners: UIRectCorner = []
-//
-//        if isFromCurrentSender(message: message) {
-//            corners.formUnion(.topLeft)
-//            corners.formUnion(.bottomLeft)
-//            if !isPreviousMessageSameSender(at: indexPath) || isTimeLabelVisible(at: indexPath) {
-//                corners.formUnion(.topRight)
-//            }
-//            if !isNextMessageSameSender(at: indexPath) || isTimeLabelVisible(at: indexPath) {
-//                corners.formUnion(.bottomRight)
-//            }
-//        } else {
-//            corners.formUnion(.topRight)
-//            corners.formUnion(.bottomRight)
-//            if !isPreviousMessageSameSender(at: indexPath) || isTimeLabelVisible(at: nextIndexPath(for: indexPath, in: messagesCollectionView)) {
-//                corners.formUnion(.topLeft)
-//            }
-//            if !isNextMessageSameSender(at: indexPath) {
-//                corners.formUnion(.bottomLeft)
-//            }
-//        }
-//
-//        return .custom { view in
-//            let radius: CGFloat = 16
-//            let path = UIBezierPath(roundedRect: view.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-//            let mask = CAShapeLayer()
-//            mask.path = path.cgPath
-//            view.layer.mask = mask
-//        }
     }
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
@@ -494,7 +554,7 @@ extension ChatViewController: MessagesLayoutDelegate {
     }
     
     func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return isFromCurrentSender(message: message) && messageList.last?.messageId == message.messageId ? 16 : 0
+        return isFromCurrentSender(message: message) && chatObjects.last?.messageId == message.messageId ? 16 : 0
     }
         
 //    func textCellSizeCalculator(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CellSizeCalculator? {
@@ -510,6 +570,14 @@ extension ChatViewController: MessageCellDelegate {
     
     func didTapAvatar(in cell: MessageCollectionViewCell) {
         handleReceiverProfileDidTapped()
+    }
+    
+    func didTapBackground(in cell: MessageCollectionViewCell) {
+        print("DID TAP BACKGROUND")
+    }
+    
+    func didTapMessage(in cell: MessageCollectionViewCell) {
+        print("DID TAP MESAGe")
     }
 
 }

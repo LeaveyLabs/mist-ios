@@ -52,7 +52,7 @@ class ToggleButton: UIButton {
     var postAuthor: ReadOnlyUser!
 
     //Delegation
-    var postDelegate: PostDelegate?
+    var postDelegate: PostDelegate!
     
     //MARK: - Constructors
         
@@ -90,24 +90,24 @@ class ToggleButton: UIButton {
     // This action should be detected by a button, because the button will also prevent touches from
     // being passed through to the mapview
     @IBAction func backgroundButtonDidPressed(_ sender: UIButton) {
-        postDelegate?.handleBackgroundTap(postId: postId)
+        postDelegate.handleBackgroundTap(postId: postId)
     }
     
     // The labelButton is actually just a button which we want to behave like the background.
     @IBAction func likeLabelButtonDidPressed(_ sender: UIButton) {
-        postDelegate?.handleBackgroundTap(postId: postId)
+        postDelegate.handleBackgroundTap(postId: postId)
     }
     
     @IBAction func commentButtonDidPressed(_ sender: UIButton) {
-        postDelegate?.handleCommentButtonTap(postId: postId)
+        postDelegate.handleCommentButtonTap(postId: postId)
     }
     
     @IBAction func dmButtonDidPressed(_ sender: UIButton) {
-        postDelegate?.handleDmTap(postId: postId, author: postAuthor, dmButton: dmButton)
+        postDelegate.handleDmTap(postId: postId, author: postAuthor, dmButton: dmButton, title: postTitleLabel.text!)
     }
     
     @IBAction func moreButtonDidPressed(_ sender: UIButton) {
-        postDelegate?.handleMoreTap(postId: postId)
+        postDelegate.handleMoreTap(postId: postId)
     }
     
     @IBAction func likeButtonDidPressed(_ sender: UIButton) {
@@ -121,7 +121,7 @@ class ToggleButton: UIButton {
         }
         
         // Remote and storage updates
-        postDelegate?.handleVote(postId: postId, isAdding: likeButton.isSelected)
+        postDelegate.handleVote(postId: postId, isAdding: likeButton.isSelected)
         likeButton.isEnabled = true
     }
     
@@ -133,11 +133,11 @@ extension PostView {
     
     // Note: the constraints for the PostView should already be set-up when this is called.
     // Otherwise you'll get loads of constraint errors in the console
-    func configurePost(post: Post) {
+    func configurePost(post: Post, delegate: PostDelegate) {
         self.postId = post.id
         self.postAuthor = post.read_only_author
-        
-        postDelegate?.beginLoadingAuthorProfilePic(postId: postId, author: post.read_only_author)
+        self.postDelegate = delegate
+        postDelegate.beginLoadingAuthorProfilePic(postId: postId, author: post.read_only_author)
         
         timestampLabel.text = getFormattedTimeString(timestamp: post.timestamp)
         locationLabel.text = post.location_description

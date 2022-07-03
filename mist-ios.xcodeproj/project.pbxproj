@@ -206,8 +206,11 @@
 		5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D589B28603A46002E2F94 /* PostCell.swift */; };
 		5B4D58A72860D7FB002E2F94 /* UIImageView+ProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */; };
 		5B6AD61528690E1800B1FFA8 /* AnnotationSelectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6AD61428690E1800B1FFA8 /* AnnotationSelectionType.swift */; };
-		5B774DF5286BCBD200CCCF28 /* SimpleCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DF4286BCBD200CCCF28 /* SimpleCollectionCell.swift */; };
 		5B774DF8286D068400CCCF28 /* UITextView+Newline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DF7286D068400CCCF28 /* UITextView+Newline.swift */; };
+		5B774DFA286D4F9B00CCCF28 /* MessageKitMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DF9286D4F9B00CCCF28 /* MessageKitMatch.swift */; };
+		5B774DFC286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */; };
+		5B774DFF286D570400CCCF28 /* MatchCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */; };
+		5B774E00286D570400CCCF28 /* MatchCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */; };
 		5BB624B228620D4A00DCD45B /* CustomCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B128620D4A00DCD45B /* CustomCardView.swift */; };
 		5BB624B428620D5F00DCD45B /* CustomCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BB624B328620D5F00DCD45B /* CustomCardView.xib */; };
 		5BB624B628622C8500DCD45B /* UIViewController+DismissFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */; };
@@ -462,8 +465,11 @@
 		5B4D589B28603A46002E2F94 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ProfilePic.swift"; sourceTree = "<group>"; };
 		5B6AD61428690E1800B1FFA8 /* AnnotationSelectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationSelectionType.swift; sourceTree = "<group>"; };
-		5B774DF4286BCBD200CCCF28 /* SimpleCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleCollectionCell.swift; sourceTree = "<group>"; };
 		5B774DF7286D068400CCCF28 /* UITextView+Newline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Newline.swift"; sourceTree = "<group>"; };
+		5B774DF9286D4F9B00CCCF28 /* MessageKitMatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageKitMatch.swift; sourceTree = "<group>"; };
+		5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessagesFlowLayout.swift; sourceTree = "<group>"; };
+		5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCollectionCell.swift; sourceTree = "<group>"; };
+		5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MatchCollectionCell.xib; sourceTree = "<group>"; };
 		5BB624B128620D4A00DCD45B /* CustomCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCardView.swift; sourceTree = "<group>"; };
 		5BB624B328620D5F00DCD45B /* CustomCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCardView.xib; sourceTree = "<group>"; };
 		5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+DismissFlag.swift"; sourceTree = "<group>"; };
@@ -824,8 +830,8 @@
 				47E295D7284BB7B000A680CC /* PostView.xib */,
 				474A5DA427F40606004215F9 /* RoundedImageView.swift */,
 				479AA20227DD4AA900EA0DFC /* KUIViewController.swift */,
-				47A3D71C27D5940D003DBEA5 /* NewPostTextView.swift */,
 				5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */,
+				47A3D71C27D5940D003DBEA5 /* NewPostTextView.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -1116,7 +1122,8 @@
 		5B774DF3286BCBC100CCCF28 /* CollectionCells */ = {
 			isa = PBXGroup;
 			children = (
-				5B774DF4286BCBD200CCCF28 /* SimpleCollectionCell.swift */,
+				5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */,
+				5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */,
 			);
 			path = CollectionCells;
 			sourceTree = "<group>";
@@ -1162,9 +1169,11 @@
 			children = (
 				4369DB0B282EC465009215D4 /* Message.swift */,
 				4780E5B5283308250012B741 /* MessageKitMessage.swift */,
+				5B774DF9286D4F9B00CCCF28 /* MessageKitMatch.swift */,
 				5BB624DB2867E98500DCD45B /* Conversation.swift */,
 				5BB624BD2864308E00DCD45B /* ConversationService.swift */,
 				5BC27633286A8BA900DA5A3D /* MessageLayout */,
+				5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -1391,6 +1400,7 @@
 				47527193285584F400DDF84D /* SimpleInputCell.xib in Resources */,
 				47C2835027DED77500A19128 /* FeedHeaderCell.xib in Resources */,
 				47E295D8284BB7B000A680CC /* PostView.xib in Resources */,
+				5B774E00286D570400CCCF28 /* MatchCollectionCell.xib in Resources */,
 				47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */,
 				47E86F6E2853EA65005A7DC7 /* Auth.storyboard in Resources */,
 				470F271927DE758100C6DDAF /* SearchResultCell.xib in Resources */,
@@ -1442,6 +1452,7 @@
 				47F10DC5285316AC00E1A3DC /* PlaceAnnotationView.swift in Sources */,
 				472A4BF128408BD800FD52B7 /* TransitionZoom.swift in Sources */,
 				47E2B1C22800E9EB00131B8D /* MyCommentCell.swift in Sources */,
+				5B774DFF286D570400CCCF28 /* MatchCollectionCell.swift in Sources */,
 				47D5B36A28441296004CDE6C /* CustomSwiftMessages.swift in Sources */,
 				43D925222852802E00438C5C /* MatchRequest.swift in Sources */,
 				439E44FC27E01D4900E244D6 /* AuthAPI.swift in Sources */,
@@ -1519,6 +1530,7 @@
 				47A3D70627D54F3C003DBEA5 /* Post.swift in Sources */,
 				43D9B376285592D700E807C2 /* FavoriteAPI.swift in Sources */,
 				47FF418128402EC600A44968 /* UIImage+Resize.swift in Sources */,
+				5B774DFC286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift in Sources */,
 				439E44FA27DFE20600E244D6 /* Word.swift in Sources */,
 				5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */,
 				476971DE2847CCAB00123F72 /* UIView+FindVC.swift in Sources */,
@@ -1552,7 +1564,6 @@
 				47061CCD28510DD80042F04C /* MKPointOfInterestCategory+Extension.swift in Sources */,
 				433970DF27FE501700876026 /* WelcomeTutorialViewController.swift in Sources */,
 				47D9FD1E28457D72004E4BE3 /* NewPostContext.swift in Sources */,
-				5B774DF5286BCBD200CCCF28 /* SimpleCollectionCell.swift in Sources */,
 				472A4C0828408BD800FD52B7 /* LoadingView.swift in Sources */,
 				4752718328557C1300DDF84D /* PasswordSettingViewController.swift in Sources */,
 				43D92524285280D200438C5C /* FriendRequestAPI.swift in Sources */,
@@ -1567,6 +1578,7 @@
 				43D925202852802600438C5C /* FriendRequest.swift in Sources */,
 				47AC881F28480AE1000150CA /* UIButton+RightSideImage.swift in Sources */,
 				5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */,
+				5B774DFA286D4F9B00CCCF28 /* MessageKitMatch.swift in Sources */,
 				472F8D1A28505F4600DB69C4 /* PostDelegate.swift in Sources */,
 				478A7899284E708D0058C845 /* CLLocationCoordinate+Distance.swift in Sources */,
 				474A5DA827F4079D004215F9 /* MyProfileViewController.swift in Sources */,

@@ -961,6 +961,7 @@ make that cute barista’s day,
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2Wi-ND-8KG"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="qCS-CF-xHF" firstAttribute="top" secondItem="2Wi-ND-8KG" secondAttribute="top" id="7yy-jr-WTh"/>
                             <constraint firstItem="qCS-CF-xHF" firstAttribute="trailing" secondItem="2Wi-ND-8KG" secondAttribute="trailing" id="aFx-qs-jzu"/>
@@ -1906,10 +1907,8 @@ make that cute barista’s day,
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mRG-4Y-hFV">
                         <rect key="frame" x="0.0" y="44" width="390" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <navigationBarAppearance key="standardAppearance">
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </navigationBarAppearance>
-                        <navigationBarAppearance key="scrollEdgeAppearance">
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </navigationBarAppearance>
                     </navigationBar>
@@ -2050,7 +2049,6 @@ make that cute barista’s day,
                         <barButtonItem key="leftBarButtonItem" title="Item" image="chevron.left" catalog="system" id="esC-8Q-gpy"/>
                         <barButtonItem key="rightBarButtonItem" image="ellipsis" catalog="system" id="i2r-Of-yDY"/>
                     </navigationItem>
-                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="customNavigationBar" destination="tmp-eN-m7L" id="8ZV-ym-aXl"/>
                         <outlet property="receiverProfileNameButton" destination="lgd-Ki-XuH" id="HAG-z4-Uk3"/>
