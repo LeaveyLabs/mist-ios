@@ -89,8 +89,6 @@ extension ConversationsViewController: UITableViewDataSource {
             return tableView.dequeueReusableCell(withIdentifier: "NoConversationsCell", for: indexPath)
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Conversation) as! ConversationCell
-            //the line below is only for testing purposes
-//            ConversationService.singleton.addPlaceholderMatchRequestIfOneDoesntExist(with: 1, forPostId: PostService.singleton.getExplorePosts().first!.id)
             cell.configureWith(conversation: ConversationService.singleton.getConversationAt(index: indexPath.row)!)
             return cell
         }

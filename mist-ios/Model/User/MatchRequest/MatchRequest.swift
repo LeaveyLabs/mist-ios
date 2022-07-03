@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct MatchRequest: Codable {
+struct MatchRequest: Codable, Comparable {
+    
     static let PLACEHOLDER_ID = -1
     static let DELETED_POST_TITLE = "This mist has been deleted."
     
@@ -17,4 +18,10 @@ struct MatchRequest: Codable {
     let post: Int;
     let read_only_post: Post?;
     let timestamp: Double;
+    
+    
+    static func < (lhs: MatchRequest, rhs: MatchRequest) -> Bool {
+        return lhs.timestamp < rhs.timestamp
+    }
+    
 }

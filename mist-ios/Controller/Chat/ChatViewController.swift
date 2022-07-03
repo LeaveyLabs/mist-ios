@@ -128,9 +128,13 @@ class ChatViewController: MessagesViewController {
             chatObjects.insert(matchRequest, at: 0)
         }
         renderMoreMessagesAndMatchRequests()
-        setupMessageInputBar()
         setupCustomNavigationBar()
-        setupHiddenProfiles() //NOTE: must come after setting up the data
+        setupHiddenProfiles() //must come after setting up the data
+        if isSenderHidden {
+            setupMessageInputBarForChatPrompt()
+        } else {
+            setupMessageInputBarForChatting()
+        }
         if isRespondingToPost {
             setupWhenPresentedFromPost()
         }
@@ -185,13 +189,6 @@ class ChatViewController: MessagesViewController {
         layout?.setMessageOutgoingMessagePadding(.init(top: 0, left: 70, bottom: 0, right: 4)) //limit message max width
         layout?.setMessageIncomingMessagePadding(.init(top: 0, left: 4, bottom: 0, right: 70)) //limit message max width
     }
-        
-    func setupMessageInputBar() {
-        messageInputBar.inputTextView.tintColor = mistUIColor()
-        messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
-        messageInputBar.sendButton.setTitleColor(mistUIColor(), for: .normal)
-        messageInputBar.inputTextView.delegate = self
-    }
     
     func setupCustomNavigationBar() {
         navigationController?.isNavigationBarHidden = true
@@ -202,6 +199,8 @@ class ChatViewController: MessagesViewController {
         view.constraints.first { $0.firstAnchor == messagesCollectionView.topAnchor }!.isActive = false
         messagesCollectionView.topAnchor.constraint(equalTo: customNavigationBar.bottomAnchor).isActive = true
     }
+    
+    //TODO: both of these functions should check for previous messages. if there are messages sent before the first match request, then both should not be hidden
     
     func setupHiddenProfiles() {
         //The receiver is hidden until you receive a message from them.
@@ -224,6 +223,10 @@ class ChatViewController: MessagesViewController {
     //MARK: - User Interaction
 
     @IBAction func xButtonDidPressed(_ sender: UIButton) {
+        handleDismiss()
+    }
+    
+    func handleDismiss() {
         if isRespondingToPost {
             messageInputBar.inputTextView.resignFirstResponder()
             self.resignFirstResponder() //to prevent the inputAccessory from staying on the screen after dismiss
@@ -284,13 +287,12 @@ class ChatViewController: MessagesViewController {
     
     //if there's a matchRequest which is after the upcoming message but before the most recent message, insert it
     func insertMatchRequestIfNecessary(before upcomingMessage: Message) {
-        //what i want to do: if there are NO messages
         for matchRequest in conversation.matchRequests {
             guard let first = chatObjects.first else {
                 if matchRequest.timestamp > upcomingMessage.timestamp {
                     chatObjects.insert(turnMatchRequestIntoMessageKitMatchRequest(matchRequest), at: 0)
                 }
-                return
+                continue
             }
             if matchRequest.timestamp < first.sentDate.timeIntervalSince1970 && matchRequest.timestamp > upcomingMessage.timestamp {
                 chatObjects.insert(turnMatchRequestIntoMessageKitMatchRequest(matchRequest), at: 0)
@@ -304,6 +306,40 @@ class ChatViewController: MessagesViewController {
                 chatObjects.insert(turnMatchRequestIntoMessageKitMatchRequest(matchRequest), at: 0)
             }
         }
+    }
+        
+    func setupMessageInputBarForChatting() {
+        messageInputBar.separatorLine.isHidden = false
+        messageInputBar.layer.shadowOpacity = 0
+
+        messageInputBar.inputTextView.tintColor = mistUIColor()
+        messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
+        messageInputBar.sendButton.setTitleColor(mistUIColor(), for: .normal)
+        messageInputBar.inputTextView.delegate = self
+        
+        messageInputBar.setMiddleContentView(messageInputBar.inputTextView, animated: false)
+        messageInputBar.setRightStackViewWidthConstant(to: 52, animated: false)
+        
+//        messageInputBar.sendButton.activityViewColor = .white
+//        messageInputBar.sendButton.backgroundColor = mistUIColor()
+//        messageInputBar.sendButton.layer.cornerRadius = 10
+//        messageInputBar.sendButton.setTitleColor(.white, for: .normal)
+//        messageInputBar.sendButton.setTitleColor(UIColor(white: 1, alpha: 0.3), for: .highlighted)
+//        messageInputBar.sendButton.setTitleColor(UIColor(white: 1, alpha: 0.3), for: .disabled)
+    }
+    
+    func setupMessageInputBarForChatPrompt() {
+        let joinChatView = WantToChatView()
+        joinChatView.configure(firstName: conversation.sangdaebang.first_name, delegate: self)
+        
+        messageInputBar.layer.shadowColor = UIColor.black.cgColor
+        messageInputBar.layer.shadowRadius = 4
+        messageInputBar.layer.shadowOpacity = 0.3
+        messageInputBar.layer.shadowOffset = CGSize(width: 0, height: 0)
+        messageInputBar.separatorLine.isHidden = true
+        messageInputBar.setRightStackViewWidthConstant(to: 0, animated: false)
+        
+        messageInputBar.setMiddleContentView(joinChatView, animated: false)
     }
     
     func isLastSectionVisible() -> Bool {
@@ -430,15 +466,12 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
                 }
                 try conversation.messageThread.sendMessage(message_text: messageString)
                 
-
-                //TODO: we sent the message above. but then we need to handle when the message actually does or doesnt successfully send
-                
                 DispatchQueue.main.async { [weak self] in
                     self?.handleSuccessfulMessage(messageString)
                 }
             } catch {
                 CustomSwiftMessages.displayError(error)
-                //here, we should also undo the match request in case the match request was successful but the sendMessage was not
+                //TODO: handle when a message fails: remove the match request and the message from UI / conversation
             }
         }
     }
@@ -507,11 +540,47 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
     
 }
 
+//MARK: - WantToChatDelegate
+
+extension ChatViewController: WantToChatDelegate {
+    
+    func handleAccept(_ acceptButton: UIButton) {
+        Task {
+            do {
+                acceptButton.configuration?.showsActivityIndicator = true
+                try await ConversationService.singleton.sendMatchRequest(to: conversation.sangdaebang.id, forPostId: conversation.matchRequests.sorted().last!.post)
+                DispatchQueue.main.async { [weak self] in
+                    self?.setupMessageInputBarForChatting()
+                    self?.isSenderHidden = false
+                    self?.messagesCollectionView.scrollToLastItem(animated: false)
+                }
+            } catch {
+                CustomSwiftMessages.displayError(error)
+            }
+            acceptButton.configuration?.showsActivityIndicator = false
+        }
+    }
+    
+    func handleIgnore() {
+        handleDismiss()
+    }
+    
+    func handleBlock() {
+        //block them with blockservice
+        //remove this conversation from your conversations
+        //handleDismiss
+        
+        //then, we need to make sure whenever you a chatVC appears for a blocked scenario, then...
+        
+        //where should blocks prevent conversations from loading in? within conversations service load()? probably. if someone blocked you during the converstaion, should we have it no longer appear in your conversations thread? or should you still see it?
+    }
+    
+}
+
 //MARK: - UITextViewDelegate
 
 extension ChatViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        // Only return true if the length of text is within the limit
         return textView.shouldChangeTextGivenMaxLengthOf(MAX_MESSAGE_LENGTH, range, text)
     }
 }
@@ -571,24 +640,12 @@ extension ChatViewController: MessageCellDelegate {
     func didTapAvatar(in cell: MessageCollectionViewCell) {
         handleReceiverProfileDidTapped()
     }
-    
-    func didTapBackground(in cell: MessageCollectionViewCell) {
-        print("DID TAP BACKGROUND")
-    }
-    
-    func didTapMessage(in cell: MessageCollectionViewCell) {
-        print("DID TAP MESAGe")
-    }
 
 }
 
 // MARK: - MessageLabelDelegate
 
 extension ChatViewController: MessageLabelDelegate {
-    
-    func didSelectPhoneNumber(_ phoneNumber: String) {
-        print("Phone Number Selected: \(phoneNumber)")
-    }
     
     func didSelectURL(_ url: URL) {
         print("URL Selected: \(url)")

@@ -234,6 +234,8 @@
 		5BC2763E286AE9BD00DA5A3D /* Loading.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */; };
 		5BC2763F286AE9BD00DA5A3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2763D286AE9BD00DA5A3D /* Main.storyboard */; };
 		5BCC68D928611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */; };
+		5BCD490C287149210002BD02 /* WantToChatView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BCD490B287149210002BD02 /* WantToChatView.xib */; };
+		5BCD490E28714F920002BD02 /* WantToChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCD490D28714F920002BD02 /* WantToChatView.swift */; };
 		5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4D9BD285C018000197080 /* String+Capitalization.swift */; };
 		5BF78337285D955F003C3955 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78336285D955F003C3955 /* Map.swift */; };
 		5BF78339285E4477003C3955 /* UITableView+SectionShadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78338285E4477003C3955 /* UITableView+SectionShadow.swift */; };
@@ -493,6 +495,8 @@
 		5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Loading.storyboard; sourceTree = "<group>"; };
 		5BC2763D286AE9BD00DA5A3D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeAreaInputAccessoryViewWrapperView.swift; sourceTree = "<group>"; };
+		5BCD490B287149210002BD02 /* WantToChatView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WantToChatView.xib; sourceTree = "<group>"; };
+		5BCD490D28714F920002BD02 /* WantToChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantToChatView.swift; sourceTree = "<group>"; };
 		5BE4D9BD285C018000197080 /* String+Capitalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Capitalization.swift"; sourceTree = "<group>"; };
 		5BF78336285D955F003C3955 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		5BF78338285E4477003C3955 /* UITableView+SectionShadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+SectionShadow.swift"; sourceTree = "<group>"; };
@@ -832,6 +836,8 @@
 				479AA20227DD4AA900EA0DFC /* KUIViewController.swift */,
 				5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */,
 				47A3D71C27D5940D003DBEA5 /* NewPostTextView.swift */,
+				5BCD490D28714F920002BD02 /* WantToChatView.swift */,
+				5BCD490B287149210002BD02 /* WantToChatView.xib */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -1411,6 +1417,7 @@
 				47E2B1C32800E9EB00131B8D /* MyCommentCell.xib in Resources */,
 				5BB624B428620D5F00DCD45B /* CustomCardView.xib in Resources */,
 				5BC2763E286AE9BD00DA5A3D /* Loading.storyboard in Resources */,
+				5BCD490C287149210002BD02 /* WantToChatView.xib in Resources */,
 				470F271D27DE764F00C6DDAF /* UserResultCell.xib in Resources */,
 				5BC2763F286AE9BD00DA5A3D /* Main.storyboard in Resources */,
 				478A78A1284EBF180058C845 /* Launch.storyboard in Resources */,
@@ -1496,6 +1503,7 @@
 				43E30CFE2826355C00DBEB57 /* UploadProfilePictureViewController.swift in Sources */,
 				47266AD427FF69C9005DEDB1 /* UIViewController+Loading.swift in Sources */,
 				472A4C0628408BD800FD52B7 /* SpringAnimation.swift in Sources */,
+				5BCD490E28714F920002BD02 /* WantToChatView.swift in Sources */,
 				5BB624D92867DD8400DCD45B /* ConversationCell.swift in Sources */,
 				47AE72AA27F77B0B00A5E94C /* MyProfileSettingViewController.swift in Sources */,
 				47527194285584F400DDF84D /* SimpleInputCell.swift in Sources */,

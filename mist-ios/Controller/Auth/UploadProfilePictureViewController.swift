@@ -125,7 +125,7 @@ class UploadProfilePictureViewController: UIViewController {
     }
     
     func validateInput() -> Bool {
-        return profilePic != defaultPic
+        return profilePic != defaultPic && profilePic != nil
     }
 
 }

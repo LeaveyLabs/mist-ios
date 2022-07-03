@@ -416,7 +416,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="5YU-2r-Icr"/>
                                 </constraints>
-                                <color key="tintColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.87058818339999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Button">
                                     <attributedString key="attributedTitle">
@@ -1374,12 +1374,12 @@ make that cute barista’s day,
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adam Novak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDh-hd-9ul">
-                                <rect key="frame" x="104" y="262" width="182" height="41"/>
+                                <rect key="frame" x="104" y="269" width="182" height="41"/>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iaB-dd-3Tv">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iaB-dd-3Tv">
                                 <rect key="frame" x="335" y="59" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="iaB-dd-3Tv" secondAttribute="height" multiplier="1:1" id="4TX-Xj-1ce"/>
@@ -1405,8 +1405,8 @@ make that cute barista’s day,
                                     <action selector="cancelButtonDidPressed:" destination="KKi-Sx-eAl" eventType="touchUpInside" id="3PM-uu-MBo"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iYr-eL-glx">
-                                <rect key="frame" x="128.33333333333331" y="355" width="133.33333333333331" height="36"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iYr-eL-glx">
+                                <rect key="frame" x="128.33333333333331" y="362" width="133.33333333333331" height="36"/>
                                 <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" image="person.crop.circle.badge.plus" catalog="system" title="Add Friend" imagePadding="6">
@@ -1415,7 +1415,7 @@ make that cute barista’s day,
                                 </buttonConfiguration>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@adamvnovak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W3a-GG-5aG">
-                                <rect key="frame" x="137" y="311" width="116" height="25"/>
+                                <rect key="frame" x="137" y="318" width="116" height="25"/>
                                 <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1435,7 +1435,7 @@ make that cute barista’s day,
                             <constraint firstItem="iYr-eL-glx" firstAttribute="centerX" secondItem="zDM-BA-NN5" secondAttribute="centerX" id="qLi-7T-LRf"/>
                             <constraint firstItem="onp-GH-hco" firstAttribute="top" secondItem="sJV-Uf-tOy" secondAttribute="top" constant="60" id="rpa-kN-FpV"/>
                             <constraint firstAttribute="trailing" secondItem="iaB-dd-3Tv" secondAttribute="trailing" constant="15" id="x1r-tE-ezi"/>
-                            <constraint firstItem="fDh-hd-9ul" firstAttribute="top" secondItem="onp-GH-hco" secondAttribute="bottom" constant="8" symbolic="YES" id="yKn-oF-Onr"/>
+                            <constraint firstItem="fDh-hd-9ul" firstAttribute="top" secondItem="onp-GH-hco" secondAttribute="bottom" constant="15" id="yKn-oF-Onr"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Mk0-Kw-vGC"/>
@@ -1933,7 +1933,7 @@ make that cute barista’s day,
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="114"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fsh-eP-M5w">
-                                        <rect key="frame" x="345" y="65" width="30" height="30"/>
+                                        <rect key="frame" x="345" y="59" width="30" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="bAH-3E-JXg"/>
                                             <constraint firstAttribute="width" constant="30" id="tLO-HV-91r"/>
@@ -1948,7 +1948,7 @@ make that cute barista’s day,
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l5c-DA-NSD">
-                                        <rect key="frame" x="15" y="65" width="30" height="30"/>
+                                        <rect key="frame" x="15" y="59" width="30" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="30" id="OUj-gK-K0a"/>
                                             <constraint firstAttribute="width" constant="30" id="PCM-Kh-eUz"/>
@@ -1964,10 +1964,10 @@ make that cute barista’s day,
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YUm-gK-PLk">
-                                        <rect key="frame" x="223" y="51" width="44" height="45"/>
+                                        <rect key="frame" x="224.33333333333334" y="51" width="41.333333333333343" height="42"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="YUm-gK-PLk" secondAttribute="height" multiplier="44:45" id="7na-Zn-mqn"/>
-                                            <constraint firstAttribute="height" constant="45" id="K77-Yx-ZdJ"/>
+                                            <constraint firstAttribute="height" constant="42" id="K77-Yx-ZdJ"/>
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="Button" image="adam"/>
@@ -1976,7 +1976,7 @@ make that cute barista’s day,
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EQ4-3u-yEf">
-                                        <rect key="frame" x="215" y="100" width="60" height="10"/>
+                                        <rect key="frame" x="215" y="97" width="60" height="10"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="10" id="29L-x8-AFz"/>
                                             <constraint firstAttribute="width" constant="60" id="SNN-mc-LPH"/>
@@ -1991,10 +1991,10 @@ make that cute barista’s day,
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n6O-pR-HhS">
-                                        <rect key="frame" x="122.66666666666669" y="51" width="45" height="45"/>
+                                        <rect key="frame" x="124" y="51" width="42" height="42"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="n6O-pR-HhS" secondAttribute="height" multiplier="1:1" id="w6q-EZ-bXW"/>
-                                            <constraint firstAttribute="height" constant="45" id="z9D-4N-QXy"/>
+                                            <constraint firstAttribute="height" constant="42" id="z9D-4N-QXy"/>
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="Button" image="adam"/>
@@ -2003,7 +2003,7 @@ make that cute barista’s day,
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lgd-Ki-XuH">
-                                        <rect key="frame" x="115" y="100" width="60" height="10"/>
+                                        <rect key="frame" x="115" y="97" width="60" height="10"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="60" id="H9v-F9-4F6"/>
                                             <constraint firstAttribute="height" constant="10" id="nds-b2-PuO"/>
@@ -2023,7 +2023,7 @@ make that cute barista’s day,
                                 <constraints>
                                     <constraint firstItem="YUm-gK-PLk" firstAttribute="top" secondItem="g0w-cf-DOg" secondAttribute="top" constant="7" id="0FE-mv-H1O"/>
                                     <constraint firstAttribute="trailing" secondItem="Fsh-eP-M5w" secondAttribute="trailing" constant="15" id="9Af-cx-Z6r"/>
-                                    <constraint firstItem="Fsh-eP-M5w" firstAttribute="top" secondItem="g0w-cf-DOg" secondAttribute="top" constant="21" id="Itf-on-axI"/>
+                                    <constraint firstItem="Fsh-eP-M5w" firstAttribute="top" secondItem="g0w-cf-DOg" secondAttribute="top" constant="15" id="Itf-on-axI"/>
                                     <constraint firstItem="l5c-DA-NSD" firstAttribute="leading" secondItem="g0w-cf-DOg" secondAttribute="leading" constant="15" id="Mid-pt-BGi"/>
                                     <constraint firstItem="EQ4-3u-yEf" firstAttribute="top" secondItem="YUm-gK-PLk" secondAttribute="bottom" constant="4" id="Otf-EX-spu"/>
                                     <constraint firstItem="YUm-gK-PLk" firstAttribute="centerX" secondItem="tmp-eN-m7L" secondAttribute="centerX" constant="50" id="VDt-WO-jpD"/>
@@ -2032,7 +2032,7 @@ make that cute barista’s day,
                                     <constraint firstItem="lgd-Ki-XuH" firstAttribute="centerX" secondItem="n6O-pR-HhS" secondAttribute="centerX" id="Yxu-tu-SL5"/>
                                     <constraint firstItem="n6O-pR-HhS" firstAttribute="centerX" secondItem="tmp-eN-m7L" secondAttribute="centerX" constant="-50" id="fm3-yr-Ikv"/>
                                     <constraint firstItem="lgd-Ki-XuH" firstAttribute="top" secondItem="n6O-pR-HhS" secondAttribute="bottom" constant="4" id="ndq-9Y-MKJ"/>
-                                    <constraint firstItem="l5c-DA-NSD" firstAttribute="top" secondItem="g0w-cf-DOg" secondAttribute="top" constant="21" id="ufI-vP-w46"/>
+                                    <constraint firstItem="l5c-DA-NSD" firstAttribute="top" secondItem="g0w-cf-DOg" secondAttribute="top" constant="15" id="ufI-vP-w46"/>
                                 </constraints>
                             </view>
                         </subviews>
