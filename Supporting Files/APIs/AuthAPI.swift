@@ -26,6 +26,7 @@ class AuthAPI {
     static let PATH_TO_EMAIL_REGISTRATION = "api-register-email/"
     static let PATH_TO_EMAIL_VALIDATION = "api-validate-email/"
     static let PATH_TO_USERNAME_VALIDATION = "api-validate-username/"
+    static let PATH_TO_PASSWORD_VALIDATION = "api-validate-password/"
     static let PATH_TO_PASSWORD_RESET_REQUEST = "api-request-reset-password/"
     static let PATH_TO_PASSWORD_RESET_VALIDATION = "api-validate-reset-password/"
     static let PATH_TO_PASSWORD_RESET_FINALIZATION = "api-finalize-reset-password/"
@@ -63,6 +64,17 @@ class AuthAPI {
         let (_, _) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
     }
     
+    // Validates username
+    static func validatePassword(username:String, password:String) async throws {
+        let url = "\(BASE_URL)\(PATH_TO_PASSWORD_VALIDATION)"
+        let params:[String:String] = [
+            AUTH_USERNAME_PARAM: username,
+            AUTH_PASSWORD_PARAM: password,
+        ]
+        let json = try JSONEncoder().encode(params)
+        let (_, _) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+    }
+    
     // Creates validated user in the database
     static func createUser(username:String,
                            first_name:String,
@@ -91,6 +103,7 @@ class AuthAPI {
                     }
                     if let picture = picture, let pictureData = picture.pngData() {
                         multipartFormData.append(pictureData, withName: "picture", fileName: "\(username).png", mimeType: "image/png")
+                        multipartFormData.append(pictureData, withName: "confirm_picture", fileName: "\(username).png", mimeType: "image/png")
                     }
                 },
             to: "\(BASE_URL)\(UserAPI.PATH_TO_USER_MODEL)",
