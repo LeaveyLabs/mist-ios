@@ -2849,6 +2849,7 @@ make that cute barista’s day,
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="blockButton" destination="ZEF-ba-1Lk" id="tmM-dk-Igr"/>
                         <outlet property="closeButton" destination="il1-GW-GHl" id="Bhh-w0-357"/>
                     </connections>
                 </viewController>

@@ -22,6 +22,11 @@ class ConversationsViewController: UIViewController {
         customNavigationBar.applyLightBottomOnlyShadow()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
     //MARK: - Setup
     
     private func setupTableView() {

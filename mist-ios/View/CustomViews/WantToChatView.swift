@@ -10,7 +10,7 @@ import Foundation
 protocol WantToChatDelegate {
     func handleAccept(_ acceptButton: UIButton)
     func handleIgnore()
-    func handleBlock()
+    func handleBlock(_ blockButton: UIButton)
 }
 
 class WantToChatView: SpringView {
@@ -55,7 +55,7 @@ class WantToChatView: SpringView {
     }
     
     @IBAction func blockButtonDidTapped(_ sender: UIButton) {
-        delegate.handleBlock()
+        delegate.handleBlock(acceptButton)
     }
     
 }

@@ -10,12 +10,16 @@ import Starscream
 
 class MessageThread: WebSocketDelegate {
     
-    var sender: Int;
-    var receiver: Int;
+    let sender: Int!
+    let receiver: Int!
     var unsent_messages: [String];
-    var server_messages: [Message];
-    var init_data: Data;
-    var socket: WebSocket;
+    var server_messages: [Message] {
+        didSet {
+            ConversationService.singleton.handleMessageThreadIncrease(with: receiver)
+        }
+    }
+    let init_data: Data!
+    let socket: WebSocket!
     var connected: Bool;
     
     init(sender: Int, receiver: Int, previousMessages: [Message]) throws {

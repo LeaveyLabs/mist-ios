@@ -26,6 +26,8 @@ class BlockService: NSObject {
         async let loadedUsersWhoBlockedYou = BlockAPI.fetchBlocksByBlockedUser(blockedUserId: UserService.singleton.getId())
         async let loadedUsersWhoYouBlocked = BlockAPI.fetchBlocksByBlockingUser(blockingUserId: UserService.singleton.getId())
         (usersWhoBlockedYou, usersWhoYouBlocked) = try await (loadedUsersWhoBlockedYou, loadedUsersWhoYouBlocked)
+        
+        try await BlockAPI.deleteBlock(blockingUserId: 7, blockedUserId: 1)
     }
     
     //MARK: - Getters
@@ -44,31 +46,32 @@ class BlockService: NSObject {
     
     //MARK: - Updaters
     
-    func blockUser(_ userToBeBlockedId: Int) throws {
+    func blockUser(_ userToBeBlockedId: Int) async throws {
         let newBlock = Block(id: Int.random(in: 0..<Int.max), blocked_user: userToBeBlockedId, blocking_user: UserService.singleton.getId(), timestamp: Date().timeIntervalSince1970)
         usersWhoYouBlocked.append(newBlock)
-        Task {
-            do {
-                let _ = try await BlockAPI.postBlock(blockingUserId: UserService.singleton.getId(), blockedUserId: userToBeBlockedId)
-            } catch {
-                usersWhoYouBlocked.removeAll { $0.id == newBlock.id }
-                throw(error)
-            }
+        do {
+            print("USER TO BE BLOCKED: ", userToBeBlockedId)
+            let _ = try await BlockAPI.postBlock(blockingUserId: UserService.singleton.getId(), blockedUserId: userToBeBlockedId)
+        } catch {
+            usersWhoYouBlocked.removeAll { $0.id == newBlock.id }
+            throw(error)
         }
+        
+        ConversationService.singleton.handleNewlyBlockedUser(userToBeBlockedId)
     }
     
-    func unBlockUser(_ userToBeUnBlockedId: Int) throws {
+    @available(iOS, obsoleted: 4.0, message: "Unblocking is not yet supported")
+    func unBlockUser(_ userToBeUnBlockedId: Int) async throws {
         let blockToDelete = usersWhoYouBlocked.first { $0.blocked_user == userToBeUnBlockedId }!
         usersWhoYouBlocked.removeAll { $0.id == blockToDelete.id }
-        
-        Task {
-            do {
-                let _ = try await BlockAPI.deleteBlock(blockingUserId: UserService.singleton.getId(), blockedUserId: userToBeUnBlockedId)
-            } catch {
-                usersWhoYouBlocked.append(blockToDelete)
-                throw(error)
-            }
+        do {
+            let _ = try await BlockAPI.deleteBlock(blockingUserId: UserService.singleton.getId(), blockedUserId: userToBeUnBlockedId)
+        } catch {
+            usersWhoYouBlocked.append(blockToDelete)
+            throw(error)
         }
+
+        ConversationService.singleton.handleNewlyUnblockedUser(userToBeUnBlockedId)
     }
     
 }

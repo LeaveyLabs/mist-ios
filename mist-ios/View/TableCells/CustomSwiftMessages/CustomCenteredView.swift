@@ -27,5 +27,16 @@ class CustomCenteredView: MessageView {
         approveButton.addBorders(edges: .top, color: .systemGray5, inset: 0, thickness: 1)
         dismissButton.addBorders(edges: [.top, .right], color: .systemGray5, inset: 0, thickness: 1)
     }
+    
+    func customConfig(approveText: String, dismissText: String) {
+        let dismissAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 18)!]
+        let approveAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Heavy, size: 18)!]
+        approveButton.configuration?.attributedTitle = AttributedString(approveText, attributes: AttributeContainer(approveAttributes))
+        dismissButton.configuration?.attributedTitle = AttributedString(dismissText, attributes: AttributeContainer(dismissAttributes))
+        
+        if approveText.isEmpty {
+            approveButton.isHidden = true
+        }
+    }
 
 }

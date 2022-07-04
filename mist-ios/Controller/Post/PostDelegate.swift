@@ -40,6 +40,10 @@ extension PostDelegate where Self: UIViewController {
     }
 
     func handleDmTap(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String) {
+        guard !BlockService.singleton.isBlockedByOrHasBlocked(author.id) else {
+            CustomSwiftMessages.showAlreadyBlockedMessage()
+            return
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             dmButton.loadingIndicator(true)
         }

@@ -18,7 +18,7 @@ class ConversationCell: UITableViewCell {
     }
     
     func configureWith(conversation: Conversation) {
-        let isHidden = !MatchRequestService.singleton.hasReceivedMatchRequestFrom(conversation.sangdaebang.id)
+        let isHidden = conversation.isSangdaebangHidden
         profilePicImageView.becomeProfilePicImageView(with: isHidden ? conversation.sangdaebang.blurredPic : conversation.sangdaebang.profilePic)
         nameLabel.text = isHidden ? "???" : conversation.sangdaebang.first_name
         messageLabel.text = conversation.messageThread.server_messages.last!.body

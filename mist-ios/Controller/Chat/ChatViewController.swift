@@ -65,10 +65,10 @@ class ChatViewController: MessagesViewController {
     //Flags
     var isRespondingToPost: Bool = false
         
-    var isSenderHidden: Bool! {
+    var isAuthedUserProfileHidden: Bool! {
         didSet {
             senderProfileNameButton.setTitle("You", for: .normal)
-            if isSenderHidden {
+            if isAuthedUserProfileHidden {
                 senderProfilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getBlurredPic())
             } else {
                 senderProfilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
@@ -76,9 +76,9 @@ class ChatViewController: MessagesViewController {
             messagesCollectionView.reloadData()
         }
     }
-    var isReceiverHidden: Bool! {
+    var isSangdaebangProfileHidden: Bool! {
         didSet {
-            if isReceiverHidden {
+            if isSangdaebangProfileHidden {
                 receiverProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.blurredPic)
                 receiverProfileNameButton.setTitle("???", for: .normal)
             } else {
@@ -120,17 +120,12 @@ class ChatViewController: MessagesViewController {
     
     override func viewDidLoad() {
         messagesCollectionView = MessagesCollectionView(frame: .zero, collectionViewLayout: CustomMessagesFlowLayout()) //for registering custom MessageSizeCalculator for MessageKitMatch
-        
         super.viewDidLoad()
         setupMessagesCollectionView()
-        
-        if let matchRequest = placeholderMessageKitMatchRequest, chatObjects.count == 0 {
-            chatObjects.insert(matchRequest, at: 0)
-        }
         renderMoreMessagesAndMatchRequests()
         setupCustomNavigationBar()
         setupHiddenProfiles() //must come after setting up the data
-        if isSenderHidden {
+        if isAuthedUserProfileHidden {
             setupMessageInputBarForChatPrompt()
         } else {
             setupMessageInputBarForChatting()
@@ -199,15 +194,10 @@ class ChatViewController: MessagesViewController {
         view.constraints.first { $0.firstAnchor == messagesCollectionView.topAnchor }!.isActive = false
         messagesCollectionView.topAnchor.constraint(equalTo: customNavigationBar.bottomAnchor).isActive = true
     }
-    
-    //TODO: both of these functions should check for previous messages. if there are messages sent before the first match request, then both should not be hidden
-    
-    func setupHiddenProfiles() {
-        //The receiver is hidden until you receive a message from them.
-        isReceiverHidden = !MatchRequestService.singleton.hasReceivedMatchRequestFrom(conversation.sangdaebang.id)
         
-        //The only case you're hidden is if you received a message from them but haven't accepted it yet.
-        isSenderHidden = MatchRequestService.singleton.hasReceivedMatchRequestFrom(conversation.sangdaebang.id) && !MatchRequestService.singleton.hasSentMatchRequestTo(conversation.sangdaebang.id)
+    func setupHiddenProfiles() {
+        isSangdaebangProfileHidden = conversation.isSangdaebangHidden
+        isAuthedUserProfileHidden = conversation.isAuthedUserHidden
     }
     
     func setupWhenPresentedFromPost() {
@@ -241,7 +231,7 @@ class ChatViewController: MessagesViewController {
     }
     
     @IBAction func senderProfileDidTapped(_ sender: UIButton) {
-        if isSenderHidden {
+        if isAuthedUserProfileHidden {
             //do nothing for now
         } else {
             let profileVC = ProfileViewController.create(for: UserService.singleton.getUserAsFrontendReadOnlyUser())
@@ -254,7 +244,7 @@ class ChatViewController: MessagesViewController {
     }
     
     func handleReceiverProfileDidTapped() {
-        if isReceiverHidden {
+        if isSangdaebangProfileHidden {
             //somehow tell the user //hey! they're hidden right now!
         } else {
             let profileVC = ProfileViewController.create(for: conversation.sangdaebang)
@@ -263,8 +253,7 @@ class ChatViewController: MessagesViewController {
     }
     
     @IBAction func moreButtonDidTapped(_ sender: UIButton) {
-        let moreVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.ChatMore) as! ChatMoreViewController
-        moreVC.loadViewIfNeeded() //doesnt work without this function call
+        let moreVC = ChatMoreViewController.create(sangdaebangId: conversation.sangdaebang.id, delegate: self)
         present(moreVC, animated: true)
     }
     
@@ -272,6 +261,11 @@ class ChatViewController: MessagesViewController {
     
     //TODO: move the three sorting functions below to Conversation eventually
     func renderMoreMessagesAndMatchRequests() {
+        if lastLoadIndex == -1 {
+            messagesCollectionView.refreshControl = nil
+            return
+        }
+            
         let startLoadIndex = max(lastLoadIndex-LOAD_MESSAGES_INTERVAL, 0) //should never access a -1 of array
         Array(conversation.messageThread.server_messages[startLoadIndex...lastLoadIndex]).reversed().forEach({ message in
             insertMatchRequestIfNecessary(before: message)
@@ -287,6 +281,11 @@ class ChatViewController: MessagesViewController {
     
     //if there's a matchRequest which is after the upcoming message but before the most recent message, insert it
     func insertMatchRequestIfNecessary(before upcomingMessage: Message) {
+        if let matchRequest = placeholderMessageKitMatchRequest, chatObjects.count == 0 {
+            chatObjects.insert(matchRequest, at: 0)
+            return
+        }
+        
         for matchRequest in conversation.matchRequests {
             guard let first = chatObjects.first else {
                 if matchRequest.timestamp > upcomingMessage.timestamp {
@@ -319,13 +318,6 @@ class ChatViewController: MessagesViewController {
         
         messageInputBar.setMiddleContentView(messageInputBar.inputTextView, animated: false)
         messageInputBar.setRightStackViewWidthConstant(to: 52, animated: false)
-        
-//        messageInputBar.sendButton.activityViewColor = .white
-//        messageInputBar.sendButton.backgroundColor = mistUIColor()
-//        messageInputBar.sendButton.layer.cornerRadius = 10
-//        messageInputBar.sendButton.setTitleColor(.white, for: .normal)
-//        messageInputBar.sendButton.setTitleColor(UIColor(white: 1, alpha: 0.3), for: .highlighted)
-//        messageInputBar.sendButton.setTitleColor(UIColor(white: 1, alpha: 0.3), for: .disabled)
     }
     
     func setupMessageInputBarForChatPrompt() {
@@ -386,7 +378,7 @@ class ChatViewController: MessagesViewController {
             cell.configure(with: messageKitMatch,
                            sangdaebang: conversation.sangdaebang,
                            delegate: self,
-                           isSangdaebangHidden: isReceiverHidden,
+                           isSangdaebangHidden: isSangdaebangProfileHidden,
                            isEnabled: messageKitMatch.matchRequest.read_only_post != nil)
             return cell
         }
@@ -540,6 +532,17 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
     
 }
 
+//experimental
+//MARK: - ChatMoreDelegate
+
+extension ChatViewController: ChatMoreDelegate {
+    
+    func handleSuccessfulBlock() {
+        handleDismiss()
+    }
+    
+}
+
 //MARK: - WantToChatDelegate
 
 extension ChatViewController: WantToChatDelegate {
@@ -551,7 +554,7 @@ extension ChatViewController: WantToChatDelegate {
                 try await ConversationService.singleton.sendMatchRequest(to: conversation.sangdaebang.id, forPostId: conversation.matchRequests.sorted().last!.post)
                 DispatchQueue.main.async { [weak self] in
                     self?.setupMessageInputBarForChatting()
-                    self?.isSenderHidden = false
+                    self?.isAuthedUserProfileHidden = false
                     self?.messagesCollectionView.scrollToLastItem(animated: false)
                 }
             } catch {
@@ -565,14 +568,23 @@ extension ChatViewController: WantToChatDelegate {
         handleDismiss()
     }
     
-    func handleBlock() {
-        //block them with blockservice
-        //remove this conversation from your conversations
-        //handleDismiss
-        
-        //then, we need to make sure whenever you a chatVC appears for a blocked scenario, then...
-        
-        //where should blocks prevent conversations from loading in? within conversations service load()? probably. if someone blocked you during the converstaion, should we have it no longer appear in your conversations thread? or should you still see it?
+    func handleBlock(_ blockButton: UIButton) {
+        CustomSwiftMessages.showBlockPrompt { [self] didBlock in
+            if didBlock {
+                Task {
+                    do {
+                        blockButton.configuration?.showsActivityIndicator = true
+                        try await BlockService.singleton.blockUser(conversation.sangdaebang.id)
+                        blockButton.configuration?.showsActivityIndicator = false
+                        DispatchQueue.main.async {
+                            self.handleDismiss()
+                        }
+                    } catch {
+                        CustomSwiftMessages.displayError(error)
+                    }
+                }
+            }
+        }
     }
     
 }
@@ -608,7 +620,7 @@ extension ChatViewController: MessagesDisplayDelegate {
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
         avatarView.isHidden = isNextMessageSameSender(at: indexPath)
-        let theirPic = isReceiverHidden ? conversation.sangdaebang.blurredPic : conversation.sangdaebang.profilePic
+        let theirPic = isSangdaebangProfileHidden ? conversation.sangdaebang.blurredPic : conversation.sangdaebang.profilePic
         avatarView.set(avatar: Avatar(image: theirPic, initials: ""))
     }
 
