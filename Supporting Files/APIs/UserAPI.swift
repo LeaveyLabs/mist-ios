@@ -95,6 +95,7 @@ class UserAPI {
             multipartFormData:
                 { multipartFormData in
                     multipartFormData.append(imgData!, withName: "picture", fileName: "\(username).png", mimeType: "image/png")
+                    multipartFormData.append(imgData!, withName: "confirm_picture", fileName: "\(username).png", mimeType: "image/png")
                 },
             to: "\(BASE_URL)\(PATH_TO_USER_MODEL)\(id)/",
             method: .patch,

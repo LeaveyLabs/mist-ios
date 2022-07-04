@@ -82,10 +82,10 @@ class AuthAPI {
                            picture:UIImage?,
                            email:String,
                            password:String,
-                           birth_year:Int,
-                           birth_month:Int,
-                           birth_day:Int,
-                           sex:String) async throws -> CompleteUser {
+                           birth_year:Int=2000,
+                           birth_month:Int=1,
+                           birth_day:Int=1,
+                           sex:String="m") async throws -> CompleteUser {
         let params:[String:String] = [
             UserAPI.USERNAME_PARAM: username,
             UserAPI.FIRST_NAME_PARAM: first_name,
