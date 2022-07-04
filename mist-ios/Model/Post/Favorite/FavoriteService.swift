@@ -12,7 +12,6 @@ class FavoriteService: NSObject {
     static var singleton = FavoriteService()
     
     private var favorites: [Favorite] = []
-    
 
     //MARK: - Initialization
     
@@ -24,6 +23,7 @@ class FavoriteService: NSObject {
     
     func loadFavorites() async throws {
         favorites = try await FavoriteAPI.fetchFavoritesByUser(userId: UserService.singleton.getId())
+        try await PostService.singleton.loadFavorites(favoritedPostIds: favorites.map { $0.post } )
     }
     
     //MARK: - Getters

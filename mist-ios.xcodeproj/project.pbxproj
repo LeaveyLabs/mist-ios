@@ -211,6 +211,7 @@
 		5B774DFC286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */; };
 		5B774DFF286D570400CCCF28 /* MatchCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */; };
 		5B774E00286D570400CCCF28 /* MatchCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */; };
+		5BA967322872BC5E00724CD9 /* Array+FirstWhere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */; };
 		5BB624B228620D4A00DCD45B /* CustomCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B128620D4A00DCD45B /* CustomCardView.swift */; };
 		5BB624B428620D5F00DCD45B /* CustomCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BB624B328620D5F00DCD45B /* CustomCardView.xib */; };
 		5BB624B628622C8500DCD45B /* UIViewController+DismissFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */; };
@@ -472,6 +473,7 @@
 		5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessagesFlowLayout.swift; sourceTree = "<group>"; };
 		5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCollectionCell.swift; sourceTree = "<group>"; };
 		5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MatchCollectionCell.xib; sourceTree = "<group>"; };
+		5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+FirstWhere.swift"; sourceTree = "<group>"; };
 		5BB624B128620D4A00DCD45B /* CustomCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCardView.swift; sourceTree = "<group>"; };
 		5BB624B328620D5F00DCD45B /* CustomCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCardView.xib; sourceTree = "<group>"; };
 		5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+DismissFlag.swift"; sourceTree = "<group>"; };
@@ -860,6 +862,7 @@
 				474A4AAF284A922100B39A98 /* UIScrollView+ToTop.swift */,
 				5B13B740285D05B0000ADF5E /* UISearchBar+CenterText.swift */,
 				5BF78338285E4477003C3955 /* UITableView+SectionShadow.swift */,
+				5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1579,6 +1582,7 @@
 				472A4BF528408BD800FD52B7 /* DesignableLabel.swift in Sources */,
 				472A4BEF28408BD800FD52B7 /* KeyboardLayoutConstraint.swift in Sources */,
 				4700F8B527DD7BBA006C2E08 /* CommentAPI.swift in Sources */,
+				5BA967322872BC5E00724CD9 /* Array+FirstWhere.swift in Sources */,
 				47A3D70227D524F4003DBEA5 /* NewPostViewController.swift in Sources */,
 				472A4C0328408BD800FD52B7 /* SpringLabel.swift in Sources */,
 				474A5DAA27F40CB1004215F9 /* UISegmentedControl+Twitter.swift in Sources */,

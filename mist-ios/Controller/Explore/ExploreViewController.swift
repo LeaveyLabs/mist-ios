@@ -11,7 +11,7 @@ import MapKit
 // MARK: - Properties
 
 enum ReloadType {
-    case refresh, cancel, newSearch, newPost
+    case refresh, cancel, newSearch, newPost, firstLoad
 }
 
 class ExploreViewController: MapViewController {
@@ -68,13 +68,11 @@ extension ExploreViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         latitudeOffset = 0.00095
-        
         makeFeedVisible()
-        
         setupSearchBarButton()
         setupRefreshButton()
         setupCustomTapGestureRecognizerOnMap()
-        renderInitialPosts()
+        renderNewPostsOnFeedAndMap(withType: .firstLoad)
         setupCustomNavigationBar()
         
         if let userLocation = locationManager.location {
@@ -125,25 +123,19 @@ extension ExploreViewController {
         }), for: .touchUpInside)
     }
     
-    func renderInitialPosts() {
-        turnPostsIntoAnnotations(PostService.singleton.getExplorePosts())
-        mapView.addAnnotations(postAnnotations)
-    }
-    
     //TODO: if there's a reload task in progress, cancel it, and wait for the most recent one
     func reloadPosts(withType reloadType: ReloadType, closure: @escaping () -> Void = { } ) {
-        if !postAnnotations.isEmpty { //this should probably go somewhere else
-            feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false) //cant be true
-        }
         if isLoadingPosts { reloadTask!.cancel() }
         reloadTask = Task {
             do {
                 isLoadingPosts = true
-                try await loadEverything() //takes into account the updated post filter in PostsService
+                try await loadPostStuff() //takes into account the updated post filter in PostsService
                 isLoadingPosts = false
-                turnPostsIntoAnnotations(PostService.singleton.getExplorePosts())
-                renderNewPostsOnFeedAndMap(withType: reloadType)
-                closure()
+                
+                DispatchQueue.main.async { [self] in
+                    renderNewPostsOnFeedAndMap(withType: reloadType)
+                    closure()
+                }
             } catch {
                 if !Task.isCancelled {
                     CustomSwiftMessages.displayError(error)
@@ -153,19 +145,28 @@ extension ExploreViewController {
         }
     }
     
-    //At this point, we have new posts to render.
-    //Scroll view should scroll to top with existing data, then reload data
-    //Map view should fly to new location, then de-render old annotations, then render new annotations
     func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType) {
-        //TABLE VIEW
-        self.feed.reloadData()
-        
-        //MAP VIEW
+        //Feed scroll to top, on every reload
+        if reloadType != .firstLoad {
+            if !postAnnotations.isEmpty {
+                feed.isUserInteractionEnabled = false
+                feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                feed.isUserInteractionEnabled = true
+            }
+        }
+        //Map camera travel, only on new searches
         if reloadType == .newSearch {
-            mapView.region = appleregion
             mapView.region = getRegionCenteredAround(postAnnotations + placeAnnotations) ?? PostService.singleton.getExploreFilter().region
         }
-        //then, in one moment, remove all existing annotations and add all new ones
+        
+        //Both data update
+        turnPostsIntoAnnotations(PostService.singleton.getExplorePosts())
+        //if at some point we decide to list out places in the feed results, too, then turnPlacesIntoAnnoations should be moved here
+        //the reason we don't need to rn is because the feed is not dependent on place data, just post data, and we should scroll to top of feed before refreshing the data
+
+        //Feed visual update
+        feed.reloadData()
+        //Map visual update
         removeExistingPlaceAnnotationsFromMap()
         removeExistingPostAnnotationsFromMap()
         mapView.addAnnotations(placeAnnotations)
@@ -232,7 +233,7 @@ extension ExploreViewController {
         present(filterVC, animated: true)
     }
     
-    // Helper
+    // Helpers
     
     func resetCurrentFilter() {
         searchBarButton.text = ""

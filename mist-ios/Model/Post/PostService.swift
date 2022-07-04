@@ -12,16 +12,13 @@ class PostService: NSObject {
     
     static var singleton = PostService()
     
-    private var explorePosts = [Int: Post]() //[postId: post]
-    private var sortedExplorePosts = [Post]() {
-        didSet {
-            explorePosts = Dictionary(uniqueKeysWithValues: sortedExplorePosts.map { ($0.id, $0) })
-        }
-    }
-    private var conversationPosts = [Int: Post]()
-    private var submissions = [Int: Post]()
-    private var favorites = [Int: Post]()
-    private var mentions = [Int: Post]()
+    private var allLoadedPosts = [Int: Post]() //[postId: post]
+    
+    private var explorePostIds = [Int]()
+    private var conversationPostIds = [Int]()
+    private var submissionIds = [Int]()
+    private var favoriteIds = [Int]()
+//    private var mentions = [Int]()
     
     private var explorePostFilter = PostFilter()
     
@@ -32,53 +29,83 @@ class PostService: NSObject {
     }
     
     //MARK: - Load and setup
-    
-    func loadPosts() async throws {
+        
+    func loadExplorePosts() async throws {
+        var loadedPosts = [Post]()
         switch explorePostFilter.searchBy {
         case .all:
-            sortedExplorePosts = try await PostAPI.fetchPosts()
+            loadedPosts = try await PostAPI.fetchPosts()
         case .location:
-            sortedExplorePosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: explorePostFilter.region.center.latitude, longitude: explorePostFilter.region.center.longitude, radius: convertLatDeltaToKms(explorePostFilter.region.span.latitudeDelta))
+            loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: explorePostFilter.region.center.latitude, longitude: explorePostFilter.region.center.longitude, radius: convertLatDeltaToKms(explorePostFilter.region.span.latitudeDelta))
         case .text:
-            sortedExplorePosts = try await PostAPI.fetchPostsByWords(words: [explorePostFilter.text ?? ""])
+            loadedPosts = try await PostAPI.fetchPostsByWords(words: [explorePostFilter.text ?? ""])
         }
+        explorePostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts)
     }
     
+    func loadSubmissions() async throws {
+        submissionIds = cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchPostsByAuthor(userId: UserService.singleton.getId()))
+    }
+    
+    //Called by FavoriteService after favorites are loaded in
+    func loadFavorites(favoritedPostIds: [Int]) async throws {
+        favoriteIds = cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchPostsByIds(ids: favoritedPostIds))
+    }
+    
+    //Called by ConversationService after conversations are loaded in
     func initializeConversationPosts(with posts: [Post]) {
-        conversationPosts = Dictionary(uniqueKeysWithValues: posts.map { ($0.id, $0) })
+        conversationPostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: posts)
     }
     
-    //MARK: - Update posts
+    //MARK: - Helpers
     
+    func cachePostsAndGetArrayOfPostIdsFrom(posts: [Post]) -> [Int] {
+        var postIds = [Int]()
+        for post in posts {
+            allLoadedPosts[post.id] = post
+            postIds.append(post.id)
+        }
+        return postIds
+    }
+    
+    func getLoadedPostsFor(postIds: [Int]) -> [Post] {
+        return postIds.compactMap { postId in allLoadedPosts[postId] }
+    }
+        
     func updateAllPostsWithDataFrom(updatedPost: Post) {
-        if !explorePosts.keys.contains(updatedPost.id) { explorePosts[updatedPost.id] = updatedPost }
-        if !conversationPosts.keys.contains(updatedPost.id) { conversationPosts[updatedPost.id] = updatedPost }
-        if !submissions.keys.contains(updatedPost.id) { submissions[updatedPost.id] = updatedPost }
-        if !favorites.keys.contains(updatedPost.id) { favorites[updatedPost.id] = updatedPost }
-        if !mentions.keys.contains(updatedPost.id) { mentions[updatedPost.id] = updatedPost }
+        allLoadedPosts[updatedPost.id] = updatedPost
         rerenderAnyVisiblePosts()
     }
     
     func rerenderAnyVisiblePosts() {
-        //for each tab bar index, get the top view controller
+        //TODO: for each tab bar index, get the top view controller
         //if there is a post displayed somewhere on that view controller, call its "rerender posts" function
     }
     
     //MARK: - Getting
     
     func getExplorePosts() -> [Post] {
-        return sortedExplorePosts
+        return getLoadedPostsFor(postIds: explorePostIds)
+    }
+    
+    func getSubmissions() -> [Post] {
+        return getLoadedPostsFor(postIds: submissionIds)
+    }
+    
+    func getFavorites() -> [Post] {
+        return getLoadedPostsFor(postIds: favoriteIds)
     }
     
     func getExploreFilter() -> PostFilter {
         return explorePostFilter
     }
     
-    func getConversationPost(postId: Int) -> Post? {
-        return conversationPosts[postId] //even though the convesation around a post exists, the post might have been deleted at any point in time by the user
+    //Returns Post? because even though the convesation around a post exists, the post might have been deleted at any point in time by the user
+    func getConversationPost(withPostId postId: Int) -> Post? {
+        return allLoadedPosts[postId]
     }
     
-    //MARK: - Update filter
+    //MARK: - Explore Filter
     
     func resetFilter() {
         explorePostFilter = .init()
@@ -108,15 +135,14 @@ class PostService: NSObject {
         explorePostFilter.region = newRegion
     }
     
-    //MARK: - Upload
+    //MARK: - Major user actions
     
     func uploadPost(title: String,
                     text: String,
                     locationDescription: String?,
                     latitude: Double?,
                     longitude: Double?,
-                    timestamp: Double) async throws -> Post {
-        // DB update
+                    timestamp: Double) async throws {
         let newPost = try await PostAPI.createPost(title: title,
                                                    text: text,
                                                    locationDescription: locationDescription,
@@ -124,31 +150,37 @@ class PostService: NSObject {
                                                    longitude: longitude,
                                                    timestamp: timestamp,
                                                    author: UserService.singleton.getId())
-        return newPost
+        allLoadedPosts[newPost.id] = newPost
         
-        //TODO: we really shouldnt be returning this. we should insert it into submissions and into explorePosts
+        submissionIds.insert(newPost.id, at: 0)
+        explorePostIds.insert(newPost.id, at: 0)
     }
-    
-    func addPostToConversationPosts(post: Post) {
-        conversationPosts[post.id] = post
-    }
-    
-    func removePostFromConversationPosts(postId: Int) {
-        conversationPosts.removeValue(forKey: postId)
-    }
-    
-    //MARK: - Delete
     
     func deletePost(postId: Int) async throws {
         try await PostAPI.deletePost(post_id: postId)
         
-        explorePosts.removeValue(forKey: postId)
-        conversationPosts.removeValue(forKey: postId)
-        submissions.removeValue(forKey: postId)
-        favorites.removeValue(forKey: postId)
-        mentions.removeValue(forKey: postId)
+        allLoadedPosts.removeValue(forKey: postId)
+        
+        explorePostIds.removeFirstAppearanceOf(object: postId)
+        conversationPostIds.removeAll { $0 == postId }
+        submissionIds.removeFirstAppearanceOf(object: postId)
+        favoriteIds.removeFirstAppearanceOf(object: postId)
+//        mentions.removeAll { $0 == postId }
         
         rerenderAnyVisiblePosts()
+    }
+        
+    //TODO: well, we should also be adding/removing posts to other arrays here, too
+    
+    //all of the functions below, well, they arent interacting with the database.
+    //theyre just adding or removing an existingLoadedPost from a postId array depeneding on user interaction
+        
+    func addPostToConversationPosts(post: Post) {
+        conversationPostIds.append(post.id)
+    }
+    
+    func removePostFromConversationPosts(postId: Int) {
+        conversationPostIds.removeFirstAppearanceOf(object: postId)
     }
     
 }

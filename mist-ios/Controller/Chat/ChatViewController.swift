@@ -391,7 +391,7 @@ class ChatViewController: MessagesViewController {
 extension ChatViewController: MatchRequestCellDelegate {
     
     func matchRequestCellDidTapped(postId: Int) {
-        guard let post = PostService.singleton.getConversationPost(postId: postId) else { return }
+        guard let post = PostService.singleton.getConversationPost(withPostId: postId) else { return }
         let postVC = PostViewController.createPostVC(with: post, shouldStartWithRaisedKeyboard: false, completionHandler: nil)
         navigationController!.pushViewController(postVC, animated: true)
     }

@@ -206,43 +206,40 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     }
     
     @IBAction func userDidTappedPostButton(_ sender: UIButton) {
+        guard let trimmedTitleText = titleTextView?.text.trimmingCharacters(in: .whitespaces) else { return }
+        guard let trimmedBodyText = bodyTextView?.text.trimmingCharacters(in: .whitespaces) else { return }
         setAllInteractionTo(false)
         scrollView.scrollToTop()
         view.endEditing(true)
         animateProgressBar()
-        guard let trimmedTitleText = titleTextView?.text.trimmingCharacters(in: .whitespaces) else { return }
-        guard let trimmedBodyText = bodyTextView?.text.trimmingCharacters(in: .whitespaces) else { return }
         Task {
             do {
-                let syncedPost = try await PostService.singleton.uploadPost(title: trimmedTitleText,
-                                                                        text: trimmedBodyText,
-                                                                        locationDescription: locationButton.titleLabel!.text!,
-                                                                        latitude: currentlyPinnedAnnotation!.coordinate.latitude,
-                                                                        longitude: currentlyPinnedAnnotation!.coordinate.longitude,
-                                                                        timestamp: datePicker.date.timeIntervalSince1970)
-                // Post was a success! Now navigate to ExploreMap and handle the new post
-                let tbc = presentingViewController as! SpecialTabBarController
-                tbc.selectedIndex = 0
-                let homeNav = tbc.selectedViewController as! UINavigationController
-                let homeExplore = homeNav.topViewController as! ExploreViewController
-                homeExplore.makeMapVisible()
-                homeExplore.centerMapOnUSC()
-                homeExplore.handleUpdatedFilter(PostFilter(postType: .All,
-                                                           postTimeframe: 0.3),
-                                                shouldReload: true) {
-                    self.finishAnimationProgress() {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
-                            self.dismiss(animated: true) {
-                                homeExplore.handleNewlySubmittedPost(syncedPost)
-                           }
-                         })
-                    }
-                }
+                //We need to reset the filter and reload posts before uploading because uploading the post will immediately insert it at index 0 of explorePosts
+                PostService.singleton.resetFilter()
+                try await PostService.singleton.loadExplorePosts()
+                try await PostService.singleton.uploadPost(title: trimmedTitleText, text: trimmedBodyText, locationDescription: locationButton.titleLabel!.text!, latitude: currentlyPinnedAnnotation!.coordinate.latitude, longitude: currentlyPinnedAnnotation!.coordinate.longitude, timestamp: datePicker.date.timeIntervalSince1970)
+                handleSuccessfulNewPost()
             } catch {
                 progressView.progress = 0
                 setAllInteractionTo(true)
                 CustomSwiftMessages.displayError(error)
             }
+        }
+    }
+    
+    func handleSuccessfulNewPost() {
+        let tbc = presentingViewController as! UITabBarController
+        tbc.selectedIndex = 0
+        let homeNav = tbc.selectedViewController as! UINavigationController
+        let homeExplore = homeNav.topViewController as! ExploreViewController
+        
+        finishAnimationProgress() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+                homeExplore.makeMapVisible()
+                self.dismiss(animated: true) {
+                    homeExplore.handleNewlySubmittedPost()
+               }
+            })
         }
     }
     
