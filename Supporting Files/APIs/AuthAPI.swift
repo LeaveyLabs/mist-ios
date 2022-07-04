@@ -17,6 +17,11 @@ struct TokenStruct: Codable {
     let token:String;
 }
 
+enum Sex: String {
+    case Male = "m"
+    case Female = "f"
+}
+
 class AuthAPI {
     static let PATH_TO_EMAIL_REGISTRATION = "api-register-email/"
     static let PATH_TO_EMAIL_VALIDATION = "api-validate-email/"
@@ -64,14 +69,19 @@ class AuthAPI {
                            last_name:String,
                            picture:UIImage?,
                            email:String,
-                           password:String) async throws -> CompleteUser {
+                           password:String,
+                           birth_year:Int,
+                           birth_month:Int,
+                           birth_day:Int,
+                           sex:String) async throws -> CompleteUser {
         let params:[String:String] = [
             UserAPI.USERNAME_PARAM: username,
             UserAPI.FIRST_NAME_PARAM: first_name,
             UserAPI.LAST_NAME_PARAM: last_name,
             UserAPI.EMAIL_PARAM: email,
             UserAPI.PASSWORD_PARAM: password,
-            UserAPI.DATE_OF_BIRTH_PARAM: "2000-01-01",
+            UserAPI.DATE_OF_BIRTH_PARAM: "\(birth_year)-\(birth_month)-\(birth_day)",
+            UserAPI.SEX_PARAM: sex,
         ]
         let request = AF.upload(
             multipartFormData:
