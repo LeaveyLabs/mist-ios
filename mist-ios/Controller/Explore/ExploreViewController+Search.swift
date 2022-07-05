@@ -104,7 +104,7 @@ extension ExploreViewController: UITableViewDelegate {
                 PostService.singleton.updateFilter(newSearchBy: .location)
                 search(for: query)
             } else {
-                let suggestion = searchSuggestionsVC.completerResults[indexPath.row]
+                let suggestion = searchSuggestionsVC.completerResults[indexPath.row-1]
                 searchBarButton.text = suggestion.title
                 PostService.singleton.updateFilter(newSearchBy: .location)
                 search(for: suggestion) //first gets places from Apple, then calls reloadPosts(0

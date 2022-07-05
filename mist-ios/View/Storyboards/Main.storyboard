@@ -999,6 +999,7 @@ make that cute barista’s day,
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bq1-qJ-1bN">
                             <rect key="frame" x="73" y="6.3333333333333321" width="257" height="43"/>
                             <color key="backgroundColor" systemColor="systemGray6Color"/>
+                            <color key="tintColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.87058818339999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="43" id="MSD-DM-Gea"/>
                             </constraints>

@@ -53,16 +53,22 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     }
     var hasUserTappedDateLabel: Bool = false {
         didSet {
-            let (date, _) = getDateAndTimeForNewPost(selectedDate: datePicker.date)
-            dateLabel.text = date
-            dateLabel.textColor = .black
+            if hasUserTappedDateLabel {
+                let (date, _) = getDateAndTimeForNewPost(selectedDate: datePicker.date)
+                dateLabel.text = date
+                dateLabel.textColor = .black
+            }
+            validateAllFields()
         }
     }
     var hasUserTappedTimeLabel: Bool = false {
         didSet {
-            let (_, time) = getDateAndTimeForNewPost(selectedDate: datePicker.date)
-            timeLabel.text = time
-            timeLabel.textColor = .black
+            if hasUserTappedTimeLabel {
+                let (_, time) = getDateAndTimeForNewPost(selectedDate: datePicker.date)
+                timeLabel.text = time
+                timeLabel.textColor = .black
+            }
+            validateAllFields()
         }
     }
     var postStartTime: DispatchTime?
@@ -73,13 +79,13 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLocationButton()
-        loadFromNewPostContext()
         postBubbleView.transformIntoPostBubble(arrowPosition: .right)
-        setupTextViews()
         setupDatePicker()
         setupDatePicker()
         setupProgressView()
         validateAllFields()
+        setupTextViews()
+        loadFromNewPostContext() //should come after setting up views
         shouldKUIViewKeyboardDismissOnBackgroundTouch = true
    }
     
@@ -92,6 +98,10 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         bodyTextView.text = NewPostContext.body
         hasUserTappedTimeLabel = NewPostContext.hasUserTappedTimeLabel
         hasUserTappedDateLabel = NewPostContext.hasUserTappedDateLabel
+        
+        //Extra checks necessary after updating the textView's text
+        bodyPlaceholderLabel.isHidden = !bodyTextView.text.isEmpty
+        titlePlaceholderLabel.isHidden = !titleTextView.text.isEmpty
     }
     
     func saveToNewPostContext() {
@@ -187,18 +197,18 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         hasUserTappedTimeLabel = isTapWithinTimeLabel || hasUserTappedTimeLabel
         // Could add code to determine which label was pressed aka which label to highlight
         // To do this, set user interaction of labels/uiview to yes, and then manually pass the touch event through
-        // https://stackoverflow.com/questions/2793242/detect-if-certain-uiview-was-touched-amongst-other-uiviews
+        //https://stackoverflow.com/questions/2793242/detect-if-certain-uiview-was-touched-amongst-other-uiviews
     }
     
     @IBAction func cancelButtonDidPressed(_ sender: UIBarButtonItem) {
-        let hasMadeEdits = !bodyTextView.text.isEmpty || !titleTextView.text.isEmpty || currentlyPinnedAnnotation != nil
+        let hasMadeEdits = !bodyTextView.text.isEmpty || !titleTextView.text.isEmpty || currentlyPinnedAnnotation != nil || hasUserTappedDateLabel == true || hasUserTappedTimeLabel == true
         if hasMadeEdits {
             CustomSwiftMessages.showAlert(onDiscard: {
                 NewPostContext.clear()
                 self.dismiss(animated: true)
             }, onSave: { [self] in
-                self.dismiss(animated: true)
                 saveToNewPostContext()
+                self.dismiss(animated: true)
             })
         } else {
             self.dismiss(animated: true)
@@ -208,6 +218,8 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     @IBAction func userDidTappedPostButton(_ sender: UIButton) {
         guard let trimmedTitleText = titleTextView?.text.trimmingCharacters(in: .whitespaces) else { return }
         guard let trimmedBodyText = bodyTextView?.text.trimmingCharacters(in: .whitespaces) else { return }
+        guard let locationText = locationButton.titleLabel?.text else { return }
+        guard let annotation = currentlyPinnedAnnotation else { return }
         setAllInteractionTo(false)
         scrollView.scrollToTop()
         view.endEditing(true)
@@ -217,7 +229,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
                 //We need to reset the filter and reload posts before uploading because uploading the post will immediately insert it at index 0 of explorePosts
                 PostService.singleton.resetFilter()
                 try await PostService.singleton.loadExplorePosts()
-                try await PostService.singleton.uploadPost(title: trimmedTitleText, text: trimmedBodyText, locationDescription: locationButton.titleLabel!.text!, latitude: currentlyPinnedAnnotation!.coordinate.latitude, longitude: currentlyPinnedAnnotation!.coordinate.longitude, timestamp: datePicker.date.timeIntervalSince1970)
+                try await PostService.singleton.uploadPost(title: trimmedTitleText, text: trimmedBodyText, locationDescription: locationText, latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude, timestamp: datePicker.date.timeIntervalSince1970)
                 handleSuccessfulNewPost()
             } catch {
                 progressView.progress = 0
@@ -347,7 +359,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         titlePlaceholderLabel.isHidden = false
         progressView.isHidden = true
         progressView.progress = 0.01
-        locationButton.titleLabel!.text = LOCATION_PLACEHOLDER_TEXT
+        locationButton.titleLabel?.text = LOCATION_PLACEHOLDER_TEXT
         datePicker.date = Date()
     }
     
@@ -359,13 +371,8 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         bodyTextView.isEditable = shouldBeEnabled
     }
     
+    //my guess is it had something to do with this validate all fields
     func validateAllFields() {
-        if bodyTextView.text!.count == 0 || bodyTextView.text!.count > bodyTextView.maxLength ||
-            titleTextView.text!.count == 0 || titleTextView.text!.count > titleTextView.maxLength ||
-            currentlyPinnedAnnotation == nil && hasUserTappedDateLabel && hasUserTappedTimeLabel {
-            postButton.isEnabled = false
-        } else {
-            postButton.isEnabled = true
-        }
+        postButton.isEnabled = bodyTextView.text.count != 0 && bodyTextView.text.count <= bodyTextView.maxLength && titleTextView.text.count != 0 && titleTextView.text.count <= titleTextView.maxLength && currentlyPinnedAnnotation != nil && hasUserTappedDateLabel && hasUserTappedTimeLabel
     }
 }

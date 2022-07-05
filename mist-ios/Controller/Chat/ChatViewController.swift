@@ -263,6 +263,9 @@ class ChatViewController: MessagesViewController {
     func renderMoreMessagesAndMatchRequests() {
         if lastLoadIndex == -1 {
             messagesCollectionView.refreshControl = nil
+            if let matchRequest = placeholderMessageKitMatchRequest, chatObjects.count == 0 {
+                chatObjects.insert(matchRequest, at: 0)
+            }
             return
         }
             
@@ -281,11 +284,6 @@ class ChatViewController: MessagesViewController {
     
     //if there's a matchRequest which is after the upcoming message but before the most recent message, insert it
     func insertMatchRequestIfNecessary(before upcomingMessage: Message) {
-        if let matchRequest = placeholderMessageKitMatchRequest, chatObjects.count == 0 {
-            chatObjects.insert(matchRequest, at: 0)
-            return
-        }
-        
         for matchRequest in conversation.matchRequests {
             guard let first = chatObjects.first else {
                 if matchRequest.timestamp > upcomingMessage.timestamp {

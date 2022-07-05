@@ -8,6 +8,10 @@
 import Foundation
 import MapKit
 
+protocol DisplayingPostDelegate {
+    func rerenderPostUIAfterPostServiceUpdate()
+}
+
 class PostService: NSObject {
     
     static var singleton = PostService()
@@ -77,9 +81,18 @@ class PostService: NSObject {
         rerenderAnyVisiblePosts()
     }
     
+    //the other problem: we need to make sure PostViewController, etc actually depend on PostService for posts. right now, Explore does depend on PostService, but PostViewController does not
+    //hmmm - instead of passing Post from explore to PostVC, we'd want to pass the postId, yea? than we can just call PostService.getPost(forId: ) throughout PostVC
     func rerenderAnyVisiblePosts() {
-        //TODO: for each tab bar index, get the top view controller
-        //if there is a post displayed somewhere on that view controller, call its "rerender posts" function
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+        let delegate = windowScene.delegate as? SceneDelegate, let window = delegate.window else { return }
+        guard let tabVC = window.rootViewController as? UITabBarController else { return }
+        let firstNavVC = tabVC.viewControllers![0] as! UINavigationController
+        let secondNavVC = tabVC.viewControllers![2] as! UINavigationController
+        guard let visibleFirstVC = firstNavVC.visibleViewController! as? DisplayingPostDelegate else { return }
+        guard let visibleSecondVC = secondNavVC.visibleViewController! as? DisplayingPostDelegate else { return }
+        visibleFirstVC.rerenderPostUIAfterPostServiceUpdate()
+        visibleSecondVC.rerenderPostUIAfterPostServiceUpdate()
     }
     
     //MARK: - Getting
@@ -99,6 +112,8 @@ class PostService: NSObject {
     func getExploreFilter() -> PostFilter {
         return explorePostFilter
     }
+    
+    //TODO: i think the below function would be used by PostVC too. so why not just call it "getPost"? doesnt have to be specific to conversation posts. and of course it'll return Post?
     
     //Returns Post? because even though the convesation around a post exists, the post might have been deleted at any point in time by the user
     func getConversationPost(withPostId postId: Int) -> Post? {

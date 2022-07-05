@@ -38,7 +38,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     //Data
     var post: Post!
     var comments = [Comment]()
-    var commentAuthors = [Int: FrontendReadOnlyUser]()
+    var commentAuthors = [Int: FrontendReadOnlyUser]() //[authorId: author]
     
     //PostDelegate
     var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] = [:]
@@ -263,7 +263,7 @@ extension PostViewController {
         tableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
         post.commentcount += 1
         comments.append(newComment)
-        commentAuthors[newComment.id] = UserService.singleton.getUserAsFrontendReadOnlyUser()
+        commentAuthors[newComment.author] = UserService.singleton.getUserAsFrontendReadOnlyUser()
         tableView.reloadData()
     }
         

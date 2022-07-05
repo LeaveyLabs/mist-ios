@@ -68,12 +68,11 @@ extension ExploreViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         latitudeOffset = 0.00095
-        makeFeedVisible()
         setupSearchBarButton()
         setupRefreshButton()
+        setupCustomNavigationBar()
         setupCustomTapGestureRecognizerOnMap()
         renderNewPostsOnFeedAndMap(withType: .firstLoad)
-        setupCustomNavigationBar()
         
         if let userLocation = locationManager.location {
             mapView.camera.centerCoordinate = userLocation.coordinate

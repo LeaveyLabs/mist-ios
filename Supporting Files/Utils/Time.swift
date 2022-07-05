@@ -84,7 +84,7 @@ func getFormattedTimeString(timestamp: Double) -> String {
         }
         //if hours ago
         else if getDayOfWeek(currentTimeMillis: timestamp) == getDayOfWeek(currentTimeMillis: currentTimeMillis()) {
-            if (elapsedTimeSincePost.hours == 0) {
+            if (elapsedTimeSincePost.hours == 1) {
                 return String(elapsedTimeSincePost.hours) + " hour ago"
             } else {
                 return String(elapsedTimeSincePost.hours) + " hours ago"

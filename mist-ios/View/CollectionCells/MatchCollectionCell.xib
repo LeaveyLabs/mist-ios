@@ -21,7 +21,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="400" height="110"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ajA-4c-VFz">
-                                <rect key="frame" x="15" y="50" width="370" height="50"/>
+                                <rect key="frame" x="0.0" y="45" width="395" height="50"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="smallpostbubble" translatesAutoresizingMaskIntoConstraints="NO" id="LSb-cn-kph">
                                         <rect key="frame" x="0.0" y="0.0" width="80" height="50"/>
@@ -30,8 +30,8 @@
                                             <constraint firstAttribute="width" constant="80" id="TIO-Fv-LRq"/>
                                         </constraints>
                                     </imageView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="mhd-6K-3a1">
-                                        <rect key="frame" x="90" y="0.5" width="252" height="49"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="mhd-6K-3a1">
+                                        <rect key="frame" x="90" y="2" width="278" height="46"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mei replied to your mist:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ls-gB-c7e">
                                                 <rect key="frame" x="0.0" y="0.0" width="134" height="16.5"/>
@@ -40,7 +40,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pink Korean hoodie??? Omg i think that" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="31y-WH-wWL">
-                                                <rect key="frame" x="0.0" y="21.5" width="252" height="27.5"/>
+                                                <rect key="frame" x="0.0" y="18.5" width="278" height="27.5"/>
                                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -48,8 +48,9 @@
                                         </subviews>
                                     </stackView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="CIA-VP-yXH">
-                                        <rect key="frame" x="352" y="13" width="18" height="24.5"/>
-                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="25"/>
+                                        <rect key="frame" x="378" y="14" width="17" height="22.5"/>
+                                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="23"/>
                                     </imageView>
                                 </subviews>
                             </stackView>
@@ -67,12 +68,12 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="ajA-4c-VFz" secondAttribute="trailing" constant="15" id="DBl-YD-n8J"/>
+                            <constraint firstAttribute="trailing" secondItem="ajA-4c-VFz" secondAttribute="trailing" constant="5" id="DBl-YD-n8J"/>
                             <constraint firstItem="hYb-XH-TuY" firstAttribute="centerX" secondItem="EzO-4H-RqL" secondAttribute="centerX" id="Gkq-CE-3Vn"/>
                             <constraint firstItem="hYb-XH-TuY" firstAttribute="top" secondItem="EzO-4H-RqL" secondAttribute="top" constant="15" id="Unv-EA-fdO"/>
-                            <constraint firstItem="ajA-4c-VFz" firstAttribute="leading" secondItem="EzO-4H-RqL" secondAttribute="leading" constant="15" id="X7N-Rc-ZpE"/>
-                            <constraint firstAttribute="bottom" secondItem="ajA-4c-VFz" secondAttribute="bottom" constant="10" id="bNR-LY-hwl"/>
-                            <constraint firstItem="ajA-4c-VFz" firstAttribute="top" secondItem="EzO-4H-RqL" secondAttribute="top" constant="50" id="xpa-4s-GA1"/>
+                            <constraint firstItem="ajA-4c-VFz" firstAttribute="leading" secondItem="EzO-4H-RqL" secondAttribute="leading" id="X7N-Rc-ZpE"/>
+                            <constraint firstAttribute="bottom" secondItem="ajA-4c-VFz" secondAttribute="bottom" constant="15" id="bNR-LY-hwl"/>
+                            <constraint firstItem="ajA-4c-VFz" firstAttribute="top" secondItem="EzO-4H-RqL" secondAttribute="top" constant="45" id="xpa-4s-GA1"/>
                         </constraints>
                     </view>
                 </subviews>
