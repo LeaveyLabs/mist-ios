@@ -66,17 +66,17 @@ class MatchRequestService: NSObject {
                 allMatchRequestsWithUser.append(sentMatchRequest)
             }
         }
-        return allMatchRequestsWithUser
+        return allMatchRequestsWithUser.sorted()
     }
     
-    func getAllUniquePostMatchRequestsWith(_ userId: Int) -> [MatchRequest] {
-        var allUniqueMatchRequestsWithUser = [Int: MatchRequest]() //[postId: MatchRequest]
+    func getInitiatingMatchRequestsWith(_ userId: Int) -> [MatchRequest] {
+        var initiatingMatchRequests = [Int: MatchRequest]() //[postId: MatchRequest]
         for matchRequest in getAllMatchRequestsWith(userId) {
-            if !allUniqueMatchRequestsWithUser.keys.contains(matchRequest.post) {
-                allUniqueMatchRequestsWithUser[matchRequest.post] = matchRequest
+            if !initiatingMatchRequests.keys.contains(matchRequest.post) {
+                initiatingMatchRequests[matchRequest.post] = matchRequest
             }
         }
-        return Array(allUniqueMatchRequestsWithUser.values)
+        return Array(initiatingMatchRequests.values).sorted()
     }
     
     func getAllUniquePostMatchRequests() -> [MatchRequest] {
@@ -86,10 +86,10 @@ class MatchRequestService: NSObject {
                 allUniqueMatchRequests[matchRequest.post] = matchRequest
             }
         }
-        return Array(allUniqueMatchRequests.values)
+        return Array(allUniqueMatchRequests.values).sorted()
     }
     
-    func sendMatchRequest(to userId: Int, for postId: Int) async throws -> MatchRequest {
+    func sendMatchRequest(to userId: Int, forPostId postId: Int) async throws -> MatchRequest {
         let newMatchRequest = try await MatchRequestAPI.postMatchRequest(senderUserId: UserService.singleton.getId(), receiverUserId: userId, postId: postId)
         sentMatchRequests.append(newMatchRequest)
         return newMatchRequest

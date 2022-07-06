@@ -29,7 +29,7 @@ class MatchCollectionCell: UICollectionViewCell {
         bgView.addGestureRecognizer(backgroundTap)
     }
     
-    open func configure(with messageKitMatch: MessageKitMatch,
+    open func configure(with messageKitMatch: MessageKitMatchRequest,
                         sangdaebang: FrontendReadOnlyUser,
                         delegate: MatchRequestCellDelegate,
                         isSangdaebangHidden: Bool,

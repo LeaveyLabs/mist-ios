@@ -26,14 +26,12 @@ class BlockService: NSObject {
         async let loadedUsersWhoBlockedYou = BlockAPI.fetchBlocksByBlockedUser(blockedUserId: UserService.singleton.getId())
         async let loadedUsersWhoYouBlocked = BlockAPI.fetchBlocksByBlockingUser(blockingUserId: UserService.singleton.getId())
         (usersWhoBlockedYou, usersWhoYouBlocked) = try await (loadedUsersWhoBlockedYou, loadedUsersWhoYouBlocked)
-        
-        try await BlockAPI.deleteBlock(blockingUserId: 7, blockedUserId: 1)
     }
     
     //MARK: - Getters
     
     func isBlockedBy(_ userId: Int) -> Bool {
-        return usersWhoBlockedYou.contains { $0.blocked_user == userId }
+        return usersWhoBlockedYou.contains { $0.blocking_user == userId }
     }
     
     func hasBlocked(_ userId: Int) -> Bool {
@@ -56,8 +54,6 @@ class BlockService: NSObject {
             usersWhoYouBlocked.removeAll { $0.id == newBlock.id }
             throw(error)
         }
-        
-        ConversationService.singleton.handleNewlyBlockedUser(userToBeBlockedId)
     }
     
     @available(iOS, obsoleted: 4.0, message: "Unblocking is not yet supported")
@@ -70,8 +66,6 @@ class BlockService: NSObject {
             usersWhoYouBlocked.append(blockToDelete)
             throw(error)
         }
-
-        ConversationService.singleton.handleNewlyUnblockedUser(userToBeUnBlockedId)
     }
     
 }

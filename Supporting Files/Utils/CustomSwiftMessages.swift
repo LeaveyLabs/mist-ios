@@ -194,6 +194,27 @@ extension CustomSwiftMessages {
         }
     }
     
+    static func showAlreadyDmdMessage() {
+        DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
+            let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
+            let title = "You already responded to this mist."
+            let body = "Check your conversations to keep chatting."
+            messageView.configureContent(title: title, body: body, iconText: "😉")
+            messageView.customConfig(approveText: "", dismissText: "Okay")
+            messageView.approveAction = {
+                SwiftMessages.hide()
+            }
+            messageView.dismissAction = {
+                SwiftMessages.hide()
+            }
+            
+            messageView.configureBackgroundView(width: 300)
+            messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+            messageView.backgroundView.layer.cornerRadius = 10
+            SwiftMessages.show(config: middlePresentationConfig(), view: messageView)
+        }
+    }
+    
     static func showAlert(onDiscard: @escaping () -> Void, onSave: @escaping () -> Void) {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()

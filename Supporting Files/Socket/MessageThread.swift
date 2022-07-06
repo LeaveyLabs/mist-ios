@@ -15,7 +15,7 @@ class MessageThread: WebSocketDelegate {
     var unsent_messages: [String];
     var server_messages: [Message] {
         didSet {
-            ConversationService.singleton.handleMessageThreadIncrease(with: receiver)
+            ConversationService.singleton.handleMessageThreadSizeIncrease(with: receiver)
         }
     }
     let init_data: Data!

@@ -44,6 +44,10 @@ extension PostDelegate where Self: UIViewController {
             CustomSwiftMessages.showAlreadyBlockedMessage()
             return
         }
+        guard !MatchRequestService.singleton.getAllMatchRequestsWith(author.id).contains(where: {$0.post == postId} ) else {
+            CustomSwiftMessages.showAlreadyDmdMessage()
+            return
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             dmButton.loadingIndicator(true)
         }

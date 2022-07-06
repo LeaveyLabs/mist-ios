@@ -268,7 +268,7 @@ extension ExploreViewController: PostDelegate {
         let index = postAnnotations.firstIndex { $0.post.id == postId }!
         let originalVoteCount = postAnnotations[index].post.votecount
         postAnnotations[index].post.votecount += isAdding ? 1 : -1
-        
+                
         // Singleton & remote update
         do {
             try VoteService.singleton.handleVoteUpdate(postId: postId, isAdding)

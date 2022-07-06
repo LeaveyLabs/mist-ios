@@ -24,10 +24,21 @@ struct MessageKitMessage: MessageType {
         self.messageId = messageId
         self.sentDate = date
                 
-        message = Message(id: Int(messageId)!,
+        self.message = Message(id: Int(messageId)!,
                           sender: Int(sender.senderId)!,
                           receiver: Int(receiver.senderId)!,
                           body: text.string,
                           timestamp: date.timeIntervalSince1970)
+    }
+    
+    init(message: Message, conversation: Conversation) {
+        let attributedMessage = NSAttributedString(string: message.body, attributes: [.font: UIFont(name: Constants.Font.Medium, size: 15)!])
+        
+        self.kind = .attributedText(attributedMessage)
+        self.sender = message.sender == UserService.singleton.getId() ? UserService.singleton.getUserAsFrontendReadOnlyUser() : conversation.sangdaebang
+        self.messageId = String(message.id)
+        self.sentDate = Date(timeIntervalSince1970: message.timestamp)
+        
+        self.message = message
     }
 }
