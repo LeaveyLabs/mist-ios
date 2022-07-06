@@ -496,7 +496,7 @@ extension ChatViewController: MessagesLayoutDelegate {
     }
     
     func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return isFromCurrentSender(message: message) && indexPath.section == numberOfSections(in: messagesCollectionView) - 1 ? 16 : 0
+        return isFromCurrentSender(message: message) && isLastMessage(at: indexPath) ? 16 : 0
     }
         
 //    func textCellSizeCalculator(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CellSizeCalculator? {
@@ -554,6 +554,15 @@ extension ChatViewController: MessageLabelDelegate {
 // MARK: - Helpers
 
 extension ChatViewController {
+    
+    func isLastMessage(at indexPath: IndexPath) -> Bool {
+        let isInfoCellVisible = conversation.isSangdaebangHidden
+        if isInfoCellVisible {
+            return indexPath.section == numberOfSections(in: messagesCollectionView) - 2
+        } else {
+            return indexPath.section == numberOfSections(in: messagesCollectionView) - 1
+        }
+    }
         
     func isLastSectionVisible() -> Bool {
         guard numberOfSections(in: messagesCollectionView) != 0 else { return false }

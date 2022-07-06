@@ -50,7 +50,7 @@ class MatchCollectionCell: UICollectionViewCell {
             })
         }
         
-        timestampLabel.attributedText = NSAttributedString(string: MessageKitDateFormatter.shared.string(from: messageKitMatch.sentDate), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+        timestampLabel.attributedText = NSAttributedString(string: MessageKitDateFormatter.shared.string(from: messageKitMatch.sentDate), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.lightGray])
     }
     
     @objc func backgroundButtonDidPressed() {

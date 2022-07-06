@@ -84,7 +84,7 @@ class Conversation {
     func getRenderedChatObjects() -> [MessageType] {
         var allChatObjects = Array(chatObjects.suffix(renderedIndex))
         if let placeholderMessageKitMatchRequest = placeholderMessageKitMatchRequest {
-            allChatObjects.insert(placeholderMessageKitMatchRequest, at: 0)
+            allChatObjects.append(placeholderMessageKitMatchRequest)
         }
         if isSangdaebangHidden {
             allChatObjects.append(MessageKitInfo())

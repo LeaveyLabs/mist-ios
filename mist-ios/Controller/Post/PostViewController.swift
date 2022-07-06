@@ -72,10 +72,6 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         self.view.keyboardLayoutGuide.topAnchor.constraint(equalTo: self.tableView.bottomAnchor).isActive = true
         let tableViewTap = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
         tableView.addGestureRecognizer(tableViewTap)
-                
-        //User Interaction
-        //(1 of 2) for enabling swipe left to go back with a bar button item
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     @objc func dismissKeyboard() {
@@ -148,11 +144,14 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     
     //MARK: - User Interaction
     
+    //Disabling for now ujntil we find an alternative way to attach the input bar to the bottom besides using the view controller's first responder property
+    //1 of 2
+//    self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     //(2 of 2) for enabling swipe left to go back with a bar button item
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-    
+//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+//        return true
+//    }
+        
     @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
     }
