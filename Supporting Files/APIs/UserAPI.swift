@@ -30,6 +30,7 @@ class UserAPI {
     static let FIRST_NAME_PARAM = "first_name"
     static let LAST_NAME_PARAM = "last_name"
     static let DATE_OF_BIRTH_PARAM = "date_of_birth"
+    static let SEX_PARAM = "sex"
     static let TEXT_PARAM = "text"
     static let TOKEN_PARAM = "token"
     static let AUTH_HEADERS:HTTPHeaders = [
@@ -94,6 +95,7 @@ class UserAPI {
             multipartFormData:
                 { multipartFormData in
                     multipartFormData.append(imgData!, withName: "picture", fileName: "\(username).png", mimeType: "image/png")
+                    multipartFormData.append(imgData!, withName: "confirm_picture", fileName: "\(username).png", mimeType: "image/png")
                 },
             to: "\(BASE_URL)\(PATH_TO_USER_MODEL)\(id)/",
             method: .patch,

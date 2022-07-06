@@ -51,6 +51,7 @@ class BasicAPI {
                 throw APIError.ServerError
             }
             else if httpResponse.statusCode == 400 {
+                print(String(data: data, encoding: String.Encoding.utf8))
                 throw APIError.InvalidParameters
             }
             else if httpResponse.statusCode == 403 {
@@ -95,6 +96,7 @@ class BasicAPI {
                 throw APIError.ServerError
             }
             else if httpResponse.statusCode == 400 {
+                print(String(data: data, encoding: String.Encoding.utf8))
                 throw APIError.InvalidParameters
             }
             else if httpResponse.statusCode == 403 {
