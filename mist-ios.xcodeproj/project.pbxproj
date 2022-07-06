@@ -1191,7 +1191,6 @@
 				5BB624DB2867E98500DCD45B /* Conversation.swift */,
 				5BB624BD2864308E00DCD45B /* ConversationService.swift */,
 				5BC27633286A8BA900DA5A3D /* MessageLayout */,
-				5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -1280,6 +1279,7 @@
 		5BC27633286A8BA900DA5A3D /* MessageLayout */ = {
 			isa = PBXGroup;
 			children = (
+				5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */,
 				5BC27635286A8BB300DA5A3D /* CustomLayoutSizeCalculator.swift */,
 				5BC27634286A8BB300DA5A3D /* CustomTextLayoutSizeCalculator.swift */,
 			);

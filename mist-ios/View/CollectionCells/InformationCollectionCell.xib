@@ -21,18 +21,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="400" height="92"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Information to tell them" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r9O-9f-jlT">
-                                <rect key="frame" x="80" y="30" width="240" height="32"/>
-                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
+                                <rect key="frame" x="85" y="20" width="230" height="52"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="230" id="36p-E0-9N8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="r9O-9f-jlT" firstAttribute="top" secondItem="aOd-Rt-SuV" secondAttribute="top" constant="30" id="Ejf-Ho-mUB"/>
-                            <constraint firstAttribute="bottom" secondItem="r9O-9f-jlT" secondAttribute="bottom" constant="30" id="PSQ-Z0-Ebc"/>
-                            <constraint firstAttribute="trailing" secondItem="r9O-9f-jlT" secondAttribute="trailing" constant="80" id="d6A-ex-W8T"/>
-                            <constraint firstItem="r9O-9f-jlT" firstAttribute="leading" secondItem="aOd-Rt-SuV" secondAttribute="leading" constant="80" id="zWc-tU-gl5"/>
+                            <constraint firstItem="r9O-9f-jlT" firstAttribute="top" secondItem="aOd-Rt-SuV" secondAttribute="top" constant="20" id="Ejf-Ho-mUB"/>
+                            <constraint firstAttribute="bottom" secondItem="r9O-9f-jlT" secondAttribute="bottom" constant="20" id="PSQ-Z0-Ebc"/>
+                            <constraint firstItem="r9O-9f-jlT" firstAttribute="centerX" secondItem="aOd-Rt-SuV" secondAttribute="centerX" id="zvl-eN-cuu"/>
                         </constraints>
                     </view>
                 </subviews>

@@ -87,7 +87,7 @@ class Conversation {
             allChatObjects.insert(placeholderMessageKitMatchRequest, at: 0)
         }
         if isSangdaebangHidden {
-            allChatObjects.insert(MessageKitInfo(), at: 0)
+            allChatObjects.append(MessageKitInfo())
         }
         return allChatObjects
     }

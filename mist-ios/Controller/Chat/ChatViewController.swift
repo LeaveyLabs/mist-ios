@@ -146,12 +146,12 @@ class ChatViewController: MessagesViewController {
     //MARK: - Setup
     
     func setupMessagesCollectionView() {
-        messageInputBar.delegate = self
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messageCellDelegate = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
         messagesCollectionView.delegate = self
+        messageInputBar.delegate = self
                 
         let matchNib = UINib(nibName: String(describing: MatchCollectionCell.self), bundle: nil)
         messagesCollectionView.register(matchNib, forCellWithReuseIdentifier: String(describing: MatchCollectionCell.self))
@@ -159,20 +159,13 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.register(infoNib, forCellWithReuseIdentifier: String(describing: InformationCollectionCell.self))
 //        self.messagesCollectionView.register(CustomTextMessageContentCell.self)
         
+        messagesCollectionView.refreshControl = refreshControl
+        if conversation.hasRenderedAllChatObjects() { refreshControl.removeFromSuperview() }
+        
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
         maintainPositionOnKeyboardFrameChanged = true // default false
         showMessageTimestampOnSwipeLeft = true // default false
-        messagesCollectionView.refreshControl = refreshControl
-        if conversation.hasRenderedAllChatObjects() { refreshControl.removeFromSuperview() }
-
-        let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout
-        layout?.sectionInset = UIEdgeInsets(top: 1, left: 8, bottom: 2, right: 8)
-        layout?.setMessageOutgoingAvatarSize(.zero)
-        layout?.setMessageIncomingAvatarSize(.init(width: 35, height: 35))
-        layout?.setMessageOutgoingMessageBottomLabelAlignment(LabelAlignment(textAlignment: .right, textInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 12)))
         additionalBottomInset = 8
-        layout?.setMessageOutgoingMessagePadding(.init(top: 0, left: 70, bottom: 0, right: 4)) //limit message max width
-        layout?.setMessageIncomingMessagePadding(.init(top: 0, left: 4, bottom: 0, right: 70)) //limit message max width
     }
     
     func setupCustomNavigationBar() {
@@ -330,7 +323,7 @@ extension ChatViewController: MessagesDataSource {
 
     func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         if isTimeLabelVisible(at: indexPath) {
-            return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+            return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         }
         return nil
     }
@@ -499,7 +492,7 @@ extension ChatViewController: MessagesDisplayDelegate {
 extension ChatViewController: MessagesLayoutDelegate {
     
     func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return isTimeLabelVisible(at: indexPath) ? 60 : 0
+        return isTimeLabelVisible(at: indexPath) ? 50 : 0
     }
     
     func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
