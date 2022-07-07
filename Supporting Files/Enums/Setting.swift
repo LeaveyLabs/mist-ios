@@ -9,7 +9,7 @@ import Foundation
 
 enum Setting {
     case addFriends, myFriends
-    case submissions, mentions, favorites
+    case submissions, favorites //mentions
     case email, phoneNumber, password, notifications, explore
     case shareMist, contentGuidelines, help, legal, rateMist, faq
     
@@ -21,8 +21,8 @@ enum Setting {
         switch self {
         case .submissions:
             return "Submissions"
-        case .mentions:
-            return "Mentions"
+//        case .mentions:
+//            return "Mentions"
         case .favorites:
             return "Favorites"
         case .email:
@@ -78,8 +78,8 @@ enum Setting {
             return UIImage(systemName: "person.2")!
         case .submissions:
             return UIImage(systemName: "plus")!
-        case .mentions:
-            return UIImage(systemName: "at")!
+//        case .mentions:
+//            return UIImage(systemName: "at")!
         case .favorites:
             return UIImage(systemName: "bookmark")!
         case .notifications:
@@ -115,8 +115,8 @@ enum Setting {
             break
         case .submissions:
             settingsTapDelegate.handlePosts(setting: self)
-        case .mentions:
-            settingsTapDelegate.handlePosts(setting: self)
+//        case .mentions:
+//            settingsTapDelegate.handlePosts(setting: self)
         case .favorites:
             settingsTapDelegate.handlePosts(setting: self)
         case .email:

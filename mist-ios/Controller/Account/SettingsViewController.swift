@@ -39,11 +39,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func setupBackButton() {
-        navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(goBack))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(goBack))
     }
     
     @objc func goBack() {
-        navigationController?.dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     //MARK: - Setup
@@ -52,9 +52,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.delegate = self
         tableView.dataSource = self
         tableView.estimatedRowHeight = 50
-        tableView.estimatedSectionFooterHeight = 20
-        tableView.estimatedSectionHeaderHeight = 20
-        tableView.sectionHeaderTopPadding = 15
+        tableView.estimatedSectionFooterHeight = 0
+        tableView.estimatedSectionHeaderHeight = 0
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = 0
+            tableView.sectionHeaderHeight = 10
+        }
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension //necessary when using constraints within cells
     }
@@ -63,12 +66,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         let settingNib = UINib(nibName: String(describing: SettingCell.self), bundle: nil);
         tableView.register(settingNib, forCellReuseIdentifier: String(describing: SettingCell.self))
     }
-    
-    //MARK: - User Interaction
-     
-//    @IBAction func cancelButtonDidPressed(_ sender: UIBarButtonItem) {
-//        dismiss(animated: true)
-//    }
     
     //MARK: - Table View DataSource
     

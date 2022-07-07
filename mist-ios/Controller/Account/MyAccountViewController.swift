@@ -19,9 +19,26 @@ class MyAccountViewController: SettingsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         registerNibs()
+        setupTableView()
         
         tableView.tableFooterView = mistFooterView
         appVersionLabel.text = "Version " + (Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String)
+    }
+    
+    override func setupTableView() {
+        super.setupTableView()
+        
+        if #available(iOS 15.0, *) {
+            tableView.estimatedSectionFooterHeight = 15
+            tableView.estimatedSectionHeaderHeight = 110
+            tableView.sectionHeaderTopPadding = 20
+            tableView.sectionHeaderHeight = 15
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(cancelButtonDidPressed(_:)))
     }
     
     override func registerNibs() {
