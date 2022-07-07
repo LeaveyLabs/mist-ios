@@ -30,6 +30,7 @@ class UserAPI {
     static let FIRST_NAME_PARAM = "first_name"
     static let LAST_NAME_PARAM = "last_name"
     static let DATE_OF_BIRTH_PARAM = "date_of_birth"
+    static let SEX_PARAM = "sex"
     static let TEXT_PARAM = "text"
     static let TOKEN_PARAM = "token"
     static let AUTH_HEADERS:HTTPHeaders = [
@@ -94,6 +95,7 @@ class UserAPI {
             multipartFormData:
                 { multipartFormData in
                     multipartFormData.append(imgData!, withName: "picture", fileName: "\(username).png", mimeType: "image/png")
+                    multipartFormData.append(imgData!, withName: "confirm_picture", fileName: "\(username).png", mimeType: "image/png")
                 },
             to: "\(BASE_URL)\(PATH_TO_USER_MODEL)\(id)/",
             method: .patch,
@@ -149,5 +151,55 @@ class UserAPI {
 
         let (data, _) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         return UIImage(data: data) ?? UIImage(systemName: "person.crop.circle")!
+    }
+    
+    //MARK: - Batch Calls
+    
+    static func batchFetchUsersFromUserIds(_ userIds: Set<Int>) async throws -> [Int: ReadOnlyUser] {
+      var users: [Int: ReadOnlyUser] = [:]
+      try await withThrowingTaskGroup(of: (Int, ReadOnlyUser).self) { group in
+        for userId in userIds {
+          group.addTask {
+              return (userId, try await UserAPI.fetchUsersByUserId(userId: userId))
+          }
+        }
+        // Obtain results from the child tasks, sequentially, in order of completion
+        for try await (userId, user) in group {
+          users[userId] = user
+        }
+      }
+      return users
+    }
+    
+    static func batchTurnUsersIntoFrontendUsers(_ users: [ReadOnlyUser]) async throws -> [Int: FrontendReadOnlyUser] {
+        var frontendUsers: [Int: FrontendReadOnlyUser] = [:]
+        try await withThrowingTaskGroup(of: (Int, FrontendReadOnlyUser).self) { group in
+          for user in users {
+            group.addTask {
+                return (user.id, FrontendReadOnlyUser(readOnlyUser: user, profilePic: try await UIImageFromURLString(url: user.picture)))
+            }
+          }
+          // Obtain results from the child tasks, sequentially, in order of completion
+          for try await (userId, frontendUser) in group {
+            frontendUsers[userId] = frontendUser
+          }
+        }
+        return frontendUsers
+    }
+    
+    static func batchFetchProfilePicsForPicPaths(_ picPaths: [Int: String]) async throws -> [Int: UIImage] {
+      var thumbnails: [Int: UIImage] = [:]
+      try await withThrowingTaskGroup(of: (Int, UIImage).self) { group in
+          for (userId, picPath) in picPaths {
+              group.addTask {
+                  return (userId, try await UserAPI.UIImageFromURLString(url: picPath))
+              }
+          }
+         // Obtain results from the child tasks, sequentially, in order of completion
+         for try await (id, thumbnail) in group {
+            thumbnails[id] = thumbnail
+         }
+      }
+      return thumbnails
     }
 }

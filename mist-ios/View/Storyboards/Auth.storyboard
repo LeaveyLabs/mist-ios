@@ -1268,7 +1268,7 @@ This can't be changed later.</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sent to: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="7de-VV-9m2">
-                                        <rect key="frame" x="25" y="68" width="77" height="28"/>
+                                        <rect key="frame" x="25" y="68" width="364" height="28"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1347,6 +1347,7 @@ This can't be changed later.</string>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="Xhc-0S-30x" firstAttribute="top" secondItem="Vv0-eJ-HDG" secondAttribute="bottom" constant="10" id="4CS-io-mXZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="7de-VV-9m2" secondAttribute="trailing" constant="25" id="4sj-yH-dk9"/>
                                     <constraint firstItem="dKh-ip-f21" firstAttribute="leading" secondItem="QH6-Z8-zfn" secondAttribute="leading" constant="25" id="AVA-LU-5T3"/>
                                     <constraint firstAttribute="bottom" secondItem="Xhc-0S-30x" secondAttribute="bottom" constant="20" id="Cta-5q-aVL"/>
                                     <constraint firstItem="7de-VV-9m2" firstAttribute="leading" secondItem="QH6-Z8-zfn" secondAttribute="leading" constant="25" id="HGs-mF-fyw"/>

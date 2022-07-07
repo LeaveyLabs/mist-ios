@@ -15,8 +15,7 @@ class SearchResultsTableViewController: FeedViewController {
     var feedValue: String!
     
     //PostDelegate
-    var voteTasks: [Task<Void, Never>] = []
-    var favoriteTasks: [Task<Void, Never>] = []
+    var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] = [:]
     
     // MARK: - Life Cycle
 
@@ -107,7 +106,7 @@ class SearchResultsTableViewController: FeedViewController {
             return cell
         }
         let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-        cell.configurePostCell(post: posts[indexPath.row-1], nestedPostViewDelegate: self, bubbleTrianglePosition: .left, isWithinPostVC: false)
+//        cell.configurePostCell(post: posts[indexPath.row-1], nestedPostViewDelegate: self, bubbleTrianglePosition: .left, isWithinPostVC: false)
         return cell
     }
     
@@ -115,38 +114,4 @@ class SearchResultsTableViewController: FeedViewController {
         return 1 + posts.count
     }
     
-}
-
-//MARK: - Post Delegation: functions with implementations unique to this class
-
-extension SearchResultsTableViewController: PostDelegate {
-    
-    func handleVote(postId: Int, isAdding: Bool) {
-        //
-    }
-    
-    func handleFavorite(postId: Int, isAdding: Bool) {
-        //
-    }
-    
-    func handleBackgroundTap(postId: Int) {
-//        sendToPostViewFor(p, withRaisedKeyboard: false)
-    }
-    
-    func handleCommentButtonTap(postId: Int) {
-//        sendToPostViewFor(post, withRaisedKeyboard: true)
-    }
-    
-    // Helpers
-    
-    func sendToPostViewFor(_ post: Post, withRaisedKeyboard: Bool) {
-        let postVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
-        postVC.post = post
-        postVC.shouldStartWithRaisedKeyboard = withRaisedKeyboard
-        postVC.prepareForDismiss = { Post in
-            //TODO: this isn't good enough as is. need to also update the post of that particular row
-            self.tableView.reloadData()
-        }
-        navigationController!.pushViewController(postVC, animated: true)
-    }
 }

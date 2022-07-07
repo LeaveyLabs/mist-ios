@@ -7,6 +7,29 @@
 
 import UIKit
 
+func loadEverything() async throws {
+    try await withThrowingTaskGroup(of: Void.self) { group in
+        group.addTask { try await loadPostStuff() }
+        group.addTask { try await PostService.singleton.loadSubmissions() }
+        group.addTask { try await ConversationService.singleton.loadMessageThreads() }
+        group.addTask { try await FriendRequestService.singleton.loadFriendRequests() }
+        
+        try await group.waitForAll()
+    }
+}
+
+func loadPostStuff() async throws {
+    try await withThrowingTaskGroup(of: Void.self) { group in
+        group.addTask { try await PostService.singleton.loadExplorePosts() }
+
+        group.addTask { try await FavoriteService.singleton.loadFavorites() }
+        group.addTask { try await VoteService.singleton.loadVotes() }
+        group.addTask { try await FlagService.singleton.loadFlags() }
+        
+        try await group.waitForAll()
+    }
+}
+
 class LoadingViewController: UIViewController {
     
     let SHOULD_ANIMATE = false
@@ -14,7 +37,6 @@ class LoadingViewController: UIViewController {
     var FADING_ANIMATION_DURATION = 0.0
 
     @IBOutlet weak var heartImageView: SpringImageView!
-    var numberOfFailures = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,15 +47,13 @@ class LoadingViewController: UIViewController {
         }
                 
         Task {
+            var numberOfFailures = 0
             var werePostsLoaded = false
             while !werePostsLoaded {
                 do {
-                    try await PostsService.loadInitialPostsAndUserInteractions()
+                    try await loadEverything()
                     werePostsLoaded = true
                     flyHeartUp()
-//                    self.transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
-//                                                viewControllerID: "SearchDebugViewController",
-//                                                duration: self.FADING_ANIMATION_DURATION) { _ in}
                     DispatchQueue.main.asyncAfter(deadline: .now() + FADING_ANIMATION_DELAY) {
                         self.transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
                                                     viewControllerID: Constants.SBID.VC.TabBarController,

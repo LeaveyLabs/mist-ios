@@ -17,13 +17,11 @@ extension UIViewController {
         let homeVC = sb.instantiateViewController(withIdentifier: viewControllerID)
         
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-        let delegate = windowScene.delegate as? SceneDelegate, let window = delegate.window else {
-            return
-        }
+        let delegate = windowScene.delegate as? SceneDelegate, let window = delegate.window else { return }
         
         // Set the new rootViewController of the window.
         // Calling "UIView.transition" below will animate the swap.
-        delegate.window?.rootViewController = homeVC
+        window.rootViewController = homeVC
 
         // A mask of options indicating how you want to perform the animations.
         let options: UIView.AnimationOptions = .transitionCrossDissolve
@@ -50,7 +48,7 @@ extension UIViewController {
         
         // Set the new rootViewController of the window.
         // Calling "UIView.transition" below will animate the swap.
-        delegate.window?.rootViewController = homeVC
+        window.rootViewController = homeVC
 
         // A mask of options indicating how you want to perform the animations.
         let options: UIView.AnimationOptions = .transitionCrossDissolve

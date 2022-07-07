@@ -16,13 +16,13 @@
                     <rect key="frame" x="20" y="44" width="394" height="286"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="700" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="YST-yc-0HK" userLabel="Content view">
-                            <rect key="frame" x="35" y="30" width="324" height="176"/>
+                            <rect key="frame" x="30" y="30" width="334" height="176"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="700" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" translatesAutoresizingMaskIntoConstraints="NO" id="hUK-sr-A3U" userLabel="Icon image view">
-                                    <rect key="frame" x="137" y="0.0" width="50" height="23"/>
+                                    <rect key="frame" x="142" y="0.0" width="50" height="23"/>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="700" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" verticalCompressionResistancePriority="753" text="😬" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="elb-HW-olH" userLabel="Icon label" propertyAccessControl="none">
-                                    <rect key="frame" x="135" y="38" width="54" height="60"/>
+                                    <rect key="frame" x="140" y="38" width="54" height="60"/>
                                     <accessibility key="accessibilityConfiguration">
                                         <bool key="isElement" value="NO"/>
                                     </accessibility>
@@ -31,7 +31,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="700" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="[Title]" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ggW-gB-SWF">
-                                    <rect key="frame" x="136" y="113" width="52.5" height="27.5"/>
+                                    <rect key="frame" x="141" y="113" width="52.5" height="27.5"/>
                                     <accessibility key="accessibilityConfiguration">
                                         <bool key="isElement" value="NO"/>
                                     </accessibility>
@@ -40,7 +40,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="700" verticalHuggingPriority="251" verticalCompressionResistancePriority="752" text="[Message Body]" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TGC-Td-alh">
-                                    <rect key="frame" x="108" y="155.5" width="108.5" height="20.5"/>
+                                    <rect key="frame" x="113" y="155.5" width="108.5" height="20.5"/>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     <accessibility key="accessibilityConfiguration">
                                         <bool key="isElement" value="NO"/>
@@ -87,11 +87,11 @@
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstItem="YST-yc-0HK" firstAttribute="leading" secondItem="0Mj-jC-BX6" secondAttribute="leading" constant="35" id="BRx-pe-2BP">
+                        <constraint firstItem="YST-yc-0HK" firstAttribute="leading" secondItem="0Mj-jC-BX6" secondAttribute="leading" constant="30" id="BRx-pe-2BP">
                             <variation key="widthClass=regular" constant="30"/>
                         </constraint>
                         <constraint firstAttribute="bottom" secondItem="1gp-r2-h1d" secondAttribute="bottom" id="Ckf-jU-tCv"/>
-                        <constraint firstAttribute="trailing" secondItem="YST-yc-0HK" secondAttribute="trailing" constant="35" id="JYB-gw-7Ol">
+                        <constraint firstAttribute="trailing" secondItem="YST-yc-0HK" secondAttribute="trailing" constant="30" id="JYB-gw-7Ol">
                             <variation key="widthClass=regular" constant="30"/>
                         </constraint>
                         <constraint firstAttribute="trailing" secondItem="1gp-r2-h1d" secondAttribute="trailing" id="Vlk-7g-anA"/>

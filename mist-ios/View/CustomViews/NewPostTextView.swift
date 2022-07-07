@@ -60,16 +60,12 @@ class NewPostTextView: UITextView {
     
     // Called by parentVC
     func initializerToolbar(target: Any, doneSelector: Selector) {
+        //Initialize with explicit frame to prevent autolayout warnings
         let toolBar = UIToolbar(frame: CGRect(x: 0.0,
                                               y: 0.0,
                                               width: UIScreen.main.bounds.size.width,
                                               height: 44.0))//1
         toolBar.barTintColor = .white
-
-        // NOTE: Autolayout gives warnings, but it seems to be an apple issue.
-        // Warnings appear even with only flexible in the toolbar
-        //https://stackoverflow.com/questions/54284029/uitoolbar-with-uibarbuttonitem-layoutconstraint-issue
-        //https://developer.apple.com/forums/thread/121474
         
         let progressCircle = UIBarButtonItem.init(customView: circularProgressView)
         let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)//2

@@ -42,6 +42,7 @@ struct CustomSwiftMessages {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let errorMessageView: CustomCardView = try! SwiftMessages.viewFromNib()
             errorMessageView.configureTheme(.error)
+            errorMessageView.applyMediumShadow()
             errorMessageView.configureContent(title: title,
                                          body: body,
                                          iconText: emoji)
@@ -70,6 +71,7 @@ extension CustomSwiftMessages {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
             messageView.configureTheme(backgroundColor: .white, foregroundColor: .black)
+            messageView.applyMediumShadow()
             messageView.button?.isHidden = true
             messageView.configureContent(title: title,
                                          body: body,
@@ -97,6 +99,7 @@ extension CustomSwiftMessages {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
             messageView.configureTheme(backgroundColor: .systemGreen, foregroundColor: .white)
+            messageView.applyMediumShadow()
             messageView.button?.isHidden = true
             messageView.configureContent(title: title,
                                          body: body,
@@ -135,6 +138,71 @@ extension CustomSwiftMessages {
             messageView.approveAction = {
                 SwiftMessages.hide()
                 onApprove()
+            }
+            messageView.dismissAction = {
+                SwiftMessages.hide()
+            }
+            
+            messageView.configureBackgroundView(width: 300)
+            messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+            messageView.backgroundView.layer.cornerRadius = 10
+            SwiftMessages.show(config: middlePresentationConfig(), view: messageView)
+        }
+    }
+    
+    static func showBlockPrompt(completion: @escaping (Bool) -> Void) {
+        DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
+            let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
+            let title = "Are you sure you want to block this user?"
+            let body = "You won't be able to see their profile or your conversation again."
+            messageView.configureContent(title: title, body: body, iconText: "✋")
+            messageView.customConfig(approveText: "I'm sure", dismissText: "Nevermind")
+            messageView.approveAction = {
+                SwiftMessages.hide()
+                completion(true)
+            }
+            messageView.dismissAction = {
+                SwiftMessages.hide()
+                completion(false)
+            }
+            
+            messageView.configureBackgroundView(width: 300)
+            messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+            messageView.backgroundView.layer.cornerRadius = 10
+            SwiftMessages.show(config: middlePresentationConfig(), view: messageView)
+        }
+    }
+    
+    static func showAlreadyBlockedMessage() {
+        DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
+            let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
+            let title = "You can't chat with this user."
+            let body = "Either you or the author have blocked each other."
+            messageView.configureContent(title: title, body: body, iconText: "😕")
+            messageView.customConfig(approveText: "", dismissText: "Okay")
+            messageView.approveAction = {
+                SwiftMessages.hide()
+            }
+            messageView.dismissAction = {
+                SwiftMessages.hide()
+            }
+            
+            messageView.configureBackgroundView(width: 300)
+            messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+            messageView.backgroundView.layer.cornerRadius = 10
+            SwiftMessages.show(config: middlePresentationConfig(), view: messageView)
+        }
+    }
+    
+    static func showAlreadyDmdMessage() {
+        DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
+            let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
+            let title = "You already responded to this mist."
+            let body = "Check your conversations to keep chatting."
+            messageView.configureContent(title: title, body: body, iconText: "😉")
+            messageView.customConfig(approveText: "", dismissText: "Okay")
+            messageView.approveAction = {
+                SwiftMessages.hide()
             }
             messageView.dismissAction = {
                 SwiftMessages.hide()

@@ -36,19 +36,25 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     var shouldStartWithRaisedKeyboard: Bool!
     
     //Data
-    var post: Post! //both PostViewController and PostCell's PostView have a "Post" object. When postview handles interaction, it updates its own post. Because of that, this post object should only be used when setting up the post
+    var post: Post!
     var comments = [Comment]()
-    var commentProfilePics = [Int: UIImage]()
+    var commentAuthors = [Int: FrontendReadOnlyUser]() //[authorId: author]
+    
+    //PostDelegate
+    var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] = [:]
     
     //Misc
     var prepareForDismiss: UpdatedPostCompletionHandler?
-    
+    let MAX_COMMENT_LENGTH = 499
+
     //MARK: - Initialization
     
-    class func createPostVC(with post: Post) -> PostViewController {
+    class func createPostVC(with post: Post, shouldStartWithRaisedKeyboard: Bool, completionHandler: UpdatedPostCompletionHandler?) -> PostViewController {
         let postVC =
         UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
         postVC.post = post
+        postVC.shouldStartWithRaisedKeyboard = shouldStartWithRaisedKeyboard
+        postVC.prepareForDismiss = completionHandler
         return postVC
     }
     
@@ -66,10 +72,6 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         self.view.keyboardLayoutGuide.topAnchor.constraint(equalTo: self.tableView.bottomAnchor).isActive = true
         let tableViewTap = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
         tableView.addGestureRecognizer(tableViewTap)
-                
-        //User Interaction
-        //(1 of 2) for enabling swipe left to go back with a bar button item
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     @objc func dismissKeyboard() {
@@ -114,7 +116,8 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         tableView.register(commentNib, forCellReuseIdentifier: Constants.SBID.Cell.Comment)
     }
     
-    func oldBecomeCommentCode() { //Deprecated
+    @available(*, deprecated, message: "Because !")
+    func oldBecomeCommentCode() {
         commentTextView.layer.borderWidth = 1
         commentTextView.layer.borderColor = UIColor.lightGray.cgColor
         commentTextView.layer.cornerRadius = 15
@@ -141,21 +144,24 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     
     //MARK: - User Interaction
     
+    //Disabling for now ujntil we find an alternative way to attach the input bar to the bottom besides using the view controller's first responder property
+    //1 of 2
+//    self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     //(2 of 2) for enabling swipe left to go back with a bar button item
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-    
+//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+//        return true
+//    }
+        
     @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
     }
     
     @IBAction func submitCommentButtonDidPressed(_ sender: UIButton) {
-        guard !commentTextView.text.isEmpty else { return }
+        guard let trimmedCommentText = commentTextView?.text.trimmingCharacters(in: .whitespaces) else { return }
         Task {
             do {
                 commentSubmitButton.isEnabled = false
-                let newComment = try await UserService.singleton.uploadComment(text: commentTextView.text, postId: post.id)
+                let newComment = try await CommentService.singleton.uploadComment(text: trimmedCommentText, postId: post.id)
                 handleSuccessfulCommentSubmission(newComment: newComment)
             } catch {
                 commentSubmitButton.isEnabled = true
@@ -175,7 +181,7 @@ extension PostViewController {
             do {
                 activityIndicator.startAnimating()
                 comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
-                commentProfilePics = try await loadCommentThumbnails(for: comments)
+                commentAuthors = try await UserAPI.batchTurnUsersIntoFrontendUsers(comments.map { $0.read_only_author })
                 tableView.reloadData()
             } catch {
                 CustomSwiftMessages.displayError(error)
@@ -183,22 +189,6 @@ extension PostViewController {
             activityIndicator.stopAnimating()
             tableView.sectionFooterHeight = 0
         }
-    }
-    
-    func loadCommentThumbnails(for comments: [Comment]) async throws -> [Int: UIImage] {
-      var thumbnails: [Int: UIImage] = [:]
-      try await withThrowingTaskGroup(of: (Int, UIImage).self) { group in
-        for comment in comments {
-          group.addTask {
-              return (comment.id, try await UserAPI.UIImageFromURLString(url: comment.read_only_author.picture))
-          }
-        }
-        // Obtain results from the child tasks, sequentially, in order of completion
-        for try await (id, thumbnail) in group {
-          thumbnails[id] = thumbnail
-        }
-      }
-      return thumbnails
     }
     
 }
@@ -212,13 +202,13 @@ extension PostViewController: UITextViewDelegate {
         validateAllFields()
     }
     
-    //dismiss keyboard when user presses "return"
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" {
-            textView.resignFirstResponder()
+        // Don't allow " " as first character
+        if text == " " && textView.text.count == 0 {
             return false
         }
-        return true
+        // Only return true if the length of text is within the limit
+        return textView.shouldChangeTextGivenMaxLengthOf(MAX_COMMENT_LENGTH + TEXT_LENGTH_BEYOND_MAX_PERMITTED, range, text)
     }
 }
 
@@ -239,9 +229,7 @@ extension PostViewController: UITableViewDataSource {
         //else the cell is a comment
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Comment, for: indexPath) as! CommentCell
         let comment = comments[indexPath.row-1]
-        let commentAuthor = FrontendReadOnlyUser(readOnlyUser: comment.read_only_author,
-                                                 profilePic: commentProfilePics[comment.id]!)
-        cell.configureCommentCell(comment: comment, delegate: self, author: commentAuthor)
+        cell.configureCommentCell(comment: comment, delegate: self, author: commentAuthors[comment.author]!)
         return cell
     }
 }
@@ -258,7 +246,7 @@ extension PostViewController: UITableViewDelegate {
 extension PostViewController: CommentDelegate {
     
     func handleCommentProfilePicTap(commentAuthor: FrontendReadOnlyUser) {
-        let profileVC = ProfileViewController.createProfileVC(with: commentAuthor)
+        let profileVC = ProfileViewController.create(for: commentAuthor)
         navigationController!.present(profileVC, animated: true)
     }
         
@@ -274,7 +262,7 @@ extension PostViewController {
         tableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
         post.commentcount += 1
         comments.append(newComment)
-        commentProfilePics[newComment.id] = UserService.singleton.getProfilePic()
+        commentAuthors[newComment.author] = UserService.singleton.getUserAsFrontendReadOnlyUser()
         tableView.reloadData()
     }
         
@@ -294,47 +282,17 @@ extension PostViewController {
 extension PostViewController: PostDelegate {
     
     func handleVote(postId: Int, isAdding: Bool) {
-        // Synchronous viewController update
+        // viewController update
         let originalVoteCount = post.votecount
         post.votecount += isAdding ? 1 : -1
         
-        // Synchronous singleton update
-        let vote = UserService.singleton.handleVoteUpdate(postId: postId, isAdding)
-
-        // Asynchronous remote update
-        Task {
-            do {
-                if isAdding {
-                    let _ = try await VoteAPI.postVote(voter: UserService.singleton.getId(), post: postId)
-                } else {
-                    try await VoteAPI.deleteVote(voter: UserService.singleton.getId(), post: postId)
-                }
-            } catch {
-                UserService.singleton.handleFailedVoteUpdate(with: vote, isAdding)//undo singleton change
-                post.votecount = originalVoteCount //undo viewController change
-                (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
-                CustomSwiftMessages.displayError(error)
-            }
-        }
-    }
-    
-    func handleFavorite(postId: Int, isAdding: Bool) {
-        // Synchronous singleton update
-        let favorite = UserService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
-
-        // Asynchronous remote update
-        Task {
-            do {
-                if isAdding {
-                    let _ = try await FavoriteAPI.postFavorite(userId: UserService.singleton.getId(), postId: postId)
-                } else {
-                    try await FavoriteAPI.deleteFavorite(userId: UserService.singleton.getId(), postId: postId)
-                }
-            } catch {
-                UserService.singleton.handleFailedFavoriteUpdate(with: favorite, isAdding)//undo singleton change
-                (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
-                CustomSwiftMessages.displayError(error)
-            }
+        // Singleton & remote update
+        do {
+            try VoteService.singleton.handleVoteUpdate(postId: postId, isAdding)
+        } catch {
+            post.votecount = originalVoteCount //undo viewController data change
+            (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
+            CustomSwiftMessages.displayError(error)
         }
     }
     
@@ -347,3 +305,55 @@ extension PostViewController: PostDelegate {
     }
     
 }
+
+//    func handleFavorite(postId: Int, isAdding: Bool) {
+//        // Synchronous singleton update
+//        let favorite = UserService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
+//
+//        // Asynchronous remote update
+//        Task {
+//            do {
+//                if isAdding {
+//                    let _ = try await FavoriteAPI.postFavorite(userId: UserService.singleton.getId(), postId: postId)
+//                } else {
+//                    try await FavoriteAPI.deleteFavorite(userId: UserService.singleton.getId(), postId: postId)
+//                }
+//            } catch {
+//                UserService.singleton.handleFailedFavoriteUpdate(with: favorite, isAdding)//undo singleton change
+//                (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
+//                CustomSwiftMessages.displayError(error)
+//            }
+//        }
+//    }
+
+
+
+
+
+
+
+//old method. this should be removed in favor of the new handleVote()
+//    func handleVote(postId: Int, isAdding: Bool) {
+//        // Synchronous viewController update
+//        let originalVoteCount = post.votecount
+//        post.votecount += isAdding ? 1 : -1
+//
+//        // Synchronous singleton update
+//        let vote = UserService.singleton.handleVoteUpdate(postId: postId, isAdding)
+//
+//        // Asynchronous remote update
+//        Task {
+//            do {
+//                if isAdding {
+//                    let _ = try await VoteAPI.postVote(voter: UserService.singleton.getId(), post: postId)
+//                } else {
+//                    try await VoteAPI.deleteVote(voter: UserService.singleton.getId(), post: postId)
+//                }
+//            } catch {
+//                UserService.singleton.handleFailedVoteUpdate(with: vote, isAdding)//undo singleton change
+//                post.votecount = originalVoteCount //undo viewController change
+//                (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
+//                CustomSwiftMessages.displayError(error)
+//            }
+//        }
+//    }

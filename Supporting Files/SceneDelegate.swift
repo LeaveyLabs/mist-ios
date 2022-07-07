@@ -11,6 +11,33 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
+    static var visibleViewController: UIViewController? {
+        get {
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+            let delegate = windowScene.delegate as? SceneDelegate, let window = delegate.window else { return nil }
+            guard let rootVC = window.rootViewController else { return nil }
+            return getVisibleViewController(rootVC)
+        }
+    }
+    
+    static private func getVisibleViewController(_ rootViewController: UIViewController) -> UIViewController? {
+        if let presentedViewController = rootViewController.presentedViewController {
+            return getVisibleViewController(presentedViewController)
+        }
+
+        if let navigationController = rootViewController as? UINavigationController {
+            return navigationController.visibleViewController
+        }
+
+        if let tabBarController = rootViewController as? UITabBarController {
+            if let selectedTabVC = tabBarController.selectedViewController {
+                return getVisibleViewController(selectedTabVC)
+            }
+            return tabBarController
+        }
+
+        return rootViewController
+    }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.

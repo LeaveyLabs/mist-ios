@@ -107,7 +107,7 @@ class UploadProfilePictureViewController: UIViewController {
                         profilePic: selectedProfilePic,
                         email: AuthContext.email,
                         password: AuthContext.password)
-                    try await PostsService.loadInitialPostsAndUserInteractions()
+                    try await loadEverything()
                     transitionToHomeAndRequestPermissions() { [weak self] in
                         self?.isSubmitting = false
                     }
@@ -125,7 +125,7 @@ class UploadProfilePictureViewController: UIViewController {
     }
     
     func validateInput() -> Bool {
-        return profilePic != defaultPic
+        return profilePic != defaultPic && profilePic != nil
     }
 
 }

@@ -360,6 +360,17 @@ extension MapViewController {
                                          heading: 0)
         isCameraFlying = true
         isCameraFlyingOutAndIn = true
+        
+        //EXPERIMENTAL
+//        UIView.animateKeyframes(withDuration: duration*2, delay: 0, options: .calculationModeCubic, animations: {
+//            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.5) {
+//                self.mapView.camera = preRotationCamera
+//            }
+//            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5) {
+//                self.mapView.camera = finalCamera
+//            }
+//        })
+        
         UIView.animate(withDuration: duration*2,
                        delay: 0,
                        options: .curveEaseIn,
@@ -481,17 +492,16 @@ extension MapViewController {
     
     func turnPostsIntoAnnotations(_ posts: [Post]) {
         postAnnotations = posts.map { post in PostAnnotation(withPost: post) }
-        postAnnotations.sort()
     }
     
     func turnPlacesIntoAnnotations(_ places: [MKMapItem]) {
-        let closestFivePlaces = Array(places.sorted(by: { first, second in
+        let closestPlaces = Array(places.sorted(by: { first, second in
             mapView.centerCoordinate.distance(from: first.placemark.coordinate) < mapView.centerCoordinate.distance(from: second.placemark.coordinate)
-        }).prefix(5))
-        placeAnnotations = closestFivePlaces.map({ place in PlaceAnnotation(withPlace: place) })
+        }).prefix(8))
+        placeAnnotations = closestPlaces.map({ place in PlaceAnnotation(withPlace: place) })
     }
     
-    func removeExistingPlaceAnnotations() {
+    func removeExistingPlaceAnnotationsFromMap() {
         mapView.annotations.forEach { annotation in
             if let placeAnnotation = annotation as? PlaceAnnotation {
                 mapView.removeAnnotation(placeAnnotation)
@@ -499,7 +509,7 @@ extension MapViewController {
         }
     }
     
-    func removeExistingPostAnnotations() {
+    func removeExistingPostAnnotationsFromMap() {
         mapView.annotations.forEach { annotation in
             if let postAnnotation = annotation as? PostAnnotation {
                 mapView.removeAnnotation(postAnnotation)

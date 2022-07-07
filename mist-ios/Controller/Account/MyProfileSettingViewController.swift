@@ -48,7 +48,13 @@ class MyProfileSettingViewController: UITableViewController {
         setupImagePicker()
     }
     
+    override func loadView() { //you should load programmatically created views here
+        super.loadView()
+        setupSaveButton()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         rerenderProfileCallback()
     }
     
@@ -64,7 +70,6 @@ class MyProfileSettingViewController: UITableViewController {
     }
     
     func setupButtons() {
-        setupSaveButton()
         miniCameraButton.becomeRound()
         profilePictureButton.imageView?.becomeProfilePicImageView(with: profilePic)
     }

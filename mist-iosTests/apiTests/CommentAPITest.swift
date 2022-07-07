@@ -46,7 +46,7 @@ class CommentAPITest: XCTestCase {
     // GET by postId
     func testGetCommentByPostId() async throws {
         let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)
-        let comment = try await CommentAPI.postComment(body: "hey", post: post.id, author: TestConstants.Auth.ID)
+        let _ = try await CommentAPI.postComment(body: "hey", post: post.id, author: TestConstants.Auth.ID)
         let comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
         XCTAssertTrue(comments[0].body == "hey")
     }

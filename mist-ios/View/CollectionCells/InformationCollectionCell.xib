@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="4pg-yX-FeZ" customClass="InformationCollectionCell" customModule="mist_ios" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="400" height="92"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="400" height="92"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aOd-Rt-SuV">
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="92"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Information to tell them" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r9O-9f-jlT">
+                                <rect key="frame" x="85" y="20" width="230" height="52"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="230" id="36p-E0-9N8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="r9O-9f-jlT" firstAttribute="top" secondItem="aOd-Rt-SuV" secondAttribute="top" constant="20" id="Ejf-Ho-mUB"/>
+                            <constraint firstAttribute="bottom" secondItem="r9O-9f-jlT" secondAttribute="bottom" constant="20" id="PSQ-Z0-Ebc"/>
+                            <constraint firstItem="r9O-9f-jlT" firstAttribute="centerX" secondItem="aOd-Rt-SuV" secondAttribute="centerX" id="zvl-eN-cuu"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="8W6-hB-XbI"/>
+            <constraints>
+                <constraint firstItem="aOd-Rt-SuV" firstAttribute="leading" secondItem="4pg-yX-FeZ" secondAttribute="leading" id="4gT-OI-HON"/>
+                <constraint firstAttribute="trailing" secondItem="aOd-Rt-SuV" secondAttribute="trailing" id="8et-43-K3n"/>
+                <constraint firstAttribute="bottom" secondItem="aOd-Rt-SuV" secondAttribute="bottom" id="Yir-Vg-m5X"/>
+                <constraint firstItem="aOd-Rt-SuV" firstAttribute="top" secondItem="4pg-yX-FeZ" secondAttribute="top" id="gcA-zk-ahf"/>
+            </constraints>
+            <size key="customSize" width="257" height="38"/>
+            <connections>
+                <outlet property="infoLabel" destination="r9O-9f-jlT" id="7uf-U3-rVo"/>
+            </connections>
+            <point key="canvasLocation" x="253.62318840579712" y="145.98214285714286"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

@@ -44,7 +44,7 @@ class PinMapViewController: MapViewController {
     
     func handleExistingPin() {
         if let previousAnnotation = pinnedAnnotation {
-            removeExistingPostAnnotations()
+            removeExistingPostAnnotationsFromMap()
             postAnnotations = [previousAnnotation]
             mapView.addAnnotations(postAnnotations)
             mapView.camera = MKMapCamera(
@@ -91,7 +91,7 @@ class PinMapViewController: MapViewController {
                 let point = sender.location(in: mapView)
                 let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
                 pinnedAnnotation = PostAnnotation(justWithCoordinate: coordinate)
-                removeExistingPostAnnotations()
+                removeExistingPostAnnotationsFromMap()
                 postAnnotations = [pinnedAnnotation!] //later, when making a unique annotation for pinmap, these previous and later lines could be removed. it's just that not making this process automatic is better for explore
                 mapView.addAnnotations(postAnnotations)
                 
@@ -142,7 +142,7 @@ class PinMapViewController: MapViewController {
     
     // Could implement later
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        print("did deselect")
+        
     }
     
     func presentModal(xsIndentFirst: Bool) {
@@ -167,7 +167,7 @@ class PinMapViewController: MapViewController {
                 } else {
                     postAnnotations = []
                     pinnedAnnotation = nil
-                    removeExistingPostAnnotations()
+                    removeExistingPostAnnotationsFromMap()
                     dismiss(animated: true)
                 }
             }

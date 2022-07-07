@@ -8,16 +8,20 @@
 import UIKit
 import MapKit
 
-class PostButton: UIButton {
+class ToggleButton: UIButton {
     var isSelectedImage: UIImage!
+    var isSelectedTitle: String!
     var isNotSelectedImage: UIImage!
+    var isNotSelectedTitle: String!
     
     override var isSelected: Bool {
         didSet {
             if isSelected {
                 setImage(isSelectedImage, for: .normal)
+                setTitle(isSelectedTitle, for: .normal)
             } else {
                 setImage(isNotSelectedImage, for: .normal)
+                setTitle(isNotSelectedTitle, for: .normal)
             }
         }
     }
@@ -38,17 +42,17 @@ class PostButton: UIButton {
     @IBOutlet weak var postTitleLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
     
+    @IBOutlet weak var dmButton: UIButton!
     @IBOutlet weak var moreButton: UIButton!
-    @IBOutlet weak var favoriteButton: PostButton!
-    @IBOutlet weak var likeButton: PostButton!
+    @IBOutlet weak var likeButton: ToggleButton!
     @IBOutlet weak var likeLabelButton: UIButton! // We can't have the likeButton expand the whole stackview, and we also need a button in the rest of the stackview to prevent the post from being dismissed.
     
     //Data
     var postId: Int!
-    var authorId: Int!
+    var postAuthor: ReadOnlyUser!
 
     //Delegation
-    var postDelegate: PostDelegate?
+    var postDelegate: PostDelegate!
     
     //MARK: - Constructors
         
@@ -62,14 +66,21 @@ class PostButton: UIButton {
         customInit()
     }
     
+    deinit {
+        //Commenting this out for now
+        //When you scroll through a bunch of posts, then posts get rendered and then derendered, and then you scroll back, you don't want to keep reloading those profile pics.
+        //Ideally, we create a cache, but not worth the time right now on 6/25/22
+//        postDelegate?.discardProfilePicTask(postId: postId)
+    }
+    
     private func customInit() {
         guard let contentView = loadViewFromNib(nibName: "PostView") else { return }
         contentView.frame = self.bounds
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(contentView)
         
-        favoriteButton.isSelectedImage = UIImage(systemName: "bookmark.fill")!
-        favoriteButton.isNotSelectedImage = UIImage(systemName: "bookmark")!
+        likeButton.isSelectedTitle = ""
+        likeButton.isNotSelectedTitle = ""
         likeButton.isSelectedImage = UIImage(systemName: "heart.fill")!
         likeButton.isNotSelectedImage = UIImage(systemName: "heart")!
     }
@@ -79,34 +90,24 @@ class PostButton: UIButton {
     // This action should be detected by a button, because the button will also prevent touches from
     // being passed through to the mapview
     @IBAction func backgroundButtonDidPressed(_ sender: UIButton) {
-        postDelegate?.handleBackgroundTap(postId: postId)
+        postDelegate.handleBackgroundTap(postId: postId)
     }
     
     // The labelButton is actually just a button which we want to behave like the background.
     @IBAction func likeLabelButtonDidPressed(_ sender: UIButton) {
-        postDelegate?.handleBackgroundTap(postId: postId)
+        postDelegate.handleBackgroundTap(postId: postId)
     }
     
     @IBAction func commentButtonDidPressed(_ sender: UIButton) {
-        postDelegate?.handleCommentButtonTap(postId: postId)
+        postDelegate.handleCommentButtonTap(postId: postId)
     }
     
     @IBAction func dmButtonDidPressed(_ sender: UIButton) {
-        postDelegate?.handleDmTap(postId: postId, authorId: authorId)
+        postDelegate.handleDmTap(postId: postId, author: postAuthor, dmButton: dmButton, title: postTitleLabel.text!)
     }
     
     @IBAction func moreButtonDidPressed(_ sender: UIButton) {
-        postDelegate?.handleMoreTap()
-    }
-    
-    @IBAction func favoriteButtonDidpressed(_ sender: UIButton) {
-        // UI Updates
-        favoriteButton.isEnabled = false
-        favoriteButton.isSelected = !favoriteButton.isSelected
-        
-        // Remote and storage updates
-        postDelegate?.handleFavorite(postId: postId, isAdding: favoriteButton.isSelected)
-        favoriteButton.isEnabled = true
+        postDelegate.handleMoreTap(postId: postId)
     }
     
     @IBAction func likeButtonDidPressed(_ sender: UIButton) {
@@ -120,7 +121,7 @@ class PostButton: UIButton {
         }
         
         // Remote and storage updates
-        postDelegate?.handleVote(postId: postId, isAdding: likeButton.isSelected)
+        postDelegate.handleVote(postId: postId, isAdding: likeButton.isSelected)
         likeButton.isEnabled = true
     }
     
@@ -132,16 +133,24 @@ extension PostView {
     
     // Note: the constraints for the PostView should already be set-up when this is called.
     // Otherwise you'll get loads of constraint errors in the console
-    func configurePost(post: Post) {
+    func configurePost(post: Post, delegate: PostDelegate) {
         self.postId = post.id
-        self.authorId = post.author
+        self.postAuthor = post.read_only_author
+        self.postDelegate = delegate
+        postDelegate.beginLoadingAuthorProfilePic(postId: postId, author: post.read_only_author)
+        
         timestampLabel.text = getFormattedTimeString(timestamp: post.timestamp)
         locationLabel.text = post.location_description
         messageLabel.text = post.body
         postTitleLabel.text = post.title
         likeLabelButton.setTitle(String(post.votecount), for: .normal)
-        likeButton.isSelected = !UserService.singleton.getVotesForPost(postId: post.id).isEmpty
-        favoriteButton.isSelected = UserService.singleton.getIsFavoritedForPost(postId: post.id)
+        likeButton.isSelected = !VoteService.singleton.votesForPost(postId: post.id).isEmpty
+        
+        if post.author == UserService.singleton.getId() {
+            dmButton.isHidden = true
+        } else {
+            dmButton.isHidden = false
+        }
         
         var arrowPosition: BubbleTrianglePosition!
         if let _ = superview as? PostAnnotationView {
@@ -154,8 +163,7 @@ extension PostView {
     
     func reconfigurePost(updatedPost: Post) {
         likeLabelButton.setTitle(String(updatedPost.votecount), for: .normal)
-        likeButton.isSelected = !UserService.singleton.getVotesForPost(postId: updatedPost.id).isEmpty
-        favoriteButton.isSelected = UserService.singleton.getIsFavoritedForPost(postId: updatedPost.id)
+        likeButton.isSelected = !VoteService.singleton.votesForPost(postId: updatedPost.id).isEmpty
     }
     
 }

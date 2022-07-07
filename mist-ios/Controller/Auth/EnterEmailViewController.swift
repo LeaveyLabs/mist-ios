@@ -128,7 +128,8 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func validateInput() {
-        isValidInput = enterEmailTextField.text?.suffix(8).lowercased() == "@usc.edu"
+        isValidInput = enterEmailTextField.text?.contains("@")
+//        isValidInput = enterEmailTextField.text?.suffix(8).lowercased() == "@usc.edu"
     }
     
 }

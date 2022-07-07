@@ -49,7 +49,7 @@ extension SearchSuggestionsTableViewController {
     
     func startProvidingCompletions(for region: MKCoordinateRegion) {
         searchCompleter.delegate = self
-        searchCompleter.resultTypes = [.pointOfInterest, .address, .query]
+        searchCompleter.resultTypes = [.pointOfInterest, .address]
         searchCompleter.region = region
     }
 }
@@ -75,7 +75,7 @@ extension SearchSuggestionsTableViewController {
         case .containing:
             return max(wordResults.count, 1) //return 1 "no results" cell
         case .nearby:
-            return max(completerResults.count, 1) //return 1 "no results" cell
+            return max(completerResults.count + 1, 1) //return 1 "no results" cell. +1 is for the current search string
         }
     }
     
@@ -94,11 +94,18 @@ extension SearchSuggestionsTableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: SuggestedCompletionTableViewCell.reuseID, for: indexPath)
             cell.imageView?.image = UIImage(systemName: "mappin.circle")
             if !completerResults.isEmpty {
-                let suggestion = completerResults[indexPath.row]
-                cell.textLabel?.text = suggestion.title
-                cell.detailTextLabel?.text = suggestion.subtitle
-                cell.accessoryType = .disclosureIndicator
-                cell.isUserInteractionEnabled = true
+                if indexPath.row == 0 {
+                    cell.textLabel?.text = searchText // + "\""
+                    cell.detailTextLabel?.text = "Nearby search"
+                    cell.accessoryType = .disclosureIndicator
+                    cell.isUserInteractionEnabled = true
+                } else {
+                    let suggestion = completerResults[indexPath.row-1]
+                    cell.textLabel?.text = suggestion.title
+                    cell.detailTextLabel?.text = suggestion.subtitle
+                    cell.accessoryType = .disclosureIndicator
+                    cell.isUserInteractionEnabled = true
+                }
             } else {
                 cell.textLabel?.text = "No results"
                 cell.detailTextLabel?.text = ""
@@ -155,7 +162,7 @@ extension SearchSuggestionsTableViewController: UISearchResultsUpdating {
 //MARK: - Search Helpers
 
 extension SearchSuggestionsTableViewController {
-        
+
     func startNearbySearch(with searchText: String) {
         searchCompleter.queryFragment = searchText //queries new suggestions from apple
     }
@@ -167,7 +174,11 @@ extension SearchSuggestionsTableViewController {
                 sortAndTrimNewWordResults(allResults)
                 handleFinishedSearch()
             } catch {
-                CustomSwiftMessages.displayError(error)
+                if (error as! APIError).rawValue == APIError.Throttled.rawValue {
+                    print("throttled. not throwing a custom swift message for now")
+                } else {
+                    CustomSwiftMessages.displayError(error)
+                }
             }
         }
     }

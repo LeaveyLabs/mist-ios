@@ -51,7 +51,7 @@ class MyProfileViewController: FeedViewController {
                 tableView.refreshControl!.endRefreshing()
                 indicator.stopAnimating()
             } catch {
-                print(error)
+                CustomSwiftMessages.displayError(error)
             }
         }
     }
