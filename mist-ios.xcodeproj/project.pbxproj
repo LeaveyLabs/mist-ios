@@ -202,6 +202,7 @@
 		47FF86A127DC712F0076A1CA /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF86A027DC712F0076A1CA /* Comment.swift */; };
 		5B13B741285D05B0000ADF5E /* UISearchBar+CenterText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13B740285D05B0000ADF5E /* UISearchBar+CenterText.swift */; };
 		5B13B743285D3877000ADF5E /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13B742285D3877000ADF5E /* Error.swift */; };
+		5B18B9802876C5F900F0F80E /* AuthStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B18B97F2876C5F900F0F80E /* AuthStartViewController.swift */; };
 		5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D589B28603A46002E2F94 /* PostCell.swift */; };
 		5B4D58A72860D7FB002E2F94 /* UIImageView+ProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */; };
 		5B6AD61528690E1800B1FFA8 /* AnnotationSelectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6AD61428690E1800B1FFA8 /* AnnotationSelectionType.swift */; };
@@ -220,6 +221,8 @@
 		5BAD62752876707000DCFE45 /* AccountSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62742876707000DCFE45 /* AccountSection.swift */; };
 		5BAD62772876812200DCFE45 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62762876812200DCFE45 /* SettingsViewController.swift */; };
 		5BAD62792876938900DCFE45 /* SettingsTapDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62782876938900DCFE45 /* SettingsTapDelegate.swift */; };
+		5BAD627B2876BD7600DCFE45 /* MistWideLogoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BAD627A2876BD7600DCFE45 /* MistWideLogoView.xib */; };
+		5BAD627D2876BE8800DCFE45 /* MistWideLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD627C2876BE8800DCFE45 /* MistWideLogoView.swift */; };
 		5BB624B228620D4A00DCD45B /* CustomCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B128620D4A00DCD45B /* CustomCardView.swift */; };
 		5BB624B428620D5F00DCD45B /* CustomCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BB624B328620D5F00DCD45B /* CustomCardView.xib */; };
 		5BB624B628622C8500DCD45B /* UIViewController+DismissFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */; };
@@ -472,6 +475,7 @@
 		47FF86A027DC712F0076A1CA /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		5B13B740285D05B0000ADF5E /* UISearchBar+CenterText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+CenterText.swift"; sourceTree = "<group>"; };
 		5B13B742285D3877000ADF5E /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		5B18B97F2876C5F900F0F80E /* AuthStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStartViewController.swift; sourceTree = "<group>"; };
 		5B4D589B28603A46002E2F94 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ProfilePic.swift"; sourceTree = "<group>"; };
 		5B6AD61428690E1800B1FFA8 /* AnnotationSelectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationSelectionType.swift; sourceTree = "<group>"; };
@@ -490,6 +494,8 @@
 		5BAD62742876707000DCFE45 /* AccountSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSection.swift; sourceTree = "<group>"; };
 		5BAD62762876812200DCFE45 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		5BAD62782876938900DCFE45 /* SettingsTapDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTapDelegate.swift; sourceTree = "<group>"; };
+		5BAD627A2876BD7600DCFE45 /* MistWideLogoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MistWideLogoView.xib; sourceTree = "<group>"; };
+		5BAD627C2876BE8800DCFE45 /* MistWideLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistWideLogoView.swift; sourceTree = "<group>"; };
 		5BB624B128620D4A00DCD45B /* CustomCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCardView.swift; sourceTree = "<group>"; };
 		5BB624B328620D5F00DCD45B /* CustomCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCardView.xib; sourceTree = "<group>"; };
 		5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+DismissFlag.swift"; sourceTree = "<group>"; };
@@ -561,6 +567,7 @@
 		43770C4927EE8BED00F31CCF /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				5B18B97F2876C5F900F0F80E /* AuthStartViewController.swift */,
 				43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */,
 				4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */,
 				436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */,
@@ -858,6 +865,8 @@
 				47A3D71C27D5940D003DBEA5 /* NewPostTextView.swift */,
 				5BCD490D28714F920002BD02 /* WantToChatView.swift */,
 				5BCD490B287149210002BD02 /* WantToChatView.xib */,
+				5BAD627C2876BE8800DCFE45 /* MistWideLogoView.swift */,
+				5BAD627A2876BD7600DCFE45 /* MistWideLogoView.xib */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -1436,6 +1445,7 @@
 				47C2835027DED77500A19128 /* FeedHeaderCell.xib in Resources */,
 				47E295D8284BB7B000A680CC /* PostView.xib in Resources */,
 				5B774E00286D570400CCCF28 /* MatchCollectionCell.xib in Resources */,
+				5BAD627B2876BD7600DCFE45 /* MistWideLogoView.xib in Resources */,
 				47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */,
 				47E86F6E2853EA65005A7DC7 /* Auth.storyboard in Resources */,
 				470F271927DE758100C6DDAF /* SearchResultCell.xib in Resources */,
@@ -1619,6 +1629,7 @@
 				472A4C0328408BD800FD52B7 /* SpringLabel.swift in Sources */,
 				474A5DAA27F40CB1004215F9 /* UISegmentedControl+Twitter.swift in Sources */,
 				472A4BF428408BD800FD52B7 /* SpringImageView.swift in Sources */,
+				5B18B9802876C5F900F0F80E /* AuthStartViewController.swift in Sources */,
 				43D925202852802600438C5C /* FriendRequest.swift in Sources */,
 				47AC881F28480AE1000150CA /* UIButton+RightSideImage.swift in Sources */,
 				5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */,
@@ -1630,6 +1641,7 @@
 				47A3D70E27D55BB3003DBEA5 /* Time.swift in Sources */,
 				43770C4B27EE8C0F00F31CCF /* LoginViewController.swift in Sources */,
 				47A3D70027D50CF1003DBEA5 /* FeedViewController.swift in Sources */,
+				5BAD627D2876BE8800DCFE45 /* MistWideLogoView.swift in Sources */,
 				43483BB42802519C001C7C6A /* CreatePasswordViewController.swift in Sources */,
 				47E295D6284BB79600A680CC /* PostView.swift in Sources */,
 				4329571C27F4008300FA48A9 /* EnterEmailViewController.swift in Sources */,

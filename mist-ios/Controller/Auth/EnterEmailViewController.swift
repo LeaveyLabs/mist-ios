@@ -33,6 +33,7 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
         setupPopGesture()
         setupEnterEmailTextField()
         setupContinueButton() //uncomment this button for standard button behavior, where !isEnabled greys it out
+        setupBackButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -70,9 +71,13 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
         }
     }
     
+    func setupBackButton() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(goBack))
+    }
+    
     //MARK: - User Interaction
     
-    @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
+    @objc func goBack() {
         navigationController?.popViewController(animated: true)
     }
     

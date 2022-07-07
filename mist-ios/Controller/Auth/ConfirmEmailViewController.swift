@@ -44,14 +44,14 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         emailLabel.text! += AuthContext.email
         
         errorView.isHidden = true //we're using SwiftMessages for error handling now, not this custom view
-        agreementLabel.isHidden = true
         validateInput()
         isAuthKUIView = true
         setupConfirmEmailTextField()
         setupContinueButton()
         setupResendButton()
+        setupAgreementLabel()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         enableInteractivePopGesture()
@@ -108,6 +108,13 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         }
     }
     
+    func setupAgreementLabel() {
+        let attributedString = NSMutableAttributedString(string: "By clicking continue, you agree to our Terms of Service and Privacy Policy.")
+        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.systemBlue, range: .init(location: 39, length: 16))
+        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.systemBlue, range: .init(location: 60, length: 14))
+        agreementLabel.attributedText = attributedString
+    }
+    
     //MARK: - User Interaction
     
     @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
@@ -120,6 +127,14 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     
     @IBAction func didPressedResendButton(_ sender: UIButton) {
         resendCode()
+    }
+    
+    @IBAction func termsButtonDidTapped(_ sender: UIButton) {
+        openURL(URL(string: "https://www.getmist.app/terms-of-service")!)
+    }
+    
+    @IBAction func privacyPolicyButtonDidTapped(_ sender: UIButton) {
+        openURL(URL(string: "https://www.getmist.app/privacy-policy")!)
     }
     
     //MARK: - TextField Delegate
