@@ -9,6 +9,7 @@ import Foundation
 
 class BlockAPI {
     static let PATH_TO_BLOCK_MODEL = "api/blocks/"
+    static let PATH_TO_CUSTOM_DELETE_BLOCK_ENDPOINT = "api/delete-block/"
     static let BLOCKING_USER_PARAM = "blocking_user"
     static let BLOCKED_USER_PARAM = "blocked_user"
     
@@ -36,13 +37,10 @@ class BlockAPI {
     }
     
     static func deleteBlock(blockingUserId:Int, blockedUserId:Int) async throws {
-        let blocks = try await fetchBlocksByBlockingUser(blockingUserId: blockingUserId)
-        for block in blocks {
-            if block.blocked_user == blockedUserId {
-                let _ = try await deleteBlock(block_id: block.id)
-                break
-            }
-        }
+        let endpoint = "\(BASE_URL)\(PATH_TO_CUSTOM_DELETE_BLOCK_ENDPOINT)"
+        let params = "\(BLOCKING_USER_PARAM)=\(blockingUserId)&\(BLOCKED_USER_PARAM)=\(blockedUserId)"
+        let url = "\(endpoint)?\(params)"
+        let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
     }
     
     static func deleteBlock(block_id:Int) async throws {

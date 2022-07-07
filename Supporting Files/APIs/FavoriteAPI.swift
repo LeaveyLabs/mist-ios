@@ -9,6 +9,7 @@ import Foundation
 
 class FavoriteAPI {
     static let PATH_TO_FAVORITES = "api/favorites/"
+    static let PATH_TO_CUSTOM_DELETE_FAVORITE_ENDPOINT = "api/delete-favorite/"
     static let POST_PARAM = "post"
     static let USER_PARAM = "favoriting_user"
     
@@ -30,12 +31,10 @@ class FavoriteAPI {
     }
     
     static func deleteFavorite(userId:Int, postId:Int) async throws {
-        let userFavorites = try await FavoriteAPI.fetchFavoritesByUser(userId: userId)
-        let favoriteToDelete = userFavorites.first { $0.post == postId }
-        guard let favoriteToDelete = favoriteToDelete else {
-            throw APIError.NotFound
-        }
-        let _ = try await FavoriteAPI.deleteFavorite(favorite_id: favoriteToDelete.id)
+        let endpoint = "\(BASE_URL)\(PATH_TO_CUSTOM_DELETE_FAVORITE_ENDPOINT)"
+        let params = "\(USER_PARAM)=\(userId)&\(POST_PARAM)=\(postId)"
+        let url = "\(endpoint)?\(params)"
+        let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
     }
     
     static func deleteFavorite(favorite_id:Int) async throws {
