@@ -34,7 +34,9 @@ class ChatViewController: MessagesViewController {
     let MAX_MESSAGE_LENGTH = 999
     
     private(set) lazy var refreshControl: UIRefreshControl = {
-        return UIRefreshControl()
+        let refreshControl = UIRefreshControl()
+        refreshControl.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+        return refreshControl
     }()
     
 //    private lazy var textMessageSizeCalculator: CustomTextLayoutSizeCalculator = CustomTextLayoutSizeCalculator(layout: self.messagesCollectionView.messagesCollectionViewFlowLayout)

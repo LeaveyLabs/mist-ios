@@ -35,7 +35,6 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     @IBOutlet var bodyTextView: NewPostTextView!
     var titlePlaceholderLabel: UILabel!
     var bodyPlaceholderLabel: UILabel!
-    var textViewToolbar: UIToolbar?
     
     var currentlyPinnedAnnotation: PostAnnotation? {
         didSet {
