@@ -9,8 +9,11 @@ import Foundation
 import UIKit
 
 class PasswordSettingViewController: UITableViewController {
+    
+    //MARK: - Properties
 
     var saveButton: UIButton!
+    var hasViewAppeared = false
 
     var existingPassword = "" {
         didSet {
@@ -34,12 +37,26 @@ class PasswordSettingViewController: UITableViewController {
             view.isUserInteractionEnabled = !isSaving
         }
     }
+    
+    //MARK: - Initialization
+    
+    class func create() -> PasswordSettingViewController {
+        let passwordVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.PasswordSetting) as! PasswordSettingViewController
+        return passwordVC
+    }
+    
+    //MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         registerNibs()
         setupSaveButton()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        hasViewAppeared = true
     }
     
     func setupTableView() {
@@ -94,6 +111,9 @@ class PasswordSettingViewController: UITableViewController {
             cell.textField.tag = 0
             cell.textField.placeholder = "Current password"
             cell.textField.textContentType = .password
+            if !hasViewAppeared {
+                cell.textField.becomeFirstResponder()
+            }
         case 1:
             cell.textField.tag = 1
             cell.textField.placeholder = "New password"

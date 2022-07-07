@@ -93,12 +93,7 @@ extension PostDelegate where Self: UIViewController {
     
     // ShareActivityDelegate
     func presentShareActivityVC() {
-        if let url = NSURL(string: "https://www.getmist.app")  {
-            let objectsToShare: [Any] = [url]
-            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-            activityVC.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
-            present(activityVC, animated: true)
-        }
+        presentMistShareActivity()
     }
 
 }

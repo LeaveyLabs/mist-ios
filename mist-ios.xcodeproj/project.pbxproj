@@ -103,7 +103,6 @@
 		474A4AC6284AB6D700B39A98 /* String+Indexing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474A4AC5284AB6D700B39A98 /* String+Indexing.swift */; };
 		474A5DA327F4042F004215F9 /* UIImageView+Inspectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474A5DA227F4042F004215F9 /* UIImageView+Inspectable.swift */; };
 		474A5DA527F40606004215F9 /* RoundedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474A5DA427F40606004215F9 /* RoundedImageView.swift */; };
-		474A5DA827F4079D004215F9 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474A5DA727F4079D004215F9 /* MyProfileViewController.swift */; };
 		474A5DAA27F40CB1004215F9 /* UISegmentedControl+Twitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474A5DA927F40CB1004215F9 /* UISegmentedControl+Twitter.swift */; };
 		4752717C28553F6200DDF84D /* ProfilePicWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4752717B28553F6200DDF84D /* ProfilePicWrapper.swift */; };
 		4752717E28555DC800DDF84D /* UIImage+Compress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4752717D28555DC800DDF84D /* UIImage+Compress.swift */; };
@@ -112,8 +111,8 @@
 		47527192285584F400DDF84D /* MyProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4752718E285584F400DDF84D /* MyProfileCell.xib */; };
 		47527193285584F400DDF84D /* SimpleInputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4752718F285584F400DDF84D /* SimpleInputCell.xib */; };
 		47527194285584F400DDF84D /* SimpleInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47527190285584F400DDF84D /* SimpleInputCell.swift */; };
-		475271972855851200DDF84D /* MyAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475271952855851200DDF84D /* MyAccountCell.swift */; };
-		475271982855851200DDF84D /* MyAccountCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 475271962855851200DDF84D /* MyAccountCell.xib */; };
+		475271972855851200DDF84D /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475271952855851200DDF84D /* SettingCell.swift */; };
+		475271982855851200DDF84D /* SettingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 475271962855851200DDF84D /* SettingCell.xib */; };
 		4752719A2855A6A700DDF84D /* ExploreViewController+Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475271992855A6A700DDF84D /* ExploreViewController+Feed.swift */; };
 		4752719D2855A80C00DDF84D /* ExploreViewController+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4752719C2855A80C00DDF84D /* ExploreViewController+Map.swift */; };
 		4752719F2855AF1400DDF84D /* UIView+SafeAreaConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4752719E2855AF1400DDF84D /* UIView+SafeAreaConstraints.swift */; };
@@ -215,6 +214,12 @@
 		5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */; };
 		5BAD626B2875500E00DCFE45 /* InformationCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BAD62692875500E00DCFE45 /* InformationCollectionCell.xib */; };
 		5BAD626D2875522E00DCFE45 /* MessageKitInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD626C2875522E00DCFE45 /* MessageKitInfo.swift */; };
+		5BAD626F2876661500DCFE45 /* UIViewController+MistShareActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD626E2876661500DCFE45 /* UIViewController+MistShareActivity.swift */; };
+		5BAD62712876703000DCFE45 /* UIViewController+OpenURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62702876703000DCFE45 /* UIViewController+OpenURL.swift */; };
+		5BAD62732876706800DCFE45 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62722876706800DCFE45 /* Setting.swift */; };
+		5BAD62752876707000DCFE45 /* AccountSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62742876707000DCFE45 /* AccountSection.swift */; };
+		5BAD62772876812200DCFE45 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62762876812200DCFE45 /* SettingsViewController.swift */; };
+		5BAD62792876938900DCFE45 /* SettingsTapDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62782876938900DCFE45 /* SettingsTapDelegate.swift */; };
 		5BB624B228620D4A00DCD45B /* CustomCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B128620D4A00DCD45B /* CustomCardView.swift */; };
 		5BB624B428620D5F00DCD45B /* CustomCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BB624B328620D5F00DCD45B /* CustomCardView.xib */; };
 		5BB624B628622C8500DCD45B /* UIViewController+DismissFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */; };
@@ -364,7 +369,6 @@
 		474A4AC7284AC98000B39A98 /* CrashEye.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CrashEye.xcframework; path = Carthage/Build/CrashEye.xcframework; sourceTree = "<group>"; };
 		474A5DA227F4042F004215F9 /* UIImageView+Inspectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Inspectable.swift"; sourceTree = "<group>"; };
 		474A5DA427F40606004215F9 /* RoundedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedImageView.swift; sourceTree = "<group>"; };
-		474A5DA727F4079D004215F9 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		474A5DA927F40CB1004215F9 /* UISegmentedControl+Twitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl+Twitter.swift"; sourceTree = "<group>"; };
 		4752717B28553F6200DDF84D /* ProfilePicWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePicWrapper.swift; sourceTree = "<group>"; };
 		4752717D28555DC800DDF84D /* UIImage+Compress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Compress.swift"; sourceTree = "<group>"; };
@@ -373,8 +377,8 @@
 		4752718E285584F400DDF84D /* MyProfileCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProfileCell.xib; sourceTree = "<group>"; };
 		4752718F285584F400DDF84D /* SimpleInputCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleInputCell.xib; sourceTree = "<group>"; };
 		47527190285584F400DDF84D /* SimpleInputCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleInputCell.swift; sourceTree = "<group>"; };
-		475271952855851200DDF84D /* MyAccountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccountCell.swift; sourceTree = "<group>"; };
-		475271962855851200DDF84D /* MyAccountCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyAccountCell.xib; sourceTree = "<group>"; };
+		475271952855851200DDF84D /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
+		475271962855851200DDF84D /* SettingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingCell.xib; sourceTree = "<group>"; };
 		475271992855A6A700DDF84D /* ExploreViewController+Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExploreViewController+Feed.swift"; sourceTree = "<group>"; };
 		4752719C2855A80C00DDF84D /* ExploreViewController+Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExploreViewController+Map.swift"; sourceTree = "<group>"; };
 		4752719E2855AF1400DDF84D /* UIView+SafeAreaConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+SafeAreaConstraints.swift"; sourceTree = "<group>"; };
@@ -480,6 +484,12 @@
 		5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationCollectionCell.swift; sourceTree = "<group>"; };
 		5BAD62692875500E00DCFE45 /* InformationCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InformationCollectionCell.xib; sourceTree = "<group>"; };
 		5BAD626C2875522E00DCFE45 /* MessageKitInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageKitInfo.swift; sourceTree = "<group>"; };
+		5BAD626E2876661500DCFE45 /* UIViewController+MistShareActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+MistShareActivity.swift"; sourceTree = "<group>"; };
+		5BAD62702876703000DCFE45 /* UIViewController+OpenURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+OpenURL.swift"; sourceTree = "<group>"; };
+		5BAD62722876706800DCFE45 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
+		5BAD62742876707000DCFE45 /* AccountSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSection.swift; sourceTree = "<group>"; };
+		5BAD62762876812200DCFE45 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		5BAD62782876938900DCFE45 /* SettingsTapDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTapDelegate.swift; sourceTree = "<group>"; };
 		5BB624B128620D4A00DCD45B /* CustomCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCardView.swift; sourceTree = "<group>"; };
 		5BB624B328620D5F00DCD45B /* CustomCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCardView.xib; sourceTree = "<group>"; };
 		5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+DismissFlag.swift"; sourceTree = "<group>"; };
@@ -642,6 +652,8 @@
 				47061CD9285170CB0042F04C /* FeedType.swift */,
 				5B13B742285D3877000ADF5E /* Error.swift */,
 				5B6AD61428690E1800B1FFA8 /* AnnotationSelectionType.swift */,
+				5BAD62722876706800DCFE45 /* Setting.swift */,
+				5BAD62742876707000DCFE45 /* AccountSection.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -885,12 +897,13 @@
 		47CEEE9928546B49008947FC /* MyAccount */ = {
 			isa = PBXGroup;
 			children = (
+				471F92D0280159430079F8CA /* SegmentedControlCell.swift */,
 				4752718D285584F400DDF84D /* MyProfileCell.swift */,
 				4752718E285584F400DDF84D /* MyProfileCell.xib */,
 				47527190285584F400DDF84D /* SimpleInputCell.swift */,
 				4752718F285584F400DDF84D /* SimpleInputCell.xib */,
-				475271952855851200DDF84D /* MyAccountCell.swift */,
-				475271962855851200DDF84D /* MyAccountCell.xib */,
+				475271952855851200DDF84D /* SettingCell.swift */,
+				475271962855851200DDF84D /* SettingCell.xib */,
 			);
 			path = MyAccount;
 			sourceTree = "<group>";
@@ -977,7 +990,7 @@
 		47E74E3B27CA14B800467A0C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5BB624BC28641A5600DCD45B /* Message */,
+				5BB624BC28641A5600DCD45B /* Chat */,
 				5BB624BB28641A3100DCD45B /* User */,
 				5BB624BA28641A0D00DCD45B /* Post */,
 			);
@@ -1090,6 +1103,8 @@
 				478BA282283EF2DB00C35507 /* UIViewController+SBTransition.swift */,
 				47266AD327FF69C9005DEDB1 /* UIViewController+Loading.swift */,
 				5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */,
+				5BAD626E2876661500DCFE45 /* UIViewController+MistShareActivity.swift */,
+				5BAD62702876703000DCFE45 /* UIViewController+OpenURL.swift */,
 			);
 			path = UIViewController;
 			sourceTree = "<group>";
@@ -1097,11 +1112,11 @@
 		47FF86A327DC75F00076A1CA /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				5BAD62762876812200DCFE45 /* SettingsViewController.swift */,
 				47EE95F927F64C00003B351E /* MyAccountViewController.swift */,
 				47AE72A927F77B0B00A5E94C /* MyProfileSettingViewController.swift */,
 				4752718228557C1300DDF84D /* PasswordSettingViewController.swift */,
-				471F92D0280159430079F8CA /* SegmentedControlCell.swift */,
-				474A5DA727F4079D004215F9 /* MyProfileViewController.swift */,
+				5BAD62782876938900DCFE45 /* SettingsTapDelegate.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -1181,7 +1196,7 @@
 			path = User;
 			sourceTree = "<group>";
 		};
-		5BB624BC28641A5600DCD45B /* Message */ = {
+		5BB624BC28641A5600DCD45B /* Chat */ = {
 			isa = PBXGroup;
 			children = (
 				4369DB0B282EC465009215D4 /* Message.swift */,
@@ -1192,7 +1207,7 @@
 				5BB624BD2864308E00DCD45B /* ConversationService.swift */,
 				5BC27633286A8BA900DA5A3D /* MessageLayout */,
 			);
-			path = Message;
+			path = Chat;
 			sourceTree = "<group>";
 		};
 		5BB624BF28678A6F00DCD45B /* MatchRequest */ = {
@@ -1425,7 +1440,7 @@
 				47E86F6E2853EA65005A7DC7 /* Auth.storyboard in Resources */,
 				470F271927DE758100C6DDAF /* SearchResultCell.xib in Resources */,
 				47527192285584F400DDF84D /* MyProfileCell.xib in Resources */,
-				475271982855851200DDF84D /* MyAccountCell.xib in Resources */,
+				475271982855851200DDF84D /* SettingCell.xib in Resources */,
 				47EE290028414B2300C6425C /* CustomCenteredView.xib in Resources */,
 				4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */,
 				47E2B1C32800E9EB00131B8D /* MyCommentCell.xib in Resources */,
@@ -1482,6 +1497,7 @@
 				47527191285584F400DDF84D /* MyProfileCell.swift in Sources */,
 				470F271C27DE764F00C6DDAF /* UserResultCell.swift in Sources */,
 				4752719D2855A80C00DDF84D /* ExploreViewController+Map.swift in Sources */,
+				5BAD62792876938900DCFE45 /* SettingsTapDelegate.swift in Sources */,
 				4746508727D8735B0014217C /* RulesViewController.swift in Sources */,
 				472A4BFB28408BD800FD52B7 /* Misc.swift in Sources */,
 				479AA20327DD4AA900EA0DFC /* KUIViewController.swift in Sources */,
@@ -1547,6 +1563,7 @@
 				5BB624C128678A8900DCD45B /* MatchRequestService.swift in Sources */,
 				4752717C28553F6200DDF84D /* ProfilePicWrapper.swift in Sources */,
 				438D6F222862D1BB00A074FA /* MessageAPI.swift in Sources */,
+				5BAD62772876812200DCFE45 /* SettingsViewController.swift in Sources */,
 				47266AD227FF5531005DEDB1 /* UIView+LoadFromNib.swift in Sources */,
 				4700F8B427DD7BBA006C2E08 /* FlagAPI.swift in Sources */,
 				47630EB9283F437F00FA4DF7 /* SetupTimeViewController.swift in Sources */,
@@ -1561,6 +1578,7 @@
 				472A4BF828408BD800FD52B7 /* DesignableTextField.swift in Sources */,
 				472A4BFD28408BD800FD52B7 /* DesignableButton.swift in Sources */,
 				4700F8B627DD7BBA006C2E08 /* BasicAPI.swift in Sources */,
+				5BAD62712876703000DCFE45 /* UIViewController+OpenURL.swift in Sources */,
 				471F92D1280159430079F8CA /* SegmentedControlCell.swift in Sources */,
 				5BB624C5286790D400DCD45B /* BlockService.swift in Sources */,
 				5BB624B228620D4A00DCD45B /* CustomCardView.swift in Sources */,
@@ -1574,6 +1592,7 @@
 				4316238428343D3F00169AA9 /* CustomSheetViewController.swift in Sources */,
 				5BCC68D928611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift in Sources */,
 				472A4C0428408BD800FD52B7 /* DesignableTextView.swift in Sources */,
+				5BAD62732876706800DCFE45 /* Setting.swift in Sources */,
 				472A4BFA28408BD800FD52B7 /* SpringTextView.swift in Sources */,
 				47A3D71227D57A6D003DBEA5 /* UserService.swift in Sources */,
 				475B1F8F27FBC2D400ED59CD /* UIView+Shadow.swift in Sources */,
@@ -1606,7 +1625,6 @@
 				5B774DFA286D4F9B00CCCF28 /* MessageKitMatchRequest.swift in Sources */,
 				472F8D1A28505F4600DB69C4 /* PostDelegate.swift in Sources */,
 				478A7899284E708D0058C845 /* CLLocationCoordinate+Distance.swift in Sources */,
-				474A5DA827F4079D004215F9 /* MyProfileViewController.swift in Sources */,
 				4700F8B727DD7BBA006C2E08 /* VoteAPI.swift in Sources */,
 				436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */,
 				47A3D70E27D55BB3003DBEA5 /* Time.swift in Sources */,
@@ -1625,14 +1643,16 @@
 				47061CD228511C750042F04C /* MapSearchResultType.swift in Sources */,
 				4700F8C627DE4652006C2E08 /* ExploreViewController.swift in Sources */,
 				475B1F8B27FB86C000ED59CD /* ConversationsViewController.swift in Sources */,
+				5BAD626F2876661500DCFE45 /* UIViewController+MistShareActivity.swift in Sources */,
 				5BB624DC2867E98500DCD45B /* Conversation.swift in Sources */,
 				43483BB6280251B1001C7C6A /* EnterNameViewController.swift in Sources */,
 				4783F3BB284D6DA20073357A /* ExploreViewController+Search.swift in Sources */,
+				5BAD62752876707000DCFE45 /* AccountSection.swift in Sources */,
 				478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */,
 				5B13B741285D05B0000ADF5E /* UISearchBar+CenterText.swift in Sources */,
 				472A4C0028408BD800FD52B7 /* DesignableTabBarController.swift in Sources */,
 				5BC27636286A8BB300DA5A3D /* CustomTextLayoutSizeCalculator.swift in Sources */,
-				475271972855851200DDF84D /* MyAccountCell.swift in Sources */,
+				475271972855851200DDF84D /* SettingCell.swift in Sources */,
 				474A4AC6284AB6D700B39A98 /* String+Indexing.swift in Sources */,
 				479683F82828180C00CA23BA /* ClusterAnnotationView.swift in Sources */,
 				43D9251628526DF300438C5C /* BlockAPI.swift in Sources */,
@@ -1834,7 +1854,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
@@ -1862,7 +1882,7 @@
 				MARKETING_VERSION = 0.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore app.getmist.mist-ios";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development app.getmist.mist-ios";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/Objective-C/mist-ios-Bridging-Header.h";
@@ -1879,7 +1899,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
@@ -1906,7 +1926,7 @@
 				);
 				MARKETING_VERSION = 0.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore app.getmist.mist-ios";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development app.getmist.mist-ios";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/Objective-C/mist-ios-Bridging-Header.h";

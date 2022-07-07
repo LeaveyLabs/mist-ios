@@ -41,6 +41,11 @@ class ConversationService: NSObject {
                 messageThreadsByUserIds[userId] = try MessageThread(sender: UserService.singleton.getId(), receiver: userId, previousMessages: messages)
             }
             
+            //Sort the server_messages
+            messageThreadsByUserIds.forEach { (key: Int, value: MessageThread) in
+                value.server_messages.sort()
+            }
+            
             //Get the frontendusers (users and their profile pics) for each thread
             let users = try await UserAPI.batchFetchUsersFromUserIds(Set(Array(messageThreadsByUserIds.keys)))
             let frontendUsers = try await UserAPI.batchTurnUsersIntoFrontendUsers(users.map { $0.value })
