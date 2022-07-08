@@ -56,7 +56,9 @@ struct Constants {
             static let Profile = "ProfileViewController"
             static let Feed = "FeedTableViewController"
             static let MyProfile = "MyProfileViewController"
+            //Settings
             static let Settings = "SettingsViewController"
+            static let PasswordSetting = "PasswordSettingViewController"
             //Explore
             static let Explore = "ExploreViewController"
             static let SearchSuggestions = "SearchSuggestionsTableViewController"
@@ -82,6 +84,10 @@ struct Constants {
             static let EnterName = "EnterNameViewController"
             static let ChooseUsername = "ChooseUsernameViewController"
             static let SetupTime = "SetupTimeViewController"
+            //Reset password
+            static let RequestResetPassword = "RequestResetPasswordViewController"
+            static let ValidateResetPassword = "ValidateResetPasswordViewController"
+            static let FinalizeResetPassword = "FinalizeResetPasswordViewController"
         }
         struct Segue {
             static let ToMyProfileSetting = "ToMyProfileSetting"

@@ -122,6 +122,11 @@ class Conversation {
                 
         do {
             try messageThread.sendMessage(message_text: messageText)
+            
+            
+            
+            
+            
             let attributedMessage = NSAttributedString(string: messageText, attributes: [.font: UIFont(name: Constants.Font.Medium, size: 15)!])
             let messageKitMessage = MessageKitMessage(text: attributedMessage,
                                             sender: UserService.singleton.getUserAsFrontendReadOnlyUser(),

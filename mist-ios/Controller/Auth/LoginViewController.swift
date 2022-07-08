@@ -28,11 +28,11 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
         validateInput()
         isAuthKUIView = true
         setupTextFields()
         setupLoginButton()
+        setupBackButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -73,10 +73,14 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         }
     }
     
+    func setupBackButton() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(goBack))
+    }
+    
     //MARK: - User Interaction
     
-    @IBAction func signupButtonDidPressed(_ sender: UIButton) {
-        navigationController?.popViewController(animated: false)
+    @objc func goBack() {
+        navigationController?.popViewController(animated: true)
     }
     
     @IBAction func loginButtonDidPressed(_ sender: Any) {
@@ -84,7 +88,9 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     }
     
     @IBAction func forgotButtonDidPressed(_ sender: UIButton) {
-        
+        let requestPasswordVC = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.RequestResetPassword)
+        let navigationController = UINavigationController(rootViewController: requestPasswordVC)
+        present(navigationController, animated: true)
     }
     
     //MARK: - TextField Delegate

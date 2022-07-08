@@ -1,25 +1,18 @@
 //
-//  EnterCodeViewController.swift
+//  ValidateResetPasswordViewController.swift
 //  mist-ios
 //
-//  Created by Kevin Sun on 3/29/22.
+//  Created by Adam Monterey on 7/7/22.
 //
-
-enum ResendState {
-    case notsent, sending, sent
-}
 
 import UIKit
 
-class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
+class ValidateResetPasswordViewController: KUIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var confirmEmailTextField: UITextField!
     @IBOutlet weak var continueButton: UIButton!
     @IBOutlet weak var resendButton: UIButton!
-    @IBOutlet weak var errorLabel: UILabel!
-    @IBOutlet weak var errorView: SpringView!
-    @IBOutlet weak var agreementLabel: UILabel!
 
     var isValidInput: Bool! {
         didSet {
@@ -43,13 +36,11 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         emailLabel.text! += AuthContext.email
         
-        errorView.isHidden = true //we're using SwiftMessages for error handling now, not this custom view
         validateInput()
         isAuthKUIView = true
         setupConfirmEmailTextField()
         setupContinueButton()
         setupResendButton()
-        setupAgreementLabel()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -108,13 +99,6 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         }
     }
     
-    func setupAgreementLabel() {
-        let attributedString = NSMutableAttributedString(string: "By clicking continue, you agree to our Terms of Service and Privacy Policy.")
-        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.systemBlue, range: .init(location: 39, length: 16))
-        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.systemBlue, range: .init(location: 60, length: 14))
-        agreementLabel.attributedText = attributedString
-    }
-    
     //MARK: - User Interaction
     
     @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
@@ -127,14 +111,6 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     
     @IBAction func didPressedResendButton(_ sender: UIButton) {
         resendCode()
-    }
-    
-    @IBAction func termsButtonDidTapped(_ sender: UIButton) {
-        openURL(URL(string: "https://www.getmist.app/terms-of-service")!)
-    }
-    
-    @IBAction func privacyPolicyButtonDidTapped(_ sender: UIButton) {
-        openURL(URL(string: "https://www.getmist.app/privacy-policy")!)
     }
     
     //MARK: - TextField Delegate
@@ -161,8 +137,8 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
             isSubmitting = true
             Task {
                 do {
-                    try await AuthAPI.validateEmail(email: AuthContext.email, code: code)
-                    let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.CreatePassword);
+                    try await AuthAPI.validateResetPassword(email: ResetPasswordContext.email, code: code)
+                    let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.FinalizeResetPassword);
                     self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
                         self?.isSubmitting = false
                     })
@@ -175,11 +151,10 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     
     func resendCode() {
         resendState = .sending
-        errorView.isHidden = true
         Task {
             do {
                 // Send another validation email
-                try await AuthAPI.registerEmail(email: AuthContext.email)
+                try await AuthAPI.requestResetPassword(email: ResetPasswordContext.email)
             } catch {
                 handleError(error)
             }
@@ -190,26 +165,11 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     func validateInput() {
         isValidInput = confirmEmailTextField.text?.count == 6
     }
-}
-
-//we're using SwiftMessages instead for error handling. Leaving this code just as a reference
-// Error View functions
-extension ConfirmEmailViewController {
-    
-    func setupErrorLabel() {
-        errorView.layer.cornerRadius = 10
-        errorView.layer.masksToBounds = true
-        errorView.layer.cornerCurve = .continuous
-        errorView.isHidden = true
-    }
     
     func handleError(_ error: Error) {
         isSubmitting = false
         confirmEmailTextField.text = ""
         CustomSwiftMessages.displayError(error)
-//        errorLabel.attributedText = CustomAttributedString.errorMessage(errorText: "That didn't work.", size: 16)
-//        errorView.isHidden = false
-//        errorView.animation = "shake"
-//        errorView.animate()
     }
+    
 }

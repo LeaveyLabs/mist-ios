@@ -41,6 +41,11 @@ class ConversationService: NSObject {
                 messageThreadsByUserIds[userId] = try MessageThread(sender: UserService.singleton.getId(), receiver: userId, previousMessages: messages)
             }
             
+            //Sort the server_messages
+            messageThreadsByUserIds.forEach { (key: Int, value: MessageThread) in
+                value.server_messages.sort()
+            }
+            
             //Get the frontendusers (users and their profile pics) for each thread
             let users = try await UserAPI.batchFetchUsersFromUserIds(Set(Array(messageThreadsByUserIds.keys)))
             let frontendUsers = try await UserAPI.batchTurnUsersIntoFrontendUsers(users.map { $0.value })
@@ -74,8 +79,11 @@ class ConversationService: NSObject {
     
     func handleMessageThreadSizeIncrease(with sangdaebangId: Int) {
         guard let newMessage = conversations[sangdaebangId]?.messageThread.server_messages.last else { return }
-        guard newMessage.sender != UserService.singleton.getId() else { return }
-        conversations[sangdaebangId]?.handleReceivedMessage(newMessage)
+        if newMessage.sender == UserService.singleton.getId() {
+            //your message successfully sent
+        } else {
+            conversations[sangdaebangId]?.handleReceivedMessage(newMessage)
+        }
     }
     
     //MARK: - Opening and Closing Conversations

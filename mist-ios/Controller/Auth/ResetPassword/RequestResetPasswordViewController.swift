@@ -1,13 +1,13 @@
 //
-//  EnterEmailViewController.swift
+//  RequestResetPasswordViewController.swift
 //  mist-ios
 //
-//  Created by Kevin Sun on 3/29/22.
+//  Created by Adam Monterey on 7/7/22.
 //
 
 import UIKit
 
-class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
+class RequestResetPasswordViewController: KUIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var enterEmailTextField: UITextField!
     @IBOutlet weak var continueButton: UIButton!
@@ -38,7 +38,6 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
         disableInteractivePopGesture() //because it's the root view controller of a navigation vc
         enterEmailTextField.becomeFirstResponder()
         validateInput()
@@ -54,10 +53,6 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func setupContinueButton() {
-        //Three states:
-        // 1. enabled
-        // 2. disabled (faded white text)
-        // 3. disabled and submitting (dark grey foreground) bc i dont think you can change the activityIndicator color
         continueButton.configurationUpdateHandler = { [weak self] button in
             if button.isEnabled {
                 button.configuration = ButtonConfigs.enabledConfig(title: "Continue")
@@ -72,13 +67,14 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func setupBackButton() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(goBack))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(goBack))
     }
     
     //MARK: - User Interaction
     
     @objc func goBack() {
-        navigationController?.popViewController(animated: true)
+        print("TRYING TO GO BACK")
+        navigationController?.dismiss(animated: true)
     }
     
     @IBAction func didPressedContinueButton(_ sender: Any) {
@@ -105,16 +101,14 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     //MARK: - Helpers
     
     func tryToContinue() {
-        // If you've inputted an email
         if let email = enterEmailTextField.text?.lowercased() {
             Task {
                 isSubmitting = true
                 do {
-                    // Send a validation email
-                    try await AuthAPI.registerEmail(email: email)
+                    try await AuthAPI.requestResetPassword(email: email)
                     // Move to the next code view
-                    AuthContext.email = email
-                    let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ConfirmEmail)
+                    ResetPasswordContext.email = email
+                    let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ValidateResetPassword)
                     self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
                         self?.isSubmitting = false
                     })
@@ -141,7 +135,7 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
 
 // UIGestureRecognizerDelegate (already inherited in an extension)
 
-extension EnterEmailViewController {
+extension RequestResetPasswordViewController {
     
     // Note: Must be called in viewDidLoad
     //(1 of 2) Enable swipe left to go back with a bar button item
