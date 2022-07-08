@@ -25,6 +25,8 @@ protocol CompleteUserBackendProperties: Equatable {
     var last_name: String { get }
     var picture: String? { get }
     var email: String { get }
+    var date_of_birth: String { get }
+    var sex: String? { get }
     //let phone_number: String?
 }
 
@@ -84,6 +86,8 @@ struct CompleteUser: Codable, CompleteUserBackendProperties {
     let last_name: String
     let picture: String?
     let email: String
+    let date_of_birth: String
+    let sex: String?
     
     //Equatable
     static func == (lhs: CompleteUser, rhs: CompleteUser) -> Bool { return lhs.id == rhs.id }
@@ -98,6 +102,8 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
     var last_name: String
     var picture: String?
     var email: String
+    let date_of_birth: String
+    let sex: String?
     
     // Frontend-only properties
     var profilePicWrapper: ProfilePicWrapper
@@ -114,6 +120,8 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
         self.last_name = completeUser.last_name
         self.picture = completeUser.picture
         self.email = completeUser.email
+        self.date_of_birth = completeUser.date_of_birth
+        self.sex = completeUser.sex
         
         self.profilePicWrapper = profilePic
         self.token = token
