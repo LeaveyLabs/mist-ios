@@ -33,9 +33,6 @@ class UserAPI {
     static let SEX_PARAM = "sex"
     static let TEXT_PARAM = "text"
     static let TOKEN_PARAM = "token"
-    static let AUTH_HEADERS:HTTPHeaders = [
-        "Authorization": "Token \(getGlobalAuthToken())"
-    ]
     
     static func fetchFriends() async throws -> [ReadOnlyUser] {
         let url = "\(BASE_URL)\(PATH_TO_FRIENDSHIPS)"
@@ -90,6 +87,10 @@ class UserAPI {
     
     static func patchProfilePic(image:UIImage, id:Int, username:String) async throws -> CompleteUser {
         let imgData = image.pngData()
+        
+        let AUTH_HEADERS:HTTPHeaders = [
+            "Authorization": "Token \(getGlobalAuthToken())"
+        ]
         
         let request = AF.upload(
             multipartFormData:
