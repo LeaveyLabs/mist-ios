@@ -15,7 +15,7 @@ class CommentAPI {
     static let AUTHOR_PARAM = "author"
     // Fetch comments from database with the given postID
     static func fetchCommentsByPostID(post:Int) async throws -> [Comment] {
-        let url = "\(BASE_URL)\(PATH_TO_COMMENT_MODEL)?\(POST_ID_PARAM)=\(post)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_COMMENT_MODEL)?\(POST_ID_PARAM)=\(post)"
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         return try JSONDecoder().decode([Comment].self, from: data)
     }
@@ -24,7 +24,7 @@ class CommentAPI {
     static func postComment(body: String,
                             post: Int,
                             author: Int) async throws -> Comment {
-        let url = "\(BASE_URL)\(PATH_TO_COMMENT_MODEL)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_COMMENT_MODEL)"
         let params:[String:String] = [
             BODY_PARAM: body,
             POST_PARAM: String(post),
@@ -37,7 +37,7 @@ class CommentAPI {
     
     // Delete comment from database
     static func deleteComment(comment_id:Int) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_COMMENT_MODEL)\(comment_id)/"
+        let url = "\(Env.BASE_URL)\(PATH_TO_COMMENT_MODEL)\(comment_id)/"
         let _ = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
     }
 }

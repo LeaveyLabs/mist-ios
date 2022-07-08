@@ -35,50 +35,50 @@ class UserAPI {
     static let TOKEN_PARAM = "token"
     
     static func fetchFriends() async throws -> [ReadOnlyUser] {
-        let url = "\(BASE_URL)\(PATH_TO_FRIENDSHIPS)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_FRIENDSHIPS)"
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
     }
     
     static func fetchMatches() async throws -> [ReadOnlyUser] {
-        let url = "\(BASE_URL)\(PATH_TO_MATCHES)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_MATCHES)"
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
     }
     
     static func fetchUsersByUserId(userId:Int) async throws -> ReadOnlyUser {
-        let url = "\(BASE_URL)\(PATH_TO_USER_MODEL)\(userId)/"
+        let url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(userId)/"
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         return try JSONDecoder().decode(ReadOnlyUser.self, from: data)
     }
     
     static func fetchUsersByUsername(username:String) async throws -> [ReadOnlyUser] {
-        let url = "\(BASE_URL)\(PATH_TO_USER_MODEL)?\(USERNAME_PARAM)=\(username)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)?\(USERNAME_PARAM)=\(username)"
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
     }
     
     static func fetchUsersByFirstName(firstName:String) async throws -> [ReadOnlyUser] {
-        let url = "\(BASE_URL)\(PATH_TO_USER_MODEL)?\(FIRST_NAME_PARAM)=\(firstName)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)?\(FIRST_NAME_PARAM)=\(firstName)"
         print(url)
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
     }
     
     static func fetchUsersByLastName(lastName:String) async throws -> [ReadOnlyUser] {
-        let url = "\(BASE_URL)\(PATH_TO_USER_MODEL)?\(LAST_NAME_PARAM)=\(lastName)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)?\(LAST_NAME_PARAM)=\(lastName)"
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
     }
     
     static func fetchUsersByText(containing text:String) async throws -> [ReadOnlyUser] {
-        let url = "\(BASE_URL)\(PATH_TO_USER_MODEL)?\(TEXT_PARAM)=\(text)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)?\(TEXT_PARAM)=\(text)"
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
     }
     
     static func fetchAuthedUserByToken(token:String) async throws -> CompleteUser {
-        let url = "\(BASE_URL)\(PATH_TO_USER_MODEL)?\(TOKEN_PARAM)=\(token)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)?\(TOKEN_PARAM)=\(token)"
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         let queriedUsers = try JSONDecoder().decode([CompleteUser].self, from: data)
         let tokenUser = queriedUsers[0]
@@ -98,7 +98,7 @@ class UserAPI {
                     multipartFormData.append(imgData!, withName: "picture", fileName: "\(username).png", mimeType: "image/png")
                     multipartFormData.append(imgData!, withName: "confirm_picture", fileName: "\(username).png", mimeType: "image/png")
                 },
-            to: "\(BASE_URL)\(PATH_TO_USER_MODEL)\(id)/",
+            to: "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(id)/",
             method: .patch,
             headers: AUTH_HEADERS
         )
@@ -125,7 +125,7 @@ class UserAPI {
     }
     
     static func patchUsername(username:String, id:Int) async throws -> CompleteUser {
-        let url =  "\(BASE_URL)\(PATH_TO_USER_MODEL)\(id)/"
+        let url =  "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(id)/"
         let params:[String:String] = [USERNAME_PARAM: username]
         let json = try JSONEncoder().encode(params)
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
@@ -133,7 +133,7 @@ class UserAPI {
     }
     
     static func patchPassword(password:String, id:Int) async throws -> CompleteUser {
-        let url =  "\(BASE_URL)\(PATH_TO_USER_MODEL)\(id)/"
+        let url =  "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(id)/"
         let params:[String:String] = [PASSWORD_PARAM: password]
         let json = try JSONEncoder().encode(params)
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
@@ -141,7 +141,7 @@ class UserAPI {
     }
     
     static func deleteUser(user_id:Int) async throws {
-        let url =  "\(BASE_URL)\(PATH_TO_USER_MODEL)\(user_id)/"
+        let url =  "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(user_id)/"
         let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
     }
     

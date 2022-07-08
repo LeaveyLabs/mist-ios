@@ -32,10 +32,6 @@ func loadPostStuff() async throws {
 
 class LoadingViewController: UIViewController {
     
-    let SHOULD_ANIMATE = true
-    var FADING_ANIMATION_DELAY: Double!
-    var FADING_ANIMATION_DURATION: Double!
-    
     var mistWideLogoView: MistWideLogoView!
     
     override func loadView() {
@@ -58,8 +54,6 @@ class LoadingViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        FADING_ANIMATION_DELAY = SHOULD_ANIMATE ? 1.2 : 0
-        FADING_ANIMATION_DURATION = SHOULD_ANIMATE ? 0.7 : 0
                         
         if !UserService.singleton.isLoggedIn() {
             goToAuth()
@@ -71,10 +65,10 @@ class LoadingViewController: UIViewController {
     func goToAuth() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [self] in
             mistWideLogoView.flyHeartUp()
-            DispatchQueue.main.asyncAfter(deadline: .now() + FADING_ANIMATION_DELAY) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + Env.LAUNCH_ANIMATION_DELAY) {
                 self.transitionToStoryboard(storyboardID: Constants.SBID.SB.Auth,
                                             viewControllerID: Constants.SBID.VC.AuthNavigation,
-                                            duration: self.FADING_ANIMATION_DURATION) { _ in}
+                                            duration: Env.LAUNCH_ANIMATION_DURATION) { _ in}
             }
         }
     }
@@ -88,10 +82,11 @@ class LoadingViewController: UIViewController {
                     try await loadEverything()
                     werePostsLoaded = true
                     mistWideLogoView.flyHeartUp()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + FADING_ANIMATION_DELAY) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Env.LAUNCH_ANIMATION_DELAY) {
                         self.transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
                                                     viewControllerID: Constants.SBID.VC.TabBarController,
-                                                    duration: self.FADING_ANIMATION_DURATION) { _ in}
+                                                    duration: Env.LAUNCH_ANIMATION_DURATION) { _ in
+                        }
                     }
                 } catch {
                     if numberOfFailures > 1 {

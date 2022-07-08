@@ -14,19 +14,19 @@ class BlockAPI {
     static let BLOCKED_USER_PARAM = "blocked_user"
     
     static func fetchBlocksByBlockingUser(blockingUserId:Int) async throws -> [Block] {
-        let url = "\(BASE_URL)\(PATH_TO_BLOCK_MODEL)?\(BLOCKING_USER_PARAM)=\(blockingUserId)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_BLOCK_MODEL)?\(BLOCKING_USER_PARAM)=\(blockingUserId)"
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         return try JSONDecoder().decode([Block].self, from: data)
     }
     
     static func fetchBlocksByBlockedUser(blockedUserId:Int) async throws -> [Block] {
-        let url = "\(BASE_URL)\(PATH_TO_BLOCK_MODEL)?\(BLOCKED_USER_PARAM)=\(blockedUserId)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_BLOCK_MODEL)?\(BLOCKED_USER_PARAM)=\(blockedUserId)"
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         return try JSONDecoder().decode([Block].self, from: data)
     }
     
     static func postBlock(blockingUserId:Int, blockedUserId:Int) async throws -> Block {
-        let url = "\(BASE_URL)\(PATH_TO_BLOCK_MODEL)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_BLOCK_MODEL)"
         let params = [
             BLOCKING_USER_PARAM: blockingUserId,
             BLOCKED_USER_PARAM: blockedUserId,
@@ -37,14 +37,14 @@ class BlockAPI {
     }
     
     static func deleteBlock(blockingUserId:Int, blockedUserId:Int) async throws {
-        let endpoint = "\(BASE_URL)\(PATH_TO_CUSTOM_DELETE_BLOCK_ENDPOINT)"
+        let endpoint = "\(Env.BASE_URL)\(PATH_TO_CUSTOM_DELETE_BLOCK_ENDPOINT)"
         let params = "\(BLOCKING_USER_PARAM)=\(blockingUserId)&\(BLOCKED_USER_PARAM)=\(blockedUserId)"
         let url = "\(endpoint)?\(params)"
         let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
     }
     
     static func deleteBlock(block_id:Int) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_BLOCK_MODEL)\(block_id)/"
+        let url = "\(Env.BASE_URL)\(PATH_TO_BLOCK_MODEL)\(block_id)/"
         let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
     }
 }

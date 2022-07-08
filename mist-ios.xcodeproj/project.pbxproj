@@ -211,6 +211,7 @@
 		5B774DFC286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */; };
 		5B774DFF286D570400CCCF28 /* MatchCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */; };
 		5B774E00286D570400CCCF28 /* MatchCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */; };
+		5BA401F72878052B004A556E /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA401F62878052B004A556E /* Env.swift */; };
 		5BA967322872BC5E00724CD9 /* Array+FirstWhere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */; };
 		5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */; };
 		5BAD626B2875500E00DCFE45 /* InformationCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BAD62692875500E00DCFE45 /* InformationCollectionCell.xib */; };
@@ -253,6 +254,7 @@
 		5BE110062876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */; };
 		5BE110082876CE4200CB54A6 /* ResetPasswordContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110072876CE4200CB54A6 /* ResetPasswordContext.swift */; };
 		5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4D9BD285C018000197080 /* String+Capitalization.swift */; };
+		5BEFCD23287816FB00379CE6 /* Launch-beta.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BEFCD22287816FB00379CE6 /* Launch-beta.storyboard */; };
 		5BF78337285D955F003C3955 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78336285D955F003C3955 /* Map.swift */; };
 		5BF78339285E4477003C3955 /* UITableView+SectionShadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78338285E4477003C3955 /* UITableView+SectionShadow.swift */; };
 /* End PBXBuildFile section */
@@ -488,6 +490,7 @@
 		5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessagesFlowLayout.swift; sourceTree = "<group>"; };
 		5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCollectionCell.swift; sourceTree = "<group>"; };
 		5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MatchCollectionCell.xib; sourceTree = "<group>"; };
+		5BA401F62878052B004A556E /* Env.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+FirstWhere.swift"; sourceTree = "<group>"; };
 		5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationCollectionCell.swift; sourceTree = "<group>"; };
 		5BAD62692875500E00DCFE45 /* InformationCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InformationCollectionCell.xib; sourceTree = "<group>"; };
@@ -530,6 +533,7 @@
 		5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalizeResetPasswordViewController.swift; sourceTree = "<group>"; };
 		5BE110072876CE4200CB54A6 /* ResetPasswordContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordContext.swift; sourceTree = "<group>"; };
 		5BE4D9BD285C018000197080 /* String+Capitalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Capitalization.swift"; sourceTree = "<group>"; };
+		5BEFCD22287816FB00379CE6 /* Launch-beta.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch-beta.storyboard"; sourceTree = "<group>"; };
 		5BF78336285D955F003C3955 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		5BF78338285E4477003C3955 /* UITableView+SectionShadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+SectionShadow.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -640,6 +644,7 @@
 				5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */,
 				5BC2763D286AE9BD00DA5A3D /* Main.storyboard */,
 				478A78A0284EBF180058C845 /* Launch.storyboard */,
+				5BEFCD22287816FB00379CE6 /* Launch-beta.storyboard */,
 				47E86F6C2853EA65005A7DC7 /* Auth.storyboard */,
 			);
 			path = Storyboards;
@@ -795,6 +800,7 @@
 		4752719B2855A6ED00DDF84D /* AbstractControllers */ = {
 			isa = PBXGroup;
 			children = (
+				479AA20227DD4AA900EA0DFC /* KUIViewController.swift */,
 				4316238328343D3F00169AA9 /* CustomSheetViewController.swift */,
 				47EA3E0127E0151200381218 /* MapViewController.swift */,
 				47A3D6FF27D50CF1003DBEA5 /* FeedViewController.swift */,
@@ -869,7 +875,6 @@
 				47E295D5284BB79600A680CC /* PostView.swift */,
 				47E295D7284BB7B000A680CC /* PostView.xib */,
 				474A5DA427F40606004215F9 /* RoundedImageView.swift */,
-				479AA20227DD4AA900EA0DFC /* KUIViewController.swift */,
 				5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */,
 				47A3D71C27D5940D003DBEA5 /* NewPostTextView.swift */,
 				5BCD490D28714F920002BD02 /* WantToChatView.swift */,
@@ -980,6 +985,7 @@
 		47E74E0A27CA0FFE00467A0C /* mist-ios */ = {
 			isa = PBXGroup;
 			children = (
+				5BA401F62878052B004A556E /* Env.swift */,
 				47E74E1927CA0FFF00467A0C /* Info.plist */,
 				47E74E3B27CA14B800467A0C /* Model */,
 				47E74E3C27CA14BF00467A0C /* View */,
@@ -1434,7 +1440,6 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				Base,
 			);
 			mainGroup = 47E74DFF27CA0FFE00467A0C;
 			packageReferences = (
@@ -1481,6 +1486,7 @@
 				5BAD626B2875500E00DCFE45 /* InformationCollectionCell.xib in Resources */,
 				5BC2763F286AE9BD00DA5A3D /* Main.storyboard in Resources */,
 				478A78A1284EBF180058C845 /* Launch.storyboard in Resources */,
+				5BEFCD23287816FB00379CE6 /* Launch-beta.storyboard in Resources */,
 				472A4C0228408BD800FD52B7 /* LoadingView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1711,6 +1717,7 @@
 				470F271F27DE9ABE00C6DDAF /* SearchResultsTableViewController.swift in Sources */,
 				47061CD028510E4C0042F04C /* MKPlacemark+Address.swift in Sources */,
 				5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */,
+				5BA401F72878052B004A556E /* Env.swift in Sources */,
 				5BB624D52867D1C100DCD45B /* ChatMoreViewController.swift in Sources */,
 				4752719A2855A6A700DDF84D /* ExploreViewController+Feed.swift in Sources */,
 				4369DB0A282EC436009215D4 /* MessageThread.swift in Sources */,
@@ -1886,7 +1893,8 @@
 		47E74E3327CA100000467A0C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-beta";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
@@ -1904,7 +1912,7 @@
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app wants access to your photo library.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = Launch;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch-beta";
 				INFOPLIST_KEY_UIMainStoryboardFile = Loading;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -1931,7 +1939,7 @@
 		47E74E3427CA100000467A0C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;

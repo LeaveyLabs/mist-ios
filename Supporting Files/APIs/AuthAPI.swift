@@ -39,7 +39,7 @@ class AuthAPI {
     // Registers email in the database
     // (and database will send verifcation email)
     static func registerEmail(email:String) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_EMAIL_REGISTRATION)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_EMAIL_REGISTRATION)"
         let obj:[String:String] = [AUTH_EMAIL_PARAM:email]
         let json = try JSONEncoder().encode(obj)
         let (_, _) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
@@ -47,7 +47,7 @@ class AuthAPI {
     
     // Validates email
     static func validateEmail(email:String, code:String) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_EMAIL_VALIDATION)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_EMAIL_VALIDATION)"
         let params:[String:String] = [
             AUTH_EMAIL_PARAM: email,
             AUTH_CODE_PARAM: code
@@ -58,7 +58,7 @@ class AuthAPI {
     
     // Validates username
     static func validateUsername(username:String) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_USERNAME_VALIDATION)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_USERNAME_VALIDATION)"
         let params:[String:String] = [AUTH_USERNAME_PARAM: username]
         let json = try JSONEncoder().encode(params)
         let (_, _) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
@@ -66,7 +66,7 @@ class AuthAPI {
     
     // Validates username
     static func validatePassword(username:String, password:String) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_PASSWORD_VALIDATION)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_PASSWORD_VALIDATION)"
         let params:[String:String] = [
             AUTH_USERNAME_PARAM: username,
             AUTH_PASSWORD_PARAM: password,
@@ -106,7 +106,7 @@ class AuthAPI {
                         multipartFormData.append(pictureData, withName: "confirm_picture", fileName: "\(username).png", mimeType: "image/png")
                     }
                 },
-            to: "\(BASE_URL)\(UserAPI.PATH_TO_USER_MODEL)",
+            to: "\(Env.BASE_URL)\(UserAPI.PATH_TO_USER_MODEL)",
             method: .post
         )
         // TODO: get the response codes through .response
@@ -132,13 +132,13 @@ class AuthAPI {
     }
     
     static func fetchAuthToken(json: Data) async throws -> String {
-        let url = "\(BASE_URL)\(PATH_TO_API_TOKEN)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_API_TOKEN)"
         let (data, _) = try await BasicAPI.basicHTTPCallWithoutToken(url:url, jsonData:json, method: HTTPMethods.POST.rawValue)
         return try JSONDecoder().decode(TokenStruct.self, from: data).token
     }
     
     static func fetchAuthToken(username:String, password:String) async throws -> String {
-        let url = "\(BASE_URL)\(PATH_TO_API_TOKEN)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_API_TOKEN)"
         let params:[String:String] = [
             UserAPI.USERNAME_PARAM: username,
             UserAPI.PASSWORD_PARAM: password,
@@ -149,14 +149,14 @@ class AuthAPI {
     }
     
     static func requestResetPassword(email:String) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_PASSWORD_RESET_REQUEST)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_PASSWORD_RESET_REQUEST)"
         let params:[String:String] = [AUTH_EMAIL_PARAM: email]
         let json = try JSONEncoder().encode(params)
         let (_, _) = try await BasicAPI.basicHTTPCallWithoutToken(url:url, jsonData:json, method: HTTPMethods.POST.rawValue)
     }
     
     static func validateResetPassword(email:String, code:String) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_PASSWORD_RESET_VALIDATION)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_PASSWORD_RESET_VALIDATION)"
         let params:[String:String] = [
             AUTH_EMAIL_PARAM: email,
             AUTH_CODE_PARAM: code,
@@ -166,7 +166,7 @@ class AuthAPI {
     }
     
     static func finalizeResetPassword(email:String, password:String) async throws {
-        let url = "\(BASE_URL)\(PATH_TO_PASSWORD_RESET_FINALIZATION)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_PASSWORD_RESET_FINALIZATION)"
         let params:[String:String] = [
             AUTH_EMAIL_PARAM: email,
             AUTH_PASSWORD_PARAM: password,
