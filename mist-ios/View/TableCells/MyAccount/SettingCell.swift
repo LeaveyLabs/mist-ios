@@ -26,6 +26,9 @@ class SettingCell: UITableViewCell {
         iconImageView.image = setting.iconImage
         titleLabel.text = setting.displayName
         accessoryLabel.text = ""
+        accessoryImageView.isHidden = false
+        selectionStyle = .default
+        
         if setting == .email {
             accessoryLabel.text = UserService.singleton.getEmail()
             accessoryImageView.isHidden = true

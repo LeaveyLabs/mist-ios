@@ -22,23 +22,23 @@ enum APIError: String, LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .CouldNotConnect:
-            return NSLocalizedString("No internet connection.", comment: "")
+            return NSLocalizedString("Poor internet connection", comment: "")
         case .ServerError:
             return NSLocalizedString("Our servers are down", comment: "")
         case .InvalidParameters:
-            return NSLocalizedString("Invalid parameters.", comment: "")
+            return NSLocalizedString("Invalid credentials", comment: "")
         case .InvalidCredentials:
-            return NSLocalizedString("Invalid credentials.", comment: "")
+            return NSLocalizedString("Invalid credentials", comment: "")
         case .NotFound:
-            return NSLocalizedString("Something went wrong.", comment: "")
+            return NSLocalizedString("Something went wrong", comment: "")
         case .Timeout:
-            return NSLocalizedString("Something went wrong.", comment: "")
+            return NSLocalizedString("Something went wrong", comment: "")
         case .Throttled:
-            return NSLocalizedString("Too many requests.", comment: "")
+            return NSLocalizedString("Too many requests", comment: "")
         case .NoResponse:
-            return NSLocalizedString("Something went wrong.", comment: "")
+            return NSLocalizedString("Something went wrong", comment: "")
         case .Unknown:
-            return NSLocalizedString("Something went wrong.", comment: "")
+            return NSLocalizedString("Something went wrong", comment: "")
         }
     }
     
@@ -47,23 +47,23 @@ enum APIError: String, LocalizedError {
     public var recoverySuggestion: String? {
         switch self {
         case .CouldNotConnect:
-            return NSLocalizedString("Check your internet connection.", comment: "")
+            return NSLocalizedString("Check your internet connection", comment: "")
         case .ServerError:
-            return NSLocalizedString("Please try again later.", comment: "")
+            return NSLocalizedString("Please try again later", comment: "")
         case .InvalidParameters:
-            return NSLocalizedString("Please try again.", comment: "")
+            return NSLocalizedString("Please try again", comment: "")
         case .InvalidCredentials:
-            return NSLocalizedString("Please try again.", comment: "")
+            return NSLocalizedString("Please try again", comment: "")
         case .NotFound:
-            return NSLocalizedString("Please try again later.", comment: "")
+            return NSLocalizedString("Please try again later", comment: "")
         case .Timeout:
-            return NSLocalizedString("Please try again later.", comment: "")
+            return NSLocalizedString("Please try again later", comment: "")
         case .Throttled:
-            return NSLocalizedString("Yo chill out.", comment: "")
+            return NSLocalizedString("Yo chill out", comment: "")
         case .NoResponse:
-            return NSLocalizedString("Please try again later.", comment: "")
+            return NSLocalizedString("Please try again later", comment: "")
         case .Unknown:
-            return NSLocalizedString("Please try again later.", comment: "")
+            return NSLocalizedString("Please try again later", comment: "")
         }
     }
 }
