@@ -13,7 +13,7 @@ class KUIViewController: UIViewController {
     // KBaseVC is the KEYBOARD variant BaseVC. more on this later
 
     @IBOutlet var bottomConstraintForKeyboard: NSLayoutConstraint!
-    var isAuthKUIView = false
+    var shouldNotAnimateKUIAccessoryInputView = false
     var shouldKUIViewKeyboardDismissOnBackgroundTouch = false
     var isKeyboardPresented = false
     
@@ -21,30 +21,43 @@ class KUIViewController: UIViewController {
     
     @objc func keyboardWillShow(sender: NSNotification) {
         isKeyboardPresented = true
-        
+                
         let i = sender.userInfo!
         let s: TimeInterval = (i[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
         let previousK = k
         k = (i[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height
         
-        //Only adjust the keyboard when it increases in height or when it's entirely dismissed.
+        //Wait 0.05 seconds in case the keyboard was adjusted twice during that time frame because of keyboard autocorrection updates.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [self] in
+            if k != previousK {
+                bottomConstraintForKeyboard.constant = k - view.safeAreaInsets.bottom
+                // Note. that is the correct, actual value. Some prefer to use:
+                // bottomConstraintForKeyboard.constant = k - bottomLayoutGuide.length
+                
+                if !shouldNotAnimateKUIAccessoryInputView {
+                    UIView.animate(withDuration: s) { self.view.layoutIfNeeded() }
+                }
+            }
+        }
+        
+        //Alternatively, only adjust the keyboard when it increases in height or when it's entirely dismissed.
         //Don't adjust the keyboard when the height remains the same or becomes smaller.
         //This prevents flickers when pressing "return" key with apple autocomplete
         //Autocorrection = yes also prevents this issue within a textfield. However, it doesn't prevent the issue when jumping from one textview to the next within the same VC. To prevent that flicker, we need the below code
-        if k > previousK || k == 0 {
-            bottomConstraintForKeyboard.constant = k - view.safeAreaInsets.bottom
-            // Note. that is the correct, actual value. Some prefer to use:
-            // bottomConstraintForKeyboard.constant = k - bottomLayoutGuide.length
-            
-            if !isAuthKUIView {
-                UIView.animate(withDuration: s) { self.view.layoutIfNeeded() }
-            }
-        }
+//        if k > previousK || k == 0 {
+//            bottomConstraintForKeyboard.constant = k - view.safeAreaInsets.bottom
+//            // Note. that is the correct, actual value. Some prefer to use:
+//            // bottomConstraintForKeyboard.constant = k - bottomLayoutGuide.length
+//
+//            if !shouldNotAnimateKUIAccessoryInputView {
+//                UIView.animate(withDuration: s) { self.view.layoutIfNeeded() }
+//            }
+//        }
     }
 
     @objc func keyboardWillHide(sender: NSNotification) {
         isKeyboardPresented = false
-        if !isAuthKUIView {
+        if !shouldNotAnimateKUIAccessoryInputView {
             let info = sender.userInfo!
             let s: TimeInterval = (info[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
             bottomConstraintForKeyboard.constant = 0
@@ -63,7 +76,7 @@ class KUIViewController: UIViewController {
     func keyboardNotifications() {
         NotificationCenter.default.addObserver(self,
             selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardDidShowNotification,
+            name: UIResponder.keyboardWillShowNotification,
             object: nil)
         NotificationCenter.default.addObserver(self,
             selector: #selector(keyboardWillHide),

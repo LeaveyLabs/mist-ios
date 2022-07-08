@@ -28,9 +28,10 @@ class FinalizeResetPasswordViewController: KUIViewController, UITextFieldDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         validateInput()
-        isAuthKUIView = true
+        shouldNotAnimateKUIAccessoryInputView = true
         setupTextFields()
         setupContinueButton()
+        setupBackButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -69,11 +70,11 @@ class FinalizeResetPasswordViewController: KUIViewController, UITextFieldDelegat
         }
     }
     
-    //MARK: - User Interaction
-    
-    @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
-        navigationController?.popViewController(animated: true)
+    func setupBackButton() {
+        navigationItem.leftBarButtonItem = nil
     }
+    
+    //MARK: - User Interaction
     
     @IBAction func didPressedContinueButton(_ sender: UIButton) {
         tryToContinue()
@@ -112,25 +113,26 @@ class FinalizeResetPasswordViewController: KUIViewController, UITextFieldDelegat
                 Task {
                     do {
                         try await AuthAPI.finalizeResetPassword(email: ResetPasswordContext.email, password: password)
-                        CustomSwiftMessages.showInfo("Password successfully updated.", "Keep it safe and secure.", emoji: "🤐") { [self] in
+                        CustomSwiftMessages.showInfoCentered("Password successfully updated.", "Keep it safe and secure.", emoji: "🤐") { [self] in
                             isSubmitting = false
                             navigationController?.dismiss(animated: true)
                         }
                     } catch {
-                        handleFailure("Your new password is not strong enough.", "Please try again.")
+                        handleFailure("Not strong enough", "Cmon now, that's just too easy")
                     }
                 }
             } else {
-                handleFailure("The passwords don't match.", "Please try again.")
+                handleFailure("The passwords don't match", "Your worst nightmare")
             }
         }
     }
     
     func handleFailure(_ message: String, _ recovery: String) {
+        passwordTextField.becomeFirstResponder()
+        CustomSwiftMessages.displayError(message, recovery)
         passwordTextField.text = ""
         confirmPasswordTextField.text = ""
         validateInput()
-        CustomSwiftMessages.displayError(message, recovery)
         isSubmitting = false
     }
     

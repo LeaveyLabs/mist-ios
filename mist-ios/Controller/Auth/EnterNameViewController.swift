@@ -23,7 +23,7 @@ class EnterNameViewController: KUIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         validateInput()
-        isAuthKUIView = true
+        shouldNotAnimateKUIAccessoryInputView = true
         setupTextFields()
         setupContinueButton()
     }

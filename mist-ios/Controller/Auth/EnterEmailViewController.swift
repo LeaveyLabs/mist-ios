@@ -27,9 +27,9 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         isValidInput = false
-        isAuthKUIView = true
+        validateInput()
+        shouldNotAnimateKUIAccessoryInputView = true
         setupPopGesture()
         setupEnterEmailTextField()
         setupContinueButton() //uncomment this button for standard button behavior, where !isEnabled greys it out
@@ -38,10 +38,12 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
-        disableInteractivePopGesture() //because it's the root view controller of a navigation vc
-        enterEmailTextField.becomeFirstResponder()
-        validateInput()
+        enableInteractivePopGesture()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        disableInteractivePopGesture()
     }
     
     //MARK: - Setup

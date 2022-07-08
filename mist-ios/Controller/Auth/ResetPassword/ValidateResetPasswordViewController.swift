@@ -37,10 +37,11 @@ class ValidateResetPasswordViewController: KUIViewController, UITextFieldDelegat
         emailLabel.text! += AuthContext.email
         
         validateInput()
-        isAuthKUIView = true
+        shouldNotAnimateKUIAccessoryInputView = true
         setupConfirmEmailTextField()
         setupContinueButton()
         setupResendButton()
+        setupBackButton()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -99,9 +100,14 @@ class ValidateResetPasswordViewController: KUIViewController, UITextFieldDelegat
         }
     }
     
+    func setupBackButton() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(goBack))
+        navigationItem.leftBarButtonItem?.tintColor = .black
+    }
+    
     //MARK: - User Interaction
     
-    @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
+    @objc func goBack() {
         navigationController?.popViewController(animated: true)
     }
     

@@ -29,7 +29,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         validateInput()
-        isAuthKUIView = true
+        shouldNotAnimateKUIAccessoryInputView = true
         setupTextFields()
         setupLoginButton()
         setupBackButton()
@@ -37,12 +37,12 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        disableInteractivePopGesture()
+        enableInteractivePopGesture()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        enableInteractivePopGesture()
+        disableInteractivePopGesture()
     }
     
     //MARK: - Setup

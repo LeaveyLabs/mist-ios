@@ -45,7 +45,7 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         
         errorView.isHidden = true //we're using SwiftMessages for error handling now, not this custom view
         validateInput()
-        isAuthKUIView = true
+        shouldNotAnimateKUIAccessoryInputView = true
         setupConfirmEmailTextField()
         setupContinueButton()
         setupResendButton()

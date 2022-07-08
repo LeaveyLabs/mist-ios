@@ -536,7 +536,7 @@
                                                     <constraint firstAttribute="height" constant="50" id="FR6-6V-HkC"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next" textContentType="username"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="yes" returnKeyType="next" textContentType="username"/>
                                                 <connections>
                                                     <action selector="textFieldEditingChanged:" destination="578-PS-30b" eventType="editingChanged" id="n4y-9t-TH6"/>
                                                 </connections>
@@ -549,7 +549,7 @@
                                                     <constraint firstAttribute="height" constant="50" id="62r-dD-kqC"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="continue" secureTextEntry="YES" textContentType="password"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="yes" returnKeyType="continue" secureTextEntry="YES" textContentType="password"/>
                                                 <connections>
                                                     <action selector="textFieldEditingChanged:" destination="578-PS-30b" eventType="editingChanged" id="QRk-RQ-nxF"/>
                                                 </connections>
@@ -590,10 +590,10 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cdu-Tn-wAt">
-                                        <rect key="frame" x="288.5" y="255" width="100.5" height="18"/>
+                                        <rect key="frame" x="296.5" y="255" width="92.5" height="16.5"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Forgot password">
-                                            <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
+                                            <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="12"/>
                                             <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
                                         </buttonConfiguration>
                                         <connections>
@@ -957,7 +957,7 @@
                                             <constraint firstAttribute="height" constant="50" id="7En-Tq-ZHg"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next" textContentType="given-name"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" returnKeyType="next" textContentType="given-name"/>
                                         <connections>
                                             <action selector="textFieldEditingChanged:" destination="dKQ-xP-oHK" eventType="editingChanged" id="dmz-QJ-X0i"/>
                                         </connections>
@@ -980,7 +980,7 @@ This can't be changed later.</string>
                                             <constraint firstAttribute="height" constant="50" id="8TR-de-syZ"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="continue" textContentType="family-name"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" returnKeyType="continue" textContentType="family-name"/>
                                         <connections>
                                             <action selector="textFieldEditingChanged:" destination="dKQ-xP-oHK" eventType="editingChanged" id="SFK-f3-n6m"/>
                                         </connections>
@@ -1259,7 +1259,7 @@ This can't be changed later.</string>
                                             <constraint firstAttribute="width" constant="325" id="b1J-dn-2Tu"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="30"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="continue" textContentType="one-time-code"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="yes" keyboardType="numberPad" returnKeyType="continue" textContentType="one-time-code"/>
                                         <connections>
                                             <action selector="textFieldEditingChanged:" destination="UyC-fl-2SL" eventType="editingChanged" id="3UP-kb-OKw"/>
                                         </connections>
@@ -1275,7 +1275,7 @@ This can't be changed later.</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yJz-Cy-4Uv" customClass="SpringView" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="25" y="233" width="364" height="43"/>
+                                        <rect key="frame" x="25" y="231.5" width="364" height="43"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1iY-N7-bhq">
                                                 <rect key="frame" x="10" y="5" width="344" height="33"/>
@@ -1310,10 +1310,10 @@ This can't be changed later.</string>
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s4N-CG-jen">
-                                        <rect key="frame" x="326" y="205" width="43.5" height="18"/>
+                                        <rect key="frame" x="329" y="205" width="40.5" height="16.5"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Resend">
-                                            <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
+                                            <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="12"/>
                                             <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
                                         </buttonConfiguration>
                                         <connections>
@@ -1405,7 +1405,7 @@ This can't be changed later.</string>
         <!--ChooseUsernameViewController-->
         <scene sceneID="4dW-t4-rG8">
             <objects>
-                <viewController storyboardIdentifier="RequestResetPasswordViewController" title="ResetPasswordViewController" id="eTa-hF-UwB" userLabel="ChooseUsernameViewController" customClass="ChooseUsernameViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RequestResetPasswordViewController" title="ResetPasswordViewController" id="eTa-hF-UwB" userLabel="ChooseUsernameViewController" customClass="RequestResetPasswordViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="L9Z-9K-Y5c">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
@@ -1438,7 +1438,7 @@ This can't be changed later.</string>
                                             <constraint firstAttribute="height" constant="50" id="bw2-Dx-kdI"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="continue" textContentType="email"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="yes" keyboardType="emailAddress" returnKeyType="continue" textContentType="email"/>
                                         <connections>
                                             <action selector="textFieldEditingChanged:" destination="eTa-hF-UwB" eventType="editingChanged" id="ikn-rL-L3m"/>
                                         </connections>
@@ -1471,6 +1471,7 @@ This can't be changed later.</string>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="KeH-g2-AbJ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="KeH-g2-AbJ" firstAttribute="top" secondItem="Z9e-6c-Ehw" secondAttribute="top" id="CQO-TY-koV"/>
                             <constraint firstItem="Z9e-6c-Ehw" firstAttribute="leading" secondItem="KeH-g2-AbJ" secondAttribute="leading" id="KGp-gn-ByR"/>
@@ -1482,7 +1483,7 @@ This can't be changed later.</string>
                     <connections>
                         <outlet property="bottomConstraintForKeyboard" destination="xUC-pQ-6Go" id="494-S3-y3a"/>
                         <outlet property="continueButton" destination="WMa-UV-LV5" id="GJo-nr-jgo"/>
-                        <outlet property="usernameTextField" destination="jMH-oC-nla" id="Kq3-ae-Ipy"/>
+                        <outlet property="enterEmailTextField" destination="jMH-oC-nla" id="KOh-sl-bGl"/>
                         <segue destination="tRc-x5-laA" kind="show" identifier="unusedIdentifier" id="bZ4-8K-NVy"/>
                     </connections>
                 </viewController>
@@ -1493,7 +1494,7 @@ This can't be changed later.</string>
         <!--CreatePasswordViewController-->
         <scene sceneID="IvI-m3-3xq">
             <objects>
-                <viewController storyboardIdentifier="FinalizeResetPasswordViewController" title="EnterEmailViewController" id="A2t-w6-2pC" userLabel="CreatePasswordViewController" customClass="CreatePasswordViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FinalizeResetPasswordViewController" title="EnterEmailViewController" id="A2t-w6-2pC" userLabel="CreatePasswordViewController" customClass="FinalizeResetPasswordViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JgE-lR-ysF">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
@@ -1587,7 +1588,7 @@ This can't be changed later.</string>
         <!--ConfirmEmailViewController-->
         <scene sceneID="RUA-GD-q6a">
             <objects>
-                <viewController storyboardIdentifier="ConfirmResetPasswordViewController" title="EnterEmailViewController" id="tRc-x5-laA" userLabel="ConfirmEmailViewController" customClass="ConfirmEmailViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ValidateResetPasswordViewController" title="EnterEmailViewController" id="tRc-x5-laA" userLabel="ConfirmEmailViewController" customClass="ValidateResetPasswordViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hfq-4G-BlO">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
@@ -1628,16 +1629,16 @@ This can't be changed later.</string>
                                             <constraint firstAttribute="height" constant="75" id="rbk-Qg-A3E"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="30"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="continue" textContentType="one-time-code"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="yes" keyboardType="numberPad" returnKeyType="continue" textContentType="one-time-code"/>
                                         <connections>
                                             <action selector="textFieldEditingChanged:" destination="tRc-x5-laA" eventType="editingChanged" id="Zhq-gU-ctH"/>
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rSc-qP-g65">
-                                        <rect key="frame" x="326" y="205" width="43.5" height="18"/>
+                                        <rect key="frame" x="329" y="205" width="40.5" height="16.5"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Resend">
-                                            <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
+                                            <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="12"/>
                                             <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
                                         </buttonConfiguration>
                                         <connections>
