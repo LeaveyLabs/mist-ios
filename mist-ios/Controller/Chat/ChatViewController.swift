@@ -206,7 +206,21 @@ class ChatViewController: MessagesViewController {
         messageInputBar.inputTextView.font = UIFont(name: Constants.Font.Medium, size: 18)
         
         messageInputBar.setMiddleContentView(messageInputBar.inputTextView, animated: false)
-        messageInputBar.setRightStackViewWidthConstant(to: 52, animated: false)
+        messageInputBar.setRightStackViewWidthConstant(to: 50, animated: false)
+        
+        messageInputBar.sendButton.image = UIImage(systemName: "xmark")
+//        messageInputBar.sendButton.activityViewColor = .white
+//        messageInputBar.sendButton.backgroundColor = mistUIColor()
+//        messageInputBar.sendButton.layer.cornerRadius = 10
+//        messageInputBar.sendButton.setTitleColor(.white, for: .normal)
+//        messageInputBar.sendButton.setTitleColor(UIColor(white: 1, alpha: 0.3), for: .highlighted)
+//        messageInputBar.sendButton.setTitleColor(UIColor(white: 1, alpha: 0.3), for: .disabled)
+//        messageInputBar.sendButton
+//            .onSelected { item in
+//                item.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+//            }.onDeselected { item in
+//                item.transform = .identity
+//        }
     }
     
     func setupMessageInputBarForChatPrompt() {
@@ -320,12 +334,12 @@ extension ChatViewController: MessagesDataSource {
     }
 
     func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        return NSAttributedString(string: "Sent", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+        return NSAttributedString(string: "Sent", attributes: [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 11)!, NSAttributedString.Key.foregroundColor: UIColor.darkGray])
     }
 
     func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         if isTimeLabelVisible(at: indexPath) {
-            return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate), attributes: [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 11)!, NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         }
         return nil
     }

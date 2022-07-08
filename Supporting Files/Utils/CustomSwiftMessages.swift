@@ -67,7 +67,7 @@ struct CustomSwiftMessages {
 
 extension CustomSwiftMessages {
     
-    static func showInfo(_ title: String, _ body: String, emoji: String) {
+    static func showInfo(_ title: String, _ body: String, emoji: String, onDismiss: @escaping () -> Void = { }) {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
             messageView.configureTheme(backgroundColor: .white, foregroundColor: .black)
@@ -79,6 +79,7 @@ extension CustomSwiftMessages {
             messageView.dismissButton.tintColor = .black
             messageView.dismissAction = {
                 SwiftMessages.hide()
+                onDismiss()
             }
             
             var messageConfig = SwiftMessages.Config()

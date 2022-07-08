@@ -131,8 +131,11 @@ class PasswordSettingViewController: UITableViewController {
     //MARK: - User Interaction
     
     @IBAction func forgotPasswordDidPressed(_ sender: UIButton) {
-        //do something for forgot password
+        let requestPasswordVC = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.RequestResetPassword)
+        let navigationController = UINavigationController(rootViewController: requestPasswordVC)
+        present(navigationController, animated: true)
     }
+    
 
     @IBAction func cancelButtonDidPressed(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)

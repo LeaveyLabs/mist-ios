@@ -596,6 +596,9 @@
                                             <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
                                             <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="forgotButtonDidPressed:" destination="578-PS-30b" eventType="touchUpInside" id="c7r-ru-JzG"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -628,7 +631,7 @@
                         <outlet property="loginButton" destination="d58-Kf-qaI" id="0hS-Hk-foJ"/>
                         <outlet property="passwordTextField" destination="pa4-PQ-kx4" id="mPb-2H-Wn6"/>
                         <outlet property="usernameTextField" destination="45o-sH-b8q" id="pV9-S7-UZl"/>
-                        <segue destination="eTa-hF-UwB" kind="show" identifier="unusedIdentifier" id="790-BD-lXW"/>
+                        <segue destination="ukI-2M-PeA" kind="presentation" identifier="unusedIdentifier" id="790-BD-lXW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="apQ-4p-oik" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1404,14 +1407,14 @@ This can't be changed later.</string>
             <objects>
                 <viewController storyboardIdentifier="RequestResetPasswordViewController" title="ResetPasswordViewController" id="eTa-hF-UwB" userLabel="ChooseUsernameViewController" customClass="ChooseUsernameViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="L9Z-9K-Y5c">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z9e-6c-Ehw">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="56" width="414" height="786"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WMa-UV-LV5">
-                                        <rect key="frame" x="25" y="707" width="364" height="47"/>
+                                        <rect key="frame" x="25" y="719" width="364" height="47"/>
                                         <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Continue" cornerStyle="capsule" buttonSize="medium">
@@ -1475,13 +1478,7 @@ This can't be changed later.</string>
                             <constraint firstItem="KeH-g2-AbJ" firstAttribute="bottom" secondItem="Z9e-6c-Ehw" secondAttribute="bottom" id="xUC-pQ-6Go"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="zgo-gD-PzX">
-                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="TX7-0L-vWw">
-                            <connections>
-                                <action selector="backButtonDidPressed:" destination="eTa-hF-UwB" id="LTE-0J-FKt"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="zgo-gD-PzX"/>
                     <connections>
                         <outlet property="bottomConstraintForKeyboard" destination="xUC-pQ-6Go" id="494-S3-y3a"/>
                         <outlet property="continueButton" destination="WMa-UV-LV5" id="GJo-nr-jgo"/>
@@ -1491,24 +1488,24 @@ This can't be changed later.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="frN-Fd-Bh6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-942" y="1478"/>
+            <point key="canvasLocation" x="-139" y="1478"/>
         </scene>
         <!--CreatePasswordViewController-->
         <scene sceneID="IvI-m3-3xq">
             <objects>
                 <viewController storyboardIdentifier="FinalizeResetPasswordViewController" title="EnterEmailViewController" id="A2t-w6-2pC" userLabel="CreatePasswordViewController" customClass="CreatePasswordViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JgE-lR-ysF">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xiq-Pc-6Hh">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="56" width="414" height="786"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C0a-Tc-H6a">
-                                        <rect key="frame" x="25" y="707" width="364" height="47"/>
+                                        <rect key="frame" x="25" y="719" width="364" height="47"/>
                                         <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="Continue" cornerStyle="capsule" buttonSize="medium">
+                                        <buttonConfiguration key="configuration" style="filled" title="Finish" cornerStyle="capsule" buttonSize="medium">
                                             <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
                                         </buttonConfiguration>
                                         <connections>
@@ -1575,9 +1572,7 @@ This can't be changed later.</string>
                             <constraint firstItem="kbp-SB-c4S" firstAttribute="trailing" secondItem="Xiq-Pc-6Hh" secondAttribute="trailing" id="vDA-Lt-Ill"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="752-DU-pZY">
-                        <barButtonItem key="leftBarButtonItem" id="EYY-5P-C4L"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="752-DU-pZY"/>
                     <connections>
                         <outlet property="bottomConstraintForKeyboard" destination="c5M-xN-kCo" id="VwZ-67-TYV"/>
                         <outlet property="confirmPasswordTextField" destination="H9e-tP-fB1" id="LaW-Vt-wpa"/>
@@ -1587,21 +1582,21 @@ This can't be changed later.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dI9-Bd-y1Y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="567" y="1478"/>
+            <point key="canvasLocation" x="1370" y="1478"/>
         </scene>
         <!--ConfirmEmailViewController-->
         <scene sceneID="RUA-GD-q6a">
             <objects>
                 <viewController storyboardIdentifier="ConfirmResetPasswordViewController" title="EnterEmailViewController" id="tRc-x5-laA" userLabel="ConfirmEmailViewController" customClass="ConfirmEmailViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hfq-4G-BlO">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Ys-HA-gnO">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="56" width="414" height="786"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zxz-In-LYh">
-                                        <rect key="frame" x="25" y="707" width="364" height="47"/>
+                                        <rect key="frame" x="25" y="719" width="364" height="47"/>
                                         <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Continue" cornerStyle="capsule" buttonSize="medium">
@@ -1677,13 +1672,7 @@ This can't be changed later.</string>
                             <constraint firstItem="kYd-hp-i4a" firstAttribute="top" secondItem="4Ys-HA-gnO" secondAttribute="top" id="s0X-6t-JI6"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Bcs-yq-nDp">
-                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="ylK-eh-xha">
-                            <connections>
-                                <action selector="backButtonDidPressed:" destination="tRc-x5-laA" id="hJN-oj-QKY"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="Bcs-yq-nDp"/>
                     <connections>
                         <outlet property="bottomConstraintForKeyboard" destination="LMO-Vf-j0D" id="nGU-4w-bQS"/>
                         <outlet property="confirmEmailTextField" destination="AgT-aG-Yor" id="VDB-Wf-n4q"/>
@@ -1695,7 +1684,25 @@ This can't be changed later.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eCX-o1-iQL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-162" y="1478"/>
+            <point key="canvasLocation" x="641" y="1478"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="RBI-Wy-BfG">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ukI-2M-PeA" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eJd-Ii-eg4">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="eTa-hF-UwB" kind="relationship" relationship="rootViewController" id="4Tk-oJ-JRn"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8eN-Tv-I5H" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-942" y="1478"/>
         </scene>
     </scenes>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

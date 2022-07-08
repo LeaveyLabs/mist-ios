@@ -79,8 +79,11 @@ class ConversationService: NSObject {
     
     func handleMessageThreadSizeIncrease(with sangdaebangId: Int) {
         guard let newMessage = conversations[sangdaebangId]?.messageThread.server_messages.last else { return }
-        guard newMessage.sender != UserService.singleton.getId() else { return }
-        conversations[sangdaebangId]?.handleReceivedMessage(newMessage)
+        if newMessage.sender == UserService.singleton.getId() {
+            //your message successfully sent
+        } else {
+            conversations[sangdaebangId]?.handleReceivedMessage(newMessage)
+        }
     }
     
     //MARK: - Opening and Closing Conversations

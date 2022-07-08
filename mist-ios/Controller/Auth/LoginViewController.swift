@@ -88,7 +88,9 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     }
     
     @IBAction func forgotButtonDidPressed(_ sender: UIButton) {
-        
+        let requestPasswordVC = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.RequestResetPassword)
+        let navigationController = UINavigationController(rootViewController: requestPasswordVC)
+        present(navigationController, animated: true)
     }
     
     //MARK: - TextField Delegate

@@ -248,6 +248,10 @@
 		5BCC68D928611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */; };
 		5BCD490C287149210002BD02 /* WantToChatView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BCD490B287149210002BD02 /* WantToChatView.xib */; };
 		5BCD490E28714F920002BD02 /* WantToChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCD490D28714F920002BD02 /* WantToChatView.swift */; };
+		5BE110022876CD9D00CB54A6 /* RequestResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */; };
+		5BE110042876CDB100CB54A6 /* ValidateResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */; };
+		5BE110062876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */; };
+		5BE110082876CE4200CB54A6 /* ResetPasswordContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110072876CE4200CB54A6 /* ResetPasswordContext.swift */; };
 		5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4D9BD285C018000197080 /* String+Capitalization.swift */; };
 		5BF78337285D955F003C3955 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78336285D955F003C3955 /* Map.swift */; };
 		5BF78339285E4477003C3955 /* UITableView+SectionShadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78338285E4477003C3955 /* UITableView+SectionShadow.swift */; };
@@ -521,6 +525,10 @@
 		5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeAreaInputAccessoryViewWrapperView.swift; sourceTree = "<group>"; };
 		5BCD490B287149210002BD02 /* WantToChatView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WantToChatView.xib; sourceTree = "<group>"; };
 		5BCD490D28714F920002BD02 /* WantToChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantToChatView.swift; sourceTree = "<group>"; };
+		5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResetPasswordViewController.swift; sourceTree = "<group>"; };
+		5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateResetPasswordViewController.swift; sourceTree = "<group>"; };
+		5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalizeResetPasswordViewController.swift; sourceTree = "<group>"; };
+		5BE110072876CE4200CB54A6 /* ResetPasswordContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordContext.swift; sourceTree = "<group>"; };
 		5BE4D9BD285C018000197080 /* String+Capitalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Capitalization.swift"; sourceTree = "<group>"; };
 		5BF78336285D955F003C3955 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		5BF78338285E4477003C3955 /* UITableView+SectionShadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+SectionShadow.swift"; sourceTree = "<group>"; };
@@ -567,6 +575,7 @@
 		43770C4927EE8BED00F31CCF /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				5BE110002876CD6C00CB54A6 /* ResetPassword */,
 				5B18B97F2876C5F900F0F80E /* AuthStartViewController.swift */,
 				43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */,
 				4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */,
@@ -936,6 +945,7 @@
 		47D9FD1F28457D83004E4BE3 /* Context */ = {
 			isa = PBXGroup;
 			children = (
+				5BE110072876CE4200CB54A6 /* ResetPasswordContext.swift */,
 				478BA27E283E85F500C35507 /* AuthContext.swift */,
 				47D9FD1D28457D72004E4BE3 /* NewPostContext.swift */,
 			);
@@ -1310,6 +1320,16 @@
 			path = MessageLayout;
 			sourceTree = "<group>";
 		};
+		5BE110002876CD6C00CB54A6 /* ResetPassword */ = {
+			isa = PBXGroup;
+			children = (
+				5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */,
+				5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */,
+				5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */,
+			);
+			path = ResetPassword;
+			sourceTree = "<group>";
+		};
 		5BE4D9BC285C017100197080 /* String */ = {
 			isa = PBXGroup;
 			children = (
@@ -1534,6 +1554,7 @@
 				47FF86A127DC712F0076A1CA /* Comment.swift in Sources */,
 				47EA3E0227E0151200381218 /* MapViewController.swift in Sources */,
 				43483BB228025179001C7C6A /* ChooseUsernameViewController.swift in Sources */,
+				5BE110082876CE4200CB54A6 /* ResetPasswordContext.swift in Sources */,
 				479683F32826494100CA23BA /* UIColor+Theme.swift in Sources */,
 				472A4BFE28408BD800FD52B7 /* SpringTextField.swift in Sources */,
 				479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */,
@@ -1571,6 +1592,7 @@
 				47FF869D27DB87A70076A1CA /* UIImage+Thumbnail.swift in Sources */,
 				4780E5B6283308250012B741 /* MessageKitMessage.swift in Sources */,
 				5BB624C128678A8900DCD45B /* MatchRequestService.swift in Sources */,
+				5BE110042876CDB100CB54A6 /* ValidateResetPasswordViewController.swift in Sources */,
 				4752717C28553F6200DDF84D /* ProfilePicWrapper.swift in Sources */,
 				438D6F222862D1BB00A074FA /* MessageAPI.swift in Sources */,
 				5BAD62772876812200DCFE45 /* SettingsViewController.swift in Sources */,
@@ -1638,6 +1660,7 @@
 				478A7899284E708D0058C845 /* CLLocationCoordinate+Distance.swift in Sources */,
 				4700F8B727DD7BBA006C2E08 /* VoteAPI.swift in Sources */,
 				436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */,
+				5BE110022876CD9D00CB54A6 /* RequestResetPasswordViewController.swift in Sources */,
 				47A3D70E27D55BB3003DBEA5 /* Time.swift in Sources */,
 				43770C4B27EE8C0F00F31CCF /* LoginViewController.swift in Sources */,
 				47A3D70027D50CF1003DBEA5 /* FeedViewController.swift in Sources */,
@@ -1654,6 +1677,7 @@
 				472A4BF228408BD800FD52B7 /* ImageLoader.swift in Sources */,
 				47061CD228511C750042F04C /* MapSearchResultType.swift in Sources */,
 				4700F8C627DE4652006C2E08 /* ExploreViewController.swift in Sources */,
+				5BE110062876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift in Sources */,
 				475B1F8B27FB86C000ED59CD /* ConversationsViewController.swift in Sources */,
 				5BAD626F2876661500DCFE45 /* UIViewController+MistShareActivity.swift in Sources */,
 				5BB624DC2867E98500DCD45B /* Conversation.swift in Sources */,
@@ -1866,8 +1890,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1891,10 +1915,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 0.1.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development app.getmist.mist-ios";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/Objective-C/mist-ios-Bridging-Header.h";
@@ -1911,8 +1935,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1936,9 +1960,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development app.getmist.mist-ios";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/Objective-C/mist-ios-Bridging-Header.h";

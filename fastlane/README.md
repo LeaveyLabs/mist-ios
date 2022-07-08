@@ -23,6 +23,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Sync certificates
 
+### ios beta
+
+```sh
+[bundle exec] fastlane ios beta
+```
+
+Push beta
+
 ### ios release
 
 ```sh
