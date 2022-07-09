@@ -64,7 +64,7 @@ class AuthAPI {
         let (_, _) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
     }
     
-    // Validates username
+    // Validates password
     static func validatePassword(username:String, password:String) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_PASSWORD_VALIDATION)"
         let params:[String:String] = [

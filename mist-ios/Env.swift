@@ -8,9 +8,7 @@
 import Foundation
 
 class Env {
-    
-    //can you change the logo from here?
-    
+        
     #if DEBUG
     static let version: String = "debug"
     static let LAUNCH_ANIMATION_DELAY: Double = 0

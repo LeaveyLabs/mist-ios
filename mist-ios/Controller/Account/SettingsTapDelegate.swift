@@ -27,7 +27,7 @@ extension SettingsTapDelegate where Self: UIViewController {
     }
     
     func handleLegal() {
-        let settingsVC = SettingsViewController.create(settings: [.privacyPolicy, .termsOfService])
+        let settingsVC = SettingsViewController.create(settings: [.privacyPolicy, .terms])
         navigationController?.pushViewController(settingsVC, animated: true)
     }
     
@@ -44,8 +44,8 @@ extension SettingsTapDelegate where Self: UIViewController {
     func handleLink(setting: Setting) {
         if setting == .privacyPolicy {
             openURL(URL(string: "https://www.getmist.app/privacy-policy")!)
-        } else if setting == .termsOfService {
-            openURL(URL(string: "https://www.getmist.app/terms-of-service")!)
+        } else if setting == .terms {
+            openURL(URL(string: "https://www.getmist.app/terms-of-use")!)
         } else if setting == .contactUs {
             openURL(URL(string: "mailto:whatsup@getmist.app")!)
         } else if setting == .contentGuidelines {

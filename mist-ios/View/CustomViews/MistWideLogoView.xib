@@ -28,7 +28,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mist-white-heart" translatesAutoresizingMaskIntoConstraints="NO" id="qqU-kQ-0gQ" customClass="SpringImageView" customModule="mist_ios" customModuleProvider="target">
-                    <rect key="frame" x="25" y="12" width="70" height="80"/>
+                    <rect key="frame" x="25" y="15" width="70" height="80"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="80" id="ana-qs-LGu"/>
                         <constraint firstAttribute="width" constant="70" id="dTk-8q-mBp"/>
@@ -57,7 +57,7 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="8Yo-bS-byP" firstAttribute="top" secondItem="qqU-kQ-0gQ" secondAttribute="bottom" constant="8" symbolic="YES" id="1ZW-Gz-Qda"/>
+                <constraint firstItem="8Yo-bS-byP" firstAttribute="top" secondItem="qqU-kQ-0gQ" secondAttribute="bottom" constant="5" id="1ZW-Gz-Qda"/>
                 <constraint firstAttribute="bottom" secondItem="8Yo-bS-byP" secondAttribute="bottom" id="3v0-ff-6wj"/>
                 <constraint firstItem="Xqi-uW-mdG" firstAttribute="leading" secondItem="qqU-kQ-0gQ" secondAttribute="trailing" constant="20" id="EKV-QQ-xUM"/>
                 <constraint firstItem="8Yo-bS-byP" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Upv-CB-4Tf"/>

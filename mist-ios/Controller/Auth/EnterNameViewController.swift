@@ -105,7 +105,7 @@ class EnterNameViewController: KUIViewController, UITextFieldDelegate {
         if let firstName = firstNameTextField.text, let lastName = lastNameTextField.text {
             AuthContext.firstName = firstName
             AuthContext.lastName = lastName
-            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.UploadProfilePicture)
+            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterBios)
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

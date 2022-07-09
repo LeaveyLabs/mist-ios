@@ -18,6 +18,12 @@ class CreatePasswordViewController: KUIViewController, UITextFieldDelegate {
             continueButton.setNeedsUpdateConfiguration()
         }
     }
+    var isSubmitting: Bool = false {
+        didSet {
+            continueButton.isEnabled = !isSubmitting
+            continueButton.setNeedsUpdateConfiguration()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,20 +109,29 @@ class CreatePasswordViewController: KUIViewController, UITextFieldDelegate {
     func tryToContinue() {
         if let password = passwordTextField.text, let confirmPassword = confirmPasswordTextField.text {
             if password == confirmPassword {
-                AuthContext.password = password
-                let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.SetupTime);
-                self.navigationController?.pushViewController(vc, animated: true)
+                isSubmitting = true
+                Task {
+                    do {
+                        try await AuthAPI.validatePassword(username: "a", password: password)
+                        AuthContext.password = password
+                        let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.SetupTime);
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    } catch {
+                        handleFailure("Not strong enough", "Cmon now, that's just too easy")
+                    }
+                    isSubmitting = false
+                }
             } else {
-                handleFailure()
+                handleFailure("The passwords don't match", "Your worst nightmare")
             }
         }
     }
     
-    func handleFailure() {
+    func handleFailure(_ message: String, _ explanation: String) {
         passwordTextField.text = ""
         confirmPasswordTextField.text = ""
         validateInput()
-        CustomSwiftMessages.displayError("The passwords don't match.", "Please try again.")
+        CustomSwiftMessages.displayError(message, explanation)
     }
     
     func validateInput() {

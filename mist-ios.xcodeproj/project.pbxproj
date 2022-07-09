@@ -203,6 +203,7 @@
 		5B13B741285D05B0000ADF5E /* UISearchBar+CenterText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13B740285D05B0000ADF5E /* UISearchBar+CenterText.swift */; };
 		5B13B743285D3877000ADF5E /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13B742285D3877000ADF5E /* Error.swift */; };
 		5B18B9802876C5F900F0F80E /* AuthStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B18B97F2876C5F900F0F80E /* AuthStartViewController.swift */; };
+		5B37A36B28784A4B00279B2A /* EnterBiosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */; };
 		5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D589B28603A46002E2F94 /* PostCell.swift */; };
 		5B4D58A72860D7FB002E2F94 /* UIImageView+ProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */; };
 		5B6AD61528690E1800B1FFA8 /* AnnotationSelectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6AD61428690E1800B1FFA8 /* AnnotationSelectionType.swift */; };
@@ -482,6 +483,7 @@
 		5B13B740285D05B0000ADF5E /* UISearchBar+CenterText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+CenterText.swift"; sourceTree = "<group>"; };
 		5B13B742285D3877000ADF5E /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		5B18B97F2876C5F900F0F80E /* AuthStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStartViewController.swift; sourceTree = "<group>"; };
+		5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBiosViewController.swift; sourceTree = "<group>"; };
 		5B4D589B28603A46002E2F94 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ProfilePic.swift"; sourceTree = "<group>"; };
 		5B6AD61428690E1800B1FFA8 /* AnnotationSelectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationSelectionType.swift; sourceTree = "<group>"; };
@@ -589,6 +591,7 @@
 				47630EB8283F437F00FA4DF7 /* SetupTimeViewController.swift */,
 				43483BB128025179001C7C6A /* ChooseUsernameViewController.swift */,
 				43483BB5280251B1001C7C6A /* EnterNameViewController.swift */,
+				5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */,
 				43E30CFD2826355C00DBEB57 /* UploadProfilePictureViewController.swift */,
 				43E30D0128263E1200DBEB57 /* ImagePicker.swift */,
 				47EE28F12840991800C6425C /* PermissionsViewController.swift */,
@@ -1594,6 +1597,7 @@
 				47F10DC12852CFE100E1A3DC /* UIImage+FromColor.swift in Sources */,
 				4718331228445A7C0061F9F3 /* UIView+PostBubble.swift in Sources */,
 				47F10DC72853DA0600E1A3DC /* UIImage+Blur.swift in Sources */,
+				5B37A36B28784A4B00279B2A /* EnterBiosViewController.swift in Sources */,
 				5BB624BE2864308E00DCD45B /* ConversationService.swift in Sources */,
 				47FF869D27DB87A70076A1CA /* UIImage+Thumbnail.swift in Sources */,
 				4780E5B6283308250012B741 /* MessageKitMessage.swift in Sources */,
