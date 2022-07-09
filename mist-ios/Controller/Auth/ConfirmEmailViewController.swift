@@ -63,8 +63,8 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         confirmEmailTextField.delegate = self
         confirmEmailTextField.smartInsertDeleteType = UITextSmartInsertDeleteType.no
         confirmEmailTextField.layer.cornerRadius = 5
-        confirmEmailTextField.setLeftPaddingPoints(20)
-        confirmEmailTextField.defaultTextAttributes.updateValue(34, forKey: NSAttributedString.Key.kern)
+        confirmEmailTextField.setLeftPaddingPoints(25)
+        confirmEmailTextField.defaultTextAttributes.updateValue(33, forKey: NSAttributedString.Key.kern)
         confirmEmailTextField.becomeFirstResponder()
     }
     

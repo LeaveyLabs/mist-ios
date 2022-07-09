@@ -202,11 +202,11 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     @IBAction func cancelButtonDidPressed(_ sender: UIBarButtonItem) {
         let hasMadeEdits = !bodyTextView.text.isEmpty || !titleTextView.text.isEmpty || currentlyPinnedAnnotation != nil || hasUserTappedDateLabel == true || hasUserTappedTimeLabel == true
         if hasMadeEdits {
-            CustomSwiftMessages.showAlert(onDiscard: {
+            CustomSwiftMessages.showAlert(title: "Before you go", body: "Would you like to save this post as a draft?", emoji: "🗑", dismissText: "No thanks", approveText: "Save", onDismiss: {
                 NewPostContext.clear()
                 self.dismiss(animated: true)
-            }, onSave: { [self] in
-                saveToNewPostContext()
+            }, onApprove: {
+                self.saveToNewPostContext()
                 self.dismiss(animated: true)
             })
         } else {

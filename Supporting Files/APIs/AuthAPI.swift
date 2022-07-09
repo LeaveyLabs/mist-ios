@@ -82,19 +82,19 @@ class AuthAPI {
                            picture:UIImage?,
                            email:String,
                            password:String,
-                           birth_year:Int=2000,
-                           birth_month:Int=1,
-                           birth_day:Int=1,
-                           sex:String="m") async throws -> CompleteUser {
-        let params:[String:String] = [
+                           dob: String,
+                           sex:String?=nil) async throws -> CompleteUser {
+        var params:[String:String] = [
             UserAPI.USERNAME_PARAM: username,
             UserAPI.FIRST_NAME_PARAM: first_name,
             UserAPI.LAST_NAME_PARAM: last_name,
             UserAPI.EMAIL_PARAM: email,
             UserAPI.PASSWORD_PARAM: password,
-            UserAPI.DATE_OF_BIRTH_PARAM: "\(birth_year)-\(birth_month)-\(birth_day)",
-            UserAPI.SEX_PARAM: sex,
+            UserAPI.DATE_OF_BIRTH_PARAM: dob,
         ]
+        if let sex = sex {
+            params[UserAPI.SEX_PARAM] = sex
+        }
         let request = AF.upload(
             multipartFormData:
                 { multipartFormData in

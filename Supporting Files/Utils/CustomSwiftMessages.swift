@@ -232,22 +232,22 @@ extension CustomSwiftMessages {
         }
     }
     
-    static func showAlert(onDiscard: @escaping () -> Void, onSave: @escaping () -> Void) {
+    static func showAlert(title: String, body: String, emoji: String, dismissText: String, approveText: String, onDismiss: @escaping () -> Void, onApprove: @escaping () -> Void) {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
-            messageView.configureContent(title: "Before you go", body: "Would you like to save this post as a draft?", iconText: "🗑")
+            messageView.configureContent(title: title, body: body, iconText: emoji)
             
-            let approveString = AttributedString(CustomAttributedString.createFor(text: "Save", fontName: Constants.Font.Heavy, size: 20))
-            let dismissStirng = AttributedString(CustomAttributedString.createFor(text: "Discard", fontName: Constants.Font.Medium, size: 19))
+            let approveString = AttributedString(CustomAttributedString.createFor(text: approveText, fontName: Constants.Font.Heavy, size: 20))
+            let dismissStirng = AttributedString(CustomAttributedString.createFor(text: dismissText, fontName: Constants.Font.Medium, size: 19))
             messageView.approveButton.configuration!.attributedTitle = approveString
             messageView.dismissButton.configuration!.attributedTitle = dismissStirng
             messageView.approveAction = {
                 SwiftMessages.hide()
-                onSave()
+                onApprove()
             }
             messageView.dismissAction = {
                 SwiftMessages.hide()
-                onDiscard()
+                onDismiss()
             }
             
             messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)

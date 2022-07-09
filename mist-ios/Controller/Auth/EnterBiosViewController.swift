@@ -10,6 +10,7 @@ import UIKit
 
 class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
     
+    //MARK: - Properties
     
     private lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker(frame: .zero)
@@ -51,6 +52,8 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
             continueButton.setNeedsUpdateConfiguration()
         }
     }
+    
+    //MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,8 +66,18 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        enableInteractivePopGesture()
+        disableInteractivePopGesture()
         validateInput()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        dobTextField.becomeFirstResponder()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        enableInteractivePopGesture()
     }
 
     //MARK: - Setup
@@ -99,24 +112,24 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
     
     @objc func handleDatePicker(sender: UIDatePicker) {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM d, yyyy"
         dateFormatter.locale = Locale(identifier: "en_US")
+        dateFormatter.dateFormat = "MMMM d, yyyy"
         dobTextField.text = dateFormatter.string(from: sender.date)
-        dateFormatter.dateFormat = "dd MMM yyyy"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         dobData = dateFormatter.string(from: sender.date)
         validateInput()
      }
 
-    @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
-        navigationController?.popViewController(animated: true)
-    }
+//    @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
+//        navigationController?.popViewController(animated: true)
+//    }
 
     @IBAction func didPressedContinueButton(_ sender: UIButton) {
         tryToContinue()
     }
 
     @IBAction func whyWeAskDidTapped(_ sender: UIButton) {
-        CustomSwiftMessages.showInfoCentered("We make sure that", "In order to make sure that everyone who uses Mist comply with our minimum age requirement", emoji: "🫡")
+        CustomSwiftMessages.showInfoCentered("Why we ask about age", "In order to follow legal guidelines for platforms with user-generated content, we must ensure all account holders are above their country's minimum age requirement.", emoji: "")
     }
     
     //MARK: - TextField Delegate
@@ -130,8 +143,8 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
     func tryToContinue() {
         if let _ = dobTextField.text, let sex = sexTextField.text {
             AuthContext.dob = dobData
-            AuthContext.sex = sex == RATHER_NOT_SAY ? nil : sex
-            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.UploadProfilePicture)
+            AuthContext.sex = sex == RATHER_NOT_SAY ? nil : sex == "Male" ? "m" : "f"
+            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ChooseUsername)
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

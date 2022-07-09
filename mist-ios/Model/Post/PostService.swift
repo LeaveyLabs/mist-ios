@@ -53,7 +53,10 @@ class PostService: NSObject {
     
     //Called by FavoriteService after favorites are loaded in
     func loadFavorites(favoritedPostIds: [Int]) async throws {
-        favoriteIds = cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchPostsByIds(ids: favoritedPostIds))
+        //TODO: we should remove this bottom check if kevin updates the backend accordingly
+        if !favoritedPostIds.isEmpty {
+            favoriteIds = cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchPostsByIds(ids: favoritedPostIds))
+        }
     }
     
     //Called by ConversationService after conversations are loaded in

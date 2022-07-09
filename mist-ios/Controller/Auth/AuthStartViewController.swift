@@ -37,7 +37,7 @@ class AuthStartViewController: UIViewController {
         mistWideLogoView.alpha = 0
         loginButton.alpha = 0
         registerButton.alpha = 0
-        UIView.animate(withDuration: 3, delay: 0.3, options: .curveLinear) { [self] in
+        UIView.animate(withDuration: 1.5, delay: 0.3, options: .curveLinear) { [self] in
             mistWideLogoView.alpha = 1
             loginButton.alpha = 1
             registerButton.alpha = 1

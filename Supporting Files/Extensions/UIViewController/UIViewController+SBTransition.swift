@@ -12,7 +12,7 @@ extension UIViewController {
     func transitionToStoryboard(storyboardID: String,
                                 viewControllerID: String,
                                 duration: Double,
-                                completion: @escaping (Bool) -> Void) {
+                                completion: @escaping (Bool) -> Void = { _ in } ) {
         let sb = UIStoryboard(name: storyboardID, bundle: nil)
         let homeVC = sb.instantiateViewController(withIdentifier: viewControllerID)
         

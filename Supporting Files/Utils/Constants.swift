@@ -85,6 +85,7 @@ struct Constants {
             static let ChooseUsername = "ChooseUsernameViewController"
             static let SetupTime = "SetupTimeViewController"
             static let EnterBios = "EnterBiosViewController"
+            static let FinishProfile = "FinishProfileViewController"
             //Reset password
             static let RequestResetPassword = "RequestResetPasswordViewController"
             static let ValidateResetPassword = "ValidateResetPasswordViewController"

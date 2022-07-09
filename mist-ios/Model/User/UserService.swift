@@ -70,7 +70,8 @@ class UserService: NSObject {
                     lastName: String,
                     profilePic: UIImage,
                     email: String,
-                    password: String) async throws {
+                    password: String,
+                    dob: String) async throws {
         let newProfilePicWrapper = ProfilePicWrapper(image: profilePic, withCompresssion: true)
         let compressedProfilePic = newProfilePicWrapper.image
         let completeUser = try await AuthAPI.createUser(username: username,
@@ -78,7 +79,8 @@ class UserService: NSObject {
                                             last_name: lastName,
                                             picture: compressedProfilePic,
                                             email: email,
-                                            password: password)
+                                            password: password,
+                                            dob: dob)
         let token = try await AuthAPI.fetchAuthToken(username: username, password: password)
         setGlobalAuthToken(token: token)
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,

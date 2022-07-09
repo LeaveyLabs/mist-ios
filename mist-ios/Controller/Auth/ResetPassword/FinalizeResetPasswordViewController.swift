@@ -26,12 +26,12 @@ class FinalizeResetPasswordViewController: KUIViewController, UITextFieldDelegat
     }
     
     override func viewDidLoad() {
+        setupBackButton()
         super.viewDidLoad()
         validateInput()
         shouldNotAnimateKUIAccessoryInputView = true
         setupTextFields()
         setupContinueButton()
-        setupBackButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -67,11 +67,12 @@ class FinalizeResetPasswordViewController: KUIViewController, UITextFieldDelegat
             else {
                 button.configuration = ButtonConfigs.disabledConfig(title: "Finish")
             }
+            button.configuration?.showsActivityIndicator = self.isSubmitting
         }
     }
     
     func setupBackButton() {
-        navigationItem.leftBarButtonItem = nil
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(), style: .plain, target: self, action: nil)
     }
     
     //MARK: - User Interaction

@@ -18,15 +18,15 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vO9-KN-2z0">
                                 <rect key="frame" x="37.5" y="218.5" width="300" height="130"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="mist-white-heart" translatesAutoresizingMaskIntoConstraints="NO" id="gA9-Rf-1Q1">
-                                        <rect key="frame" x="30.5" y="20" width="70" height="80"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mist-white-heart" translatesAutoresizingMaskIntoConstraints="NO" id="gA9-Rf-1Q1">
+                                        <rect key="frame" x="30" y="5" width="70" height="100"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="CgZ-EU-YSB"/>
+                                            <constraint firstAttribute="width" constant="70" id="CgZ-EU-YSB"/>
                                             <constraint firstAttribute="height" constant="100" id="Ewe-Nq-AI4"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="mist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="beT-4D-4x1">
-                                        <rect key="frame" x="120.5" y="4.5" width="158.5" height="113.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="mist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="beT-4D-4x1">
+                                        <rect key="frame" x="120" y="4.5" width="158.5" height="113.5"/>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="83"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -46,7 +46,9 @@
                                     <constraint firstItem="Mru-yk-Uy9" firstAttribute="centerX" secondItem="vO9-KN-2z0" secondAttribute="centerX" id="0gQ-na-EuD"/>
                                     <constraint firstAttribute="bottom" secondItem="Mru-yk-Uy9" secondAttribute="bottom" id="5HJ-sN-dyY"/>
                                     <constraint firstAttribute="height" constant="130" id="csZ-by-uKQ"/>
+                                    <constraint firstAttribute="bottom" secondItem="gA9-Rf-1Q1" secondAttribute="bottom" constant="25" id="fMM-zB-Z5s"/>
                                     <constraint firstItem="beT-4D-4x1" firstAttribute="leading" secondItem="gA9-Rf-1Q1" secondAttribute="trailing" constant="20" id="gXM-QM-jVt"/>
+                                    <constraint firstItem="gA9-Rf-1Q1" firstAttribute="leading" secondItem="vO9-KN-2z0" secondAttribute="leading" constant="30" id="id8-77-N5e"/>
                                     <constraint firstItem="Mru-yk-Uy9" firstAttribute="top" secondItem="beT-4D-4x1" secondAttribute="bottom" constant="-18" id="rry-O4-djM"/>
                                     <constraint firstAttribute="width" constant="300" id="ssI-Mf-7hg"/>
                                 </constraints>

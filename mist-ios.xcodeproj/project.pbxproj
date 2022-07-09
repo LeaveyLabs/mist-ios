@@ -120,7 +120,6 @@
 		475B1F8B27FB86C000ED59CD /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475B1F8A27FB86C000ED59CD /* ConversationsViewController.swift */; };
 		475B1F8D27FBAB2F00ED59CD /* UIView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475B1F8C27FBAB2F00ED59CD /* UIView+Animations.swift */; };
 		475B1F8F27FBC2D400ED59CD /* UIView+Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475B1F8E27FBC2D400ED59CD /* UIView+Shadow.swift */; };
-		47630EB9283F437F00FA4DF7 /* SetupTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47630EB8283F437F00FA4DF7 /* SetupTimeViewController.swift */; };
 		4767E41428584CD70016202E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 4767E41328584CD70016202E /* Alamofire */; };
 		4767E41728584D110016202E /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 4767E41628584D110016202E /* Starscream */; };
 		476971DC2847C3F200123F72 /* UITextField+MaxLength.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476971DB2847C3F200123F72 /* UITextField+MaxLength.swift */; };
@@ -203,6 +202,7 @@
 		5B13B741285D05B0000ADF5E /* UISearchBar+CenterText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13B740285D05B0000ADF5E /* UISearchBar+CenterText.swift */; };
 		5B13B743285D3877000ADF5E /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13B742285D3877000ADF5E /* Error.swift */; };
 		5B18B9802876C5F900F0F80E /* AuthStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B18B97F2876C5F900F0F80E /* AuthStartViewController.swift */; };
+		5B1F16CB28791EDD00035F93 /* FinishProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16CA28791EDD00035F93 /* FinishProfileViewController.swift */; };
 		5B37A36B28784A4B00279B2A /* EnterBiosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */; };
 		5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D589B28603A46002E2F94 /* PostCell.swift */; };
 		5B4D58A72860D7FB002E2F94 /* UIImageView+ProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */; };
@@ -396,7 +396,6 @@
 		475B1F8A27FB86C000ED59CD /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
 		475B1F8C27FBAB2F00ED59CD /* UIView+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Animations.swift"; sourceTree = "<group>"; };
 		475B1F8E27FBC2D400ED59CD /* UIView+Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shadow.swift"; sourceTree = "<group>"; };
-		47630EB8283F437F00FA4DF7 /* SetupTimeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupTimeViewController.swift; sourceTree = "<group>"; };
 		476971DB2847C3F200123F72 /* UITextField+MaxLength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+MaxLength.swift"; sourceTree = "<group>"; };
 		476971DD2847CCAB00123F72 /* UIView+FindVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+FindVC.swift"; sourceTree = "<group>"; };
 		477A6FD527DFB0450020F864 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -483,6 +482,7 @@
 		5B13B740285D05B0000ADF5E /* UISearchBar+CenterText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+CenterText.swift"; sourceTree = "<group>"; };
 		5B13B742285D3877000ADF5E /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		5B18B97F2876C5F900F0F80E /* AuthStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStartViewController.swift; sourceTree = "<group>"; };
+		5B1F16CA28791EDD00035F93 /* FinishProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishProfileViewController.swift; sourceTree = "<group>"; };
 		5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBiosViewController.swift; sourceTree = "<group>"; };
 		5B4D589B28603A46002E2F94 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ProfilePic.swift"; sourceTree = "<group>"; };
@@ -581,21 +581,17 @@
 		43770C4927EE8BED00F31CCF /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				5B1F16CC28791EF700035F93 /* Misc */,
 				5BE110002876CD6C00CB54A6 /* ResetPassword */,
 				5B18B97F2876C5F900F0F80E /* AuthStartViewController.swift */,
 				43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */,
 				4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */,
 				436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */,
 				43483BB32802519C001C7C6A /* CreatePasswordViewController.swift */,
-				433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */,
-				47630EB8283F437F00FA4DF7 /* SetupTimeViewController.swift */,
+				5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */,
 				43483BB128025179001C7C6A /* ChooseUsernameViewController.swift */,
 				43483BB5280251B1001C7C6A /* EnterNameViewController.swift */,
-				5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */,
 				43E30CFD2826355C00DBEB57 /* UploadProfilePictureViewController.swift */,
-				43E30D0128263E1200DBEB57 /* ImagePicker.swift */,
-				47EE28F12840991800C6425C /* PermissionsViewController.swift */,
-				47EE28F72840AE8200C6425C /* TestViewController.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -658,7 +654,6 @@
 			children = (
 				5BC2762E286A877F00DA5A3D /* Message */,
 				5BB624D62867DD5800DCD45B /* Conversation */,
-				47EE28FC28414A7200C6425C /* CustomSwiftMessages */,
 				477A6FD427DF86260020F864 /* Feed */,
 				4752718028556A5A00DDF84D /* Post */,
 				4752718128556A6E00DDF84D /* Comment */,
@@ -1028,6 +1023,7 @@
 		47E74E3C27CA14BF00467A0C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				47EE28FC28414A7200C6425C /* CustomSwiftMessages */,
 				5B774DF3286BCBC100CCCF28 /* CollectionCells */,
 				479AA1F927DD0EC000EA0DFC /* CustomViews */,
 				479683F6282817F900CA23BA /* Annotations */,
@@ -1107,8 +1103,8 @@
 		47EE28FC28414A7200C6425C /* CustomSwiftMessages */ = {
 			isa = PBXGroup;
 			children = (
-				47EE28FF28414B2300C6425C /* CustomCenteredView.xib */,
 				47EE28FD28414AF700C6425C /* CustomCenteredView.swift */,
+				47EE28FF28414B2300C6425C /* CustomCenteredView.xib */,
 				5BB624B128620D4A00DCD45B /* CustomCardView.swift */,
 				5BB624B328620D5F00DCD45B /* CustomCardView.xib */,
 			);
@@ -1158,6 +1154,18 @@
 				47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */,
 			);
 			path = NewPost;
+			sourceTree = "<group>";
+		};
+		5B1F16CC28791EF700035F93 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				5B1F16CA28791EDD00035F93 /* FinishProfileViewController.swift */,
+				43E30D0128263E1200DBEB57 /* ImagePicker.swift */,
+				47EE28F12840991800C6425C /* PermissionsViewController.swift */,
+				47EE28F72840AE8200C6425C /* TestViewController.swift */,
+				433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */,
+			);
+			path = Misc;
 			sourceTree = "<group>";
 		};
 		5B4D58A52860D7E5002E2F94 /* UIImageView */ = {
@@ -1522,6 +1530,7 @@
 				47A3D71027D55BDD003DBEA5 /* PostFilter.swift in Sources */,
 				474A5DA327F4042F004215F9 /* UIImageView+Inspectable.swift in Sources */,
 				43E30D0228263E1200DBEB57 /* ImagePicker.swift in Sources */,
+				5B1F16CB28791EDD00035F93 /* FinishProfileViewController.swift in Sources */,
 				4752719F2855AF1400DDF84D /* UIView+SafeAreaConstraints.swift in Sources */,
 				47FF869827DB1F470076A1CA /* PostAPI.swift in Sources */,
 				478BA27B283E77C100C35507 /* UINavigationController+Completion.swift in Sources */,
@@ -1608,7 +1617,6 @@
 				5BAD62772876812200DCFE45 /* SettingsViewController.swift in Sources */,
 				47266AD227FF5531005DEDB1 /* UIView+LoadFromNib.swift in Sources */,
 				4700F8B427DD7BBA006C2E08 /* FlagAPI.swift in Sources */,
-				47630EB9283F437F00FA4DF7 /* SetupTimeViewController.swift in Sources */,
 				439E44F827DFE11F00E244D6 /* WordAPI.swift in Sources */,
 				47A3D70627D54F3C003DBEA5 /* Post.swift in Sources */,
 				43D9B376285592D700E807C2 /* FavoriteAPI.swift in Sources */,

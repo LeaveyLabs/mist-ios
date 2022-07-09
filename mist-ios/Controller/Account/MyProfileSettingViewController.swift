@@ -13,6 +13,7 @@ class MyProfileSettingViewController: UITableViewController {
     @IBOutlet weak var profilePictureButton: UIButton!
     @IBOutlet weak var miniCameraButton: UIButton!
     
+    var usernameTextField: UITextField!
     var imagePicker: ImagePicker!
     
     var firstName: String = UserService.singleton.getFirstName()
@@ -45,6 +46,10 @@ class MyProfileSettingViewController: UITableViewController {
         setupTableView()
         registerNibs()
         setupButtons()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         setupImagePicker()
     }
     
@@ -136,6 +141,7 @@ class MyProfileSettingViewController: UITableViewController {
             }
             cell.textField.isEnabled = false
         } else {
+            usernameTextField = cell.textField
             cell.textField.autocorrectionType = .no
             cell.textField.autocapitalizationType = .none
             cell.textField.text = username
@@ -157,8 +163,9 @@ class MyProfileSettingViewController: UITableViewController {
     }
     
     @objc func tryToUpdateProfile() {
+        usernameTextField.resignFirstResponder()
+        isSaving = true
         Task {
-            isSaving = true
             do {
                 try await UserService.singleton.updateUsername(to: username)
                 try await UserService.singleton.updateProfilePic(to: profilePic)

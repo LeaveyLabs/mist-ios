@@ -87,8 +87,12 @@ class CreatePasswordViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if isValidInput {
-            tryToContinue()
+        if textField == passwordTextField {
+            confirmPasswordTextField.becomeFirstResponder()
+        } else {
+            if isValidInput {
+                tryToContinue()
+            }
         }
         return false
     }
@@ -112,9 +116,10 @@ class CreatePasswordViewController: KUIViewController, UITextFieldDelegate {
                 isSubmitting = true
                 Task {
                     do {
-                        try await AuthAPI.validatePassword(username: "a", password: password)
+                        let emailMinusDomain = AuthContext.email.components(separatedBy: "@")[0]
+                        try await AuthAPI.validatePassword(username: emailMinusDomain, password: password)
                         AuthContext.password = password
-                        let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.SetupTime);
+                        let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterBios)
                         self.navigationController?.pushViewController(vc, animated: true)
                     } catch {
                         handleFailure("Not strong enough", "Cmon now, that's just too easy")
