@@ -27,6 +27,9 @@ class PostAPI {
     
     static func fetchPostsByIds(ids:[Int]) async throws -> [Post] {
         var url = "\(BASE_URL)\(PATH_TO_POST_MODEL)?"
+        if ids.isEmpty {
+            return []
+        }
         for id in ids {
             url += "\(IDS_PARAM)=\(id)&"
         }
