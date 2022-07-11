@@ -110,7 +110,7 @@ class MessageThread: WebSocketDelegate {
                 self.connection_in_progress = false
                 self.socket.write(data: init_data)
                 Task {
-//                    try await fetchOfflineMessages()
+                    try await fetchOfflineMessages()
                     clearUnsentMessages()
                 }
             case .disconnected(let reason, let code):
@@ -120,18 +120,18 @@ class MessageThread: WebSocketDelegate {
             case .text(let string):
                 print("Received text: \(string)")
                 Task {
-//                    try await fetchOfflineMessages()
                     do {
                         let new_message = try JSONDecoder().decode(Message.self, from: string.data(using: .utf8)!)
+                        try await fetchOfflineMessages()
                         self.server_messages.append(new_message)
                     } catch {}
                 }
             case .binary(let data):
                 print("Received data: \(data.count)")
                 Task {
-//                    try await fetchOfflineMessages()
                     do {
                         let new_message = try JSONDecoder().decode(Message.self, from: data)
+                        try await fetchOfflineMessages()
                         self.server_messages.append(new_message)
                     } catch {}
                 }
