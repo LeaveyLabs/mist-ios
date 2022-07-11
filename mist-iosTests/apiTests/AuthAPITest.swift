@@ -34,7 +34,7 @@ class AuthAPITest: XCTestCase {
     }
 
     func testFetchAuthToken() async throws {
-        let token = try await AuthAPI.fetchAuthToken(username: TestConstants.Auth.USERNAME, password: TestConstants.Auth.PASSWORD)
+        let token = try await AuthAPI.fetchAuthToken(email_or_username: TestConstants.Auth.USERNAME, password: TestConstants.Auth.PASSWORD)
         XCTAssert(token == TestConstants.Auth.TOKEN)
     }
     

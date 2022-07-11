@@ -38,6 +38,17 @@ class MatchRequestAPI {
         return try JSONDecoder().decode(MatchRequest.self, from: data)
     }
     
+    static func postMatchRequest(senderUserId:Int, receiverUserId:Int) async throws -> MatchRequest {
+        let url = "\(BASE_URL)\(PATH_TO_MATCH_REQUEST)"
+        let params = [
+            SENDER_PARAM: senderUserId,
+            RECEIVER_PARAM: receiverUserId,
+        ]
+        let json = try JSONEncoder().encode(params)
+        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        return try JSONDecoder().decode(MatchRequest.self, from: data)
+    }
+    
     static func deleteMatchRequest(senderUserId:Int, receiverUserId:Int) async throws {
         let endpoint = "\(Env.BASE_URL)\(PATH_TO_CUSTOM_DELETE_MATCH_REQUEST_ENDPOINT)"
         let params = "\(SENDER_PARAM)=\(senderUserId)&\(RECEIVER_PARAM)=\(receiverUserId)"
