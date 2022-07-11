@@ -34,6 +34,7 @@ class AuthAPI {
     static let AUTH_EMAIL_PARAM = "email"
     static let AUTH_CODE_PARAM = "code"
     static let AUTH_USERNAME_PARAM = "username"
+    static let AUTH_EMAIL_OR_USERNAME_PARAM = "email_or_username"
     static let AUTH_PASSWORD_PARAM = "password"
     
     // Registers email in the database
@@ -137,11 +138,11 @@ class AuthAPI {
         return try JSONDecoder().decode(TokenStruct.self, from: data).token
     }
     
-    static func fetchAuthToken(username:String, password:String) async throws -> String {
+    static func fetchAuthToken(email_or_username:String, password:String) async throws -> String {
         let url = "\(BASE_URL)\(PATH_TO_API_TOKEN)"
         let params:[String:String] = [
-            UserAPI.USERNAME_PARAM: username,
-            UserAPI.PASSWORD_PARAM: password,
+            AUTH_EMAIL_OR_USERNAME_PARAM: email_or_username,
+            AUTH_PASSWORD_PARAM: password,
         ]
         let json = try JSONEncoder().encode(params)
         let (data, _) = try await BasicAPI.basicHTTPCallWithoutToken(url:url, jsonData:json, method: HTTPMethods.POST.rawValue)

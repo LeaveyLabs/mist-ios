@@ -125,15 +125,15 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     
     func tryToLogin() {
         // If you've inputted the code
-        if let password = passwordTextField.text, let username = usernameTextField.text {
+        if let password = passwordTextField.text, let email_or_username = usernameTextField.text {
             isSubmitting = true
             Task {
                 do {
                     // SecureTextEntry forces us to transform
                     // the password into a Data object
                     let params:[String:String] = [
-                        UserAPI.USERNAME_PARAM: username,
-                        UserAPI.PASSWORD_PARAM: password,
+                        AuthAPI.AUTH_EMAIL_OR_USERNAME_PARAM: email_or_username,
+                        AuthAPI.AUTH_PASSWORD_PARAM: password,
                     ]
                     let json = try JSONEncoder().encode(params)
                     // Send it over to login

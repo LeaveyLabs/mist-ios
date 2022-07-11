@@ -79,7 +79,7 @@ class UserService: NSObject {
                                             picture: compressedProfilePic,
                                             email: email,
                                             password: password)
-        let token = try await AuthAPI.fetchAuthToken(username: username, password: password)
+        let token = try await AuthAPI.fetchAuthToken(email_or_username: username, password: password)
         setGlobalAuthToken(token: token)
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
                                                     profilePic: newProfilePicWrapper,
