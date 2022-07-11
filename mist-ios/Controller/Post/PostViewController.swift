@@ -304,56 +304,8 @@ extension PostViewController: PostDelegate {
         commentTextView.becomeFirstResponder()
     }
     
+    func handleDeletePost(postId: Int) {
+        navigationController?.popViewController(animated: true)
+    }
+    
 }
-
-//    func handleFavorite(postId: Int, isAdding: Bool) {
-//        // Synchronous singleton update
-//        let favorite = UserService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
-//
-//        // Asynchronous remote update
-//        Task {
-//            do {
-//                if isAdding {
-//                    let _ = try await FavoriteAPI.postFavorite(userId: UserService.singleton.getId(), postId: postId)
-//                } else {
-//                    try await FavoriteAPI.deleteFavorite(userId: UserService.singleton.getId(), postId: postId)
-//                }
-//            } catch {
-//                UserService.singleton.handleFailedFavoriteUpdate(with: favorite, isAdding)//undo singleton change
-//                (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
-//                CustomSwiftMessages.displayError(error)
-//            }
-//        }
-//    }
-
-
-
-
-
-
-
-//old method. this should be removed in favor of the new handleVote()
-//    func handleVote(postId: Int, isAdding: Bool) {
-//        // Synchronous viewController update
-//        let originalVoteCount = post.votecount
-//        post.votecount += isAdding ? 1 : -1
-//
-//        // Synchronous singleton update
-//        let vote = UserService.singleton.handleVoteUpdate(postId: postId, isAdding)
-//
-//        // Asynchronous remote update
-//        Task {
-//            do {
-//                if isAdding {
-//                    let _ = try await VoteAPI.postVote(voter: UserService.singleton.getId(), post: postId)
-//                } else {
-//                    try await VoteAPI.deleteVote(voter: UserService.singleton.getId(), post: postId)
-//                }
-//            } catch {
-//                UserService.singleton.handleFailedVoteUpdate(with: vote, isAdding)//undo singleton change
-//                post.votecount = originalVoteCount //undo viewController change
-//                (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
-//                CustomSwiftMessages.displayError(error)
-//            }
-//        }
-//    }

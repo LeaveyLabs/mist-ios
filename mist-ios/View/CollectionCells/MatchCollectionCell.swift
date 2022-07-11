@@ -32,8 +32,7 @@ class MatchCollectionCell: UICollectionViewCell {
     open func configure(with messageKitMatch: MessageKitMatchRequest,
                         sangdaebang: FrontendReadOnlyUser,
                         delegate: MatchRequestCellDelegate,
-                        isSangdaebangHidden: Bool,
-                        isEnabled: Bool) {
+                        isSangdaebangHidden: Bool) {
         matchRequestCellDelegate = delegate
         postId = messageKitMatch.matchRequest.post
         
@@ -42,12 +41,20 @@ class MatchCollectionCell: UICollectionViewCell {
             "You replied to " + theirName + "'s mist:" :
             theirName + " replied to your mist:"
         titleLabel.text = messageKitMatch.postTitle
-        
-        if !isEnabled {
+
+        //the matchRequest.post is nil if the post was deleted upon load in
+        //PostService.singleton.getPost is nil if the post was deleted during user's session
+        if let postId = messageKitMatch.matchRequest.post, let _ = PostService.singleton.getPost(withPostId: postId) {
+            moreIndicator.isHidden = false
+            bgView.gestureRecognizers?.forEach({ $0.isEnabled = true })
+        } else {
             moreIndicator.isHidden = true
-            bgView.gestureRecognizers?.forEach({ recognizer in
-                recognizer.isEnabled = false
-            })
+            bgView.gestureRecognizers?.forEach({ $0.isEnabled = false })
+            
+            let isPlaceholderMatchRequest = messageKitMatch.matchRequest.id == MatchRequest.PLACEHOLDER_ID
+            if !isPlaceholderMatchRequest {
+                titleLabel.text = MatchRequest.DELETED_POST_TITLE
+            }
         }
         
         timestampLabel.attributedText = NSAttributedString(string: MessageKitDateFormatter.shared.string(from: messageKitMatch.sentDate), attributes: [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 11)!, NSAttributedString.Key.foregroundColor: UIColor.lightGray])

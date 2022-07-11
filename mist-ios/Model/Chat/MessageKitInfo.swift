@@ -10,6 +10,7 @@ import MessageKit
 
 struct MessageKitInfo: MessageType {
     
+    static let INFO_MESSAGE_ID = "-10"
     static let THEY_ARE_HIDDEN_MESSAGE = "The author can see your profile.\nYou can see theirs once they accept your chat request."
 
     // MessageType Protocol members
@@ -24,7 +25,7 @@ struct MessageKitInfo: MessageType {
         self.infoMessage = MessageKitInfo.THEY_ARE_HIDDEN_MESSAGE
         self.sender = UserService.singleton.getUserAsFrontendReadOnlyUser()
         self.kind = .custom(infoMessage)
-        self.messageId = String(0)
+        self.messageId = MessageKitInfo.INFO_MESSAGE_ID
         self.sentDate = Date()
     }
 }

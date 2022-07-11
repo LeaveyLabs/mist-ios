@@ -63,7 +63,6 @@ class ChatViewController: MessagesViewController {
             } else {
                 senderProfilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
             }
-            messagesCollectionView.reloadData()
         }
     }
     var isSangdaebangProfileHidden: Bool! {
@@ -75,7 +74,6 @@ class ChatViewController: MessagesViewController {
                 receiverProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.profilePic)
                 receiverProfileNameButton.setTitle(conversation.sangdaebang.first_name, for: .normal)
             }
-            messagesCollectionView.reloadData()
         }
     }
     
@@ -304,8 +302,7 @@ class ChatViewController: MessagesViewController {
             cell.configure(with: messageKitMatch,
                            sangdaebang: conversation.sangdaebang,
                            delegate: self,
-                           isSangdaebangHidden: isSangdaebangProfileHidden,
-                           isEnabled: messageKitMatch.matchRequest.read_only_post != nil)
+                           isSangdaebangHidden: isSangdaebangProfileHidden)
             return cell
         }
         if let messageKitInfo = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView) as? MessageKitInfo {
@@ -381,10 +378,12 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         }
     }
     
-    //TODO: will this properly handle the case when we get, say, three messages in the thread all at once? or when they send a matchrequest and a message at the same time?
     func handleNewMessage() {
         messageInputBar.sendButton.stopAnimating()
-
+        
+        isSangdaebangProfileHidden = conversation.isSangdaebangHidden
+        isAuthedUserProfileHidden = conversation.isAuthedUserHidden
+        
         // Reload last section to update header/footer labels and insert a new one
         messagesCollectionView.performBatchUpdates({
             messagesCollectionView.insertSections([numberOfSections(in: messagesCollectionView) - 1])
@@ -412,7 +411,7 @@ extension ChatViewController: ChatMoreDelegate {
 extension ChatViewController: MatchRequestCellDelegate {
     
     func matchRequestCellDidTapped(postId: Int) {
-        guard let post = PostService.singleton.getConversationPost(withPostId: postId) else { return }
+        guard let post = PostService.singleton.getPost(withPostId: postId) else { return }
         let postVC = PostViewController.createPostVC(with: post, shouldStartWithRaisedKeyboard: false, completionHandler: nil)
         navigationController!.pushViewController(postVC, animated: true)
     }
@@ -512,7 +511,7 @@ extension ChatViewController: MessagesLayoutDelegate {
     }
     
     func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return isFromCurrentSender(message: message) && isLastMessage(at: indexPath) ? 16 : 0
+        return isLastMessageFromSender(message: message, at: indexPath) ? 16 : 0
     }
         
 //    func textCellSizeCalculator(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CellSizeCalculator? {
@@ -570,6 +569,24 @@ extension ChatViewController: MessageLabelDelegate {
 // MARK: - Helpers
 
 extension ChatViewController {
+    
+    func isLastMessageFromSender(message: MessageType, at indexPath: IndexPath) -> Bool {
+        let startingIndex = indexPath.section
+        if startingIndex > conversation.chatObjects.count { return false }
+        if startingIndex == conversation.chatObjects.count {
+            return isFromCurrentSender(message: message)
+        }
+        if !isFromCurrentSender(message: message) { return false } //make sure this message if from current sender
+        //make sure all later messages are NOT from the current sender
+        for index in startingIndex+1..<conversation.chatObjects.count {
+            if let message = conversation.chatObjects[index] as? MessageKitMessage {
+                if isFromCurrentSender(message: message) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
     
     func isLastMessage(at indexPath: IndexPath) -> Bool {
         let isInfoCellVisible = conversation.isSangdaebangHidden

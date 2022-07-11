@@ -87,20 +87,20 @@ class MessageThread: WebSocketDelegate {
         }
     }
     
-    func fetchOfflineMessages() async throws {
-        let received_messages = try await MessageAPI.fetchMessagesBySenderAndReceiver(sender: self.receiver, receiver: self.sender)
-        
-        var server_message_ids:[Int] = []
-        for server_message in self.server_messages {
-            server_message_ids.append(server_message.id)
-        }
-        
-        for received_message in received_messages {
-            if !server_message_ids.contains(received_message.id) {
-                self.server_messages.append(received_message)
-            }
-        }
-    }
+//    func fetchOfflineMessages() async throws {
+//        let received_messages = try await MessageAPI.fetchMessagesBySenderAndReceiver(sender: self.receiver, receiver: self.sender)
+//
+//        var server_message_ids:[Int] = []
+//        for server_message in self.server_messages {
+//            server_message_ids.append(server_message.id)
+//        }
+//
+//        for received_message in received_messages {
+//            if !server_message_ids.contains(received_message.id) {
+//                self.server_messages.append(received_message)
+//            }
+//        }
+//    }
     
     func didReceive(event: WebSocketEvent, client: WebSocketClient) {
         switch event {
@@ -110,7 +110,7 @@ class MessageThread: WebSocketDelegate {
                 self.connection_in_progress = false
                 self.socket.write(data: init_data)
                 Task {
-                    try await fetchOfflineMessages()
+//                    try await fetchOfflineMessages()
                     clearUnsentMessages()
                 }
             case .disconnected(let reason, let code):
@@ -122,7 +122,7 @@ class MessageThread: WebSocketDelegate {
                 Task {
                     do {
                         let new_message = try JSONDecoder().decode(Message.self, from: string.data(using: .utf8)!)
-                        try await fetchOfflineMessages()
+//                        try await fetchOfflineMessages()
                         self.server_messages.append(new_message)
                     } catch {}
                 }
@@ -131,7 +131,7 @@ class MessageThread: WebSocketDelegate {
                 Task {
                     do {
                         let new_message = try JSONDecoder().decode(Message.self, from: data)
-                        try await fetchOfflineMessages()
+//                        try await fetchOfflineMessages()
                         self.server_messages.append(new_message)
                     } catch {}
                 }

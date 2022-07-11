@@ -11,8 +11,16 @@ class MatchRequestService: NSObject {
     
     static var singleton = MatchRequestService()
     
-    private var receivedMatchRequests: [MatchRequest] = []
-    private var sentMatchRequests: [MatchRequest] = []
+    private var receivedMatchRequests: [MatchRequest] = [] {
+        didSet {
+            PostService.singleton.setConversationPostIds(postIds: getAllPostUniqueMatchRequests().compactMap {$0.post})
+        }
+    }
+    private var sentMatchRequests: [MatchRequest] = [] {
+        didSet {
+            PostService.singleton.setConversationPostIds(postIds: getAllPostUniqueMatchRequests().compactMap {$0.post})
+        }
+    }
 
     private override init(){
         super.init()
@@ -24,17 +32,8 @@ class MatchRequestService: NSObject {
         async let loadedReceivedMatchRequests = MatchRequestAPI.fetchMatchRequestsByReceiver(receiverUserId: UserService.singleton.getId())
         async let loadedSentMatchRequests = MatchRequestAPI.fetchMatchRequestsBySender(senderUserId: UserService.singleton.getId())
         (receivedMatchRequests, sentMatchRequests) = try await (loadedReceivedMatchRequests, loadedSentMatchRequests)
-        
-        //for setting up fake data
-//        if let first = sentMatchRequests.first {
-//            try await MatchRequestAPI.deleteMatchRequest(match_request_id: first.id)
-//            sentMatchRequests.remove(at: 0)
-//        }
-//        let fakePost = try await PostAPI.fetchPosts().first!
-//        let fakeRequest = MatchRequest(id: 0, match_requesting_user: 1, match_requested_user: 7, post: fakePost.id, read_only_post: fakePost, timestamp: Date().timeIntervalSince1970)
-//        receivedMatchRequests.append(fakeRequest)
-        
-        PostService.singleton.initializeConversationPosts(with: getAllUniquePostMatchRequests().compactMap { $0.read_only_post })
+        //For each initiating match request, if the post hasn't been deleted, add it to the PostService matchRequests posts
+        PostService.singleton.initializeConversationPosts(with: getAllPostUniqueMatchRequests().compactMap { $0.read_only_post })
     }
     
     
@@ -69,29 +68,26 @@ class MatchRequestService: NSObject {
         return allMatchRequestsWithUser.sorted()
     }
     
-    func getInitiatingMatchRequestsWith(_ userId: Int) -> [MatchRequest] {
+    func getAllPostUniqueMatchRequests() -> [MatchRequest] {
         var initiatingMatchRequests = [Int: MatchRequest]() //[postId: MatchRequest]
-        for matchRequest in getAllMatchRequestsWith(userId) {
-            if !initiatingMatchRequests.keys.contains(matchRequest.post) {
-                initiatingMatchRequests[matchRequest.post] = matchRequest
+        for matchRequest in receivedMatchRequests + sentMatchRequests {
+            guard let matchRequestPostId = matchRequest.post else { continue }
+            if !initiatingMatchRequests.keys.contains(matchRequestPostId) {
+                initiatingMatchRequests[matchRequestPostId] = matchRequest
             }
         }
         return Array(initiatingMatchRequests.values).sorted()
     }
     
-    func getAllUniquePostMatchRequests() -> [MatchRequest] {
-        var allUniqueMatchRequests = [Int: MatchRequest]() //[postId: MatchRequest]
-        for matchRequest in receivedMatchRequests + sentMatchRequests {
-            if !allUniqueMatchRequests.keys.contains(matchRequest.post) {
-                allUniqueMatchRequests[matchRequest.post] = matchRequest
-            }
+    func sendMatchRequest(to userId: Int, forPostId postId: Int?) async throws -> MatchRequest {
+        if let postId = postId {
+            let newMatchRequest = try await MatchRequestAPI.postMatchRequest(senderUserId: UserService.singleton.getId(), receiverUserId: userId, postId: postId)
+            sentMatchRequests.append(newMatchRequest)
+            return newMatchRequest
+        } else {
+            let newMatchRequest = try await MatchRequestAPI.postMatchRequest(senderUserId: UserService.singleton.getId(), receiverUserId: userId)
+            sentMatchRequests.append(newMatchRequest)
+            return newMatchRequest
         }
-        return Array(allUniqueMatchRequests.values).sorted()
-    }
-    
-    func sendMatchRequest(to userId: Int, forPostId postId: Int) async throws -> MatchRequest {
-        let newMatchRequest = try await MatchRequestAPI.postMatchRequest(senderUserId: UserService.singleton.getId(), receiverUserId: userId, postId: postId)
-        sentMatchRequests.append(newMatchRequest)
-        return newMatchRequest
     }
 }

@@ -81,8 +81,6 @@ class UserService: NSObject {
                                             email: email,
                                             password: password,
                                             dob: dob)
-        let token = try await AuthAPI.fetchAuthToken(username: username, password: password)
-                                            password: password)
         let token = try await AuthAPI.fetchAuthToken(email_or_username: username, password: password)
         setGlobalAuthToken(token: token)
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,

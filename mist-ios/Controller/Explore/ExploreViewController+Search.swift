@@ -143,13 +143,15 @@ extension ExploreViewController {
     /// - Tag: SearchRequest
     private func search(using searchRequest: MKLocalSearch.Request) {
         searchRequest.region = MKCoordinateRegion(center: mapView.region.center, latitudinalMeters: 100, longitudinalMeters: 100) //setting a span that's smaller or larger seems to increase the frequency that apple will reset the search region to your current location. 10000 seems to be a good middle ground
+        
+        //OHHHH ADAM IT"S NOT A BIG YOUR CHECKER IS JUST FUCKING UP
         searchRequest.resultTypes = [.address, .pointOfInterest]
         let localSearch = MKLocalSearch(request: searchRequest)
         Task {
             do {
                 let response = try await localSearch.start()
                 if didAppleOverrideLocalSearchRegion(response.boundingRegion) {
-                    CustomSwiftMessages.showInfoCard("No results found.", "Try adjusting the map and search again.", emoji: "🧐")
+                    CustomSwiftMessages.showInfoCard("No results found", "Try adjusting the map and search again", emoji: "🧐")
                 } else {
                     appleregion = response.boundingRegion
                     turnPlacesIntoAnnotations(response.mapItems)
@@ -167,11 +169,12 @@ extension ExploreViewController {
     
     //if the map wasnt originally near the user's location, but then the center of the response is close to the user's location, apple overrided the search. in that case, don't display anything and tell the user to search again
     func didAppleOverrideLocalSearchRegion(_ responseRegion: MKCoordinateRegion) -> Bool {
-        if let userLocation = locationManager.location {
-            if mapView.region.center.distance(from: userLocation.coordinate) > 10000 && responseRegion.center.distance(from: userLocation.coordinate) < 2500 {
-                return true
-            }
-        }
+        //this wasn't working properly: if you were actually looking at a region far from your current location and searched a region nearby your current location, apple gave a correct response region close to your current location, but we'd reject it. need a better algorithm
+//        if let userLocation = locationManager.location {
+//            if mapView.region.center.distance(from: userLocation.coordinate) > 10000 && responseRegion.center.distance(from: userLocation.coordinate) < 4000 {
+//                return true
+//            }
+//        }
         return false
     }
     

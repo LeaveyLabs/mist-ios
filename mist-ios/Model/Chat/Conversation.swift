@@ -16,9 +16,9 @@ class Conversation {
     //Data
     var sangdaebang: FrontendReadOnlyUser
     var messageThread: MessageThread
-    var initiatingMatchRequests: [MatchRequest] {
+    var initiatingMatchRequest: MatchRequest? {
         get {
-            return MatchRequestService.singleton.getInitiatingMatchRequestsWith(sangdaebang.id)
+            return MatchRequestService.singleton.getAllMatchRequestsWith(sangdaebang.id).first
         }
     }
 
@@ -32,7 +32,7 @@ class Conversation {
     //If the users have already been talking, neither profile should be hidden
     var haveUsersAlreadyBeenTalking: Bool {
         get {
-            if let firstMessage = messageThread.server_messages.first, let firstMatchRequest = initiatingMatchRequests.first, firstMessage.timestamp < firstMatchRequest.timestamp {
+            if let firstMessage = messageThread.server_messages.first, let firstMatchRequest = initiatingMatchRequest, firstMessage.timestamp < firstMatchRequest.timestamp {
                 return true
             }
             return false
@@ -56,10 +56,11 @@ class Conversation {
     init(sangdaebang: FrontendReadOnlyUser, messageThread: MessageThread) {
         self.sangdaebang = sangdaebang
         self.messageThread = messageThread
-        let messageKitMatchRequests = initiatingMatchRequests.map { MessageKitMatchRequest(matchRequest: $0, conversation: self) }
-        let messageKitMessages = messageThread.server_messages.map { MessageKitMessage(message: $0, conversation: self) }
-        self.chatObjects = messageKitMessages + messageKitMatchRequests
-        chatObjects.sort { $0.sentDate < $1.sentDate }
+        self.chatObjects = messageThread.server_messages.map { MessageKitMessage(message: $0, conversation: self) }
+        if let initiatingMatchRequest = initiatingMatchRequest {
+            self.chatObjects += [MessageKitMatchRequest(matchRequest: initiatingMatchRequest, conversation: self)]
+        }
+        self.chatObjects.sort { $0.sentDate < $1.sentDate }
         renderedIndex = min(50, chatObjects.count)
     }
     
@@ -67,7 +68,7 @@ class Conversation {
     
     func openConversationFromPost(postId: Int, postTitle: String) {
         placeholderMessageKitMatchRequest = nil
-        if !initiatingMatchRequests.contains(where: { $0.post == postId }) {
+        if initiatingMatchRequest == nil {
             let placeholderMatchRequest = MatchRequest(id: MatchRequest.PLACEHOLDER_ID, match_requesting_user: UserService.singleton.getId(), match_requested_user: sangdaebang.id, post: postId, read_only_post: nil, timestamp: Date().timeIntervalSince1970)
             placeholderMessageKitMatchRequest = MessageKitMatchRequest(placeholderMatchRequest: placeholderMatchRequest, postTitle: postTitle)
         }
@@ -106,27 +107,20 @@ class Conversation {
         let newMatchRequest = try await MatchRequestService.singleton.sendMatchRequest(to: sangdaebang.id, forPostId: postId)
         chatObjects.append(MessageKitMatchRequest(matchRequest: newMatchRequest, conversation: self))
         placeholderMessageKitMatchRequest = nil
-        PostService.singleton.addPostToConversationPosts(post: newMatchRequest.read_only_post!)
     }
     
     func sendAcceptingMatchRequest() async throws {
-        let mostRecentMatchRequest = initiatingMatchRequests.last!
-        let _ = try await MatchRequestService.singleton.sendMatchRequest(to: sangdaebang.id, forPostId: mostRecentMatchRequest.post)
+        let _ = try await MatchRequestService.singleton.sendMatchRequest(to: sangdaebang.id, forPostId: initiatingMatchRequest?.post ?? nil)
     }
     
     func sendMessage(messageText: String) async throws {
-        if let placeholderMatchRequest = placeholderMessageKitMatchRequest {
-            try await sendInitiatingMatchRequest(forPostId: placeholderMatchRequest.matchRequest.post)
+        if let placeholderMatchRequest = placeholderMessageKitMatchRequest, let postId = placeholderMatchRequest.matchRequest.post {
+            try await sendInitiatingMatchRequest(forPostId: postId)
             renderedIndex += 1
         }
                 
         do {
             try messageThread.sendMessage(message_text: messageText)
-            
-            
-            
-            
-            
             let attributedMessage = NSAttributedString(string: messageText, attributes: [.font: UIFont(name: Constants.Font.Medium, size: 15)!])
             let messageKitMessage = MessageKitMessage(text: attributedMessage,
                                             sender: UserService.singleton.getUserAsFrontendReadOnlyUser(),
@@ -147,14 +141,14 @@ class Conversation {
         let messageKitMessage = MessageKitMessage(text: attributedMessage, sender: sangdaebang, receiver: UserService.singleton.getUserAsFrontendReadOnlyUser(), messageId: String(message.id), date: Date(timeIntervalSince1970: message.timestamp))
         chatObjects.append(messageKitMessage)
         renderedIndex += 1
+        
         Task {
             do {
-                try await MatchRequestService.singleton.loadMatchRequests()
-                let newMatchRequest = initiatingMatchRequests.first(where: { $0.timestamp > chatObjects.last?.sentDate.timeIntervalSince1970 ?? 0 })
-                if let newMatchRequest = newMatchRequest {
-                    chatObjects.append(MessageKitMatchRequest(matchRequest: newMatchRequest, conversation: self))
-                    renderedIndex += 1
+                //if they are still blurred, check to see if they sent us a match request
+                if isSangdaebangHidden {
+                    try await MatchRequestService.singleton.loadMatchRequests()
                 }
+                
                 DispatchQueue.main.async {
                     let visibleVC = SceneDelegate.visibleViewController
                     if let chatVC = visibleVC as? ChatViewController {

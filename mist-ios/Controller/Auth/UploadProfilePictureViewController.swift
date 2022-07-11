@@ -123,6 +123,12 @@ class UploadProfilePictureViewController: UIViewController {
         isSubmitting = false
         profilePic = defaultPic
         CustomSwiftMessages.displayError(error)
+        
+        DispatchQueue.main.async { [self] in
+            transitionToStoryboard(storyboardID: Constants.SBID.SB.Auth,
+                                        viewControllerID: Constants.SBID.VC.AuthNavigation,
+                                        duration: Env.LAUNCH_ANIMATION_DURATION) { _ in}
+        }
     }
     
     func validateInput() -> Bool {

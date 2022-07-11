@@ -39,7 +39,7 @@ class MatchRequestAPI {
     }
     
     static func postMatchRequest(senderUserId:Int, receiverUserId:Int) async throws -> MatchRequest {
-        let url = "\(BASE_URL)\(PATH_TO_MATCH_REQUEST)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_MATCH_REQUEST)"
         let params = [
             SENDER_PARAM: senderUserId,
             RECEIVER_PARAM: receiverUserId,

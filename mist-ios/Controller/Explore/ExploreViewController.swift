@@ -145,7 +145,7 @@ extension ExploreViewController {
     }
     
     func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType) {
-        //Feed scroll to top, on every reload
+        //Feed scroll to top, on every reload. this should happen BEFORE the datasource for the feed is altered, in order to prevent a potential improper element access
         if reloadType != .firstLoad {
             if !postAnnotations.isEmpty {
                 feed.isUserInteractionEnabled = false
@@ -154,20 +154,21 @@ extension ExploreViewController {
             }
         }
         //Map camera travel, only on new searches
-        if reloadType == .newSearch {
-            mapView.region = getRegionCenteredAround(postAnnotations + placeAnnotations) ?? PostService.singleton.getExploreFilter().region
-        }
         
+        removeExistingPlaceAnnotationsFromMap()
+        removeExistingPostAnnotationsFromMap()
         //Both data update
         turnPostsIntoAnnotations(PostService.singleton.getExplorePosts())
         //if at some point we decide to list out places in the feed results, too, then turnPlacesIntoAnnoations should be moved here
         //the reason we don't need to rn is because the feed is not dependent on place data, just post data, and we should scroll to top of feed before refreshing the data
 
+        if reloadType == .newSearch {
+            mapView.region = getRegionCenteredAround(postAnnotations + placeAnnotations) ?? PostService.singleton.getExploreFilter().region
+        }
+
         //Feed visual update
         feed.reloadData()
         //Map visual update
-        removeExistingPlaceAnnotationsFromMap()
-        removeExistingPostAnnotationsFromMap()
         mapView.addAnnotations(placeAnnotations)
         mapView.addAnnotations(postAnnotations)
     }
@@ -298,6 +299,10 @@ extension ExploreViewController: PostDelegate {
             postAnnotations[index].post = updatedPost
         }
         navigationController!.pushViewController(postVC, animated: true)
+    }
+    
+    func handleDeletePost(postId: Int) {
+        reloadPosts(withType: .refresh)
     }
     
 }

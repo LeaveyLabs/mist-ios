@@ -58,7 +58,7 @@ enum Setting {
         case .privacyPolicy:
             return "Privacy Policy"
         case .terms:
-            return "Terms of Service"
+            return "Terms of Use"
         }
     }
     

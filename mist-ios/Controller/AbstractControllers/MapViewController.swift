@@ -30,7 +30,7 @@ class MapViewController: UIViewController {
     var isCameraFlyingOutAndIn: Bool = false
     var isCameraFlying: Bool = false {
         didSet {
-            view.isUserInteractionEnabled = !isCameraFlying
+            mapView.isUserInteractionEnabled = !isCameraFlying
         }
     }
     var modifyingMap: Bool = false
@@ -408,6 +408,9 @@ extension MapViewController {
                                                     CLLocationCoordinate2D(latitude: minLat, longitude: minLong)])
         let latDelta = max(minSpanDelta,  1.3 * (maxLat - minLat))
         let longDelta = max(minSpanDelta, 1.3 * (maxLong - minLong))
+        print("gonna reutrn this:", MKCoordinateRegion(center: somekindofmiddle,
+                                 span: .init(latitudeDelta: latDelta,
+                                             longitudeDelta: longDelta)))
         return MKCoordinateRegion(center: somekindofmiddle,
                                             span: .init(latitudeDelta: latDelta,
                                                         longitudeDelta: longDelta))

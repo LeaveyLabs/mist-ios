@@ -9,7 +9,7 @@ import Foundation
 
 protocol PostDelegate: ShareActivityDelegate, AnyObject {
     // Implemented below
-    func handleMoreTap(postId: Int)
+    func handleMoreTap(postId: Int, postAuthor: Int)
     func handleVote(postId: Int, isAdding: Bool)
     func handleFavorite(postId: Int, isAdding: Bool)
     func handleFlag(postId: Int, isAdding: Bool)
@@ -19,6 +19,7 @@ protocol PostDelegate: ShareActivityDelegate, AnyObject {
     // Require subclass implementation
     func handleCommentButtonTap(postId: Int)
     func handleBackgroundTap(postId: Int)
+    func handleDeletePost(postId: Int)
     
     var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] { get set }
 }
@@ -86,8 +87,8 @@ extension PostDelegate where Self: UIViewController {
         }
     }
     
-    func handleMoreTap(postId: Int) {
-        let moreVC = PostMoreViewController.create(postId: postId, postDelegate: self)
+    func handleMoreTap(postId: Int, postAuthor: Int) {
+        let moreVC = PostMoreViewController.create(postId: postId, postAuthor: postAuthor, postDelegate: self)
         present(moreVC, animated: true)
     }
     

@@ -11,7 +11,11 @@ class FavoriteService: NSObject {
     
     static var singleton = FavoriteService()
     
-    private var favorites: [Favorite] = []
+    private var favorites: [Favorite] = [] {
+        didSet {
+            PostService.singleton.setFavoritePostIds(postIds: favorites.map { $0.post })
+        }
+    }
 
     //MARK: - Initialization
     
@@ -52,7 +56,6 @@ class FavoriteService: NSObject {
         
         Task {
             do {
-                
                 let _ = try await FavoriteAPI.postFavorite(userId: UserService.singleton.getId(), postId: postId)
             } catch {
                 favorites.removeAll { $0.id == newFavorite.id }

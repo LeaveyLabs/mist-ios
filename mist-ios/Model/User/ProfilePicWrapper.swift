@@ -16,11 +16,9 @@ struct ProfilePicWrapper: Codable {
     
     init(image: UIImage, withCompresssion: Bool) {
         if withCompresssion {
-            print("Bit size before vs after image compression;")
-            print(image.jpegData(compressionQuality: 1)!.count)
+//            print(image.jpegData(compressionQuality: 1)!.count)
             self.image = UIImage(data: image.compress(toMaxKBs: 1000))!
             self.blurredImage = self.image.blur()
-            print(self.image.jpegData(compressionQuality: 1)!.count)
         } else {
             self.image = image
             self.blurredImage = image.blur()

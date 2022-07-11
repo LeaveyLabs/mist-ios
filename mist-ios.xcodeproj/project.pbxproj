@@ -1023,9 +1023,9 @@
 		47E74E3C27CA14BF00467A0C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				479AA1F927DD0EC000EA0DFC /* CustomViews */,
 				47EE28FC28414A7200C6425C /* CustomSwiftMessages */,
 				5B774DF3286BCBC100CCCF28 /* CollectionCells */,
-				479AA1F927DD0EC000EA0DFC /* CustomViews */,
 				479683F6282817F900CA23BA /* Annotations */,
 				470BD12E27DB1D9A00DD4622 /* TableCells */,
 				470BD12D27DB1D8700DD4622 /* Storyboards */,

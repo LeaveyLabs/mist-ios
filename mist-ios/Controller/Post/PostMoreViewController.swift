@@ -12,13 +12,17 @@ class PostMoreViewController: CustomSheetViewController {
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var favoriteButton: ToggleButton!
     @IBOutlet weak var flagButton: ToggleButton!
+    @IBOutlet weak var deleteButton: UIButton!
+    @IBOutlet weak var deleteButtonGrayLine: UIView!
 
     var postDelegate: PostDelegate!
     var postId: Int!
+    var postAuthor: Int!
     
-    class func create(postId: Int, postDelegate: PostDelegate) -> PostMoreViewController {
+    class func create(postId: Int, postAuthor: Int, postDelegate: PostDelegate) -> PostMoreViewController {
         let postMoreVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.PostMore) as! PostMoreViewController
         postMoreVC.postId = postId
+        postMoreVC.postAuthor = postAuthor
         postMoreVC.postDelegate = postDelegate
         postMoreVC.loadViewIfNeeded() //doesnt work without this function call
         return postMoreVC
@@ -26,10 +30,17 @@ class PostMoreViewController: CustomSheetViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        closeButton.layer.cornerRadius = 5
+        var sheetHeight: CGFloat = 370
+        if postAuthor != UserService.singleton.getId() {
+            deleteButton.isHidden = true
+            deleteButtonGrayLine.isHidden = true
+            sheetHeight -= 70
+        }
         setupSheet(prefersGrabberVisible: false,
-                   detents: [._detent(withIdentifier: "s", constant: 300)],
+                   detents: [._detent(withIdentifier: "s", constant: sheetHeight)],
                    largestUndimmedDetentIdentifier: nil)
+        
+        closeButton.layer.cornerRadius = 5
         
         flagButton.isSelectedImage = UIImage.init(systemName: "flag.fill")!
         flagButton.isNotSelectedImage = UIImage.init(systemName: "flag")!
@@ -42,6 +53,7 @@ class PostMoreViewController: CustomSheetViewController {
         
         flagButton.isSelected = FlagService.singleton.hasFlaggedPost(postId)
         favoriteButton.isSelected = FavoriteService.singleton.hasFavoritedPost(postId)
+        
     }
     
     @IBAction func closeButtonDidPressed(_ sender: UIButton) {
@@ -78,5 +90,19 @@ class PostMoreViewController: CustomSheetViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
             self.dismiss(animated: true)
         }
+    }
+    
+    @IBAction func deleteButtonDidPressed(_ sender: UIButton) {
+        CustomSwiftMessages.showAlert(title: "Delete this mist", body: "Are you sure you want to delete this mist? This can't be undone.", emoji: "😟", dismissText: "Nevermind", approveText: "Delete", onDismiss: {
+            
+        }, onApprove: { [self] in
+            Task {
+                try await PostService.singleton.deletePost(postId: postId)
+                DispatchQueue.main.async { [self] in
+                    dismiss(animated: true)
+                    postDelegate.handleDeletePost(postId: postId)
+                }
+            }
+        })
     }
 }

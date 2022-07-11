@@ -45,5 +45,8 @@ class SettingCell: UITableViewCell {
         if setting == .favorites {
             accessoryLabel.text = String(PostService.singleton.getFavorites().count)
         }
+        if setting == .contactUs {
+            accessoryLabel.text = "whatsup@getmist.app"
+        }
     }
 }

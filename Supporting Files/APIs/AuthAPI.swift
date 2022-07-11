@@ -139,7 +139,7 @@ class AuthAPI {
     }
     
     static func fetchAuthToken(email_or_username:String, password:String) async throws -> String {
-        let url = "\(BASE_URL)\(PATH_TO_API_TOKEN)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_API_TOKEN)"
         let params:[String:String] = [
             AUTH_EMAIL_OR_USERNAME_PARAM: email_or_username,
             AUTH_PASSWORD_PARAM: password,

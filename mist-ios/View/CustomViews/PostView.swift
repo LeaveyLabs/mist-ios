@@ -107,7 +107,7 @@ class ToggleButton: UIButton {
     }
     
     @IBAction func moreButtonDidPressed(_ sender: UIButton) {
-        postDelegate.handleMoreTap(postId: postId)
+        postDelegate.handleMoreTap(postId: postId, postAuthor: postAuthor.id)
     }
     
     @IBAction func likeButtonDidPressed(_ sender: UIButton) {
