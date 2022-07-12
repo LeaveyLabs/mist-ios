@@ -17,6 +17,8 @@ struct Constants {
         static let Size: CGFloat = 20
     }
     
+    static let maxPasswordLength = 1000
+    
     struct Coordinates {
         static let USC = CLLocationCoordinate2D(latitude: 34.0209 + 0.0019, longitude: -118.2861)
     }

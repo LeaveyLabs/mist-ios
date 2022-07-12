@@ -206,6 +206,6 @@ extension PasswordSettingViewController: UITextFieldDelegate {
     
     // Max length UI text field: https://stackoverflow.com/questions/25223407/max-length-uitextfield
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        return textField.shouldChangeCharactersGivenMaxLengthOf(30, range, string)
+        return textField.shouldChangeCharactersGivenMaxLengthOf(Constants.maxPasswordLength, range, string)
     }
 }

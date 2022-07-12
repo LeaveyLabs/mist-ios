@@ -381,16 +381,21 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
     func handleNewMessage() {
         messageInputBar.sendButton.stopAnimating()
         
-        isSangdaebangProfileHidden = conversation.isSangdaebangHidden
         isAuthedUserProfileHidden = conversation.isAuthedUserHidden
-        
-        // Reload last section to update header/footer labels and insert a new one
-        messagesCollectionView.performBatchUpdates({
-            messagesCollectionView.insertSections([numberOfSections(in: messagesCollectionView) - 1])
-            if numberOfSections(in: messagesCollectionView) >= 2 {
-                messagesCollectionView.reloadSections([numberOfSections(in: messagesCollectionView) - 2])
-            }
-        })
+        if isSangdaebangProfileHidden && !conversation.isSangdaebangHidden {
+            //Don't insert a new section, simply reload the data. This is because even though we're handling a new message, we're also removing the last placeholder "info" message, so we shouldn't insert any sections
+            messagesCollectionView.reloadData()
+            isSangdaebangProfileHidden = conversation.isSangdaebangHidden
+        } else {
+            // Reload last section to update header/footer labels and insert a new one
+            messagesCollectionView.performBatchUpdates({
+                messagesCollectionView.insertSections([numberOfSections(in: messagesCollectionView) - 1])
+                if numberOfSections(in: messagesCollectionView) >= 2 {
+                    messagesCollectionView.reloadSections([numberOfSections(in: messagesCollectionView) - 2])
+                }
+            })
+            
+        }
         messagesCollectionView.scrollToLastItem(animated: true)
     }
     
@@ -430,7 +435,10 @@ extension ChatViewController: WantToChatDelegate {
                 DispatchQueue.main.async { [weak self] in
                     self?.setupMessageInputBarForChatting()
                     self?.isAuthedUserProfileHidden = false
-                    self?.messagesCollectionView.scrollToLastItem(animated: false)
+                    DispatchQueue.main.async { [weak self] in
+                        //should happen on the next frame, after the input bar is changed
+                        self?.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                    }
                 }
             } catch {
                 CustomSwiftMessages.displayError(error)

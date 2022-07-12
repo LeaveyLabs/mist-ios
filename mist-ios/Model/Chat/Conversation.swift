@@ -88,6 +88,7 @@ class Conversation {
             allChatObjects.append(placeholderMessageKitMatchRequest)
         }
         if isSangdaebangHidden {
+            print("sangaebang is hidden")
             allChatObjects.append(MessageKitInfo())
         }
         return allChatObjects

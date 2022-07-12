@@ -118,7 +118,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         }
         let substringToReplace = textFieldText[rangeOfTextToReplace]
         let count = textFieldText.count - substringToReplace.count + string.count
-        return count <= 30
+        return count <= Constants.maxPasswordLength
     }
     
     //MARK: - Helpers
