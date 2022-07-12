@@ -967,27 +967,27 @@ make that cute barista’s day,
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="2oL-ZT-wEB">
-                            <rect key="frame" x="15" y="6.3333333333333321" width="43" height="43"/>
+                            <rect key="frame" x="15" y="12.333333333333336" width="38" height="38"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="2oL-ZT-wEB" secondAttribute="height" id="3oc-Px-FHX"/>
-                                <constraint firstAttribute="width" constant="43" id="EHG-Az-BfG"/>
+                                <constraint firstAttribute="width" constant="38" id="EHG-Az-BfG"/>
                             </constraints>
                         </imageView>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bq1-qJ-1bN">
-                            <rect key="frame" x="73" y="6.3333333333333321" width="257" height="43"/>
+                            <rect key="frame" x="68" y="7" width="267" height="45.333333333333336"/>
                             <color key="backgroundColor" systemColor="systemGray6Color"/>
                             <color key="tintColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.87058818339999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <constraints>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="43" id="MSD-DM-Gea"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="35" id="MSD-DM-Gea"/>
                             </constraints>
                             <color key="textColor" systemColor="labelColor"/>
                             <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardType="twitter"/>
                         </textView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Dk-N6-QGh" userLabel="Comment Button">
-                            <rect key="frame" x="337" y="6.3333333333333321" width="43" height="43"/>
+                            <rect key="frame" x="342" y="12.333333333333336" width="38" height="38"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="43" id="0jq-gk-zpS"/>
+                                <constraint firstAttribute="height" constant="38" id="0jq-gk-zpS"/>
                                 <constraint firstAttribute="width" secondItem="7Dk-N6-QGh" secondAttribute="height" id="Bvq-ys-TX4"/>
                             </constraints>
                             <color key="tintColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1003,13 +1003,13 @@ make that cute barista’s day,
                     <viewLayoutGuide key="safeArea" id="AMO-uP-Dy2"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" constant="10" id="ABc-Kt-BTm"/>
-                        <constraint firstItem="bq1-qJ-1bN" firstAttribute="top" secondItem="7rc-Ne-Ws7" secondAttribute="top" priority="999" constant="10" id="Dov-HY-q8X"/>
-                        <constraint firstItem="7Dk-N6-QGh" firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" id="Gs5-lR-yPc"/>
+                        <constraint firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" constant="7" id="ABc-Kt-BTm"/>
+                        <constraint firstItem="bq1-qJ-1bN" firstAttribute="top" secondItem="7rc-Ne-Ws7" secondAttribute="top" priority="999" constant="7" id="Dov-HY-q8X"/>
+                        <constraint firstItem="7Dk-N6-QGh" firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" constant="-2" id="Gs5-lR-yPc"/>
                         <constraint firstItem="2oL-ZT-wEB" firstAttribute="leading" secondItem="7rc-Ne-Ws7" secondAttribute="leading" priority="999" constant="15" id="HvG-Pc-CA5"/>
                         <constraint firstAttribute="trailing" secondItem="7Dk-N6-QGh" secondAttribute="trailing" priority="999" constant="10" id="TZW-oW-eh7"/>
                         <constraint firstItem="bq1-qJ-1bN" firstAttribute="leading" secondItem="2oL-ZT-wEB" secondAttribute="trailing" priority="999" constant="15" id="YR4-95-3iz"/>
-                        <constraint firstItem="2oL-ZT-wEB" firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" id="Z7h-kL-Ix5"/>
+                        <constraint firstItem="2oL-ZT-wEB" firstAttribute="bottom" secondItem="bq1-qJ-1bN" secondAttribute="bottom" constant="-2" id="Z7h-kL-Ix5"/>
                         <constraint firstItem="7Dk-N6-QGh" firstAttribute="leading" secondItem="bq1-qJ-1bN" secondAttribute="trailing" priority="999" constant="7" id="z9Q-qh-SCX"/>
                     </constraints>
                 </view>
@@ -1115,7 +1115,7 @@ make that cute barista’s day,
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="4Ti-Yh-6iG">
-                                <rect key="frame" x="0.0" y="99" width="390" height="662"/>
+                                <rect key="frame" x="0.0" y="101" width="390" height="660"/>
                             </mapView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="dE6-TV-tIh" userLabel="Zoom Stack View">
                                 <rect key="frame" x="340" y="647.66666666666663" width="40" height="80.333333333333371"/>
@@ -1223,10 +1223,10 @@ make that cute barista’s day,
                                 </buttonConfiguration>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z1N-Np-5Vx" userLabel="Custom Nav Bar">
-                                <rect key="frame" x="0.0" y="44" width="390" height="55"/>
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="101"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="KxA-ya-rAI">
-                                        <rect key="frame" x="10" y="5" width="360" height="40"/>
+                                        <rect key="frame" x="10" y="51" width="360" height="40"/>
                                         <subviews>
                                             <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search for mists" translatesAutoresizingMaskIntoConstraints="NO" id="f4p-DM-7no">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
@@ -1274,7 +1274,6 @@ make that cute barista’s day,
                                 <constraints>
                                     <constraint firstItem="KxA-ya-rAI" firstAttribute="leading" secondItem="Z1N-Np-5Vx" secondAttribute="leading" constant="10" id="0oa-Vf-wmb"/>
                                     <constraint firstAttribute="trailing" secondItem="KxA-ya-rAI" secondAttribute="trailing" constant="20" id="RY8-hh-KEa"/>
-                                    <constraint firstAttribute="height" constant="55" id="b6f-Kx-6TH"/>
                                     <constraint firstAttribute="bottom" secondItem="KxA-ya-rAI" secondAttribute="bottom" constant="10" id="vLW-j6-0Pt"/>
                                 </constraints>
                             </view>
@@ -1282,7 +1281,7 @@ make that cute barista’s day,
                         <viewLayoutGuide key="safeArea" id="PwX-9i-D1c"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Z1N-Np-5Vx" firstAttribute="top" secondItem="PwX-9i-D1c" secondAttribute="top" id="5lX-bU-fBJ"/>
+                            <constraint firstItem="Z1N-Np-5Vx" firstAttribute="top" secondItem="K85-Np-RZT" secondAttribute="top" id="5lX-bU-fBJ"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="4Ti-Yh-6iG" secondAttribute="trailing" id="8r7-k1-G5u"/>
                             <constraint firstItem="XDC-QO-zBy" firstAttribute="top" secondItem="onH-Fn-vzF" secondAttribute="bottom" constant="8" id="A6G-j1-D92"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="dE6-TV-tIh" secondAttribute="trailing" constant="10" id="Bns-xu-9iY"/>
@@ -1293,6 +1292,7 @@ make that cute barista’s day,
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="bottom" secondItem="dE6-TV-tIh" secondAttribute="bottom" constant="33" id="RuK-uz-kQa"/>
                             <constraint firstItem="4Ti-Yh-6iG" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" id="Xj8-ql-Hva"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="bottom" secondItem="XDC-QO-zBy" secondAttribute="bottom" constant="33" id="cFq-M5-7A6"/>
+                            <constraint firstItem="PwX-9i-D1c" firstAttribute="top" secondItem="Z1N-Np-5Vx" secondAttribute="bottom" constant="-57" id="d4C-fy-pXb"/>
                             <constraint firstItem="Z1N-Np-5Vx" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" id="efT-k2-ZTt"/>
                             <constraint firstItem="XDC-QO-zBy" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" constant="10" id="euh-YB-Zwc"/>
                             <constraint firstItem="onH-Fn-vzF" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" constant="10" id="jfv-gL-wd7"/>
