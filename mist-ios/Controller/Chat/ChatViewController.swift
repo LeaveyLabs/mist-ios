@@ -39,8 +39,6 @@ class ChatViewController: MessagesViewController {
         return refreshControl
     }()
     
-//    private lazy var textMessageSizeCalculator: CustomTextLayoutSizeCalculator = CustomTextLayoutSizeCalculator(layout: self.messagesCollectionView.messagesCollectionViewFlowLayout)
-
     //UI
     @IBOutlet weak var senderProfilePicButton: UIButton!
     @IBOutlet weak var senderProfileNameButton: UIButton!
@@ -157,13 +155,12 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.register(matchNib, forCellWithReuseIdentifier: String(describing: MatchCollectionCell.self))
         let infoNib = UINib(nibName: String(describing: InformationCollectionCell.self), bundle: nil)
         messagesCollectionView.register(infoNib, forCellWithReuseIdentifier: String(describing: InformationCollectionCell.self))
-//        self.messagesCollectionView.register(CustomTextMessageContentCell.self)
         
         messagesCollectionView.refreshControl = refreshControl
         if conversation.hasRenderedAllChatObjects() { refreshControl.removeFromSuperview() }
         
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
-        maintainPositionOnKeyboardFrameChanged = true // default false
+//        maintainPositionOnKeyboardFrameChanged = true // default false. this was causing a weird snap when scrolling the keyboard down
         showMessageTimestampOnSwipeLeft = true // default false
         additionalBottomInset = 8
     }
@@ -195,8 +192,8 @@ class ChatViewController: MessagesViewController {
     
     func setupMessageInputBarForChatting() {
         //iMessage
-        messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 36)
-        messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 14, bottom: 8, right: 36)
+        messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 36)
+        messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 36)
         if #available(iOS 13, *) {
             messageInputBar.inputTextView.layer.borderColor = UIColor.systemGray2.withAlphaComponent(0.8).cgColor
         } else {
@@ -330,7 +327,10 @@ extension ChatViewController: MessagesDataSource {
     }
 
     func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        return NSAttributedString(string: "Sent", attributes: [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 11)!, NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+        if isLastMessageFromSender(message: message, at: indexPath) {
+            return NSAttributedString(string: "Sent", attributes: [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 11)!, NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        }
+        return nil
     }
 
     func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
@@ -339,16 +339,6 @@ extension ChatViewController: MessagesDataSource {
         }
         return nil
     }
-    
-//    func textCell(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UICollectionViewCell? {
-//        let cell = messagesCollectionView.dequeueReusableCell(CustomTextMessageContentCell.self, for: indexPath)
-//        cell.configure(with: message,
-//                       at: indexPath,
-//                       in: messagesCollectionView,
-//                       dataSource: self,
-//                       and: self.textMessageSizeCalculator)
-//        return cell
-//    }
 }
 
 // MARK: - InputBarDelegate
@@ -497,7 +487,23 @@ extension ChatViewController: MessagesDisplayDelegate {
     }
     
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
-        return isFromCurrentSender(message: message) ? .bubbleOutline(.lightGray.withAlphaComponent(0.5)) : .bubble
+        //The default message content view has uneven padding which can't be set by the open interface 😒
+        //Fix it here
+        
+        return .custom { view in
+            view.layer.cornerCurve = .continuous
+            view.layer.cornerRadius = 13
+            let messageLabel = view.subviews[0] as! MessageLabel
+            if self.isFromCurrentSender(message: message) {
+                view.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+                view.layer.borderWidth = 1
+                messageLabel.center = CGPoint(x: messageLabel.center.x + 2, y: messageLabel.center.y)
+            } else {
+                view.layer.borderColor = UIColor.clear.cgColor
+                view.layer.borderWidth = 0
+                messageLabel.center = CGPoint(x: messageLabel.center.x - 3, y: messageLabel.center.y)
+            }
+        }
     }
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
@@ -513,6 +519,8 @@ extension ChatViewController: MessagesDisplayDelegate {
 
 extension ChatViewController: MessagesLayoutDelegate {
     
+    //TODO: I THINK I CAN DELETE THESE TWO NOW WITH CUSTOM CALCULATOR
+    
     func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return isTimeLabelVisible(at: indexPath) ? 50 : 0
     }
@@ -520,10 +528,6 @@ extension ChatViewController: MessagesLayoutDelegate {
     func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return isLastMessageFromSender(message: message, at: indexPath) ? 16 : 0
     }
-        
-//    func textCellSizeCalculator(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CellSizeCalculator? {
-//        return self.textMessageSizeCalculator
-//    }
     
 }
 

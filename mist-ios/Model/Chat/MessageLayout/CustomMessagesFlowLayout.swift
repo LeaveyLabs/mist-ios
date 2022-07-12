@@ -21,6 +21,7 @@ open class CustomMessagesFlowLayout: MessagesCollectionViewFlowLayout {
         setMessageIncomingMessagePadding(.init(top: 0, left: 4, bottom: 0, right: 70)) //limit age max width
         setMessageOutgoingCellTopLabelAlignment(.init(textAlignment: .center, textInsets: .init(top: 20, left: 0, bottom: 0, right: 0)))
         setMessageIncomingCellTopLabelAlignment(.init(textAlignment: .center, textInsets: .init(top: 20, left: 0, bottom: 0, right: 0)))
+        setAvatarLeadingTrailingPadding(5)
     }
     
     required public init?(coder aDecoder: NSCoder) {

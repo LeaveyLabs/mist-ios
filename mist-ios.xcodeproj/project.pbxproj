@@ -243,10 +243,6 @@
 		5BB624D92867DD8400DCD45B /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624D72867DD8400DCD45B /* ConversationCell.swift */; };
 		5BB624DA2867DD8400DCD45B /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BB624D82867DD8400DCD45B /* ConversationCell.xib */; };
 		5BB624DC2867E98500DCD45B /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624DB2867E98500DCD45B /* Conversation.swift */; };
-		5BC27630286A879000DA5A3D /* CustomTextMessageContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2762F286A879000DA5A3D /* CustomTextMessageContentCell.swift */; };
-		5BC27632286A881200DA5A3D /* CustomMessageContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC27631286A881200DA5A3D /* CustomMessageContentCell.swift */; };
-		5BC27636286A8BB300DA5A3D /* CustomTextLayoutSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC27634286A8BB300DA5A3D /* CustomTextLayoutSizeCalculator.swift */; };
-		5BC27637286A8BB300DA5A3D /* CustomLayoutSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC27635286A8BB300DA5A3D /* CustomLayoutSizeCalculator.swift */; };
 		5BC2763E286AE9BD00DA5A3D /* Loading.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */; };
 		5BC2763F286AE9BD00DA5A3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2763D286AE9BD00DA5A3D /* Main.storyboard */; };
 		5BCC68D928611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */; };
@@ -525,10 +521,6 @@
 		5BB624D72867DD8400DCD45B /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		5BB624D82867DD8400DCD45B /* ConversationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationCell.xib; sourceTree = "<group>"; };
 		5BB624DB2867E98500DCD45B /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
-		5BC2762F286A879000DA5A3D /* CustomTextMessageContentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextMessageContentCell.swift; sourceTree = "<group>"; };
-		5BC27631286A881200DA5A3D /* CustomMessageContentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMessageContentCell.swift; sourceTree = "<group>"; };
-		5BC27634286A8BB300DA5A3D /* CustomTextLayoutSizeCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextLayoutSizeCalculator.swift; sourceTree = "<group>"; };
-		5BC27635286A8BB300DA5A3D /* CustomLayoutSizeCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLayoutSizeCalculator.swift; sourceTree = "<group>"; };
 		5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Loading.storyboard; sourceTree = "<group>"; };
 		5BC2763D286AE9BD00DA5A3D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeAreaInputAccessoryViewWrapperView.swift; sourceTree = "<group>"; };
@@ -654,7 +646,6 @@
 		470BD12E27DB1D9A00DD4622 /* TableCells */ = {
 			isa = PBXGroup;
 			children = (
-				5BC2762E286A877F00DA5A3D /* Message */,
 				5BB624D62867DD5800DCD45B /* Conversation */,
 				477A6FD427DF86260020F864 /* Feed */,
 				4752718028556A5A00DDF84D /* Post */,
@@ -1340,21 +1331,10 @@
 			path = Conversation;
 			sourceTree = "<group>";
 		};
-		5BC2762E286A877F00DA5A3D /* Message */ = {
-			isa = PBXGroup;
-			children = (
-				5BC27631286A881200DA5A3D /* CustomMessageContentCell.swift */,
-				5BC2762F286A879000DA5A3D /* CustomTextMessageContentCell.swift */,
-			);
-			path = Message;
-			sourceTree = "<group>";
-		};
 		5BC27633286A8BA900DA5A3D /* MessageLayout */ = {
 			isa = PBXGroup;
 			children = (
 				5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */,
-				5BC27635286A8BB300DA5A3D /* CustomLayoutSizeCalculator.swift */,
-				5BC27634286A8BB300DA5A3D /* CustomTextLayoutSizeCalculator.swift */,
 			);
 			path = MessageLayout;
 			sourceTree = "<group>";
@@ -1672,11 +1652,9 @@
 				475B1F8F27FBC2D400ED59CD /* UIView+Shadow.swift in Sources */,
 				47F10DC32853169200E1A3DC /* PlaceAnnotation.swift in Sources */,
 				475B1F8D27FBAB2F00ED59CD /* UIView+Animations.swift in Sources */,
-				5BC27637286A8BB300DA5A3D /* CustomLayoutSizeCalculator.swift in Sources */,
 				47CE900C27E059DC0004B756 /* PinMapModalViewController.swift in Sources */,
 				474A4AB0284A922100B39A98 /* UIScrollView+ToTop.swift in Sources */,
 				5B6AD61528690E1800B1FFA8 /* AnnotationSelectionType.swift in Sources */,
-				5BC27632286A881200DA5A3D /* CustomMessageContentCell.swift in Sources */,
 				478BA279283DD37E00C35507 /* UITextField+Padding.swift in Sources */,
 				47061CCD28510DD80042F04C /* MKPointOfInterestCategory+Extension.swift in Sources */,
 				433970DF27FE501700876026 /* WelcomeTutorialViewController.swift in Sources */,
@@ -1729,7 +1707,6 @@
 				478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */,
 				5B13B741285D05B0000ADF5E /* UISearchBar+CenterText.swift in Sources */,
 				472A4C0028408BD800FD52B7 /* DesignableTabBarController.swift in Sources */,
-				5BC27636286A8BB300DA5A3D /* CustomTextLayoutSizeCalculator.swift in Sources */,
 				475271972855851200DDF84D /* SettingCell.swift in Sources */,
 				474A4AC6284AB6D700B39A98 /* String+Indexing.swift in Sources */,
 				479683F82828180C00CA23BA /* ClusterAnnotationView.swift in Sources */,
@@ -1739,7 +1716,6 @@
 				43D9251828526ECA00438C5C /* Block.swift in Sources */,
 				479683F5282817CC00CA23BA /* PostAnnotationView.swift in Sources */,
 				5BF78337285D955F003C3955 /* Map.swift in Sources */,
-				5BC27630286A879000DA5A3D /* CustomTextMessageContentCell.swift in Sources */,
 				479AA1FD27DD109F00EA0DFC /* Constants.swift in Sources */,
 				472A4BEE28408BD800FD52B7 /* DesignableImageView.swift in Sources */,
 				5BB624C72867933000DCD45B /* FriendRequestService.swift in Sources */,
