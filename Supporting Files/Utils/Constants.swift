@@ -69,6 +69,8 @@ struct Constants {
             static let Filter = "FilterSheetViewController"
             static let NewFilter = "NewFilterSheetViewController"
             static let MapSearch = "MapSearchViewController"
+            static let CustomExplore = "CustomExploreViewController"
+            static let Home = "HomeViewController"
             //Messages
             static let Chat = "ChatViewController"
             static let ChatMore = "ChatMoreViewController"

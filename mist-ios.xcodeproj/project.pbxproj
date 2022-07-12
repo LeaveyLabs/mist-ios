@@ -127,7 +127,6 @@
 		477A6FD627DFB0450020F864 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477A6FD527DFB0450020F864 /* Color.swift */; };
 		4780E5B42832F0560012B741 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780E5B32832F0560012B741 /* ChatViewController.swift */; };
 		4780E5B6283308250012B741 /* MessageKitMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780E5B5283308250012B741 /* MessageKitMessage.swift */; };
-		4783F3BB284D6DA20073357A /* ExploreViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4783F3BA284D6DA20073357A /* ExploreViewController+Search.swift */; };
 		478A7899284E708D0058C845 /* CLLocationCoordinate+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A7898284E708D0058C845 /* CLLocationCoordinate+Distance.swift */; };
 		478A789B284E73970058C845 /* CLLocationCoordiante+Midpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A789A284E73970058C845 /* CLLocationCoordiante+Midpoint.swift */; };
 		478A789E284EBD510058C845 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A789D284EBD510058C845 /* LoadingViewController.swift */; };
@@ -203,6 +202,9 @@
 		5B13B743285D3877000ADF5E /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13B742285D3877000ADF5E /* Error.swift */; };
 		5B18B9802876C5F900F0F80E /* AuthStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B18B97F2876C5F900F0F80E /* AuthStartViewController.swift */; };
 		5B1F16CB28791EDD00035F93 /* FinishProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16CA28791EDD00035F93 /* FinishProfileViewController.swift */; };
+		5B1F16CE287D1ABD00035F93 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16CD287D1ABD00035F93 /* HomeViewController.swift */; };
+		5B1F16D0287D1B0700035F93 /* HomeViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16CF287D1B0700035F93 /* HomeViewController+Search.swift */; };
+		5B1F16D2287D1E5000035F93 /* CustomExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16D1287D1E5000035F93 /* CustomExploreViewController.swift */; };
 		5B37A36B28784A4B00279B2A /* EnterBiosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */; };
 		5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D589B28603A46002E2F94 /* PostCell.swift */; };
 		5B4D58A72860D7FB002E2F94 /* UIImageView+ProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */; };
@@ -401,7 +403,6 @@
 		477A6FD527DFB0450020F864 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		4780E5B32832F0560012B741 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		4780E5B5283308250012B741 /* MessageKitMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageKitMessage.swift; sourceTree = "<group>"; };
-		4783F3BA284D6DA20073357A /* ExploreViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExploreViewController+Search.swift"; sourceTree = "<group>"; };
 		478A7898284E708D0058C845 /* CLLocationCoordinate+Distance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate+Distance.swift"; sourceTree = "<group>"; };
 		478A789A284E73970058C845 /* CLLocationCoordiante+Midpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordiante+Midpoint.swift"; sourceTree = "<group>"; };
 		478A789D284EBD510058C845 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
@@ -483,6 +484,9 @@
 		5B13B742285D3877000ADF5E /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		5B18B97F2876C5F900F0F80E /* AuthStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStartViewController.swift; sourceTree = "<group>"; };
 		5B1F16CA28791EDD00035F93 /* FinishProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishProfileViewController.swift; sourceTree = "<group>"; };
+		5B1F16CD287D1ABD00035F93 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		5B1F16CF287D1B0700035F93 /* HomeViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeViewController+Search.swift"; sourceTree = "<group>"; };
+		5B1F16D1287D1E5000035F93 /* CustomExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomExploreViewController.swift; sourceTree = "<group>"; };
 		5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBiosViewController.swift; sourceTree = "<group>"; };
 		5B4D589B28603A46002E2F94 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ProfilePic.swift"; sourceTree = "<group>"; };
@@ -616,13 +620,11 @@
 		4700F8C427DE4641006C2E08 /* Explore */ = {
 			isa = PBXGroup;
 			children = (
-				4700F8C527DE4652006C2E08 /* ExploreViewController.swift */,
-				4752719C2855A80C00DDF84D /* ExploreViewController+Map.swift */,
-				4783F3BA284D6DA20073357A /* ExploreViewController+Search.swift */,
-				475271992855A6A700DDF84D /* ExploreViewController+Feed.swift */,
-				470F271227DE6F5800C6DDAF /* SearchSuggestionsTableViewController.swift */,
-				470F271E27DE9ABE00C6DDAF /* SearchResultsTableViewController.swift */,
+				5B1F16CD287D1ABD00035F93 /* HomeViewController.swift */,
+				5B1F16CF287D1B0700035F93 /* HomeViewController+Search.swift */,
 				47CBF6F028356A7C00096514 /* FilterSheetViewController.swift */,
+				470F271227DE6F5800C6DDAF /* SearchSuggestionsTableViewController.swift */,
+				5B1F16D1287D1E5000035F93 /* CustomExploreViewController.swift */,
 			);
 			path = Explore;
 			sourceTree = "<group>";
@@ -798,6 +800,7 @@
 		4752719B2855A6ED00DDF84D /* AbstractControllers */ = {
 			isa = PBXGroup;
 			children = (
+				5B1F16D4287D41FD00035F93 /* Explore */,
 				479AA20227DD4AA900EA0DFC /* KUIViewController.swift */,
 				4316238328343D3F00169AA9 /* CustomSheetViewController.swift */,
 				47EA3E0127E0151200381218 /* MapViewController.swift */,
@@ -1046,6 +1049,7 @@
 				5B4D58A82860E22B002E2F94 /* Friends */,
 				475B1F8927FB868300ED59CD /* Chat */,
 				47FF86A327DC75F00076A1CA /* Account */,
+				5B1F16D3287D41ED00035F93 /* Decomissioned */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1166,6 +1170,24 @@
 				433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */,
 			);
 			path = Misc;
+			sourceTree = "<group>";
+		};
+		5B1F16D3287D41ED00035F93 /* Decomissioned */ = {
+			isa = PBXGroup;
+			children = (
+				470F271E27DE9ABE00C6DDAF /* SearchResultsTableViewController.swift */,
+			);
+			path = Decomissioned;
+			sourceTree = "<group>";
+		};
+		5B1F16D4287D41FD00035F93 /* Explore */ = {
+			isa = PBXGroup;
+			children = (
+				4700F8C527DE4652006C2E08 /* ExploreViewController.swift */,
+				4752719C2855A80C00DDF84D /* ExploreViewController+Map.swift */,
+				475271992855A6A700DDF84D /* ExploreViewController+Feed.swift */,
+			);
+			path = Explore;
 			sourceTree = "<group>";
 		};
 		5B4D58A52860D7E5002E2F94 /* UIImageView */ = {
@@ -1580,6 +1602,7 @@
 				5BB624D32867A56100DCD45B /* CommentService.swift in Sources */,
 				47EE95FA27F64C00003B351E /* MyAccountViewController.swift in Sources */,
 				5BB624B92863CA2600DCD45B /* UINavigationItem+UIButton.swift in Sources */,
+				5B1F16D2287D1E5000035F93 /* CustomExploreViewController.swift in Sources */,
 				43E30CFE2826355C00DBEB57 /* UploadProfilePictureViewController.swift in Sources */,
 				47266AD427FF69C9005DEDB1 /* UIViewController+Loading.swift in Sources */,
 				472A4C0628408BD800FD52B7 /* SpringAnimation.swift in Sources */,
@@ -1602,6 +1625,7 @@
 				4369DB0C282EC465009215D4 /* Message.swift in Sources */,
 				47C1D49127DF00B200970B3D /* PostMoreViewController.swift in Sources */,
 				472A4C0728408BD800FD52B7 /* UnwindSegue.swift in Sources */,
+				5B1F16D0287D1B0700035F93 /* HomeViewController+Search.swift in Sources */,
 				474A4AB5284A953200B39A98 /* UITextView+MaxLength.swift in Sources */,
 				47F10DC12852CFE100E1A3DC /* UIImage+FromColor.swift in Sources */,
 				4718331228445A7C0061F9F3 /* UIView+PostBubble.swift in Sources */,
@@ -1661,6 +1685,7 @@
 				4752718328557C1300DDF84D /* PasswordSettingViewController.swift in Sources */,
 				43D92524285280D200438C5C /* FriendRequestAPI.swift in Sources */,
 				472A4BF328408BD800FD52B7 /* Spring.swift in Sources */,
+				5B1F16CE287D1ABD00035F93 /* HomeViewController.swift in Sources */,
 				472A4BF528408BD800FD52B7 /* DesignableLabel.swift in Sources */,
 				472A4BEF28408BD800FD52B7 /* KeyboardLayoutConstraint.swift in Sources */,
 				4700F8B527DD7BBA006C2E08 /* CommentAPI.swift in Sources */,
@@ -1700,7 +1725,6 @@
 				5BAD626F2876661500DCFE45 /* UIViewController+MistShareActivity.swift in Sources */,
 				5BB624DC2867E98500DCD45B /* Conversation.swift in Sources */,
 				43483BB6280251B1001C7C6A /* EnterNameViewController.swift in Sources */,
-				4783F3BB284D6DA20073357A /* ExploreViewController+Search.swift in Sources */,
 				5BAD62752876707000DCFE45 /* AccountSection.swift in Sources */,
 				478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */,
 				5B13B741285D05B0000ADF5E /* UISearchBar+CenterText.swift in Sources */,

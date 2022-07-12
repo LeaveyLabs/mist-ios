@@ -1,8 +1,8 @@
 //
-//  ExploreMapViewController+Search.swift
+//  HomeViewController+Search.swift
 //  mist-ios
 //
-//  Created by Adam Novak on 2022/06/05.
+//  Created by Adam Monterey on 7/12/22.
 //
 
 import Foundation
@@ -13,7 +13,7 @@ import MapKit
 
 let cornerButtonGrey = UIColor.black.withAlphaComponent(0.7)
 
-extension ExploreViewController {
+extension HomeViewController {
     
     func setupSearchBarButton() {
         searchBarButton.delegate = self
@@ -49,7 +49,7 @@ extension ExploreViewController {
 
 // MARK: - SearchController Delegate
 
-extension ExploreViewController: UISearchControllerDelegate {
+extension HomeViewController: UISearchControllerDelegate {
     
     func willDismissSearchController(_ searchController: UISearchController) {
 //        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
@@ -60,7 +60,7 @@ extension ExploreViewController: UISearchControllerDelegate {
 
     // MARK: - UISearchBarDelegate
 
-extension ExploreViewController: UISearchBarDelegate {
+extension HomeViewController: UISearchBarDelegate {
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         if searchBar == searchBarButton {
@@ -83,7 +83,7 @@ extension ExploreViewController: UISearchBarDelegate {
 
     // MARK: - UITableViewDelegate
 
-extension ExploreViewController: UITableViewDelegate {
+extension HomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == feed { return }
@@ -123,7 +123,7 @@ extension ExploreViewController: UITableViewDelegate {
 
 // MARK: - Map Search
 
-extension ExploreViewController {
+extension HomeViewController {
     
     
     /// - Parameter suggestedCompletion: A search completion provided by `MKLocalSearchCompleter` when tapping on a search completion table row

@@ -31,11 +31,6 @@ extension ExploreViewController {
         feed.rowHeight = UITableView.automaticDimension
         feed.showsVerticalScrollIndicator = false
         feed.separatorStyle = .none
-        feed.refreshControl = UIRefreshControl()
-        feed.refreshControl!.addAction(.init(handler: { [self] _ in
-            reloadPosts(withType: .refresh)
-        }), for: .valueChanged)
-        
         feed.register(PostCell.self, forCellReuseIdentifier: Constants.SBID.Cell.Post)
     }
     

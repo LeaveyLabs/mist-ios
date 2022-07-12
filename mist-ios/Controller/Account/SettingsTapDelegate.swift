@@ -23,7 +23,8 @@ protocol SettingsTapDelegate {
 extension SettingsTapDelegate where Self: UIViewController {
     
     func handlePosts(setting: Setting) {
-        //create a vc with the setting
+        guard let customExplore = CustomExploreViewController.create(setting: setting) else { return }
+        navigationController?.pushViewController(customExplore, animated: true)
     }
     
     func handleLegal() {
