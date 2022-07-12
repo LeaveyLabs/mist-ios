@@ -194,31 +194,25 @@ class ChatViewController: MessagesViewController {
     }
     
     func setupMessageInputBarForChatting() {
-        messageInputBar.separatorLine.isHidden = false
-        messageInputBar.layer.shadowOpacity = 0
-
+        //Positioning
+        messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
+        messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 14, bottom: 8, right: 14)
+            if #available(iOS 13, *) {
+                messageInputBar.inputTextView.layer.borderColor = UIColor.systemGray2.cgColor
+            } else {
+                messageInputBar.inputTextView.layer.borderColor = UIColor.lightGray.cgColor
+            }
+        messageInputBar.inputTextView.layer.borderWidth = 1.0
+        messageInputBar.inputTextView.layer.cornerRadius = 16.0
+        messageInputBar.inputTextView.layer.masksToBounds = true
+        messageInputBar.inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+        messageInputBar.setLeftStackViewWidthConstant(to: 0, animated: false)
+        //Aesthetic
         messageInputBar.inputTextView.tintColor = mistUIColor()
-        messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
         messageInputBar.sendButton.setTitleColor(mistUIColor(), for: .normal)
-        messageInputBar.inputTextView.delegate = self
-        messageInputBar.inputTextView.font = UIFont(name: Constants.Font.Medium, size: 18)
-        
-        messageInputBar.setMiddleContentView(messageInputBar.inputTextView, animated: false)
-        messageInputBar.setRightStackViewWidthConstant(to: 50, animated: false)
-        
-        messageInputBar.sendButton.image = UIImage(systemName: "xmark")
-//        messageInputBar.sendButton.activityViewColor = .white
-//        messageInputBar.sendButton.backgroundColor = mistUIColor()
-//        messageInputBar.sendButton.layer.cornerRadius = 10
-//        messageInputBar.sendButton.setTitleColor(.white, for: .normal)
-//        messageInputBar.sendButton.setTitleColor(UIColor(white: 1, alpha: 0.3), for: .highlighted)
-//        messageInputBar.sendButton.setTitleColor(UIColor(white: 1, alpha: 0.3), for: .disabled)
-//        messageInputBar.sendButton
-//            .onSelected { item in
-//                item.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
-//            }.onDeselected { item in
-//                item.transform = .identity
-//        }
+        messageInputBar.sendButton.setTitleColor(mistUIColor().withAlphaComponent(0.3), for: .highlighted)
+        messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
+        messageInputBar.shouldAnimateTextDidChangeLayout = true
     }
     
     func setupMessageInputBarForChatPrompt() {
