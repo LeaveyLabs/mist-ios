@@ -151,7 +151,7 @@ extension CustomSwiftMessages {
                 title = "Would you like to share your current location?"
                 body = "This makes finding and submitting mists even easier"
             }
-            messageView.configureContent(title: title, body: body, iconText: "🦄")
+            messageView.configureContent(title: title, body: body, iconText: "📍")
             messageView.approveAction = {
                 SwiftMessages.hide()
                 onApprove()
