@@ -13,7 +13,7 @@ class WordAPI {
     static let WRAPPER_WORDS_PARAM = "wrapper_words"
     
     static func fetchWords(search_word:String, wrapper_words:[String]) async throws -> [Word] {
-        var url = "\(BASE_URL)\(PATH_TO_WORD_MODEL)?"
+        var url = "\(Env.BASE_URL)\(PATH_TO_WORD_MODEL)?"
         for wrapper_word in wrapper_words {
             url += "\(WRAPPER_WORDS_PARAM)=\(wrapper_word)&"
         }

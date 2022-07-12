@@ -18,12 +18,18 @@ class CreatePasswordViewController: KUIViewController, UITextFieldDelegate {
             continueButton.setNeedsUpdateConfiguration()
         }
     }
+    var isSubmitting: Bool = false {
+        didSet {
+            continueButton.isEnabled = !isSubmitting
+            continueButton.setNeedsUpdateConfiguration()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         validateInput()
-        isAuthKUIView = true
+        shouldNotAnimateKUIAccessoryInputView = true
         setupTextFields()
         setupContinueButton()
     }
@@ -81,8 +87,12 @@ class CreatePasswordViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if isValidInput {
-            tryToContinue()
+        if textField == passwordTextField {
+            confirmPasswordTextField.becomeFirstResponder()
+        } else {
+            if isValidInput {
+                tryToContinue()
+            }
         }
         return false
     }
@@ -95,7 +105,7 @@ class CreatePasswordViewController: KUIViewController, UITextFieldDelegate {
         }
         let substringToReplace = textFieldText[rangeOfTextToReplace]
         let count = textFieldText.count - substringToReplace.count + string.count
-        return count <= 25
+        return count <= Constants.maxPasswordLength
     }
     
     //MARK: - Helpers
@@ -103,20 +113,30 @@ class CreatePasswordViewController: KUIViewController, UITextFieldDelegate {
     func tryToContinue() {
         if let password = passwordTextField.text, let confirmPassword = confirmPasswordTextField.text {
             if password == confirmPassword {
-                AuthContext.password = password
-                let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.SetupTime);
-                self.navigationController?.pushViewController(vc, animated: true)
+                isSubmitting = true
+                Task {
+                    do {
+                        let emailMinusDomain = AuthContext.email.components(separatedBy: "@")[0]
+                        try await AuthAPI.validatePassword(username: emailMinusDomain, password: password)
+                        AuthContext.password = password
+                        let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterBios)
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    } catch {
+                        handleFailure("Not strong enough", "Cmon now, that's just too easy")
+                    }
+                    isSubmitting = false
+                }
             } else {
-                handleFailure()
+                handleFailure("The passwords don't match", "Your worst nightmare")
             }
         }
     }
     
-    func handleFailure() {
+    func handleFailure(_ message: String, _ explanation: String) {
         passwordTextField.text = ""
         confirmPasswordTextField.text = ""
         validateInput()
-        CustomSwiftMessages.displayError("The passwords don't match.", "Please try again.")
+        CustomSwiftMessages.displayError(message, explanation)
     }
     
     func validateInput() {

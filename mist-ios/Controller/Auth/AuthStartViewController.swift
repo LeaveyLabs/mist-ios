@@ -10,6 +10,8 @@ import UIKit
 class AuthStartViewController: UIViewController {
     
     var mistWideLogoView: MistWideLogoView!
+    @IBOutlet weak var registerButton: UIButton!
+    @IBOutlet weak var loginButton: UIButton!
     
     override func loadView() {
         super.loadView()
@@ -33,8 +35,12 @@ class AuthStartViewController: UIViewController {
         super.viewDidLoad()
         mistWideLogoView.heartImageView.animation = ""
         mistWideLogoView.alpha = 0
-        UIView.animate(withDuration: 3, delay: 0.3, options: .curveLinear) {
-            self.mistWideLogoView.alpha = 1
+        loginButton.alpha = 0
+        registerButton.alpha = 0
+        UIView.animate(withDuration: 1.5, delay: 0.3, options: .curveLinear) { [self] in
+            mistWideLogoView.alpha = 1
+            loginButton.alpha = 1
+            registerButton.alpha = 1
         }
     }
 

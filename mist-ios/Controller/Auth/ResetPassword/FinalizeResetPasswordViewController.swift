@@ -26,9 +26,10 @@ class FinalizeResetPasswordViewController: KUIViewController, UITextFieldDelegat
     }
     
     override func viewDidLoad() {
+        setupBackButton()
         super.viewDidLoad()
         validateInput()
-        isAuthKUIView = true
+        shouldNotAnimateKUIAccessoryInputView = true
         setupTextFields()
         setupContinueButton()
     }
@@ -66,14 +67,15 @@ class FinalizeResetPasswordViewController: KUIViewController, UITextFieldDelegat
             else {
                 button.configuration = ButtonConfigs.disabledConfig(title: "Finish")
             }
+            button.configuration?.showsActivityIndicator = self.isSubmitting
         }
     }
     
-    //MARK: - User Interaction
-    
-    @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
-        navigationController?.popViewController(animated: true)
+    func setupBackButton() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(), style: .plain, target: self, action: nil)
     }
+    
+    //MARK: - User Interaction
     
     @IBAction func didPressedContinueButton(_ sender: UIButton) {
         tryToContinue()
@@ -100,7 +102,7 @@ class FinalizeResetPasswordViewController: KUIViewController, UITextFieldDelegat
         }
         let substringToReplace = textFieldText[rangeOfTextToReplace]
         let count = textFieldText.count - substringToReplace.count + string.count
-        return count <= 25
+        return count <= Constants.maxPasswordLength
     }
     
     //MARK: - Helpers
@@ -112,25 +114,26 @@ class FinalizeResetPasswordViewController: KUIViewController, UITextFieldDelegat
                 Task {
                     do {
                         try await AuthAPI.finalizeResetPassword(email: ResetPasswordContext.email, password: password)
-                        CustomSwiftMessages.showInfo("Password successfully updated.", "Keep it safe and secure.", emoji: "🤐") { [self] in
+                        CustomSwiftMessages.showInfoCentered("Password successfully updated.", "Keep it safe and secure.", emoji: "🤐") { [self] in
                             isSubmitting = false
                             navigationController?.dismiss(animated: true)
                         }
                     } catch {
-                        handleFailure("Your new password is not strong enough.", "Please try again.")
+                        handleFailure("Not strong enough", "Cmon now, that's just too easy")
                     }
                 }
             } else {
-                handleFailure("The passwords don't match.", "Please try again.")
+                handleFailure("The passwords don't match", "Your worst nightmare")
             }
         }
     }
     
     func handleFailure(_ message: String, _ recovery: String) {
+        passwordTextField.becomeFirstResponder()
+        CustomSwiftMessages.displayError(message, recovery)
         passwordTextField.text = ""
         confirmPasswordTextField.text = ""
         validateInput()
-        CustomSwiftMessages.displayError(message, recovery)
         isSubmitting = false
     }
     

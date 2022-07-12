@@ -25,6 +25,7 @@ class ConversationService: NSObject {
         }
     }
     
+    
     //MARK: - Managing conversations
     
     func loadMessageThreads() async throws {

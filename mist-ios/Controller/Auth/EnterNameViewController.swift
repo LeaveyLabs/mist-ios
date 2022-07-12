@@ -21,17 +21,20 @@ class EnterNameViewController: KUIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         validateInput()
-        isAuthKUIView = true
+        shouldNotAnimateKUIAccessoryInputView = true
         setupTextFields()
         setupContinueButton()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        firstNameTextField.becomeFirstResponder()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         enableInteractivePopGesture()
-        firstNameTextField.becomeFirstResponder()
         validateInput()
     }
     
@@ -42,7 +45,6 @@ class EnterNameViewController: KUIViewController, UITextFieldDelegate {
         firstNameTextField.smartInsertDeleteType = UITextSmartInsertDeleteType.no
         firstNameTextField.layer.cornerRadius = 5
         firstNameTextField.setLeftAndRightPadding(10)
-        firstNameTextField.becomeFirstResponder()
         
         lastNameTextField.delegate = self
         lastNameTextField.smartInsertDeleteType = UITextSmartInsertDeleteType.no

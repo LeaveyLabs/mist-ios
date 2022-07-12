@@ -28,13 +28,13 @@ struct CustomSwiftMessages {
             createAndShowError(title: apiError.errorDescription!, body: apiError.recoverySuggestion!, emoji: "😔")
         } else if let mkError = error as? MKError {
             if mkError.errorCode == 4 {
-                createAndShowError(title: "Something went wrong.", body: "Please try again later.", emoji: "😔")
+                createAndShowError(title: "Something went wrong", body: "Please try again later", emoji: "😔")
             } else {
                 print(error.localizedDescription)
             }
         } else {
             print(error.localizedDescription)
-            createAndShowError(title: "Something went wrong.", body: "Please try again later.", emoji: "😔")
+            createAndShowError(title: "Something went wrong", body: "Please try again later", emoji: "😔")
         }
     }
     
@@ -67,7 +67,7 @@ struct CustomSwiftMessages {
 
 extension CustomSwiftMessages {
     
-    static func showInfo(_ title: String, _ body: String, emoji: String, onDismiss: @escaping () -> Void = { }) {
+    static func showInfoCard(_ title: String, _ body: String, emoji: String, onDismiss: @escaping () -> Void = { }) {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
             messageView.configureTheme(backgroundColor: .white, foregroundColor: .black)
@@ -88,6 +88,22 @@ extension CustomSwiftMessages {
             messageConfig.duration = .seconds(seconds: 3)
 
             SwiftMessages.show(config: messageConfig, view: messageView)
+        }
+    }
+    
+    static func showInfoCentered(_ title: String, _ body: String, emoji: String, onDismiss: @escaping () -> Void = { }) {
+        DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
+            let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
+            messageView.configureContent(title: title, body: body, iconText: emoji)
+            messageView.customConfig(approveText: "", dismissText: "Okay")
+            messageView.dismissAction = {
+                SwiftMessages.hide()
+                onDismiss()
+            }
+            messageView.configureBackgroundView(width: 300)
+            messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+            messageView.backgroundView.layer.cornerRadius = 10
+            SwiftMessages.show(config: middlePresentationConfig(), view: messageView)
         }
     }
 }
@@ -133,7 +149,7 @@ extension CustomSwiftMessages {
             switch permissionType {
             case .userLocation:
                 title = "Would you like to share your current location?"
-                body = "This makes finding and submitting mists even easier."
+                body = "This makes finding and submitting mists even easier"
             }
             messageView.configureContent(title: title, body: body, iconText: "🦄")
             messageView.approveAction = {
@@ -155,7 +171,7 @@ extension CustomSwiftMessages {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
             let title = "Are you sure you want to block this user?"
-            let body = "You won't be able to see their profile or your conversation again."
+            let body = "You won't be able to see their profile or your conversation again"
             messageView.configureContent(title: title, body: body, iconText: "✋")
             messageView.customConfig(approveText: "I'm sure", dismissText: "Nevermind")
             messageView.approveAction = {
@@ -177,8 +193,8 @@ extension CustomSwiftMessages {
     static func showAlreadyBlockedMessage() {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
-            let title = "You can't chat with this user."
-            let body = "Either you or the author have blocked each other."
+            let title = "You can't chat with this user"
+            let body = "Either you or the author have blocked each other"
             messageView.configureContent(title: title, body: body, iconText: "😕")
             messageView.customConfig(approveText: "", dismissText: "Okay")
             messageView.approveAction = {
@@ -198,8 +214,8 @@ extension CustomSwiftMessages {
     static func showAlreadyDmdMessage() {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
-            let title = "You already responded to this mist."
-            let body = "Check your conversations to keep chatting."
+            let title = "You already responded to this mist"
+            let body = "Check your conversations to keep chatting"
             messageView.configureContent(title: title, body: body, iconText: "😉")
             messageView.customConfig(approveText: "", dismissText: "Okay")
             messageView.approveAction = {
@@ -216,22 +232,22 @@ extension CustomSwiftMessages {
         }
     }
     
-    static func showAlert(onDiscard: @escaping () -> Void, onSave: @escaping () -> Void) {
+    static func showAlert(title: String, body: String, emoji: String, dismissText: String, approveText: String, onDismiss: @escaping () -> Void, onApprove: @escaping () -> Void) {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
-            messageView.configureContent(title: "Before you go", body: "Would you like to save this post as a draft?", iconText: "🗑")
+            messageView.configureContent(title: title, body: body, iconText: emoji)
             
-            let approveString = AttributedString(CustomAttributedString.createFor(text: "Save", fontName: Constants.Font.Heavy, size: 20))
-            let dismissStirng = AttributedString(CustomAttributedString.createFor(text: "Discard", fontName: Constants.Font.Medium, size: 19))
+            let approveString = AttributedString(CustomAttributedString.createFor(text: approveText, fontName: Constants.Font.Heavy, size: 20))
+            let dismissStirng = AttributedString(CustomAttributedString.createFor(text: dismissText, fontName: Constants.Font.Medium, size: 19))
             messageView.approveButton.configuration!.attributedTitle = approveString
             messageView.dismissButton.configuration!.attributedTitle = dismissStirng
             messageView.approveAction = {
                 SwiftMessages.hide()
-                onSave()
+                onApprove()
             }
             messageView.dismissAction = {
                 SwiftMessages.hide()
-                onDiscard()
+                onDismiss()
             }
             
             messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)

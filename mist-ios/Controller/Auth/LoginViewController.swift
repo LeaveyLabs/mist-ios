@@ -29,7 +29,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         validateInput()
-        isAuthKUIView = true
+        shouldNotAnimateKUIAccessoryInputView = true
         setupTextFields()
         setupLoginButton()
         setupBackButton()
@@ -37,12 +37,12 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        disableInteractivePopGesture()
+        enableInteractivePopGesture()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        enableInteractivePopGesture()
+        disableInteractivePopGesture()
     }
     
     //MARK: - Setup
@@ -118,7 +118,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         }
         let substringToReplace = textFieldText[rangeOfTextToReplace]
         let count = textFieldText.count - substringToReplace.count + string.count
-        return count <= 30
+        return count <= Constants.maxPasswordLength
     }
     
     //MARK: - Helpers
@@ -139,9 +139,8 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
                     // Send it over to login
                     try await UserService.singleton.logIn(json: json)
                     try await loadEverything()
-                    transitionToHomeAndRequestPermissions() { [weak self] in
-                        self?.isSubmitting = false
-                    }
+                    isSubmitting = false
+                    transitionToHomeAndRequestPermissions() { }
                 } catch {
                     handleLoginFail(error)
                 }

@@ -8,9 +8,11 @@
 import Foundation
 
 struct AuthContext {
-    static var username: String = "";
-    static var email: String = "";
-    static var password: String = "";
-    static var firstName: String = "";
-    static var lastName: String = "";
+    static var username: String = ""
+    static var email: String = ""
+    static var password: String = ""
+    static var firstName: String = ""
+    static var lastName: String = ""
+    static var dob: String = ""
+    static var sex: String?
 }

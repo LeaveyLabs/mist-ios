@@ -15,7 +15,7 @@ enum Setting {
     
     //other screens
     case contactUs, deleteAccount
-    case privacyPolicy, termsOfService
+    case privacyPolicy, terms
     
     var displayName : String {
         switch self {
@@ -57,8 +57,8 @@ enum Setting {
             return "Delete Account"
         case .privacyPolicy:
             return "Privacy Policy"
-        case .termsOfService:
-            return "Terms of Service"
+        case .terms:
+            return "Terms of Use"
         }
     }
     
@@ -102,7 +102,7 @@ enum Setting {
             return UIImage(systemName: "person.crop.circle.badge.xmark")!
         case .privacyPolicy:
             return UIImage(systemName: "doc.plaintext")!
-        case .termsOfService:
+        case .terms:
             return UIImage(systemName: "doc.plaintext")!
         }
     }
@@ -147,7 +147,7 @@ enum Setting {
             settingsTapDelegate.handleDeleteAccount()
         case .privacyPolicy:
             settingsTapDelegate.handleLink(setting: self)
-        case .termsOfService:
+        case .terms:
             settingsTapDelegate.handleLink(setting: self)
         }
     }

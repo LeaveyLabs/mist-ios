@@ -37,10 +37,11 @@ class ValidateResetPasswordViewController: KUIViewController, UITextFieldDelegat
         emailLabel.text! += AuthContext.email
         
         validateInput()
-        isAuthKUIView = true
+        shouldNotAnimateKUIAccessoryInputView = true
         setupConfirmEmailTextField()
         setupContinueButton()
         setupResendButton()
+        setupBackButton()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -54,30 +55,31 @@ class ValidateResetPasswordViewController: KUIViewController, UITextFieldDelegat
         confirmEmailTextField.delegate = self
         confirmEmailTextField.smartInsertDeleteType = UITextSmartInsertDeleteType.no
         confirmEmailTextField.layer.cornerRadius = 5
-        confirmEmailTextField.setLeftPaddingPoints(20)
-        confirmEmailTextField.defaultTextAttributes.updateValue(34, forKey: NSAttributedString.Key.kern)
+        confirmEmailTextField.setLeftPaddingPoints(25)
+        confirmEmailTextField.defaultTextAttributes.updateValue(33, forKey: NSAttributedString.Key.kern)
         confirmEmailTextField.becomeFirstResponder()
     }
     
     func setupResendButton() {
         resendButton.configuration?.imagePadding = 5
-        
+        let resendAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 12)!]
+
         resendButton.configurationUpdateHandler = { [weak self] button in
             switch self?.resendState {
             case .notsent:
                 button.isEnabled = true
                 button.configuration?.showsActivityIndicator = false
                 button.configuration?.image = nil
-                button.configuration?.title = "Resend"
+                button.configuration?.attributedTitle = AttributedString("Resend", attributes: AttributeContainer(resendAttributes))
             case .sending:
                 button.isEnabled = false
                 button.configuration?.showsActivityIndicator = true
-                button.configuration?.title = "Resending"
+                button.configuration?.attributedTitle = AttributedString("Resending", attributes: AttributeContainer(resendAttributes))
             case .sent:
                 button.isEnabled = false
                 button.configuration?.showsActivityIndicator = false
                 button.configuration?.image = UIImage(systemName: "checkmark")
-                button.configuration?.title = "Resent"
+                button.configuration?.attributedTitle = AttributedString("Resent", attributes: AttributeContainer(resendAttributes))
             case .none:
                 break
             }
@@ -99,9 +101,14 @@ class ValidateResetPasswordViewController: KUIViewController, UITextFieldDelegat
         }
     }
     
+    func setupBackButton() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(goBack))
+        navigationItem.leftBarButtonItem?.tintColor = .black
+    }
+    
     //MARK: - User Interaction
     
-    @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
+    @objc func goBack() {
         navigationController?.popViewController(animated: true)
     }
     

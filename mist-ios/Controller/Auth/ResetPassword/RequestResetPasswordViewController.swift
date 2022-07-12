@@ -29,7 +29,7 @@ class RequestResetPasswordViewController: KUIViewController, UITextFieldDelegate
         super.viewDidLoad()
         
         isValidInput = false
-        isAuthKUIView = true
+        shouldNotAnimateKUIAccessoryInputView = true
         setupPopGesture()
         setupEnterEmailTextField()
         setupContinueButton() //uncomment this button for standard button behavior, where !isEnabled greys it out
@@ -68,12 +68,12 @@ class RequestResetPasswordViewController: KUIViewController, UITextFieldDelegate
     
     func setupBackButton() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(goBack))
+        navigationItem.leftBarButtonItem?.tintColor = .black
     }
     
     //MARK: - User Interaction
     
     @objc func goBack() {
-        print("TRYING TO GO BACK")
         navigationController?.dismiss(animated: true)
     }
     
@@ -121,9 +121,8 @@ class RequestResetPasswordViewController: KUIViewController, UITextFieldDelegate
     
     func handleFailure(_ error: Error) {
         isSubmitting = false
-        enterEmailTextField.text = ""
         validateInput()
-        CustomSwiftMessages.displayError(error)
+        CustomSwiftMessages.displayError("We couldn't find that email", "Please try again")
     }
     
     func validateInput() {

@@ -43,7 +43,6 @@ class UploadProfilePictureViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         profilePic = defaultPic
-        setupImagePicker()
         setupButtons()
         setupLabels()
     }
@@ -51,6 +50,7 @@ class UploadProfilePictureViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         enableInteractivePopGesture()
+        setupImagePicker()
     }
     
     //MARK: - Setup
@@ -63,6 +63,7 @@ class UploadProfilePictureViewController: UIViewController {
             else {
                 button.configuration = ButtonConfigs.disabledConfig(title: "Start")
             }
+            button.configuration?.showsActivityIndicator = self.isSubmitting
         }
         // Setup miniCameraButton
         miniCameraButton.isHidden = !validateInput()
@@ -97,8 +98,8 @@ class UploadProfilePictureViewController: UIViewController {
 
     func tryToContinue() {
         Task {
-            isSubmitting = true
             if let selectedProfilePic = profilePictureButton.imageView?.image {
+                isSubmitting = true
                 do {
                     try await UserService.singleton.createUser(
                         username: AuthContext.username,
@@ -106,11 +107,11 @@ class UploadProfilePictureViewController: UIViewController {
                         lastName: AuthContext.lastName,
                         profilePic: selectedProfilePic,
                         email: AuthContext.email,
-                        password: AuthContext.password)
+                        password: AuthContext.password,
+                        dob: AuthContext.dob)
                     try await loadEverything()
-                    transitionToHomeAndRequestPermissions() { [weak self] in
-                        self?.isSubmitting = false
-                    }
+                    isSubmitting = false
+                    transitionToHomeAndRequestPermissions() { }
                 } catch {
                     handleFailure(error)
                 }
@@ -122,6 +123,12 @@ class UploadProfilePictureViewController: UIViewController {
         isSubmitting = false
         profilePic = defaultPic
         CustomSwiftMessages.displayError(error)
+        
+        DispatchQueue.main.async { [self] in
+            transitionToStoryboard(storyboardID: Constants.SBID.SB.Auth,
+                                        viewControllerID: Constants.SBID.VC.AuthNavigation,
+                                        duration: Env.LAUNCH_ANIMATION_DURATION) { _ in}
+        }
     }
     
     func validateInput() -> Bool {

@@ -17,6 +17,8 @@ struct Constants {
         static let Size: CGFloat = 20
     }
     
+    static let maxPasswordLength = 1000
+    
     struct Coordinates {
         static let USC = CLLocationCoordinate2D(latitude: 34.0209 + 0.0019, longitude: -118.2861)
     }
@@ -67,6 +69,8 @@ struct Constants {
             static let Filter = "FilterSheetViewController"
             static let NewFilter = "NewFilterSheetViewController"
             static let MapSearch = "MapSearchViewController"
+            static let CustomExplore = "CustomExploreViewController"
+            static let Home = "HomeViewController"
             //Messages
             static let Chat = "ChatViewController"
             static let ChatMore = "ChatMoreViewController"
@@ -84,6 +88,8 @@ struct Constants {
             static let EnterName = "EnterNameViewController"
             static let ChooseUsername = "ChooseUsernameViewController"
             static let SetupTime = "SetupTimeViewController"
+            static let EnterBios = "EnterBiosViewController"
+            static let FinishProfile = "FinishProfileViewController"
             //Reset password
             static let RequestResetPassword = "RequestResetPasswordViewController"
             static let ValidateResetPassword = "ValidateResetPasswordViewController"

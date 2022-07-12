@@ -53,7 +53,10 @@ class PostService: NSObject {
     
     //Called by FavoriteService after favorites are loaded in
     func loadFavorites(favoritedPostIds: [Int]) async throws {
-        favoriteIds = cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchPostsByIds(ids: favoritedPostIds))
+        //TODO: we should remove this bottom check if kevin updates the backend accordingly
+        if !favoritedPostIds.isEmpty {
+            favoriteIds = cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchPostsByIds(ids: favoritedPostIds))
+        }
     }
     
     //Called by ConversationService after conversations are loaded in
@@ -84,15 +87,17 @@ class PostService: NSObject {
     //the other problem: we need to make sure PostViewController, etc actually depend on PostService for posts. right now, Explore does depend on PostService, but PostViewController does not
     //hmmm - instead of passing Post from explore to PostVC, we'd want to pass the postId, yea? than we can just call PostService.getPost(forId: ) throughout PostVC
     func rerenderAnyVisiblePosts() {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-        let delegate = windowScene.delegate as? SceneDelegate, let window = delegate.window else { return }
-        guard let tabVC = window.rootViewController as? UITabBarController else { return }
-        let firstNavVC = tabVC.viewControllers![0] as! UINavigationController
-        let secondNavVC = tabVC.viewControllers![2] as! UINavigationController
-        guard let visibleFirstVC = firstNavVC.visibleViewController! as? DisplayingPostDelegate else { return }
-        guard let visibleSecondVC = secondNavVC.visibleViewController! as? DisplayingPostDelegate else { return }
-        visibleFirstVC.rerenderPostUIAfterPostServiceUpdate()
-        visibleSecondVC.rerenderPostUIAfterPostServiceUpdate()
+        DispatchQueue.main.async {
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+            let delegate = windowScene.delegate as? SceneDelegate, let window = delegate.window else { return }
+            guard let tabVC = window.rootViewController as? UITabBarController else { return }
+            let firstNavVC = tabVC.viewControllers![0] as! UINavigationController
+            let secondNavVC = tabVC.viewControllers![2] as! UINavigationController
+            guard let visibleFirstVC = firstNavVC.visibleViewController! as? DisplayingPostDelegate else { return }
+            guard let visibleSecondVC = secondNavVC.visibleViewController! as? DisplayingPostDelegate else { return }
+            visibleFirstVC.rerenderPostUIAfterPostServiceUpdate()
+            visibleSecondVC.rerenderPostUIAfterPostServiceUpdate()
+        }
     }
     
     //MARK: - Getting
@@ -116,7 +121,7 @@ class PostService: NSObject {
     //TODO: i think the below function would be used by PostVC too. so why not just call it "getPost"? doesnt have to be specific to conversation posts. and of course it'll return Post?
     
     //Returns Post? because even though the convesation around a post exists, the post might have been deleted at any point in time by the user
-    func getConversationPost(withPostId postId: Int) -> Post? {
+    func getPost(withPostId postId: Int) -> Post? {
         return allLoadedPosts[postId]
     }
     
@@ -184,18 +189,13 @@ class PostService: NSObject {
         
         rerenderAnyVisiblePosts()
     }
-        
-    //TODO: well, we should also be adding/removing posts to other arrays here, too
     
-    //all of the functions below, well, they arent interacting with the database.
-    //theyre just adding or removing an existingLoadedPost from a postId array depeneding on user interaction
-        
-    func addPostToConversationPosts(post: Post) {
-        conversationPostIds.append(post.id)
+    func setConversationPostIds(postIds: [Int]) {
+        conversationPostIds = postIds
     }
     
-    func removePostFromConversationPosts(postId: Int) {
-        conversationPostIds.removeFirstAppearanceOf(object: postId)
+    func setFavoritePostIds(postIds: [Int]) {
+        favoriteIds = postIds
     }
     
 }

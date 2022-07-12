@@ -1,8 +1,8 @@
 //
-//  ExploreMapViewController+Search.swift
+//  HomeViewController+Search.swift
 //  mist-ios
 //
-//  Created by Adam Novak on 2022/06/05.
+//  Created by Adam Monterey on 7/12/22.
 //
 
 import Foundation
@@ -13,7 +13,7 @@ import MapKit
 
 let cornerButtonGrey = UIColor.black.withAlphaComponent(0.7)
 
-extension ExploreViewController {
+extension HomeViewController {
     
     func setupSearchBarButton() {
         searchBarButton.delegate = self
@@ -49,7 +49,7 @@ extension ExploreViewController {
 
 // MARK: - SearchController Delegate
 
-extension ExploreViewController: UISearchControllerDelegate {
+extension HomeViewController: UISearchControllerDelegate {
     
     func willDismissSearchController(_ searchController: UISearchController) {
 //        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
@@ -60,7 +60,7 @@ extension ExploreViewController: UISearchControllerDelegate {
 
     // MARK: - UISearchBarDelegate
 
-extension ExploreViewController: UISearchBarDelegate {
+extension HomeViewController: UISearchBarDelegate {
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         if searchBar == searchBarButton {
@@ -83,7 +83,7 @@ extension ExploreViewController: UISearchBarDelegate {
 
     // MARK: - UITableViewDelegate
 
-extension ExploreViewController: UITableViewDelegate {
+extension HomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == feed { return }
@@ -123,7 +123,7 @@ extension ExploreViewController: UITableViewDelegate {
 
 // MARK: - Map Search
 
-extension ExploreViewController {
+extension HomeViewController {
     
     
     /// - Parameter suggestedCompletion: A search completion provided by `MKLocalSearchCompleter` when tapping on a search completion table row
@@ -143,13 +143,15 @@ extension ExploreViewController {
     /// - Tag: SearchRequest
     private func search(using searchRequest: MKLocalSearch.Request) {
         searchRequest.region = MKCoordinateRegion(center: mapView.region.center, latitudinalMeters: 100, longitudinalMeters: 100) //setting a span that's smaller or larger seems to increase the frequency that apple will reset the search region to your current location. 10000 seems to be a good middle ground
+        
+        //OHHHH ADAM IT"S NOT A BIG YOUR CHECKER IS JUST FUCKING UP
         searchRequest.resultTypes = [.address, .pointOfInterest]
         let localSearch = MKLocalSearch(request: searchRequest)
         Task {
             do {
                 let response = try await localSearch.start()
                 if didAppleOverrideLocalSearchRegion(response.boundingRegion) {
-                    CustomSwiftMessages.showInfo("No results found.", "Try adjusting the map and search again.", emoji: "🧐")
+                    CustomSwiftMessages.showInfoCard("No results found", "Try adjusting the map and search again", emoji: "🧐")
                 } else {
                     appleregion = response.boundingRegion
                     turnPlacesIntoAnnotations(response.mapItems)
@@ -167,11 +169,12 @@ extension ExploreViewController {
     
     //if the map wasnt originally near the user's location, but then the center of the response is close to the user's location, apple overrided the search. in that case, don't display anything and tell the user to search again
     func didAppleOverrideLocalSearchRegion(_ responseRegion: MKCoordinateRegion) -> Bool {
-        if let userLocation = locationManager.location {
-            if mapView.region.center.distance(from: userLocation.coordinate) > 10000 && responseRegion.center.distance(from: userLocation.coordinate) < 2500 {
-                return true
-            }
-        }
+        //this wasn't working properly: if you were actually looking at a region far from your current location and searched a region nearby your current location, apple gave a correct response region close to your current location, but we'd reject it. need a better algorithm
+//        if let userLocation = locationManager.location {
+//            if mapView.region.center.distance(from: userLocation.coordinate) > 10000 && responseRegion.center.distance(from: userLocation.coordinate) < 4000 {
+//                return true
+//            }
+//        }
         return false
     }
     

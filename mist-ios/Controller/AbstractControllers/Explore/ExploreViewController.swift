@@ -16,31 +16,13 @@ enum ReloadType {
 
 class ExploreViewController: MapViewController {
     
-    //experimental, for debugging purposes only
-    var appleregion: MKCoordinateRegion = .init()
-    
     // UI
     @IBOutlet weak var customNavigationBar: UIView!
-    @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var toggleButton: UIButton!
-    @IBOutlet weak var searchBarButton: UISearchBar!
-    @IBOutlet weak var refreshButton: UIButton!
     var feed: UITableView!
-    var mySearchController: UISearchController!
-    var searchSuggestionsVC: SearchSuggestionsTableViewController!
     
     //Flags
     var reloadTask: Task<Void, Never>?
-    var isLoadingPosts: Bool = false {
-        didSet {
-            //Should also probably disable some other interactions...
-            refreshButton.isEnabled = !isLoadingPosts
-            refreshButton.configuration?.showsActivityIndicator = isLoadingPosts
-            if !isLoadingPosts {
-                feed.refreshControl?.endRefreshing()
-            }
-        }
-    }
     var isFeedVisible = false //we have to use this flag and send tableview to the front/back instead of using isHidden so that when tableviewcells aren't rerendered when tableview reappears and so we can have a scroll to top animation before reloading tableview data
     var annotationSelectionType: AnnotationSelectionType = .normal
         
@@ -62,17 +44,13 @@ extension ExploreViewController {
     override func loadView() {
         super.loadView()
         setupTableView()
-        setupSearchBar()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         latitudeOffset = 0.00095
-        setupSearchBarButton()
-        setupRefreshButton()
         setupCustomNavigationBar()
         setupCustomTapGestureRecognizerOnMap()
-        renderNewPostsOnFeedAndMap(withType: .firstLoad)
         
         if let userLocation = locationManager.location {
             mapView.camera.centerCoordinate = userLocation.coordinate
@@ -95,57 +73,16 @@ extension ExploreViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         enableInteractivePopGesture()
-        // Handle controller being exposed from push/present or pop/dismiss
-        if (self.isMovingToParent || self.isBeingPresented){
-            // Controller is being pushed on or presented.
-        }
-        else {
-            // Controller is being shown as result of pop/dismiss/unwind.
-            mySearchController.searchBar.becomeFirstResponder()
-        }
-        // Dependent on map dimensions
-//        searchBarButton.centerText()
     }
     
 }
 
-//MARK: - Getting posts
+//MARK: - Getting / refreshing posts
 
 extension ExploreViewController {
     
-    func setupRefreshButton() {
-        applyShadowOnView(refreshButton)
-        refreshButton.layer.cornerCurve = .continuous
-        refreshButton.layer.cornerRadius = 10
-        refreshButton.addAction(.init(handler: { [self] _ in
-            reloadPosts(withType: .refresh)
-        }), for: .touchUpInside)
-    }
-    
-    //TODO: if there's a reload task in progress, cancel it, and wait for the most recent one
-    func reloadPosts(withType reloadType: ReloadType, closure: @escaping () -> Void = { } ) {
-        if isLoadingPosts { reloadTask!.cancel() }
-        reloadTask = Task {
-            do {
-                isLoadingPosts = true
-                try await loadPostStuff() //takes into account the updated post filter in PostsService
-                isLoadingPosts = false
-                
-                DispatchQueue.main.async { [self] in
-                    renderNewPostsOnFeedAndMap(withType: reloadType)
-                    closure()
-                }
-            } catch {
-                if !Task.isCancelled {
-                    CustomSwiftMessages.displayError(error)
-                    isLoadingPosts = false
-                }
-            }
-        }
-    }
-    
-    func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType) {
-        //Feed scroll to top, on every reload
+    func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType, customSetting: Setting? = nil) {
+        //Feed scroll to top, on every reload. this should happen BEFORE the datasource for the feed is altered, in order to prevent a potential improper element access
         if reloadType != .firstLoad {
             if !postAnnotations.isEmpty {
                 feed.isUserInteractionEnabled = false
@@ -154,20 +91,29 @@ extension ExploreViewController {
             }
         }
         //Map camera travel, only on new searches
+        
+        removeExistingPlaceAnnotationsFromMap()
+        removeExistingPostAnnotationsFromMap()
+        //Both data update
+        if let setting = customSetting {
+            if setting == .submissions {
+                turnPostsIntoAnnotations(PostService.singleton.getSubmissions())
+            } else if setting == .favorites {
+                turnPostsIntoAnnotations(PostService.singleton.getFavorites())
+            }
+        } else {
+            turnPostsIntoAnnotations(PostService.singleton.getExplorePosts())
+        }
+        //if at some point we decide to list out places in the feed results, too, then turnPlacesIntoAnnoations should be moved here
+        //the reason we don't need to rn is because the feed is not dependent on place data, just post data, and we should scroll to top of feed before refreshing the data
+
         if reloadType == .newSearch {
             mapView.region = getRegionCenteredAround(postAnnotations + placeAnnotations) ?? PostService.singleton.getExploreFilter().region
         }
-        
-        //Both data update
-        turnPostsIntoAnnotations(PostService.singleton.getExplorePosts())
-        //if at some point we decide to list out places in the feed results, too, then turnPlacesIntoAnnoations should be moved here
-        //the reason we don't need to rn is because the feed is not dependent on place data, just post data, and we should scroll to top of feed before refreshing the data
 
         //Feed visual update
         feed.reloadData()
         //Map visual update
-        removeExistingPlaceAnnotationsFromMap()
-        removeExistingPostAnnotationsFromMap()
         mapView.addAnnotations(placeAnnotations)
         mapView.addAnnotations(postAnnotations)
     }
@@ -217,48 +163,6 @@ extension ExploreViewController {
     
 }
 
-// MARK: - Filter
-
-extension ExploreViewController {
-            
-    //User Interaction
-    
-    @IBAction func filterButtonDidTapped(_ sender: UIButton) {
-        dismissPost()
-        let filterVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Filter) as! FilterSheetViewController
-        filterVC.selectedFilter = PostService.singleton.getExploreFilter() //TODO: just use the singleton directly, don't need to pass it intermediately
-        filterVC.delegate = self
-        filterVC.loadViewIfNeeded() //doesnt work without this function call
-        present(filterVC, animated: true)
-    }
-    
-    // Helpers
-    
-    func resetCurrentFilter() {
-        searchBarButton.text = ""
-//        searchBarButton.centerText()
-        searchBarButton.searchTextField.leftView?.tintColor = .secondaryLabel
-        searchBarButton.setImage(UIImage(systemName: "magnifyingglass"), for: .search, state: .normal)
-        placeAnnotations = []
-        removeExistingPlaceAnnotationsFromMap()
-        PostService.singleton.resetFilter()
-        reloadPosts(withType: .cancel)
-    }
-    
-}
-
-extension ExploreViewController: FilterDelegate {
-    
-    func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool, _ afterFilterUpdate: @escaping () -> Void) {
-        PostService.singleton.updateFilter(newPostFilter: newPostFilter)
-//        updateFilterButtonLabel() //incase we want to handle UI updates somehow
-        if shouldReload {
-            reloadPosts(withType: .newSearch, closure: afterFilterUpdate)
-        }
-    }
-        
-}
-
 //MARK: - Post Delegation
 
 extension ExploreViewController: PostDelegate {
@@ -298,6 +202,10 @@ extension ExploreViewController: PostDelegate {
             postAnnotations[index].post = updatedPost
         }
         navigationController!.pushViewController(postVC, animated: true)
+    }
+    
+    func handleDeletePost(postId: Int) {
+        renderNewPostsOnFeedAndMap(withType: .refresh)
     }
     
 }

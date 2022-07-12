@@ -23,11 +23,12 @@ protocol SettingsTapDelegate {
 extension SettingsTapDelegate where Self: UIViewController {
     
     func handlePosts(setting: Setting) {
-        //create a vc with the setting
+        guard let customExplore = CustomExploreViewController.create(setting: setting) else { return }
+        navigationController?.pushViewController(customExplore, animated: true)
     }
     
     func handleLegal() {
-        let settingsVC = SettingsViewController.create(settings: [.privacyPolicy, .termsOfService])
+        let settingsVC = SettingsViewController.create(settings: [.privacyPolicy, .terms])
         navigationController?.pushViewController(settingsVC, animated: true)
     }
     
@@ -44,10 +45,10 @@ extension SettingsTapDelegate where Self: UIViewController {
     func handleLink(setting: Setting) {
         if setting == .privacyPolicy {
             openURL(URL(string: "https://www.getmist.app/privacy-policy")!)
-        } else if setting == .termsOfService {
-            openURL(URL(string: "https://www.getmist.app/terms-of-service")!)
+        } else if setting == .terms {
+            openURL(URL(string: "https://www.getmist.app/terms-of-use")!)
         } else if setting == .contactUs {
-            openURL(URL(string: "mailto:whatsup@getmist.app")!)
+            UIApplication.shared.open(URL(string: "mailto:whatsup@getmist.app")!) //mailto can't use safari
         } else if setting == .contentGuidelines {
             openURL(URL(string: "https://www.getmist.app/content-guidelines")!)
         }
@@ -58,8 +59,22 @@ extension SettingsTapDelegate where Self: UIViewController {
     }
     
     func handleDeleteAccount() {
-        //honestly, present a whole ass vc would be ideal... maybe later
-        //call back which will delete their account
+        CustomSwiftMessages.showAlert(title: "Are you sure you want to delete your account?",
+                                      body: "All of your data will be erased, and you will not be able to access or recover it again.",
+                                      emoji: "😟", dismissText: "Nevermind", approveText: "Delete",
+                                      onDismiss: {
+        }, onApprove: { [self] in
+            view.isUserInteractionEnabled = false
+            Task {
+                try await UserService.singleton.deleteMyAccount()
+                DispatchQueue.main.async { [self] in
+                    transitionToStoryboard(storyboardID: Constants.SBID.SB.Auth,
+                                                viewControllerID: Constants.SBID.VC.AuthNavigation,
+                                                duration: Env.LAUNCH_ANIMATION_DURATION) { _ in}
+                    view.isUserInteractionEnabled = true
+                }
+            }
+        })
     }
 
 }

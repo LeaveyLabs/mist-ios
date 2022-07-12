@@ -81,7 +81,14 @@ class PinMapViewController: MapViewController {
     }
         
     @IBAction func backButtonDidPressed(_ sender: UIButton) {
-        completionHandler(pinnedAnnotation)
+        //only send the annotation back if it has a title
+        if pinnedAnnotation?.title != nil {
+            completionHandler(pinnedAnnotation)
+        } else {
+            pinnedAnnotation = nil
+            postAnnotations = []
+            removeExistingPostAnnotationsFromMap()
+        }
         navigationController?.popViewController(animated: true)
     }
     

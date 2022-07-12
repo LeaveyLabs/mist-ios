@@ -28,7 +28,7 @@ class ChooseUsernameViewController: KUIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         validateInput()
-        isAuthKUIView = true
+        shouldNotAnimateKUIAccessoryInputView = true
         setupTextFields()
         setupContinueButton()
     }
@@ -40,6 +40,11 @@ class ChooseUsernameViewController: KUIViewController, UITextFieldDelegate {
         validateInput()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        usernameTextField.becomeFirstResponder()
+    }
+    
     //MARK: - Setup
     
     func setupTextFields() {
@@ -47,7 +52,6 @@ class ChooseUsernameViewController: KUIViewController, UITextFieldDelegate {
         usernameTextField.smartInsertDeleteType = UITextSmartInsertDeleteType.no
         usernameTextField.layer.cornerRadius = 5
         usernameTextField.setLeftAndRightPadding(10)
-        usernameTextField.becomeFirstResponder()
     }
     
     func setupContinueButton() {
@@ -112,7 +116,7 @@ class ChooseUsernameViewController: KUIViewController, UITextFieldDelegate {
     func handleFailure(_ error: Error) {
         isSubmitting = false
         isValidInput = false
-        CustomSwiftMessages.displayError(error)
+        CustomSwiftMessages.displayError("That username is already in use", "Please choose another one")
     }
     
     func validateInput() {

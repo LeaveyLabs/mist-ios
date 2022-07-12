@@ -45,7 +45,7 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         
         errorView.isHidden = true //we're using SwiftMessages for error handling now, not this custom view
         validateInput()
-        isAuthKUIView = true
+        shouldNotAnimateKUIAccessoryInputView = true
         setupConfirmEmailTextField()
         setupContinueButton()
         setupResendButton()
@@ -63,30 +63,31 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         confirmEmailTextField.delegate = self
         confirmEmailTextField.smartInsertDeleteType = UITextSmartInsertDeleteType.no
         confirmEmailTextField.layer.cornerRadius = 5
-        confirmEmailTextField.setLeftPaddingPoints(20)
-        confirmEmailTextField.defaultTextAttributes.updateValue(34, forKey: NSAttributedString.Key.kern)
+        confirmEmailTextField.setLeftPaddingPoints(25)
+        confirmEmailTextField.defaultTextAttributes.updateValue(33, forKey: NSAttributedString.Key.kern)
         confirmEmailTextField.becomeFirstResponder()
     }
     
     func setupResendButton() {
         resendButton.configuration?.imagePadding = 5
-        
+        let resendAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 12)!]
+
         resendButton.configurationUpdateHandler = { [weak self] button in
             switch self?.resendState {
             case .notsent:
                 button.isEnabled = true
                 button.configuration?.showsActivityIndicator = false
                 button.configuration?.image = nil
-                button.configuration?.title = "Resend"
+                button.configuration?.attributedTitle = AttributedString("Resend", attributes: AttributeContainer(resendAttributes))
             case .sending:
                 button.isEnabled = false
                 button.configuration?.showsActivityIndicator = true
-                button.configuration?.title = "Resending"
+                button.configuration?.attributedTitle = AttributedString("Resending", attributes: AttributeContainer(resendAttributes))
             case .sent:
                 button.isEnabled = false
                 button.configuration?.showsActivityIndicator = false
                 button.configuration?.image = UIImage(systemName: "checkmark")
-                button.configuration?.title = "Resent"
+                button.configuration?.attributedTitle = AttributedString("Resent", attributes: AttributeContainer(resendAttributes))
             case .none:
                 break
             }
@@ -109,9 +110,9 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func setupAgreementLabel() {
-        let attributedString = NSMutableAttributedString(string: "By clicking continue, you agree to our Terms of Service and Privacy Policy.")
-        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.systemBlue, range: .init(location: 39, length: 16))
-        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.systemBlue, range: .init(location: 60, length: 14))
+        let attributedString = NSMutableAttributedString(string: "By clicking continue, you agree to our Terms of Use and Privacy Policy.")
+        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.systemBlue, range: .init(location: 39, length: 12))
+        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.systemBlue, range: .init(location: 56, length: 14))
         agreementLabel.attributedText = attributedString
     }
     
@@ -130,7 +131,7 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     }
     
     @IBAction func termsButtonDidTapped(_ sender: UIButton) {
-        openURL(URL(string: "https://www.getmist.app/terms-of-service")!)
+        openURL(URL(string: "https://www.getmist.app/terms-of-use")!)
     }
     
     @IBAction func privacyPolicyButtonDidTapped(_ sender: UIButton) {

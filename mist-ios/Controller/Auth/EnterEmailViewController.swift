@@ -27,9 +27,9 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         isValidInput = false
-        isAuthKUIView = true
+        validateInput()
+        shouldNotAnimateKUIAccessoryInputView = true
         setupPopGesture()
         setupEnterEmailTextField()
         setupContinueButton() //uncomment this button for standard button behavior, where !isEnabled greys it out
@@ -38,10 +38,17 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
-        disableInteractivePopGesture() //because it's the root view controller of a navigation vc
+        enableInteractivePopGesture()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         enterEmailTextField.becomeFirstResponder()
-        validateInput()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        disableInteractivePopGesture()
     }
     
     //MARK: - Setup
@@ -50,7 +57,6 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
         enterEmailTextField.delegate = self
         enterEmailTextField.layer.cornerRadius = 5
         enterEmailTextField.setLeftAndRightPadding(10)
-        enterEmailTextField.becomeFirstResponder()
     }
     
     func setupContinueButton() {
@@ -105,16 +111,13 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     //MARK: - Helpers
     
     func tryToContinue() {
-        // If you've inputted an email
         if let email = enterEmailTextField.text?.lowercased() {
+            isSubmitting = true
             Task {
-                isSubmitting = true
                 do {
-                    // Send a validation email
                     try await AuthAPI.registerEmail(email: email)
-                    // Move to the next code view
                     AuthContext.email = email
-                    let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ConfirmEmail)
+                    let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ConfirmEmail)
                     self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
                         self?.isSubmitting = false
                     })
@@ -129,7 +132,7 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
         isSubmitting = false
         enterEmailTextField.text = ""
         validateInput()
-        CustomSwiftMessages.displayError(error)
+        CustomSwiftMessages.displayError("That email is already taken", "Please enter another one")
     }
     
     func validateInput() {

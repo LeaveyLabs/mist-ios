@@ -39,8 +39,6 @@ class ChatViewController: MessagesViewController {
         return refreshControl
     }()
     
-//    private lazy var textMessageSizeCalculator: CustomTextLayoutSizeCalculator = CustomTextLayoutSizeCalculator(layout: self.messagesCollectionView.messagesCollectionViewFlowLayout)
-
     //UI
     @IBOutlet weak var senderProfilePicButton: UIButton!
     @IBOutlet weak var senderProfileNameButton: UIButton!
@@ -63,7 +61,6 @@ class ChatViewController: MessagesViewController {
             } else {
                 senderProfilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
             }
-            messagesCollectionView.reloadData()
         }
     }
     var isSangdaebangProfileHidden: Bool! {
@@ -75,7 +72,6 @@ class ChatViewController: MessagesViewController {
                 receiverProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.profilePic)
                 receiverProfileNameButton.setTitle(conversation.sangdaebang.first_name, for: .normal)
             }
-            messagesCollectionView.reloadData()
         }
     }
     
@@ -159,13 +155,12 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.register(matchNib, forCellWithReuseIdentifier: String(describing: MatchCollectionCell.self))
         let infoNib = UINib(nibName: String(describing: InformationCollectionCell.self), bundle: nil)
         messagesCollectionView.register(infoNib, forCellWithReuseIdentifier: String(describing: InformationCollectionCell.self))
-//        self.messagesCollectionView.register(CustomTextMessageContentCell.self)
         
         messagesCollectionView.refreshControl = refreshControl
         if conversation.hasRenderedAllChatObjects() { refreshControl.removeFromSuperview() }
         
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
-        maintainPositionOnKeyboardFrameChanged = true // default false
+//        maintainPositionOnKeyboardFrameChanged = true // default false. this was causing a weird snap when scrolling the keyboard down
         showMessageTimestampOnSwipeLeft = true // default false
         additionalBottomInset = 8
     }
@@ -196,31 +191,30 @@ class ChatViewController: MessagesViewController {
     }
     
     func setupMessageInputBarForChatting() {
-        messageInputBar.separatorLine.isHidden = false
-        messageInputBar.layer.shadowOpacity = 0
-
-        messageInputBar.inputTextView.tintColor = mistUIColor()
+        //iMessage
+        messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 36)
+        messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 36)
+        if #available(iOS 13, *) {
+            messageInputBar.inputTextView.layer.borderColor = UIColor.systemGray2.withAlphaComponent(0.8).cgColor
+        } else {
+            messageInputBar.inputTextView.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.8).cgColor
+        }
+        messageInputBar.inputTextView.backgroundColor = .lightGray.withAlphaComponent(0.1)
+        messageInputBar.inputTextView.layer.borderWidth = 0.5
+        messageInputBar.inputTextView.layer.cornerRadius = 16.0
+        messageInputBar.inputTextView.layer.masksToBounds = true
+        messageInputBar.inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+        messageInputBar.setRightStackViewWidthConstant(to: 38, animated: false)
+        messageInputBar.setStackViewItems([messageInputBar.sendButton, InputBarButtonItem.fixedSpace(2)], forStack: .right, animated: false)
+        messageInputBar.sendButton.contentEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 4, right: 2)
+        messageInputBar.sendButton.setSize(CGSize(width: 36, height: 36), animated: false)
+        messageInputBar.sendButton.setImage(UIImage(named: "enabled-send-button"), for: .normal)
+        messageInputBar.sendButton.title = nil
+        messageInputBar.sendButton.becomeRound()
         messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
-        messageInputBar.sendButton.setTitleColor(mistUIColor(), for: .normal)
-        messageInputBar.inputTextView.delegate = self
-        messageInputBar.inputTextView.font = UIFont(name: Constants.Font.Medium, size: 18)
+        messageInputBar.shouldAnimateTextDidChangeLayout = true
         
-        messageInputBar.setMiddleContentView(messageInputBar.inputTextView, animated: false)
-        messageInputBar.setRightStackViewWidthConstant(to: 50, animated: false)
-        
-        messageInputBar.sendButton.image = UIImage(systemName: "xmark")
-//        messageInputBar.sendButton.activityViewColor = .white
-//        messageInputBar.sendButton.backgroundColor = mistUIColor()
-//        messageInputBar.sendButton.layer.cornerRadius = 10
-//        messageInputBar.sendButton.setTitleColor(.white, for: .normal)
-//        messageInputBar.sendButton.setTitleColor(UIColor(white: 1, alpha: 0.3), for: .highlighted)
-//        messageInputBar.sendButton.setTitleColor(UIColor(white: 1, alpha: 0.3), for: .disabled)
-//        messageInputBar.sendButton
-//            .onSelected { item in
-//                item.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
-//            }.onDeselected { item in
-//                item.transform = .identity
-//        }
+        messageInputBar.middleContentViewPadding.right = -38
     }
     
     func setupMessageInputBarForChatPrompt() {
@@ -304,8 +298,7 @@ class ChatViewController: MessagesViewController {
             cell.configure(with: messageKitMatch,
                            sangdaebang: conversation.sangdaebang,
                            delegate: self,
-                           isSangdaebangHidden: isSangdaebangProfileHidden,
-                           isEnabled: messageKitMatch.matchRequest.read_only_post != nil)
+                           isSangdaebangHidden: isSangdaebangProfileHidden)
             return cell
         }
         if let messageKitInfo = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView) as? MessageKitInfo {
@@ -334,7 +327,10 @@ extension ChatViewController: MessagesDataSource {
     }
 
     func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        return NSAttributedString(string: "Sent", attributes: [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 11)!, NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+        if isLastMessageFromSender(message: message, at: indexPath) {
+            return NSAttributedString(string: "Sent", attributes: [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 11)!, NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        }
+        return nil
     }
 
     func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
@@ -343,16 +339,6 @@ extension ChatViewController: MessagesDataSource {
         }
         return nil
     }
-    
-//    func textCell(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UICollectionViewCell? {
-//        let cell = messagesCollectionView.dequeueReusableCell(CustomTextMessageContentCell.self, for: indexPath)
-//        cell.configure(with: message,
-//                       at: indexPath,
-//                       in: messagesCollectionView,
-//                       dataSource: self,
-//                       and: self.textMessageSizeCalculator)
-//        return cell
-//    }
 }
 
 // MARK: - InputBarDelegate
@@ -381,17 +367,24 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         }
     }
     
-    //TODO: will this properly handle the case when we get, say, three messages in the thread all at once? or when they send a matchrequest and a message at the same time?
     func handleNewMessage() {
         messageInputBar.sendButton.stopAnimating()
-
-        // Reload last section to update header/footer labels and insert a new one
-        messagesCollectionView.performBatchUpdates({
-            messagesCollectionView.insertSections([numberOfSections(in: messagesCollectionView) - 1])
-            if numberOfSections(in: messagesCollectionView) >= 2 {
-                messagesCollectionView.reloadSections([numberOfSections(in: messagesCollectionView) - 2])
-            }
-        })
+        
+        isAuthedUserProfileHidden = conversation.isAuthedUserHidden
+        if isSangdaebangProfileHidden && !conversation.isSangdaebangHidden {
+            //Don't insert a new section, simply reload the data. This is because even though we're handling a new message, we're also removing the last placeholder "info" message, so we shouldn't insert any sections
+            messagesCollectionView.reloadData()
+            isSangdaebangProfileHidden = conversation.isSangdaebangHidden
+        } else {
+            // Reload last section to update header/footer labels and insert a new one
+            messagesCollectionView.performBatchUpdates({
+                messagesCollectionView.insertSections([numberOfSections(in: messagesCollectionView) - 1])
+                if numberOfSections(in: messagesCollectionView) >= 2 {
+                    messagesCollectionView.reloadSections([numberOfSections(in: messagesCollectionView) - 2])
+                }
+            })
+            
+        }
         messagesCollectionView.scrollToLastItem(animated: true)
     }
     
@@ -412,7 +405,7 @@ extension ChatViewController: ChatMoreDelegate {
 extension ChatViewController: MatchRequestCellDelegate {
     
     func matchRequestCellDidTapped(postId: Int) {
-        guard let post = PostService.singleton.getConversationPost(withPostId: postId) else { return }
+        guard let post = PostService.singleton.getPost(withPostId: postId) else { return }
         let postVC = PostViewController.createPostVC(with: post, shouldStartWithRaisedKeyboard: false, completionHandler: nil)
         navigationController!.pushViewController(postVC, animated: true)
     }
@@ -431,7 +424,10 @@ extension ChatViewController: WantToChatDelegate {
                 DispatchQueue.main.async { [weak self] in
                     self?.setupMessageInputBarForChatting()
                     self?.isAuthedUserProfileHidden = false
-                    self?.messagesCollectionView.scrollToLastItem(animated: false)
+                    DispatchQueue.main.async { [weak self] in
+                        //should happen on the next frame, after the input bar is changed
+                        self?.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                    }
                 }
             } catch {
                 CustomSwiftMessages.displayError(error)
@@ -491,7 +487,23 @@ extension ChatViewController: MessagesDisplayDelegate {
     }
     
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
-        return isFromCurrentSender(message: message) ? .bubbleOutline(.lightGray.withAlphaComponent(0.5)) : .bubble
+        //The default message content view has uneven padding which can't be set by the open interface 😒
+        //Fix it here
+        
+        return .custom { view in
+            view.layer.cornerCurve = .continuous
+            view.layer.cornerRadius = 13
+            let messageLabel = view.subviews[0] as! MessageLabel
+            if self.isFromCurrentSender(message: message) {
+                view.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+                view.layer.borderWidth = 1
+                messageLabel.center = CGPoint(x: messageLabel.center.x + 2, y: messageLabel.center.y)
+            } else {
+                view.layer.borderColor = UIColor.clear.cgColor
+                view.layer.borderWidth = 0
+                messageLabel.center = CGPoint(x: messageLabel.center.x - 3, y: messageLabel.center.y)
+            }
+        }
     }
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
@@ -507,17 +519,15 @@ extension ChatViewController: MessagesDisplayDelegate {
 
 extension ChatViewController: MessagesLayoutDelegate {
     
+    //TODO: I THINK I CAN DELETE THESE TWO NOW WITH CUSTOM CALCULATOR
+    
     func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return isTimeLabelVisible(at: indexPath) ? 50 : 0
     }
     
     func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return isFromCurrentSender(message: message) && isLastMessage(at: indexPath) ? 16 : 0
+        return isLastMessageFromSender(message: message, at: indexPath) ? 16 : 0
     }
-        
-//    func textCellSizeCalculator(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CellSizeCalculator? {
-//        return self.textMessageSizeCalculator
-//    }
     
 }
 
@@ -570,6 +580,24 @@ extension ChatViewController: MessageLabelDelegate {
 // MARK: - Helpers
 
 extension ChatViewController {
+    
+    func isLastMessageFromSender(message: MessageType, at indexPath: IndexPath) -> Bool {
+        let startingIndex = indexPath.section
+        if startingIndex > conversation.chatObjects.count { return false }
+        if startingIndex == conversation.chatObjects.count {
+            return isFromCurrentSender(message: message)
+        }
+        if !isFromCurrentSender(message: message) { return false } //make sure this message if from current sender
+        //make sure all later messages are NOT from the current sender
+        for index in startingIndex+1..<conversation.chatObjects.count {
+            if let message = conversation.chatObjects[index] as? MessageKitMessage {
+                if isFromCurrentSender(message: message) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
     
     func isLastMessage(at indexPath: IndexPath) -> Bool {
         let isInfoCellVisible = conversation.isSangdaebangHidden
@@ -638,3 +666,27 @@ private func nextIndexPath(for currentIndexPath: IndexPath, in tableView: UIColl
 
     return nil
 }
+
+
+
+//    func setupMessageInputBarForChatting() {
+        //Positioning
+//        messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
+//        messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 14, bottom: 8, right: 14)
+//            if #available(iOS 13, *) {
+//                messageInputBar.inputTextView.layer.borderColor = UIColor.systemGray2.cgColor
+//            } else {
+//                messageInputBar.inputTextView.layer.borderColor = UIColor.lightGray.cgColor
+//            }
+//        messageInputBar.inputTextView.layer.borderWidth = 1.0
+//        messageInputBar.inputTextView.layer.cornerRadius = 16.0
+//        messageInputBar.inputTextView.layer.masksToBounds = true
+//        messageInputBar.inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+//        messageInputBar.setLeftStackViewWidthConstant(to: 0, animated: false)
+//        //Aesthetic
+//        messageInputBar.inputTextView.tintColor = mistUIColor()
+//        messageInputBar.sendButton.setTitleColor(mistUIColor(), for: .normal)
+//        messageInputBar.sendButton.setTitleColor(mistUIColor().withAlphaComponent(0.3), for: .highlighted)
+//        messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
+//        messageInputBar.shouldAnimateTextDidChangeLayout = true
+//    }

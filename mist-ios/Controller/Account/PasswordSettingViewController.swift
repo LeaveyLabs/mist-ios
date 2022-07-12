@@ -100,12 +100,8 @@ class PasswordSettingViewController: UITableViewController {
         
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.SimpleInput, for: indexPath) as! SimpleInputCell
-        cell.textField.autocorrectionType = .no
-        cell.textField.autocapitalizationType = .none
-        cell.textField.text = ""
-        cell.textField.delegate = self
+        cell.configure(as: .password, delegate: self)
         cell.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        cell.selectionStyle = .none
         switch indexPath.row {
         case 0:
             cell.textField.tag = 0
@@ -142,16 +138,18 @@ class PasswordSettingViewController: UITableViewController {
     }
     
     @objc func tryToUpdatePassword() {
+        
         Task {
             isSaving = true
+            view.isUserInteractionEnabled = false
             do {
                 try await UserService.singleton.updatePassword(to: newPassword)
-                isSaving = false
                 handleSuccessfulUpdate()
             } catch {
-                isSaving = false
                 CustomSwiftMessages.displayError(error)
             }
+            view.isUserInteractionEnabled = true
+            isSaving = false
         }
     }
     
@@ -163,11 +161,13 @@ class PasswordSettingViewController: UITableViewController {
     }
     
     func handleSuccessfulUpdate() {
-        CustomSwiftMessages.showSuccess("Successfully updated", "It's the little wins that count.")
-        existingPassword = ""
-        newPassword = ""
-        confirmPassword = ""
-        validateInput()
+        CustomSwiftMessages.showInfoCentered("Successfully updated", "Keep it a secret", emoji: "🤐") { [self] in
+            existingPassword = ""
+            newPassword = ""
+            confirmPassword = ""
+            validateInput()
+            navigationController?.popViewController(animated: true)
+        }
     }
     
 }
@@ -190,8 +190,22 @@ extension PasswordSettingViewController: UITextFieldDelegate {
         }
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField.tag {
+        case 0:
+            view.viewWithTag(1)?.becomeFirstResponder()
+        case 1:
+            view.viewWithTag(2)?.becomeFirstResponder()
+        case 2:
+            break
+        default:
+            break
+        }
+        return false
+    }
+    
     // Max length UI text field: https://stackoverflow.com/questions/25223407/max-length-uitextfield
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        return textField.shouldChangeCharactersGivenMaxLengthOf(30, range, string)
+        return textField.shouldChangeCharactersGivenMaxLengthOf(Constants.maxPasswordLength, range, string)
     }
 }
