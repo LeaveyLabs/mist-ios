@@ -40,28 +40,24 @@ class mist_iosUITests: XCTestCase {
         app.launch()
         snapshot("01StartScreen")
         
-        sleep(20)
+        sleep(60)
+        // Map Screen
+        snapshot("02MapScreen")
         
         // Explore Post Screen
         app.otherElements["Cava cutie"].tap()
         sleep(5)
-        snapshot("02PostScreen")
+        snapshot("03PostScreen")
         
         // Chat Screen
         chatButton.tap()
         sleep(5)
-        snapshot("03ChatScreen")
+        snapshot("04ChatScreen")
         
         // Requested Match Screen
         tablesQuery/*@START_MENU_TOKEN@*/.staticTexts["Adam"]/*[[".cells.staticTexts[\"Adam\"]",".staticTexts[\"Adam\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
         sleep(5)
-        snapshot("04MatchRequestScreen")
-        
-        // Accepted Match Screen
-        backButton.tap()
-        tablesQuery/*@START_MENU_TOKEN@*/.staticTexts["Bob"]/*[[".cells.staticTexts[\"Bob\"]",".staticTexts[\"Bob\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        sleep(5)
-        snapshot("05AcceptedScreen")
+        snapshot("05MatchRequestScreen")
         
         // Pending Match Screen
         backButton.tap()
