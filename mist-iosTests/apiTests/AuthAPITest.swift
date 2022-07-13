@@ -55,7 +55,7 @@ class AuthAPITest: XCTestCase {
     
     func testCreateUser() async throws {
         do {
-            let _ = try await AuthAPI.createUser(username: "kevinsun", first_name: "Kevin", last_name: "Sun", picture: UIImage(), email: "kevinsun@usc.edu", password: "fakePass1234")
+            let _ = try await AuthAPI.createUser(username: "kevinsun", first_name: "Kevin", last_name: "Sun", picture: UIImage(), email: "kevinsun@usc.edu", password: "fakePass1234", dob: "2000-11-25")
             XCTFail("Invalid create user request was successful")
         } catch {}
     }

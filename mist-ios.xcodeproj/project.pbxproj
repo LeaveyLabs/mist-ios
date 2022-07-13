@@ -20,6 +20,7 @@
 		436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */; };
 		43770C4B27EE8C0F00F31CCF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */; };
 		438D6F222862D1BB00A074FA /* MessageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438D6F212862D1BB00A074FA /* MessageAPI.swift */; };
+		439BE29E287F0247003637E3 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439BE29D287F0247003637E3 /* SnapshotHelper.swift */; };
 		439E44F427DFB71300E244D6 /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F327DFB71300E244D6 /* UserAPI.swift */; };
 		439E44F827DFE11F00E244D6 /* WordAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F727DFE11F00E244D6 /* WordAPI.swift */; };
 		439E44FA27DFE20600E244D6 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F927DFE20600E244D6 /* Word.swift */; };
@@ -288,6 +289,7 @@
 		436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewController.swift; sourceTree = "<group>"; };
 		43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		438D6F212862D1BB00A074FA /* MessageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageAPI.swift; sourceTree = "<group>"; };
+		439BE29D287F0247003637E3 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		439E44F327DFB71300E244D6 /* UserAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
 		439E44F727DFE11F00E244D6 /* WordAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordAPI.swift; sourceTree = "<group>"; };
 		439E44F927DFE20600E244D6 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
@@ -998,6 +1000,7 @@
 		47E74E2B27CA100000467A0C /* mist-iosUITests */ = {
 			isa = PBXGroup;
 			children = (
+				439BE29D287F0247003637E3 /* SnapshotHelper.swift */,
 				47E74E2C27CA100000467A0C /* mist_iosUITests.swift */,
 				47E74E2E27CA100000467A0C /* mist_iosUITestsLaunchTests.swift */,
 			);
@@ -1760,6 +1763,7 @@
 			files = (
 				47E74E2F27CA100000467A0C /* mist_iosUITestsLaunchTests.swift in Sources */,
 				47E74E2D27CA100000467A0C /* mist_iosUITests.swift in Sources */,
+				439BE29E287F0247003637E3 /* SnapshotHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
