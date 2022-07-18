@@ -1312,28 +1312,6 @@
                                             <constraint firstItem="1iY-N7-bhq" firstAttribute="top" secondItem="yJz-Cy-4Uv" secondAttribute="top" constant="5" id="sLw-J0-3az"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rtW-tx-4KW">
-                                        <rect key="frame" x="107" y="671" width="90" height="26"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="90" id="CGA-dr-pnn"/>
-                                            <constraint firstAttribute="height" constant="26" id="O9j-EW-MLo"/>
-                                        </constraints>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <connections>
-                                            <action selector="termsButtonDidTapped:" destination="UyC-fl-2SL" eventType="touchUpInside" id="syO-cS-GKB"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ry9-G4-qDr">
-                                        <rect key="frame" x="218" y="671" width="80" height="26"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="26" id="2g6-ag-6tt"/>
-                                            <constraint firstAttribute="width" constant="80" id="qNH-rT-ke0"/>
-                                        </constraints>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <connections>
-                                            <action selector="privacyPolicyButtonDidTapped:" destination="UyC-fl-2SL" eventType="touchUpInside" id="Xwp-WK-JO5"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OPx-I9-xIv">
                                         <rect key="frame" x="329" y="201" width="40.666666666666686" height="16.666666666666657"/>
                                         <state key="normal" title="Button"/>
