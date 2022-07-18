@@ -49,7 +49,7 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
         setupConfirmEmailTextField()
         setupContinueButton()
         setupResendButton()
-        setupAgreementLabel()
+//        setupAgreementLabel()
     }
 
     override func viewDidAppear(_ animated: Bool) {
