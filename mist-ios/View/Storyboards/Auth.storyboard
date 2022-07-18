@@ -43,10 +43,23 @@
                                     <segue destination="578-PS-30b" kind="show" id="qPL-JR-ade"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="By clicking register or login, you agree to our Terms of Use and Privacy Policy." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="855-FN-OIn" userLabel="AgreementTextView">
+                                <rect key="frame" x="87" y="646" width="240" height="44"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="DDn-dA-njb"/>
+                                    <constraint firstAttribute="height" constant="44" id="cAj-nY-ebS"/>
+                                </constraints>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="UUV-KT-ah5"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="855-FN-OIn" firstAttribute="centerX" secondItem="g07-uP-5a9" secondAttribute="centerX" id="Bi8-MX-hFd"/>
+                            <constraint firstItem="CZN-Hl-vez" firstAttribute="top" secondItem="855-FN-OIn" secondAttribute="bottom" constant="28" id="BrS-D0-DvO"/>
                             <constraint firstItem="UUV-KT-ah5" firstAttribute="bottom" secondItem="yet-V7-pLL" secondAttribute="bottom" constant="25" id="Njs-gA-Xgi"/>
                             <constraint firstItem="UUV-KT-ah5" firstAttribute="trailing" secondItem="CZN-Hl-vez" secondAttribute="trailing" constant="20" id="WZp-Gb-jcs"/>
                             <constraint firstItem="yet-V7-pLL" firstAttribute="top" secondItem="CZN-Hl-vez" secondAttribute="bottom" constant="25" id="c1d-6s-E9m"/>
@@ -57,6 +70,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="riY-D8-892"/>
                     <connections>
+                        <outlet property="agreementTextView" destination="855-FN-OIn" id="99T-rE-wkM"/>
                         <outlet property="loginButton" destination="yet-V7-pLL" id="Ivs-q3-Doa"/>
                         <outlet property="registerButton" destination="CZN-Hl-vez" id="3d6-tj-8WA"/>
                     </connections>
@@ -152,7 +166,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dk4-3j-CVV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1661" y="2210"/>
+            <point key="canvasLocation" x="-1662.3188405797102" y="2209.8214285714284"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="734-2O-gca">
