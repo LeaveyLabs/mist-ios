@@ -25,7 +25,7 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
         dateComponents.month = 1
         dateComponents.day = 1
         let startingDate = Calendar.current.date(from: dateComponents)!
-        let minimumAge = Calendar.current.date(byAdding: .year, value: -13, to: Date())!
+        let minimumAge = Calendar.current.date(byAdding: .year, value: -18, to: Date())!
         
         datePicker.date = startingDate
         datePicker.maximumDate = minimumAge
