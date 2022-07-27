@@ -11,7 +11,7 @@ class VoteService: NSObject {
     
     static var singleton = VoteService()
     
-    private var votes: [Vote] = []
+    private var votes: [PostVote] = []
 
     //MARK: - Initialization
     
@@ -22,12 +22,12 @@ class VoteService: NSObject {
     //MARK: - Load
     
     func loadVotes() async throws {
-        votes = try await VoteAPI.fetchVotesByUser(voter: UserService.singleton.getId())
+        votes = try await PostVoteAPI.fetchVotesByUser(voter: UserService.singleton.getId())
     }
     
     //MARK: - Getters
     
-    func votesForPost(postId: Int) -> [Vote] {
+    func votesForPost(postId: Int) -> [PostVote] {
         return votes.filter { $0.post == postId }
     }
     
@@ -43,7 +43,7 @@ class VoteService: NSObject {
     }
     
     private func handleVoteAdd(postId: Int) throws {
-        let addedVote = Vote(id: Int.random(in: 0..<Int.max),
+        let addedVote = PostVote(id: Int.random(in: 0..<Int.max),
                                       voter: UserService.singleton.getId(),
                                       post: postId,
                                       timestamp: Date().timeIntervalSince1970)
@@ -51,7 +51,7 @@ class VoteService: NSObject {
         
         Task {
             do {
-                let _ = try await VoteAPI.postVote(voter: UserService.singleton.getId(), post: postId)
+                let _ = try await PostVoteAPI.postVote(voter: UserService.singleton.getId(), post: postId)
             } catch {
                 votes.removeAll { $0.id == addedVote.id }
                 throw(error)
@@ -65,7 +65,7 @@ class VoteService: NSObject {
         
         Task {
             do {
-                try await VoteAPI.deleteVote(voter: UserService.singleton.getId(), post: postId)
+                try await PostVoteAPI.deleteVote(voter: UserService.singleton.getId(), post: postId)
             } catch {
                 votes.append(deletedVote)
                 throw(error)

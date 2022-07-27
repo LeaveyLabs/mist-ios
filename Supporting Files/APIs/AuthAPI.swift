@@ -41,8 +41,8 @@ class AuthAPI {
     // (and database will send verifcation email)
     static func registerEmail(email:String) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_EMAIL_REGISTRATION)"
-        let obj:[String:String] = [AUTH_EMAIL_PARAM:email]
-        let json = try JSONEncoder().encode(obj)
+        let params:[String:String] = [AUTH_EMAIL_PARAM:email]
+        let json = try JSONEncoder().encode(params)
         let (_, _) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
     }
     
@@ -110,10 +110,10 @@ class AuthAPI {
             to: "\(Env.BASE_URL)\(UserAPI.PATH_TO_USER_MODEL)",
             method: .post
         )
-        // TODO: get the response codes through .response
+        
         let response = await request.serializingDecodable(CompleteUser.self).response
         
-        
+
         if let httpResponse = response.response {
             let goodRequest = (200...299).contains(httpResponse.statusCode)
             let badRequest = (400...499).contains(httpResponse.statusCode)

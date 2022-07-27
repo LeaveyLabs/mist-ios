@@ -7,24 +7,24 @@
 
 import Foundation
 
-class FlagAPI {
-    static let PATH_TO_FLAG_MODEL = "api/flags/"
+class PostFlagAPI {
+    static let PATH_TO_FLAG_MODEL = "api/post-flags/"
     static let FLAGGER_PARAM = "flagger"
     static let POST_PARAM = "post"
     
-    static func fetchFlagsByPostId(postId:Int) async throws -> [Flag] {
+    static func fetchFlagsByPostId(postId:Int) async throws -> [PostFlag] {
         let url = "\(Env.BASE_URL)\(PATH_TO_FLAG_MODEL)?\(POST_PARAM)=\(postId)"
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
-        return try JSONDecoder().decode([Flag].self, from: data)
+        return try JSONDecoder().decode([PostFlag].self, from: data)
     }
     
-    static func fetchFlagsByFlagger(flaggerId:Int) async throws -> [Flag] {
+    static func fetchFlagsByFlagger(flaggerId:Int) async throws -> [PostFlag] {
         let url = "\(Env.BASE_URL)\(PATH_TO_FLAG_MODEL)?\(FLAGGER_PARAM)=\(flaggerId)"
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
-        return try JSONDecoder().decode([Flag].self, from: data)
+        return try JSONDecoder().decode([PostFlag].self, from: data)
     }
 
-    static func postFlag(flaggerId:Int, postId:Int) async throws -> Flag {
+    static func postFlag(flaggerId:Int, postId:Int) async throws -> PostFlag {
         let url = "\(Env.BASE_URL)\(PATH_TO_FLAG_MODEL)"
         let params = [
             FLAGGER_PARAM: flaggerId,
@@ -32,7 +32,7 @@ class FlagAPI {
         ]
         let json = try JSONEncoder().encode(params)
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
-        return try JSONDecoder().decode(Flag.self, from: data)
+        return try JSONDecoder().decode(PostFlag.self, from: data)
     }
     
     static func deleteFlag(flaggerId:Int, postId:Int) async throws {

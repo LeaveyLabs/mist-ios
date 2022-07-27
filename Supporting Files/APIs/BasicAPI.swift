@@ -26,93 +26,74 @@ enum HTTPMethods: String {
 }
 
 class BasicAPI {
-    static func basicHTTPCallWithoutToken(url:String, jsonData:Data, method:String) async throws -> (Data, URLResponse) {
-        let serviceUrl = URL(string: url)!
-        var request = URLRequest(url: serviceUrl)
-        // Initialize API request
-        request.httpMethod = method
-        request.httpBody = jsonData
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        // Run API request
-        guard let (data, response) = try? await URLSession.shared.data(for: request) else {
-            throw APIError.CouldNotConnect
-        }
-
+    static func filterBasicErrors(data: Data, response: URLResponse) async throws {
         if let httpResponse = (response as? HTTPURLResponse) {
-            let goodRequest = (200...299).contains(httpResponse.statusCode)
+            let clientError = (400...499).contains(httpResponse.statusCode)
             let serverError = (500...599).contains(httpResponse.statusCode)
-            if goodRequest {
-                return (data, response)
-            }
-            else if serverError {
-                throw APIError.ServerError
-            }
-            else if httpResponse.statusCode == 400 {
+            
+            if clientError {
                 print(String(data: data, encoding: String.Encoding.utf8) as Any)
-                throw APIError.InvalidParameters
-            }
-            else if httpResponse.statusCode == 403 {
-                throw APIError.InvalidCredentials
-            }
-            else if httpResponse.statusCode == 404 {
-                throw APIError.NotFound
-            }
-            else if httpResponse.statusCode == 408 {
-                throw APIError.Timeout
-            }
-            else if httpResponse.statusCode == 429 {
-                throw APIError.Throttled
-            }
-            else {
-                throw APIError.Unknown
+                if httpResponse.statusCode == 400 {
+                    throw APIError.InvalidParameters
+                }
+                else if httpResponse.statusCode == 401 || httpResponse.statusCode == 403 {
+                    throw APIError.InvalidCredentials
+                }
+                else if httpResponse.statusCode == 404 {
+                    throw APIError.NotFound
+                }
+                else if httpResponse.statusCode == 408 {
+                    throw APIError.Timeout
+                }
+                else if httpResponse.statusCode == 429 {
+                    throw APIError.Throttled
+                }
+                else {
+                    throw APIError.Unknown
+                }
+            } else if serverError {
+                throw APIError.ServerError
             }
         } else {
             throw APIError.NoResponse
         }
     }
     
-    static func baiscHTTPCallWithToken(url:String, jsonData:Data, method:String) async throws -> (Data, URLResponse) {
-        let serviceUrl = URL(string: url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!
-        var request = URLRequest(url: serviceUrl)
-        request.httpMethod = method
-        request.httpBody = jsonData
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Token \(getGlobalAuthToken())", forHTTPHeaderField: "Authorization")
-        // Run API request
+    static func runRequest(request:URLRequest) async throws -> (Data, URLResponse) {
         guard let (data, response) = try? await URLSession.shared.data(for: request) else {
             throw APIError.CouldNotConnect
         }
-        
-        if let httpResponse = (response as? HTTPURLResponse) {
-            let goodRequest = (200...299).contains(httpResponse.statusCode)
-            let serverError = (500...599).contains(httpResponse.statusCode)
-            if goodRequest {
-                return (data, response)
-            }
-            else if serverError {
-                throw APIError.ServerError
-            }
-            else if httpResponse.statusCode == 400 {
-                print(String(data: data, encoding: String.Encoding.utf8) as Any)
-                throw APIError.InvalidParameters
-            }
-            else if httpResponse.statusCode == 403 {
-                throw APIError.InvalidCredentials
-            }
-            else if httpResponse.statusCode == 404 {
-                throw APIError.NotFound
-            }
-            else if httpResponse.statusCode == 408 {
-                throw APIError.Timeout
-            }
-            else if httpResponse.statusCode == 429 {
-                throw APIError.Throttled
-            }
-            else {
-                throw APIError.Unknown
-            }
-        } else {
-            throw APIError.NoResponse
+        try await filterBasicErrors(data: data, response: response)
+        return (data, response)
+    }
+    
+    static func formatURLRequest(url:String, method:String, body:Data, headers:[String:String]) throws -> URLRequest {
+        let serviceUrl = URL(string: url)!
+        var request = URLRequest(url: serviceUrl)
+        request.httpMethod = method
+        request.httpBody = body
+        for (header, value) in headers {
+            request.setValue(value, forHTTPHeaderField: header)
         }
+        return request
+    }
+    
+    static func basicHTTPCallWithoutToken(url:String, jsonData:Data, method:String) async throws -> (Data, URLResponse) {
+        let request = try formatURLRequest(url: url,
+                                       method: method,
+                                       body: jsonData,
+                                       headers: ["Content-Type": "application/json"])
+        return try await runRequest(request: request)
+    }
+    
+    static func baiscHTTPCallWithToken(url:String, jsonData:Data, method:String) async throws -> (Data, URLResponse) {
+        let request = try formatURLRequest(url: url,
+                                       method: method,
+                                       body: jsonData,
+                                       headers: [
+                                        "Content-Type": "application/json",
+                                        "Authorization": "Token \(getGlobalAuthToken())",
+                                       ])
+        return try await runRequest(request: request)
     }
 }

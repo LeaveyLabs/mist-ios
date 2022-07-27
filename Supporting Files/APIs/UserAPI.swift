@@ -24,6 +24,7 @@ class UserAPI {
     static let PATH_TO_USER_MODEL = "api/users/"
     static let PATH_TO_MATCHES = "api/matches/"
     static let PATH_TO_FRIENDSHIPS = "api/friendships/"
+    static let PATH_TO_NEARBY_USERS = "api/nearby-users/"
     static let EMAIL_PARAM = "email"
     static let USERNAME_PARAM = "username"
     static let PASSWORD_PARAM = "password"
@@ -33,6 +34,14 @@ class UserAPI {
     static let SEX_PARAM = "sex"
     static let TEXT_PARAM = "text"
     static let TOKEN_PARAM = "token"
+    static let LATITUDE_PARAM = "latitude"
+    static let LONGITUDE_PARAM = "longitude"
+    
+    static func fetchNearbyUsers() async throws -> [ReadOnlyUser] {
+        let url = "\(Env.BASE_URL)\(PATH_TO_NEARBY_USERS)"
+        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
+    }
     
     static func fetchFriends() async throws -> [ReadOnlyUser] {
         let url = "\(Env.BASE_URL)\(PATH_TO_FRIENDSHIPS)"
@@ -135,6 +144,17 @@ class UserAPI {
     static func patchPassword(password:String, id:Int) async throws -> CompleteUser {
         let url =  "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(id)/"
         let params:[String:String] = [PASSWORD_PARAM: password]
+        let json = try JSONEncoder().encode(params)
+        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
+        return try JSONDecoder().decode(CompleteUser.self, from: data)
+    }
+    
+    static func patchLatitudeLongitude(latitude:Double, longitude:Double, id:Int) async throws -> CompleteUser {
+        let url =  "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(id)/"
+        let params:[String:Double] = [
+            LATITUDE_PARAM: latitude,
+            LONGITUDE_PARAM: longitude,
+        ]
         let json = try JSONEncoder().encode(params)
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
         return try JSONDecoder().decode(CompleteUser.self, from: data)

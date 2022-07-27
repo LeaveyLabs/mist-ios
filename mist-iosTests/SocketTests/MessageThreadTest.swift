@@ -40,8 +40,8 @@ class MessageThreadTest: XCTestCase {
     }
     
     func testConversation() async throws {
-        let thread1 = try MessageThread(sender: TestConstants.Auth.ID, receiver: TestConstants.Auth2.ID)
-        let thread2 = try MessageThread(sender: TestConstants.Auth2.ID, receiver: TestConstants.Auth.ID)
+        let thread1 = try MessageThread(sender: TestConstants.Auth.ID, receiver: TestConstants.Auth2.ID, previousMessages: [])
+        let thread2 = try MessageThread(sender: TestConstants.Auth2.ID, receiver: TestConstants.Auth.ID, previousMessages: [])
         let message_texts = ["Message 1", "Message 2", "Message 3", "Message 4", "Message 5", "Message 6"]
         do {
             setGlobalAuthToken(token: TestConstants.Auth.TOKEN)

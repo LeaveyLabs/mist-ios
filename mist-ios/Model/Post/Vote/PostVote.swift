@@ -1,5 +1,5 @@
 //
-//  Flag.swift
+//  Vote.swift
 //  mist-ios
 //
 //  Created by Kevin Sun on 3/12/22.
@@ -7,10 +7,9 @@
 
 import Foundation
 
-struct Flag: Codable {
+struct PostVote: Codable {
     let id: Int;
-    let flagger: Int;
+    let voter: Int;
     let post: Int;
     let timestamp: Double;
-    let rating: Int;
 }
