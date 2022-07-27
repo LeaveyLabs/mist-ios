@@ -174,11 +174,11 @@ extension SearchSuggestionsTableViewController {
                 sortAndTrimNewWordResults(allResults)
                 handleFinishedSearch()
             } catch {
-                if (error as! APIError).rawValue == APIError.Throttled.rawValue {
-                    print("throttled. not throwing a custom swift message for now")
-                } else {
+//                if (error as! APIError).rawValue == APIError.Throttled.rawValue {
+//                    print("throttled. not throwing a custom swift message for now")
+//                } else {
                     CustomSwiftMessages.displayError(error)
-                }
+//                }
             }
         }
     }

@@ -7,12 +7,11 @@
 
 import Foundation
 
-enum APIError: String, LocalizedError {
+enum APIError: Error {
     
     case CouldNotConnect
     case ServerError
-    case InvalidParameters
-    case InvalidCredentials
+    case ClientError(String, String)
     case NotFound
     case Timeout
     case Throttled
@@ -25,10 +24,8 @@ enum APIError: String, LocalizedError {
             return NSLocalizedString("Poor internet connection", comment: "")
         case .ServerError:
             return NSLocalizedString("Our servers are down", comment: "")
-        case .InvalidParameters:
-            return NSLocalizedString("Invalid credentials", comment: "")
-        case .InvalidCredentials:
-            return NSLocalizedString("Invalid credentials", comment: "")
+        case .ClientError(let errorDescription, _):
+            return NSLocalizedString(errorDescription, comment: "")
         case .NotFound:
             return NSLocalizedString("Something went wrong", comment: "")
         case .Timeout:
@@ -50,10 +47,8 @@ enum APIError: String, LocalizedError {
             return NSLocalizedString("Check your internet connection", comment: "")
         case .ServerError:
             return NSLocalizedString("Please try again later", comment: "")
-        case .InvalidParameters:
-            return NSLocalizedString("Please try again", comment: "")
-        case .InvalidCredentials:
-            return NSLocalizedString("Please try again", comment: "")
+        case .ClientError(_, let recoverySuggession):
+            return NSLocalizedString(recoverySuggession, comment: "")
         case .NotFound:
             return NSLocalizedString("Please try again later", comment: "")
         case .Timeout:

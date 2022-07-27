@@ -7,6 +7,14 @@
 
 import Foundation
 
+struct PostVoteError: Codable {
+    let voter: [String]?
+    let post: [String]?
+    
+    let non_field_errors: [String]?
+    let detail: [String]?
+}
+
 class PostVoteAPI {
     static let PATH_TO_VOTE_MODEL = "api/post-votes/"
     static let PATH_TO_CUSTOM_DELETE_VOTE_ENDPOINT = "api/delete-post-vote/"
@@ -14,10 +22,32 @@ class PostVoteAPI {
     static let POST_PARAM = "post"
     static let RATING_PARAM = "rating"
     
+    static let POST_VOTE_RECOVERY_MESSAGE = "Please try again."
+    
+    static func filterPostVoteErrors(data:Data, response:HTTPURLResponse) throws {
+        let statusCode = response.statusCode
+        
+        if isSuccess(statusCode: statusCode) { return }
+        if isClientError(statusCode: statusCode) {
+            let error = try JSONDecoder().decode(PostVoteError.self, from: data)
+            
+            if let voterErrors = error.voter,
+               let voteError = voteErrors.first {
+                throw APIError.ClientError(voterError, POST_VOTE_RECOVERY_MESSAGE)
+            }
+            if let postErrors = error.post,
+               let postError = postErrors.first {
+                throw APIError.ClientError(postError, POST_VOTE_RECOVERY_MESSAGE)
+            }
+        }
+        throw APIError.Unknown
+    }
+    
     // Get votes from a user
     static func fetchVotesByUser(voter:Int) async throws -> [PostVote] {
         let url = "\(Env.BASE_URL)\(PATH_TO_VOTE_MODEL)?\(VOTER_PARAM)=\(voter)"
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterPostVoteErrors(data: data, response: response)
         return try JSONDecoder().decode([PostVote].self, from: data)
     }
     
@@ -25,8 +55,9 @@ class PostVoteAPI {
     static func fetchVotesByVoterAndPost(voter:Int, post:Int) async throws -> [PostVote] {
         // Fetch the vote from the API endpoint
         let url = "\(Env.BASE_URL)\(PATH_TO_VOTE_MODEL)?\(VOTER_PARAM)=\(voter)&\(POST_PARAM)=\(post)"
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         // Deserialize to get original vote
+        try filterPostVoteErrors(data: data, response: response)
         return try JSONDecoder().decode([PostVote].self, from: data)
     }
     
@@ -38,7 +69,8 @@ class PostVoteAPI {
             POST_PARAM: post,
         ]
         let json = try JSONEncoder().encode(params)
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        try filterPostVoteErrors(data: data, response: response)
         return try JSONDecoder().decode(PostVote.self, from: data)
     }
     
@@ -46,11 +78,13 @@ class PostVoteAPI {
         let endpoint = "\(Env.BASE_URL)\(PATH_TO_CUSTOM_DELETE_VOTE_ENDPOINT)"
         let params = "\(VOTER_PARAM)=\(voter)&\(POST_PARAM)=\(post)"
         let url = "\(endpoint)?\(params)"
-        let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        try filterPostVoteErrors(data: data, response: response)
     }
 
     static func deleteVote(vote_id:Int) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_VOTE_MODEL)\(vote_id)/"
-        let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        try filterPostVoteErrors(data: data, response: response)
     }
 }

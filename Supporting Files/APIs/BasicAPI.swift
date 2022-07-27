@@ -17,6 +17,18 @@ func getGlobalAuthToken() -> String {
     return AUTHTOKEN
 }
 
+func isSuccess(statusCode:Int) -> Bool {
+    return (200...299).contains(statusCode)
+}
+
+func isClientError(statusCode:Int) -> Bool {
+    return (400...499).contains(statusCode)
+}
+
+func isServerError(statusCode:Int) -> Bool {
+    return (500...599).contains(statusCode)
+}
+
 enum HTTPMethods: String {
     case GET = "GET"
     case POST = "POST"
@@ -26,45 +38,35 @@ enum HTTPMethods: String {
 }
 
 class BasicAPI {
-    static func filterBasicErrors(data: Data, response: URLResponse) async throws {
-        if let httpResponse = (response as? HTTPURLResponse) {
-            let clientError = (400...499).contains(httpResponse.statusCode)
-            let serverError = (500...599).contains(httpResponse.statusCode)
-            
-            if clientError {
-                print(String(data: data, encoding: String.Encoding.utf8) as Any)
-                if httpResponse.statusCode == 400 {
-                    throw APIError.InvalidParameters
-                }
-                else if httpResponse.statusCode == 401 || httpResponse.statusCode == 403 {
-                    throw APIError.InvalidCredentials
-                }
-                else if httpResponse.statusCode == 404 {
-                    throw APIError.NotFound
-                }
-                else if httpResponse.statusCode == 408 {
-                    throw APIError.Timeout
-                }
-                else if httpResponse.statusCode == 429 {
-                    throw APIError.Throttled
-                }
-                else {
-                    throw APIError.Unknown
-                }
-            } else if serverError {
-                throw APIError.ServerError
+    static func filterBasicErrors(data: Data, response: HTTPURLResponse) throws {
+        let clientError = (400...499).contains(response.statusCode)
+        let serverError = (500...599).contains(response.statusCode)
+        
+        if clientError {
+            if response.statusCode == 404 {
+                throw APIError.NotFound
             }
-        } else {
-            throw APIError.NoResponse
+            else if response.statusCode == 408 {
+                throw APIError.Timeout
+            }
+            else if response.statusCode == 429 {
+                throw APIError.Throttled
+            }
+        } else if serverError {
+            throw APIError.ServerError
         }
     }
     
-    static func runRequest(request:URLRequest) async throws -> (Data, URLResponse) {
+    static func runRequest(request:URLRequest) async throws -> (Data, HTTPURLResponse) {
         guard let (data, response) = try? await URLSession.shared.data(for: request) else {
             throw APIError.CouldNotConnect
         }
-        try await filterBasicErrors(data: data, response: response)
-        return (data, response)
+        if let httpResponse = (response as? HTTPURLResponse) {
+            try filterBasicErrors(data: data, response: httpResponse)
+            return (data, httpResponse)
+        } else {
+            throw APIError.NoResponse
+        }
     }
     
     static func formatURLRequest(url:String, method:String, body:Data, headers:[String:String]) throws -> URLRequest {
@@ -78,7 +80,7 @@ class BasicAPI {
         return request
     }
     
-    static func basicHTTPCallWithoutToken(url:String, jsonData:Data, method:String) async throws -> (Data, URLResponse) {
+    static func basicHTTPCallWithoutToken(url:String, jsonData:Data, method:String) async throws -> (Data, HTTPURLResponse) {
         let request = try formatURLRequest(url: url,
                                        method: method,
                                        body: jsonData,
@@ -86,7 +88,7 @@ class BasicAPI {
         return try await runRequest(request: request)
     }
     
-    static func baiscHTTPCallWithToken(url:String, jsonData:Data, method:String) async throws -> (Data, URLResponse) {
+    static func baiscHTTPCallWithToken(url:String, jsonData:Data, method:String) async throws -> (Data, HTTPURLResponse) {
         let request = try formatURLRequest(url: url,
                                        method: method,
                                        body: jsonData,

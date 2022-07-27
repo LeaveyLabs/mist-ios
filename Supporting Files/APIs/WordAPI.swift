@@ -7,10 +7,21 @@
 
 import Foundation
 
+struct WordError: Codable {
+    let non_field_errors: [String]?
+    let detail: [String]?
+}
+
 class WordAPI {
     static let PATH_TO_WORD_MODEL = "api/words/"
     static let SEARCH_WORD_PARAM = "search_word"
     static let WRAPPER_WORDS_PARAM = "wrapper_words"
+    
+    static func filterWordErrors(data:Data, response:HTTPURLResponse) throws {
+        let statusCode = response.statusCode
+        if isSuccess(statusCode: statusCode) { return }
+        throw APIError.Unknown
+    }
     
     static func fetchWords(search_word:String, wrapper_words:[String]) async throws -> [Word] {
         var url = "\(Env.BASE_URL)\(PATH_TO_WORD_MODEL)?"
@@ -18,8 +29,8 @@ class WordAPI {
             url += "\(WRAPPER_WORDS_PARAM)=\(wrapper_word)&"
         }
         url += "\(SEARCH_WORD_PARAM)=\(search_word)"
-        print(url)
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterWordErrors(data: data, response: response)
         return try JSONDecoder().decode([Word].self, from: data)
     }
     

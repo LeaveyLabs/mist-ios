@@ -88,6 +88,8 @@ struct CompleteUser: Codable, CompleteUserBackendProperties {
     let email: String
     let date_of_birth: String
     let sex: String?
+    let latitude: Double?
+    let longitude: Double?
     
     //Equatable
     static func == (lhs: CompleteUser, rhs: CompleteUser) -> Bool { return lhs.id == rhs.id }
@@ -104,6 +106,8 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
     var email: String
     let date_of_birth: String
     let sex: String?
+    let latitude: Double?
+    let longitude: Double?
     
     // Frontend-only properties
     var profilePicWrapper: ProfilePicWrapper
@@ -122,6 +126,8 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
         self.email = completeUser.email
         self.date_of_birth = completeUser.date_of_birth
         self.sex = completeUser.sex
+        self.latitude = completeUser.latitude
+        self.longitude = completeUser.longitude
         
         self.profilePicWrapper = profilePic
         self.token = token

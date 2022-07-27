@@ -7,20 +7,51 @@
 
 import Foundation
 
+struct CommentFlagError: Codable {
+    let flagger: [String]?
+    let comment: [String]?
+    
+    let non_field_errors: [String]?
+    let detail: [String]?
+}
+
 class CommentFlagAPI {
     static let PATH_TO_FLAG_MODEL = "api/comment-flags/"
     static let FLAGGER_PARAM = "flagger"
     static let COMMENT_PARAM = "comment"
     
+    static let COMMENT_FLAG_RECOVERY_MESSAGE = "Please try again."
+    
+    static func filterCommentFlagErrors(data:Data, response:HTTPURLResponse) throws {
+        let statusCode = response.statusCode
+        
+        if isSuccess(statusCode: statusCode) { return }
+        if isClientError(statusCode: statusCode) {
+            let error = try JSONDecoder().decode(CommentFlagError.self, from: data)
+            
+            if let flaggerErrors = error.flagger,
+               let flaggerError = flaggerErrors.first {
+                throw APIError.ClientError(flaggerError, COMMENT_FLAG_RECOVERY_MESSAGE)
+            }
+            if let commentErrors = error.comment,
+               let commentError = commentErrors.first {
+                throw APIError.ClientError(commentError, COMMENT_FLAG_RECOVERY_MESSAGE)
+            }
+        }
+        throw APIError.Unknown
+    }
+    
     static func fetchFlagsByCommentId(commentId:Int) async throws -> [CommentFlag] {
         let url = "\(Env.BASE_URL)\(PATH_TO_FLAG_MODEL)?\(COMMENT_PARAM)=\(commentId)"
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterCommentFlagErrors(data: data, response: response)
         return try JSONDecoder().decode([CommentFlag].self, from: data)
     }
     
     static func fetchFlagsByFlagger(flaggerId:Int) async throws -> [CommentFlag] {
         let url = "\(Env.BASE_URL)\(PATH_TO_FLAG_MODEL)?\(FLAGGER_PARAM)=\(flaggerId)"
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterCommentFlagErrors(data: data, response: response)
         return try JSONDecoder().decode([CommentFlag].self, from: data)
     }
 
@@ -31,7 +62,8 @@ class CommentFlagAPI {
             COMMENT_PARAM: commentId,
         ]
         let json = try JSONEncoder().encode(params)
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        try filterCommentFlagErrors(data: data, response: response)
         return try JSONDecoder().decode(CommentFlag.self, from: data)
     }
     
@@ -47,6 +79,7 @@ class CommentFlagAPI {
 
     static func deleteFlag(flag_id:Int) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_FLAG_MODEL)\(flag_id)/"
-        let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        try filterCommentFlagErrors(data: data, response: response)
     }
 }

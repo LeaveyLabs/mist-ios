@@ -7,6 +7,14 @@
 
 import Foundation
 
+struct CommentVoteError: Codable {
+    let voter: [String]?
+    let comment: [String]?
+    
+    let non_field_errors: [String]?
+    let detail: [String]?
+}
+
 class CommentVoteAPI {
     static let PATH_TO_VOTE_MODEL = "api/comment-votes/"
     static let PATH_TO_CUSTOM_DELETE_VOTE_ENDPOINT = "api/delete-comment-vote/"
@@ -14,10 +22,32 @@ class CommentVoteAPI {
     static let COMMENT_PARAM = "comment"
     static let RATING_PARAM = "rating"
     
+    static let COMMENT_VOTE_RECOVERY_MESSAGE = "Please try again."
+    
+    static func filterCommentVoteErrors(data:Data, response:HTTPURLResponse) throws {
+        let statusCode = response.statusCode
+        
+        if isSuccess(statusCode: statusCode) { return }
+        if isClientError(statusCode: statusCode) {
+            let error = try JSONDecoder().decode(CommentVoteError.self, from: data)
+            
+            if let voterErrors = error.voter,
+               let voterError = voterErrors.first {
+                throw APIError.ClientError(voterError, COMMENT_VOTE_RECOVERY_MESSAGE)
+            }
+            if let commentErrors = error.comment,
+               let commentError = commentErrors.first {
+                throw APIError.ClientError(commentError, COMMENT_VOTE_RECOVERY_MESSAGE)
+            }
+        }
+        throw APIError.Unknown
+    }
+    
     // Get votes from a user
     static func fetchVotesByUser(voter:Int) async throws -> [CommentVote] {
         let url = "\(Env.BASE_URL)\(PATH_TO_VOTE_MODEL)?\(VOTER_PARAM)=\(voter)"
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterCommentVoteErrors(data: data, response: response)
         return try JSONDecoder().decode([CommentVote].self, from: data)
     }
     
@@ -25,8 +55,9 @@ class CommentVoteAPI {
     static func fetchVotesByVoterAndComment(voter:Int, comment:Int) async throws -> [CommentVote] {
         // Fetch the vote from the API endpoint
         let url = "\(Env.BASE_URL)\(PATH_TO_VOTE_MODEL)?\(VOTER_PARAM)=\(voter)&\(COMMENT_PARAM)=\(comment)"
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         // Deserialize to get original vote
+        try filterCommentVoteErrors(data: data, response: response)
         return try JSONDecoder().decode([CommentVote].self, from: data)
     }
     
@@ -38,7 +69,8 @@ class CommentVoteAPI {
             COMMENT_PARAM: comment,
         ]
         let json = try JSONEncoder().encode(params)
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        try filterCommentVoteErrors(data: data, response: response)
         return try JSONDecoder().decode(CommentVote.self, from: data)
     }
     
@@ -46,11 +78,13 @@ class CommentVoteAPI {
         let endpoint = "\(Env.BASE_URL)\(PATH_TO_CUSTOM_DELETE_VOTE_ENDPOINT)"
         let params = "\(VOTER_PARAM)=\(voter)&\(COMMENT_PARAM)=\(comment)"
         let url = "\(endpoint)?\(params)"
-        let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        try filterCommentVoteErrors(data: data, response: response)
     }
 
     static func deleteVote(vote_id:Int) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_VOTE_MODEL)\(vote_id)/"
-        let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        try filterCommentVoteErrors(data: data, response: response)
     }
 }

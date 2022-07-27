@@ -17,6 +17,8 @@ class UserService: NSObject {
     private let LOCAL_FILE_APPENDING_PATH = "myaccount.json"
     private var localFileLocation: URL!
     
+    private var SLEEP_INTERVAL:UInt32 = 30
+    
     //MARK: - Initializer
     
     //private initializer because there will only ever be one instance of UserService, the singleton
@@ -27,6 +29,16 @@ class UserService: NSObject {
         
         if FileManager.default.fileExists(atPath: localFileLocation.path) {
             self.loadUserFromFilesystem()
+        }
+        
+        Task {
+            while let latitude = frontendCompleteUser?.latitude,
+                  let longitude = frontendCompleteUser?.longitude,
+                  let id = frontendCompleteUser?.id {
+                let _ = try await UserAPI.patchLatitudeLongitude(latitude: latitude, longitude: longitude, id: id)
+                let _ = try await UserAPI.fetchNearbyUsers()
+                sleep(SLEEP_INTERVAL)
+            }
         }
     }
     
