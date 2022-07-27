@@ -32,7 +32,7 @@ class PostVoteAPI {
             let error = try JSONDecoder().decode(PostVoteError.self, from: data)
             
             if let voterErrors = error.voter,
-               let voteError = voteErrors.first {
+               let voterError = voterErrors.first {
                 throw APIError.ClientError(voterError, POST_VOTE_RECOVERY_MESSAGE)
             }
             if let postErrors = error.post,
