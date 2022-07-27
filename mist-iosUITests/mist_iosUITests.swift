@@ -38,7 +38,7 @@ class mist_iosUITests: XCTestCase {
         // Start Screen
         setupSnapshot(app)
         app.launch()
-        snapshot("01StartScreen")
+//        snapshot("01StartScreen")
         
         sleep(60)
         // Map Screen
@@ -63,7 +63,7 @@ class mist_iosUITests: XCTestCase {
         backButton.tap()
         app.tables/*@START_MENU_TOKEN@*/.cells.containing(.staticText, identifier:"You’ve caught me haha… you’re in luck, I’ve got enough for the two of us!").element/*[[".cells.containing(.staticText, identifier:\"???\").element",".cells.containing(.staticText, identifier:\"You’ve caught me haha… you’re in luck, I’ve got enough for the two of us!\").element"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
         sleep(5)
-        snapshot("06PendingScreen")
+//        snapshot("06PendingScreen")
         
         // Comment Screen
         app.collectionViews/*@START_MENU_TOKEN@*/.staticTexts["You replied to ???'s mist:"]/*[[".cells.staticTexts[\"You replied to ???'s mist:\"]",".staticTexts[\"You replied to ???'s mist:\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
@@ -75,13 +75,13 @@ class mist_iosUITests: XCTestCase {
         backButton.tap()
         submitbuttonButton.tap()
         sleep(5)
-        snapshot("08WritePostScreen")
+//        snapshot("08WritePostScreen")
         
         // Drop Pin Screen
         dropPinButton.tap()
         app.otherElements["Target"].press(forDuration: 0.9)
         sleep(5)
-        snapshot("09DropPinScreen")
+//        snapshot("09DropPinScreen")
         
         // Feed Screen
         backButton.tap()
