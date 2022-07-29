@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5B739D7F28935B9500E4EED0"
-               BuildableName = "mist-ios copy.app"
+               BuildableName = "mist-ios-dev.app"
                BlueprintName = "mist-ios-dev"
                ReferencedContainer = "container:mist-ios.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5B739D7F28935B9500E4EED0"
-            BuildableName = "mist-ios copy.app"
+            BuildableName = "mist-ios-dev.app"
             BlueprintName = "mist-ios-dev"
             ReferencedContainer = "container:mist-ios.xcodeproj">
          </BuildableReference>
@@ -72,7 +72,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5B739D7F28935B9500E4EED0"
-            BuildableName = "mist-ios copy.app"
+            BuildableName = "mist-ios-dev.app"
             BlueprintName = "mist-ios-dev"
             ReferencedContainer = "container:mist-ios.xcodeproj">
          </BuildableReference>

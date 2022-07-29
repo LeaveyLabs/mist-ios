@@ -7,6 +7,9 @@
 
 import UIKit
 import FirebaseCore
+import FirebaseCrashlytics
+import FirebaseAnalytics
+import FirebasePerformance
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let stackViewAppearance = UIStackView.appearance(whenContainedInInstancesOf: [UINavigationBar.self])
         stackViewAppearance.spacing = -10
         
+//        Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(false)
+//        Performance.sharedInstance().isInstrumentationEnabled = false
+//        Performance.sharedInstance().isDataCollectionEnabled = false
+//        Analytics.setAnalyticsCollectionEnabled(false)
+
         FirebaseApp.configure()
         return true
     }
