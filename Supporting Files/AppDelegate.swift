@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseCore
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -15,7 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Bring bar button items closer together
         let stackViewAppearance = UIStackView.appearance(whenContainedInInstancesOf: [UINavigationBar.self])
         stackViewAppearance.spacing = -10
-    
+        
+        FirebaseApp.configure()
         return true
     }
 
@@ -36,4 +39,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.portrait
     }
+    
 }

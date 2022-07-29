@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseAnalytics
 
 class UserService: NSObject {
     
@@ -27,6 +28,7 @@ class UserService: NSObject {
         
         if FileManager.default.fileExists(atPath: localFileLocation.path) {
             self.loadUserFromFilesystem()
+            setupFirebaseAnalyticsProperties()
         }
     }
     
@@ -86,6 +88,7 @@ class UserService: NSObject {
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
                                                     profilePic: newProfilePicWrapper,
                                                     token: token)
+        setupFirebaseAnalyticsProperties()
         Task { await self.saveUserToFilesystem() }
     }
     
@@ -98,6 +101,7 @@ class UserService: NSObject {
                                                     profilePic: ProfilePicWrapper(image: profilePicUIImage,
                                                                                   withCompresssion: false),
                                                     token: token)
+        setupFirebaseAnalyticsProperties()
         Task { await self.saveUserToFilesystem() }
     }
     
@@ -145,6 +149,29 @@ class UserService: NSObject {
         guard let frontendCompleteUser = frontendCompleteUser else { return }
         try await UserAPI.deleteUser(user_id: frontendCompleteUser.id)
         logOut()
+    }
+    
+    //MARK: - Firebase
+    
+    func setupFirebaseAnalyticsProperties() {
+        //if we decide to use firebase ad support framework in the future, gender, age, and interest will automatically be set
+        guard let age = frontendCompleteUser?.age else { return }
+        var ageBracket = ""
+        if age < 25 {
+            ageBracket = "18-24"
+        } else if age < 35 {
+            ageBracket = "25-35"
+        } else if age < 45 {
+            ageBracket = "35-45"
+        } else if age < 55 {
+            ageBracket = "45-55"
+        } else if age < 65 {
+            ageBracket = "55-65"
+        } else {
+            ageBracket = "65+"
+        }
+        Analytics.setUserProperty(frontendCompleteUser!.sex, forName: "sex")
+        Analytics.setUserProperty(ageBracket, forName: "age")
     }
     
     //MARK: - Filesystem

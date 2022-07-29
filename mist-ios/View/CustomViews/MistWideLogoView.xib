@@ -61,8 +61,8 @@
                 <constraint firstAttribute="bottom" secondItem="8Yo-bS-byP" secondAttribute="bottom" id="3v0-ff-6wj"/>
                 <constraint firstItem="Xqi-uW-mdG" firstAttribute="leading" secondItem="qqU-kQ-0gQ" secondAttribute="trailing" constant="20" id="EKV-QQ-xUM"/>
                 <constraint firstItem="8Yo-bS-byP" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Upv-CB-4Tf"/>
+                <constraint firstItem="qqU-kQ-0gQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="25" id="Uvq-Of-bsw"/>
                 <constraint firstItem="8Yo-bS-byP" firstAttribute="top" secondItem="Xqi-uW-mdG" secondAttribute="bottom" constant="-18" id="kMh-VP-ICa"/>
-                <constraint firstItem="qqU-kQ-0gQ" firstAttribute="leading" secondItem="8Yo-bS-byP" secondAttribute="leading" constant="-4" id="z3O-EF-BIi"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="175.36231884057972" y="254.12946428571428"/>

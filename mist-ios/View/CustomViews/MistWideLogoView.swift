@@ -49,6 +49,10 @@ import Foundation
             mistLabel.textColor = mistUIColor()
             subtitleLabel.textColor = mistUIColor()
         }
+        
+        if Env.environment == .dev {
+            subtitleLabel.text = "beta"
+        }
     }
     
     // This function has the heart fly far off the screen (3000px above) with a longer duration

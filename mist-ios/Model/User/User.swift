@@ -108,6 +108,16 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
     // Frontend-only properties
     var profilePicWrapper: ProfilePicWrapper
     var token: String
+    var age: Int? {
+        get {
+            let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "en_US")
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            guard let birthday = dateFormatter.date(from: date_of_birth) else { return nil }
+            let ageAsElapsedTime = Date().timeIntervalSince1970.getElapsedTime(since: birthday.timeIntervalSince1970)
+            return ageAsElapsedTime.years
+        }
+    }
     
     //MessageKit's SenderType
     var senderId: String { return String(id) }
