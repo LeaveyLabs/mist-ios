@@ -54,7 +54,7 @@ class LoadingViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-                        
+    
         if !UserService.singleton.isLoggedIn() {
             goToAuth()
         } else {

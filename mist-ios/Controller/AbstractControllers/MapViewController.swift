@@ -8,6 +8,8 @@
 import UIKit
 import MapKit
 import SwiftMessages
+import FirebaseCore
+import FirebaseAnalytics
 
 class MapViewController: UIViewController {
     
@@ -194,12 +196,24 @@ extension MapViewController {
     }
     
     @IBAction func zoomInButtonDidPressed(_ sender: UIButton) {
+        let analyticsTitle = "zoomInButtonDidPressed"
+        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+          AnalyticsParameterItemID: "id-\(analyticsTitle)",
+          AnalyticsParameterItemName: analyticsTitle,
+        ])
+        
         zoomByAFactorOf(0.33) {
             self.view.isUserInteractionEnabled = true //in case the user scrolled map before pressing
         }
     }
     
     @IBAction func zoomOutButtonDidPressed(_ sender: UIButton) {
+        let analyticsTitle = "zoomOutButtonDidPressed"
+        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+          AnalyticsParameterItemID: "id-\(analyticsTitle)",
+          AnalyticsParameterItemName: analyticsTitle,
+        ])
+        
         zoomByAFactorOf(3) {
             self.view.isUserInteractionEnabled = true //in case the user scrolled map before pressing
         }

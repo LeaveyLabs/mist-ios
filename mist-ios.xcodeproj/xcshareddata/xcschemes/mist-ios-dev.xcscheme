@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "47E74E0727CA0FFE00467A0C"
-               BuildableName = "mist-ios.app"
-               BlueprintName = "mist-ios"
+               BlueprintIdentifier = "5B739D7F28935B9500E4EED0"
+               BuildableName = "mist-ios copy.app"
+               BlueprintName = "mist-ios-dev"
                ReferencedContainer = "container:mist-ios.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,30 +28,10 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "47E74E1D27CA100000467A0C"
-               BuildableName = "mist-iosTests.xctest"
-               BlueprintName = "mist-iosTests"
-               ReferencedContainer = "container:mist-ios.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "47E74E2727CA100000467A0C"
-               BuildableName = "mist-iosUITests.xctest"
-               BlueprintName = "mist-iosUITests"
-               ReferencedContainer = "container:mist-ios.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -59,35 +39,27 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      enableGPUValidationMode = "1"
       allowLocationSimulation = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "47E74E0727CA0FFE00467A0C"
-            BuildableName = "mist-ios.app"
-            BlueprintName = "mist-ios"
+            BlueprintIdentifier = "5B739D7F28935B9500E4EED0"
+            BuildableName = "mist-ios copy.app"
+            BlueprintName = "mist-ios-dev"
             ReferencedContainer = "container:mist-ios.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-FIRAnalyticsDebugEnabled"
+            argument = "-FIRDebugDisabled"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-FIRDebugDisabled"
+            argument = "-FIRAnalyticsDebugEnabled"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "BASE_URL"
-            value = "we aren&apos;t using env variables this way right now"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -99,9 +71,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "47E74E0727CA0FFE00467A0C"
-            BuildableName = "mist-ios.app"
-            BlueprintName = "mist-ios"
+            BlueprintIdentifier = "5B739D7F28935B9500E4EED0"
+            BuildableName = "mist-ios copy.app"
+            BlueprintName = "mist-ios-dev"
             ReferencedContainer = "container:mist-ios.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
