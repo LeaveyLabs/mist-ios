@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1097589418355-8sk2li5n210dof301k7vb241lcv3dgs1.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1097589418355-8sk2li5n210dof301k7vb241lcv3dgs1</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBtBj4KlYxbvp5iDSOzmkoyQDA2DUMPbI0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1097589418355</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>app.getmist.mist-ios-dev</string>
+	<key>PROJECT_ID</key>
+	<string>mist-development-16136</string>
+	<key>STORAGE_BUCKET</key>
+	<string>mist-development-16136.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1097589418355:ios:9fb787c3879bc9184b7d06</string>
+</dict>
+</plist>
