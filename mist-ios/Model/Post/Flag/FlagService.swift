@@ -11,8 +11,8 @@ class FlagService: NSObject {
     
     static var singleton = FlagService()
     
-    private var flagsFromYou: [Flag] = []
-    private var flagsOnYou: [Flag] = []
+    private var flagsFromYou: [PostFlag] = []
+    private var flagsOnYou: [PostFlag] = []
 
     //MARK: - Initialization
     
@@ -23,7 +23,7 @@ class FlagService: NSObject {
     //MARK: - Load
     
     func loadFlags() async throws {
-        async let loadedFlags = FlagAPI.fetchFlagsByFlagger(flaggerId: UserService.singleton.getId())
+        async let loadedFlags = PostFlagAPI.fetchFlagsByFlagger(flaggerId: UserService.singleton.getId())
         (flagsFromYou) = try await (loadedFlags)
     }
     
@@ -45,11 +45,11 @@ class FlagService: NSObject {
     }
     
     private func flagPost(_ postToBeFlagged: Int) throws {
-        let newFlag = Flag(id: Int.random(in: 0..<Int.max), flagger: UserService.singleton.getId(), post: postToBeFlagged, timestamp: Date().timeIntervalSince1970, rating: 0)
+        let newFlag = PostFlag(id: Int.random(in: 0..<Int.max), flagger: UserService.singleton.getId(), post: postToBeFlagged, timestamp: Date().timeIntervalSince1970, rating: 0)
         flagsFromYou.append(newFlag)
         Task {
             do {
-                let _ = try await FlagAPI.postFlag(flaggerId: UserService.singleton.getId(), postId: postToBeFlagged)
+                let _ = try await PostFlagAPI.postFlag(flaggerId: UserService.singleton.getId(), postId: postToBeFlagged)
             } catch {
                 flagsFromYou.removeAll { $0.id == newFlag.id }
                 throw(error)
@@ -63,7 +63,7 @@ class FlagService: NSObject {
         
         Task {
             do {
-                let _ = try await FlagAPI.deleteFlag(flaggerId: UserService.singleton.getId(), postId: postToBeUnFlagged)
+                let _ = try await PostFlagAPI.deleteFlag(flaggerId: UserService.singleton.getId(), postId: postToBeUnFlagged)
             } catch {
                 flagsFromYou.append(flagToDelete)
                 throw(error)

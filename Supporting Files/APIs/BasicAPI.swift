@@ -17,6 +17,18 @@ func getGlobalAuthToken() -> String {
     return AUTHTOKEN
 }
 
+func isSuccess(statusCode:Int) -> Bool {
+    return (200...299).contains(statusCode)
+}
+
+func isClientError(statusCode:Int) -> Bool {
+    return (400...499).contains(statusCode)
+}
+
+func isServerError(statusCode:Int) -> Bool {
+    return (500...599).contains(statusCode)
+}
+
 enum HTTPMethods: String {
     case GET = "GET"
     case POST = "POST"
@@ -26,93 +38,64 @@ enum HTTPMethods: String {
 }
 
 class BasicAPI {
-    static func basicHTTPCallWithoutToken(url:String, jsonData:Data, method:String) async throws -> (Data, URLResponse) {
-        let serviceUrl = URL(string: url)!
-        var request = URLRequest(url: serviceUrl)
-        // Initialize API request
-        request.httpMethod = method
-        request.httpBody = jsonData
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        // Run API request
+    static func filterBasicErrors(data: Data, response: HTTPURLResponse) throws {
+        let clientError = (400...499).contains(response.statusCode)
+        let serverError = (500...599).contains(response.statusCode)
+        
+        if clientError {
+            if response.statusCode == 404 {
+                throw APIError.NotFound
+            }
+            else if response.statusCode == 408 {
+                throw APIError.Timeout
+            }
+            else if response.statusCode == 429 {
+                throw APIError.Throttled
+            }
+        } else if serverError {
+            throw APIError.ServerError
+        }
+    }
+    
+    static func runRequest(request:URLRequest) async throws -> (Data, HTTPURLResponse) {
         guard let (data, response) = try? await URLSession.shared.data(for: request) else {
             throw APIError.CouldNotConnect
         }
-
         if let httpResponse = (response as? HTTPURLResponse) {
-            let goodRequest = (200...299).contains(httpResponse.statusCode)
-            let serverError = (500...599).contains(httpResponse.statusCode)
-            if goodRequest {
-                return (data, response)
-            }
-            else if serverError {
-                throw APIError.ServerError
-            }
-            else if httpResponse.statusCode == 400 {
-                print(String(data: data, encoding: String.Encoding.utf8) as Any)
-                throw APIError.InvalidParameters
-            }
-            else if httpResponse.statusCode == 403 {
-                throw APIError.InvalidCredentials
-            }
-            else if httpResponse.statusCode == 404 {
-                throw APIError.NotFound
-            }
-            else if httpResponse.statusCode == 408 {
-                throw APIError.Timeout
-            }
-            else if httpResponse.statusCode == 429 {
-                throw APIError.Throttled
-            }
-            else {
-                throw APIError.Unknown
-            }
+            try filterBasicErrors(data: data, response: httpResponse)
+            return (data, httpResponse)
         } else {
             throw APIError.NoResponse
         }
     }
     
-    static func baiscHTTPCallWithToken(url:String, jsonData:Data, method:String) async throws -> (Data, URLResponse) {
-        let serviceUrl = URL(string: url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!
+    static func formatURLRequest(url:String, method:String, body:Data, headers:[String:String]) throws -> URLRequest {
+        let serviceUrl = URL(string: url)!
         var request = URLRequest(url: serviceUrl)
         request.httpMethod = method
-        request.httpBody = jsonData
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Token \(getGlobalAuthToken())", forHTTPHeaderField: "Authorization")
-        // Run API request
-        guard let (data, response) = try? await URLSession.shared.data(for: request) else {
-            throw APIError.CouldNotConnect
+        request.httpBody = body
+        for (header, value) in headers {
+            request.setValue(value, forHTTPHeaderField: header)
         }
-        
-        if let httpResponse = (response as? HTTPURLResponse) {
-            let goodRequest = (200...299).contains(httpResponse.statusCode)
-            let serverError = (500...599).contains(httpResponse.statusCode)
-            if goodRequest {
-                return (data, response)
-            }
-            else if serverError {
-                throw APIError.ServerError
-            }
-            else if httpResponse.statusCode == 400 {
-                print(String(data: data, encoding: String.Encoding.utf8) as Any)
-                throw APIError.InvalidParameters
-            }
-            else if httpResponse.statusCode == 403 {
-                throw APIError.InvalidCredentials
-            }
-            else if httpResponse.statusCode == 404 {
-                throw APIError.NotFound
-            }
-            else if httpResponse.statusCode == 408 {
-                throw APIError.Timeout
-            }
-            else if httpResponse.statusCode == 429 {
-                throw APIError.Throttled
-            }
-            else {
-                throw APIError.Unknown
-            }
-        } else {
-            throw APIError.NoResponse
-        }
+        return request
+    }
+    
+    static func basicHTTPCallWithoutToken(url:String, jsonData:Data, method:String) async throws -> (Data, HTTPURLResponse) {
+        let request = try formatURLRequest(url: url,
+                                       method: method,
+                                       body: jsonData,
+                                       headers: ["Content-Type": "application/json"])
+        return try await runRequest(request: request)
+    }
+    
+    static func baiscHTTPCallWithToken(url:String, jsonData:Data, method:String) async throws -> (Data, HTTPURLResponse) {
+        let request = try formatURLRequest(url: url,
+                                       method: method,
+                                       body: jsonData,
+                                       headers: [
+                                        "Content-Type": "application/json",
+                                        "Authorization": "Token \(getGlobalAuthToken())",
+                                       ])
+        return try await runRequest(request: request)
     }
 }

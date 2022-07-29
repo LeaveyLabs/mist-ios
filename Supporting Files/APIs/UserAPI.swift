@@ -19,11 +19,26 @@ extension NSMutableData {
 
 //https://github.com/kean/Nuke
 
+struct UserError: Codable {
+    let email: [String]?
+    let username: [String]?
+    let password: [String]?
+    let first_name: [String]?
+    let last_name: [String]?
+    let date_of_birth: [String]?
+    let sex: [String]?
+    let latitude: [String]?
+    let longitude: [String]?
+    
+    let non_field_errors: [String]?
+    let detail: String?
+}
 
 class UserAPI {
     static let PATH_TO_USER_MODEL = "api/users/"
     static let PATH_TO_MATCHES = "api/matches/"
     static let PATH_TO_FRIENDSHIPS = "api/friendships/"
+    static let PATH_TO_NEARBY_USERS = "api/nearby-users/"
     static let EMAIL_PARAM = "email"
     static let USERNAME_PARAM = "username"
     static let PASSWORD_PARAM = "password"
@@ -33,53 +48,121 @@ class UserAPI {
     static let SEX_PARAM = "sex"
     static let TEXT_PARAM = "text"
     static let TOKEN_PARAM = "token"
+    static let LATITUDE_PARAM = "latitude"
+    static let LONGITUDE_PARAM = "longitude"
+    
+    static let USER_RECOVERY_MESSAGE = "Please try again."
+    
+    static func throwAPIError(error: UserError) throws {
+        if let emailErrors = error.email,
+            let emailError = emailErrors.first {
+            throw APIError.ClientError(emailError, USER_RECOVERY_MESSAGE)
+        }
+        if let usernameErrors = error.username,
+            let usernameError = usernameErrors.first {
+            throw APIError.ClientError(usernameError, USER_RECOVERY_MESSAGE)
+        }
+        if let passwordErrors = error.password,
+            let passwordError = passwordErrors.first {
+            throw APIError.ClientError(passwordError, USER_RECOVERY_MESSAGE)
+        }
+        if let firstNameErrors = error.first_name,
+           let firstNameError = firstNameErrors.first {
+            throw APIError.ClientError(firstNameError, USER_RECOVERY_MESSAGE)
+        }
+        if let lastNameErrors = error.last_name,
+           let lastNameError = lastNameErrors.first {
+            throw APIError.ClientError(lastNameError, USER_RECOVERY_MESSAGE)
+        }
+        if let dobErrors = error.date_of_birth,
+           let dobError = dobErrors.first {
+            throw APIError.ClientError(dobError, USER_RECOVERY_MESSAGE)
+        }
+        if let sexErrors = error.sex,
+           let sexError = sexErrors.first {
+            throw APIError.ClientError(sexError, USER_RECOVERY_MESSAGE)
+        }
+        if let latitudeErrors = error.latitude,
+           let latitudeError = latitudeErrors.first{
+            throw APIError.ClientError(latitudeError, USER_RECOVERY_MESSAGE)
+        }
+        if let longitudeErrors = error.longitude,
+           let longitudeError = longitudeErrors.first{
+            throw APIError.ClientError(longitudeError, USER_RECOVERY_MESSAGE)
+        }
+    }
+    
+    static func filterUserErrors(data:Data, response:HTTPURLResponse) throws {
+        let statusCode = response.statusCode
+        
+        if isSuccess(statusCode: statusCode) { return }
+        if isClientError(statusCode: statusCode) {
+            let error = try JSONDecoder().decode(UserError.self, from: data)
+            try throwAPIError(error: error)
+        }
+        throw APIError.Unknown
+    }
+    
+    static func fetchNearbyUsers() async throws -> [ReadOnlyUser] {
+        let url = "\(Env.BASE_URL)\(PATH_TO_NEARBY_USERS)"
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterUserErrors(data: data, response: response)
+        return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
+    }
     
     static func fetchFriends() async throws -> [ReadOnlyUser] {
         let url = "\(Env.BASE_URL)\(PATH_TO_FRIENDSHIPS)"
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterUserErrors(data: data, response: response)
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
     }
     
     static func fetchMatches() async throws -> [ReadOnlyUser] {
         let url = "\(Env.BASE_URL)\(PATH_TO_MATCHES)"
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterUserErrors(data: data, response: response)
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
     }
     
     static func fetchUsersByUserId(userId:Int) async throws -> ReadOnlyUser {
         let url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(userId)/"
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterUserErrors(data: data, response: response)
         return try JSONDecoder().decode(ReadOnlyUser.self, from: data)
     }
     
     static func fetchUsersByUsername(username:String) async throws -> [ReadOnlyUser] {
         let url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)?\(USERNAME_PARAM)=\(username)"
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterUserErrors(data: data, response: response)
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
     }
     
     static func fetchUsersByFirstName(firstName:String) async throws -> [ReadOnlyUser] {
         let url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)?\(FIRST_NAME_PARAM)=\(firstName)"
-        print(url)
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterUserErrors(data: data, response: response)
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
     }
     
     static func fetchUsersByLastName(lastName:String) async throws -> [ReadOnlyUser] {
         let url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)?\(LAST_NAME_PARAM)=\(lastName)"
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterUserErrors(data: data, response: response)
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
     }
     
     static func fetchUsersByText(containing text:String) async throws -> [ReadOnlyUser] {
         let url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)?\(TEXT_PARAM)=\(text)"
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterUserErrors(data: data, response: response)
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
     }
     
     static func fetchAuthedUserByToken(token:String) async throws -> CompleteUser {
         let url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)?\(TOKEN_PARAM)=\(token)"
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterUserErrors(data: data, response: response)
         let queriedUsers = try JSONDecoder().decode([CompleteUser].self, from: data)
         let tokenUser = queriedUsers[0]
         return tokenUser
@@ -103,32 +186,25 @@ class UserAPI {
             headers: AUTH_HEADERS
         )
         
-        let response = await request.serializingDecodable(CompleteUser.self).response
-        let authedUser = try await request.serializingDecodable(CompleteUser.self).value
+        let response = await request.serializingDecodable(UserError.self).response
         
-        if let httpResponse = response.response {
-            let goodRequest = (200...299).contains(httpResponse.statusCode)
-            let badRequest = (400...499).contains(httpResponse.statusCode)
-            
-            if goodRequest {
-                return authedUser
-            }
-            else if badRequest {
-                throw APIError.InvalidCredentials
-            }
-            else {
-                throw APIError.Unknown
-            }
+        if let httpData = response.data, let httpResponse = response.response {
+            try BasicAPI.filterBasicErrors(data: httpData, response: httpResponse)
+            try filterUserErrors(data: httpData, response: httpResponse)
         } else {
             throw APIError.NoResponse
         }
+        
+        let authedUser = try await request.serializingDecodable(CompleteUser.self).value
+        return authedUser
     }
     
     static func patchUsername(username:String, id:Int) async throws -> CompleteUser {
         let url =  "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(id)/"
         let params:[String:String] = [USERNAME_PARAM: username]
         let json = try JSONEncoder().encode(params)
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
+        try filterUserErrors(data: data, response: response)
         return try JSONDecoder().decode(CompleteUser.self, from: data)
     }
     
@@ -136,13 +212,27 @@ class UserAPI {
         let url =  "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(id)/"
         let params:[String:String] = [PASSWORD_PARAM: password]
         let json = try JSONEncoder().encode(params)
-        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
+        try filterUserErrors(data: data, response: response)
+        return try JSONDecoder().decode(CompleteUser.self, from: data)
+    }
+    
+    static func patchLatitudeLongitude(latitude:Double, longitude:Double, id:Int) async throws -> CompleteUser {
+        let url =  "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(id)/"
+        let params:[String:Double] = [
+            LATITUDE_PARAM: latitude,
+            LONGITUDE_PARAM: longitude,
+        ]
+        let json = try JSONEncoder().encode(params)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
+        try filterUserErrors(data: data, response: response)
         return try JSONDecoder().decode(CompleteUser.self, from: data)
     }
     
     static func deleteUser(user_id:Int) async throws {
         let url =  "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(user_id)/"
-        let (_, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        try filterUserErrors(data: data, response: response)
     }
     
     static func UIImageFromURLString(url:String?) async throws -> UIImage {
@@ -150,7 +240,8 @@ class UserAPI {
             return UIImage(systemName: "person.crop.circle")!
         }
 
-        let (data, _) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterUserErrors(data: data, response: response)
         return UIImage(data: data) ?? UIImage(systemName: "person.crop.circle")!
     }
     

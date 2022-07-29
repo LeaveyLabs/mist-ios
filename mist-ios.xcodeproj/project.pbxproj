@@ -10,11 +10,16 @@
 		4316238228341F5F00169AA9 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4316238128341F5F00169AA9 /* MessageKit */; };
 		4316238428343D3F00169AA9 /* CustomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4316238328343D3F00169AA9 /* CustomSheetViewController.swift */; };
 		4316238C2834F8A600169AA9 /* SpecialTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4316238B2834F8A600169AA9 /* SpecialTabBarController.swift */; };
+		431F3810288B494900A5F48B /* MessageThreadTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431F380F288B494900A5F48B /* MessageThreadTest.swift */; };
 		4329571C27F4008300FA48A9 /* EnterEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */; };
 		433970DF27FE501700876026 /* WelcomeTutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */; };
 		43483BB228025179001C7C6A /* ChooseUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB128025179001C7C6A /* ChooseUsernameViewController.swift */; };
 		43483BB42802519C001C7C6A /* CreatePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB32802519C001C7C6A /* CreatePasswordViewController.swift */; };
 		43483BB6280251B1001C7C6A /* EnterNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB5280251B1001C7C6A /* EnterNameViewController.swift */; };
+		43529E292890BBD000B3A484 /* CommentVote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43529E282890BBD000B3A484 /* CommentVote.swift */; };
+		43529E2B2890BC5900B3A484 /* CommentFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43529E2A2890BC5900B3A484 /* CommentFlag.swift */; };
+		43529E2D2890BC9200B3A484 /* CommentVoteAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43529E2C2890BC9200B3A484 /* CommentVoteAPI.swift */; };
+		43529E2F2890BD3D00B3A484 /* CommentFlagAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43529E2E2890BD3D00B3A484 /* CommentFlagAPI.swift */; };
 		4369DB0A282EC436009215D4 /* MessageThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB09282EC436009215D4 /* MessageThread.swift */; };
 		4369DB0C282EC465009215D4 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB0B282EC465009215D4 /* Message.swift */; };
 		436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */; };
@@ -46,12 +51,12 @@
 		43D9B376285592D700E807C2 /* FavoriteAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D9251D28527E5600438C5C /* FavoriteAPI.swift */; };
 		43E30CFE2826355C00DBEB57 /* UploadProfilePictureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E30CFD2826355C00DBEB57 /* UploadProfilePictureViewController.swift */; };
 		43E30D0228263E1200DBEB57 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E30D0128263E1200DBEB57 /* ImagePicker.swift */; };
-		4700F8B427DD7BBA006C2E08 /* FlagAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B027DD7BB9006C2E08 /* FlagAPI.swift */; };
+		4700F8B427DD7BBA006C2E08 /* PostFlagAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B027DD7BB9006C2E08 /* PostFlagAPI.swift */; };
 		4700F8B527DD7BBA006C2E08 /* CommentAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B127DD7BB9006C2E08 /* CommentAPI.swift */; };
 		4700F8B627DD7BBA006C2E08 /* BasicAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B227DD7BB9006C2E08 /* BasicAPI.swift */; };
-		4700F8B727DD7BBA006C2E08 /* VoteAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B327DD7BB9006C2E08 /* VoteAPI.swift */; };
-		4700F8BA27DD7BE3006C2E08 /* Flag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B827DD7BE3006C2E08 /* Flag.swift */; };
-		4700F8BB27DD7BE3006C2E08 /* Vote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B927DD7BE3006C2E08 /* Vote.swift */; };
+		4700F8B727DD7BBA006C2E08 /* PostVoteAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B327DD7BB9006C2E08 /* PostVoteAPI.swift */; };
+		4700F8BA27DD7BE3006C2E08 /* PostFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B827DD7BE3006C2E08 /* PostFlag.swift */; };
+		4700F8BB27DD7BE3006C2E08 /* PostVote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B927DD7BE3006C2E08 /* PostVote.swift */; };
 		4700F8BE27DD807C006C2E08 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8BC27DD807C006C2E08 /* CommentCell.swift */; };
 		4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4700F8BD27DD807C006C2E08 /* CommentCell.xib */; };
 		4700F8C627DE4652006C2E08 /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8C527DE4652006C2E08 /* ExploreViewController.swift */; };
@@ -531,11 +536,16 @@
 /* Begin PBXFileReference section */
 		4316238328343D3F00169AA9 /* CustomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSheetViewController.swift; sourceTree = "<group>"; };
 		4316238B2834F8A600169AA9 /* SpecialTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialTabBarController.swift; sourceTree = "<group>"; };
+		431F380F288B494900A5F48B /* MessageThreadTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageThreadTest.swift; sourceTree = "<group>"; };
 		4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterEmailViewController.swift; sourceTree = "<group>"; };
 		433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeTutorialViewController.swift; sourceTree = "<group>"; };
 		43483BB128025179001C7C6A /* ChooseUsernameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseUsernameViewController.swift; sourceTree = "<group>"; };
 		43483BB32802519C001C7C6A /* CreatePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePasswordViewController.swift; sourceTree = "<group>"; };
 		43483BB5280251B1001C7C6A /* EnterNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameViewController.swift; sourceTree = "<group>"; };
+		43529E282890BBD000B3A484 /* CommentVote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentVote.swift; sourceTree = "<group>"; };
+		43529E2A2890BC5900B3A484 /* CommentFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentFlag.swift; sourceTree = "<group>"; };
+		43529E2C2890BC9200B3A484 /* CommentVoteAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentVoteAPI.swift; sourceTree = "<group>"; };
+		43529E2E2890BD3D00B3A484 /* CommentFlagAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentFlagAPI.swift; sourceTree = "<group>"; };
 		4369DB09282EC436009215D4 /* MessageThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageThread.swift; sourceTree = "<group>"; };
 		4369DB0B282EC465009215D4 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewController.swift; sourceTree = "<group>"; };
@@ -567,12 +577,12 @@
 		43D9B373285527BB00E807C2 /* MatchRequestAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchRequestAPITest.swift; sourceTree = "<group>"; };
 		43E30CFD2826355C00DBEB57 /* UploadProfilePictureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadProfilePictureViewController.swift; sourceTree = "<group>"; };
 		43E30D0128263E1200DBEB57 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
-		4700F8B027DD7BB9006C2E08 /* FlagAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlagAPI.swift; sourceTree = "<group>"; };
+		4700F8B027DD7BB9006C2E08 /* PostFlagAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostFlagAPI.swift; sourceTree = "<group>"; };
 		4700F8B127DD7BB9006C2E08 /* CommentAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentAPI.swift; sourceTree = "<group>"; };
 		4700F8B227DD7BB9006C2E08 /* BasicAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicAPI.swift; sourceTree = "<group>"; };
-		4700F8B327DD7BB9006C2E08 /* VoteAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteAPI.swift; sourceTree = "<group>"; };
-		4700F8B827DD7BE3006C2E08 /* Flag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flag.swift; sourceTree = "<group>"; };
-		4700F8B927DD7BE3006C2E08 /* Vote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vote.swift; sourceTree = "<group>"; };
+		4700F8B327DD7BB9006C2E08 /* PostVoteAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostVoteAPI.swift; sourceTree = "<group>"; };
+		4700F8B827DD7BE3006C2E08 /* PostFlag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostFlag.swift; sourceTree = "<group>"; };
+		4700F8B927DD7BE3006C2E08 /* PostVote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostVote.swift; sourceTree = "<group>"; };
 		4700F8BC27DD807C006C2E08 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		4700F8BD27DD807C006C2E08 /* CommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
 		4700F8C527DE4652006C2E08 /* ExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
@@ -850,6 +860,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		431F380E288B493700A5F48B /* SocketTests */ = {
+			isa = PBXGroup;
+			children = (
+				431F380F288B494900A5F48B /* MessageThreadTest.swift */,
+			);
+			path = SocketTests;
+			sourceTree = "<group>";
+		};
 		4369DB08282EC413009215D4 /* Socket */ = {
 			isa = PBXGroup;
 			children = (
@@ -1276,6 +1294,7 @@
 			isa = PBXGroup;
 			children = (
 				43D9250428525BD800438C5C /* APITests */,
+				431F380E288B493700A5F48B /* SocketTests */,
 				47E74E2227CA100000467A0C /* mist_iosTests.swift */,
 			);
 			path = "mist-iosTests";
@@ -1355,15 +1374,17 @@
 				4700F8B227DD7BB9006C2E08 /* BasicAPI.swift */,
 				43D9251528526DF300438C5C /* BlockAPI.swift */,
 				4700F8B127DD7BB9006C2E08 /* CommentAPI.swift */,
+				43529E2E2890BD3D00B3A484 /* CommentFlagAPI.swift */,
+				43529E2C2890BC9200B3A484 /* CommentVoteAPI.swift */,
 				43D9251D28527E5600438C5C /* FavoriteAPI.swift */,
 				43D92523285280D200438C5C /* FriendRequestAPI.swift */,
-				4700F8B027DD7BB9006C2E08 /* FlagAPI.swift */,
 				43D92525285280DB00438C5C /* MatchRequestAPI.swift */,
-				47FF869727DB1F470076A1CA /* PostAPI.swift */,
-				439E44F327DFB71300E244D6 /* UserAPI.swift */,
-				4700F8B327DD7BB9006C2E08 /* VoteAPI.swift */,
-				439E44F727DFE11F00E244D6 /* WordAPI.swift */,
 				438D6F212862D1BB00A074FA /* MessageAPI.swift */,
+				47FF869727DB1F470076A1CA /* PostAPI.swift */,
+				4700F8B027DD7BB9006C2E08 /* PostFlagAPI.swift */,
+				4700F8B327DD7BB9006C2E08 /* PostVoteAPI.swift */,
+				439E44F327DFB71300E244D6 /* UserAPI.swift */,
+				439E44F727DFE11F00E244D6 /* WordAPI.swift */,
 			);
 			path = APIs;
 			sourceTree = "<group>";
@@ -1603,7 +1624,8 @@
 		5BB624C928679FD000DCD45B /* Vote */ = {
 			isa = PBXGroup;
 			children = (
-				4700F8B927DD7BE3006C2E08 /* Vote.swift */,
+				43529E282890BBD000B3A484 /* CommentVote.swift */,
+				4700F8B927DD7BE3006C2E08 /* PostVote.swift */,
 				5BB624D02867A51500DCD45B /* VoteService.swift */,
 			);
 			path = Vote;
@@ -1621,7 +1643,8 @@
 		5BB624CB28679FD900DCD45B /* Flag */ = {
 			isa = PBXGroup;
 			children = (
-				4700F8B827DD7BE3006C2E08 /* Flag.swift */,
+				43529E2A2890BC5900B3A484 /* CommentFlag.swift */,
+				4700F8B827DD7BE3006C2E08 /* PostFlag.swift */,
 				5BB624CC2867A50600DCD45B /* FlagService.swift */,
 			);
 			path = Flag;
@@ -1981,7 +2004,7 @@
 				4780E5B42832F0560012B741 /* ChatViewController.swift in Sources */,
 				4700F8BE27DD807C006C2E08 /* CommentCell.swift in Sources */,
 				47A3D72327D5A0D2003DBEA5 /* ProfileViewController.swift in Sources */,
-				4700F8BB27DD7BE3006C2E08 /* Vote.swift in Sources */,
+				4700F8BB27DD7BE3006C2E08 /* PostVote.swift in Sources */,
 				5B774DF8286D068400CCCF28 /* UITextView+Newline.swift in Sources */,
 				47E2B1BD27FFC52900131B8D /* ShadowNavigationController.swift in Sources */,
 				47E74E0E27CA0FFE00467A0C /* SceneDelegate.swift in Sources */,
@@ -2030,9 +2053,11 @@
 				47F10DC12852CFE100E1A3DC /* UIImage+FromColor.swift in Sources */,
 				4718331228445A7C0061F9F3 /* UIView+PostBubble.swift in Sources */,
 				47F10DC72853DA0600E1A3DC /* UIImage+Blur.swift in Sources */,
+				43529E2B2890BC5900B3A484 /* CommentFlag.swift in Sources */,
 				5B37A36B28784A4B00279B2A /* EnterBiosViewController.swift in Sources */,
 				5BB624BE2864308E00DCD45B /* ConversationService.swift in Sources */,
 				47FF869D27DB87A70076A1CA /* UIImage+Thumbnail.swift in Sources */,
+				43529E2D2890BC9200B3A484 /* CommentVoteAPI.swift in Sources */,
 				4780E5B6283308250012B741 /* MessageKitMessage.swift in Sources */,
 				5BB624C128678A8900DCD45B /* MatchRequestService.swift in Sources */,
 				5BE110042876CDB100CB54A6 /* ValidateResetPasswordViewController.swift in Sources */,
@@ -2040,7 +2065,7 @@
 				438D6F222862D1BB00A074FA /* MessageAPI.swift in Sources */,
 				5BAD62772876812200DCFE45 /* SettingsViewController.swift in Sources */,
 				47266AD227FF5531005DEDB1 /* UIView+LoadFromNib.swift in Sources */,
-				4700F8B427DD7BBA006C2E08 /* FlagAPI.swift in Sources */,
+				4700F8B427DD7BBA006C2E08 /* PostFlagAPI.swift in Sources */,
 				439E44F827DFE11F00E244D6 /* WordAPI.swift in Sources */,
 				47A3D70627D54F3C003DBEA5 /* Post.swift in Sources */,
 				43D9B376285592D700E807C2 /* FavoriteAPI.swift in Sources */,
@@ -2099,8 +2124,9 @@
 				5B774DFA286D4F9B00CCCF28 /* MessageKitMatchRequest.swift in Sources */,
 				472F8D1A28505F4600DB69C4 /* PostDelegate.swift in Sources */,
 				478A7899284E708D0058C845 /* CLLocationCoordinate+Distance.swift in Sources */,
-				4700F8B727DD7BBA006C2E08 /* VoteAPI.swift in Sources */,
+				4700F8B727DD7BBA006C2E08 /* PostVoteAPI.swift in Sources */,
 				436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */,
+				43529E2F2890BD3D00B3A484 /* CommentFlagAPI.swift in Sources */,
 				5BE110022876CD9D00CB54A6 /* RequestResetPasswordViewController.swift in Sources */,
 				47A3D70E27D55BB3003DBEA5 /* Time.swift in Sources */,
 				43770C4B27EE8C0F00F31CCF /* LoginViewController.swift in Sources */,
@@ -2123,6 +2149,7 @@
 				5BAD626F2876661500DCFE45 /* UIViewController+MistShareActivity.swift in Sources */,
 				5BB624DC2867E98500DCD45B /* Conversation.swift in Sources */,
 				43483BB6280251B1001C7C6A /* EnterNameViewController.swift in Sources */,
+				43529E292890BBD000B3A484 /* CommentVote.swift in Sources */,
 				5BAD62752876707000DCFE45 /* AccountSection.swift in Sources */,
 				478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */,
 				5B13B741285D05B0000ADF5E /* UISearchBar+CenterText.swift in Sources */,
@@ -2143,7 +2170,7 @@
 				43D9251C28527E1800438C5C /* Favorite.swift in Sources */,
 				47CBF6F128356A7C00096514 /* FilterSheetViewController.swift in Sources */,
 				5B13B743285D3877000ADF5E /* Error.swift in Sources */,
-				4700F8BA27DD7BE3006C2E08 /* Flag.swift in Sources */,
+				4700F8BA27DD7BE3006C2E08 /* PostFlag.swift in Sources */,
 				5BF78339285E4477003C3955 /* UITableView+SectionShadow.swift in Sources */,
 				5B4D58A72860D7FB002E2F94 /* UIImageView+ProfilePic.swift in Sources */,
 				470F271F27DE9ABE00C6DDAF /* SearchResultsTableViewController.swift in Sources */,
@@ -2163,6 +2190,7 @@
 				43D9250E28525FBB00438C5C /* PostAPITest.swift in Sources */,
 				43D9250A28525F2500438C5C /* AuthAPITest.swift in Sources */,
 				47E74E2327CA100000467A0C /* mist_iosTests.swift in Sources */,
+				431F3810288B494900A5F48B /* MessageThreadTest.swift in Sources */,
 				43D9B372285527B100E807C2 /* FriendRequestAPITest.swift in Sources */,
 				43D9250628525BFE00438C5C /* BasicAPITest.swift in Sources */,
 				43D925122852607300438C5C /* VoteAPITest.swift in Sources */,
@@ -2550,7 +2578,7 @@
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = SHD3A2G97F;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2602,7 +2630,7 @@
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEV=0";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2643,7 +2671,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
@@ -2663,7 +2691,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
@@ -2682,7 +2710,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -2700,7 +2728,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;

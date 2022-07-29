@@ -67,6 +67,7 @@ extension SettingsTapDelegate where Self: UIViewController {
             view.isUserInteractionEnabled = false
             Task {
                 try await UserService.singleton.deleteMyAccount()
+                setGlobalAuthToken(token: "")
                 DispatchQueue.main.async { [self] in
                     transitionToStoryboard(storyboardID: Constants.SBID.SB.Auth,
                                                 viewControllerID: Constants.SBID.VC.AuthNavigation,
