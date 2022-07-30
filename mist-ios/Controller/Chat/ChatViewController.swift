@@ -493,12 +493,13 @@ extension ChatViewController: MessagesDisplayDelegate {
         
         return .custom { view in
             view.layer.cornerCurve = .continuous
-            view.layer.cornerRadius = 13
+            view.layer.cornerRadius = 16
+            view.frame.size.width -= 4
             let messageLabel = view.subviews[0] as! MessageLabel
             if self.isFromCurrentSender(message: message) {
                 view.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
                 view.layer.borderWidth = 1
-                messageLabel.center = CGPoint(x: messageLabel.center.x + 2, y: messageLabel.center.y)
+                messageLabel.center = CGPoint(x: messageLabel.center.x, y: messageLabel.center.y)
             } else {
                 view.layer.borderColor = UIColor.clear.cgColor
                 view.layer.borderWidth = 0
