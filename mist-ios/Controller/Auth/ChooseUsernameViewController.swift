@@ -96,7 +96,7 @@ class ChooseUsernameViewController: KUIViewController, UITextFieldDelegate {
     //MARK: - Helpers
     
     func tryToContinue() {
-        if let username = usernameTextField.text {
+        if let username = usernameTextField.text?.lowercased() {
             isSubmitting = true
             Task {
                 do {
