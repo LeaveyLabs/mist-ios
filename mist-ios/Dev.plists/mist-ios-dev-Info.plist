@@ -30,10 +30,10 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>firebase_performance_collection_enabled</key>
-	<false/>
+	<true/>
 	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
-	<false/>	
+	<true/>
 	<key>FirebaseCrashlyticsCollectionEnabled</key>
-	<false/>
+	<true/>
 </dict>
 </plist>
