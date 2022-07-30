@@ -199,6 +199,7 @@ class ChatViewController: MessagesViewController {
         } else {
             messageInputBar.inputTextView.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.8).cgColor
         }
+        messageInputBar.inputTextView.font = UIFont(name: Constants.Font.Medium, size: 17)
         messageInputBar.inputTextView.backgroundColor = .lightGray.withAlphaComponent(0.1)
         messageInputBar.inputTextView.layer.borderWidth = 0.5
         messageInputBar.inputTextView.layer.cornerRadius = 16.0
