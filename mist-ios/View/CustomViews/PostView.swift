@@ -159,6 +159,8 @@ extension PostView {
             arrowPosition = post.author == UserService.singleton.getId() ? .right : .left
         }
         backgroundBubbleView.transformIntoPostBubble(arrowPosition: arrowPosition)
+        
+        moreButton.transform = CGAffineTransform(rotationAngle: degreesToRadians(degrees: 90))
     }
     
     func reconfigurePost(updatedPost: Post) {
