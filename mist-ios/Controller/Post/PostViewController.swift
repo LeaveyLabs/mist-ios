@@ -7,7 +7,7 @@
 
 import UIKit
 
-let COMMENT_PLACEHOLDER_TEXT = "@ibrahimmm this you?"
+let COMMENT_PLACEHOLDER_TEXT = "Comment or tag"
 typealias UpdatedPostCompletionHandler = ((Post) -> Void)
 
 class PostViewController: UIViewController, UIViewControllerTransitioningDelegate {

@@ -44,8 +44,16 @@ class ToggleButton: UIButton {
     
     @IBOutlet weak var dmButton: UIButton!
     @IBOutlet weak var moreButton: UIButton!
-    @IBOutlet weak var likeButton: ToggleButton!
-    @IBOutlet weak var likeLabelButton: UIButton! // We can't have the likeButton expand the whole stackview, and we also need a button in the rest of the stackview to prevent the post from being dismissed.
+    @IBOutlet weak var reactButton: UIButton! //ToggleButton!
+    @IBOutlet weak var reactionsButton: UIButton!
+    @IBOutlet weak var specialButton: UIButton!
+//    @IBOutlet weak var likeLabelButton: UIButton! // We can't have the likeButton expand the whole stackview, and we also need a button in the rest of the stackview to prevent the post from being dismissed.
+    
+    
+    @IBOutlet weak var fillerButton: UIButton!
+    @IBOutlet weak var fillerButtonTwo: UIButton!
+    @IBOutlet weak var dividerButton: UIButton!
+    @IBOutlet weak var clearDividerButton: UIButton!
     
     //Data
     var postId: Int!
@@ -79,10 +87,10 @@ class ToggleButton: UIButton {
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(contentView)
         
-        likeButton.isSelectedTitle = ""
-        likeButton.isNotSelectedTitle = ""
-        likeButton.isSelectedImage = UIImage(systemName: "heart.fill")!
-        likeButton.isNotSelectedImage = UIImage(systemName: "heart")!
+//        reactButton.isSelectedTitle = ""
+//        reactButton.isNotSelectedTitle = ""
+//        reactButton.isSelectedImage = UIImage(systemName: "heart.fill")!
+//        reactButton.isNotSelectedImage = UIImage(systemName: "heart")!
     }
         
     //MARK: - User Interaction
@@ -94,16 +102,20 @@ class ToggleButton: UIButton {
     }
     
     // The labelButton is actually just a button which we want to behave like the background.
-    @IBAction func likeLabelButtonDidPressed(_ sender: UIButton) {
-        postDelegate.handleBackgroundTap(postId: postId)
-    }
+//    @IBAction func likeLabelButtonDidPressed(_ sender: UIButton) {
+//        postDelegate.handleBackgroundTap(postId: postId)
+//    }
     
     @IBAction func commentButtonDidPressed(_ sender: UIButton) {
         postDelegate.handleCommentButtonTap(postId: postId)
     }
     
     @IBAction func dmButtonDidPressed(_ sender: UIButton) {
-        postDelegate.handleDmTap(postId: postId, author: postAuthor, dmButton: dmButton, title: postTitleLabel.text!)
+        if postAuthor.id == UserService.singleton.getId() {
+            //do nothing
+        } else {
+            postDelegate.handleDmTap(postId: postId, author: postAuthor, dmButton: dmButton, title: postTitleLabel.text!)
+        }
     }
     
     @IBAction func moreButtonDidPressed(_ sender: UIButton) {
@@ -112,17 +124,17 @@ class ToggleButton: UIButton {
     
     @IBAction func likeButtonDidPressed(_ sender: UIButton) {
         // UI Updates
-        likeButton.isEnabled = false
-        likeButton.isSelected = !likeButton.isSelected
-        if likeButton.isSelected {
-            likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! + 1), for: .normal)
+        reactButton.isEnabled = false
+        reactButton.isSelected = !reactButton.isSelected
+        if reactButton.isSelected {
+//            likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! + 1), for: .normal)
         } else {
-            likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! - 1), for: .normal)
+//            likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! - 1), for: .normal)
         }
         
         // Remote and storage updates
-        postDelegate.handleVote(postId: postId, isAdding: likeButton.isSelected)
-        likeButton.isEnabled = true
+        postDelegate.handleVote(postId: postId, isAdding: reactButton.isSelected)
+        reactButton.isEnabled = true
     }
     
 }
@@ -143,18 +155,23 @@ extension PostView {
         locationLabel.text = post.location_description
         messageLabel.text = post.body
         postTitleLabel.text = post.title
-        likeLabelButton.setTitle(String(post.votecount), for: .normal)
-        likeButton.isSelected = !VoteService.singleton.votesForPost(postId: post.id).isEmpty
+//        likeLabelButton.setTitle(String(post.votecount), for: .normal)
+        reactButton.isSelected = !VoteService.singleton.votesForPost(postId: post.id).isEmpty
         
         if post.author == UserService.singleton.getId() {
-            dmButton.isHidden = true
+            dmButton.setTitleColor(.lightGray, for: .normal)
+            dmButton.imageView?.tintColor = .lightGray
         } else {
-            dmButton.isHidden = false
+            dmButton.setTitleColor(.black, for: .normal)
+            dmButton.imageView?.tintColor = .black
         }
         
         var arrowPosition: BubbleTrianglePosition!
         if let _ = superview as? PostAnnotationView {
             arrowPosition = .bottom
+            if UIScreen.main.bounds.size.width < 350 {
+                postTitleLabel.numberOfLines = 1
+            }
         } else {
             arrowPosition = post.author == UserService.singleton.getId() ? .right : .left
         }
@@ -164,8 +181,18 @@ extension PostView {
     }
     
     func reconfigurePost(updatedPost: Post) {
-        likeLabelButton.setTitle(String(updatedPost.votecount), for: .normal)
-        likeButton.isSelected = !VoteService.singleton.votesForPost(postId: updatedPost.id).isEmpty
+//        likeLabelButton.setTitle(String(updatedPost.votecount), for: .normal)
+        reactButton.isSelected = !VoteService.singleton.votesForPost(postId: updatedPost.id).isEmpty
+    }
+    
+    // We need to disable the backgroundButton and add a tapGestureRecognizer so that drags can be detected on the tableView. The purpose of the backgroundButton is to prevent taps from dismissing the calloutView when the post is within an annotation on the map
+    func ensureTapsDontPreventScrolling() {
+        backgroundBubbleButton.isUserInteractionEnabled = false
+        fillerButton.isUserInteractionEnabled = false
+        fillerButtonTwo.isUserInteractionEnabled = false
+        dividerButton.isUserInteractionEnabled = false
+        clearDividerButton.isUserInteractionEnabled = false
+        backgroundBubbleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(backgroundButtonDidPressed(_:)) ))
     }
     
 }

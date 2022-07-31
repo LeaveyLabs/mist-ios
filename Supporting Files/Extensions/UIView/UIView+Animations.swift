@@ -29,7 +29,7 @@ extension UIView {
     func fadeOut(duration: TimeInterval = 0.3,
                  delay: TimeInterval = 0.0,
                  completion: @escaping (Bool) -> Void) {
-        self.alpha = 1.0
+//        self.alpha = 1.0 what if the alpha was 0.5 before starting the fade out? you don't want to set it to 1 before the fadeout. this was causing weird behavior with post swiping
 
         UIView.animate(withDuration: duration,
                        delay: delay,
