@@ -24,7 +24,7 @@ class Env {
     static let environment: EnvType = .prod
     static let LAUNCH_ANIMATION_DELAY: Double = 1.2
     static let LAUNCH_ANIMATION_DURATION: Double = 0.7
-    static let BASE_URL: String = "https://mist-backend-test.herokuapp.com/"
+    static let BASE_URL: String = "https://mist-backend.herokuapp.com/"
     #endif
 }
 
