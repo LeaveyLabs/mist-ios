@@ -143,6 +143,10 @@ extension PostAnnotationView {
         
         postCalloutView.alpha = 0
         postCalloutView.isHidden = true
+        
+        //TODO: the fade in should take as long as it takes to fly to the post.
+        //the real solution: we want the fly in to be faster if we're super close to the annotation already
+        //and we want the values below to depend directly on those values for fly in, not hard coded
         postCalloutView.fadeIn(duration: 0.2, delay: delay - 0.15)
         
         if !hasSwipeDemoAnimationRun {
@@ -158,7 +162,7 @@ extension PostAnnotationView {
         displaySwipeDemoInstructions()
                 
         UIView.animate(withDuration: 1.5, delay: 0, options: [.curveLinear, .allowUserInteraction, ]) {
-            postCalloutView.transform = CGAffineTransform(translationX: 25, y: -10).rotated(by:0.04)
+            postCalloutView.transform = CGAffineTransform(translationX: 20, y: -5).rotated(by:0.04)
         } completion: { finished in
             UIView.animate(withDuration: 1,
                            delay: 0,
@@ -174,8 +178,7 @@ extension PostAnnotationView {
     
     func displaySwipeDemoInstructions() {
         swipeDemoView = UIView(frame: .zero)
-        guard let postCalloutView = postCalloutView else { return }
-        guard let swipeDemoView = swipeDemoView else { return }
+        guard let postCalloutView = postCalloutView, let swipeDemoView = swipeDemoView else { return }
         swipeDemoView.alpha = 0
         swipeDemoView.backgroundColor = .white
         swipeDemoView.applyMediumShadow()
@@ -207,6 +210,25 @@ extension PostAnnotationView {
     func rerenderCalloutForUpdatedPostData() {
         postCalloutView!.reconfigurePost(updatedPost: (annotation as! PostAnnotation).post)
     }
+    
+    func movePostUpAfterEmojiKeyboardRaised() {
+        layoutIfNeeded()
+        UIView.animate(withDuration: 0.25) { [weak self] in
+            self?.constraints.first { $0.firstAnchor == self?.postCalloutView?.bottomAnchor }?.constant = -120
+            self?.layoutIfNeeded()
+        }
+    }
+    
+    //FUCK sometimes emoji button is just not woriking now...
+    
+    func movePostBackDownAfterEmojiKeyboardDismissed() {
+        layoutIfNeeded()
+        UIView.animate(withDuration: 0.25) { [weak self] in
+            self?.constraints.first { $0.firstAnchor == self?.postCalloutView?.bottomAnchor }?.constant = -90
+            self?.layoutIfNeeded()
+        }
+    }
+    
 
 }
 

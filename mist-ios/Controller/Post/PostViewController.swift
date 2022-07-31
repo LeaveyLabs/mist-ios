@@ -15,6 +15,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     //MARK: - Properties
     
     //UI
+    var postView: PostView?
     @IBOutlet weak var tableView: UITableView!
     var activityIndicator = UIActivityIndicatorView(style: .medium)
 
@@ -29,11 +30,14 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         get { return true } //means that the inputAccessoryView will always be enabled
     }
     override var inputAccessoryView: UIView {
-        get { return wrappedAccessoryView }
+        get {
+            return (commentTextView.isFirstResponder || self.isFirstResponder ) ? wrappedAccessoryView : UIView(frame: .zero)
+        }
     }
     
     //Flags
     var shouldStartWithRaisedKeyboard: Bool!
+    var keyboardHeight: CGFloat = 0 //emoji keyboard autodismiss flag
     
     //Data
     var post: Post!
@@ -72,6 +76,12 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         self.view.keyboardLayoutGuide.topAnchor.constraint(equalTo: self.tableView.bottomAnchor).isActive = true
         let tableViewTap = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
         tableView.addGestureRecognizer(tableViewTap)
+        
+        //Emoji keyboard autodismiss notification
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(keyboardWillChangeFrame),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
     }
     
     @objc func dismissKeyboard() {
@@ -223,7 +233,7 @@ extension PostViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-            cell.configurePostCell(post: post, nestedPostViewDelegate: self, bubbleTrianglePosition: .left, isWithinPostVC: true)
+            postView = cell.configurePostCell(post: post, nestedPostViewDelegate: self, bubbleTrianglePosition: .left, isWithinPostVC: true)
             return cell
         }
         //else the cell is a comment
@@ -308,4 +318,24 @@ extension PostViewController: PostDelegate {
         navigationController?.popViewController(animated: true)
     }
     
+    //MARK: - React interaction
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        view.endEditing(true)
+        guard let postView = postView else { return false }
+        if !string.isSingleEmoji { return false }
+        postView.handleEmojiVote(emojiString: string)
+        return false
+    }
+    
+    @objc func keyboardWillChangeFrame(sender: NSNotification) {
+        let i = sender.userInfo!
+        let previousK = keyboardHeight
+        keyboardHeight = (i[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height
+                
+        if keyboardHeight < previousK {
+            if commentTextView.isFirstResponder { return } //this should only run for emoji keyboard, not comment keyboard
+            view.endEditing(true)
+        }
+    }
 }

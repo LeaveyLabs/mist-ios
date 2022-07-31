@@ -506,6 +506,8 @@
 		5BCC68D928611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */; };
 		5BCD490C287149210002BD02 /* WantToChatView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BCD490B287149210002BD02 /* WantToChatView.xib */; };
 		5BCD490E28714F920002BD02 /* WantToChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCD490D28714F920002BD02 /* WantToChatView.swift */; };
+		5BD6F47E2896B3020002A60B /* StringChat+Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */; };
+		5BD6F47F2896B3020002A60B /* StringChat+Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */; };
 		5BE110022876CD9D00CB54A6 /* RequestResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */; };
 		5BE110042876CDB100CB54A6 /* ValidateResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */; };
 		5BE110062876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */; };
@@ -794,6 +796,7 @@
 		5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeAreaInputAccessoryViewWrapperView.swift; sourceTree = "<group>"; };
 		5BCD490B287149210002BD02 /* WantToChatView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WantToChatView.xib; sourceTree = "<group>"; };
 		5BCD490D28714F920002BD02 /* WantToChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantToChatView.swift; sourceTree = "<group>"; };
+		5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringChat+Emoji.swift"; sourceTree = "<group>"; };
 		5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResetPasswordViewController.swift; sourceTree = "<group>"; };
 		5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateResetPasswordViewController.swift; sourceTree = "<group>"; };
 		5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalizeResetPasswordViewController.swift; sourceTree = "<group>"; };
@@ -911,7 +914,7 @@
 			path = APITests;
 			sourceTree = "<group>";
 		};
-		4700F8C427DE4641006C2E08 /* Explore */ = {
+		4700F8C427DE4641006C2E08 /* Home */ = {
 			isa = PBXGroup;
 			children = (
 				5B1F16CD287D1ABD00035F93 /* HomeViewController.swift */,
@@ -920,7 +923,7 @@
 				470F271227DE6F5800C6DDAF /* SearchSuggestionsTableViewController.swift */,
 				5B1F16D1287D1E5000035F93 /* CustomExploreViewController.swift */,
 			);
-			path = Explore;
+			path = Home;
 			sourceTree = "<group>";
 		};
 		47061CCE28510E230042F04C /* MapThings */ = {
@@ -1340,7 +1343,7 @@
 				4752719B2855A6ED00DDF84D /* AbstractControllers */,
 				478A789F284EBD5A0058C845 /* App */,
 				43770C4927EE8BED00F31CCF /* Auth */,
-				4700F8C427DE4641006C2E08 /* Explore */,
+				4700F8C427DE4641006C2E08 /* Home */,
 				47F4EFD127E10C1300861F30 /* Post */,
 				47FF86A427DC76000076A1CA /* NewPost */,
 				5B4D58A82860E22B002E2F94 /* Friends */,
@@ -1682,6 +1685,7 @@
 			children = (
 				474A4AC5284AB6D700B39A98 /* String+Indexing.swift */,
 				5BE4D9BD285C018000197080 /* String+Capitalization.swift */,
+				5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */,
 			);
 			path = String;
 			sourceTree = "<group>";
@@ -2050,6 +2054,7 @@
 				472A4C0728408BD800FD52B7 /* UnwindSegue.swift in Sources */,
 				5B1F16D0287D1B0700035F93 /* HomeViewController+Search.swift in Sources */,
 				474A4AB5284A953200B39A98 /* UITextView+MaxLength.swift in Sources */,
+				5BD6F47E2896B3020002A60B /* StringChat+Emoji.swift in Sources */,
 				47F10DC12852CFE100E1A3DC /* UIImage+FromColor.swift in Sources */,
 				4718331228445A7C0061F9F3 /* UIView+PostBubble.swift in Sources */,
 				47F10DC72853DA0600E1A3DC /* UIImage+Blur.swift in Sources */,
@@ -2402,6 +2407,7 @@
 				5B739E4A28935B9500E4EED0 /* String+Indexing.swift in Sources */,
 				5B739E4B28935B9500E4EED0 /* ClusterAnnotationView.swift in Sources */,
 				5B739E4C28935B9500E4EED0 /* BlockAPI.swift in Sources */,
+				5BD6F47F2896B3020002A60B /* StringChat+Emoji.swift in Sources */,
 				5B739E4D28935B9500E4EED0 /* UITextField+MaxLength.swift in Sources */,
 				5B739E4E28935B9500E4EED0 /* CustomCenteredView.swift in Sources */,
 				5B739E4F28935B9500E4EED0 /* Block.swift in Sources */,

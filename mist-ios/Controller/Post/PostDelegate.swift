@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol PostDelegate: ShareActivityDelegate, AnyObject {
+protocol PostDelegate: ShareActivityDelegate, AnyObject, UITextFieldDelegate {
     // Implemented below
     func handleMoreTap(postId: Int, postAuthor: Int)
     func handleVote(postId: Int, isAdding: Bool)
@@ -19,8 +19,7 @@ protocol PostDelegate: ShareActivityDelegate, AnyObject {
     // Require subclass implementation
     func handleCommentButtonTap(postId: Int)
     func handleBackgroundTap(postId: Int)
-    func handleDeletePost(postId: Int)
-    
+    func handleDeletePost(postId: Int)    
     var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] { get set }
 }
 

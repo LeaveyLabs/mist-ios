@@ -25,6 +25,7 @@ class ExploreViewController: MapViewController {
     var reloadTask: Task<Void, Never>?
     var isFeedVisible = false //we have to use this flag and send tableview to the front/back instead of using isHidden so that when tableviewcells aren't rerendered when tableview reappears and so we can have a scroll to top animation before reloading tableview data
     var annotationSelectionType: AnnotationSelectionType = .normal
+    var keyboardHeight: CGFloat = 0 //emoji keyboard autodismiss flag
         
     // Map
     var selectedAnnotationView: MKAnnotationView?
@@ -57,6 +58,17 @@ extension ExploreViewController {
             mapView.camera.centerCoordinateDistance = 3000
             mapView.camera.pitch = 40
         }
+        
+        //Emoji keyboard autodismiss notification
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(keyboardWillChangeFrame),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(keyboardWillDismiss(sender:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -206,6 +218,36 @@ extension ExploreViewController: PostDelegate {
     
     func handleDeletePost(postId: Int) {
         renderNewPostsOnFeedAndMap(withType: .refresh)
+    }    //MARK: - React interaction
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        view.endEditing(true)
+        guard let postView = (selectedAnnotationView as? PostAnnotationView)?.postCalloutView else { return false }
+        if !string.isSingleEmoji { return false }
+        postView.handleEmojiVote(emojiString: string)
+        return false
     }
     
+    @objc func keyboardWillChangeFrame(sender: NSNotification) {
+        let i = sender.userInfo!
+        let previousK = keyboardHeight
+        keyboardHeight = (i[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height
+        print("newkeyb height: ", keyboardHeight)
+
+        if keyboardHeight < previousK { //keyboard is going from emoji keyboard to regular keyboard
+            view.endEditing(true)
+        }
+        
+        if keyboardHeight > previousK { //keyboard is appearing for the first time
+            guard let postAnnotationView = selectedAnnotationView as? PostAnnotationView else { return }
+            postAnnotationView.movePostUpAfterEmojiKeyboardRaised()
+        }
+    }
+    
+    @objc func keyboardWillDismiss(sender: NSNotification) {
+        keyboardHeight = 0
+        guard let postAnnotationView = selectedAnnotationView as? PostAnnotationView else { return }
+        postAnnotationView.movePostBackDownAfterEmojiKeyboardDismissed()
+    }
+
 }

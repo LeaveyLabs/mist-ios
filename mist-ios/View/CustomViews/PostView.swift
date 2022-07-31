@@ -27,6 +27,21 @@ class ToggleButton: UIButton {
     }
 }
 
+class EmojiTextField: UITextField {
+    
+    // required for iOS 13
+    override var textInputContextIdentifier: String? { "" } // return non-nil to show the Emoji keyboard ¯\_(ツ)_/¯
+
+    override var textInputMode: UITextInputMode? {
+        for mode in UITextInputMode.activeInputModes {
+            if mode.primaryLanguage == "emoji" {
+                return mode
+            }
+        }
+        return nil
+    }
+}
+
 @IBDesignable class PostView: SpringView {
         
     //MARK: - Properties
@@ -45,16 +60,22 @@ class ToggleButton: UIButton {
     @IBOutlet weak var dmButton: UIButton!
     @IBOutlet weak var moreButton: UIButton!
     @IBOutlet weak var reactButton: UIButton! //ToggleButton!
+    lazy var reactButtonTextField: EmojiTextField = {
+        let emojiTextField = EmojiTextField(frame: .init(x: 1, y: 1, width: 1, height: 1))
+        emojiTextField.isHidden = true
+        emojiTextField.delegate = postDelegate
+        self.addSubview(emojiTextField)
+        return emojiTextField
+    }()
     @IBOutlet weak var reactionsButton: UIButton!
-    @IBOutlet weak var specialButton: UIButton!
 //    @IBOutlet weak var likeLabelButton: UIButton! // We can't have the likeButton expand the whole stackview, and we also need a button in the rest of the stackview to prevent the post from being dismissed.
     
-    
-    @IBOutlet weak var fillerButton: UIButton!
-    @IBOutlet weak var fillerButtonTwo: UIButton!
-    @IBOutlet weak var dividerButton: UIButton!
-    @IBOutlet weak var clearDividerButton: UIButton!
-    
+    @IBOutlet weak var fillerButton1: UIButton!
+    @IBOutlet weak var fillerButton2: UIButton!
+    @IBOutlet weak var fillerButton3: UIButton!
+    @IBOutlet weak var fillerButton4: UIButton!
+    @IBOutlet weak var fillerButton5: UIButton!
+
     //Data
     var postId: Int!
     var postAuthor: ReadOnlyUser!
@@ -121,20 +142,24 @@ class ToggleButton: UIButton {
     @IBAction func moreButtonDidPressed(_ sender: UIButton) {
         postDelegate.handleMoreTap(postId: postId, postAuthor: postAuthor.id)
     }
+
+    @IBAction func reactButtonDidPressed(_ sender: UIButton) {
+        reactButtonTextField.becomeFirstResponder()
+    }
     
-    @IBAction func likeButtonDidPressed(_ sender: UIButton) {
-        // UI Updates
-        reactButton.isEnabled = false
-        reactButton.isSelected = !reactButton.isSelected
-        if reactButton.isSelected {
-//            likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! + 1), for: .normal)
-        } else {
-//            likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! - 1), for: .normal)
-        }
-        
-        // Remote and storage updates
-        postDelegate.handleVote(postId: postId, isAdding: reactButton.isSelected)
-        reactButton.isEnabled = true
+    func handleEmojiVote(emojiString: String) {
+        //        // UI Updates
+        //        reactButton.isEnabled = false
+        //        reactButton.isSelected = !reactButton.isSelected
+        //        if reactButton.isSelected {
+        ////            likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! + 1), for: .normal)
+        //        } else {
+        ////            likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! - 1), for: .normal)
+        //        }
+        //
+        //        // Remote and storage updates
+        //        postDelegate.handleVote(postId: postId, isAdding: reactButton.isSelected)
+        //        reactButton.isEnabled = true
     }
     
 }
@@ -159,11 +184,11 @@ extension PostView {
         reactButton.isSelected = !VoteService.singleton.votesForPost(postId: post.id).isEmpty
         
         if post.author == UserService.singleton.getId() {
-            dmButton.setTitleColor(.lightGray, for: .normal)
-            dmButton.imageView?.tintColor = .lightGray
+            dmButton.setTitleColor(.lightGray.withAlphaComponent(0.5), for: .normal)
+            dmButton.imageView?.tintColor = .lightGray.withAlphaComponent(0.5)
         } else {
-            dmButton.setTitleColor(.black, for: .normal)
-            dmButton.imageView?.tintColor = .black
+            dmButton.setTitleColor(.darkGray, for: .normal)
+            dmButton.imageView?.tintColor = .darkGray
         }
         
         var arrowPosition: BubbleTrianglePosition!
@@ -188,11 +213,12 @@ extension PostView {
     // We need to disable the backgroundButton and add a tapGestureRecognizer so that drags can be detected on the tableView. The purpose of the backgroundButton is to prevent taps from dismissing the calloutView when the post is within an annotation on the map
     func ensureTapsDontPreventScrolling() {
         backgroundBubbleButton.isUserInteractionEnabled = false
-        fillerButton.isUserInteractionEnabled = false
-        fillerButtonTwo.isUserInteractionEnabled = false
-        dividerButton.isUserInteractionEnabled = false
-        clearDividerButton.isUserInteractionEnabled = false
+        fillerButton1.isUserInteractionEnabled = false
+        fillerButton2.isUserInteractionEnabled = false
+        fillerButton3.isUserInteractionEnabled = false
+        fillerButton4.isUserInteractionEnabled = false
+        fillerButton5.isUserInteractionEnabled = false
+
         backgroundBubbleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(backgroundButtonDidPressed(_:)) ))
     }
-    
 }
