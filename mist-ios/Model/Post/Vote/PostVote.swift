@@ -12,4 +12,5 @@ struct PostVote: Codable {
     let voter: Int;
     let post: Int;
     let timestamp: Double;
+    let emoji: String?;
 }
