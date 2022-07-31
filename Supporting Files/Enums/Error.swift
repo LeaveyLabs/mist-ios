@@ -12,6 +12,8 @@ enum APIError: Error {
     case CouldNotConnect
     case ServerError
     case ClientError(String, String)
+    case Unauthorized
+    case Forbidden
     case NotFound
     case Timeout
     case Throttled
@@ -26,6 +28,10 @@ enum APIError: Error {
             return NSLocalizedString("Our servers are down", comment: "")
         case .ClientError(let errorDescription, _):
             return NSLocalizedString(errorDescription, comment: "")
+        case .Unauthorized:
+            return NSLocalizedString("Something went wrong", comment: "")
+        case .Forbidden:
+            return NSLocalizedString("Something went wrong", comment: "")
         case .NotFound:
             return NSLocalizedString("Something went wrong", comment: "")
         case .Timeout:
@@ -49,6 +55,10 @@ enum APIError: Error {
             return NSLocalizedString("Please try again later", comment: "")
         case .ClientError(_, let recoverySuggession):
             return NSLocalizedString(recoverySuggession, comment: "")
+        case .Unauthorized:
+            return NSLocalizedString("Something went wrong", comment: "")
+        case .Forbidden:
+            return NSLocalizedString("Something went wrong", comment: "")
         case .NotFound:
             return NSLocalizedString("Please try again later", comment: "")
         case .Timeout:
