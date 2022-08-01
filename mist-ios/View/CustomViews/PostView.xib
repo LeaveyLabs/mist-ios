@@ -53,16 +53,16 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ONX-nQ-yOJ">
-                                    <rect key="frame" x="59" y="0.5" width="12" height="19"/>
+                                    <rect key="frame" x="59" y="0.5" width="15" height="19"/>
                                     <color key="tintColor" systemColor="systemGrayColor"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="12" id="65B-on-fPW"/>
+                                        <constraint firstAttribute="width" constant="15" id="65B-on-fPW"/>
                                     </constraints>
                                     <imageReference key="image" image="circlebadge.fill" catalog="system" symbolScale="default"/>
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="4" scale="default"/>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Doheny Library" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hUc-aP-KHZ">
-                                    <rect key="frame" x="71" y="0.0" width="291" height="20"/>
+                                    <rect key="frame" x="74" y="0.0" width="288" height="20"/>
                                     <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="12"/>
                                     <color key="textColor" systemColor="systemGrayColor"/>
                                     <nil key="highlightedColor"/>

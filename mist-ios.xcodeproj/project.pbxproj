@@ -211,6 +211,7 @@
 		5B1F16CE287D1ABD00035F93 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16CD287D1ABD00035F93 /* HomeViewController.swift */; };
 		5B1F16D0287D1B0700035F93 /* HomeViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16CF287D1B0700035F93 /* HomeViewController+Search.swift */; };
 		5B1F16D2287D1E5000035F93 /* CustomExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16D1287D1E5000035F93 /* CustomExploreViewController.swift */; };
+		5B29262A28974E10008A1F5D /* CommentVote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43529E282890BBD000B3A484 /* CommentVote.swift */; };
 		5B37A36B28784A4B00279B2A /* EnterBiosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */; };
 		5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D589B28603A46002E2F94 /* PostCell.swift */; };
 		5B4D58A72860D7FB002E2F94 /* UIImageView+ProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */; };
@@ -2418,6 +2419,7 @@
 				5B739E5428935B9500E4EED0 /* FriendRequestService.swift in Sources */,
 				5B739E5528935B9500E4EED0 /* PostAnnotation.swift in Sources */,
 				5B739E5628935B9500E4EED0 /* Favorite.swift in Sources */,
+				5B29262A28974E10008A1F5D /* CommentVote.swift in Sources */,
 				5B739E5728935B9500E4EED0 /* FilterSheetViewController.swift in Sources */,
 				5B739E5828935B9500E4EED0 /* Error.swift in Sources */,
 				5B739E5928935B9500E4EED0 /* PostFlag.swift in Sources */,

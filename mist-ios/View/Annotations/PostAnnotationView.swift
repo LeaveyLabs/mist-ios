@@ -80,6 +80,7 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         } else {
             glyphTintColor = .white
             markerTintColor = mistUIColor()
+            endEditing(true)
             if let postCalloutView = postCalloutView {
                 postCalloutView.fadeOut(duration: 0.25, delay: 0, completion: { Bool in
                     postCalloutView.isHidden = true
@@ -190,8 +191,8 @@ extension PostAnnotationView {
         swipeDemoView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             swipeDemoView.bottomAnchor.constraint(equalTo: postCalloutView.topAnchor, constant: -10),
-            swipeDemoView.widthAnchor.constraint(equalTo: postCalloutView.widthAnchor, constant: -70),
-            swipeDemoView.heightAnchor.constraint(equalToConstant: 30),
+            swipeDemoView.widthAnchor.constraint(equalToConstant: 200),
+            swipeDemoView.heightAnchor.constraint(equalToConstant: 40),
             swipeDemoView.centerXAnchor.constraint(equalTo: postCalloutView.centerXAnchor),
         ])
         
