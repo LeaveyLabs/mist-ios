@@ -36,7 +36,7 @@ class MessageThread: WebSocketDelegate {
         let json = try JSONEncoder().encode(conversationStarter)
         self.init_data = json
         
-        self.request = URLRequest(url: URL(string: "wss://mist-chat-test.herokuapp.com/")!)
+        self.request = URLRequest(url: URL(string: Env.CHAT_URL)!)
         self.connect()
     }
     

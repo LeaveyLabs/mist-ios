@@ -43,7 +43,13 @@ class BasicAPI {
         let serverError = (500...599).contains(response.statusCode)
         
         if clientError {
-            if response.statusCode == 404 {
+            if response.statusCode == 401 {
+                throw APIError.Unauthorized
+            }
+            else if response.statusCode == 403 {
+                throw APIError.Forbidden
+            }
+            else if response.statusCode == 404 {
                 throw APIError.NotFound
             }
             else if response.statusCode == 408 {

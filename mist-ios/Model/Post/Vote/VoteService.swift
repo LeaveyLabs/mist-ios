@@ -44,9 +44,10 @@ class VoteService: NSObject {
     
     private func handleVoteAdd(postId: Int) throws {
         let addedVote = PostVote(id: Int.random(in: 0..<Int.max),
-                                      voter: UserService.singleton.getId(),
-                                      post: postId,
-                                      timestamp: Date().timeIntervalSince1970)
+                                 voter: UserService.singleton.getId(),
+                                 post: postId,
+                                 timestamp: Date().timeIntervalSince1970,
+                                 emoji: nil)
         votes.append(addedVote)
         
         Task {

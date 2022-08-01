@@ -21,6 +21,7 @@ class PostVoteAPI {
     static let VOTER_PARAM = "voter"
     static let POST_PARAM = "post"
     static let RATING_PARAM = "rating"
+    static let EMOJI_PARAM = "emoji"
     
     static let POST_VOTE_RECOVERY_MESSAGE = "Please try again."
     
@@ -67,6 +68,19 @@ class PostVoteAPI {
         let params:[String:Int] = [
             VOTER_PARAM: voter,
             POST_PARAM: post,
+        ]
+        let json = try JSONEncoder().encode(params)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        try filterPostVoteErrors(data: data, response: response)
+        return try JSONDecoder().decode(PostVote.self, from: data)
+    }
+    
+    static func postVote(voter:Int, post:Int, emoji:String) async throws -> PostVote {
+        let url = "\(Env.BASE_URL)\(PATH_TO_VOTE_MODEL)"
+        let params:[String:String] = [
+            VOTER_PARAM: String(voter),
+            POST_PARAM: String(post),
+            EMOJI_PARAM: emoji
         ]
         let json = try JSONEncoder().encode(params)
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
