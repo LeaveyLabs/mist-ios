@@ -502,6 +502,12 @@
 		5BB624D92867DD8400DCD45B /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624D72867DD8400DCD45B /* ConversationCell.swift */; };
 		5BB624DA2867DD8400DCD45B /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BB624D82867DD8400DCD45B /* ConversationCell.xib */; };
 		5BB624DC2867E98500DCD45B /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624DB2867E98500DCD45B /* Conversation.swift */; };
+		5BC25A9428990999005AAF69 /* EmojiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9328990999005AAF69 /* EmojiButton.swift */; };
+		5BC25A96289909ED005AAF69 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A95289909ED005AAF69 /* ToggleButton.swift */; };
+		5BC25A9828990BF9005AAF69 /* EmojiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9328990999005AAF69 /* EmojiButton.swift */; };
+		5BC25A9928990C06005AAF69 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A95289909ED005AAF69 /* ToggleButton.swift */; };
+		5BC25A9E28991A2B005AAF69 /* Numbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9D28991A2B005AAF69 /* Numbers.swift */; };
+		5BC25A9F28991A2B005AAF69 /* Numbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9D28991A2B005AAF69 /* Numbers.swift */; };
 		5BC2763E286AE9BD00DA5A3D /* Loading.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */; };
 		5BC2763F286AE9BD00DA5A3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2763D286AE9BD00DA5A3D /* Main.storyboard */; };
 		5BCC68D928611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */; };
@@ -792,6 +798,9 @@
 		5BB624D72867DD8400DCD45B /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		5BB624D82867DD8400DCD45B /* ConversationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationCell.xib; sourceTree = "<group>"; };
 		5BB624DB2867E98500DCD45B /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		5BC25A9328990999005AAF69 /* EmojiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiButton.swift; sourceTree = "<group>"; };
+		5BC25A95289909ED005AAF69 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
+		5BC25A9D28991A2B005AAF69 /* Numbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numbers.swift; sourceTree = "<group>"; };
 		5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Loading.storyboard; sourceTree = "<group>"; };
 		5BC2763D286AE9BD00DA5A3D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeAreaInputAccessoryViewWrapperView.swift; sourceTree = "<group>"; };
@@ -1179,6 +1188,8 @@
 				5BCD490B287149210002BD02 /* WantToChatView.xib */,
 				5BAD627C2876BE8800DCFE45 /* MistWideLogoView.swift */,
 				5BAD627A2876BD7600DCFE45 /* MistWideLogoView.xib */,
+				5BC25A9328990999005AAF69 /* EmojiButton.swift */,
+				5BC25A97289909FD005AAF69 /* Decomissioned */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -1403,6 +1414,7 @@
 				47FF418228403AE700A44968 /* CustomAttributedString.swift */,
 				47D5B36928441296004CDE6C /* CustomSwiftMessages.swift */,
 				5BF78336285D955F003C3955 /* Map.swift */,
+				5BC25A9D28991A2B005AAF69 /* Numbers.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1661,6 +1673,14 @@
 				5BB624D82867DD8400DCD45B /* ConversationCell.xib */,
 			);
 			path = Conversation;
+			sourceTree = "<group>";
+		};
+		5BC25A97289909FD005AAF69 /* Decomissioned */ = {
+			isa = PBXGroup;
+			children = (
+				5BC25A95289909ED005AAF69 /* ToggleButton.swift */,
+			);
+			path = Decomissioned;
 			sourceTree = "<group>";
 		};
 		5BC27633286A8BA900DA5A3D /* MessageLayout */ = {
@@ -2099,6 +2119,7 @@
 				472A4C0428408BD800FD52B7 /* DesignableTextView.swift in Sources */,
 				5BAD62732876706800DCFE45 /* Setting.swift in Sources */,
 				472A4BFA28408BD800FD52B7 /* SpringTextView.swift in Sources */,
+				5BC25A96289909ED005AAF69 /* ToggleButton.swift in Sources */,
 				47A3D71227D57A6D003DBEA5 /* UserService.swift in Sources */,
 				475B1F8F27FBC2D400ED59CD /* UIView+Shadow.swift in Sources */,
 				47F10DC32853169200E1A3DC /* PlaceAnnotation.swift in Sources */,
@@ -2107,6 +2128,7 @@
 				474A4AB0284A922100B39A98 /* UIScrollView+ToTop.swift in Sources */,
 				5B6AD61528690E1800B1FFA8 /* AnnotationSelectionType.swift in Sources */,
 				478BA279283DD37E00C35507 /* UITextField+Padding.swift in Sources */,
+				5BC25A9428990999005AAF69 /* EmojiButton.swift in Sources */,
 				47061CCD28510DD80042F04C /* MKPointOfInterestCategory+Extension.swift in Sources */,
 				433970DF27FE501700876026 /* WelcomeTutorialViewController.swift in Sources */,
 				47D9FD1E28457D72004E4BE3 /* NewPostContext.swift in Sources */,
@@ -2159,6 +2181,7 @@
 				5BAD62752876707000DCFE45 /* AccountSection.swift in Sources */,
 				478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */,
 				5B13B741285D05B0000ADF5E /* UISearchBar+CenterText.swift in Sources */,
+				5BC25A9E28991A2B005AAF69 /* Numbers.swift in Sources */,
 				472A4C0028408BD800FD52B7 /* DesignableTabBarController.swift in Sources */,
 				475271972855851200DDF84D /* SettingCell.swift in Sources */,
 				474A4AC6284AB6D700B39A98 /* String+Indexing.swift in Sources */,
@@ -2245,6 +2268,8 @@
 				5B739DA728935B9500E4EED0 /* UserResultCell.swift in Sources */,
 				5B739DA828935B9500E4EED0 /* ExploreViewController+Map.swift in Sources */,
 				5B739DA928935B9500E4EED0 /* SettingsTapDelegate.swift in Sources */,
+				5BC25A9F28991A2B005AAF69 /* Numbers.swift in Sources */,
+				5BC25A9928990C06005AAF69 /* ToggleButton.swift in Sources */,
 				5B739DAA28935B9500E4EED0 /* RulesViewController.swift in Sources */,
 				5B739DAB28935B9500E4EED0 /* Misc.swift in Sources */,
 				5B739DAC28935B9500E4EED0 /* KUIViewController.swift in Sources */,
@@ -2326,6 +2351,7 @@
 				5B739DF828935B9500E4EED0 /* Word.swift in Sources */,
 				5B739DF928935B9500E4EED0 /* String+Capitalization.swift in Sources */,
 				5B739DFA28935B9500E4EED0 /* UIView+FindVC.swift in Sources */,
+				5BC25A9828990BF9005AAF69 /* EmojiButton.swift in Sources */,
 				5B739DFB28935B9500E4EED0 /* DesignableTextField.swift in Sources */,
 				5B739DFC28935B9500E4EED0 /* DesignableButton.swift in Sources */,
 				5B739DFD28935B9500E4EED0 /* BasicAPI.swift in Sources */,

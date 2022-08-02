@@ -15,7 +15,6 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     //MARK: - Properties
     
     //UI
-    var postView: PostView?
     @IBOutlet weak var tableView: UITableView!
     var activityIndicator = UIActivityIndicatorView(style: .medium)
 
@@ -38,6 +37,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     //Flags
     var shouldStartWithRaisedKeyboard: Bool!
     var keyboardHeight: CGFloat = 0 //emoji keyboard autodismiss flag
+    var isKeyboardForEmojiReaction: Bool = false
     
     //Data
     var post: Post!
@@ -81,6 +81,11 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         NotificationCenter.default.addObserver(self,
             selector: #selector(keyboardWillChangeFrame),
             name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(keyboardWillDismiss(sender:)),
+            name: UIResponder.keyboardWillHideNotification,
             object: nil)
     }
     
@@ -233,7 +238,7 @@ extension PostViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-            postView = cell.configurePostCell(post: post, nestedPostViewDelegate: self, bubbleTrianglePosition: .left, isWithinPostVC: true)
+            cell.configurePostCell(post: post, nestedPostViewDelegate: self, bubbleTrianglePosition: .left, isWithinPostVC: true)
             return cell
         }
         //else the cell is a comment
@@ -270,7 +275,7 @@ extension PostViewController {
         clearAllFields()
         commentTextView.resignFirstResponder()
         tableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
-        post.commentcount += 1
+//        post.commentcount += 1
         comments.append(newComment)
         commentAuthors[newComment.author] = UserService.singleton.getUserAsFrontendReadOnlyUser()
         tableView.reloadData()
@@ -291,16 +296,16 @@ extension PostViewController {
 
 extension PostViewController: PostDelegate {
     
-    func handleVote(postId: Int, isAdding: Bool) {
+    func handleVote(postId: Int, emoji: String, action: VoteAction) {
         // viewController update
-        let originalVoteCount = post.votecount
-        post.votecount += isAdding ? 1 : -1
+        //Below is no longer needed
+//        let originalVoteCount = post.votecount
         
         // Singleton & remote update
         do {
-            try VoteService.singleton.handleVoteUpdate(postId: postId, isAdding)
+            try VoteService.singleton.handleVoteUpdate(postId: postId, emoji: emoji, action)
         } catch {
-            post.votecount = originalVoteCount //undo viewController data change
+//            post.votecount = originalVoteCount //undo viewController data change
             (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
             CustomSwiftMessages.displayError(error)
         }
@@ -320,9 +325,13 @@ extension PostViewController: PostDelegate {
     
     //MARK: - React interaction
     
+    func handleReactTap(postId: Int) {
+        isKeyboardForEmojiReaction = true
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         view.endEditing(true)
-        guard let postView = postView else { return false }
+        guard let postView = textField.superview as? PostView else { return false }
         if !string.isSingleEmoji { return false }
         postView.handleEmojiVote(emojiString: string)
         return false
@@ -337,5 +346,29 @@ extension PostViewController: PostDelegate {
             if commentTextView.isFirstResponder { return } //this should only run for emoji keyboard, not comment keyboard
             view.endEditing(true)
         }
+        
+        if keyboardHeight > previousK && isKeyboardForEmojiReaction { //keyboard is appearing for the first time && we don't want to scroll the feed when the search controller keyboard is presented
+            isKeyboardForEmojiReaction = false
+            scrollFeedToPostRightAboveKeyboard()
+        }
     }
+        
+    @objc func keyboardWillDismiss(sender: NSNotification) {
+        keyboardHeight = 0
+    }
+}
+
+extension PostViewController {
+    
+    //also not quite working
+    func scrollFeedToPostRightAboveKeyboard() {
+        let postIndex = 0 //because postVC
+        let postBottomYWithinFeed = tableView.rectForRow(at: IndexPath(row: postIndex, section: 0))
+        let postBottomY = tableView.convert(postBottomYWithinFeed, to: view).maxY
+        let keyboardTopY = view.bounds.height - keyboardHeight
+        let desiredOffset = postBottomY - keyboardTopY
+        if desiredOffset < 0 { return } //dont scroll up for the post
+        tableView.setContentOffset(tableView.contentOffset.applying(.init(translationX: 0, y: desiredOffset)), animated: true)
+    }
+    
 }

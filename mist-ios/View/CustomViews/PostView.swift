@@ -8,40 +8,6 @@
 import UIKit
 import MapKit
 
-class ToggleButton: UIButton {
-    var isSelectedImage: UIImage!
-    var isSelectedTitle: String!
-    var isNotSelectedImage: UIImage!
-    var isNotSelectedTitle: String!
-    
-    override var isSelected: Bool {
-        didSet {
-            if isSelected {
-                setImage(isSelectedImage, for: .normal)
-                setTitle(isSelectedTitle, for: .normal)
-            } else {
-                setImage(isNotSelectedImage, for: .normal)
-                setTitle(isNotSelectedTitle, for: .normal)
-            }
-        }
-    }
-}
-
-class EmojiTextField: UITextField {
-    
-    // required for iOS 13
-    override var textInputContextIdentifier: String? { "" } // return non-nil to show the Emoji keyboard ¯\_(ツ)_/¯
-
-    override var textInputMode: UITextInputMode? {
-        for mode in UITextInputMode.activeInputModes {
-            if mode.primaryLanguage == "emoji" {
-                return mode
-            }
-        }
-        return nil
-    }
-}
-
 @IBDesignable class PostView: SpringView {
         
     //MARK: - Properties
@@ -64,11 +30,17 @@ class EmojiTextField: UITextField {
         let emojiTextField = EmojiTextField(frame: .init(x: 1, y: 1, width: 1, height: 1))
         emojiTextField.isHidden = true
         emojiTextField.delegate = postDelegate
+        emojiTextField.postDelegate = postDelegate
         self.addSubview(emojiTextField)
         return emojiTextField
     }()
     @IBOutlet weak var reactionsButton: UIButton!
-//    @IBOutlet weak var likeLabelButton: UIButton! // We can't have the likeButton expand the whole stackview, and we also need a button in the rest of the stackview to prevent the post from being dismissed.
+    @IBOutlet weak var emojiButton1: EmojiButton!
+    @IBOutlet weak var emojiButton2: EmojiButton!
+    @IBOutlet weak var emojiButton3: EmojiButton!
+    var emojiButtons: [EmojiButton] {
+        get { return [emojiButton1, emojiButton2, emojiButton3] }
+    }
     
     @IBOutlet weak var fillerButton1: UIButton!
     @IBOutlet weak var fillerButton2: UIButton!
@@ -79,7 +51,9 @@ class EmojiTextField: UITextField {
     //Data
     var postId: Int!
     var postAuthor: ReadOnlyUser!
-
+    var postEmojiCountTuples: [EmojiCountTuple]!
+    var usersVoteBeforePostWasLoaded: PostVote?
+    
     //Delegation
     var postDelegate: PostDelegate!
     
@@ -107,61 +81,8 @@ class EmojiTextField: UITextField {
         contentView.frame = self.bounds
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(contentView)
-        
-//        reactButton.isSelectedTitle = ""
-//        reactButton.isNotSelectedTitle = ""
-//        reactButton.isSelectedImage = UIImage(systemName: "heart.fill")!
-//        reactButton.isNotSelectedImage = UIImage(systemName: "heart")!
-    }
-        
-    //MARK: - User Interaction
-    
-    // This action should be detected by a button, because the button will also prevent touches from
-    // being passed through to the mapview
-    @IBAction func backgroundButtonDidPressed(_ sender: UIButton) {
-        postDelegate.handleBackgroundTap(postId: postId)
-    }
-    
-    // The labelButton is actually just a button which we want to behave like the background.
-//    @IBAction func likeLabelButtonDidPressed(_ sender: UIButton) {
-//        postDelegate.handleBackgroundTap(postId: postId)
-//    }
-    
-    @IBAction func commentButtonDidPressed(_ sender: UIButton) {
-        postDelegate.handleCommentButtonTap(postId: postId)
-    }
-    
-    @IBAction func dmButtonDidPressed(_ sender: UIButton) {
-        if postAuthor.id == UserService.singleton.getId() {
-            //do nothing
-        } else {
-            postDelegate.handleDmTap(postId: postId, author: postAuthor, dmButton: dmButton, title: postTitleLabel.text!)
-        }
-    }
-    
-    @IBAction func moreButtonDidPressed(_ sender: UIButton) {
-        postDelegate.handleMoreTap(postId: postId, postAuthor: postAuthor.id)
     }
 
-    @IBAction func reactButtonDidPressed(_ sender: UIButton) {
-        reactButtonTextField.becomeFirstResponder()
-    }
-    
-    func handleEmojiVote(emojiString: String) {
-        //        // UI Updates
-        //        reactButton.isEnabled = false
-        //        reactButton.isSelected = !reactButton.isSelected
-        //        if reactButton.isSelected {
-        ////            likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! + 1), for: .normal)
-        //        } else {
-        ////            likeLabelButton.setTitle(String(Int(likeLabelButton.titleLabel!.text!)! - 1), for: .normal)
-        //        }
-        //
-        //        // Remote and storage updates
-        //        postDelegate.handleVote(postId: postId, isAdding: reactButton.isSelected)
-        //        reactButton.isEnabled = true
-    }
-    
 }
 
 //MARK: - Public Interface
@@ -176,12 +97,14 @@ extension PostView {
         self.postDelegate = delegate
         postDelegate.beginLoadingAuthorProfilePic(postId: postId, author: post.read_only_author)
         
+        //if we are in PostViewController, make the body longer
+        if postDelegate.isKind(of: PostViewController.self) {
+            messageLabel.numberOfLines = 0
+        }
         timestampLabel.text = getFormattedTimeString(timestamp: post.timestamp)
         locationLabel.text = post.location_description
         messageLabel.text = post.body
         postTitleLabel.text = post.title
-//        likeLabelButton.setTitle(String(post.votecount), for: .normal)
-        reactButton.isSelected = !VoteService.singleton.votesForPost(postId: post.id).isEmpty
         
         if post.author == UserService.singleton.getId() {
             dmButton.setTitleColor(.lightGray.withAlphaComponent(0.5), for: .normal)
@@ -203,11 +126,14 @@ extension PostView {
         backgroundBubbleView.transformIntoPostBubble(arrowPosition: arrowPosition)
         
         moreButton.transform = CGAffineTransform(rotationAngle: degreesToRadians(degrees: 90))
+        
+        self.usersVoteBeforePostWasLoaded = post.votes.first {$0.voter == UserService.singleton.getId() }
+        self.postEmojiCountTuples = post.emojiCountTuples
+        setupEmojiButtons(topThreeVotes: Array(self.postEmojiCountTuples.prefix(3)))
     }
     
     func reconfigurePost(updatedPost: Post) {
-//        likeLabelButton.setTitle(String(updatedPost.votecount), for: .normal)
-        reactButton.isSelected = !VoteService.singleton.votesForPost(postId: updatedPost.id).isEmpty
+        setupEmojiButtons(topThreeVotes: Array(self.postEmojiCountTuples.prefix(3)))
     }
     
     // We need to disable the backgroundButton and add a tapGestureRecognizer so that drags can be detected on the tableView. The purpose of the backgroundButton is to prevent taps from dismissing the calloutView when the post is within an annotation on the map
@@ -221,4 +147,241 @@ extension PostView {
 
         backgroundBubbleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(backgroundButtonDidPressed(_:)) ))
     }
+}
+
+
+extension PostView {
+    
+    //MARK: - Setup
+        
+    //How the emojiButton.count adjustment works:
+    //Whenever the user refreshes posts, we load in posts and votes
+    //Whenever the user reacts with a post, we update the votes in VoteService, but we do NOT update the votes on the post object itself
+    //We know if the emojiButton.count needs to be adjusted if the VoteService and post's votes are out of sync: it means that the user added or removed a vote since the last post load.
+    
+    //on any given post that we've loaded load in, here are the potential states:
+    //no vote, and no change
+    //no vote, and we added one
+    //was vote, and no change
+    //was vote, and we changed it
+    //was vote, and we removed it
+    
+    func setupEmojiButtons(topThreeVotes: [EmojiCountTuple]) {
+        let usersCurrentVoteOnThisPost = VoteService.singleton.votesForPost(postId: postId).first
+//        if postTitleLabel.text!.hasPrefix("Breakfast") {
+//            print("usersCurrentVote from VoteService:", usersCurrentVoteOnThisPost)
+//            print(topThreeVotes)
+//        }
+        
+        for index in (0 ..< topThreeVotes.count) {
+            let emojiButton = emojiButtons[index]
+            let topThreeVote = topThreeVotes[index]
+            (emojiButton.emoji, emojiButton.count) = (topThreeVote.emoji, topThreeVote.count)
+            if let usersCurrentVoteOnThisPost = usersCurrentVoteOnThisPost {
+                emojiButton.isSelected = usersCurrentVoteOnThisPost.emoji == topThreeVote.emoji
+                
+                //user had no original vote, but they added one
+                if usersVoteBeforePostWasLoaded == nil &&
+                    usersCurrentVoteOnThisPost.emoji == topThreeVote.emoji {
+                    emojiButton.count += 1
+                }
+                
+                //user had an original vote, but they changed it
+                if let usersVoteBeforePostWasLoaded = usersVoteBeforePostWasLoaded,
+                   usersVoteBeforePostWasLoaded.emoji != usersCurrentVoteOnThisPost.emoji {
+                    //if this is their new vote, then increment it
+                    if usersCurrentVoteOnThisPost.emoji == topThreeVote.emoji {
+                        emojiButton.count += 1
+                    }
+                    //if this is their old vote, then decrement it
+                    if usersVoteBeforePostWasLoaded.emoji == topThreeVote.emoji {
+                        emojiButton.count -= 1
+                    }
+                }
+            } else {
+                emojiButton.isSelected = false //deselect all buttons just in case
+                
+                //user had an original vote, but they remove it
+                if let usersVoteBeforePostWasLoaded = usersVoteBeforePostWasLoaded,
+                   usersVoteBeforePostWasLoaded.emoji == topThreeVote.emoji {
+                    emojiButton.count -= 1
+                }
+            }
+        }
+        
+        if usersCurrentVoteOnThisPost != nil {
+            ensureTheUsersVoteAppearsOnAButton()
+        }
+    }
+    
+    //TODO: haven't thoroughly tested the function below yet
+    func ensureTheUsersVoteAppearsOnAButton() {
+        guard let usersVoteOnThisPost = VoteService.singleton.votesForPost(postId: postId).first else { return }
+        if !emojiButtons.contains(where: { $0.emoji == usersVoteOnThisPost.emoji }) {
+            guard let votedTuple = postEmojiCountTuples.first(where: {$0.emoji == usersVoteOnThisPost.emoji }) else { return }
+            (emojiButton3.emoji, emojiButton3.count) = (votedTuple.emoji, votedTuple.count)
+            
+            //user had no original vote, so they must have added this one
+            if usersVoteBeforePostWasLoaded == nil  {
+                emojiButton3.count += 1
+            }
+            
+            //user had another original vote, but they changed it to this one
+            if let usersVoteBeforePostWasLoaded = usersVoteBeforePostWasLoaded,
+               usersVoteBeforePostWasLoaded.emoji != usersVoteOnThisPost.emoji {
+                //if this is their new vote, then increment it
+                if usersVoteOnThisPost.emoji == votedTuple.emoji {
+                    emojiButton3.count += 1
+                }
+            }
+        }
+    }
+        
+    //MARK: - User Interaction
+    
+    // This action should be detected by a button, because the button will also prevent touches from being passed through to the mapview
+    @IBAction func backgroundButtonDidPressed(_ sender: UIButton) {
+        postDelegate.handleBackgroundTap(postId: postId)
+    }
+    
+    @IBAction func commentButtonDidPressed(_ sender: UIButton) {
+        postDelegate.handleCommentButtonTap(postId: postId)
+    }
+    
+    @IBAction func dmButtonDidPressed(_ sender: UIButton) {
+        if postAuthor.id == UserService.singleton.getId() {
+            //do nothing
+        } else {
+            postDelegate.handleDmTap(postId: postId, author: postAuthor, dmButton: dmButton, title: postTitleLabel.text!)
+        }
+    }
+    
+    @IBAction func moreButtonDidPressed(_ sender: UIButton) {
+        postDelegate.handleMoreTap(postId: postId, postAuthor: postAuthor.id)
+    }
+
+    @IBAction func reactButtonDidPressed(_ sender: UIButton) {
+        if reactButtonTextField.isFirstResponder {
+            reactButtonTextField.resignFirstResponder()
+        } else {
+            postDelegate.handleReactTap(postId: postId) //must come first to set flags
+            reactButtonTextField.becomeFirstResponder()
+        }
+    }
+    
+    @IBAction func emojiButtonDidPressed(_ sender: EmojiButton) {
+        handleEmojiVote(emojiString: sender.emoji)
+    }
+        
+    func handleEmojiVote(emojiString: String) {
+        emojiButtons.forEach { $0.isEnabled = false }
+        
+        let hasUserAlreadyVoted = !VoteService.singleton.votesForPost(postId: postId).isEmpty
+        let doesNewEmojiAlreadyExist = emojiButtons.firstIndex { $0.emoji == emojiString } != nil
+        let isUserDeletingTheirVote = emojiButtons.firstIndex { $0.isSelected && $0.emoji == emojiString } != nil
+
+        if hasUserAlreadyVoted {
+            if isUserDeletingTheirVote {
+                deleteVote(emojiString)
+            } else {
+                if doesNewEmojiAlreadyExist {
+                    patchVoteWithExistingEmoji(emojiString)
+                } else {
+                    patchVoteWithCustomEmoji(emojiString)
+                }
+            }
+        } else {
+            if doesNewEmojiAlreadyExist {
+                castVoteWithExistingEmoji(emojiString)
+            } else {
+                castVoteWithCustomEmoji(emojiString)
+            }
+        }
+
+        emojiButtons.forEach { $0.isEnabled = true }
+    }
+    
+}
+
+//MARK: - Vote Helpers
+
+extension PostView {
+    
+    func deleteVote(_ emojiString: String) {
+        print("DELETE VOTE")
+        guard let selectedEmojiButton = emojiButtons.first(where: { $0.isSelected }) else { return }
+        selectedEmojiButton.isSelected = false
+        selectedEmojiButton.count -= 1
+        
+        //remote and stoarge updates
+        postDelegate.handleVote(postId: postId, emoji: emojiString, action: .delete)
+    }
+    
+    //They have already voted, and they're changing their vote to one of the other two already on the screen
+    func patchVoteWithExistingEmoji(_ emojiString: String) {
+        print("PATCH VOTE EXISTING")
+        guard let previouslySelectedEmojiButton = emojiButtons.first(where: { $0.isSelected }) else { return }
+        guard let newlySelectedEmojiButton = emojiButtons.first(where: { $0.emoji == emojiString }) else { return }
+        previouslySelectedEmojiButton.isSelected = false
+        previouslySelectedEmojiButton.count -= 1
+        newlySelectedEmojiButton.isSelected = true
+        newlySelectedEmojiButton.count += 1
+        
+        //remote and storage updates
+        postDelegate.handleVote(postId: postId, emoji: emojiString, action: .patch)
+    }
+    
+    //They have already voted, and they're changing their vote to a custom emoji
+    func patchVoteWithCustomEmoji(_ emojiString: String) {
+        print("PATCH VOTE CUSTOM")
+        guard let previouslySelectedEmojiButton = emojiButtons.first(where: { $0.isSelected }) else { return }
+        previouslySelectedEmojiButton.count -= 1
+        previouslySelectedEmojiButton.isSelected = false
+        
+        //see if the vote already has some votes
+        let customVote: EmojiCountTuple
+        if let existingVote = postEmojiCountTuples.first(where: { $0.emoji == emojiString }) {
+            customVote = EmojiCountTuple(emojiString, existingVote.count + 1)
+        } else {
+            customVote = EmojiCountTuple(emojiString, 1)
+        }
+        
+        //reset all the buttons with the proper ordering
+        var isCustomVoteAvailable = true
+        for index in (0 ..< 3) {
+            //put your customVote at button1/2 if its count is high enough, otherwise at button3
+            if (customVote.count >= postEmojiCountTuples[index].count || index == 2) && isCustomVoteAvailable {
+                isCustomVoteAvailable = false
+                (emojiButtons[index].emoji, emojiButtons[index].count) = (customVote.emoji, customVote.count)
+                emojiButtons[index].isSelected = true
+            } else {
+                (emojiButtons[index].emoji, emojiButtons[index].count) = (postEmojiCountTuples[index].emoji, postEmojiCountTuples[index].count)
+            }
+        }
+
+        //remote and storage updates
+        postDelegate.handleVote(postId: postId, emoji: emojiString, action: .patch)
+    }
+    
+    //They're adding a vote to one of the three already on the screen
+    func castVoteWithExistingEmoji(_ emojiString: String) {
+        print("CAST VOTE EXISTING")
+        guard let newlySelectedEmojiButton = emojiButtons.first(where: { $0.emoji == emojiString }) else { return }
+        newlySelectedEmojiButton.count += 1
+        newlySelectedEmojiButton.isSelected = true
+
+        //remote and storage updates
+        postDelegate.handleVote(postId: postId, emoji: emojiString, action: .cast)
+    }
+    
+    func castVoteWithCustomEmoji(_ emojiString: String) {
+        print("CAST VOTE CUSTOM")
+        let previousVoteCountForThisEmoji = postEmojiCountTuples.first { $0.emoji == emojiString }?.count ?? 0
+        (emojiButton3.emoji, emojiButton3.count) = (emojiString, previousVoteCountForThisEmoji + 1)
+        emojiButton3.isSelected = true //The third button always has the least votes
+
+        //remote and storage updates
+        postDelegate.handleVote(postId: postId, emoji: emojiString, action: .cast)
+    }
+    
 }

@@ -81,9 +81,9 @@ extension HomeViewController: UISearchBarDelegate {
     
 }
 
-    // MARK: - UITableViewDelegate
+// MARK: - UITableViewDelegate
 
-extension HomeViewController: UITableViewDelegate {
+extension HomeViewController {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == feed { return }

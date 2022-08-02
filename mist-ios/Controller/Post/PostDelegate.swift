@@ -7,20 +7,22 @@
 
 import Foundation
 
-protocol PostDelegate: ShareActivityDelegate, AnyObject, UITextFieldDelegate {
+protocol PostDelegate: ShareActivityDelegate, UITextFieldDelegate { // , AnyObject not needed bc UITextFieldDelegate
     // Implemented below
     func handleMoreTap(postId: Int, postAuthor: Int)
-    func handleVote(postId: Int, isAdding: Bool)
+    func handleVote(postId: Int, emoji: String, action: VoteAction)
     func handleFavorite(postId: Int, isAdding: Bool)
     func handleFlag(postId: Int, isAdding: Bool)
     func handleDmTap(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String)
     func beginLoadingAuthorProfilePic(postId: Int, author: ReadOnlyUser)
-    
+    func emojiKeyboardDidDelete()
+
     // Require subclass implementation
     func handleCommentButtonTap(postId: Int)
     func handleBackgroundTap(postId: Int)
     func handleDeletePost(postId: Int)    
     var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] { get set }
+    func handleReactTap(postId: Int)
 }
 
 // Defining functions which are consistent across all PostDelegates
@@ -33,7 +35,7 @@ extension PostDelegate where Self: UIViewController {
             do {
                 return try await FrontendReadOnlyUser(readOnlyUser: author, profilePic: UserAPI.UIImageFromURLString(url: author.picture))
             } catch {
-                print("COULD NOT LOAD AUTHOR PROFILE PIC")
+                print("COULD NOT LOAD AUTHOR PROFILE PIC", error.localizedDescription)
                 return nil
             }
         }
@@ -88,12 +90,17 @@ extension PostDelegate where Self: UIViewController {
     
     func handleMoreTap(postId: Int, postAuthor: Int) {
         let moreVC = PostMoreViewController.create(postId: postId, postAuthor: postAuthor, postDelegate: self)
+        view.endEditing(true)
         present(moreVC, animated: true)
     }
     
     // ShareActivityDelegate
     func presentShareActivityVC() {
         presentMistShareActivity()
+    }
+    
+    func emojiKeyboardDidDelete() {
+        view.endEditing(true)
     }
 
 }

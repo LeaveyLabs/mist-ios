@@ -13,6 +13,9 @@
                 <outlet property="backgroundBubbleButton" destination="uno-sj-oMK" id="Kwh-fh-Lsj"/>
                 <outlet property="backgroundBubbleView" destination="bob-45-2Dc" id="bsg-88-iIX"/>
                 <outlet property="dmButton" destination="iFI-h5-d6P" id="Yt8-5a-7v7"/>
+                <outlet property="emojiButton1" destination="QC2-Mt-A14" id="j1T-eq-YZU"/>
+                <outlet property="emojiButton2" destination="Ya0-s7-J3U" id="heZ-HR-3AW"/>
+                <outlet property="emojiButton3" destination="i0w-0o-6ZG" id="Qkn-4R-zbH"/>
                 <outlet property="fillerButton1" destination="kan-0P-2tr" id="Ps2-Wg-5aP"/>
                 <outlet property="fillerButton2" destination="hTI-fg-rcb" id="cNT-mG-lbB"/>
                 <outlet property="fillerButton3" destination="cME-Kf-XgS" id="I40-bk-sD1"/>
@@ -29,14 +32,14 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="410" height="243"/>
+            <rect key="frame" x="0.0" y="0.0" width="410" height="248"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bob-45-2Dc" userLabel="Bubble View">
-                    <rect key="frame" x="0.0" y="0.0" width="410" height="243"/>
+                    <rect key="frame" x="0.0" y="0.0" width="410" height="248"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uno-sj-oMK" userLabel="Background Button">
-                            <rect key="frame" x="0.0" y="0.0" width="410" height="243"/>
+                            <rect key="frame" x="0.0" y="0.0" width="410" height="248"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                             <connections>
@@ -86,35 +89,42 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OMG starbuckssss" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H2e-sd-bfE">
-                            <rect key="frame" x="15" y="50" width="380" height="33"/>
+                            <rect key="frame" x="15" y="50" width="380" height="35"/>
                             <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
                             <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n8O-is-nrf">
-                            <rect key="frame" x="15" y="91" width="380" height="51.5"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n8O-is-nrf">
+                            <rect key="frame" x="15" y="93" width="380" height="51.5"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <attributedString key="attributedText">
                                 <fragment>
                                     <string key="content">To the girl who is always at Starbucks
-I love you</string>
+</string>
                                     <attributes>
-                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <font key="NSFont" size="17" name="Avenir-Medium"/>
                                         <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1000000000000001" tighteningFactorForTruncation="0.0"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="I love you">
+                                    <attributes>
+                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <font key="NSFont" size="17" name="Avenir-Medium"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1" tighteningFactorForTruncation="0.0"/>
                                     </attributes>
                                 </fragment>
                             </attributedString>
                             <nil key="highlightedColor"/>
                         </label>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Yma-w3-rs6" userLabel="Bottom stack">
-                            <rect key="frame" x="0.0" y="157.5" width="410" height="85.5"/>
+                            <rect key="frame" x="0.0" y="159.5" width="410" height="88.5"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4B6-4O-xpJ" userLabel="Emojis stack">
-                                    <rect key="frame" x="0.0" y="0.0" width="410" height="30"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="410" height="33"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kan-0P-2tr">
-                                            <rect key="frame" x="0.0" y="0.0" width="10" height="30"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="10" height="33"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="10" id="xhb-fN-zB2"/>
                                             </constraints>
@@ -123,35 +133,65 @@ I love you</string>
                                                 <action selector="backgroundButtonDidPressed:" destination="-1" eventType="touchUpInside" id="Jqw-hq-Rph"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QC2-Mt-A14">
-                                            <rect key="frame" x="10" y="0.0" width="55" height="30"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QC2-Mt-A14" customClass="EmojiButton" customModule="mist_ios" customModuleProvider="target">
+                                            <rect key="frame" x="10" y="0.0" width="55" height="33"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="55" id="i9e-j0-qNz"/>
                                             </constraints>
-                                            <state key="normal" title="😜43">
-                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <state key="normal">
+                                                <attributedString key="attributedTitle">
+                                                    <fragment content="😜43">
+                                                        <attributes>
+                                                            <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <font key="NSFont" metaFont="system" size="18"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
                                             </state>
+                                            <connections>
+                                                <action selector="emojiButtonDidPressed:" destination="-1" eventType="touchUpInside" id="tni-Jf-afI"/>
+                                            </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ya0-s7-J3U">
-                                            <rect key="frame" x="65" y="0.0" width="55" height="30"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ya0-s7-J3U" customClass="EmojiButton" customModule="mist_ios" customModuleProvider="target">
+                                            <rect key="frame" x="65" y="0.0" width="55" height="33"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="55" id="CLP-Ub-tSm"/>
                                             </constraints>
-                                            <state key="normal" title="😜43">
-                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <state key="normal">
+                                                <attributedString key="attributedTitle">
+                                                    <fragment content="😜43">
+                                                        <attributes>
+                                                            <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <font key="NSFont" metaFont="system" size="18"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
                                             </state>
+                                            <connections>
+                                                <action selector="emojiButtonDidPressed:" destination="-1" eventType="touchUpInside" id="nSA-3d-pbq"/>
+                                            </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i0w-0o-6ZG">
-                                            <rect key="frame" x="120" y="0.0" width="55" height="30"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i0w-0o-6ZG" customClass="EmojiButton" customModule="mist_ios" customModuleProvider="target">
+                                            <rect key="frame" x="120" y="0.0" width="55" height="33"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="55" id="u6h-cc-yuw"/>
                                             </constraints>
-                                            <state key="normal" title="😜43">
-                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <state key="normal">
+                                                <attributedString key="attributedTitle">
+                                                    <fragment content="😜43">
+                                                        <attributes>
+                                                            <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <font key="NSFont" metaFont="system" size="18"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
                                             </state>
+                                            <connections>
+                                                <action selector="emojiButtonDidPressed:" destination="-1" eventType="touchUpInside" id="RQE-Sr-45w"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hTI-fg-rcb" userLabel="Filler button">
-                                            <rect key="frame" x="175" y="0.0" width="225" height="30"/>
+                                            <rect key="frame" x="175" y="0.0" width="225" height="33"/>
                                             <state key="normal" title="Button"/>
                                             <buttonConfiguration key="configuration" style="plain"/>
                                             <connections>
@@ -159,7 +199,7 @@ I love you</string>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cME-Kf-XgS">
-                                            <rect key="frame" x="400" y="0.0" width="10" height="30"/>
+                                            <rect key="frame" x="400" y="0.0" width="10" height="33"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="10" id="esQ-OT-P6v"/>
                                             </constraints>
@@ -170,12 +210,12 @@ I love you</string>
                                         </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="30" id="d5h-Hv-yoV"/>
+                                        <constraint firstAttribute="height" constant="33" id="d5h-Hv-yoV"/>
                                         <constraint firstItem="hTI-fg-rcb" firstAttribute="height" secondItem="4B6-4O-xpJ" secondAttribute="height" id="yTO-rD-y0b"/>
                                     </constraints>
                                 </stackView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eYa-RX-VTS" userLabel="Clear Divider Button">
-                                    <rect key="frame" x="0.0" y="30" width="410" height="10"/>
+                                    <rect key="frame" x="0.0" y="33" width="410" height="10"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="10" id="V9m-kd-i2G"/>
                                     </constraints>
@@ -185,7 +225,7 @@ I love you</string>
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D3Z-4z-sX3" userLabel="Grey Divider Button">
-                                    <rect key="frame" x="0.0" y="40" width="410" height="0.5"/>
+                                    <rect key="frame" x="0.0" y="43" width="410" height="0.5"/>
                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="0.5" id="sUn-WW-8hz"/>
@@ -196,7 +236,7 @@ I love you</string>
                                     </connections>
                                 </button>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="pod-hU-jCs" userLabel="Interact stack">
-                                    <rect key="frame" x="0.0" y="40.5" width="410" height="45"/>
+                                    <rect key="frame" x="0.0" y="43.5" width="410" height="45"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GFd-V9-XW5">
                                             <rect key="frame" x="0.0" y="0.0" width="136.5" height="45"/>
@@ -281,7 +321,7 @@ I love you</string>
                 <constraint firstItem="bob-45-2Dc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="PJa-NM-sbZ"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="136.23188405797103" y="200.55803571428569"/>
+            <point key="canvasLocation" x="136.23188405797103" y="202.23214285714286"/>
         </view>
     </objects>
     <resources>

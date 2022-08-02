@@ -16,7 +16,7 @@ protocol AnnotationViewSwipeDelegate {
 var hasSwipeDemoAnimationRun = false
 
 final class PostAnnotationView: MKMarkerAnnotationView {
-    
+        
     static let ReuseID = "Post"
     
     var postCalloutView: PostView? // the postAnnotationView's callout view
@@ -104,6 +104,7 @@ final class PostAnnotationView: MKMarkerAnnotationView {
 
         // If it wasn't MKMarketerAnnotationView, then the hit view must postView, the the classes's only subview
         if let postView = postCalloutView {
+            hasSwipeDemoAnimationRun = true //if they've interacted with the post, turn off the demo
             let pointInPostView = convert(point, to: postView)
             return postView.hitTest(pointInPostView, with: event)
         }
@@ -150,15 +151,15 @@ extension PostAnnotationView {
         //and we want the values below to depend directly on those values for fly in, not hard coded
         postCalloutView.fadeIn(duration: 0.2, delay: delay - 0.15)
         
-        if !hasSwipeDemoAnimationRun {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            if !hasSwipeDemoAnimationRun {
                 self?.runSwipeDemoAnimation()
             }
         }
     }
     
     func runSwipeDemoAnimation() {
-        guard let postCalloutView = postCalloutView else { return } //The postCalloutView might have disappeared during that delay
+        guard let postCalloutView = postCalloutView, isSelected else { return } //The postCalloutView might have disappeared during that delay
         hasSwipeDemoAnimationRun = true
         displaySwipeDemoInstructions()
                 
@@ -215,7 +216,7 @@ extension PostAnnotationView {
     func movePostUpAfterEmojiKeyboardRaised() {
         layoutIfNeeded()
         UIView.animate(withDuration: 0.25) { [weak self] in
-            self?.constraints.first { $0.firstAnchor == self?.postCalloutView?.bottomAnchor }?.constant = -120
+            self?.constraints.first { $0.firstAnchor == self?.postCalloutView?.bottomAnchor }?.constant = -165
             self?.layoutIfNeeded()
         }
     }

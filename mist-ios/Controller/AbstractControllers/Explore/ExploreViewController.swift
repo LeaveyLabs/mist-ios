@@ -26,6 +26,7 @@ class ExploreViewController: MapViewController {
     var isFeedVisible = false //we have to use this flag and send tableview to the front/back instead of using isHidden so that when tableviewcells aren't rerendered when tableview reappears and so we can have a scroll to top animation before reloading tableview data
     var annotationSelectionType: AnnotationSelectionType = .normal
     var keyboardHeight: CGFloat = 0 //emoji keyboard autodismiss flag
+    var isKeyboardForEmojiReaction: Bool = false
         
     // Map
     var selectedAnnotationView: MKAnnotationView?
@@ -33,6 +34,9 @@ class ExploreViewController: MapViewController {
         guard let selected = selectedAnnotationView else { return nil }
         return postAnnotations.firstIndex(of: selected.annotation as! PostAnnotation)
     }
+    
+    // Feed
+    var reactingPostIndex: Int? //for scrolling to the right index on the feed when react keyboard raises
     
     //PostDelegate
     var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] = [:]
@@ -144,8 +148,10 @@ extension ExploreViewController {
         reloadData()
         if isFeedVisible {
             makeMapVisible()
+            view.endEditing(true)
         } else {
             makeFeedVisible()
+            view.endEditing(true)
         }
     }
     
@@ -179,17 +185,14 @@ extension ExploreViewController {
 
 extension ExploreViewController: PostDelegate {
     
-    func handleVote(postId: Int, isAdding: Bool) {
+    func handleVote(postId: Int, emoji: String, action: VoteAction) {
         // viewController update
-        let index = postAnnotations.firstIndex { $0.post.id == postId }!
-        let originalVoteCount = postAnnotations[index].post.votecount
-        postAnnotations[index].post.votecount += isAdding ? 1 : -1
+//        let index = postAnnotations.firstIndex { $0.post.id == postId }!
                 
         // Singleton & remote update
         do {
-            try VoteService.singleton.handleVoteUpdate(postId: postId, isAdding)
+            try VoteService.singleton.handleVoteUpdate(postId: postId, emoji: emoji, action)
         } catch {
-            postAnnotations[index].post.votecount = originalVoteCount //undo viewController data change
             reloadData() //reloadData to ensure undos are visible
             CustomSwiftMessages.displayError(error)
         }
@@ -209,20 +212,29 @@ extension ExploreViewController: PostDelegate {
     
     func sendToPostViewFor(_ post: Post, withRaisedKeyboard: Bool) {
         let postVC = PostViewController.createPostVC(with: post, shouldStartWithRaisedKeyboard: withRaisedKeyboard) { [self] updatedPost in
+            //TODO: experimental. we dont need to update postannotations anymore
             //Update data to prepare for the next reloadData() upon self.willAppear()
-            let index = postAnnotations.firstIndex { $0.post.id == updatedPost.id }!
-            postAnnotations[index].post = updatedPost
+//            let index = postAnnotations.firstIndex { $0.post.id == updatedPost.id }!
+//            postAnnotations[index].post = updatedPost
         }
         navigationController!.pushViewController(postVC, animated: true)
     }
     
     func handleDeletePost(postId: Int) {
         renderNewPostsOnFeedAndMap(withType: .refresh)
-    }    //MARK: - React interaction
+    }
+    
+    //MARK: - React interaction
+    
+    func handleReactTap(postId: Int) {
+        //feed's data source is postAnnotations as of now
+        reactingPostIndex = postAnnotations.firstIndex { $0.post.id == postId }
+        isKeyboardForEmojiReaction = true
+    }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         view.endEditing(true)
-        guard let postView = (selectedAnnotationView as? PostAnnotationView)?.postCalloutView else { return false }
+        guard let postView = textField.superview as? PostView else { return false }
         if !string.isSingleEmoji { return false }
         postView.handleEmojiVote(emojiString: string)
         return false
@@ -232,22 +244,40 @@ extension ExploreViewController: PostDelegate {
         let i = sender.userInfo!
         let previousK = keyboardHeight
         keyboardHeight = (i[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height
-        print("newkeyb height: ", keyboardHeight)
-
+        
         if keyboardHeight < previousK { //keyboard is going from emoji keyboard to regular keyboard
             view.endEditing(true)
         }
         
-        if keyboardHeight > previousK { //keyboard is appearing for the first time
-            guard let postAnnotationView = selectedAnnotationView as? PostAnnotationView else { return }
-            postAnnotationView.movePostUpAfterEmojiKeyboardRaised()
+        if keyboardHeight == previousK && isKeyboardForEmojiReaction {
+            //already reacting to one post, tried to react on another postf
+            isKeyboardForEmojiReaction = false
+            if isFeedVisible {
+                if let reactingPostIndex = reactingPostIndex {
+                    scrollFeedToPostRightAboveKeyboard(reactingPostIndex)
+                }
+            }
+        }
+        
+        if keyboardHeight > previousK && isKeyboardForEmojiReaction { //keyboard is appearing for the first time && we don't want to scroll the feed when the search controller keyboard is presented
+            isKeyboardForEmojiReaction = false
+            if isFeedVisible {
+                if let reactingPostIndex = reactingPostIndex {
+                    scrollFeedToPostRightAboveKeyboard(reactingPostIndex)
+                }
+            } else {
+                if let postAnnotationView = selectedAnnotationView as? PostAnnotationView, keyboardHeight > 100 { //keyboardHeight of 90 appears with postVC keyboard
+                    postAnnotationView.movePostUpAfterEmojiKeyboardRaised()
+                }
+            }
         }
     }
     
     @objc func keyboardWillDismiss(sender: NSNotification) {
         keyboardHeight = 0
-        guard let postAnnotationView = selectedAnnotationView as? PostAnnotationView else { return }
-        postAnnotationView.movePostBackDownAfterEmojiKeyboardDismissed()
+        if let postAnnotationView = selectedAnnotationView as? PostAnnotationView {
+            postAnnotationView.movePostBackDownAfterEmojiKeyboardDismissed()
+        }
     }
 
 }
