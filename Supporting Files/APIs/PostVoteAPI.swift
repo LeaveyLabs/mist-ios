@@ -96,7 +96,7 @@ class PostVoteAPI {
             EMOJI_PARAM: emoji
         ]
         let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
         try filterPostVoteErrors(data: data, response: response)
         return try JSONDecoder().decode(PostVote.self, from: data)
     }
