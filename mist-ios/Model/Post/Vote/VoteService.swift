@@ -7,6 +7,10 @@
 
 import Foundation
 
+enum VoteAction {
+    case cast, patch, delete
+}
+
 class VoteService: NSObject {
     
     static var singleton = VoteService()
@@ -34,25 +38,29 @@ class VoteService: NSObject {
     //MARK: - Updaters
     
     // Intermediate layer
-    func handleVoteUpdate(postId: Int, _ isAdding: Bool) throws {
-        if isAdding {
-            try handleVoteAdd(postId: postId)
-        } else {
-            try handleVoteDelete(postId: postId)
+    func handleVoteUpdate(postId: Int, emoji: String, _ action: VoteAction) throws {
+        switch action {
+        case .cast:
+            try castVote(postId: postId, emoji: emoji)
+        case .patch:
+            try patchVote(postId: postId, emoji: emoji)
+        case .delete:
+            try deleteVote(postId: postId)
         }
     }
     
-    private func handleVoteAdd(postId: Int) throws {
+    private func castVote(postId: Int, emoji: String) throws {
         let addedVote = PostVote(id: Int.random(in: 0..<Int.max),
                                  voter: UserService.singleton.getId(),
                                  post: postId,
                                  timestamp: Date().timeIntervalSince1970,
-                                 emoji: nil)
+                                 emoji: emoji,
+                                 rating: nil)
         votes.append(addedVote)
         
         Task {
             do {
-                let _ = try await PostVoteAPI.postVote(voter: UserService.singleton.getId(), post: postId)
+                let _ = try await PostVoteAPI.postVote(voter: UserService.singleton.getId(), post: postId, emoji: emoji)
             } catch {
                 votes.removeAll { $0.id == addedVote.id }
                 throw(error)
@@ -60,7 +68,30 @@ class VoteService: NSObject {
         }
     }
     
-    private func handleVoteDelete(postId: Int) throws {
+    private func patchVote(postId: Int, emoji: String) throws {
+        let originalVote = votes.first { $0.post == postId }!
+        votes.removeAll { $0.id == originalVote.id }
+        let patchedVote = PostVote(id: Int.random(in: 0..<Int.max),
+                                 voter: UserService.singleton.getId(),
+                                 post: postId,
+                                 timestamp: Date().timeIntervalSince1970,
+                                 emoji: emoji,
+                                 rating: nil)
+        votes.append(patchedVote)
+        
+        Task {
+            do {
+                let _ = try await PostVoteAPI.patchVote(voter: UserService.singleton.getId(), post: postId, emoji: emoji)
+            } catch {
+                print(error.localizedDescription)
+                votes.removeAll { $0.id == patchedVote.id }
+                votes.append(originalVote)
+                throw(error)
+            }
+        }
+    }
+    
+    private func deleteVote(postId: Int) throws {
         let deletedVote = votes.first { $0.post == postId }!
         votes.removeAll { $0.id == deletedVote.id }
         
@@ -73,5 +104,38 @@ class VoteService: NSObject {
             }
         }
     }
+//
+//    private func handleVoteAdd(postId: Int, emoji: String) throws {
+//        let addedVote = PostVote(id: Int.random(in: 0..<Int.max),
+//                                 voter: UserService.singleton.getId(),
+//                                 post: postId,
+//                                 timestamp: Date().timeIntervalSince1970,
+//                                 emoji: emoji,
+//                                 rating: nil)
+//        votes.append(addedVote)
+//
+//        Task {
+//            do {
+//                let _ = try await PostVoteAPI.postVote(voter: UserService.singleton.getId(), post: postId)
+//            } catch {
+//                votes.removeAll { $0.id == addedVote.id }
+//                throw(error)
+//            }
+//        }
+//    }
+//
+//    private func handleVoteDelete(postId: Int) throws {
+//        let deletedVote = votes.first { $0.post == postId }!
+//        votes.removeAll { $0.id == deletedVote.id }
+//
+//        Task {
+//            do {
+//                try await PostVoteAPI.deleteVote(voter: UserService.singleton.getId(), post: postId)
+//            } catch {
+//                votes.append(deletedVote)
+//                throw(error)
+//            }
+//        }
+//    }
     
 }

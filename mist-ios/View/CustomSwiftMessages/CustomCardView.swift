@@ -21,6 +21,9 @@ class CustomCardView: MessageView {
     override func layoutSubviews() {
         dismissButton.setImage(UIImage(systemName: "xmark.circle"), for: .normal)
         dismissButton.setTitle("", for: .normal)
+        
+        //For now, disabling dismiss button because it takes up too much space and cuts off text
+        dismissButton.isHidden = true
     }
 
 }

@@ -31,6 +31,7 @@ class PostMoreViewController: CustomSheetViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         var sheetHeight: CGFloat = 370
+        print(postAuthor != UserService.singleton.getId())
         if postAuthor != UserService.singleton.getId() {
             deleteButton.isHidden = true
             deleteButtonGrayLine.isHidden = true
@@ -48,8 +49,8 @@ class PostMoreViewController: CustomSheetViewController {
         flagButton.isNotSelectedTitle = "Flag"
         favoriteButton.isSelectedImage = UIImage(systemName: "bookmark.fill")!
         favoriteButton.isNotSelectedImage = UIImage(systemName: "bookmark")!
-        favoriteButton.isSelectedTitle = "Saved"
-        favoriteButton.isNotSelectedTitle = "Save"
+        favoriteButton.isSelectedTitle = "Favorited"
+        favoriteButton.isNotSelectedTitle = "Favorite"
         
         flagButton.isSelected = FlagService.singleton.hasFlaggedPost(postId)
         favoriteButton.isSelected = FavoriteService.singleton.hasFavoritedPost(postId)

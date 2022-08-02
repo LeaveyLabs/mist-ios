@@ -87,7 +87,7 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
         sexTextField.layer.cornerRadius = 5
         sexTextField.setLeftAndRightPadding(10)
         sexTextField.inputView = sexPicker
-        sexOptions = ["", "Male", "Female", RATHER_NOT_SAY]
+        sexOptions = ["", "Male", "Female", "Other", RATHER_NOT_SAY]
 
         dobTextField.delegate = self
         dobTextField.layer.cornerRadius = 5
@@ -143,7 +143,7 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
     func tryToContinue() {
         if let _ = dobTextField.text, let sex = sexTextField.text {
             AuthContext.dob = dobData
-            AuthContext.sex = sex == RATHER_NOT_SAY ? nil : sex == "Male" ? "m" : "f"
+            AuthContext.sex = sex == RATHER_NOT_SAY ? nil : sex == "Male" ? "m" : sex == "Female" ? "f" : "o"
             let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ChooseUsername)
             self.navigationController?.pushViewController(vc, animated: true)
         }
@@ -161,7 +161,7 @@ extension EnterBiosViewController: UIPickerViewDelegate, UIPickerViewDataSource 
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        4
+        5
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {

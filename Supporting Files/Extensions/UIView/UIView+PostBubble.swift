@@ -81,7 +81,7 @@ extension UIView {
             path.addLine(to: CGPoint(x:heightWidth/2, y: -30))
             path.addLine(to: CGPoint(x:heightWidth/2, y:heightWidth))
         case .bottom:
-            path.addLine(to: CGPoint(x:heightWidth/2, y: heightWidth + 30))
+            path.addLine(to: CGPoint(x:heightWidth/2, y: heightWidth + 20))
             path.addLine(to: CGPoint(x:heightWidth, y:heightWidth))
         case .right:
             path.addLine(to: CGPoint(x:heightWidth/2, y: -30))

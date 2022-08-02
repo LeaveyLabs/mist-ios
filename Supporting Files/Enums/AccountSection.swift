@@ -32,7 +32,7 @@ enum AccountSection: Int, CaseIterable {
         case .posts:
             return [.favorites, .submissions]
         case .settings:
-            return [.email, .password, .deleteAccount]
+            return [.email, .password]
         case .more:
             return [.shareMist, .contentGuidelines, .help, .legal]
         case .logout:
