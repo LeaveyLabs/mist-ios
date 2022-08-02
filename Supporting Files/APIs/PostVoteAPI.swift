@@ -88,6 +88,19 @@ class PostVoteAPI {
         return try JSONDecoder().decode(PostVote.self, from: data)
     }
     
+    static func patchVote(voter:Int, post:Int, emoji:String) async throws -> PostVote {
+        let endpoint = "\(Env.BASE_URL)\(PATH_TO_VOTE_MODEL)"
+        let queryParams = "\(VOTER_PARAM)=\(voter)&\(POST_PARAM)=\(post)"
+        let url = "\(endpoint)?\(queryParams)"
+        let params:[String:String] = [
+            EMOJI_PARAM: emoji
+        ]
+        let json = try JSONEncoder().encode(params)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.DELETE.rawValue)
+        try filterPostVoteErrors(data: data, response: response)
+        return try JSONDecoder().decode(PostVote.self, from: data)
+    }
+    
     static func deleteVote(voter:Int, post:Int) async throws  {
         let endpoint = "\(Env.BASE_URL)\(PATH_TO_CUSTOM_DELETE_VOTE_ENDPOINT)"
         let params = "\(VOTER_PARAM)=\(voter)&\(POST_PARAM)=\(post)"
