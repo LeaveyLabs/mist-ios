@@ -254,6 +254,10 @@ extension PostViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return activityIndicator
     }
+    
+//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+//        view.endEditing(true)
+//    }
 }
 
 //MARK: - CommentDelegate

@@ -33,6 +33,7 @@ final class PostAnnotationView: MKMarkerAnnotationView {
     // Panning gesture
     var panOffset = CGPoint.zero
     var swipeDelegate: AnnotationViewSwipeDelegate?
+    var isPanning = false
     
     // MapView annotation views are reused like TableView cells,
     // so everytime they're set, you should prepare them
@@ -277,12 +278,14 @@ extension PostAnnotationView {
         hasSwipeDemoAnimationRun = true
         switch gestureRecognizer.state {
         case .began:
-            break
+            isPanning = true //flag to prevent movePostBackDown()
+            endEditing(true)
         case .changed:
             panOffset = gestureRecognizer.translation(in: self)
             incrementSwipe()
-            break
         case .ended:
+            isPanning = false
+            movePostBackDownAfterEmojiKeyboardDismissed()
             let didSwipeLeft = panOffset.x < -50
             let didSwipeRight = panOffset.x > 50
             if didSwipeLeft {
@@ -292,7 +295,6 @@ extension PostAnnotationView {
             } else {
                 finishSwiping(.incomplete)
             }
-            break
         default:
             break
         }

@@ -272,10 +272,11 @@ extension ExploreViewController: PostDelegate {
             }
         }
     }
-    
+        
     @objc func keyboardWillDismiss(sender: NSNotification) {
         keyboardHeight = 0
-        if let postAnnotationView = selectedAnnotationView as? PostAnnotationView {
+        //DONT DO THE FOLLOWING IF THEY"RE CURRENTLY DRAGGING
+        if let postAnnotationView = selectedAnnotationView as? PostAnnotationView, !postAnnotationView.isPanning {
             postAnnotationView.movePostBackDownAfterEmojiKeyboardDismissed()
         }
     }

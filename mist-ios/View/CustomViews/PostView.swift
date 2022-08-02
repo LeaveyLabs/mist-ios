@@ -168,10 +168,6 @@ extension PostView {
     
     func setupEmojiButtons(topThreeVotes: [EmojiCountTuple]) {
         let usersCurrentVoteOnThisPost = VoteService.singleton.votesForPost(postId: postId).first
-//        if postTitleLabel.text!.hasPrefix("Breakfast") {
-//            print("usersCurrentVote from VoteService:", usersCurrentVoteOnThisPost)
-//            print(topThreeVotes)
-//        }
         
         for index in (0 ..< topThreeVotes.count) {
             let emojiButton = emojiButtons[index]
@@ -331,6 +327,16 @@ extension PostView {
         postDelegate.handleVote(postId: postId, emoji: emojiString, action: .patch)
     }
     
+    //problem: i didnt decrement the old vote when patching with custom
+    //but i DID deselect it
+    
+    //nevermind this wont work....
+    //we need to do the whole ass check abovehand here too
+    //not only do we need to decrement the previously selected emoji button count
+    //we also need to decrement if we removed a vote
+    //the reason we need to do this is because we're resetting all the buttons
+    //we could just not do that
+    
     //They have already voted, and they're changing their vote to a custom emoji
     func patchVoteWithCustomEmoji(_ emojiString: String) {
         print("PATCH VOTE CUSTOM")
@@ -338,26 +344,35 @@ extension PostView {
         previouslySelectedEmojiButton.count -= 1
         previouslySelectedEmojiButton.isSelected = false
         
-        //see if the vote already has some votes
+        //see if the emoji already has some votes
         let customVote: EmojiCountTuple
-        if let existingVote = postEmojiCountTuples.first(where: { $0.emoji == emojiString }) {
-            customVote = EmojiCountTuple(emojiString, existingVote.count + 1)
+        if let existingVoteWithSameEmoji = postEmojiCountTuples.first(where: { $0.emoji == emojiString }) {
+            customVote = EmojiCountTuple(emojiString, existingVoteWithSameEmoji.count + 1)
         } else {
             customVote = EmojiCountTuple(emojiString, 1)
         }
         
+        (emojiButton3.emoji, emojiButton3.count) = (customVote.emoji, customVote.count)
+        emojiButton3.isSelected = true
+
+        //the ordering won't be PERFECT this way. If we want perfect sequential ordering, we would need to re-run the code that we use on emojisButtonsSetup with all the special checks for a decrement or increment on the other buttons, and then putting our new button in at the right spot
+        
         //reset all the buttons with the proper ordering
-        var isCustomVoteAvailable = true
-        for index in (0 ..< 3) {
-            //put your customVote at button1/2 if its count is high enough, otherwise at button3
-            if (customVote.count >= postEmojiCountTuples[index].count || index == 2) && isCustomVoteAvailable {
-                isCustomVoteAvailable = false
-                (emojiButtons[index].emoji, emojiButtons[index].count) = (customVote.emoji, customVote.count)
-                emojiButtons[index].isSelected = true
-            } else {
-                (emojiButtons[index].emoji, emojiButtons[index].count) = (postEmojiCountTuples[index].emoji, postEmojiCountTuples[index].count)
-            }
-        }
+//        var isCustomVoteAvailable = true
+//        for index in (0 ..< 3) {
+//            //put your customVote at button1/2 if its count is high enough, otherwise at button3
+//            if (customVote.count >= postEmojiCountTuples[index].count || index == 2) && isCustomVoteAvailable {
+//                isCustomVoteAvailable = false
+//                (emojiButtons[index].emoji, emojiButtons[index].count) = (customVote.emoji, customVote.count)
+//                emojiButtons[index].isSelected = true
+//            } else {
+//                (emojiButtons[index].emoji, emojiButtons[index].count) = (postEmojiCountTuples[index].emoji, postEmojiCountTuples[index].count)
+//                //We need to decrement the count again here since its corresponding emojiCountTuple.count is now out of data. We don't HAVE to decrement the count at the start of patchVoteWithCustomEmoji(), but it will make this calculation slightly more accurate
+//                if postEmojiCountTuples[index].emoji == previouslySelectedEmojiButton.emoji {
+//                    emojiButtons[index].count -= 1
+//                }
+//            }
+//        }
 
         //remote and storage updates
         postDelegate.handleVote(postId: postId, emoji: emojiString, action: .patch)
