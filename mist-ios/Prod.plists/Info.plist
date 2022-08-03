@@ -3,7 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>NSUserNotificationsUsageDescription</key>
-	<string>notify</string>
+	<string>Get notified about DMs and mists which might be about you.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Tag your contacts on a mist even if they don&apos;t have the app.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Find nearby mists and pin a location to your submissions.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

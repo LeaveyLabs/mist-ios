@@ -10,7 +10,7 @@ import SwiftMessages
 import MapKit
 
 enum PermissionType {
-    case userLocation
+    case userLocation, notifications, contacts
 }
 
 //MARK: Errors
@@ -150,6 +150,12 @@ extension CustomSwiftMessages {
             case .userLocation:
                 title = "Would you like to share your current location?"
                 body = "This makes finding and submitting mists even easier"
+            case .contacts:
+                title = "Share your contacts with Mist for better tagging"
+                body = "If your friend doesn't have the app, we'll shoot them a text."
+            case .notifications:
+                title = "Would you like to turn on notifications?"
+                body = "Get notified about incoming DMs and mists which might be about you."
             }
             messageView.configureContent(title: title, body: body, iconText: "📍")
             messageView.approveAction = {

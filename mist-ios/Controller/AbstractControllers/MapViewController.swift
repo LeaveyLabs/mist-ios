@@ -150,7 +150,7 @@ extension MapViewController: CLLocationManagerDelegate {
                 if self?.locationManager.authorizationStatus == .notDetermined {
                     self?.locationManager.requestWhenInUseAuthorization()
                 } else {
-                    CustomSwiftMessages.showSettingsAlertController(title: "Turn on location services for \"Mist\" in Settings.", message: "", on: self!)
+                    CustomSwiftMessages.showSettingsAlertController(title: "Turn on location services for Mist in Settings.", message: "", on: self!)
                 }
             })
         }

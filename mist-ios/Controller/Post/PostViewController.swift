@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Contacts
 
 let COMMENT_PLACEHOLDER_TEXT = "@ibrahimmm this you?"
 typealias UpdatedPostCompletionHandler = ((Post) -> Void)
@@ -34,6 +35,9 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     
     //Flags
     var shouldStartWithRaisedKeyboard: Bool!
+    
+    //Contacts
+    let contactStore = CNContactStore()
     
     //Data
     var post: Post!
@@ -308,4 +312,60 @@ extension PostViewController: PostDelegate {
         navigationController?.popViewController(animated: true)
     }
     
+}
+
+//MARK: - Contacts
+
+extension PostViewController {
+    
+    //whenever they type "@"
+    func handleContactsPermissionRequest() {
+        let status = CNContactStore.authorizationStatus(for: .contacts)
+        switch status {
+        case .notDetermined:
+            requestContactsAccess()
+            break
+        case .restricted:
+            break
+        case .denied:
+            requestContactsAccess()
+            break
+        case .authorized:
+            break
+        @unknown default:
+            break
+        }
+    }
+    
+    func requestContactsAccess() {
+        let status = CNContactStore.authorizationStatus(for: .contacts)
+        guard status == .denied || status == .notDetermined else { return }
+        CustomSwiftMessages.showPermissionRequest(permissionType: .userLocation, onApprove: { [weak self] in
+            if status == .notDetermined {
+                self?.contactStore.requestAccess(for: .contacts) { approved, error in
+                    //completion
+                }
+            } else {
+                CustomSwiftMessages.showSettingsAlertController(title: "Turn on contact sharing for Mist in Settings.", message: "", on: self!)
+            }
+        })
+    }
+    
+    func fetchSuggestedContacts(partialString: String) {
+        do {
+            let predicate: NSPredicate
+            print(CNPhoneNumber.init(stringValue: partialString))
+            if false {
+                predicate = CNContact.predicateForContacts(matching: .init(stringValue: partialString))
+            } else {
+                predicate = CNContact.predicateForContacts(matchingName: "Appleseed")
+            }
+            let keysToFetch = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey] as [CNKeyDescriptor]
+            let contacts = try contactStore.unifiedContacts(matching: predicate, keysToFetch: keysToFetch)
+            print("Fetched contacts: \(contacts)")
+        } catch {
+            print("Failed to fetch contact, error: \(error)")
+            // Handle the error
+        }
+    }
 }
