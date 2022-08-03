@@ -20,6 +20,7 @@
 		43529E2B2890BC5900B3A484 /* CommentFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43529E2A2890BC5900B3A484 /* CommentFlag.swift */; };
 		43529E2D2890BC9200B3A484 /* CommentVoteAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43529E2C2890BC9200B3A484 /* CommentVoteAPI.swift */; };
 		43529E2F2890BD3D00B3A484 /* CommentFlagAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43529E2E2890BD3D00B3A484 /* CommentFlagAPI.swift */; };
+		435F8DC12899E8370091BA2A /* PostVoteAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435F8DC02899E8370091BA2A /* PostVoteAPITest.swift */; };
 		4369DB0A282EC436009215D4 /* MessageThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB09282EC436009215D4 /* MessageThread.swift */; };
 		4369DB0C282EC465009215D4 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB0B282EC465009215D4 /* Message.swift */; };
 		436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */; };
@@ -546,6 +547,7 @@
 		43529E2A2890BC5900B3A484 /* CommentFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentFlag.swift; sourceTree = "<group>"; };
 		43529E2C2890BC9200B3A484 /* CommentVoteAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentVoteAPI.swift; sourceTree = "<group>"; };
 		43529E2E2890BD3D00B3A484 /* CommentFlagAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentFlagAPI.swift; sourceTree = "<group>"; };
+		435F8DC02899E8370091BA2A /* PostVoteAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVoteAPITest.swift; sourceTree = "<group>"; };
 		4369DB09282EC436009215D4 /* MessageThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageThread.swift; sourceTree = "<group>"; };
 		4369DB0B282EC465009215D4 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewController.swift; sourceTree = "<group>"; };
@@ -904,6 +906,7 @@
 				43D9B371285527B100E807C2 /* FriendRequestAPITest.swift */,
 				43D9B373285527BB00E807C2 /* MatchRequestAPITest.swift */,
 				43D9250D28525FBB00438C5C /* PostAPITest.swift */,
+				435F8DC02899E8370091BA2A /* PostVoteAPITest.swift */,
 				43D9250B28525F7F00438C5C /* UserAPITest.swift */,
 				43D925112852607300438C5C /* VoteAPITest.swift */,
 				43D9250F2852600100438C5C /* WordAPITest.swift */,
@@ -2192,6 +2195,7 @@
 				47E74E2327CA100000467A0C /* mist_iosTests.swift in Sources */,
 				431F3810288B494900A5F48B /* MessageThreadTest.swift in Sources */,
 				43D9B372285527B100E807C2 /* FriendRequestAPITest.swift in Sources */,
+				435F8DC12899E8370091BA2A /* PostVoteAPITest.swift in Sources */,
 				43D9250628525BFE00438C5C /* BasicAPITest.swift in Sources */,
 				43D925122852607300438C5C /* VoteAPITest.swift in Sources */,
 				43D9250828525EFF00438C5C /* CommentAPITest.swift in Sources */,
@@ -2673,11 +2677,19 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 31;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"DEV=1",
+					"$(inherited)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "mist-ios/Dev.plists/mist-ios-dev-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "-DDEV";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mist.mist-iosTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2693,11 +2705,15 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 31;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEV=1";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "mist-ios/Dev.plists/mist-ios-dev-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "-DDEV";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mist.mist-iosTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2712,8 +2728,15 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 31;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEV=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "mist-ios/Dev.plists/mist-ios-dev-Info.plist";
 				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "-DDEV";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mist.mist-iosUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -2730,8 +2753,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 31;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEV=1";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "mist-ios/Dev.plists/mist-ios-dev-Info.plist";
 				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "-DDEV";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mist.mist-iosUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -2786,6 +2812,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "app.getmist.mist-ios-dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/Objective-C/mist-ios-Bridging-Header.h";
@@ -2834,6 +2861,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "app.getmist.mist-ios-dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/Objective-C/mist-ios-Bridging-Header.h";

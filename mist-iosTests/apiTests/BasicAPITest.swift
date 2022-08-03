@@ -86,61 +86,61 @@ class BasicAPITest: XCTestCase {
             let _ = try await BasicAPI.basicHTTPCallWithoutToken(url: VALID_URL, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         } catch APIError.CouldNotConnect {
             XCTFail(ERROR_THROWN_MESSAGE)
-        } catch APIError.InvalidParameters {}
+        } catch {}
         
         do {
             let _ = try await BasicAPI.basicHTTPCallWithoutToken(url: VALID_URL, jsonData: Data(), method: HTTPMethods.POST.rawValue)
         } catch APIError.CouldNotConnect {
             XCTFail(ERROR_THROWN_MESSAGE)
-        } catch APIError.InvalidParameters {}
+        } catch {}
         
         do {
             let _ = try await BasicAPI.basicHTTPCallWithoutToken(url: VALID_URL, jsonData: Data(), method: HTTPMethods.PUT.rawValue)
         } catch APIError.CouldNotConnect {
             XCTFail(ERROR_THROWN_MESSAGE)
-        } catch APIError.InvalidParameters {}
+        } catch {}
         
         do {
             let _ = try await BasicAPI.basicHTTPCallWithoutToken(url: VALID_URL, jsonData: Data(), method: HTTPMethods.PATCH.rawValue)
         } catch APIError.CouldNotConnect {
             XCTFail(ERROR_THROWN_MESSAGE)
-        } catch APIError.InvalidParameters {}
+        } catch {}
         
         do {
             let _ = try await BasicAPI.basicHTTPCallWithoutToken(url: VALID_URL, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
         } catch APIError.CouldNotConnect {
             XCTFail(ERROR_THROWN_MESSAGE)
-        } catch APIError.InvalidParameters {}
+        } catch {}
         
         // With Token
         do {
             let _ = try await BasicAPI.baiscHTTPCallWithToken(url: VALID_URL, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         } catch APIError.CouldNotConnect {
             XCTFail(ERROR_THROWN_MESSAGE)
-        } catch APIError.InvalidParameters {}
+        } catch {}
         
         do {
             let _ = try await BasicAPI.baiscHTTPCallWithToken(url: VALID_URL, jsonData: Data(), method: HTTPMethods.POST.rawValue)
         } catch APIError.CouldNotConnect {
             XCTFail(ERROR_THROWN_MESSAGE)
-        } catch APIError.InvalidParameters {}
+        } catch {}
         
         do {
             let _ = try await BasicAPI.baiscHTTPCallWithToken(url: VALID_URL, jsonData: Data(), method: HTTPMethods.PUT.rawValue)
         } catch APIError.CouldNotConnect {
             XCTFail(ERROR_THROWN_MESSAGE)
-        } catch APIError.InvalidParameters {}
+        } catch {}
         
         do {
             let _ = try await BasicAPI.baiscHTTPCallWithToken(url: VALID_URL, jsonData: Data(), method: HTTPMethods.PATCH.rawValue)
         } catch APIError.CouldNotConnect {
             XCTFail(ERROR_THROWN_MESSAGE)
-        } catch APIError.InvalidParameters {}
+        } catch {}
         
         do {
             let _ = try await BasicAPI.baiscHTTPCallWithToken(url: VALID_URL, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
         } catch APIError.CouldNotConnect {
             XCTFail(ERROR_THROWN_MESSAGE)
-        } catch APIError.InvalidParameters {}
+        } catch {}
     }
 }

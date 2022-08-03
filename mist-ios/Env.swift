@@ -19,6 +19,12 @@ class Env {
     static let LAUNCH_ANIMATION_DURATION: Double = 0
     static let BASE_URL: String = "https://mist-backend-test.herokuapp.com/"
     static let CHAT_URL: String = "wss://mist-chat-test.herokuapp.com/"
+    #elseif DEBUG
+    static let environment: EnvType = .dev
+    static let LAUNCH_ANIMATION_DELAY: Double = 0
+    static let LAUNCH_ANIMATION_DURATION: Double = 0
+    static let BASE_URL: String = "https://mist-backend-test.herokuapp.com/"
+    static let CHAT_URL: String = "wss://mist-chat-test.herokuapp.com/"
 //    #if DEBUG
     //^there's also the option for debug/release flags for more specificity within each environment
     #else
