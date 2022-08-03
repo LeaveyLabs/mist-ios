@@ -327,16 +327,6 @@ extension PostView {
         postDelegate.handleVote(postId: postId, emoji: emojiString, action: .patch)
     }
     
-    //problem: i didnt decrement the old vote when patching with custom
-    //but i DID deselect it
-    
-    //nevermind this wont work....
-    //we need to do the whole ass check abovehand here too
-    //not only do we need to decrement the previously selected emoji button count
-    //we also need to decrement if we removed a vote
-    //the reason we need to do this is because we're resetting all the buttons
-    //we could just not do that
-    
     //They have already voted, and they're changing their vote to a custom emoji
     func patchVoteWithCustomEmoji(_ emojiString: String) {
         print("PATCH VOTE CUSTOM")
