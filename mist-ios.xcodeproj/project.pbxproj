@@ -506,6 +506,8 @@
 		5BCC68D928611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */; };
 		5BCD490C287149210002BD02 /* WantToChatView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BCD490B287149210002BD02 /* WantToChatView.xib */; };
 		5BCD490E28714F920002BD02 /* WantToChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCD490D28714F920002BD02 /* WantToChatView.swift */; };
+		5BCEA50F289A489700602A4D /* PostViewController+Autocomplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */; };
+		5BCEA510289A489700602A4D /* PostViewController+Autocomplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */; };
 		5BE110022876CD9D00CB54A6 /* RequestResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */; };
 		5BE110042876CDB100CB54A6 /* ValidateResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */; };
 		5BE110062876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */; };
@@ -794,6 +796,7 @@
 		5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeAreaInputAccessoryViewWrapperView.swift; sourceTree = "<group>"; };
 		5BCD490B287149210002BD02 /* WantToChatView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WantToChatView.xib; sourceTree = "<group>"; };
 		5BCD490D28714F920002BD02 /* WantToChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantToChatView.swift; sourceTree = "<group>"; };
+		5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+Autocomplete.swift"; sourceTree = "<group>"; };
 		5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResetPasswordViewController.swift; sourceTree = "<group>"; };
 		5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateResetPasswordViewController.swift; sourceTree = "<group>"; };
 		5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalizeResetPasswordViewController.swift; sourceTree = "<group>"; };
@@ -1418,6 +1421,7 @@
 			isa = PBXGroup;
 			children = (
 				479AA1F227DCF2BD00EA0DFC /* PostViewController.swift */,
+				5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */,
 				47C1D49027DF00B200970B3D /* PostMoreViewController.swift */,
 				472F8D1928505F4600DB69C4 /* PostDelegate.swift */,
 			);
@@ -1697,6 +1701,7 @@
 				47E74E0527CA0FFE00467A0C /* Frameworks */,
 				47E74E0627CA0FFE00467A0C /* Resources */,
 				5B739D7E2892533100E4EED0 /* ShellScript */,
+				5BCEA50D289A2B6E00602A4D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1940,7 +1945,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
 		};
 		5B739E8928935B9500E4EED0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1959,7 +1964,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+		};
+		5BCEA50D289A2B6E00602A4D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols -gsp ${PROJECT_DIR}/mist-ios/Prod.plists/GoogleService-Info.plist -p ios ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2033,6 +2055,7 @@
 				5BB624D92867DD8400DCD45B /* ConversationCell.swift in Sources */,
 				47AE72AA27F77B0B00A5E94C /* MyProfileSettingViewController.swift in Sources */,
 				47527194285584F400DDF84D /* SimpleInputCell.swift in Sources */,
+				5BCEA50F289A489700602A4D /* PostViewController+Autocomplete.swift in Sources */,
 				47EE28F22840991800C6425C /* PermissionsViewController.swift in Sources */,
 				5BB624B628622C8500DCD45B /* UIViewController+DismissFlag.swift in Sources */,
 				5BAD626D2875522E00DCFE45 /* MessageKitInfo.swift in Sources */,
@@ -2405,6 +2428,7 @@
 				5B739E4D28935B9500E4EED0 /* UITextField+MaxLength.swift in Sources */,
 				5B739E4E28935B9500E4EED0 /* CustomCenteredView.swift in Sources */,
 				5B739E4F28935B9500E4EED0 /* Block.swift in Sources */,
+				5BCEA510289A489700602A4D /* PostViewController+Autocomplete.swift in Sources */,
 				5B739E5028935B9500E4EED0 /* PostAnnotationView.swift in Sources */,
 				5B739E5128935B9500E4EED0 /* Map.swift in Sources */,
 				5B739E5228935B9500E4EED0 /* Constants.swift in Sources */,
@@ -2478,7 +2502,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = SHD3A2G97F;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;

@@ -7,37 +7,62 @@
 
 import UIKit
 import Contacts
+import InputBarAccessoryView //dependency of MessageKit. If we remove MessageKit, we should install this package independently
 
-let COMMENT_PLACEHOLDER_TEXT = "@ibrahimmm this you?"
+let COMMENT_PLACEHOLDER_TEXT = "Comment & tag friends"
 typealias UpdatedPostCompletionHandler = ((Post) -> Void)
+var hasPromptedUserForContactsAccess = false
 
 class PostViewController: UIViewController, UIViewControllerTransitioningDelegate {
     
     //MARK: - Properties
     
     //UI
-    @IBOutlet weak var tableView: UITableView!
     var activityIndicator = UIActivityIndicatorView(style: .medium)
-
-    @IBOutlet weak var commentTextView: UITextView!
-    @IBOutlet var commentAccessoryView: UIView!
-    var wrappedAccessoryView: SafeAreaInputAccessoryViewWrapperView!
+    @IBOutlet var tableView: UITableView!
     
-    @IBOutlet weak var commentProfileImage: UIImageView!
-    @IBOutlet weak var commentSubmitButton: UIButton!
-    var commentPlaceholderLabel: UILabel!
-    override var canBecomeFirstResponder: Bool {
-        get { return true } //means that the inputAccessoryView will always be enabled
-    }
-    override var inputAccessoryView: UIView {
-        get { return wrappedAccessoryView }
-    }
+    //Comment
+    let keyboardManager = KeyboardManager() //InputBarAccessoryView
+    let inputBar = InputBarAccessoryView()
+    let MAX_COMMENT_LENGTH = 499
+    
+    //TODO: below is not working. we have to adjust the insets within keyboardManager, maybe add an extra extension
+//    var additionalBottomInset: CGFloat = 0 {
+//        didSet {
+//            tableView.contentInset.bottom += additionalBottomInset
+//            tableView.verticalScrollIndicatorInsets.bottom += additionalBottomInset
+//        }
+    
+    
+//    }
+//    @IBOutlet weak var commentProfileImage: UIImageView!
+//    var commentPlaceholderLabel: UILabel!
+    //    @IBOutlet weak var commentTextView: UITextView!
+    //    @IBOutlet var commentAccessoryView: UIView!
+        //    var wrappedAccessoryView: SafeAreaInputAccessoryViewWrapperView!
+//    @IBOutlet weak var commentSubmitButton: UIButton!
+    
+    private let tagTextAttributes: [NSAttributedString.Key : Any] = [
+//        .font: UIFont.preferredFont(forTextStyle: .body),
+        .font: UIFont(name: Constants.Font.Heavy, size: 14)!,
+        .foregroundColor: UIColor.systemBlue,
+        .backgroundColor: UIColor.systemBlue.withAlphaComponent(0.1)
+    ]
+    
+    /// The object that manages autocomplete
+    open lazy var autocompleteManager: AutocompleteManager = { [unowned self] in
+        let manager = AutocompleteManager(for: self.inputBar.inputTextView)
+        manager.delegate = self
+        manager.dataSource = self
+        return manager
+    }()
     
     //Flags
     var shouldStartWithRaisedKeyboard: Bool!
     
-    //Contacts
+    //Autocomplete
     let contactStore = CNContactStore()
+    var asyncCompletions: [AutocompleteCompletion] = []
     
     //Data
     var post: Post!
@@ -47,9 +72,8 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     //PostDelegate
     var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] = [:]
     
-    //Misc
-    var prepareForDismiss: UpdatedPostCompletionHandler?
-    let MAX_COMMENT_LENGTH = 499
+    //Abandoned
+//    var prepareForDismiss: UpdatedPostCompletionHandler? //no longer needed
 
     //MARK: - Initialization
     
@@ -58,48 +82,34 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
         postVC.post = post
         postVC.shouldStartWithRaisedKeyboard = shouldStartWithRaisedKeyboard
-        postVC.prepareForDismiss = completionHandler
+//        postVC.prepareForDismiss = completionHandler no longer used
         return postVC
     }
     
     //MARK: Lifecycle
     
     override func viewDidLoad() {
-        super.viewDidLoad();
-        
-        commentTextView.becomeFirstResponder()
-        
+        super.viewDidLoad()
         setupTableView()
-        setupCommentView()
+        setupCommentInputBar()
+        setupAutocomplete()
+        setupKeyboardManagerForBottomInputBar()
         loadComments()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        //no longer using the postVC's willDismiss completion handler here: we could delete that
         
-        self.view.keyboardLayoutGuide.topAnchor.constraint(equalTo: self.tableView.bottomAnchor).isActive = true
-        let tableViewTap = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
-        tableView.addGestureRecognizer(tableViewTap)
-    }
-    
-    @objc func dismissKeyboard() {
-        commentTextView.resignFirstResponder()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        inputBar.inputTextView.resignFirstResponder() //better ui animation
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if shouldStartWithRaisedKeyboard {
-//            commentTextView.becomeFirstResponder() //not working right nowv
-        }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        if isAboutToClose {
-            commentTextView.text = ""
-            if let completionHandler = prepareForDismiss{
-                completionHandler(post)
+            DispatchQueue.main.async {
+                self.inputBar.inputTextView.becomeFirstResponder()
             }
         }
     }
@@ -118,33 +128,133 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         tableView.register(PostCell.self, forCellReuseIdentifier: Constants.SBID.Cell.Post)
         let commentNib = UINib(nibName: Constants.SBID.Cell.Comment, bundle: nil)
         tableView.register(commentNib, forCellReuseIdentifier: Constants.SBID.Cell.Comment)
-    }
-    
-    @available(*, deprecated, message: "Because !")
-    func oldBecomeCommentCode() {
-        commentTextView.layer.borderWidth = 1
-        commentTextView.layer.borderColor = UIColor.lightGray.cgColor
-        commentTextView.layer.cornerRadius = 15
-        commentTextView.textContainer.lineFragmentPadding = 0
-        commentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        commentAccessoryView.borders(for: [UIRectEdge.top])
-    }
-    
-    func setupCommentView() {
-        commentProfileImage.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
         
-        commentTextView.delegate = self
-        commentTextView.becomeCommentView()
-        commentAccessoryView.borders(for: [UIRectEdge.top])
-        wrappedAccessoryView = SafeAreaInputAccessoryViewWrapperView(for: commentAccessoryView)
-        commentTextView.inputAccessoryView = wrappedAccessoryView
+        let tableViewTap = UITapGestureRecognizer.init(target: self, action: #selector(dismissAllKeyboards))
+        tableView.addGestureRecognizer(tableViewTap)
+    }
+    
+    func setupAutocomplete() {
+        autocompleteManager.register(prefix: "@", with: tagTextAttributes)
 
-        commentTextView.textContainer.lineFragmentPadding = 0
-        commentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        commentPlaceholderLabel = commentTextView.addAndReturnPlaceholderLabel(withText: COMMENT_PLACEHOLDER_TEXT)
+        autocompleteManager.appendSpaceOnCompletion = true
+        autocompleteManager.keepPrefixOnCompletion = true
+        autocompleteManager.deleteCompletionByParts = false
         
-        commentSubmitButton.isEnabled = false
+        //The following two aren't actually needed because of our own checks
+        autocompleteManager.register(delimiterSet: .whitespacesAndNewlines)
+        autocompleteManager.maxSpaceCountDuringCompletion = 1
+        
+        inputBar.inputPlugins = [autocompleteManager]
     }
+    
+//    func setupCommentView() {
+//        commentProfileImage.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
+//
+//        commentTextView.delegate = self
+//        commentTextView.becomeCommentView()
+//        commentAccessoryView.borders(for: [UIRectEdge.top])
+////        wrappedAccessoryView = SafeAreaInputAccessoryViewWrapperView(for: commentAccessoryView) //
+//        commentTextView.inputAccessoryView = commentAccessoryView
+//
+//        commentTextView.textContainer.lineFragmentPadding = 0
+//        commentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+//        commentPlaceholderLabel = commentTextView.addAndReturnPlaceholderLabel(withText: COMMENT_PLACEHOLDER_TEXT)
+//        commentSubmitButton.isEnabled = false
+//    }
+    
+    func setupCommentInputBar() {
+        inputBar.delegate = self
+        inputBar.shouldAnimateTextDidChangeLayout = true
+        inputBar.maxTextViewHeight = 144 //max of 6 lines with the given font
+        inputBar.inputTextView.keyboardType = .twitter
+        inputBar.inputTextView.placeholder = COMMENT_PLACEHOLDER_TEXT
+        
+        //Middle
+        inputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 36)
+        inputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 36)
+        inputBar.inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+        inputBar.inputTextView.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.8).cgColor
+        inputBar.inputTextView.backgroundColor = .lightGray.withAlphaComponent(0.1)
+        inputBar.inputTextView.layer.borderWidth = 0.5
+        inputBar.inputTextView.layer.cornerRadius = 16.0
+        inputBar.inputTextView.layer.masksToBounds = true
+        inputBar.setRightStackViewWidthConstant(to: 38, animated: false)
+        inputBar.setStackViewItems([inputBar.sendButton, InputBarButtonItem.fixedSpace(2)], forStack: .right, animated: false)
+        
+        //Right
+        inputBar.sendButton.contentEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 4, right: 2)
+        inputBar.sendButton.setSize(CGSize(width: 36, height: 36), animated: false)
+        inputBar.sendButton.setImage(UIImage(named: "enabled-send-button"), for: .normal)
+        inputBar.sendButton.title = nil
+        inputBar.sendButton.becomeRound()
+        inputBar.middleContentViewPadding.right = -38
+        
+        //TODO: raise the avatar by like 2px
+        //Left
+        let avatar = InputBarButtonItem()
+        avatar.setSize(CGSize(width: 36, height: 36), animated: false)
+//        avatar.setImage(UserService.singleton.getProfilePic(), for: .normal)
+        avatar.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
+        inputBar.setLeftStackViewWidthConstant(to: 41, animated: false)
+        inputBar.setStackViewItems([avatar, InputBarButtonItem.fixedSpace(5)], forStack: .left, animated: false)
+    }
+    
+    func setupKeyboardManagerForBottomInputBar() {
+        view.addSubview(inputBar)
+        keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
+        keyboardManager.bind(inputAccessoryView: inputBar)
+        keyboardManager.bind(to: tableView) // Binding to the tableView will enabled interactive dismissal
+        keyboardManager.on(event: .didHide) { [weak self] keyboardNotification in
+            self?.setAutocompleteManager(active: false)
+        }
+    }
+}
+
+extension PostViewController: InputBarAccessoryViewDelegate {
+    
+    // MARK: - InputBarAccessoryViewDelegate
+    
+    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
+        
+        let trimmedCommentText = inputBar.inputTextView.text.trimmingCharacters(in: .whitespaces)
+
+        // Here we can parse for which substrings were autocompleted
+        let attributedText = inputBar.inputTextView.attributedText!
+        let range = NSRange(location: 0, length: attributedText.length)
+        attributedText.enumerateAttribute(.autocompleted, in: range, options: []) { (attributes, range, stop) in
+            
+            let substring = attributedText.attributedSubstring(from: range)
+            let context = substring.attribute(.autocompletedContext, at: 0, effectiveRange: nil)
+            print("Autocompleted: `", substring, "` with context: ", context ?? [])
+        }
+
+        inputBar.inputTextView.text = String()
+        inputBar.invalidatePlugins()
+        Task {
+            do {
+                inputBar.sendButton.isEnabled = false
+                let newComment = try await CommentService.singleton.uploadComment(text: trimmedCommentText, postId: post.id)
+                handleSuccessfulCommentSubmission(newComment: newComment)
+            } catch {
+                inputBar.sendButton.isEnabled = true
+                CustomSwiftMessages.displayError(error)
+            }
+        }
+    }
+    
+    func inputBar(_ inputBar: InputBarAccessoryView, didChangeIntrinsicContentTo size: CGSize) {
+        // Adjust content insets
+        print(size)
+        tableView.contentInset.bottom = size.height + 300 // keyboard size estimate
+    }
+    
+    @objc func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
+        processAutocomplete(text)
+    }
+    
+}
+
+extension PostViewController {
     
     //MARK: - User Interaction
     
@@ -160,18 +270,8 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func submitCommentButtonDidPressed(_ sender: UIButton) {
-        guard let trimmedCommentText = commentTextView?.text.trimmingCharacters(in: .whitespaces) else { return }
-        Task {
-            do {
-                commentSubmitButton.isEnabled = false
-                let newComment = try await CommentService.singleton.uploadComment(text: trimmedCommentText, postId: post.id)
-                handleSuccessfulCommentSubmission(newComment: newComment)
-            } catch {
-                commentSubmitButton.isEnabled = true
-                CustomSwiftMessages.displayError(error)
-            }
-        }
+    @objc func dismissAllKeyboards() {
+        view.endEditing(true)
     }
     
 }
@@ -186,7 +286,9 @@ extension PostViewController {
                 activityIndicator.startAnimating()
                 comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
                 commentAuthors = try await UserAPI.batchTurnUsersIntoFrontendUsers(comments.map { $0.read_only_author })
-                tableView.reloadData()
+                DispatchQueue.main.async { [weak self] in
+                    self?.tableView.reloadData()
+                }
             } catch {
                 CustomSwiftMessages.displayError(error)
             }
@@ -202,7 +304,7 @@ extension PostViewController {
 extension PostViewController: UITextViewDelegate {
         
     func textViewDidChange(_ textView: UITextView) {
-        commentPlaceholderLabel.isHidden = !commentTextView.text.isEmpty
+        inputBar.inputTextView.placeholderLabel.isHidden = !inputBar.inputTextView.text.isEmpty
         validateAllFields()
     }
     
@@ -225,6 +327,10 @@ extension PostViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return postAndCommentCellForRowAtIndexPath(indexPath)
+    }
+    
+    func postAndCommentCellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
             cell.configurePostCell(post: post, nestedPostViewDelegate: self, bubbleTrianglePosition: .left, isWithinPostVC: true)
@@ -236,13 +342,17 @@ extension PostViewController: UITableViewDataSource {
         cell.configureCommentCell(comment: comment, delegate: self, author: commentAuthors[comment.author]!)
         return cell
     }
+    
 }
+
+//MARK: - UITableViewDelegate
 
 extension PostViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return activityIndicator
     }
+    
 }
 
 //MARK: - CommentDelegate
@@ -262,7 +372,7 @@ extension PostViewController {
     
     func handleSuccessfulCommentSubmission(newComment: Comment) {
         clearAllFields()
-        commentTextView.resignFirstResponder()
+        inputBar.inputTextView.resignFirstResponder()
         tableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
         post.commentcount += 1
         comments.append(newComment)
@@ -271,11 +381,11 @@ extension PostViewController {
     }
         
     func validateAllFields() {
-        commentSubmitButton.isEnabled = commentTextView.text != ""
+        inputBar.sendButton.isEnabled = inputBar.inputTextView.text != ""
     }
     
     func clearAllFields() {
-        commentTextView.text! = ""
+        inputBar.inputTextView.text = ""
         validateAllFields()
     }
     
@@ -301,71 +411,20 @@ extension PostViewController: PostDelegate {
     }
     
     func handleBackgroundTap(postId: Int) {
-        commentTextView.resignFirstResponder()
+        view.endEditing(true)
     }
     
     func handleCommentButtonTap(postId: Int) {
-        commentTextView.becomeFirstResponder()
+        if !inputBar.inputTextView.isFirstResponder {
+            inputBar.inputTextView.becomeFirstResponder()
+        } else {
+            setAutocompleteManager(active: false)
+            inputBar.inputTextView.resignFirstResponder()
+        }
     }
     
     func handleDeletePost(postId: Int) {
         navigationController?.popViewController(animated: true)
     }
     
-}
-
-//MARK: - Contacts
-
-extension PostViewController {
-    
-    //whenever they type "@"
-    func handleContactsPermissionRequest() {
-        let status = CNContactStore.authorizationStatus(for: .contacts)
-        switch status {
-        case .notDetermined:
-            requestContactsAccess()
-            break
-        case .restricted:
-            break
-        case .denied:
-            requestContactsAccess()
-            break
-        case .authorized:
-            break
-        @unknown default:
-            break
-        }
-    }
-    
-    func requestContactsAccess() {
-        let status = CNContactStore.authorizationStatus(for: .contacts)
-        guard status == .denied || status == .notDetermined else { return }
-        CustomSwiftMessages.showPermissionRequest(permissionType: .userLocation, onApprove: { [weak self] in
-            if status == .notDetermined {
-                self?.contactStore.requestAccess(for: .contacts) { approved, error in
-                    //completion
-                }
-            } else {
-                CustomSwiftMessages.showSettingsAlertController(title: "Turn on contact sharing for Mist in Settings.", message: "", on: self!)
-            }
-        })
-    }
-    
-    func fetchSuggestedContacts(partialString: String) {
-        do {
-            let predicate: NSPredicate
-            print(CNPhoneNumber.init(stringValue: partialString))
-            if false {
-                predicate = CNContact.predicateForContacts(matching: .init(stringValue: partialString))
-            } else {
-                predicate = CNContact.predicateForContacts(matchingName: "Appleseed")
-            }
-            let keysToFetch = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey] as [CNKeyDescriptor]
-            let contacts = try contactStore.unifiedContacts(matching: predicate, keysToFetch: keysToFetch)
-            print("Fetched contacts: \(contacts)")
-        } catch {
-            print("Failed to fetch contact, error: \(error)")
-            // Handle the error
-        }
-    }
 }

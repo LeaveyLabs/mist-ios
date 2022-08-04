@@ -19,3 +19,5 @@ build/
 # Generated files
 *.o
 *.pyc
+
+*.ipa

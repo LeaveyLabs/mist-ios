@@ -145,19 +145,22 @@ extension CustomSwiftMessages {
 
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
             
-            var title, body: String
+            var title, body, emoji: String
             switch permissionType {
             case .userLocation:
                 title = "Would you like to share your current location?"
                 body = "This makes finding and submitting mists even easier"
+                emoji = "📍"
             case .contacts:
-                title = "Share your contacts with Mist for better tagging"
+                title = "Share your contacts for better tagging"
                 body = "If your friend doesn't have the app, we'll shoot them a text."
+                emoji = "📞"
             case .notifications:
                 title = "Would you like to turn on notifications?"
                 body = "Get notified about incoming DMs and mists which might be about you."
+                emoji = ""
             }
-            messageView.configureContent(title: title, body: body, iconText: "📍")
+            messageView.configureContent(title: title, body: body, iconText: emoji)
             messageView.approveAction = {
                 SwiftMessages.hide()
                 onApprove()

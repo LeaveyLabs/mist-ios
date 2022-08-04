@@ -30,6 +30,11 @@ class ChatViewController: MessagesViewController {
     
     //MARK: - Propreties
     
+    //We are using the subview rather than the first responder approach
+    override var canBecomeFirstResponder: Bool { return false }
+    override var inputAccessoryView: UIView? { return nil }
+    private let keyboardManager = KeyboardManager()
+    
     let INPUTBAR_PLACEHOLDER = "Message"
     let MAX_MESSAGE_LENGTH = 999
     
@@ -109,6 +114,12 @@ class ChatViewController: MessagesViewController {
             setupWhenPresentedFromPost()
         }
         
+        //Keyboard manager from InputBarAccessoryView
+        view.addSubview(messageInputBar)
+        keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
+        keyboardManager.bind(inputAccessoryView: messageInputBar)
+        keyboardManager.bind(to: messagesCollectionView)
+        
         DispatchQueue.main.async { //scroll on the next cycle so that collectionView's data is loaded in beforehand
             self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
         }
@@ -127,6 +138,8 @@ class ChatViewController: MessagesViewController {
             navigationController?.setNavigationBarHidden(false, animated: animated)
             navigationController?.navigationBar.tintColor = .black //otherwise it's blue... idk why
         }
+        
+        messageInputBar.inputTextView.resignFirstResponder() //better ui animation
     }
     
     var viewHasAppeared = false
@@ -213,7 +226,7 @@ class ChatViewController: MessagesViewController {
         messageInputBar.sendButton.becomeRound()
         messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
         messageInputBar.shouldAnimateTextDidChangeLayout = true
-        
+        messageInputBar.maxTextViewHeight = 144 //max of 6 lines with the given font
         messageInputBar.middleContentViewPadding.right = -38
     }
     
@@ -519,7 +532,7 @@ extension ChatViewController: MessagesDisplayDelegate {
 
 extension ChatViewController: MessagesLayoutDelegate {
     
-    //TODO: I THINK I CAN DELETE THESE TWO NOW WITH CUSTOM CALCULATOR
+    //TODO: Can we delete these now that we have customcalculator?
     
     func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return isTimeLabelVisible(at: indexPath) ? 50 : 0
@@ -539,6 +552,7 @@ extension ChatViewController {
         print("Why is this not being called?")
     }
     
+    //Refreshes new messages when you reach the top
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y <= 0 && !refreshControl.isRefreshing && !conversation.hasRenderedAllChatObjects() && viewHasAppeared && refreshControl.isEnabled {
             refreshControl.beginRefreshing()
@@ -645,6 +659,8 @@ extension ChatViewController {
     }
 }
 
+
+//not in use:
 
 private func nextIndexPath(for currentIndexPath: IndexPath, in tableView: UICollectionView) -> IndexPath? {
     var nextRow = 0

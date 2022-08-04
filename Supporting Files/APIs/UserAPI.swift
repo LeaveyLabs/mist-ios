@@ -237,12 +237,12 @@ class UserAPI {
     
     static func UIImageFromURLString(url:String?) async throws -> UIImage {
         guard let url = url else {
-            return UIImage(systemName: "person.crop.circle")!
+            return Constants.defaultProfilePic
         }
 
         let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterUserErrors(data: data, response: response)
-        return UIImage(data: data) ?? UIImage(systemName: "person.crop.circle")!
+        return UIImage(data: data) ?? Constants.defaultProfilePic
     }
     
     //MARK: - Batch Calls

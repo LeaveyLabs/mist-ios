@@ -954,11 +954,7 @@ make that cute barista’s day,
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="commentAccessoryView" destination="7rc-Ne-Ws7" id="GWO-vR-d1d"/>
-                        <outlet property="commentProfileImage" destination="2oL-ZT-wEB" id="aTZ-j8-9DM"/>
-                        <outlet property="commentSubmitButton" destination="7Dk-N6-QGh" id="xbZ-JH-vOC"/>
-                        <outlet property="commentTextView" destination="bq1-qJ-1bN" id="Byl-O8-lBR"/>
-                        <outlet property="tableView" destination="qCS-CF-xHF" id="Pj2-yc-njE"/>
+                        <outlet property="tableView" destination="qCS-CF-xHF" id="QWJ-Fr-Sje"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fGf-4b-NgQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -995,9 +991,6 @@ make that cute barista’s day,
                             <buttonConfiguration key="configuration" style="plain" image="arrow.turn.right.up" catalog="system" title="">
                                 <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30" scale="default" weight="medium"/>
                             </buttonConfiguration>
-                            <connections>
-                                <action selector="submitCommentButtonDidPressed:" destination="xtL-jg-0Sy" eventType="touchUpInside" id="zzZ-15-O7j"/>
-                            </connections>
                         </button>
                     </subviews>
                     <viewLayoutGuide key="safeArea" id="AMO-uP-Dy2"/>

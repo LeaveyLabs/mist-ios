@@ -17,6 +17,7 @@ struct Constants {
         static let Size: CGFloat = 20
     }
     
+    static let defaultProfilePic = UIImage(systemName: "person.crop.circle")!
     static let maxPasswordLength = 1000
     
     struct Coordinates {

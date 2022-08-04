@@ -48,6 +48,15 @@ open class CustomMessagesFlowLayout: MessagesCollectionViewFlowLayout {
         superCalculators.append(customMessageSizeCalculator)
         return superCalculators
     }
+    
+    override open func sizeForItem(at indexPath: IndexPath) -> CGSize {
+        if let calculator = cellSizeCalculatorForItem(at: indexPath) as? CustomMessageSizeCalculator {
+            let messageType = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
+            return calculator.sizeForItem(of: messageType, at: indexPath)
+        }
+    
+        return super.sizeForItem(at: indexPath)
+    }
 }
 
 open class CustomMessageSizeCalculator: MessageSizeCalculator {
@@ -57,11 +66,26 @@ open class CustomMessageSizeCalculator: MessageSizeCalculator {
         self.layout = layout
     }
     
+    open func sizeForItem(of customType: MessageType, at indexPath: IndexPath) -> CGSize {
+        guard let layout = layout else { return .zero }
+        let collectionViewWidth = layout.collectionView?.bounds.width ?? 0
+        let contentInset = layout.collectionView?.contentInset ?? .zero
+        let inset = layout.sectionInset.left + layout.sectionInset.right + contentInset.left + contentInset.right
+        
+        if customType is MessageKitInfo {
+            return CGSize(width: collectionViewWidth - inset, height: 140)
+        } else if customType is MessageKitMatchRequest {
+            return CGSize(width: collectionViewWidth - inset, height: 110)
+        }
+        return CGSize(width: collectionViewWidth - inset, height: 44)
+    }
+
     open override func sizeForItem(at indexPath: IndexPath) -> CGSize {
         guard let layout = layout else { return .zero }
         let collectionViewWidth = layout.collectionView?.bounds.width ?? 0
         let contentInset = layout.collectionView?.contentInset ?? .zero
         let inset = layout.sectionInset.left + layout.sectionInset.right + contentInset.left + contentInset.right
+        
         return CGSize(width: collectionViewWidth - inset, height: 110)
     }
   
