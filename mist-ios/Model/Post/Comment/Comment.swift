@@ -19,6 +19,7 @@ struct Comment: Codable {
     let post: Int
     let author: Int
     let read_only_author: ReadOnlyUser
+    let tags: [Tag]?
     
     // Used when creating a comment
     init(id: Int = DUMMY_COMMENT_ID,
@@ -31,5 +32,6 @@ struct Comment: Codable {
         self.post = post
         self.author = UserService.singleton.getId()
         self.read_only_author = UserService.singleton.getUserAsReadOnlyUser()
+        self.tags = []
     }
 }
