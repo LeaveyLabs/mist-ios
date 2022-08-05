@@ -36,7 +36,10 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
 //        let user = users.filter { return $0.name == name }.first
         
         cell.imageView?.image = completion.context?[AutocompleteContext.pic.rawValue] as? UIImage ?? UIImage(systemName: "phone")!
-        cell.textLabel?.attributedText = manager.attributedText(matching: session, fontSize: 15)
+        cell.textLabel?.attributedText = manager.attributedText(matching: session, fontSize: 16)
+//        cell.detailTextLabel?.text = "From contacts"
+//        cell.detailTextLabel?.font = UIFont(name: Constants.Font.Medium, size: 10)
+        cell.layoutSubviews()
         return cell
     }
     
@@ -48,7 +51,8 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
     
     // Optional
     func autocompleteManager(_ manager: AutocompleteManager, shouldRegister prefix: String, at range: NSRange) -> Bool {
-        print("SHOULD REGISTER")
+        autocompleteManager.updateTopLineViewY()
+        print("SHOUDL REGISTER")
         return true
     }
     
@@ -58,7 +62,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
 
         return true
     }
-    
+        
     // Optional
     func autocompleteManager(_ manager: AutocompleteManager, shouldComplete prefix: String, with text: String) -> Bool {
         print("SHOULD COMPLETE")
@@ -97,10 +101,6 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
     func loadAutocompleteData(firstWord: String, secondWord: String?) {
         Task {
             do {
-                let suggestedUsers = try await UserAPI.fetchUsersByText(containing: firstWord)
-                print(" SUGGESTED USERS:", suggestedUsers)
-                async let frontendSuggestedUsers = Array(UserAPI.batchTurnUsersIntoFrontendUsers(suggestedUsers).values) //async let so suggestedContacts can start loading in in the meantime
-
                 var suggestedContacts = [CNContact]()
                 if CNContactStore.authorizationStatus(for: .contacts) == .authorized  {
                     suggestedContacts = fetchSuggestedContacts(partialString: firstWord)
@@ -110,19 +110,13 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
                         suggestedContacts = self.fetchSuggestedContacts(partialString: firstWord)
                     }
                 }
-                asyncCompletions = turnResultsIntoAutocompletions(try await frontendSuggestedUsers,
+                
+                let suggestedUsers = try await UserAPI.fetchUsersByText(containing: firstWord)
+                print(" SUGGESTED USERS:", suggestedUsers)
+                let frontendSuggestedUsers = try await Array(UserAPI.batchTurnUsersIntoFrontendUsers(suggestedUsers).values)
+
+                asyncCompletions = turnResultsIntoAutocompletions(frontendSuggestedUsers,
                                                                   suggestedContacts)
-                asyncCompletions.append(.init(text: "temp"))
-                asyncCompletions.append(.init(text: "temp"))
-                asyncCompletions.append(.init(text: "temp"))
-                asyncCompletions.append(.init(text: "temp"))
-                asyncCompletions.append(.init(text: "temp"))
-                asyncCompletions.append(.init(text: "temp"))
-                asyncCompletions.append(.init(text: "temp"))
-                asyncCompletions.append(.init(text: "temp"))
-                asyncCompletions.append(.init(text: "temp"))
-                asyncCompletions.append(.init(text: "temp"))
-                asyncCompletions.append(.init(text: "temp"))
                 asyncCompletions.append(.init(text: "temp"))
 
                 DispatchQueue.main.async { [weak self] in
@@ -204,7 +198,7 @@ extension PostViewController {
     func fetchSuggestedContacts(partialString: String) -> [CNContact] {
         do {
             let predicate: NSPredicate = CNContact.predicateForContacts(matchingName: partialString)
-            let keysToFetch = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey, CNContactImageDataKey, CNContactImageDataAvailableKey] as [CNKeyDescriptor]
+            let keysToFetch = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey, CNContactThumbnailImageDataKey, CNContactImageDataAvailableKey] as [CNKeyDescriptor]
             let contacts = try contactStore.unifiedContacts(matching: predicate, keysToFetch: keysToFetch)
             return contacts
         } catch {

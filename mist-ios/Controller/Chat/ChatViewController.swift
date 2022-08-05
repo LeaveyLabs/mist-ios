@@ -128,7 +128,15 @@ class ChatViewController: MessagesViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController!.setNavigationBarHidden(true, animated: animated)
-        self.messagesCollectionView.reloadData()
+        messagesCollectionView.reloadData()
+    }
+    
+    var viewHasAppeared = false
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewHasAppeared = true
+//        enableInteractivePopGesture()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -142,16 +150,10 @@ class ChatViewController: MessagesViewController {
         messageInputBar.inputTextView.resignFirstResponder() //better ui animation
     }
     
-    var viewHasAppeared = false
-        
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        viewHasAppeared = true
-    }
-    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         viewHasAppeared = false
+//        disableInteractivePopGesture()
     }
     
     //MARK: - Setup
@@ -207,13 +209,12 @@ class ChatViewController: MessagesViewController {
         //iMessage
         messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 36)
         messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 36)
-        if #available(iOS 13, *) {
-            messageInputBar.inputTextView.layer.borderColor = UIColor.systemGray2.withAlphaComponent(0.8).cgColor
-        } else {
-            messageInputBar.inputTextView.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.8).cgColor
-        }
-        messageInputBar.inputTextView.backgroundColor = .lightGray.withAlphaComponent(0.1)
+        messageInputBar.separatorLine.height = 0
+        
         messageInputBar.inputTextView.layer.borderWidth = 0.5
+        messageInputBar.inputTextView.layer.borderColor = UIColor.systemGray4.cgColor
+        messageInputBar.inputTextView.tintColor = mistUIColor()
+        messageInputBar.inputTextView.backgroundColor = .lightGray.withAlphaComponent(0.1)
         messageInputBar.inputTextView.layer.cornerRadius = 16.0
         messageInputBar.inputTextView.layer.masksToBounds = true
         messageInputBar.inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)

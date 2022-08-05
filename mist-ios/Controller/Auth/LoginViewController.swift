@@ -184,6 +184,7 @@ extension UIViewController: UIGestureRecognizerDelegate {
   }
 
   func enableInteractivePopGesture() {
+    navigationItem.hidesBackButton = false
     navigationController?.interactivePopGestureRecognizer?.delegate = self
     navigationController?.interactivePopGestureRecognizer?.isEnabled = true
   }

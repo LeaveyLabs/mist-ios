@@ -45,7 +45,8 @@ extension PostDelegate where Self: UIViewController {
             CustomSwiftMessages.showAlreadyBlockedMessage()
             return
         }
-        guard !MatchRequestService.singleton.getAllMatchRequestsWith(author.id).contains(where: {$0.post == postId} ) else {
+        //Check Conversations instead of Match Requests because we might have JUST started a conversation with them but haven't sent them a text yet
+        guard ConversationService.singleton.getConversationWith(userId: author.id) == nil else {
             CustomSwiftMessages.showAlreadyDmdMessage()
             return
         }

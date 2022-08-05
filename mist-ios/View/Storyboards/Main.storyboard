@@ -1090,6 +1090,7 @@ make that cute barista’s day,
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xk5-cg-NcZ">
                         <rect key="frame" x="0.0" y="44" width="390" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
                     <connections>
                         <segue destination="oJQ-b2-Es1" kind="relationship" relationship="rootViewController" id="VfV-4Z-Spj"/>

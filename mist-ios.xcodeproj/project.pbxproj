@@ -501,6 +501,8 @@
 		5BB624D92867DD8400DCD45B /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624D72867DD8400DCD45B /* ConversationCell.swift */; };
 		5BB624DA2867DD8400DCD45B /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BB624D82867DD8400DCD45B /* ConversationCell.xib */; };
 		5BB624DC2867E98500DCD45B /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624DB2867E98500DCD45B /* Conversation.swift */; };
+		5BBF5C50289B9FB6000B2D31 /* InputAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF5C4F289B9FB6000B2D31 /* InputAvatar.swift */; };
+		5BBF5C51289B9FE1000B2D31 /* InputAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF5C4F289B9FB6000B2D31 /* InputAvatar.swift */; };
 		5BC2763E286AE9BD00DA5A3D /* Loading.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */; };
 		5BC2763F286AE9BD00DA5A3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2763D286AE9BD00DA5A3D /* Main.storyboard */; };
 		5BCC68D928611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */; };
@@ -791,6 +793,7 @@
 		5BB624D72867DD8400DCD45B /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		5BB624D82867DD8400DCD45B /* ConversationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationCell.xib; sourceTree = "<group>"; };
 		5BB624DB2867E98500DCD45B /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		5BBF5C4F289B9FB6000B2D31 /* InputAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAvatar.swift; sourceTree = "<group>"; };
 		5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Loading.storyboard; sourceTree = "<group>"; };
 		5BC2763D286AE9BD00DA5A3D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeAreaInputAccessoryViewWrapperView.swift; sourceTree = "<group>"; };
@@ -1424,6 +1427,7 @@
 				5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */,
 				47C1D49027DF00B200970B3D /* PostMoreViewController.swift */,
 				472F8D1928505F4600DB69C4 /* PostDelegate.swift */,
+				5BBF5C4F289B9FB6000B2D31 /* InputAvatar.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -2115,6 +2119,7 @@
 				5BCC68D928611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift in Sources */,
 				472A4C0428408BD800FD52B7 /* DesignableTextView.swift in Sources */,
 				5BAD62732876706800DCFE45 /* Setting.swift in Sources */,
+				5BBF5C50289B9FB6000B2D31 /* InputAvatar.swift in Sources */,
 				472A4BFA28408BD800FD52B7 /* SpringTextView.swift in Sources */,
 				47A3D71227D57A6D003DBEA5 /* UserService.swift in Sources */,
 				475B1F8F27FBC2D400ED59CD /* UIView+Shadow.swift in Sources */,
@@ -2282,6 +2287,7 @@
 				5B739DBB28935B9500E4EED0 /* UIImage+Compress.swift in Sources */,
 				5B739DBC28935B9500E4EED0 /* UITextView+Placeholder.swift in Sources */,
 				5B739DBD28935B9500E4EED0 /* FlagService.swift in Sources */,
+				5BBF5C51289B9FE1000B2D31 /* InputAvatar.swift in Sources */,
 				5B739DBE28935B9500E4EED0 /* MKClusterAnnotation+*.swift in Sources */,
 				5B739DBF28935B9500E4EED0 /* AuthContext.swift in Sources */,
 				5B739DC028935B9500E4EED0 /* CLLocationCoordiante+Midpoint.swift in Sources */,

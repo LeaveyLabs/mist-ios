@@ -13,15 +13,44 @@ let COMMENT_PLACEHOLDER_TEXT = "Comment & tag friends"
 typealias UpdatedPostCompletionHandler = ((Post) -> Void)
 var hasPromptedUserForContactsAccess = false
 
+
+extension AutocompleteManagerDelegate {
+    func autocompleteDidScroll() {
+        fatalError("Override this within the class")
+    }
+}
+
+class CommentAutocompleteManager: AutocompleteManager {
+    
+    let topLineView = UIView()
+    
+    override init(for textView: UITextView) {
+        super.init(for: textView)
+        topLineView.frame = CGRect(x: 0, y: 0, width: tableView.frame.width, height: 0.5)
+        topLineView.backgroundColor = .systemGray2
+        tableView.addSubview(topLineView)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateTopLineViewY()
+    }
+    
+    func updateTopLineViewY() {
+        let pixelsFromTop = CGFloat(0)
+        let theHeight = tableView.contentOffset.y //+ self.tableView.frame.height
+        topLineView.frame = CGRect(x: 0, y: theHeight + pixelsFromTop , width: tableView.frame.width, height: topLineView.frame.height)
+    }
+}
+
 class PostViewController: UIViewController, UIViewControllerTransitioningDelegate {
     
     //MARK: - Properties
     
-    //UI
+    //TableView
     var activityIndicator = UIActivityIndicatorView(style: .medium)
     @IBOutlet var tableView: UITableView!
     
-    //Comment
+    //CommentInput
     let keyboardManager = KeyboardManager() //InputBarAccessoryView
     let inputBar = InputBarAccessoryView()
     let MAX_COMMENT_LENGTH = 499
@@ -33,25 +62,16 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
 //            tableView.verticalScrollIndicatorInsets.bottom += additionalBottomInset
 //        }
     
-    
-//    }
-//    @IBOutlet weak var commentProfileImage: UIImageView!
-//    var commentPlaceholderLabel: UILabel!
-    //    @IBOutlet weak var commentTextView: UITextView!
-    //    @IBOutlet var commentAccessoryView: UIView!
-        //    var wrappedAccessoryView: SafeAreaInputAccessoryViewWrapperView!
-//    @IBOutlet weak var commentSubmitButton: UIButton!
-    
     private let tagTextAttributes: [NSAttributedString.Key : Any] = [
 //        .font: UIFont.preferredFont(forTextStyle: .body),
-        .font: UIFont(name: Constants.Font.Heavy, size: 14)!,
-        .foregroundColor: UIColor.systemBlue,
-        .backgroundColor: UIColor.systemBlue.withAlphaComponent(0.1)
+        .font: UIFont(name: Constants.Font.Heavy, size: 17)!,
+        .foregroundColor: UIColor.black,
+//        .backgroundColor: UIColor.red.withAlphaComponent(0.1)
     ]
     
     /// The object that manages autocomplete
-    open lazy var autocompleteManager: AutocompleteManager = { [unowned self] in
-        let manager = AutocompleteManager(for: self.inputBar.inputTextView)
+    open lazy var autocompleteManager: CommentAutocompleteManager = { [unowned self] in
+        let manager = CommentAutocompleteManager(for: self.inputBar.inputTextView)
         manager.delegate = self
         manager.dataSource = self
         return manager
@@ -100,18 +120,22 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         //no longer using the postVC's willDismiss completion handler here: we could delete that
-        
-        inputBar.inputTextView.resignFirstResponder() //better ui animation
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        disableInteractivePopGesture()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        // Im guessing there's a considerable number of people who will click "comment" to see comments but don't want the keyboard to pull up
         if shouldStartWithRaisedKeyboard {
-            DispatchQueue.main.async {
-                self.inputBar.inputTextView.becomeFirstResponder()
-            }
+            // For that reason, we wont raise keyboard, for now
+//          self.inputBar.inputTextView.becomeFirstResponder()
         }
+        enableInteractivePopGesture()
     }
     
     //MARK: - Setup
@@ -141,26 +165,12 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         autocompleteManager.deleteCompletionByParts = false
         
         //The following two aren't actually needed because of our own checks
-        autocompleteManager.register(delimiterSet: .whitespacesAndNewlines)
-        autocompleteManager.maxSpaceCountDuringCompletion = 1
+//        autocompleteManager.register(delimiterSet: .whitespacesAndNewlines)
+//        autocompleteManager.maxSpaceCountDuringCompletion = 1
         
+        autocompleteManager.tableView.maxVisibleRows = view.frame.height < 600 ? 4 : 5
         inputBar.inputPlugins = [autocompleteManager]
     }
-    
-//    func setupCommentView() {
-//        commentProfileImage.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
-//
-//        commentTextView.delegate = self
-//        commentTextView.becomeCommentView()
-//        commentAccessoryView.borders(for: [UIRectEdge.top])
-////        wrappedAccessoryView = SafeAreaInputAccessoryViewWrapperView(for: commentAccessoryView) //
-//        commentTextView.inputAccessoryView = commentAccessoryView
-//
-//        commentTextView.textContainer.lineFragmentPadding = 0
-//        commentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-//        commentPlaceholderLabel = commentTextView.addAndReturnPlaceholderLabel(withText: COMMENT_PLACEHOLDER_TEXT)
-//        commentSubmitButton.isEnabled = false
-//    }
     
     func setupCommentInputBar() {
         inputBar.delegate = self
@@ -168,35 +178,36 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         inputBar.maxTextViewHeight = 144 //max of 6 lines with the given font
         inputBar.inputTextView.keyboardType = .twitter
         inputBar.inputTextView.placeholder = COMMENT_PLACEHOLDER_TEXT
+        inputBar.inputTextView.font = UIFont(name: Constants.Font.Medium, size: 16) //from 17
+        inputBar.inputTextView.placeholderLabel.font = UIFont(name: Constants.Font.Medium, size: 16) //from 17
+        inputBar.inputTextView.placeholderTextColor = .systemGray
+//        inputBar.backgroundView.backgroundColor = UIColor(hex: "F8F8F8")
+//        inputBar.shouldForceTextViewMaxHeight
+        inputBar.separatorLine.height = 0.5
         
         //Middle
-        inputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 36)
-        inputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 36)
+        inputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 12)
+        inputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
         inputBar.inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-        inputBar.inputTextView.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.8).cgColor
-        inputBar.inputTextView.backgroundColor = .lightGray.withAlphaComponent(0.1)
+        inputBar.inputTextView.layer.borderColor = UIColor.systemGray2.cgColor
+        inputBar.inputTextView.tintColor = mistUIColor()
+        inputBar.inputTextView.backgroundColor = .systemGray6
         inputBar.inputTextView.layer.borderWidth = 0.5
         inputBar.inputTextView.layer.cornerRadius = 16.0
         inputBar.inputTextView.layer.masksToBounds = true
-        inputBar.setRightStackViewWidthConstant(to: 38, animated: false)
-        inputBar.setStackViewItems([inputBar.sendButton, InputBarButtonItem.fixedSpace(2)], forStack: .right, animated: false)
         
         //Right
-        inputBar.sendButton.contentEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 4, right: 2)
-        inputBar.sendButton.setSize(CGSize(width: 36, height: 36), animated: false)
-        inputBar.sendButton.setImage(UIImage(named: "enabled-send-button"), for: .normal)
-        inputBar.sendButton.title = nil
-        inputBar.sendButton.becomeRound()
-        inputBar.middleContentViewPadding.right = -38
-        
-        //TODO: raise the avatar by like 2px
+        inputBar.sendButton.title = "Post"
+        inputBar.sendButton.setTitleColor(.systemGray, for: .normal)
+        inputBar.sendButton.setTitleColor(mistUIColor(), for: .normal)
+        inputBar.sendButton.setSize(CGSize(width: 40, height: 40), animated: false)
+        inputBar.setRightStackViewWidthConstant(to: 40, animated: false)
+        inputBar.setStackViewItems([inputBar.sendButton, InputBarButtonItem.fixedSpace(2)], forStack: .right, animated: false)
+
         //Left
-        let avatar = InputBarButtonItem()
-        avatar.setSize(CGSize(width: 36, height: 36), animated: false)
-//        avatar.setImage(UserService.singleton.getProfilePic(), for: .normal)
-        avatar.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
-        inputBar.setLeftStackViewWidthConstant(to: 41, animated: false)
-        inputBar.setStackViewItems([avatar, InputBarButtonItem.fixedSpace(5)], forStack: .left, animated: false)
+        let inputAvatar = InputAvatar(frame: CGRect(x: 0, y: 0, width: 40, height: 40), profilePic: UserService.singleton.getProfilePic())
+        inputBar.setLeftStackViewWidthConstant(to: 48, animated: false)
+        inputBar.setStackViewItems([inputAvatar, InputBarButtonItem.fixedSpace(8)], forStack: .left, animated: false)
     }
     
     func setupKeyboardManagerForBottomInputBar() {
@@ -206,6 +217,9 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         keyboardManager.bind(to: tableView) // Binding to the tableView will enabled interactive dismissal
         keyboardManager.on(event: .didHide) { [weak self] keyboardNotification in
             self?.setAutocompleteManager(active: false)
+        }
+        keyboardManager.on(event: .didShow) { [weak self] keyboardNotification in
+            self?.setAutocompleteManager(active: true)
         }
     }
 }
@@ -257,14 +271,6 @@ extension PostViewController: InputBarAccessoryViewDelegate {
 extension PostViewController {
     
     //MARK: - User Interaction
-    
-    //Disabling for now ujntil we find an alternative way to attach the input bar to the bottom besides using the view controller's first responder property
-    //1 of 2
-//    self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-    //(2 of 2) for enabling swipe left to go back with a bar button item
-//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-//        return true
-//    }
         
     @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
@@ -418,7 +424,6 @@ extension PostViewController: PostDelegate {
         if !inputBar.inputTextView.isFirstResponder {
             inputBar.inputTextView.becomeFirstResponder()
         } else {
-            setAutocompleteManager(active: false)
             inputBar.inputTextView.resignFirstResponder()
         }
     }
