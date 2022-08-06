@@ -33,7 +33,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         profilePicUIImageView.becomeProfilePicImageView(with: user.profilePic)
-        nameLabel.text = user.first_last
+        nameLabel.text = user.full_name
         usernameLabel.text = "@" + user.username
     }
     

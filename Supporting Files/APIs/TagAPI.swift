@@ -87,6 +87,21 @@ class TagAPI {
         return try JSONDecoder().decode(Tag.self, from: data)
     }
     
+    static func batchPostTags(comment:Int, tags: [Tag]) async throws -> [Tag] {
+        var syncedTags = [Tag]()
+        try await withThrowingTaskGroup(of: Tag.self) { group in
+            for tag in tags {
+                group.addTask {
+                    return try await TagAPI.postTag(comment: comment, tagged_name: tag.tagged_name, tagging_user: tag.tagging_user, tagged_user: tag.tagged_user, tagged_phone_number: tag.tagged_phone_number)
+                }
+            }
+            for try await tag in group {
+                syncedTags.append(tag)
+            }
+        }
+        return syncedTags
+    }
+    
     static func deleteTag(id:Int) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_TAG_MODEL)\(id)/"
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)

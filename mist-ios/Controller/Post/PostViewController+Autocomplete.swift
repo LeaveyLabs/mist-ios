@@ -10,101 +10,6 @@ import UIKit
 import Contacts
 import InputBarAccessoryView //dependency of MessageKit. If we remove MessageKit, we should install this package independently
 
-enum AutocompleteContext: String {
-    case id, number, pic, username, name
-}
-
-class CommentAutocompleteManager: AutocompleteManager {
-    
-    let topLineView = UIView()
-    let activityIndicator = UIActivityIndicatorView(style: .medium)
-    
-    override init(for textView: UITextView) {
-        super.init(for: textView)
-        topLineView.frame = CGRect(x: 0, y: 0, width: tableView.frame.width, height: 0.5)
-        topLineView.backgroundColor = .systemGray2
-        tableView.addSubview(topLineView)
-        
-        tableView.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        updateTableViewSubviews()
-    }
-    
-    func updateTableViewSubviews() {
-        let pixelsFromTop = CGFloat(0)
-        let theHeight = tableView.contentOffset.y //+ self.tableView.frame.height
-        topLineView.frame = CGRect(x: 0, y: theHeight + pixelsFromTop , width: tableView.frame.width, height: topLineView.frame.height)
-        
-        activityIndicator.frame.origin.x = tableView.frame.width - 35
-        if tableView.frame.height == 0 {
-            activityIndicator.frame.origin.y = tableView.contentOffset.y - 30
-            tableView.clipsToBounds = false //so animator can appear above tableview
-        } else {
-            activityIndicator.frame.origin.y = tableView.contentOffset.y + 13
-            tableView.clipsToBounds = true //restore to normal
-        }
-    }
-}
-
-class TagAutocompleteCell: AutocompleteCell {
-    
-    static let contactImage = UIImage(systemName: "phone")!
-    
-    override func setupSubviews() {
-        super.setupSubviews()
-        tagAutocompleteSetup()
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        tagAutocompleteSetup()
-    }
-    
-    func tagAutocompleteSetup() {
-        separatorLine.isHidden = true
-        textLabel?.font = UIFont(name: Constants.Font.Medium, size: 15)
-        detailTextLabel?.font = UIFont(name: Constants.Font.Medium, size: 12)
-        detailTextLabel?.textColor = .gray
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        fixImageAndLabelLayout()
-    }
-    
-    // i can't figure out how to use these insets properly... there's too much customization provided by default by the autocomplete cell. i just override it below
-    // imageViewEdgeInsets = .init(top: 5, left: -10, bottom: 0, right: 0)
-    func fixImageAndLabelLayout() {
-        if let imageView = imageView, let image = imageView.image {
-            textLabel?.font = UIFont(name: Constants.Font.Heavy, size: 15)
-            textLabel?.frame.origin.y += 4
-            detailTextLabel?.frame.origin.y -= 1
-            
-            if image != TagAutocompleteCell.contactImage {
-                imageView.frame.origin.x -= 8
-                imageView.frame.origin.y += 7
-                
-                let initialImageViewWidth = imageView.frame.size.width
-                imageView.contentMode = .scaleAspectFill
-                imageView.frame.size = .init(width: 38, height: 38)
-                imageView.layer.cornerRadius = imageView.frame.size.height / 2
-                imageView.layer.cornerCurve = .continuous
-                imageView.clipsToBounds = true
-                
-                let widthToShiftOver = initialImageViewWidth - 40
-                textLabel?.frame.origin.x -= widthToShiftOver + 15
-                detailTextLabel?.frame.origin.x -= widthToShiftOver + 15
-            } else {
-                imageView.layer.cornerRadius = 0
-            }
-        }
-    }
-    
-}
-
 extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDataSource {
     
     // MARK: - AutocompleteManagerDataSource
@@ -130,7 +35,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
         //cell.textLabel?.attributedText = manager.attributedText(matching: session, fontSize: 16, keepPrefix: true) //We're choosing not to bold the matching text
         
         guard let context = completion.context else {
-            print("RENDERING CELL W NO COMPLETION CONTEXT")
+            cell.selectionStyle = .none
             return cell
         }
         
@@ -148,6 +53,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
     // MARK: - AutocompleteManagerDelegate
     
     func autocompleteManager(_ manager: AutocompleteManager, shouldBecomeVisible: Bool) {
+        print("SHOULD BECOME VISIBLE")
         setAutocompleteManager(active: shouldBecomeVisible)
     }
     
@@ -188,7 +94,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
     
     //MARK: - Helpers
     
-    func processAutocomplete(_ updatedText: String) {
+    func processAutocompleteOnNextText(_ updatedText: String) {
         //updatedText doesn't include starting/ending whitespace, while fullInputText does
         guard let fullInputText = inputBar.inputTextView.text else { return }
         
@@ -201,10 +107,19 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
         let fixedRange = NSRange(location: session.range.lowerBound, length: session.range.upperBound) //for some reason. upperBound is actually the length of the session's range? bc of that, we fix the range
         
         let currentSessionText = fullInputText.substring(with: fixedRange.lowerBound..<fixedRange.upperBound)
-        let containsWhitespace = currentSessionText.rangeOfCharacter(from: .whitespacesAndNewlines) != nil
-        guard !containsWhitespace else {
+        
+        //Ensure the text does not contain any whitespaces
+        guard currentSessionText.rangeOfCharacter(from: .whitespacesAndNewlines) == nil else {
             autocompleteManager.invalidate()
             return
+        }
+        
+        //If not the very first character, ensure the "@" is preceded by a whitespace
+        if fixedRange.lowerBound > 0 {
+            guard fullInputText.substring(with: fixedRange.lowerBound-1 ..< fixedRange.lowerBound).rangeOfCharacter(from: .whitespacesAndNewlines) != nil else {
+                autocompleteManager.invalidate()
+                return
+            }
         }
 
         let sessionWord = currentSessionText.substring(from: 1) //skip the "@"
@@ -212,50 +127,75 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
     }
     
     func loadAutocompleteData(firstWord: String, secondWord: String?) {
-        if firstWord.isEmpty && secondWord == nil {
-            asyncCompletions = [(.init(text: "Tag your contacts or friends"))]
+        mostRecentAutocompleteQuery = firstWord
+        let currentQuery = firstWord
+                
+        if !hasPromptedUserForContactsAccess && !areContactsAuthorized() {
+           requestContactsAccessIfNecessary { _ in }
+           return
+       }
+        
+        //Check if beginning of tag
+        if currentQuery.isEmpty && secondWord == nil {
             DispatchQueue.main.async { [weak self] in
+                self?.asyncCompletions = [(.init(text: "Tag your contacts or friends"))]
                 self?.autocompleteManager.reloadData()
                 self?.autocompleteManager.tableView.flashScrollIndicators()
+                self?.autocompleteManager.activityIndicator.stopAnimating()
             }
             return
         }
         
-        //note: we should probably cache these previousTasks
-        let previousTask = autocompleteTask
-        previousTask?.cancel()
-        autocompleteManager.tableView.showLoading()
-        autocompleteTask = Task {
+        //Check autocompletionCache
+        if let cachedAutocompletions = autocompletionCache[currentQuery] {
+            DispatchQueue.main.async { [weak self] in
+                self?.asyncCompletions = cachedAutocompletions
+                self?.autocompleteManager.reloadData()
+                self?.autocompleteManager.tableView.flashScrollIndicators()
+                self?.autocompleteManager.activityIndicator.stopAnimating()
+            }
+            return
+        }
+        
+        //Check if task is already in progress
+        if let _ = autocompletionTasks[currentQuery] {
+            //the autocompletion is currently loading: wait for it to finish
+            autocompleteManager.activityIndicator.startAnimating()
+            return
+        }
+        
+        //if a task is in progress, then don't do anything except start Animating
+        //why dont we keep a cache
+        //each cache entry can either hold a task, or when the task is done, a autcompletionset
+        //or should we create two separate arrays...? might be more clear tbh
+        autocompletionTasks[currentQuery] = Task {
             autocompleteManager.activityIndicator.startAnimating()
             do {
                 var suggestedContacts = [CNContact]()
                 if CNContactStore.authorizationStatus(for: .contacts) == .authorized  {
-                    suggestedContacts = fetchSuggestedContacts(partialString: firstWord)
-                } else if !hasPromptedUserForContactsAccess {
-                    requestContactsAccessIfNecessary { authorized in }
+                    suggestedContacts = fetchSuggestedContacts(partialString: currentQuery)
+                    suggestedContacts = Array(suggestedContacts.prefix(20))
                 }
                 
-                let suggestedUsers = try await UserAPI.fetchUsersByText(containing: firstWord)
-                let trimmedUsers = Array(suggestedUsers.prefix(10))
+                let suggestedUsers = try await UserAPI.fetchUsersByText(containing: currentQuery)
+                let trimmedUsers = Array(suggestedUsers.prefix(15))
                 let frontendSuggestedUsers = try await Array(UserAPI.batchTurnUsersIntoFrontendUsers(trimmedUsers).values)
                 
-                asyncCompletions = turnResultsIntoAutocompletions(frontendSuggestedUsers, suggestedContacts)
-
-                print("ALL COMPLETIONS:", asyncCompletions.count)
-                if asyncCompletions.count == 0 {
-                    asyncCompletions = [.init(text: "No results found")]
-                }
-
-                DispatchQueue.main.async { [weak self] in
-                    self?.autocompleteManager.reloadData()
-                    self?.autocompleteManager.tableView.flashScrollIndicators()
+                let newResults = turnResultsIntoAutocompletions(frontendSuggestedUsers, suggestedContacts)
+                autocompletionCache[currentQuery] = newResults
+                
+                if currentQuery == mostRecentAutocompleteQuery {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.asyncCompletions = newResults
+                        self?.autocompleteManager.reloadData()
+                        self?.autocompleteManager.tableView.flashScrollIndicators()
+                        self?.autocompleteManager.activityIndicator.stopAnimating()
+                    }
                 }
             } catch {
-                if let previousTask = previousTask, !previousTask.isCancelled {
-                    CustomSwiftMessages.displayError(error)
-                }
+                autocompleteManager.activityIndicator.stopAnimating()
+                CustomSwiftMessages.displayError(error)
             }
-            autocompleteManager.activityIndicator.stopAnimating()
         }
     }
     
@@ -282,6 +222,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
         for contact in suggestedContacts {
             context = [:]
             let fullName = contact.givenName + " " + contact.familyName
+            guard !contact.givenName.isEmpty || !contact.familyName.isEmpty else { continue }
 
             if contact.imageDataAvailable, let data = contact.thumbnailImageData {
                 context[AutocompleteContext.pic.rawValue] = UIImage(data: data)
@@ -297,7 +238,13 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
             }
         }
         
-        return newAsyncCompletions
+        if newAsyncCompletions.count == 0 {
+            return [.init(text: "No results found")]
+        }
+        
+        //Sort alphabetically
+        return newAsyncCompletions.sorted(by: { $0.text.lowercased() < $1.text.lowercased() })
+
     }
     
 }
@@ -310,6 +257,22 @@ extension PostViewController {
     
     //MARK: - Permission
     
+    func areContactsAuthorized() -> Bool {
+        let status = CNContactStore.authorizationStatus(for: .contacts)
+        switch status {
+        case .notDetermined:
+            return false
+        case .restricted:
+            return false
+        case .denied:
+            return false
+        case .authorized:
+            return true
+        @unknown default:
+            return false
+        }
+    }
+    
     func requestContactsAccessIfNecessary(closure: @escaping (_ authorized: Bool) -> Void) {
         hasPromptedUserForContactsAccess = true
         let status = CNContactStore.authorizationStatus(for: .contacts)
@@ -319,14 +282,14 @@ extension PostViewController {
                 contactStore.requestAccess(for: .contacts) { approved, _ in closure(approved) }
             })
         case .restricted:
-            break
+            closure(false)
         case .denied:
             CustomSwiftMessages.showSettingsAlertController(title: "Turn on contact sharing for Mist in Settings.", message: "", on: self)
             closure(false)
         case .authorized:
             closure(true)
         @unknown default:
-            break
+            closure(false)
         }
     }
     
@@ -342,6 +305,39 @@ extension PostViewController {
             print("Failed to fetch contact, error: \(error)")
             return []
         }
+    }
+    
+    //Returns an array of completions from either the user corresponding to the contact's phone number, if one exists, or the contact
+    func checkIfContactsHaveExistingAccount(_ contacts: [CNContact]) async throws -> [AutocompleteCompletion] {
+        var autocompletions = [AutocompleteCompletion]()
+        try await withThrowingTaskGroup(of: AutocompleteCompletion?.self) { group in
+            for contact in contacts {
+                group.addTask { [weak self] in
+                    guard let bestNumber = await self?.bestPhoneNumberFrom(contact.phoneNumbers) else { return nil } //TODO: ideal: check every phone number. give a batch of phone numbers to the api?
+                    let usersWithThatNumber = try await UserAPI.fetchUsersByText(containing: bestNumber) //TODO: CHANGE THIS TO BY PHONE NUMBER
+                    if let user = usersWithThatNumber.first {
+                        let frontendUser = try await UserAPI.turnUserIntoFrontendUser(user)
+                        let context: [String: Any] = [AutocompleteContext.id.rawValue: frontendUser.id,
+                                   AutocompleteContext.pic.rawValue: frontendUser.profilePic,
+                                   AutocompleteContext.username.rawValue: frontendUser.username,
+                                   AutocompleteContext.name.rawValue: frontendUser.full_name]
+                        return AutocompleteCompletion(text: frontendUser.full_name,
+                                                      context: context)
+                    }
+                    let fullName = contact.givenName + " " + contact.familyName
+                    guard !contact.givenName.isEmpty || !contact.familyName.isEmpty else { return nil }
+                    let context = [AutocompleteContext.number.rawValue: bestNumber,
+                                   AutocompleteContext.name.rawValue: fullName]
+                    return AutocompleteCompletion(text: fullName, context: context)
+                }
+            }
+            for try await autocompletion in group {
+                if let autocompletion = autocompletion {
+                    autocompletions.append(autocompletion)
+                }
+            }
+        }
+        return autocompletions
     }
     
     //MARK: - Helpers

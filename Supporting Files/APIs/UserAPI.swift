@@ -263,6 +263,11 @@ class UserAPI {
       return users
     }
     
+    static func turnUserIntoFrontendUser(_ user: ReadOnlyUser) async throws -> FrontendReadOnlyUser {
+        return FrontendReadOnlyUser(readOnlyUser: user,
+                                    profilePic: try await UIImageFromURLString(url: user.picture))
+    }
+    
     static func batchTurnUsersIntoFrontendUsers(_ users: [ReadOnlyUser]) async throws -> [Int: FrontendReadOnlyUser] {
         var frontendUsers: [Int: FrontendReadOnlyUser] = [:]
         try await withThrowingTaskGroup(of: (Int, FrontendReadOnlyUser).self) { group in

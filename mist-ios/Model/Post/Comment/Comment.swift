@@ -34,4 +34,15 @@ struct Comment: Codable {
         self.read_only_author = UserService.singleton.getUserAsReadOnlyUser()
         self.tags = []
     }
+    
+    //Used when creating a comment with recently received tags
+    init(comment: Comment, tags: [Tag]) {
+        self.id = comment.id
+        self.body = comment.body
+        self.timestamp = comment.timestamp
+        self.post = comment.post
+        self.author = comment.author
+        self.read_only_author = comment.read_only_author
+        self.tags = tags
+    }
 }

@@ -54,7 +54,9 @@ struct FrontendReadOnlyUser: ReadOnlyUserBackendProperties, SenderType, Hashable
     let picture: String?
 
     // Frontend-only properties
-    let first_last: String
+    var full_name: String {
+        return first_name + " " + last_name
+    }
     let profilePic: UIImage
     let blurredPic: UIImage
     
@@ -69,7 +71,6 @@ struct FrontendReadOnlyUser: ReadOnlyUserBackendProperties, SenderType, Hashable
         self.last_name = readOnlyUser.last_name
         self.picture = readOnlyUser.picture
         
-        self.first_last = first_name + " " + last_name
         self.profilePic = profilePic
         self.blurredPic = blurredPic == nil ? profilePic.blur() : blurredPic!
     }
@@ -108,6 +109,10 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
     let sex: String?
     let latitude: Double?
     let longitude: Double?
+    
+    var full_name: String {
+        return first_name + " " + last_name
+    }
     
     // Frontend-only properties
     var profilePicWrapper: ProfilePicWrapper

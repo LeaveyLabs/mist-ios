@@ -39,16 +39,10 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
 //            tableView.contentInset.bottom += additionalBottomInset
 //            tableView.verticalScrollIndicatorInsets.bottom += additionalBottomInset
 //        }
-    
-    private let tagTextAttributes: [NSAttributedString.Key : Any] = [
-//        .font: UIFont.preferredFont(forTextStyle: .body),
-        .font: UIFont(name: Constants.Font.Heavy, size: 17)!,
-        .foregroundColor: UIColor.black,
-//        .backgroundColor: UIColor.red.withAlphaComponent(0.1)
-    ]
         
-    //Flags
+    //Keyboard
     var shouldStartWithRaisedKeyboard: Bool!
+    var keyboardHeight: Double = 0
     
     //Autocomplete
     let contactStore = CNContactStore()
@@ -60,6 +54,9 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         manager.dataSource = self
         return manager
     }()
+    var mostRecentAutocompleteQuery: String = ""
+    var autocompletionCache = [String: [AutocompleteCompletion]]()
+    var autocompletionTasks = [String: Task<Void, Never>]()
     
     //Data
     var post: Post!
@@ -89,9 +86,22 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         super.viewDidLoad()
         setupTableView()
         setupCommentInputBar()
-        setupAutocomplete()
         setupKeyboardManagerForBottomInputBar()
         loadComments()
+        
+//        autocompleteManager.register(prefix: "@", with: CommentAutocompleteManager.tagTextAttributes)
+
+//        autocompleteManager.appendSpaceOnCompletion = true
+//        autocompleteManager.keepPrefixOnCompletion = true
+//        autocompleteManager.deleteCompletionByParts = false
+        
+        //The following two aren't actually needed because of our own checks
+//        autocompleteManager.register(delimiterSet: .whitespacesAndNewlines)
+//        autocompleteManager.maxSpaceCountDuringCompletion = 1
+        
+//        autocompleteManager.tableView.rowHeight = 52
+//        autocompleteManager.tableView.register(TagAutocompleteCell.self, forCellReuseIdentifier: TagAutocompleteCell.reuseIdentifier)
+//        inputBar.inputPlugins = [autocompleteManager]
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -134,30 +144,11 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         tableView.addGestureRecognizer(tableViewTap)
     }
     
-    func setupAutocomplete() {
-        autocompleteManager.register(prefix: "@", with: tagTextAttributes)
-
-        autocompleteManager.appendSpaceOnCompletion = true
-        autocompleteManager.keepPrefixOnCompletion = true
-        autocompleteManager.deleteCompletionByParts = false
-        
-        //The following two aren't actually needed because of our own checks
-//        autocompleteManager.register(delimiterSet: .whitespacesAndNewlines)
-//        autocompleteManager.maxSpaceCountDuringCompletion = 1
-        
-        autocompleteManager.tableView.maxVisibleRows = view.frame.height < 600 ? 4 : 5
-        autocompleteManager.tableView.rowHeight = 50
-//        autocompleteManager.tableView.separatorColor = .clear //not doing anything..?
-        
-        autocompleteManager.tableView.register(TagAutocompleteCell.self, forCellReuseIdentifier: TagAutocompleteCell.reuseIdentifier)
-        inputBar.inputPlugins = [autocompleteManager]
-    }
-    
     func setupCommentInputBar() {
         inputBar.delegate = self
         inputBar.inputTextView.delegate = self
         inputBar.shouldAnimateTextDidChangeLayout = true
-        inputBar.maxTextViewHeight = 144 //max of 6 lines with the given font
+        inputBar.maxTextViewHeight = 110 //max of 3 lines with the given font
         inputBar.inputTextView.keyboardType = .twitter
         inputBar.inputTextView.placeholder = COMMENT_PLACEHOLDER_TEXT
         inputBar.inputTextView.font = UIFont(name: Constants.Font.Medium, size: 16) //from 17
@@ -200,6 +191,11 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         keyboardManager.bind(to: tableView) // Binding to the tableView will enabled interactive dismissal
         keyboardManager.on(event: .didHide) { [weak self] keyboardNotification in
             self?.setAutocompleteManager(active: false)
+            self?.tableView.contentInset.bottom = 0 //EXPERIMENTAL: Not sure if this 100% works
+        }
+        keyboardManager.on(event: .didShow) { [self] keyboardNotification in
+            keyboardHeight = keyboardNotification.endFrame.height
+            updateMaxAutocompleteRows(keyboardHeight: keyboardHeight)
         }
     
         //As is, this is causing a bad animation with the autocomplete results
@@ -208,6 +204,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
 //            self?.setAutocompleteManager(active: true)
 //        }
     }
+    
 }
 
 extension PostViewController: InputBarAccessoryViewDelegate {
@@ -215,47 +212,26 @@ extension PostViewController: InputBarAccessoryViewDelegate {
     // MARK: - InputBarAccessoryViewDelegate
     
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        
         let trimmedCommentText = inputBar.inputTextView.text.trimmingCharacters(in: .whitespaces)
 
-        // Here we can parse for which substrings were autocompleted
-        let attributedText = inputBar.inputTextView.attributedText!
-        let range = NSRange(location: 0, length: attributedText.length)
-        let autocompletions = [AutocompleteContext]()
-        attributedText.enumerateAttribute(.autocompleted, in: range, options: []) { (attributes, range, stop) in
-            
-            let substring = attributedText.attributedSubstring(from: range)
-            let context = substring.attribute(.autocompletedContext, at: 0, effectiveRange: nil)
-            print("Autocompleted: `", substring, "` with context: ", context ?? [])
-//            autocompletions.append(context)
-        }
-
-        inputBar.inputTextView.text = String()
-        inputBar.invalidatePlugins()
+        //TODO: handle front/back whitespace
+//        We don't need the exact location of the completion in the string necessarily
         
-//        for autocompletion in autocompletions {
-//            if autocompletions.context
-//        }
+        //TODO: one filter thta we SHOULD ADD: if the name / number matches one already in the attributed text's existing completions
         
+        
+        //TODO: reformat phone number string. sometimes it's 444-111-2323, sometimes it's (444) 111-2232. just pull all the integers
+        //we actually don't need their id. we have their phone number
+            //wait yes we do. phone number can change...
         //adam: make sure that fucking with the tag before posting doesnt fuck up the tag collected above
-        ///for each autocompletion:
-        ///IF CONTACT
-        /// load users by the contact's phone number. ensure that the phone number is not already associated with an account
-        ///     this check wouldnt be necessary if we loaded in user's phone number in profile
-        ///IF USER
-        ///create a tag with
-        ///
-        ///post the comment and any necessary tags all at once
-        ///QUESTION: does the relevant comment need to exist before the tags?
-        ///
-        ///
-//        CommentService.singleton.uploadComment( ... tags: tags) should also handle tags
-//        TagAPI.postTag(comment: <#T##Int#>, tagged_name: <#T##String#>, tagging_user: <#T##Int#>, tagged_user: <#T##Int?#>, tagged_phone_number: <#T##String?#>)
         
+        inputBar.sendButton.isEnabled = false
         Task {
             do {
-                inputBar.sendButton.isEnabled = false
-                let newComment = try await CommentService.singleton.uploadComment(text: trimmedCommentText, postId: post.id)
+                let commentAutocompletions = extractAutocompletionsFromInputBarText()
+                let tags = turnCommentAutocompletionsIntoTags(commentAutocompletions)
+                print(tags)
+                let newComment = try await CommentService.singleton.uploadComment(text: trimmedCommentText, postId: post.id, tags: tags)
                 handleSuccessfulCommentSubmission(newComment: newComment)
             } catch {
                 inputBar.sendButton.isEnabled = true
@@ -264,35 +240,75 @@ extension PostViewController: InputBarAccessoryViewDelegate {
         }
     }
     
+    func extractAutocompletionsFromInputBarText() -> [String: AnyObject] {
+        // Here we can parse for which substrings were autocompleted
+        let attributedText = inputBar.inputTextView.attributedText!
+//        attributedText.s
+        let range = NSRange(location: 0, length: attributedText.length)
+        var commentAutocompletions = [String: AnyObject]()
+        attributedText.enumerateAttribute(.autocompleted, in: range, options: []) { (attributes, range, stop) in
+            let substring = attributedText.attributedSubstring(from: range)
+            let context = substring.attribute(.autocompletedContext, at: 0, effectiveRange: nil)
+            commentAutocompletions[substring.string] = context as AnyObject?
+        }
+        
+        inputBar.inputTextView.text = String() //now we can reset the input bar text
+        inputBar.invalidatePlugins()
+        
+        return commentAutocompletions
+    }
+    
+    func turnCommentAutocompletionsIntoTags(_ commentAutocompletions: [String: AnyObject]) -> [Tag] {
+        var tags = [Tag]()
+        for (name, context) in commentAutocompletions {
+            if let taggedUserId = context[AutocompleteContext.id.rawValue] as? Int, let _ = context[AutocompleteContext.username.rawValue] {
+                //Completion from users
+                let userTag = Tag(id: Int.random(in: 0..<Int.max), comment: 0, tagged_name: name, tagged_user: taggedUserId, tagged_phone_number: nil, tagging_user: UserService.singleton.getId(), timestamp: Date().timeIntervalSince1970)
+                tags.append(userTag)
+            } else if let number = context[AutocompleteContext.number.rawValue] as? String {
+                //Completion from contacts
+                let contactTag = Tag(id: Int.random(in: 0..<Int.max), comment: 0, tagged_name: name, tagged_user: nil, tagged_phone_number: number, tagging_user: UserService.singleton.getId(), timestamp: Date().timeIntervalSince1970)
+                tags.append(contactTag)
+            }
+        }
+        return tags
+    }
+    
     func inputBar(_ inputBar: InputBarAccessoryView, didChangeIntrinsicContentTo size: CGSize) {
         // Adjust content insets
         print("didchangeinputbarintrinsicsizeto:", size)
-        tableView.contentInset.bottom = size.height + 300 // keyboard size estimate
+        tableView.contentInset.bottom = size.height + keyboardHeight
+        updateMaxAutocompleteRows(keyboardHeight: keyboardHeight)
     }
     
+    func updateMaxAutocompleteRows(keyboardHeight: Double) {
+        let inputHeight = inputBar.inputTextView.frame.height + 10
+        autocompleteManager.tableView.maxVisibleRows = Int((tableView.frame.height - keyboardHeight - inputHeight) / autocompleteManager.tableView.rowHeight)
+    }
+
     @objc func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
-//        inputBar.setRightStackViewWidthConstant(to: text.isEmpty ? 0 : 45, animated: true)
         inputBar.inputTextView.placeholderLabel.isHidden = !inputBar.inputTextView.text.isEmpty
         validateAllFields()
-        processAutocomplete(text)
+        processAutocompleteOnNextText(text)
     }
+        
 }
 
 //MARK: - UITextViewDelegate
 
 extension PostViewController: UITextViewDelegate {
         
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        
-        print("SHOUDL CHANGE TEXT IN")
-        
-        // Don't allow " " as first character
-        if text == " " && textView.text.count == 0 {
-            return false
-        }
-        // Only return true if the length of text is within the limit
-        return textView.shouldChangeTextGivenMaxLengthOf(MAX_COMMENT_LENGTH + TEXT_LENGTH_BEYOND_MAX_PERMITTED, range, text)
-    }
+//    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//
+//        print("SHOUDL CHANGE TEXT IN")
+//
+//        // Don't allow " " as first character
+//        if text == " " && textView.text.count == 0 {
+//            return false
+//        }
+//        // Only return true if the length of text is within the limit
+//        return textView.shouldChangeTextGivenMaxLengthOf(MAX_COMMENT_LENGTH + TEXT_LENGTH_BEYOND_MAX_PERMITTED, range, text)
+//    }
     
 }
 
@@ -320,6 +336,7 @@ extension PostViewController {
                 activityIndicator.startAnimating()
 //                comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
 //                commentAuthors = try await UserAPI.batchTurnUsersIntoFrontendUsers(comments.map { $0.read_only_author })
+                
                 DispatchQueue.main.async { [weak self] in
                     self?.tableView.reloadData()
                 }
@@ -338,8 +355,8 @@ extension PostViewController {
 extension PostViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
-//        return comments.count + 1
+        let comments = FeederData.comments // CHANGE ALTER
+        return comments.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -349,13 +366,17 @@ extension PostViewController: UITableViewDataSource {
     func postAndCommentCellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
+            let post = FeederData.posts.first! //CHANGE LATER
             cell.configurePostCell(post: post, nestedPostViewDelegate: self, bubbleTrianglePosition: .left, isWithinPostVC: true)
             return cell
         }
         //else the cell is a comment
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Comment, for: indexPath) as! CommentCell
+        let comments = FeederData.comments//CHANGE LATER
         let comment = comments[indexPath.row-1]
-        cell.configureCommentCell(comment: comment, delegate: self, author: commentAuthors[comment.author]!)
+//        cell.configureCommentCell(comment: comment, delegate: self, author: commentAuthors[comment.author]!)
+        cell.configureCommentCell(comment: comment, delegate: self, author: FeederData.users.first!) //REMOVE LATER
+
         return cell
     }
     
