@@ -211,6 +211,7 @@ class ChatViewController: MessagesViewController {
         messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 36)
         messageInputBar.separatorLine.height = 0
         
+        //Center
         messageInputBar.inputTextView.layer.borderWidth = 0.5
         messageInputBar.inputTextView.layer.borderColor = UIColor.systemGray4.cgColor
         messageInputBar.inputTextView.tintColor = mistUIColor()
@@ -218,17 +219,18 @@ class ChatViewController: MessagesViewController {
         messageInputBar.inputTextView.layer.cornerRadius = 16.0
         messageInputBar.inputTextView.layer.masksToBounds = true
         messageInputBar.inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-        messageInputBar.setRightStackViewWidthConstant(to: 38, animated: false)
-        messageInputBar.setStackViewItems([messageInputBar.sendButton, InputBarButtonItem.fixedSpace(2)], forStack: .right, animated: false)
-        messageInputBar.sendButton.contentEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 4, right: 2)
-        messageInputBar.sendButton.setSize(CGSize(width: 36, height: 36), animated: false)
-        messageInputBar.sendButton.setImage(UIImage(named: "enabled-send-button"), for: .normal)
-        messageInputBar.sendButton.title = nil
-        messageInputBar.sendButton.becomeRound()
         messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
         messageInputBar.shouldAnimateTextDidChangeLayout = true
         messageInputBar.maxTextViewHeight = 144 //max of 6 lines with the given font
-        messageInputBar.middleContentViewPadding.right = -38
+
+        //Right
+        messageInputBar.setRightStackViewWidthConstant(to: 38, animated: false)
+        messageInputBar.sendButton.setSize(CGSize(width: 36, height: 36), animated: false)
+        messageInputBar.setStackViewItems([messageInputBar.sendButton, InputBarButtonItem.fixedSpace(2)], forStack: .right, animated: false)
+        messageInputBar.sendButton.contentEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 4, right: 2)
+        messageInputBar.sendButton.setImage(UIImage(named: "enabled-send-button"), for: .normal)
+        messageInputBar.sendButton.title = nil
+        messageInputBar.sendButton.becomeRound()
     }
     
     func setupMessageInputBarForChatPrompt() {

@@ -33,6 +33,10 @@ class PostService: NSObject {
     }
     
     //MARK: - Load and setup
+    
+    func loadFeederPosts() {
+        explorePostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: FeederData.posts)
+    }
         
     func loadExplorePosts() async throws {
         var loadedPosts = [Post]()

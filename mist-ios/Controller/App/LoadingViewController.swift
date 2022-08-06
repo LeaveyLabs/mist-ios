@@ -79,13 +79,13 @@ class LoadingViewController: UIViewController {
             var werePostsLoaded = false
             while !werePostsLoaded {
                 do {
-                    try await loadEverything()
+//                    try await loadEverything()
                     werePostsLoaded = true
                     mistWideLogoView.flyHeartUp()
                     DispatchQueue.main.asyncAfter(deadline: .now() + Env.LAUNCH_ANIMATION_DELAY) {
                         self.transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
-                                                    viewControllerID: Constants.SBID.VC.TabBarController,
-//                                                    viewControllerID: Constants.SBID.VC.Post,
+//                                                    viewControllerID: Constants.SBID.VC.TabBarController,
+                                                    viewControllerID: Constants.SBID.VC.Post,
                                                     duration: Env.LAUNCH_ANIMATION_DURATION) { _ in
                         }
                     }

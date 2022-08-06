@@ -20,28 +20,6 @@ extension AutocompleteManagerDelegate {
     }
 }
 
-class CommentAutocompleteManager: AutocompleteManager {
-    
-    let topLineView = UIView()
-    
-    override init(for textView: UITextView) {
-        super.init(for: textView)
-        topLineView.frame = CGRect(x: 0, y: 0, width: tableView.frame.width, height: 0.5)
-        topLineView.backgroundColor = .systemGray2
-        tableView.addSubview(topLineView)
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        updateTopLineViewY()
-    }
-    
-    func updateTopLineViewY() {
-        let pixelsFromTop = CGFloat(0)
-        let theHeight = tableView.contentOffset.y //+ self.tableView.frame.height
-        topLineView.frame = CGRect(x: 0, y: theHeight + pixelsFromTop , width: tableView.frame.width, height: topLineView.frame.height)
-    }
-}
-
 class PostViewController: UIViewController, UIViewControllerTransitioningDelegate {
     
     //MARK: - Properties
@@ -68,21 +46,20 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         .foregroundColor: UIColor.black,
 //        .backgroundColor: UIColor.red.withAlphaComponent(0.1)
     ]
-    
-    /// The object that manages autocomplete
-    open lazy var autocompleteManager: CommentAutocompleteManager = { [unowned self] in
-        let manager = CommentAutocompleteManager(for: self.inputBar.inputTextView)
-        manager.delegate = self
-        manager.dataSource = self
-        return manager
-    }()
-    
+        
     //Flags
     var shouldStartWithRaisedKeyboard: Bool!
     
     //Autocomplete
     let contactStore = CNContactStore()
     var asyncCompletions: [AutocompleteCompletion] = []
+    var autocompleteTask: Task<Void, Never>?
+    open lazy var autocompleteManager: CommentAutocompleteManager = { [unowned self] in
+        let manager = CommentAutocompleteManager(for: self.inputBar.inputTextView)
+        manager.delegate = self
+        manager.dataSource = self
+        return manager
+    }()
     
     //Data
     var post: Post!
@@ -131,10 +108,10 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         super.viewDidAppear(animated)
         
         // Im guessing there's a considerable number of people who will click "comment" to see comments but don't want the keyboard to pull up
-        if shouldStartWithRaisedKeyboard {
+//        if shouldStartWithRaisedKeyboard {
             // For that reason, we wont raise keyboard, for now
 //          self.inputBar.inputTextView.becomeFirstResponder()
-        }
+//        }
         enableInteractivePopGesture()
     }
     
@@ -169,11 +146,16 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
 //        autocompleteManager.maxSpaceCountDuringCompletion = 1
         
         autocompleteManager.tableView.maxVisibleRows = view.frame.height < 600 ? 4 : 5
+        autocompleteManager.tableView.rowHeight = 50
+//        autocompleteManager.tableView.separatorColor = .clear //not doing anything..?
+        
+        autocompleteManager.tableView.register(TagAutocompleteCell.self, forCellReuseIdentifier: TagAutocompleteCell.reuseIdentifier)
         inputBar.inputPlugins = [autocompleteManager]
     }
     
     func setupCommentInputBar() {
         inputBar.delegate = self
+        inputBar.inputTextView.delegate = self
         inputBar.shouldAnimateTextDidChangeLayout = true
         inputBar.maxTextViewHeight = 144 //max of 6 lines with the given font
         inputBar.inputTextView.keyboardType = .twitter
@@ -186,8 +168,8 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         inputBar.separatorLine.height = 0.5
         
         //Middle
-        inputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 12)
-        inputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
+        inputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 45)
+        inputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 45)
         inputBar.inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         inputBar.inputTextView.layer.borderColor = UIColor.systemGray2.cgColor
         inputBar.inputTextView.tintColor = mistUIColor()
@@ -195,14 +177,15 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         inputBar.inputTextView.layer.borderWidth = 0.5
         inputBar.inputTextView.layer.cornerRadius = 16.0
         inputBar.inputTextView.layer.masksToBounds = true
+        inputBar.middleContentViewPadding.right = -45 //extends the inputbar to the right
         
         //Right
         inputBar.sendButton.title = "Post"
-        inputBar.sendButton.setTitleColor(.systemGray, for: .normal)
+        inputBar.sendButton.setTitleColor(.clear, for: .disabled)
         inputBar.sendButton.setTitleColor(mistUIColor(), for: .normal)
-        inputBar.sendButton.setSize(CGSize(width: 40, height: 40), animated: false)
-        inputBar.setRightStackViewWidthConstant(to: 40, animated: false)
-        inputBar.setStackViewItems([inputBar.sendButton, InputBarButtonItem.fixedSpace(2)], forStack: .right, animated: false)
+        inputBar.sendButton.setSize(CGSize(width: 45, height: 40), animated: false) //to increase height
+        inputBar.setRightStackViewWidthConstant(to: 45, animated: false)
+        inputBar.setStackViewItems([inputBar.sendButton, InputBarButtonItem.fixedSpace(10)], forStack: .right, animated: false)
 
         //Left
         let inputAvatar = InputAvatar(frame: CGRect(x: 0, y: 0, width: 40, height: 40), profilePic: UserService.singleton.getProfilePic())
@@ -218,9 +201,12 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         keyboardManager.on(event: .didHide) { [weak self] keyboardNotification in
             self?.setAutocompleteManager(active: false)
         }
-        keyboardManager.on(event: .didShow) { [weak self] keyboardNotification in
-            self?.setAutocompleteManager(active: true)
-        }
+    
+        //As is, this is causing a bad animation with the autocomplete results
+        //Ideal: on .didShow, *if the comment keyboard was previously dismissed*, and *if there is an active autocomplete session*, setAutoManager to true
+//        keyboardManager.on(event: .didShow) { [weak self] keyboardNotification in
+//            self?.setAutocompleteManager(active: true)
+//        }
     }
 }
 
@@ -235,15 +221,37 @@ extension PostViewController: InputBarAccessoryViewDelegate {
         // Here we can parse for which substrings were autocompleted
         let attributedText = inputBar.inputTextView.attributedText!
         let range = NSRange(location: 0, length: attributedText.length)
+        let autocompletions = [AutocompleteContext]()
         attributedText.enumerateAttribute(.autocompleted, in: range, options: []) { (attributes, range, stop) in
             
             let substring = attributedText.attributedSubstring(from: range)
             let context = substring.attribute(.autocompletedContext, at: 0, effectiveRange: nil)
             print("Autocompleted: `", substring, "` with context: ", context ?? [])
+//            autocompletions.append(context)
         }
 
         inputBar.inputTextView.text = String()
         inputBar.invalidatePlugins()
+        
+//        for autocompletion in autocompletions {
+//            if autocompletions.context
+//        }
+        
+        //adam: make sure that fucking with the tag before posting doesnt fuck up the tag collected above
+        ///for each autocompletion:
+        ///IF CONTACT
+        /// load users by the contact's phone number. ensure that the phone number is not already associated with an account
+        ///     this check wouldnt be necessary if we loaded in user's phone number in profile
+        ///IF USER
+        ///create a tag with
+        ///
+        ///post the comment and any necessary tags all at once
+        ///QUESTION: does the relevant comment need to exist before the tags?
+        ///
+        ///
+//        CommentService.singleton.uploadComment( ... tags: tags) should also handle tags
+//        TagAPI.postTag(comment: <#T##Int#>, tagged_name: <#T##String#>, tagging_user: <#T##Int#>, tagged_user: <#T##Int?#>, tagged_phone_number: <#T##String?#>)
+        
         Task {
             do {
                 inputBar.sendButton.isEnabled = false
@@ -258,12 +266,32 @@ extension PostViewController: InputBarAccessoryViewDelegate {
     
     func inputBar(_ inputBar: InputBarAccessoryView, didChangeIntrinsicContentTo size: CGSize) {
         // Adjust content insets
-        print(size)
+        print("didchangeinputbarintrinsicsizeto:", size)
         tableView.contentInset.bottom = size.height + 300 // keyboard size estimate
     }
     
     @objc func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
+//        inputBar.setRightStackViewWidthConstant(to: text.isEmpty ? 0 : 45, animated: true)
+        inputBar.inputTextView.placeholderLabel.isHidden = !inputBar.inputTextView.text.isEmpty
+        validateAllFields()
         processAutocomplete(text)
+    }
+}
+
+//MARK: - UITextViewDelegate
+
+extension PostViewController: UITextViewDelegate {
+        
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
+        print("SHOUDL CHANGE TEXT IN")
+        
+        // Don't allow " " as first character
+        if text == " " && textView.text.count == 0 {
+            return false
+        }
+        // Only return true if the length of text is within the limit
+        return textView.shouldChangeTextGivenMaxLengthOf(MAX_COMMENT_LENGTH + TEXT_LENGTH_BEYOND_MAX_PERMITTED, range, text)
     }
     
 }
@@ -290,8 +318,8 @@ extension PostViewController {
         Task {
             do {
                 activityIndicator.startAnimating()
-                comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
-                commentAuthors = try await UserAPI.batchTurnUsersIntoFrontendUsers(comments.map { $0.read_only_author })
+//                comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
+//                commentAuthors = try await UserAPI.batchTurnUsersIntoFrontendUsers(comments.map { $0.read_only_author })
                 DispatchQueue.main.async { [weak self] in
                     self?.tableView.reloadData()
                 }
@@ -305,31 +333,13 @@ extension PostViewController {
     
 }
 
-//MARK: - TextViewDelegate
-
-extension PostViewController: UITextViewDelegate {
-        
-    func textViewDidChange(_ textView: UITextView) {
-        inputBar.inputTextView.placeholderLabel.isHidden = !inputBar.inputTextView.text.isEmpty
-        validateAllFields()
-    }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        // Don't allow " " as first character
-        if text == " " && textView.text.count == 0 {
-            return false
-        }
-        // Only return true if the length of text is within the limit
-        return textView.shouldChangeTextGivenMaxLengthOf(MAX_COMMENT_LENGTH + TEXT_LENGTH_BEYOND_MAX_PERMITTED, range, text)
-    }
-}
-
 // MARK: - TableViewDataSource
 
 extension PostViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return comments.count + 1
+        return 0
+//        return comments.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
