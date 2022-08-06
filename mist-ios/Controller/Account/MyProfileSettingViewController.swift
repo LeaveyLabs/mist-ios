@@ -127,7 +127,7 @@ class MyProfileSettingViewController: UITableViewController {
         if section == 0 {
             return "Your name can't be changed after signing up."
         } else {
-            return ""
+            return "Letters, numbers, underscores and periods."
         }
     }
         
@@ -167,7 +167,7 @@ class MyProfileSettingViewController: UITableViewController {
         isSaving = true
         Task {
             do {
-                try await UserService.singleton.updateUsername(to: username)
+                try await UserService.singleton.updateUsername(to: username.lowercased())
                 try await UserService.singleton.updateProfilePic(to: profilePic)
                 isSaving = false
                 handleSuccessfulUpdate()
@@ -181,7 +181,7 @@ class MyProfileSettingViewController: UITableViewController {
     //MARK: - Helpers
     
     func validateInput() {
-        let isValid = username.count > 3 && !(username == originalUsername && profilePic == originalProfilePic)
+        let isValid = Validate.validateUsername(username) && !(username == originalUsername && profilePic == originalProfilePic)
         saveButton.isEnabled = isValid
     }
     

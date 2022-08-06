@@ -96,7 +96,7 @@ class ChooseUsernameViewController: KUIViewController, UITextFieldDelegate {
     //MARK: - Helpers
     
     func tryToContinue() {
-        if let username = usernameTextField.text {
+        if let username = usernameTextField.text?.lowercased() {
             isSubmitting = true
             Task {
                 do {
@@ -120,6 +120,6 @@ class ChooseUsernameViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func validateInput() {
-        isValidInput = usernameTextField.text!.count > 3
+        isValidInput = Validate.validateUsername(usernameTextField.text ?? "")
     }
 }

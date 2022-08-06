@@ -526,6 +526,8 @@
 		5BE14737289EB68B0096FEBE /* CommentAutocompleteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14735289EB68B0096FEBE /* CommentAutocompleteManager.swift */; };
 		5BE14739289EB6EA0096FEBE /* TagAutocompleteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14738289EB6EA0096FEBE /* TagAutocompleteCell.swift */; };
 		5BE1473A289EB6EA0096FEBE /* TagAutocompleteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14738289EB6EA0096FEBE /* TagAutocompleteCell.swift */; };
+		5BE1473C289F0FCE0096FEBE /* Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE1473B289F0FCE0096FEBE /* Validate.swift */; };
+		5BE1473D289F0FCE0096FEBE /* Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE1473B289F0FCE0096FEBE /* Validate.swift */; };
 		5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4D9BD285C018000197080 /* String+Capitalization.swift */; };
 		5BEFCD23287816FB00379CE6 /* Launch-beta.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BEFCD22287816FB00379CE6 /* Launch-beta.storyboard */; };
 		5BF78337285D955F003C3955 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78336285D955F003C3955 /* Map.swift */; };
@@ -823,6 +825,7 @@
 		5BE14732289D3D990096FEBE /* FeederData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeederData.swift; sourceTree = "<group>"; };
 		5BE14735289EB68B0096FEBE /* CommentAutocompleteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAutocompleteManager.swift; sourceTree = "<group>"; };
 		5BE14738289EB6EA0096FEBE /* TagAutocompleteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagAutocompleteCell.swift; sourceTree = "<group>"; };
+		5BE1473B289F0FCE0096FEBE /* Validate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validate.swift; sourceTree = "<group>"; };
 		5BE4D9BD285C018000197080 /* String+Capitalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Capitalization.swift"; sourceTree = "<group>"; };
 		5BEFCD22287816FB00379CE6 /* Launch-beta.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch-beta.storyboard"; sourceTree = "<group>"; };
 		5BF78336285D955F003C3955 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
@@ -1437,6 +1440,7 @@
 				47FF418228403AE700A44968 /* CustomAttributedString.swift */,
 				47D5B36928441296004CDE6C /* CustomSwiftMessages.swift */,
 				5BF78336285D955F003C3955 /* Map.swift */,
+				5BE1473B289F0FCE0096FEBE /* Validate.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -2171,6 +2175,7 @@
 				472A4C0828408BD800FD52B7 /* LoadingView.swift in Sources */,
 				4752718328557C1300DDF84D /* PasswordSettingViewController.swift in Sources */,
 				43D92524285280D200438C5C /* FriendRequestAPI.swift in Sources */,
+				5BE1473C289F0FCE0096FEBE /* Validate.swift in Sources */,
 				472A4BF328408BD800FD52B7 /* Spring.swift in Sources */,
 				5B1F16CE287D1ABD00035F93 /* HomeViewController.swift in Sources */,
 				472A4BF528408BD800FD52B7 /* DesignableLabel.swift in Sources */,
@@ -2480,6 +2485,7 @@
 				5B739E4E28935B9500E4EED0 /* CustomCenteredView.swift in Sources */,
 				5B739E4F28935B9500E4EED0 /* Block.swift in Sources */,
 				5BCEA510289A489700602A4D /* PostViewController+Autocomplete.swift in Sources */,
+				5BE1473D289F0FCE0096FEBE /* Validate.swift in Sources */,
 				5B739E5028935B9500E4EED0 /* PostAnnotationView.swift in Sources */,
 				5B739E5128935B9500E4EED0 /* Map.swift in Sources */,
 				43A25349289BA46800B1468F /* Tag.swift in Sources */,
