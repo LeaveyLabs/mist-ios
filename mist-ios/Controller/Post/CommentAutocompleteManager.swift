@@ -8,9 +8,14 @@
 import Foundation
 import InputBarAccessoryView //dependency of MessageKit. If we remove MessageKit, we should install this package independently
 
+
+//"text" is what gets autocompleted: that will be the username
+//"queryName" is what appears on the tableView list when selecting
 enum AutocompleteContext: String {
-    case id, number, pic, username, name
+    case id, number, pic, queryName
+//    case id, number, pic, username, name
 }
+
 
 class CommentAutocompleteManager: AutocompleteManager {
     
@@ -24,6 +29,10 @@ class CommentAutocompleteManager: AutocompleteManager {
         .foregroundColor: UIColor.black,
 //        .backgroundColor: UIColor.red.withAlphaComponent(0.1)
     ]
+    
+//    override func attributedText(matching session: AutocompleteSession, fontSize: CGFloat = 15, keepPrefix: Bool = true) -> NSMutableAttributedString {
+//
+//    }
     
     override init(for textView: UITextView) {
         super.init(for: textView)

@@ -78,7 +78,7 @@ class BasicAPI {
     static func formatURLRequest(url:String, method:String, body:Data, headers:[String:String]) throws -> URLRequest {
         guard let serviceUrl = URL(string: url) else {
             print("ERROR FORMATTING URL IN BASIC API")
-            throw APIError.ServerError
+            throw APIError.CouldNotConnect
         }
             
         var request = URLRequest(url: serviceUrl)

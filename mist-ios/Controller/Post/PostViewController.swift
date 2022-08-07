@@ -48,7 +48,10 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         manager.delegate = self
         manager.dataSource = self
         manager.filterBlock = { session, completion in
-            return true //Note: we don't check if the user tries to create a tag with the same user twice. We allow for that
+            if let id = completion.context?[AutocompleteContext.id.rawValue] as? Int, id == UserService.singleton.getId() {
+                return false //dont display yourself in the suggestions
+            }
+            return true
         }
         return manager
     }()
@@ -86,20 +89,6 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         setupCommentInputBar()
         setupKeyboardManagerForBottomInputBar()
         loadComments()
-        
-//        autocompleteManager.register(prefix: "@", with: CommentAutocompleteManager.tagTextAttributes)
-
-//        autocompleteManager.appendSpaceOnCompletion = true
-//        autocompleteManager.keepPrefixOnCompletion = true
-//        autocompleteManager.deleteCompletionByParts = false
-        
-        //The following two aren't actually needed because of our own checks
-//        autocompleteManager.register(delimiterSet: .whitespacesAndNewlines)
-//        autocompleteManager.maxSpaceCountDuringCompletion = 1
-        
-//        autocompleteManager.tableView.rowHeight = 52
-//        autocompleteManager.tableView.register(TagAutocompleteCell.self, forCellReuseIdentifier: TagAutocompleteCell.reuseIdentifier)
-//        inputBar.inputPlugins = [autocompleteManager]
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -210,26 +199,12 @@ extension PostViewController: InputBarAccessoryViewDelegate {
     // MARK: - InputBarAccessoryViewDelegate
     
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        let trimmedCommentText = inputBar.inputTextView.text.trimmingCharacters(in: .whitespaces)
-
-        //im pretty sure text is already trimmed
-        //TODO: handle front/back whitespace
-//        We don't need the exact location of the completion in the string necessarily
-        
-        //TODO: one filter thta we SHOULD ADD: if the name / number matches one already in the attributed text's existing completions
-        
-        
-        //TODO: reformat phone number string. sometimes it's 444-111-2323, sometimes it's (444) 111-2232. just pull all the integers
-        //we actually don't need their id. we have their phone number
-            //wait yes we do. phone number can change...
-        //adam: make sure that fucking with the tag before posting doesnt fuck up the tag collected above
-        
+        let trimmedCommentText = inputBar.inputTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         inputBar.sendButton.isEnabled = false
         Task {
             do {
                 let commentAutocompletions = extractAutocompletionsFromInputBarText()
                 let tags = turnCommentAutocompletionsIntoTags(commentAutocompletions)
-                print(tags)
                 let newComment = try await CommentService.singleton.uploadComment(text: trimmedCommentText, postId: post.id, tags: tags)
                 handleSuccessfulCommentSubmission(newComment: newComment)
             } catch {
@@ -260,7 +235,7 @@ extension PostViewController: InputBarAccessoryViewDelegate {
     func turnCommentAutocompletionsIntoTags(_ commentAutocompletions: [String: AnyObject]) -> [Tag] {
         var tags = [Tag]()
         for (name, context) in commentAutocompletions {
-            if let taggedUserId = context[AutocompleteContext.id.rawValue] as? Int, let _ = context[AutocompleteContext.username.rawValue] {
+            if let taggedUserId = context[AutocompleteContext.id.rawValue] as? Int {
                 //Completion from users
                 let userTag = Tag(id: Int.random(in: 0..<Int.max), comment: 0, tagged_name: name, tagged_user: taggedUserId, tagged_phone_number: nil, tagging_user: UserService.singleton.getId(), timestamp: Date().timeIntervalSince1970)
                 tags.append(userTag)
@@ -302,7 +277,7 @@ extension PostViewController: UITextViewDelegate {
         
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 
-        // Don't allow " " as first character
+        // Don't allow whitespace as first character
         if (text == " " || text == "\n") && textView.text.count == 0 {
             textView.text = ""
             return false
@@ -341,8 +316,8 @@ extension PostViewController {
         Task {
             do {
                 activityIndicator.startAnimating()
-//                comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
-//                commentAuthors = try await UserAPI.batchTurnUsersIntoFrontendUsers(comments.map { $0.read_only_author })
+                comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
+                commentAuthors = try await UserAPI.batchTurnUsersIntoFrontendUsers(comments.map { $0.read_only_author })
                 DispatchQueue.main.async { [weak self] in
                     self?.tableView.reloadData()
                 }
@@ -361,7 +336,6 @@ extension PostViewController {
 extension PostViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let comments = FeederData.comments // CHANGE ALTER
         return comments.count + 1
     }
     
@@ -372,17 +346,13 @@ extension PostViewController: UITableViewDataSource {
     func postAndCommentCellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-            let post = FeederData.posts.first! //CHANGE LATER
             cell.configurePostCell(post: post, nestedPostViewDelegate: self, bubbleTrianglePosition: .left, isWithinPostVC: true)
             return cell
         }
         //else the cell is a comment
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Comment, for: indexPath) as! CommentCell
-        let comments = FeederData.comments//CHANGE LATER
         let comment = comments[indexPath.row-1]
-//        cell.configureCommentCell(comment: comment, delegate: self, author: commentAuthors[comment.author]!)
-        cell.configureCommentCell(comment: comment, delegate: self, author: FeederData.users.first!) //REMOVE LATER
-
+        cell.configureCommentCell(comment: comment, delegate: self, author: commentAuthors[comment.author]!)
         return cell
     }
     

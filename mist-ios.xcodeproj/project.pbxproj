@@ -528,6 +528,10 @@
 		5BE1473A289EB6EA0096FEBE /* TagAutocompleteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14738289EB6EA0096FEBE /* TagAutocompleteCell.swift */; };
 		5BE1473C289F0FCE0096FEBE /* Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE1473B289F0FCE0096FEBE /* Validate.swift */; };
 		5BE1473D289F0FCE0096FEBE /* Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE1473B289F0FCE0096FEBE /* Validate.swift */; };
+		5BE1473F289F1A7C0096FEBE /* String+Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE1473E289F1A7C0096FEBE /* String+Random.swift */; };
+		5BE14740289F1A7C0096FEBE /* String+Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE1473E289F1A7C0096FEBE /* String+Random.swift */; };
+		5BE14742289F8E750096FEBE /* String+Pattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14741289F8E750096FEBE /* String+Pattern.swift */; };
+		5BE14743289F8E750096FEBE /* String+Pattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14741289F8E750096FEBE /* String+Pattern.swift */; };
 		5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4D9BD285C018000197080 /* String+Capitalization.swift */; };
 		5BEFCD23287816FB00379CE6 /* Launch-beta.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BEFCD22287816FB00379CE6 /* Launch-beta.storyboard */; };
 		5BF78337285D955F003C3955 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78336285D955F003C3955 /* Map.swift */; };
@@ -826,6 +830,8 @@
 		5BE14735289EB68B0096FEBE /* CommentAutocompleteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAutocompleteManager.swift; sourceTree = "<group>"; };
 		5BE14738289EB6EA0096FEBE /* TagAutocompleteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagAutocompleteCell.swift; sourceTree = "<group>"; };
 		5BE1473B289F0FCE0096FEBE /* Validate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validate.swift; sourceTree = "<group>"; };
+		5BE1473E289F1A7C0096FEBE /* String+Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Random.swift"; sourceTree = "<group>"; };
+		5BE14741289F8E750096FEBE /* String+Pattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Pattern.swift"; sourceTree = "<group>"; };
 		5BE4D9BD285C018000197080 /* String+Capitalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Capitalization.swift"; sourceTree = "<group>"; };
 		5BEFCD22287816FB00379CE6 /* Launch-beta.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch-beta.storyboard"; sourceTree = "<group>"; };
 		5BF78336285D955F003C3955 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
@@ -1728,6 +1734,8 @@
 			children = (
 				474A4AC5284AB6D700B39A98 /* String+Indexing.swift */,
 				5BE4D9BD285C018000197080 /* String+Capitalization.swift */,
+				5BE1473E289F1A7C0096FEBE /* String+Random.swift */,
+				5BE14741289F8E750096FEBE /* String+Pattern.swift */,
 			);
 			path = String;
 			sourceTree = "<group>";
@@ -2101,6 +2109,7 @@
 				47527194285584F400DDF84D /* SimpleInputCell.swift in Sources */,
 				5BCEA50F289A489700602A4D /* PostViewController+Autocomplete.swift in Sources */,
 				47EE28F22840991800C6425C /* PermissionsViewController.swift in Sources */,
+				5BE14742289F8E750096FEBE /* String+Pattern.swift in Sources */,
 				5BB624B628622C8500DCD45B /* UIViewController+DismissFlag.swift in Sources */,
 				5BAD626D2875522E00DCFE45 /* MessageKitInfo.swift in Sources */,
 				47FF418328403AE700A44968 /* CustomAttributedString.swift in Sources */,
@@ -2194,6 +2203,7 @@
 				472F8D1A28505F4600DB69C4 /* PostDelegate.swift in Sources */,
 				478A7899284E708D0058C845 /* CLLocationCoordinate+Distance.swift in Sources */,
 				4700F8B727DD7BBA006C2E08 /* PostVoteAPI.swift in Sources */,
+				5BE1473F289F1A7C0096FEBE /* String+Random.swift in Sources */,
 				436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */,
 				43529E2F2890BD3D00B3A484 /* CommentFlagAPI.swift in Sources */,
 				5BE110022876CD9D00CB54A6 /* RequestResetPasswordViewController.swift in Sources */,
@@ -2355,6 +2365,7 @@
 				5B739DCF28935B9500E4EED0 /* SpringAnimation.swift in Sources */,
 				5B739DD028935B9500E4EED0 /* WantToChatView.swift in Sources */,
 				5B739DD128935B9500E4EED0 /* ConversationCell.swift in Sources */,
+				5BE14740289F1A7C0096FEBE /* String+Random.swift in Sources */,
 				5B739DD228935B9500E4EED0 /* MyProfileSettingViewController.swift in Sources */,
 				5B739DD328935B9500E4EED0 /* SimpleInputCell.swift in Sources */,
 				5B739DD428935B9500E4EED0 /* PermissionsViewController.swift in Sources */,
@@ -2418,6 +2429,7 @@
 				5B739E0C28935B9500E4EED0 /* Setting.swift in Sources */,
 				5B739E0D28935B9500E4EED0 /* SpringTextView.swift in Sources */,
 				5B739E0E28935B9500E4EED0 /* UserService.swift in Sources */,
+				5BE14743289F8E750096FEBE /* String+Pattern.swift in Sources */,
 				5B739E0F28935B9500E4EED0 /* UIView+Shadow.swift in Sources */,
 				5BE14734289D3D9D0096FEBE /* FeederData.swift in Sources */,
 				5B739E1028935B9500E4EED0 /* PlaceAnnotation.swift in Sources */,

@@ -31,17 +31,16 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
             fatalError("Oops, some unknown error occurred")
         }
         
-        cell.textLabel?.text = completion.text
-        //cell.textLabel?.attributedText = manager.attributedText(matching: session, fontSize: 16, keepPrefix: true) //We're choosing not to bold the matching text
-        
         guard let context = completion.context else {
             cell.selectionStyle = .none
+            cell.textLabel?.text = completion.text
             return cell
         }
+        cell.textLabel?.text = context[AutocompleteContext.queryName.rawValue] as! String
         
-        let isMistUser = context[AutocompleteContext.username.rawValue] != nil
+        let isMistUser = context[AutocompleteContext.id.rawValue] != nil
         if isMistUser {
-            cell.detailTextLabel?.text = "@" +  (context[AutocompleteContext.username.rawValue] as! String)
+            cell.detailTextLabel?.text = "@" +  completion.text
             cell.imageView?.image = context[AutocompleteContext.pic.rawValue] as? UIImage
         } else {
             cell.detailTextLabel?.text = "From contacts"
@@ -73,6 +72,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
     // Optional
     func autocompleteManager(_ manager: AutocompleteManager, shouldComplete prefix: String, with text: String) -> Bool {
         print("SHOULD COMPLETE")
+        mostRecentAutocompleteQuery = "" //prevent any finished load from appearing on autocorrect
         autocompleteManager.invalidate()
         return true
     }
@@ -105,6 +105,8 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
         }
         
         let fixedRange = NSRange(location: session.range.lowerBound, length: session.range.upperBound) //for some reason. upperBound is actually the length of the session's range? bc of that, we fix the range
+        
+        if fixedRange.upperBound > fullInputText.count { return } //TODO: Fix this hack later. for some reason, without this line of code, the session.range does not get updated properly and is out of bounds
         
         let currentSessionText = fullInputText.substring(with: fixedRange.lowerBound..<fixedRange.upperBound)
         
@@ -177,7 +179,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
                     suggestedContacts = Array(suggestedContacts.prefix(20))
                 }
                 
-                let suggestedUsers = try await UserAPI.fetchUsersByText(containing: currentQuery)
+                let suggestedUsers = try await UserAPI.fetchUsersByWords(words: [currentQuery])
                 let trimmedUsers = Array(suggestedUsers.prefix(15))
                 let frontendSuggestedUsers = try await Array(UserAPI.batchTurnUsersIntoFrontendUsers(trimmedUsers).values)
                 
@@ -211,11 +213,10 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
             
             context = [AutocompleteContext.id.rawValue: $0.id,
                        AutocompleteContext.pic.rawValue: $0.profilePic,
-                       AutocompleteContext.username.rawValue: $0.username,
-                       AutocompleteContext.name.rawValue: fullName]
+                       AutocompleteContext.queryName.rawValue: fullName]
             
             suggestedUsersDict.insert(fullName)
-            return AutocompleteCompletion(text: fullName,
+            return AutocompleteCompletion(text: $0.username,
                                           context: context)
         }
 
@@ -230,10 +231,10 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
             
             guard let bestNumber = bestPhoneNumberFrom(contact.phoneNumbers) else { continue }
             context[AutocompleteContext.number.rawValue] = bestNumber
-            context[AutocompleteContext.name.rawValue] = fullName
+            context[AutocompleteContext.queryName.rawValue] = fullName
             
             if !suggestedUsersDict.contains(fullName) {
-                newAsyncCompletions.append(AutocompleteCompletion(text: fullName,
+                newAsyncCompletions.append(AutocompleteCompletion(text: contact.generatedUsername,
                                                                context: context))
             }
         }
@@ -250,8 +251,19 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
 }
 
 
-
 //MARK: - Contacts
+
+extension CNContact {
+    var generatedUsername: String {
+        return (givenName + familyName + randomStringOfNumbers(length: 3)).lowercased()
+    }
+}
+
+extension String {
+    func formatAsDjangoPhoneNumber() -> String {
+        return self.filter("+0123456789".contains)
+    }
+}
 
 extension PostViewController {
     
@@ -314,21 +326,20 @@ extension PostViewController {
             for contact in contacts {
                 group.addTask { [weak self] in
                     guard let bestNumber = await self?.bestPhoneNumberFrom(contact.phoneNumbers) else { return nil } //TODO: ideal: check every phone number. give a batch of phone numbers to the api?
-                    let usersWithThatNumber = try await UserAPI.fetchUsersByText(containing: bestNumber) //TODO: CHANGE THIS TO BY PHONE NUMBER
+                    let usersWithThatNumber = try await UserAPI.fetchUsersByWords(words: [bestNumber]) //TODO: CHANGE THIS TO BY PHONE NUMBER
                     if let user = usersWithThatNumber.first {
                         let frontendUser = try await UserAPI.turnUserIntoFrontendUser(user)
                         let context: [String: Any] = [AutocompleteContext.id.rawValue: frontendUser.id,
                                    AutocompleteContext.pic.rawValue: frontendUser.profilePic,
-                                   AutocompleteContext.username.rawValue: frontendUser.username,
-                                   AutocompleteContext.name.rawValue: frontendUser.full_name]
-                        return AutocompleteCompletion(text: frontendUser.full_name,
+                                   AutocompleteContext.queryName.rawValue: frontendUser.full_name]
+                        return AutocompleteCompletion(text: frontendUser.username,
                                                       context: context)
                     }
                     let fullName = contact.givenName + " " + contact.familyName
                     guard !contact.givenName.isEmpty || !contact.familyName.isEmpty else { return nil }
                     let context = [AutocompleteContext.number.rawValue: bestNumber,
-                                   AutocompleteContext.name.rawValue: fullName]
-                    return AutocompleteCompletion(text: fullName, context: context)
+                                   AutocompleteContext.queryName.rawValue: fullName]
+                    return AutocompleteCompletion(text: contact.generatedUsername, context: context)
                 }
             }
             for try await autocompletion in group {
@@ -343,22 +354,24 @@ extension PostViewController {
     //MARK: - Helpers
     
     func bestPhoneNumberFrom(_ phoneNumbers: [CNLabeledValue<CNPhoneNumber>]) -> String? {
-        if phoneNumbers.count == 0 { return nil } //dont autoComplete contacts without numbers
-
-        if phoneNumbers.count == 1 {
-            return phoneNumbers[0].value.stringValue
-        }
+        var best: String?
         
-        //Otherwise, choose one number with one of the three most likely labels
-        for cnNumber in phoneNumbers {
-            if cnNumber.label == CNLabelPhoneNumberMain ||
-                cnNumber.label == CNLabelPhoneNumberiPhone ||
-                cnNumber.label == CNLabelPhoneNumberMobile {
-                return cnNumber.value.stringValue
+        if phoneNumbers.count == 0 { return nil } //dont autoComplete contacts without numbers
+        if phoneNumbers.count == 1 {
+            best = phoneNumbers[0].value.stringValue
+        } else {
+            for cnNumber in phoneNumbers {
+                if cnNumber.label == CNLabelPhoneNumberMain ||
+                    cnNumber.label == CNLabelPhoneNumberiPhone ||
+                    cnNumber.label == CNLabelPhoneNumberMobile {
+                    best = cnNumber.value.stringValue
+                }
             }
         }
-        
-        return nil
+        //DJANGO CHECK: PHONE IS AT LEAST 10 AND NO LESS THAN 16 (15 digits and one +)
+        guard let formattedBest = best?.formatAsDjangoPhoneNumber() else { return nil }
+        let isProperlyFormatted = formattedBest.count >= 10 && formattedBest.count <= 16
+        return isProperlyFormatted ? formattedBest : nil
     }
 }
 

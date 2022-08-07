@@ -293,7 +293,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         // Don't allow " " as first character
-        if text == " " && textView.text.count == 0 {
+        if (text == " " || text == "\n") && textView.text.count == 0 {
             textView.text = ""
             return false
         }
