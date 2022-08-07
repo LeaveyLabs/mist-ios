@@ -46,7 +46,7 @@ class UserAPI {
     static let LAST_NAME_PARAM = "last_name"
     static let DATE_OF_BIRTH_PARAM = "date_of_birth"
     static let SEX_PARAM = "sex"
-    static let TEXT_PARAM = "text"
+    static let WORDS_PARAM = "words"
     static let TOKEN_PARAM = "token"
     static let LATITUDE_PARAM = "latitude"
     static let LONGITUDE_PARAM = "longitude"
@@ -152,8 +152,14 @@ class UserAPI {
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
     }
     
-    static func fetchUsersByText(containing text:String) async throws -> [ReadOnlyUser] {
-        let url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)?\(TEXT_PARAM)=\(text)"
+    static func fetchUsersByWords(words:[String]) async throws -> [ReadOnlyUser] {
+        var url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)?"
+        if words.isEmpty {
+            return []
+        }
+        for word in words {
+            url += "\(WORDS_PARAM)=\(word)&"
+        }
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterUserErrors(data: data, response: response)
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
