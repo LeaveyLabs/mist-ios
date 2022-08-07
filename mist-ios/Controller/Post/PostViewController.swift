@@ -32,13 +32,6 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     let keyboardManager = KeyboardManager() //InputBarAccessoryView
     let inputBar = InputBarAccessoryView()
     let MAX_COMMENT_LENGTH = 499
-    
-    //TODO: below is not working. we have to adjust the insets within keyboardManager, maybe add an extra extension
-//    var additionalBottomInset: CGFloat = 0 {
-//        didSet {
-//            tableView.contentInset.bottom += additionalBottomInset
-//            tableView.verticalScrollIndicatorInsets.bottom += additionalBottomInset
-//        }
         
     //Keyboard
     var shouldStartWithRaisedKeyboard: Bool!
@@ -48,10 +41,15 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     let contactStore = CNContactStore()
     var asyncCompletions: [AutocompleteCompletion] = []
     var autocompleteTask: Task<Void, Never>?
+
     open lazy var autocompleteManager: CommentAutocompleteManager = { [unowned self] in
         let manager = CommentAutocompleteManager(for: self.inputBar.inputTextView)
+        inputBar.inputTextView.delegate = self //re-claim delegate status after AutocompleteManager became it
         manager.delegate = self
         manager.dataSource = self
+        manager.filterBlock = { session, completion in
+            return true //Note: we don't check if the user tries to create a tag with the same user twice. We allow for that
+        }
         return manager
     }()
     var mostRecentAutocompleteQuery: String = ""
@@ -214,6 +212,7 @@ extension PostViewController: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         let trimmedCommentText = inputBar.inputTextView.text.trimmingCharacters(in: .whitespaces)
 
+        //im pretty sure text is already trimmed
         //TODO: handle front/back whitespace
 //        We don't need the exact location of the completion in the string necessarily
         
@@ -279,6 +278,7 @@ extension PostViewController: InputBarAccessoryViewDelegate {
         print("didchangeinputbarintrinsicsizeto:", size)
         tableView.contentInset.bottom = size.height + keyboardHeight
         updateMaxAutocompleteRows(keyboardHeight: keyboardHeight)
+        tableView.keyboardDismissMode = asyncCompletions.isEmpty ? .interactive : .none
     }
     
     func updateMaxAutocompleteRows(keyboardHeight: Double) {
@@ -296,19 +296,26 @@ extension PostViewController: InputBarAccessoryViewDelegate {
 
 //MARK: - UITextViewDelegate
 
+//NOTE: We are snatching the UITextViewDelegate from the autocompleteManager, so 
+
 extension PostViewController: UITextViewDelegate {
         
-//    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-//
-//        print("SHOUDL CHANGE TEXT IN")
-//
-//        // Don't allow " " as first character
-//        if text == " " && textView.text.count == 0 {
-//            return false
-//        }
-//        // Only return true if the length of text is within the limit
-//        return textView.shouldChangeTextGivenMaxLengthOf(MAX_COMMENT_LENGTH + TEXT_LENGTH_BEYOND_MAX_PERMITTED, range, text)
-//    }
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+
+        // Don't allow " " as first character
+        if (text == " " || text == "\n") && textView.text.count == 0 {
+            textView.text = ""
+            return false
+        }
+        
+        // Only return true if the length of text is within the limit
+        return textView.shouldChangeTextGivenMaxLengthOf(MAX_COMMENT_LENGTH + TEXT_LENGTH_BEYOND_MAX_PERMITTED, range, text) && autocompleteManager.textView(textView, shouldChangeTextIn: range, replacementText: text)
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        autocompleteManager.textViewDidChange(textView)
+    }
+    
     
 }
 
@@ -336,7 +343,6 @@ extension PostViewController {
                 activityIndicator.startAnimating()
 //                comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
 //                commentAuthors = try await UserAPI.batchTurnUsersIntoFrontendUsers(comments.map { $0.read_only_author })
-                
                 DispatchQueue.main.async { [weak self] in
                     self?.tableView.reloadData()
                 }

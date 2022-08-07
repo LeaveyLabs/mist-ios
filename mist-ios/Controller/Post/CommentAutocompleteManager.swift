@@ -33,19 +33,11 @@ class CommentAutocompleteManager: AutocompleteManager {
         deleteCompletionByParts = false
         tableView.rowHeight = 52
         tableView.register(TagAutocompleteCell.self, forCellReuseIdentifier: TagAutocompleteCell.reuseIdentifier)
-        
-        filterBlock = { session, completion in
-            return true //we apply our own filters, so assume that every autocompletion is valid
-        }
         setupSubviews()
         //not worrying about this for now
 //        tableView.addSubview(resultsCountLabel)
 //        resultsCountLabel.font = UIFont(name: Constants.Font.Medium, size: 12)
 //        resultsCountLabel.textColor = .gray
-        
-        //The following two aren't actually needed because of our own checks
-//        autocompleteManager.register(delimiterSet: .whitespacesAndNewlines)
-//        autocompleteManager.maxSpaceCountDuringCompletion = 1
     }
     
 
@@ -73,6 +65,18 @@ class CommentAutocompleteManager: AutocompleteManager {
     }
     
     override func reloadData() {
+        //From "super.reloadData()":
+//        var delimiterSet = autocompleteDelimiterSets.reduce(CharacterSet()) { result, set in
+//            return result.union(set)
+//        }
+//        let query = textView?.find(prefixes: autocompletePrefixes, with: delimiterSet)
+//        print(query)
+        ///the problem is that query is returning "a  " as its word
+        ///because there is a word that's found, and because there is no session existing, a new session is created
+        ///the solution: query should be returning nil.
+        ///but also, it's not worth overriding all the autocompletemanager text for this
+        ///we are currently solving by simply cancelling a newly start session upon faulty text
+        
         super.reloadData()
         updateTableViewSubviews()
     }
@@ -85,4 +89,49 @@ class CommentAutocompleteManager: AutocompleteManager {
         guard session.completion?.context != nil else { return } //prevent placeholder cells from being selected
         autocomplete(with: session)
     }
+    
 }
+
+import UIKit
+
+public extension UITextView {
+    
+    func find(prefix: String, with delimiterSet: CharacterSet) -> Match? {
+        guard !prefix.isEmpty else { return nil }
+        guard let caretRange = self.caretRange else { return nil }
+        guard let cursorRange = Range(caretRange, in: text) else { return nil }
+        
+        let leadingText = text[..<cursorRange.upperBound]
+        var prefixStartIndex: String.Index!
+        for (i, char) in prefix.enumerated() {
+            guard let index = leadingText.lastIndex(of: char) else { return nil }
+            if i == 0 {
+                prefixStartIndex = index
+            } else if index.utf16Offset(in: leadingText) == prefixStartIndex.utf16Offset(in: leadingText) + 1 {
+                prefixStartIndex = index
+            } else {
+                return nil
+            }
+        }
+
+        let wordRange = prefixStartIndex..<cursorRange.upperBound
+        let word = leadingText[wordRange]
+        
+        //MY ADDITION WHICH THE SAMPLE CODE LEAVES OUT
+        //Unfortunately, re-extending the function here does not override the original extension, so this does not change the unideal behavior
+            //Ensure the text does not contain any of the delimiter set
+        print(word.rangeOfCharacter(from: delimiterSet) as Any)
+        guard word.rangeOfCharacter(from: delimiterSet) == nil else {
+            print("RETURNING NIL BC DELIMITTER")
+            return nil
+        }
+        
+        let location = wordRange.lowerBound.utf16Offset(in: leadingText)
+        let length = wordRange.upperBound.utf16Offset(in: word) - location
+        let range = NSRange(location: location, length: length)
+        
+        return (String(prefix), String(word), range)
+    }
+    
+}
+

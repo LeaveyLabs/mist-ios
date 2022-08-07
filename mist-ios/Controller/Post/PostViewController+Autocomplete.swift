@@ -53,7 +53,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
     // MARK: - AutocompleteManagerDelegate
     
     func autocompleteManager(_ manager: AutocompleteManager, shouldBecomeVisible: Bool) {
-        print("SHOULD BECOME VISIBLE")
+        shouldBecomeVisible ? print("SHOULD BECOME VISIBLE") : print("SHOULD BECOME INVISIBLE")
         setAutocompleteManager(active: shouldBecomeVisible)
     }
     
@@ -76,7 +76,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
         autocompleteManager.invalidate()
         return true
     }
-        
+            
     // MARK: - AutocompleteManagerDelegate Helper
     
     func setAutocompleteManager(active: Bool) {
