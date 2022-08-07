@@ -73,13 +73,28 @@ class TagAPI {
     static func postTag(comment:Int,
                         tagged_name:String,
                         tagging_user:Int,
-                        tagged_user:Int?,
-                        tagged_phone_number: String?) async throws -> Tag {
+                        tagged_user:Int) async throws -> Tag {
         let url = "\(Env.BASE_URL)\(PATH_TO_TAG_MODEL)"
         let params = TagParams(comment: comment,
                                tagged_name: tagged_name,
                                tagging_user: tagging_user,
                                tagged_user: tagging_user,
+                               tagged_phone_number: nil)
+        let json = try JSONEncoder().encode(params)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        try filterTagErrors(data: data, response: response)
+        return try JSONDecoder().decode(Tag.self, from: data)
+    }
+    
+    static func postTag(comment:Int,
+                        tagged_name:String,
+                        tagging_user:Int,
+                        tagged_phone_number: String) async throws -> Tag {
+        let url = "\(Env.BASE_URL)\(PATH_TO_TAG_MODEL)"
+        let params = TagParams(comment: comment,
+                               tagged_name: tagged_name,
+                               tagging_user: tagging_user,
+                               tagged_user: nil,
                                tagged_phone_number: tagged_phone_number)
         let json = try JSONEncoder().encode(params)
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)

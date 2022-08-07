@@ -57,8 +57,7 @@ class TagAPITest: XCTestCase {
         let tag = try await TagAPI.postTag(comment: comment.id,
                                            tagged_name: TestConstants.Auth2.USERNAME,
                                            tagging_user: TestConstants.Auth.ID,
-                                           tagged_user: TestConstants.Auth2.ID,
-                                           tagged_phone_number: nil)
+                                           tagged_user: TestConstants.Auth2.ID)
         try await PostAPI.deletePost(post_id: post.id)
     }
     
