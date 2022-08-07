@@ -23,7 +23,7 @@ enum APIError: Error {
     public var errorDescription: String? {
         switch self {
         case .CouldNotConnect:
-            return NSLocalizedString("Poor internet connection", comment: "")
+            return NSLocalizedString("Something went wrong", comment: "")
         case .ServerError:
             return NSLocalizedString("Our servers are down", comment: "")
         case .ClientError(let errorDescription, _):
@@ -50,15 +50,15 @@ enum APIError: Error {
     public var recoverySuggestion: String? {
         switch self {
         case .CouldNotConnect:
-            return NSLocalizedString("Check your internet connection", comment: "")
+            return NSLocalizedString("Please try again later", comment: "")
         case .ServerError:
             return NSLocalizedString("Please try again later", comment: "")
         case .ClientError(_, let recoverySuggession):
             return NSLocalizedString(recoverySuggession, comment: "")
         case .Unauthorized:
-            return NSLocalizedString("Something went wrong", comment: "")
+            return NSLocalizedString("", comment: "")
         case .Forbidden:
-            return NSLocalizedString("Something went wrong", comment: "")
+            return NSLocalizedString("", comment: "")
         case .NotFound:
             return NSLocalizedString("Please try again later", comment: "")
         case .Timeout:

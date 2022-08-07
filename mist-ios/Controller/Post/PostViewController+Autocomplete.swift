@@ -36,15 +36,20 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
             cell.textLabel?.text = completion.text
             return cell
         }
-        cell.textLabel?.text = context[AutocompleteContext.queryName.rawValue] as! String
+        cell.textLabel?.text = context[AutocompleteContext.queryName.rawValue] as? String
         
         let isMistUser = context[AutocompleteContext.id.rawValue] != nil
         if isMistUser {
             cell.detailTextLabel?.text = "@" +  completion.text
             cell.imageView?.image = context[AutocompleteContext.pic.rawValue] as? UIImage
         } else {
-            cell.detailTextLabel?.text = "From contacts"
-            cell.imageView?.image = TagAutocompleteCell.contactImage
+            cell.isContact = true
+            cell.detailTextLabel?.text = context[AutocompleteContext.number.rawValue] as? String
+            if let contactPic = context[AutocompleteContext.pic.rawValue] as? UIImage {
+                cell.imageView?.image = contactPic
+            } else {
+                cell.imageView?.image = TagAutocompleteCell.contactImage
+            }
         }
         return cell
     }
@@ -148,7 +153,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
             return
         }
         
-        //Check autocompletionCache
+        //Check if the search was already cached
         if let cachedAutocompletions = autocompletionCache[currentQuery] {
             DispatchQueue.main.async { [weak self] in
                 self?.asyncCompletions = cachedAutocompletions
@@ -159,17 +164,15 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
             return
         }
         
-        //Check if task is already in progress
-        if let _ = autocompletionTasks[currentQuery] {
-            //the autocompletion is currently loading: wait for it to finish
-            autocompleteManager.activityIndicator.startAnimating()
-            return
+        //Check if search is in progress
+        if let inProgressTask = autocompletionTasks[currentQuery] {
+            if !inProgressTask.isCancelled {
+                //the autocompletion is currently loading: wait for it to finish
+                autocompleteManager.activityIndicator.startAnimating()
+                return
+            }
         }
-        
-        //if a task is in progress, then don't do anything except start Animating
-        //why dont we keep a cache
-        //each cache entry can either hold a task, or when the task is done, a autcompletionset
-        //or should we create two separate arrays...? might be more clear tbh
+    
         autocompletionTasks[currentQuery] = Task {
             autocompleteManager.activityIndicator.startAnimating()
             do {
@@ -195,6 +198,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
                     }
                 }
             } catch {
+                autocompletionTasks[currentQuery]?.cancel()
                 autocompleteManager.activityIndicator.stopAnimating()
                 CustomSwiftMessages.displayError(error)
             }
@@ -325,7 +329,7 @@ extension PostViewController {
         try await withThrowingTaskGroup(of: AutocompleteCompletion?.self) { group in
             for contact in contacts {
                 group.addTask { [weak self] in
-                    guard let bestNumber = await self?.bestPhoneNumberFrom(contact.phoneNumbers) else { return nil } //TODO: ideal: check every phone number. give a batch of phone numbers to the api?
+                    guard let bestNumber = await self?.bestPhoneNumberFrom(contact.phoneNumbers) else { return nil } //would be more ideal to check every phone number, not just the "best" one
                     let usersWithThatNumber = try await UserAPI.fetchUsersByWords(words: [bestNumber]) //TODO: CHANGE THIS TO BY PHONE NUMBER
                     if let user = usersWithThatNumber.first {
                         let frontendUser = try await UserAPI.turnUserIntoFrontendUser(user)
@@ -371,7 +375,7 @@ extension PostViewController {
         //DJANGO CHECK: PHONE IS AT LEAST 10 AND NO LESS THAN 16 (15 digits and one +)
         guard let formattedBest = best?.formatAsDjangoPhoneNumber() else { return nil }
         let isProperlyFormatted = formattedBest.count >= 10 && formattedBest.count <= 16
-        return isProperlyFormatted ? formattedBest : nil
+        return isProperlyFormatted ? best : nil
     }
 }
 

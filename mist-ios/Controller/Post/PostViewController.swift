@@ -205,7 +205,9 @@ extension PostViewController: InputBarAccessoryViewDelegate {
             do {
                 let commentAutocompletions = extractAutocompletionsFromInputBarText()
                 let tags = turnCommentAutocompletionsIntoTags(commentAutocompletions)
+                print(tags)
                 let newComment = try await CommentService.singleton.uploadComment(text: trimmedCommentText, postId: post.id, tags: tags)
+                print(newComment)
                 handleSuccessfulCommentSubmission(newComment: newComment)
             } catch {
                 inputBar.sendButton.isEnabled = true
@@ -241,7 +243,7 @@ extension PostViewController: InputBarAccessoryViewDelegate {
                 tags.append(userTag)
             } else if let number = context[AutocompleteContext.number.rawValue] as? String {
                 //Completion from contacts
-                let contactTag = Tag(id: Int.random(in: 0..<Int.max), comment: 0, tagged_name: name, tagged_user: nil, tagged_phone_number: number, tagging_user: UserService.singleton.getId(), timestamp: Date().timeIntervalSince1970)
+                let contactTag = Tag(id: Int.random(in: 0..<Int.max), comment: 0, tagged_name: name, tagged_user: nil, tagged_phone_number: number.formatAsDjangoPhoneNumber(), tagging_user: UserService.singleton.getId(), timestamp: Date().timeIntervalSince1970)
                 tags.append(contactTag)
             }
         }
