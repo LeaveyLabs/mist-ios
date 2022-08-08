@@ -369,7 +369,7 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
     func processInputBar(_ inputBar: InputBarAccessoryView) {
         let messageString = inputBar.inputTextView.attributedText.string.trimmingCharacters(in: .whitespaces)
         inputBar.inputTextView.text = String()
-        inputBar.sendButton.startAnimating()
+        inputBar.sendButton.isEnabled = false
         messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
         Task {
             do {
@@ -384,8 +384,6 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
     }
     
     func handleNewMessage() {
-        messageInputBar.sendButton.stopAnimating()
-        
         isAuthedUserProfileHidden = conversation.isAuthedUserHidden
         if isSangdaebangProfileHidden && !conversation.isSangdaebangHidden {
             //Don't insert a new section, simply reload the data. This is because even though we're handling a new message, we're also removing the last placeholder "info" message, so we shouldn't insert any sections

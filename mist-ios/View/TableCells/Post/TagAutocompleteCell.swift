@@ -37,9 +37,13 @@ class TagAutocompleteCell: AutocompleteCell {
     func tagAutocompletePrepareForReuse() {
         isContact = false
         separatorLine.isHidden = true
-        textLabel?.font = UIFont(name: Constants.Font.Medium, size: 14)
-        detailTextLabel?.font = UIFont(name: Constants.Font.Medium, size: 14)
+        textLabel?.font = UIFont(name: Constants.Font.Medium, size: 16)
+        detailTextLabel?.font = UIFont(name: Constants.Font.Medium, size: 16)
         detailTextLabel?.textColor = .gray
+        imageView?.subviews.forEach( {
+            if $0 is UILabel {
+                $0.removeFromSuperview()
+            } })
     }
     
     override func layoutSubviews() {
@@ -53,34 +57,46 @@ class TagAutocompleteCell: AutocompleteCell {
         layoutPhoneImageSubvew()
         
         guard let imageView = imageView, let image = imageView.image else { return } //don't run the following for the default labels
-        textLabel?.font = UIFont(name: Constants.Font.Heavy, size: 15)
-        textLabel?.frame.origin.y += 4
-        detailTextLabel?.frame.origin.y -= 1
+        textLabel?.font = UIFont(name: Constants.Font.Heavy, size: 17)
+        textLabel?.frame.origin.y += 3
+        detailTextLabel?.frame.origin.y -= 2
         
         if image != TagAutocompleteCell.contactImage {
             let initialImageViewWidth = imageView.frame.size.width
             imageView.contentMode = .scaleAspectFill
-            imageView.frame.size = .init(width: 40, height: 40)
+            imageView.frame.size = .init(width: 45, height: 45)
             imageView.layer.cornerRadius = imageView.frame.size.height / 2
             imageView.layer.cornerCurve = .continuous
             imageView.clipsToBounds = true
             
             let widthToShiftOver = initialImageViewWidth - 40
-            textLabel?.frame.origin.x -= widthToShiftOver + 15
-            detailTextLabel?.frame.origin.x -= widthToShiftOver + 15
-            imageView.frame.origin.x -= 7
+            textLabel?.frame.origin.x -= widthToShiftOver + 10
+            detailTextLabel?.frame.origin.x -= widthToShiftOver + 10
+            imageView.frame.origin.x -= 8.5
             imageView.frame.origin.y += 6
             
-            phoneImageView.frame.origin.x -= widthToShiftOver + 15 // a tad more to the left
+            phoneImageView.frame.origin.x -= widthToShiftOver + 10 // a tad more to the left
         } else {
-            imageView.frame.size = .init(width: 40, height: 40)
-            let name = textLabel?.text?.components(separatedBy: .whitespacesAndNewlines)
-            imageView.addInitials(first: String(name?.first?.uppercased().first ?? Character.init("")),
-                                  second: String(name?.last?.uppercased().first ?? Character.init("")),
-                                  font: UIFont(name: Constants.Font.Heavy, size: 16)!,
-                                  textColor: .black,
-                                  backgroundColor: .systemGray6)
+            setupInitialsImage()
         }
+    }
+        
+    func setupInitialsImage() {
+        guard let imageView = imageView else { return }
+        imageView.frame.size = .init(width: 45, height: 45)
+        let name = textLabel?.text?.components(separatedBy: .whitespacesAndNewlines)
+        let hasFirstAndLastName = name?.count == 2
+        var initials = ""
+        if let firstChar = name?.first?.uppercased().first {
+            initials = String(firstChar)
+            if hasFirstAndLastName, let secondChar = name?.last?.uppercased().first {
+                initials += String(secondChar)
+            }
+        }
+        imageView.addInitials(initials: initials,
+                              font: UIFont(name: Constants.Font.Heavy, size: 16)!,
+                              textColor: .black,
+                              backgroundColor: .systemGray6)
     }
     
     func layoutPhoneImageSubvew() {

@@ -40,7 +40,7 @@ class CommentAutocompleteManager: AutocompleteManager {
         appendSpaceOnCompletion = true
         keepPrefixOnCompletion = true
         deleteCompletionByParts = false
-        tableView.rowHeight = 52
+        tableView.rowHeight = 60
         tableView.register(TagAutocompleteCell.self, forCellReuseIdentifier: TagAutocompleteCell.reuseIdentifier)
         setupSubviews()
         //not worrying about this for now
@@ -90,12 +90,23 @@ class CommentAutocompleteManager: AutocompleteManager {
         updateTableViewSubviews()
     }
     
+    
+    
+    /// Overriding currentAutocompleteOptions because we need them to properly override didSelectRowAt and because the person who wrote AutocompleteManager unprudently made its access level private
+    var currentAutocompleteOptions: [AutocompleteCompletion] {
+        
+        guard let session = currentSession, let completions = dataSource?.autocompleteManager(self, autocompleteSourceFor: session.prefix) else { return [] } 
+        guard !session.filter.isEmpty else { return completions }
+        return completions.filter { completion in
+            return filterBlock(session, completion)
+        }
+    }
+    
     //Prevent placeholder cells from being selected
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let session = currentSession else { return }
-        guard let completions = dataSource?.autocompleteManager(self, autocompleteSourceFor: session.prefix) else { return }
-        session.completion = completions[indexPath.row]
         guard session.completion?.context != nil else { return } //prevent placeholder cells from being selected
+        session.completion = currentAutocompleteOptions[indexPath.row]
         autocomplete(with: session)
     }
     

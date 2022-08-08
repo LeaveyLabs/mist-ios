@@ -77,7 +77,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
     // Optional
     func autocompleteManager(_ manager: AutocompleteManager, shouldComplete prefix: String, with text: String) -> Bool {
         print("SHOULD COMPLETE")
-        mostRecentAutocompleteQuery = "" //prevent any finished load from appearing on autocorrect
+        mostRecentAutocompleteQuery = .init(first: "", second: "") //prevent any finished load from appearing on autocorrect
         autocompleteManager.invalidate()
         return true
     }
@@ -115,8 +115,18 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
         
         let currentSessionText = fullInputText.substring(with: fixedRange.lowerBound..<fixedRange.upperBound)
         
-        //Ensure the text does not contain any whitespaces
-        guard currentSessionText.rangeOfCharacter(from: .whitespacesAndNewlines) == nil else {
+        let containsNewlines = currentSessionText.rangeOfCharacter(from: .newlines) != nil
+        guard !containsNewlines else {
+            autocompleteManager.invalidate()
+            return
+        }
+        
+//        let allowedCharacters = CharacterSet.alphanumerics
+//        allowedCharacters.insert(charactersIn: "&$#")
+        //TODO: like above, ensure the text does not contain other weird characters...
+        
+        let containsAtMostTwoWords = currentSessionText.components(separatedBy: .whitespaces).count <= 2
+        guard containsAtMostTwoWords else {
             autocompleteManager.invalidate()
             return
         }
@@ -129,21 +139,24 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
             }
         }
 
-        let sessionWord = currentSessionText.substring(from: 1) //skip the "@"
-        loadAutocompleteData(firstWord: sessionWord, secondWord: nil)
+        let sessionWords = currentSessionText.substring(from: 1).components(separatedBy: .whitespaces) //skip the "@"
+        guard let first = sessionWords.first, let last = sessionWords.last else { return }
+        loadAutocompleteData(firstWord: first, secondWord: first == last ? "" : last)
     }
     
-    func loadAutocompleteData(firstWord: String, secondWord: String?) {
-        mostRecentAutocompleteQuery = firstWord
-        let currentQuery = firstWord
+    func loadAutocompleteData(firstWord: String, secondWord: String) {
+        mostRecentAutocompleteQuery = AutocompleteQuery(first: firstWord, second: secondWord)
+        let currentQuery = mostRecentAutocompleteQuery
                 
         if !hasPromptedUserForContactsAccess && !areContactsAuthorized() {
-           requestContactsAccessIfNecessary { _ in }
+           requestContactsAccessIfNecessary { _ in
+               self.loadAutocompleteData(firstWord: firstWord, secondWord: secondWord)
+           }
            return
        }
         
         //Check if beginning of tag
-        if currentQuery.isEmpty && secondWord == nil {
+        if currentQuery.first.isEmpty && currentQuery.second.isEmpty {
             DispatchQueue.main.async { [weak self] in
                 self?.asyncCompletions = [(.init(text: "Tag your contacts or friends"))]
                 self?.autocompleteManager.reloadData()
@@ -178,11 +191,11 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
             do {
                 var suggestedContacts = [CNContact]()
                 if CNContactStore.authorizationStatus(for: .contacts) == .authorized  {
-                    suggestedContacts = fetchSuggestedContacts(partialString: currentQuery)
+                    suggestedContacts = fetchSuggestedContacts(partialString: currentQuery.first + " " + currentQuery.second)
                     suggestedContacts = Array(suggestedContacts.prefix(20))
                 }
                 
-                let suggestedUsers = try await UserAPI.fetchUsersByWords(words: [currentQuery])
+                let suggestedUsers = try await UserAPI.fetchUsersByWords(words: [currentQuery.first, currentQuery.second])
                 let trimmedUsers = Array(suggestedUsers.prefix(15))
                 let frontendSuggestedUsers = try await Array(UserAPI.batchTurnUsersIntoFrontendUsers(trimmedUsers).values)
                 
@@ -265,7 +278,8 @@ extension CNContact {
 
 extension String {
     func formatAsDjangoPhoneNumber() -> String {
-        return self.filter("+0123456789".contains)
+        let filtered = self.filter("+0123456789".contains)
+        return filtered.first(where: { $0 == "+"}) == nil ? "+1" + filtered : filtered
     }
 }
 
@@ -295,7 +309,9 @@ extension PostViewController {
         switch status {
         case .notDetermined:
             CustomSwiftMessages.showPermissionRequest(permissionType: .contacts, onApprove: { [self] in
-                contactStore.requestAccess(for: .contacts) { approved, _ in closure(approved) }
+                contactStore.requestAccess(for: .contacts) { approved, _ in
+                    closure(approved)
+                }
             })
         case .restricted:
             closure(false)
