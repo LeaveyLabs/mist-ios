@@ -77,7 +77,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
     // Optional
     func autocompleteManager(_ manager: AutocompleteManager, shouldComplete prefix: String, with text: String) -> Bool {
         print("SHOULD COMPLETE")
-        mostRecentAutocompleteQuery = .init(first: "", second: "") //prevent any finished load from appearing on autocorrect
+        mostRecentAutocompleteQuery = "" //prevent any finished load from appearing on autocorrect
         autocompleteManager.invalidate()
         return true
     }
@@ -100,6 +100,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
     //MARK: - Helpers
     
     func processAutocompleteOnNextText(_ updatedText: String) {
+    
         //updatedText doesn't include starting/ending whitespace, while fullInputText does
         guard let fullInputText = inputBar.inputTextView.text else { return }
         
@@ -111,25 +112,20 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
         
         let fixedRange = NSRange(location: session.range.lowerBound, length: session.range.upperBound) //for some reason. upperBound is actually the length of the session's range? bc of that, we fix the range
         
-        if fixedRange.upperBound > fullInputText.count { return } //TODO: Fix this hack later. for some reason, without this line of code, the session.range does not get updated properly and is out of bounds
+        if fixedRange.upperBound > fullInputText.count { return } //TODO: Fix this hack later. for some reason, without this line of code, the session.range does not get updated properly and is out of bounds.
+        //Note: the above line was only necessary when allowing for spaces within autocomplete, and could now be removed safely
         
         let currentSessionText = fullInputText.substring(with: fixedRange.lowerBound..<fixedRange.upperBound)
-        
-        let containsNewlines = currentSessionText.rangeOfCharacter(from: .newlines) != nil
-        guard !containsNewlines else {
+        mostRecentAutocompleteQuery = currentSessionText.substring(from: 1) //strip the "@"
+
+        let containsNewlinesOrSpaces = mostRecentAutocompleteQuery.rangeOfCharacter(from: .whitespacesAndNewlines) != nil
+        guard !containsNewlinesOrSpaces else {
             autocompleteManager.invalidate()
             return
         }
-        
 //        let allowedCharacters = CharacterSet.alphanumerics
 //        allowedCharacters.insert(charactersIn: "&$#")
         //TODO: like above, ensure the text does not contain other weird characters...
-        
-        let containsAtMostTwoWords = currentSessionText.components(separatedBy: .whitespaces).count <= 2
-        guard containsAtMostTwoWords else {
-            autocompleteManager.invalidate()
-            return
-        }
         
         //If not the very first character, ensure the "@" is preceded by a whitespace
         if fixedRange.lowerBound > 0 {
@@ -139,24 +135,19 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
             }
         }
 
-        let sessionWords = currentSessionText.substring(from: 1).components(separatedBy: .whitespaces) //skip the "@"
-        guard let first = sessionWords.first, let last = sessionWords.last else { return }
-        loadAutocompleteData(firstWord: first, secondWord: first == last ? "" : last)
+        loadAutocompleteData(query: mostRecentAutocompleteQuery)
     }
     
-    func loadAutocompleteData(firstWord: String, secondWord: String) {
-        mostRecentAutocompleteQuery = AutocompleteQuery(first: firstWord, second: secondWord)
-        let currentQuery = mostRecentAutocompleteQuery
-                
+    func loadAutocompleteData(query: String) {
         if !hasPromptedUserForContactsAccess && !areContactsAuthorized() {
            requestContactsAccessIfNecessary { _ in
-               self.loadAutocompleteData(firstWord: firstWord, secondWord: secondWord)
+               self.loadAutocompleteData(query: query)
            }
            return
        }
         
         //Check if beginning of tag
-        if currentQuery.first.isEmpty && currentQuery.second.isEmpty {
+        if query.isEmpty {
             DispatchQueue.main.async { [weak self] in
                 self?.asyncCompletions = [(.init(text: "Tag your contacts or friends"))]
                 self?.autocompleteManager.reloadData()
@@ -167,7 +158,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
         }
         
         //Check if the search was already cached
-        if let cachedAutocompletions = autocompletionCache[currentQuery] {
+        if let cachedAutocompletions = autocompletionCache[query] {
             DispatchQueue.main.async { [weak self] in
                 self?.asyncCompletions = cachedAutocompletions
                 self?.autocompleteManager.reloadData()
@@ -178,7 +169,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
         }
         
         //Check if search is in progress
-        if let inProgressTask = autocompletionTasks[currentQuery] {
+        if let inProgressTask = autocompletionTasks[query] {
             if !inProgressTask.isCancelled {
                 //the autocompletion is currently loading: wait for it to finish
                 autocompleteManager.activityIndicator.startAnimating()
@@ -186,23 +177,23 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
             }
         }
     
-        autocompletionTasks[currentQuery] = Task {
+        autocompletionTasks[query] = Task {
             autocompleteManager.activityIndicator.startAnimating()
             do {
                 var suggestedContacts = [CNContact]()
                 if CNContactStore.authorizationStatus(for: .contacts) == .authorized  {
-                    suggestedContacts = fetchSuggestedContacts(partialString: currentQuery.first + " " + currentQuery.second)
+                    suggestedContacts = fetchSuggestedContacts(partialString: query)
                     suggestedContacts = Array(suggestedContacts.prefix(20))
                 }
                 
-                let suggestedUsers = try await UserAPI.fetchUsersByWords(words: [currentQuery.first, currentQuery.second])
+                let suggestedUsers = try await UserAPI.fetchUsersByWords(words: [query])
                 let trimmedUsers = Array(suggestedUsers.prefix(15))
                 let frontendSuggestedUsers = try await Array(UserAPI.batchTurnUsersIntoFrontendUsers(trimmedUsers).values)
                 
                 let newResults = turnResultsIntoAutocompletions(frontendSuggestedUsers, suggestedContacts)
-                autocompletionCache[currentQuery] = newResults
+                autocompletionCache[query] = newResults
                 
-                if currentQuery == mostRecentAutocompleteQuery {
+                if query == mostRecentAutocompleteQuery {
                     DispatchQueue.main.async { [weak self] in
                         self?.asyncCompletions = newResults
                         self?.autocompleteManager.reloadData()
@@ -211,7 +202,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
                     }
                 }
             } catch {
-                autocompletionTasks[currentQuery]?.cancel()
+                autocompletionTasks[query]?.cancel()
                 autocompleteManager.activityIndicator.stopAnimating()
                 CustomSwiftMessages.displayError(error)
             }
@@ -272,7 +263,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
 
 extension CNContact {
     var generatedUsername: String {
-        return (givenName + familyName + randomStringOfNumbers(length: 3)).lowercased()
+        return (givenName + "_" + familyName + randomStringOfNumbers(length: 2)).lowercased()
     }
 }
 

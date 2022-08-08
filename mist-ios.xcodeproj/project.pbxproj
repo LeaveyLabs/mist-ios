@@ -534,6 +534,8 @@
 		5BE14743289F8E750096FEBE /* String+Pattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14741289F8E750096FEBE /* String+Pattern.swift */; };
 		5BE1474528A045CF0096FEBE /* UIImageView+Initials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE1474428A045CF0096FEBE /* UIImageView+Initials.swift */; };
 		5BE1474628A045CF0096FEBE /* UIImageView+Initials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE1474428A045CF0096FEBE /* UIImageView+Initials.swift */; };
+		5BE147C628A0CDAA0096FEBE /* UITextView+PreventPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE147C528A0CDAA0096FEBE /* UITextView+PreventPeriod.swift */; };
+		5BE147C728A0CDAA0096FEBE /* UITextView+PreventPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE147C528A0CDAA0096FEBE /* UITextView+PreventPeriod.swift */; };
 		5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4D9BD285C018000197080 /* String+Capitalization.swift */; };
 		5BEFCD23287816FB00379CE6 /* Launch-beta.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BEFCD22287816FB00379CE6 /* Launch-beta.storyboard */; };
 		5BF78337285D955F003C3955 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78336285D955F003C3955 /* Map.swift */; };
@@ -835,6 +837,7 @@
 		5BE1473E289F1A7C0096FEBE /* String+Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Random.swift"; sourceTree = "<group>"; };
 		5BE14741289F8E750096FEBE /* String+Pattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Pattern.swift"; sourceTree = "<group>"; };
 		5BE1474428A045CF0096FEBE /* UIImageView+Initials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Initials.swift"; sourceTree = "<group>"; };
+		5BE147C528A0CDAA0096FEBE /* UITextView+PreventPeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+PreventPeriod.swift"; sourceTree = "<group>"; };
 		5BE4D9BD285C018000197080 /* String+Capitalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Capitalization.swift"; sourceTree = "<group>"; };
 		5BEFCD22287816FB00379CE6 /* Launch-beta.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch-beta.storyboard"; sourceTree = "<group>"; };
 		5BF78336285D955F003C3955 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
@@ -1103,6 +1106,7 @@
 				47E2B1BE2800C1CD00131B8D /* UITextView+Placeholder.swift */,
 				474A4AB4284A953200B39A98 /* UITextView+MaxLength.swift */,
 				5B774DF7286D068400CCCF28 /* UITextView+Newline.swift */,
+				5BE147C528A0CDAA0096FEBE /* UITextView+PreventPeriod.swift */,
 			);
 			path = UITextView;
 			sourceTree = "<group>";
@@ -2245,6 +2249,7 @@
 				479683F82828180C00CA23BA /* ClusterAnnotationView.swift in Sources */,
 				43D9251628526DF300438C5C /* BlockAPI.swift in Sources */,
 				476971DC2847C3F200123F72 /* UITextField+MaxLength.swift in Sources */,
+				5BE147C628A0CDAA0096FEBE /* UITextView+PreventPeriod.swift in Sources */,
 				47EE28FE28414AF700C6425C /* CustomCenteredView.swift in Sources */,
 				43D9251828526ECA00438C5C /* Block.swift in Sources */,
 				479683F5282817CC00CA23BA /* PostAnnotationView.swift in Sources */,
@@ -2494,6 +2499,7 @@
 				5B739E4628935B9500E4EED0 /* ButtonConfigs.swift in Sources */,
 				5B739E4728935B9500E4EED0 /* UISearchBar+CenterText.swift in Sources */,
 				5B739E4828935B9500E4EED0 /* DesignableTabBarController.swift in Sources */,
+				5BE147C728A0CDAA0096FEBE /* UITextView+PreventPeriod.swift in Sources */,
 				5B739E4928935B9500E4EED0 /* SettingCell.swift in Sources */,
 				5B739E4A28935B9500E4EED0 /* String+Indexing.swift in Sources */,
 				5B739E4B28935B9500E4EED0 /* ClusterAnnotationView.swift in Sources */,

@@ -20,9 +20,12 @@ extension AutocompleteManagerDelegate {
     }
 }
 
-struct AutocompleteQuery: Hashable {
-    let first: String
-    let second: String
+class TopWindow: UIWindow {
+
+    override var windowLevel: UIWindow.Level {
+        get  { UIWindow.Level(rawValue: 20000000.000) }
+        set { self.windowLevel = newValue }
+    }
 }
 
 class PostViewController: UIViewController, UIViewControllerTransitioningDelegate {
@@ -60,9 +63,9 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         }
         return manager
     }()
-    var mostRecentAutocompleteQuery = AutocompleteQuery(first: "", second: "")
-    var autocompletionCache = [AutocompleteQuery: [AutocompleteCompletion]]()
-    var autocompletionTasks = [AutocompleteQuery: Task<Void, Never>]()
+    var mostRecentAutocompleteQuery = ""
+    var autocompletionCache = [String: [AutocompleteCompletion]]()
+    var autocompletionTasks = [String: Task<Void, Never>]()
     
     //Data
     var post: Post!
@@ -204,12 +207,15 @@ extension PostViewController: InputBarAccessoryViewDelegate {
     // MARK: - InputBarAccessoryViewDelegate
     
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        let trimmedCommentText = inputBar.inputTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
-        inputBar.sendButton.isEnabled = false
         let commentAutocompletions = extractAutocompletionsFromInputBarText()
         requestPermissionToTextIfNecessary(autocompletions: commentAutocompletions) { [self] authorizedTags in
+            guard !authorizedTags.isEmpty else { return }
             Task {
                 do {
+                    let trimmedCommentText = inputBar.inputTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+                    inputBar.inputTextView.text = String() //now we can reset the input bar text
+                    inputBar.invalidatePlugins()
+                    inputBar.sendButton.isEnabled = false
                     let newComment = try await CommentService.singleton.uploadComment(text: trimmedCommentText, postId: post.id, tags: authorizedTags)
                     print(newComment)
                     handleSuccessfulCommentSubmission(newComment: newComment)
@@ -231,10 +237,6 @@ extension PostViewController: InputBarAccessoryViewDelegate {
             let context = substring.attribute(.autocompletedContext, at: 0, effectiveRange: nil)
             commentAutocompletions[substring.string] = context as AnyObject?
         }
-        
-        inputBar.inputTextView.text = String() //now we can reset the input bar text
-        inputBar.invalidatePlugins()
-        
         return commentAutocompletions
     }
     
@@ -253,9 +255,10 @@ extension PostViewController: InputBarAccessoryViewDelegate {
         }
         var namesAsString: String = ""
         firstNamesToText.forEach( { namesAsString.append($0 + " ") })
-        let alertTitle: String = namesAsString + "aren't on Mist yet!"
+        
+        let alertTitle: String = namesAsString + (firstNamesToText.count == 1 ? "isn't on Mist yet!" : "aren't on Mist yet!")
         let alert = UIAlertController(title: alertTitle,
-                                      message: "We'll send a text to let them know they were mentioned.",
+                                      message: "We'll send a text to let them know you mentioned them.",
                                       preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Cancel",
                                       style: UIAlertAction.Style.default, handler: { alertAction in
@@ -265,7 +268,7 @@ extension PostViewController: InputBarAccessoryViewDelegate {
                                       style: UIAlertAction.Style.default, handler: { alertAction in
             closure(candidateTags)
         }))
-        self.present(alert, animated: true, completion: nil)
+        self.present(alert, animated: true)
     }
     
     func turnCommentAutocompletionsIntoTags(_ commentAutocompletions: [String: AnyObject]) -> [Tag] {
@@ -300,7 +303,7 @@ extension PostViewController: InputBarAccessoryViewDelegate {
 
     @objc func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
         inputBar.inputTextView.placeholderLabel.isHidden = !inputBar.inputTextView.text.isEmpty
-        inputBar.sendButton.isEnabled = inputBar.inputTextView.text != "" && autocompleteManager.tableView.numberOfRows(inSection: 0) == 0 //disable sendButton while autocomplete is active
+        inputBar.sendButton.isEnabled = inputBar.inputTextView.text != ""
         processAutocompleteOnNextText(text)
     }
         
@@ -320,8 +323,10 @@ extension PostViewController: UITextViewDelegate {
             return false
         }
         
-        // Only return true if the length of text is within the limit
-        return textView.shouldChangeTextGivenMaxLengthOf(MAX_COMMENT_LENGTH + TEXT_LENGTH_BEYOND_MAX_PERMITTED, range, text) && autocompleteManager.textView(textView, shouldChangeTextIn: range, replacementText: text)
+        guard textView.shouldChangeTextGivenMaxLengthOf(MAX_COMMENT_LENGTH, range, text) else { return false }
+        guard textView.shouldPreventDoubleSpaceTurnsIntoPeriodShortcut(range, text) else { return false}
+        
+        return autocompleteManager.textView(textView, shouldChangeTextIn: range, replacementText: text)
     }
     
     func textViewDidChange(_ textView: UITextView) {

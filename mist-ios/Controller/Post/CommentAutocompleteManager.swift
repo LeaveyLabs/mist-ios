@@ -23,16 +23,13 @@ class CommentAutocompleteManager: AutocompleteManager {
     let activityIndicator = UIActivityIndicatorView(style: .medium)
     let resultsCountLabel = UILabel(frame: .init(x: 0, y: 0, width: 60, height: 30))
     
+    //For now, tagTextAttributes while in 
     static let tagTextAttributes: [NSAttributedString.Key : Any] = [
 //        .font: UIFont.preferredFont(forTextStyle: .body),
-        .font: UIFont(name: Constants.Font.Heavy, size: 17)!,
+        .font: UIFont(name: Constants.Font.Medium, size: 17)!,
         .foregroundColor: UIColor.black,
 //        .backgroundColor: UIColor.red.withAlphaComponent(0.1)
     ]
-    
-//    override func attributedText(matching session: AutocompleteSession, fontSize: CGFloat = 15, keepPrefix: Bool = true) -> NSMutableAttributedString {
-//
-//    }
     
     override init(for textView: UITextView) {
         super.init(for: textView)
