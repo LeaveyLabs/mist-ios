@@ -169,6 +169,8 @@ extension PostView {
     func setupEmojiButtons(topThreeVotes: [EmojiCountTuple]) {
         let usersCurrentVoteOnThisPost = VoteService.singleton.votesForPost(postId: postId).first
         
+        print("userscurrentvote:", usersCurrentVoteOnThisPost?.emoji)
+        
         for index in (0 ..< topThreeVotes.count) {
             let emojiButton = emojiButtons[index]
             let topThreeVote = topThreeVotes[index]
@@ -260,8 +262,16 @@ extension PostView {
         if reactButtonTextField.isFirstResponder {
             reactButtonTextField.resignFirstResponder()
         } else {
-            postDelegate.handleReactTap(postId: postId) //must come first to set flags
-            reactButtonTextField.becomeFirstResponder()
+            if let postVC = postDelegate as? PostViewController, postVC.commentTextView.isFirstResponder {
+                postVC.commentTextView.resignFirstResponder()
+                postDelegate.handleReactTap(postId: postId) //must come first to set flags
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { //let the other keyboard dismiss
+                    self.reactButtonTextField.becomeFirstResponder()
+                }
+            } else {
+                postDelegate.handleReactTap(postId: postId) //must come first to set flags
+                reactButtonTextField.becomeFirstResponder()
+            }
         }
     }
     
