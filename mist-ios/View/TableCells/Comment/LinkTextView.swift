@@ -8,6 +8,9 @@
 import Foundation
 
 //Referenfe:https://stackoverflow.com/questions/1256887/create-tap-able-links-in-the-nsattributedstring-of-a-uilabel
+//Alternative ways of creating linkTextViews:
+//Universal links
+//Tap gesture recognizers:https://stackoverflow.com/questions/1256887/create-tap-able-links-in-the-nsattributedstring-of-a-uilabel/65980444#65980444
 class LinkTextView: UITextView {
     
     typealias OnLinkTap = (URL) -> Bool
