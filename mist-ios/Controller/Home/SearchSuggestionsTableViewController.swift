@@ -170,7 +170,11 @@ extension SearchSuggestionsTableViewController {
     func startWordSearch(with searchText: String) {
         Task {
             do {
-                let allResults = try await WordAPI.fetchWords(search_word: searchText, wrapper_words: [])
+                let searchWords = searchText.components(separatedBy: .whitespaces)
+                guard let lastWord = searchWords.last else { return }
+                let wrapperWords = Array(searchWords.prefix(searchWords.count - 1))
+                let allResults = try await WordAPI.fetchWords(search_word: lastWord,
+                                                              wrapper_words: wrapperWords)
                 sortAndTrimNewWordResults(allResults)
                 handleFinishedSearch()
             } catch {

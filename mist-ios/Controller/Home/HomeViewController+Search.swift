@@ -144,7 +144,6 @@ extension HomeViewController {
     private func search(using searchRequest: MKLocalSearch.Request) {
         searchRequest.region = MKCoordinateRegion(center: mapView.region.center, latitudinalMeters: 100, longitudinalMeters: 100) //setting a span that's smaller or larger seems to increase the frequency that apple will reset the search region to your current location. 10000 seems to be a good middle ground
         
-        //OHHHH ADAM IT"S NOT A BIG YOUR CHECKER IS JUST FUCKING UP
         searchRequest.resultTypes = [.address, .pointOfInterest]
         let localSearch = MKLocalSearch(request: searchRequest)
         Task {
