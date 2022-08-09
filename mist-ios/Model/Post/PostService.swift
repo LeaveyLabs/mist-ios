@@ -42,7 +42,8 @@ class PostService: NSObject {
         case .location:
             loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: explorePostFilter.region.center.latitude, longitude: explorePostFilter.region.center.longitude, radius: convertLatDeltaToKms(explorePostFilter.region.span.latitudeDelta))
         case .text:
-            loadedPosts = try await PostAPI.fetchPostsByWords(words: [explorePostFilter.text ?? ""])
+            let searchWords = explorePostFilter.text?.components(separatedBy: .whitespaces)
+            loadedPosts = try await PostAPI.fetchPostsByWords(words: searchWords ?? [""])
         }
         explorePostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts)
     }

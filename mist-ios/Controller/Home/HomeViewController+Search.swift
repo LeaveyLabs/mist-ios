@@ -92,9 +92,9 @@ extension HomeViewController {
         
         switch resultType {
         case .containing:
-            let word = searchSuggestionsVC.wordResults[indexPath.row]
-            searchBarButton.text = word.text
-            PostService.singleton.updateFilter(newText: word.text)
+            let query = searchSuggestionsVC.wordResults[indexPath.row]
+            searchBarButton.text = query.text
+            PostService.singleton.updateFilter(newText: query.text)
             PostService.singleton.updateFilter(newSearchBy: .text)
             reloadPosts(withType: .newSearch)
         case .nearby:
