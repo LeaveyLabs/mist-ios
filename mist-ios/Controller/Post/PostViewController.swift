@@ -324,7 +324,6 @@ extension PostViewController: UITextViewDelegate {
         }
         
         guard textView.shouldChangeTextGivenMaxLengthOf(MAX_COMMENT_LENGTH, range, text) else { return false }
-        guard textView.shouldPreventDoubleSpaceTurnsIntoPeriodShortcut(range, text) else { return false}
         
         return autocompleteManager.textView(textView, shouldChangeTextIn: range, replacementText: text)
     }

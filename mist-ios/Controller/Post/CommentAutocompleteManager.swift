@@ -23,11 +23,10 @@ class CommentAutocompleteManager: AutocompleteManager {
     let activityIndicator = UIActivityIndicatorView(style: .medium)
     let resultsCountLabel = UILabel(frame: .init(x: 0, y: 0, width: 60, height: 30))
     
-    //For now, tagTextAttributes while in 
     static let tagTextAttributes: [NSAttributedString.Key : Any] = [
 //        .font: UIFont.preferredFont(forTextStyle: .body),
         .font: UIFont(name: Constants.Font.Medium, size: 17)!,
-        .foregroundColor: UIColor.black,
+        .foregroundColor: UIColor.init(hex: "#1464a6"),
 //        .backgroundColor: UIColor.red.withAlphaComponent(0.1)
     ]
     
@@ -63,7 +62,7 @@ class CommentAutocompleteManager: AutocompleteManager {
 //        resultsCountLabel.frame.origin.x = tableView.frame.width - 60 //better to have a constraint....
 
         topLineView.frame.origin.y = tableView.contentOffset.y
-        activityIndicator.frame.origin.y = tableView.contentOffset.y + 13 + tableView.frame.height - 50 //stay at the bottom right
+        activityIndicator.frame.origin.y = tableView.contentOffset.y + 20 + tableView.frame.height - tableView.rowHeight //stay at the bottom right
 //        resultsCountLabel.frame.origin.y = tableView.contentOffset.y + 13 + tableView.frame.height - 50 //stay at bottom right
         
 //        resultsCountLabel.text = String(tableView.numberOfRows(inSection: 0)) + " results"
