@@ -74,7 +74,8 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     
     //PostDelegate
     var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] = [:]
-    
+    var loadTaggedProfileTasks: [Int : Task<FrontendReadOnlyUser?, Error>] = [:] //Error, not Never, because we're doing 2 layers of DoTry calls
+
     //Abandoned
 //    var prepareForDismiss: UpdatedPostCompletionHandler? //no longer needed
 
@@ -415,9 +416,64 @@ extension PostViewController: CommentDelegate {
     
     func handleCommentProfilePicTap(commentAuthor: FrontendReadOnlyUser) {
         let profileVC = ProfileViewController.create(for: commentAuthor)
-        navigationController!.present(profileVC, animated: true)
+        navigationController?.present(profileVC, animated: true)
     }
-        
+    
+    //TODO: is URL a phone number or a userId??
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        print("SHOULD INTERACT W URL")
+        guard let userId = Int(URL.absoluteString) else { return false }
+        handleTagTap(taggedUserId: userId, taggedNumber: nil)
+        return false //could return "true" here if we're using real deep links, but we're just having LINK = the profile's username
+    }
+    
+    func handleTagTap(taggedUserId: Int?, taggedNumber: String?) {
+        Task {
+            do {
+                if let taggedUserId = taggedUserId {
+                    guard let taggedUser = try await loadTaggedProfileTasks[taggedUserId]?.value else { return }
+                    DispatchQueue.main.async { [weak self] in
+                        let profileVC = ProfileViewController.create(for: taggedUser)
+                        self?.navigationController?.present(profileVC, animated: true)
+                    }
+                } else {
+                    //handle taggedNumber
+                }
+            } catch {
+                print("COULD NOT LOAD TAG PROFILE PART 2")
+            }
+        }
+    }
+    
+    //TODO: Fetch by tagged number
+    func beginLoadingTaggedProfile(taggedUserId: Int?, taggedNumber: String?) {
+        let _ : Task<FrontendReadOnlyUser?, Error> = Task {
+            do {
+                if let taggedUserId = taggedUserId {
+                    let user = try await UserAPI.fetchUsersByUserId(userId: taggedUserId)
+                    if let profile = loadTaggedProfileTasks[user.id] {
+                        return try await profile.value
+                    }
+                    loadTaggedProfileTasks[user.id] = Task {
+                        return try await UserAPI.turnUserIntoFrontendUser(user)
+                    }
+                } else {
+                    //handle taggedNumber
+//                    let user = try await UserAPI.fetchUsersByUserId(userId: taggedUserId)
+//                    if loadTaggedProfileTasks[user.id] != nil { return } //Task was already started
+//                    loadTaggedProfileTasks[user.id] = Task {
+//                        return try await UserAPI.turnUserIntoFrontendUser(user)
+//                    }
+                    return nil
+                }
+            } catch {
+                print("COULD NOT LOAD TAGGED PROFILE PIC")
+                return nil
+            }
+            return nil
+        }
+    }
+
 }
 
 // MARK: - Helpers

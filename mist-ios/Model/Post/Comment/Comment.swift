@@ -19,7 +19,7 @@ struct Comment: Codable {
     let post: Int
     let author: Int
     let read_only_author: ReadOnlyUser
-    let tags: [Tag]?
+    let tags: [Tag]
     
     // Used when creating a comment
     init(id: Int = DUMMY_COMMENT_ID,
