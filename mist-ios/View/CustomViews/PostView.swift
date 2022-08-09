@@ -169,8 +169,6 @@ extension PostView {
     func setupEmojiButtons(topThreeVotes: [EmojiCountTuple]) {
         let usersCurrentVoteOnThisPost = VoteService.singleton.votesForPost(postId: postId).first
         
-        print("userscurrentvote:", usersCurrentVoteOnThisPost?.emoji)
-        
         for index in (0 ..< topThreeVotes.count) {
             let emojiButton = emojiButtons[index]
             let topThreeVote = topThreeVotes[index]
@@ -212,25 +210,28 @@ extension PostView {
         }
     }
     
-    //TODO: haven't thoroughly tested the function below yet
     func ensureTheUsersVoteAppearsOnAButton() {
         guard let usersVoteOnThisPost = VoteService.singleton.votesForPost(postId: postId).first else { return }
         if !emojiButtons.contains(where: { $0.emoji == usersVoteOnThisPost.emoji }) {
-            guard let votedTuple = postEmojiCountTuples.first(where: {$0.emoji == usersVoteOnThisPost.emoji }) else { return }
-            (emojiButton3.emoji, emojiButton3.count) = (votedTuple.emoji, votedTuple.count)
+            //Make emojiButton3 the emoji of the user's vote on this post
             
-            //user had no original vote, so they must have added this one
+            emojiButton3.isSelected = true
+            if let votedOriginalTuple = postEmojiCountTuples.first(where: {$0.emoji == usersVoteOnThisPost.emoji }) {
+                (emojiButton3.emoji, emojiButton3.count) = (usersVoteOnThisPost.emoji,
+                                                            votedOriginalTuple.count)
+            } else {
+                (emojiButton3.emoji, emojiButton3.count) = (usersVoteOnThisPost.emoji,
+                                                            0)
+            }
+            //COUNT INCREMENT HANDLING
+            //case 1: user had no original vote, so they must have added this one
             if usersVoteBeforePostWasLoaded == nil  {
                 emojiButton3.count += 1
             }
-            
-            //user had another original vote, but they changed it to this one
+            //case 2: user had an original vote when posts were loaded in, but they changed it
             if let usersVoteBeforePostWasLoaded = usersVoteBeforePostWasLoaded,
                usersVoteBeforePostWasLoaded.emoji != usersVoteOnThisPost.emoji {
-                //if this is their new vote, then increment it
-                if usersVoteOnThisPost.emoji == votedTuple.emoji {
-                    emojiButton3.count += 1
-                }
+                emojiButton3.count += 1
             }
         }
     }
