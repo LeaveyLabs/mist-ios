@@ -12,12 +12,19 @@ struct PostVoteError: Codable {
     let post: [String]?
     
     let non_field_errors: [String]?
-    let detail: [String]?
+    let detail: String?
+}
+
+struct PostVoteParams: Codable {
+    let voter: Int
+    let post: Int
+    let emoji: String
 }
 
 class PostVoteAPI {
     static let PATH_TO_VOTE_MODEL = "api/post-votes/"
     static let PATH_TO_CUSTOM_DELETE_VOTE_ENDPOINT = "api/delete-post-vote/"
+    static let PATH_TO_CUSTOM_PATCH_VOTE_ENDPOINT = "api/patch-post-vote/"
     static let VOTER_PARAM = "voter"
     static let POST_PARAM = "post"
     static let RATING_PARAM = "rating"
@@ -77,11 +84,7 @@ class PostVoteAPI {
     
     static func postVote(voter:Int, post:Int, emoji:String) async throws -> PostVote {
         let url = "\(Env.BASE_URL)\(PATH_TO_VOTE_MODEL)"
-        let params:[String:String] = [
-            VOTER_PARAM: String(voter),
-            POST_PARAM: String(post),
-            EMOJI_PARAM: emoji
-        ]
+        let params = PostVoteParams(voter: voter, post: post, emoji: emoji)
         let json = try JSONEncoder().encode(params)
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterPostVoteErrors(data: data, response: response)
@@ -89,7 +92,7 @@ class PostVoteAPI {
     }
     
     static func patchVote(voter:Int, post:Int, emoji:String) async throws -> PostVote {
-        let endpoint = "\(Env.BASE_URL)\(PATH_TO_VOTE_MODEL)"
+        let endpoint = "\(Env.BASE_URL)\(PATH_TO_CUSTOM_PATCH_VOTE_ENDPOINT)"
         let queryParams = "\(VOTER_PARAM)=\(voter)&\(POST_PARAM)=\(post)"
         let url = "\(endpoint)?\(queryParams)"
         let params:[String:String] = [
