@@ -55,8 +55,14 @@ class ValidateResetPasswordViewController: KUIViewController, UITextFieldDelegat
         confirmEmailTextField.delegate = self
         confirmEmailTextField.smartInsertDeleteType = UITextSmartInsertDeleteType.no
         confirmEmailTextField.layer.cornerRadius = 5
-        confirmEmailTextField.setLeftPaddingPoints(25)
-        confirmEmailTextField.defaultTextAttributes.updateValue(33, forKey: NSAttributedString.Key.kern)
+        
+        let xconstraints: CGFloat = 50
+        let textFieldWidth = view.frame.size.width - xconstraints
+        let numberWidth: CGFloat = 14
+        let spacing = (textFieldWidth / 7) - numberWidth
+        confirmEmailTextField.setLeftPaddingPoints(spacing)
+        confirmEmailTextField.defaultTextAttributes.updateValue(spacing, forKey: NSAttributedString.Key.kern)
+        
         confirmEmailTextField.becomeFirstResponder()
     }
     

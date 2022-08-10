@@ -132,7 +132,7 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
         isSubmitting = false
         enterEmailTextField.text = ""
         validateInput()
-        CustomSwiftMessages.displayError("That email is already taken", "Please enter another one")
+        CustomSwiftMessages.displayError("Email already in use", "Please enter another one")
     }
     
     func validateInput() {

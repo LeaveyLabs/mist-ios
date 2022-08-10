@@ -199,6 +199,7 @@ class ChatViewController: MessagesViewController {
         } else {
             messageInputBar.inputTextView.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.8).cgColor
         }
+        messageInputBar.inputTextView.font = UIFont(name: Constants.Font.Medium, size: 17)
         messageInputBar.inputTextView.backgroundColor = .lightGray.withAlphaComponent(0.1)
         messageInputBar.inputTextView.layer.borderWidth = 0.5
         messageInputBar.inputTextView.layer.cornerRadius = 16.0
@@ -492,12 +493,13 @@ extension ChatViewController: MessagesDisplayDelegate {
         
         return .custom { view in
             view.layer.cornerCurve = .continuous
-            view.layer.cornerRadius = 13
+            view.layer.cornerRadius = 16
+            view.frame.size.width -= 4
             let messageLabel = view.subviews[0] as! MessageLabel
             if self.isFromCurrentSender(message: message) {
                 view.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
                 view.layer.borderWidth = 1
-                messageLabel.center = CGPoint(x: messageLabel.center.x + 2, y: messageLabel.center.y)
+                messageLabel.center = CGPoint(x: messageLabel.center.x, y: messageLabel.center.y)
             } else {
                 view.layer.borderColor = UIColor.clear.cgColor
                 view.layer.borderWidth = 0

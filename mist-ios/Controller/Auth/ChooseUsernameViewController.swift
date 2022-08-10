@@ -96,7 +96,7 @@ class ChooseUsernameViewController: KUIViewController, UITextFieldDelegate {
     //MARK: - Helpers
     
     func tryToContinue() {
-        if let username = usernameTextField.text {
+        if let username = usernameTextField.text?.lowercased() {
             isSubmitting = true
             Task {
                 do {
@@ -116,7 +116,7 @@ class ChooseUsernameViewController: KUIViewController, UITextFieldDelegate {
     func handleFailure(_ error: Error) {
         isSubmitting = false
         isValidInput = false
-        CustomSwiftMessages.displayError("That username is already in use", "Please choose another one")
+        CustomSwiftMessages.displayError("Username already in use", "Please choose another one")
     }
     
     func validateInput() {

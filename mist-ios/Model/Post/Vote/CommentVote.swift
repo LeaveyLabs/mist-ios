@@ -12,4 +12,5 @@ struct CommentVote: Codable {
     let voter: Int;
     let comment: Int;
     let timestamp: Double;
+    let rating: Int?;
 }
