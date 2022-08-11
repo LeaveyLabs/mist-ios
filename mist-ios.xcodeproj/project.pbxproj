@@ -525,6 +525,8 @@
 		5BE110042876CDB100CB54A6 /* ValidateResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */; };
 		5BE110062876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */; };
 		5BE110082876CE4200CB54A6 /* ResetPasswordContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110072876CE4200CB54A6 /* ResetPasswordContext.swift */; };
+		5BE147D428A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE147D328A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift */; };
+		5BE147D528A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE147D328A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift */; };
 		5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4D9BD285C018000197080 /* String+Capitalization.swift */; };
 		5BEFCD23287816FB00379CE6 /* Launch-beta.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BEFCD22287816FB00379CE6 /* Launch-beta.storyboard */; };
 		5BF78337285D955F003C3955 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78336285D955F003C3955 /* Map.swift */; };
@@ -821,6 +823,7 @@
 		5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateResetPasswordViewController.swift; sourceTree = "<group>"; };
 		5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalizeResetPasswordViewController.swift; sourceTree = "<group>"; };
 		5BE110072876CE4200CB54A6 /* ResetPasswordContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordContext.swift; sourceTree = "<group>"; };
+		5BE147D328A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+LoadingIndicator.swift"; sourceTree = "<group>"; };
 		5BE4D9BD285C018000197080 /* String+Capitalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Capitalization.swift"; sourceTree = "<group>"; };
 		5BEFCD22287816FB00379CE6 /* Launch-beta.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch-beta.storyboard"; sourceTree = "<group>"; };
 		5BF78336285D955F003C3955 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
@@ -1242,6 +1245,7 @@
 			children = (
 				47AC881E28480AE1000150CA /* UIButton+RightSideImage.swift */,
 				47CEEE9728545207008947FC /* UIBarButtonItem+Image.swift */,
+				5BE147D328A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -2191,6 +2195,7 @@
 				47A3D70827D54F6F003DBEA5 /* User.swift in Sources */,
 				472A4C0528408BD800FD52B7 /* AutoTextView.swift in Sources */,
 				472A4BF628408BD800FD52B7 /* SoundPlayer.swift in Sources */,
+				5BE147D428A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift in Sources */,
 				472A4C0A28408BD800FD52B7 /* AsyncImageView.swift in Sources */,
 				439E44F427DFB71300E244D6 /* UserAPI.swift in Sources */,
 				472A4BF228408BD800FD52B7 /* ImageLoader.swift in Sources */,
@@ -2345,6 +2350,7 @@
 				5B739DD728935B9500E4EED0 /* CustomAttributedString.swift in Sources */,
 				5B739DD828935B9500E4EED0 /* BlurView.swift in Sources */,
 				5B739DD928935B9500E4EED0 /* PostService.swift in Sources */,
+				5BE147D528A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift in Sources */,
 				5B739DDA28935B9500E4EED0 /* NewPostTextView.swift in Sources */,
 				5B739DDB28935B9500E4EED0 /* VoteService.swift in Sources */,
 				5B739DDC28935B9500E4EED0 /* SpringView.swift in Sources */,
