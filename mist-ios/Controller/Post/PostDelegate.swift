@@ -7,21 +7,22 @@
 
 import Foundation
 
-protocol PostDelegate: ShareActivityDelegate, AnyObject {
+protocol PostDelegate: ShareActivityDelegate, UITextFieldDelegate { // , AnyObject not needed bc UITextFieldDelegate
     // Implemented below
     func handleMoreTap(postId: Int, postAuthor: Int)
-    func handleVote(postId: Int, isAdding: Bool)
+    func handleVote(postId: Int, emoji: String, action: VoteAction)
     func handleFavorite(postId: Int, isAdding: Bool)
     func handleFlag(postId: Int, isAdding: Bool)
     func handleDmTap(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String)
     func beginLoadingAuthorProfilePic(postId: Int, author: ReadOnlyUser)
-    
+    func emojiKeyboardDidDelete()
+
     // Require subclass implementation
     func handleCommentButtonTap(postId: Int)
     func handleBackgroundTap(postId: Int)
-    func handleDeletePost(postId: Int)
-    
+    func handleDeletePost(postId: Int)    
     var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] { get set }
+    func handleReactTap(postId: Int)
 }
 
 // Defining functions which are consistent across all PostDelegates
@@ -29,12 +30,12 @@ protocol PostDelegate: ShareActivityDelegate, AnyObject {
 extension PostDelegate where Self: UIViewController {
     
     func beginLoadingAuthorProfilePic(postId: Int, author: ReadOnlyUser) {
-        if loadAuthorProfilePicTasks[postId] != nil { return } //Task was already started
+        guard loadAuthorProfilePicTasks[postId] == nil else { return } //Task was already started
         loadAuthorProfilePicTasks[postId] = Task {
             do {
                 return try await FrontendReadOnlyUser(readOnlyUser: author, profilePic: UserAPI.UIImageFromURLString(url: author.picture))
             } catch {
-                print("COULD NOT LOAD AUTHOR PROFILE PIC")
+                print("COULD NOT LOAD AUTHOR PROFILE PIC", error.localizedDescription)
                 return nil
             }
         }
@@ -49,24 +50,44 @@ extension PostDelegate where Self: UIViewController {
             CustomSwiftMessages.showAlreadyDmdMessage()
             return
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            dmButton.loadingIndicator(true)
-        }
         Task {
             if let frontendAuthor = await loadAuthorProfilePicTasks[postId]!.value {
                 DispatchQueue.main.async { [self] in
-                    let chatVC = ChatViewController.createFromPost(postId: postId, postAuthor: frontendAuthor, postTitle: title)
-                    let navigationController = UINavigationController(rootViewController: chatVC)
-                    navigationController.modalPresentationStyle = .fullScreen
-                    present(navigationController, animated: true, completion: nil)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
-                        dmButton.loadingIndicator(false)
-                    }
+                    goToChat(postId: postId, postAuthor: frontendAuthor, postTitle: title)
                 }
             } else {
-                print("this should never be reached")
+                DispatchQueue.main.async { [self] in
+                    reloadAuthorProfilePic(postId: postId, author: author, dmButton: dmButton, title: title)
+                }
             }
         }
+    }
+    
+    func reloadAuthorProfilePic(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String) {
+        dmButton.loadingIndicator(true)
+        Task {
+            loadAuthorProfilePicTasks[postId] = nil
+            beginLoadingAuthorProfilePic(postId: postId, author: author)
+            if let reloadedAuthor = await loadAuthorProfilePicTasks[postId]!.value {
+                DispatchQueue.main.async { [weak self] in
+                    dmButton.loadingIndicator(false)
+                    self?.goToChat(postId: postId, postAuthor: reloadedAuthor, postTitle: title)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    dmButton.loadingIndicator(false)
+                    CustomSwiftMessages.displayError("Something went wrong",
+                                                     "Please try again later")
+                }
+            }
+        }
+    }
+    
+    func goToChat(postId: Int, postAuthor: FrontendReadOnlyUser, postTitle: String) {
+        let chatVC = ChatViewController.createFromPost(postId: postId, postAuthor: postAuthor, postTitle: postTitle)
+        let navigationController = UINavigationController(rootViewController: chatVC)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true, completion: nil)
     }
     
     func handleFavorite(postId: Int, isAdding: Bool) {
@@ -89,6 +110,7 @@ extension PostDelegate where Self: UIViewController {
     
     func handleMoreTap(postId: Int, postAuthor: Int) {
         let moreVC = PostMoreViewController.create(postId: postId, postAuthor: postAuthor, postDelegate: self)
+        view.endEditing(true)
         present(moreVC, animated: true)
     }
     
@@ -96,37 +118,9 @@ extension PostDelegate where Self: UIViewController {
     func presentShareActivityVC() {
         presentMistShareActivity()
     }
-
-}
-
-extension UIButton {
     
-    var isButtonCustomLoadingIndicatorVisible: Bool {
-        get {
-            return viewWithTag(808404) != nil
-        }
+    func emojiKeyboardDidDelete() {
+        view.endEditing(true)
     }
-    
-    func loadingIndicator(_ show: Bool) {
-        let tag = 808404
-        if show {
-            self.isEnabled = false
-            self.alpha = 0.5
-            let indicator = UIActivityIndicatorView()
-            indicator.color = .black
-            let buttonHeight = self.bounds.size.height
-            let buttonWidth = self.bounds.size.width
-            indicator.center = CGPoint(x: buttonWidth/2, y: buttonHeight/2)
-            indicator.tag = tag
-            self.addSubview(indicator)
-            indicator.startAnimating()
-        } else {
-            self.isEnabled = true
-            self.alpha = 1.0
-            if let indicator = self.viewWithTag(tag) as? UIActivityIndicatorView {
-                indicator.stopAnimating()
-                indicator.removeFromSuperview()
-            }
-        }
-    }
+
 }

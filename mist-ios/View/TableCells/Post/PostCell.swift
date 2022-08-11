@@ -21,18 +21,7 @@ class PostCell: UITableViewCell {
         UIView.performWithoutAnimation { //this is necessary with our current approach to the input accessory view and keyboardlayoutguide. tableview ends up getting animated, but that creates weird animations for the cells, too. so dont allow the cell updates to animate
             postView.configurePost(post: post, delegate: nestedPostViewDelegate) //must come after setting constraints
         }
-        ensureTapsDontPreventScrolling()
-    }
-    
-    // We need to disable the backgroundButton and add a tapGestureRecognizer so that drags can be detected on the tableView. The purpose of the backgroundButton is to prevent taps from dismissing the calloutView when the post is within an annotation on the map
-    func ensureTapsDontPreventScrolling() {
-        postView.backgroundBubbleButton.isUserInteractionEnabled = false
-        postView.likeLabelButton.isUserInteractionEnabled = false
-        postView.backgroundBubbleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCellBackgroundViewTap) ))
-    }
-    
-    @objc func handleCellBackgroundViewTap() {
-        postView.postDelegate?.handleBackgroundTap(postId: postView.postId)
+        postView.ensureTapsDontPreventScrolling()
     }
     
     //MARK: - Suggestion TableViewCell

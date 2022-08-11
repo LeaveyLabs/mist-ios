@@ -83,6 +83,7 @@ class BasicAPI {
         for (header, value) in headers {
             request.setValue(value, forHTTPHeaderField: header)
         }
+        request.timeoutInterval = 6
         return request
     }
     

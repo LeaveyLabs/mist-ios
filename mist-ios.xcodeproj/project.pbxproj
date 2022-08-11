@@ -217,6 +217,7 @@
 		5B1F16CE287D1ABD00035F93 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16CD287D1ABD00035F93 /* HomeViewController.swift */; };
 		5B1F16D0287D1B0700035F93 /* HomeViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16CF287D1B0700035F93 /* HomeViewController+Search.swift */; };
 		5B1F16D2287D1E5000035F93 /* CustomExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16D1287D1E5000035F93 /* CustomExploreViewController.swift */; };
+		5B29262A28974E10008A1F5D /* CommentVote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43529E282890BBD000B3A484 /* CommentVote.swift */; };
 		5B37A36B28784A4B00279B2A /* EnterBiosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */; };
 		5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D589B28603A46002E2F94 /* PostCell.swift */; };
 		5B4D58A72860D7FB002E2F94 /* UIImageView+ProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */; };
@@ -507,15 +508,25 @@
 		5BB624D92867DD8400DCD45B /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624D72867DD8400DCD45B /* ConversationCell.swift */; };
 		5BB624DA2867DD8400DCD45B /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BB624D82867DD8400DCD45B /* ConversationCell.xib */; };
 		5BB624DC2867E98500DCD45B /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624DB2867E98500DCD45B /* Conversation.swift */; };
+		5BC25A9428990999005AAF69 /* EmojiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9328990999005AAF69 /* EmojiButton.swift */; };
+		5BC25A96289909ED005AAF69 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A95289909ED005AAF69 /* ToggleButton.swift */; };
+		5BC25A9828990BF9005AAF69 /* EmojiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9328990999005AAF69 /* EmojiButton.swift */; };
+		5BC25A9928990C06005AAF69 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A95289909ED005AAF69 /* ToggleButton.swift */; };
+		5BC25A9E28991A2B005AAF69 /* Numbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9D28991A2B005AAF69 /* Numbers.swift */; };
+		5BC25A9F28991A2B005AAF69 /* Numbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9D28991A2B005AAF69 /* Numbers.swift */; };
 		5BC2763E286AE9BD00DA5A3D /* Loading.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */; };
 		5BC2763F286AE9BD00DA5A3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2763D286AE9BD00DA5A3D /* Main.storyboard */; };
 		5BCC68D928611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */; };
 		5BCD490C287149210002BD02 /* WantToChatView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BCD490B287149210002BD02 /* WantToChatView.xib */; };
 		5BCD490E28714F920002BD02 /* WantToChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCD490D28714F920002BD02 /* WantToChatView.swift */; };
+		5BD6F47E2896B3020002A60B /* StringChat+Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */; };
+		5BD6F47F2896B3020002A60B /* StringChat+Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */; };
 		5BE110022876CD9D00CB54A6 /* RequestResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */; };
 		5BE110042876CDB100CB54A6 /* ValidateResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */; };
 		5BE110062876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */; };
 		5BE110082876CE4200CB54A6 /* ResetPasswordContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110072876CE4200CB54A6 /* ResetPasswordContext.swift */; };
+		5BE147D428A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE147D328A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift */; };
+		5BE147D528A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE147D328A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift */; };
 		5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4D9BD285C018000197080 /* String+Capitalization.swift */; };
 		5BEFCD23287816FB00379CE6 /* Launch-beta.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BEFCD22287816FB00379CE6 /* Launch-beta.storyboard */; };
 		5BF78337285D955F003C3955 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78336285D955F003C3955 /* Map.swift */; };
@@ -799,15 +810,20 @@
 		5BB624D72867DD8400DCD45B /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		5BB624D82867DD8400DCD45B /* ConversationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationCell.xib; sourceTree = "<group>"; };
 		5BB624DB2867E98500DCD45B /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		5BC25A9328990999005AAF69 /* EmojiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiButton.swift; sourceTree = "<group>"; };
+		5BC25A95289909ED005AAF69 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
+		5BC25A9D28991A2B005AAF69 /* Numbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numbers.swift; sourceTree = "<group>"; };
 		5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Loading.storyboard; sourceTree = "<group>"; };
 		5BC2763D286AE9BD00DA5A3D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeAreaInputAccessoryViewWrapperView.swift; sourceTree = "<group>"; };
 		5BCD490B287149210002BD02 /* WantToChatView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WantToChatView.xib; sourceTree = "<group>"; };
 		5BCD490D28714F920002BD02 /* WantToChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantToChatView.swift; sourceTree = "<group>"; };
+		5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringChat+Emoji.swift"; sourceTree = "<group>"; };
 		5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResetPasswordViewController.swift; sourceTree = "<group>"; };
 		5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateResetPasswordViewController.swift; sourceTree = "<group>"; };
 		5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalizeResetPasswordViewController.swift; sourceTree = "<group>"; };
 		5BE110072876CE4200CB54A6 /* ResetPasswordContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordContext.swift; sourceTree = "<group>"; };
+		5BE147D328A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+LoadingIndicator.swift"; sourceTree = "<group>"; };
 		5BE4D9BD285C018000197080 /* String+Capitalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Capitalization.swift"; sourceTree = "<group>"; };
 		5BEFCD22287816FB00379CE6 /* Launch-beta.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch-beta.storyboard"; sourceTree = "<group>"; };
 		5BF78336285D955F003C3955 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
@@ -931,7 +947,7 @@
 			path = APITests;
 			sourceTree = "<group>";
 		};
-		4700F8C427DE4641006C2E08 /* Explore */ = {
+		4700F8C427DE4641006C2E08 /* Home */ = {
 			isa = PBXGroup;
 			children = (
 				5B1F16CD287D1ABD00035F93 /* HomeViewController.swift */,
@@ -940,7 +956,7 @@
 				470F271227DE6F5800C6DDAF /* SearchSuggestionsTableViewController.swift */,
 				5B1F16D1287D1E5000035F93 /* CustomExploreViewController.swift */,
 			);
-			path = Explore;
+			path = Home;
 			sourceTree = "<group>";
 		};
 		47061CCE28510E230042F04C /* MapThings */ = {
@@ -956,11 +972,11 @@
 		470BD12D27DB1D8700DD4622 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */,
-				5BC2763D286AE9BD00DA5A3D /* Main.storyboard */,
 				478A78A0284EBF180058C845 /* Launch.storyboard */,
 				5BEFCD22287816FB00379CE6 /* Launch-beta.storyboard */,
+				5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */,
 				47E86F6C2853EA65005A7DC7 /* Auth.storyboard */,
+				5BC2763D286AE9BD00DA5A3D /* Main.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -1195,6 +1211,8 @@
 				5BCD490B287149210002BD02 /* WantToChatView.xib */,
 				5BAD627C2876BE8800DCFE45 /* MistWideLogoView.swift */,
 				5BAD627A2876BD7600DCFE45 /* MistWideLogoView.xib */,
+				5BC25A9328990999005AAF69 /* EmojiButton.swift */,
+				5BC25A97289909FD005AAF69 /* Decomissioned */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -1227,6 +1245,7 @@
 			children = (
 				47AC881E28480AE1000150CA /* UIButton+RightSideImage.swift */,
 				47CEEE9728545207008947FC /* UIBarButtonItem+Image.swift */,
+				5BE147D328A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -1360,7 +1379,7 @@
 				4752719B2855A6ED00DDF84D /* AbstractControllers */,
 				478A789F284EBD5A0058C845 /* App */,
 				43770C4927EE8BED00F31CCF /* Auth */,
-				4700F8C427DE4641006C2E08 /* Explore */,
+				4700F8C427DE4641006C2E08 /* Home */,
 				47F4EFD127E10C1300861F30 /* Post */,
 				47FF86A427DC76000076A1CA /* NewPost */,
 				5B4D58A82860E22B002E2F94 /* Friends */,
@@ -1420,6 +1439,7 @@
 				47FF418228403AE700A44968 /* CustomAttributedString.swift */,
 				47D5B36928441296004CDE6C /* CustomSwiftMessages.swift */,
 				5BF78336285D955F003C3955 /* Map.swift */,
+				5BC25A9D28991A2B005AAF69 /* Numbers.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1681,6 +1701,14 @@
 			path = Conversation;
 			sourceTree = "<group>";
 		};
+		5BC25A97289909FD005AAF69 /* Decomissioned */ = {
+			isa = PBXGroup;
+			children = (
+				5BC25A95289909ED005AAF69 /* ToggleButton.swift */,
+			);
+			path = Decomissioned;
+			sourceTree = "<group>";
+		};
 		5BC27633286A8BA900DA5A3D /* MessageLayout */ = {
 			isa = PBXGroup;
 			children = (
@@ -1704,6 +1732,7 @@
 			children = (
 				474A4AC5284AB6D700B39A98 /* String+Indexing.swift */,
 				5BE4D9BD285C018000197080 /* String+Capitalization.swift */,
+				5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */,
 			);
 			path = String;
 			sourceTree = "<group>";
@@ -2073,6 +2102,7 @@
 				472A4C0728408BD800FD52B7 /* UnwindSegue.swift in Sources */,
 				5B1F16D0287D1B0700035F93 /* HomeViewController+Search.swift in Sources */,
 				474A4AB5284A953200B39A98 /* UITextView+MaxLength.swift in Sources */,
+				5BD6F47E2896B3020002A60B /* StringChat+Emoji.swift in Sources */,
 				47F10DC12852CFE100E1A3DC /* UIImage+FromColor.swift in Sources */,
 				4718331228445A7C0061F9F3 /* UIView+PostBubble.swift in Sources */,
 				47F10DC72853DA0600E1A3DC /* UIImage+Blur.swift in Sources */,
@@ -2116,6 +2146,7 @@
 				472A4C0428408BD800FD52B7 /* DesignableTextView.swift in Sources */,
 				5BAD62732876706800DCFE45 /* Setting.swift in Sources */,
 				472A4BFA28408BD800FD52B7 /* SpringTextView.swift in Sources */,
+				5BC25A96289909ED005AAF69 /* ToggleButton.swift in Sources */,
 				47A3D71227D57A6D003DBEA5 /* UserService.swift in Sources */,
 				475B1F8F27FBC2D400ED59CD /* UIView+Shadow.swift in Sources */,
 				47F10DC32853169200E1A3DC /* PlaceAnnotation.swift in Sources */,
@@ -2124,6 +2155,7 @@
 				474A4AB0284A922100B39A98 /* UIScrollView+ToTop.swift in Sources */,
 				5B6AD61528690E1800B1FFA8 /* AnnotationSelectionType.swift in Sources */,
 				478BA279283DD37E00C35507 /* UITextField+Padding.swift in Sources */,
+				5BC25A9428990999005AAF69 /* EmojiButton.swift in Sources */,
 				47061CCD28510DD80042F04C /* MKPointOfInterestCategory+Extension.swift in Sources */,
 				433970DF27FE501700876026 /* WelcomeTutorialViewController.swift in Sources */,
 				47D9FD1E28457D72004E4BE3 /* NewPostContext.swift in Sources */,
@@ -2163,6 +2195,7 @@
 				47A3D70827D54F6F003DBEA5 /* User.swift in Sources */,
 				472A4C0528408BD800FD52B7 /* AutoTextView.swift in Sources */,
 				472A4BF628408BD800FD52B7 /* SoundPlayer.swift in Sources */,
+				5BE147D428A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift in Sources */,
 				472A4C0A28408BD800FD52B7 /* AsyncImageView.swift in Sources */,
 				439E44F427DFB71300E244D6 /* UserAPI.swift in Sources */,
 				472A4BF228408BD800FD52B7 /* ImageLoader.swift in Sources */,
@@ -2177,6 +2210,7 @@
 				5BAD62752876707000DCFE45 /* AccountSection.swift in Sources */,
 				478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */,
 				5B13B741285D05B0000ADF5E /* UISearchBar+CenterText.swift in Sources */,
+				5BC25A9E28991A2B005AAF69 /* Numbers.swift in Sources */,
 				472A4C0028408BD800FD52B7 /* DesignableTabBarController.swift in Sources */,
 				475271972855851200DDF84D /* SettingCell.swift in Sources */,
 				474A4AC6284AB6D700B39A98 /* String+Indexing.swift in Sources */,
@@ -2265,6 +2299,8 @@
 				5B739DA728935B9500E4EED0 /* UserResultCell.swift in Sources */,
 				5B739DA828935B9500E4EED0 /* ExploreViewController+Map.swift in Sources */,
 				5B739DA928935B9500E4EED0 /* SettingsTapDelegate.swift in Sources */,
+				5BC25A9F28991A2B005AAF69 /* Numbers.swift in Sources */,
+				5BC25A9928990C06005AAF69 /* ToggleButton.swift in Sources */,
 				5B739DAA28935B9500E4EED0 /* RulesViewController.swift in Sources */,
 				5B739DAB28935B9500E4EED0 /* Misc.swift in Sources */,
 				5B739DAC28935B9500E4EED0 /* KUIViewController.swift in Sources */,
@@ -2314,6 +2350,7 @@
 				5B739DD728935B9500E4EED0 /* CustomAttributedString.swift in Sources */,
 				5B739DD828935B9500E4EED0 /* BlurView.swift in Sources */,
 				5B739DD928935B9500E4EED0 /* PostService.swift in Sources */,
+				5BE147D528A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift in Sources */,
 				5B739DDA28935B9500E4EED0 /* NewPostTextView.swift in Sources */,
 				5B739DDB28935B9500E4EED0 /* VoteService.swift in Sources */,
 				5B739DDC28935B9500E4EED0 /* SpringView.swift in Sources */,
@@ -2347,6 +2384,7 @@
 				5B739DF828935B9500E4EED0 /* Word.swift in Sources */,
 				5B739DF928935B9500E4EED0 /* String+Capitalization.swift in Sources */,
 				5B739DFA28935B9500E4EED0 /* UIView+FindVC.swift in Sources */,
+				5BC25A9828990BF9005AAF69 /* EmojiButton.swift in Sources */,
 				5B739DFB28935B9500E4EED0 /* DesignableTextField.swift in Sources */,
 				5B739DFC28935B9500E4EED0 /* DesignableButton.swift in Sources */,
 				5B739DFD28935B9500E4EED0 /* BasicAPI.swift in Sources */,
@@ -2429,6 +2467,7 @@
 				5B739E4A28935B9500E4EED0 /* String+Indexing.swift in Sources */,
 				5B739E4B28935B9500E4EED0 /* ClusterAnnotationView.swift in Sources */,
 				5B739E4C28935B9500E4EED0 /* BlockAPI.swift in Sources */,
+				5BD6F47F2896B3020002A60B /* StringChat+Emoji.swift in Sources */,
 				5B739E4D28935B9500E4EED0 /* UITextField+MaxLength.swift in Sources */,
 				5B739E4E28935B9500E4EED0 /* CustomCenteredView.swift in Sources */,
 				5B739E4F28935B9500E4EED0 /* Block.swift in Sources */,
@@ -2440,6 +2479,7 @@
 				5B739E5428935B9500E4EED0 /* FriendRequestService.swift in Sources */,
 				5B739E5528935B9500E4EED0 /* PostAnnotation.swift in Sources */,
 				5B739E5628935B9500E4EED0 /* Favorite.swift in Sources */,
+				5B29262A28974E10008A1F5D /* CommentVote.swift in Sources */,
 				5B739E5728935B9500E4EED0 /* FilterSheetViewController.swift in Sources */,
 				5B739E5828935B9500E4EED0 /* Error.swift in Sources */,
 				5B739E5928935B9500E4EED0 /* PostFlag.swift in Sources */,
@@ -2506,7 +2546,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = SHD3A2G97F;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;

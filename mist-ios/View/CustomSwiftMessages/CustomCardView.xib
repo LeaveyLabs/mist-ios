@@ -15,8 +15,8 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A7b-0a-fJG" userLabel="Corner rounding view" customClass="CornerRoundingView" customModule="SwiftMessages">
                     <rect key="frame" x="20" y="44" width="470" height="82"/>
                     <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="SU0-uJ-4pP" userLabel="Content view">
-                            <rect key="frame" x="15" y="8" width="440" height="66"/>
+                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="SU0-uJ-4pP" userLabel="Content view">
+                            <rect key="frame" x="9" y="8" width="446" height="66"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" text="😬" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T1i-ce-9y8" userLabel="Icon label">
                                     <rect key="frame" x="0.0" y="10.5" width="43" height="45.5"/>
@@ -28,27 +28,27 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" translatesAutoresizingMaskIntoConstraints="NO" id="RxA-tv-YM7" userLabel="Icon image view">
-                                    <rect key="frame" x="53" y="8" width="50" height="50"/>
+                                    <rect key="frame" x="48" y="8" width="50" height="50"/>
                                 </imageView>
-                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="i9r-ex-CgT">
-                                    <rect key="frame" x="113" y="17.5" width="221" height="31.5"/>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="-1" translatesAutoresizingMaskIntoConstraints="NO" id="i9r-ex-CgT">
+                                    <rect key="frame" x="103" y="11" width="242" height="44.5"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="[Title]" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8HR-oh-U9F">
-                                            <rect key="frame" x="0.0" y="0.0" width="221" height="17"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="242" height="25"/>
                                             <accessibility key="accessibilityConfiguration">
                                                 <bool key="isElement" value="NO"/>
                                             </accessibility>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[Message Body]" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9oc-qg-igL">
-                                            <rect key="frame" x="0.0" y="17" width="221" height="14.5"/>
+                                            <rect key="frame" x="0.0" y="24" width="242" height="20.5"/>
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                             <accessibility key="accessibilityConfiguration">
                                                 <bool key="isElement" value="NO"/>
                                             </accessibility>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -56,7 +56,7 @@
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 </stackView>
                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" horizontalCompressionResistancePriority="752" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CxK-Y3-nSI">
-                                    <rect key="frame" x="344" y="19" width="96" height="28"/>
+                                    <rect key="frame" x="350" y="19" width="96" height="28"/>
                                     <state key="normal" title="[Button]" image="xmark.circle" catalog="system">
                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="25"/>
                                     </state>
@@ -74,7 +74,7 @@
                         <constraint firstItem="SU0-uJ-4pP" firstAttribute="top" secondItem="A7b-0a-fJG" secondAttribute="top" constant="8" id="S9l-zM-0wc"/>
                         <constraint firstAttribute="bottom" secondItem="SU0-uJ-4pP" secondAttribute="bottom" constant="8" id="YMg-LN-n7f"/>
                         <constraint firstAttribute="width" relation="lessThanOrEqual" priority="900" constant="500" id="lOa-jP-2uX"/>
-                        <constraint firstItem="SU0-uJ-4pP" firstAttribute="leading" secondItem="A7b-0a-fJG" secondAttribute="leading" constant="15" id="nYJ-Ok-uhC"/>
+                        <constraint firstItem="SU0-uJ-4pP" firstAttribute="leading" secondItem="A7b-0a-fJG" secondAttribute="leading" constant="9" id="nYJ-Ok-uhC"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
