@@ -10,8 +10,7 @@ import UIKit
 
 struct ButtonConfigs {
     static let enabledTitleAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Heavy, size: 24)!]
-    static let disabledTitleAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Heavy, size: 24)!,
-                                   NSAttributedString.Key.foregroundColor: UIColor.init(white: 1, alpha: 0.3)]
+    static let disabledTitleAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Heavy, size: 24)!]
         
     static func enabledConfig(title: String) -> UIButton.Configuration {
         var enabledConfig = UIButton.Configuration.filled()

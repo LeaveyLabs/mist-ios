@@ -56,9 +56,9 @@ enum APIError: Error {
         case .ClientError(_, let recoverySuggession):
             return NSLocalizedString(recoverySuggession, comment: "")
         case .Unauthorized:
-            return NSLocalizedString("", comment: "")
+            return NSLocalizedString("Please try again later", comment: "")
         case .Forbidden:
-            return NSLocalizedString("", comment: "")
+            return NSLocalizedString("Please try again later", comment: "")
         case .NotFound:
             return NSLocalizedString("Please try again later", comment: "")
         case .Timeout:

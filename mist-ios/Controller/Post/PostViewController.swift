@@ -227,6 +227,127 @@ extension PostViewController: InputBarAccessoryViewDelegate {
             }
         }
     }
+    }
+    
+    func extractAutocompletionsFromInputBarText() -> [String: AnyObject] {
+        // Here we can parse for which substrings were autocompleted
+        let attributedText = inputBar.inputTextView.attributedText!
+        let range = NSRange(location: 0, length: attributedText.length)
+        var commentAutocompletions = [String: AnyObject]()
+        attributedText.enumerateAttribute(.autocompleted, in: range, options: []) { (attributes, range, stop) in
+            let substring = attributedText.attributedSubstring(from: range)
+            let context = substring.attribute(.autocompletedContext, at: 0, effectiveRange: nil)
+            commentAutocompletions[substring.string] = context as AnyObject?
+        }
+        return commentAutocompletions
+    }
+    
+    func requestPermissionToTextIfNecessary(autocompletions commentAutocompletions: [String: AnyObject], closure: @escaping (_ authorizedTags: [Tag]) -> Void) {
+        let candidateTags = turnCommentAutocompletionsIntoTags(commentAutocompletions)
+        let candidateTagsFromUsers = candidateTags.filter({ $0.tagged_user != nil })
+        let candidateTagsFromContacts = candidateTags.filter({ $0.tagged_phone_number != nil })
+        
+        if candidateTagsFromContacts.count == 0 {
+            closure(candidateTags)
+            return
+        }
+        
+        let firstNamesToText: [String] = commentAutocompletions.compactMap { name, context in
+            return (context[AutocompleteContext.queryName.rawValue] as? String)?.components(separatedBy: .whitespaces).first
+        }
+        var namesAsString: String = ""
+        firstNamesToText.forEach( { namesAsString.append($0 + " ") })
+        
+        let alertTitle: String = namesAsString + (firstNamesToText.count == 1 ? "isn't on Mist yet!" : "aren't on Mist yet!")
+        let alert = UIAlertController(title: alertTitle,
+                                      message: "We'll send a text to let them know you mentioned them.",
+                                      preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Cancel",
+                                      style: UIAlertAction.Style.default, handler: { alertAction in
+            closure(candidateTagsFromUsers)
+        }))
+        alert.addAction(UIAlertAction(title: "OK",
+                                      style: UIAlertAction.Style.default, handler: { alertAction in
+            closure(candidateTags)
+        }))
+        self.present(alert, animated: true)
+    }
+    
+    func turnCommentAutocompletionsIntoTags(_ commentAutocompletions: [String: AnyObject]) -> [Tag] {
+        var tags = [Tag]()
+        for (name, context) in commentAutocompletions {
+            if let taggedUserId = context[AutocompleteContext.id.rawValue] as? Int {
+                //Completion from users
+                let userTag = Tag(id: Int.random(in: 0..<Int.max), comment: 0, tagged_name: name, tagged_user: taggedUserId, tagged_phone_number: nil, tagging_user: UserService.singleton.getId(), timestamp: Date().timeIntervalSince1970)
+                tags.append(userTag)
+            } else if let number = context[AutocompleteContext.number.rawValue] as? String {
+                //Completion from contacts
+                let contactTag = Tag(id: Int.random(in: 0..<Int.max), comment: 0, tagged_name: name, tagged_user: nil, tagged_phone_number: number.formatAsDjangoPhoneNumber(), tagging_user: UserService.singleton.getId(), timestamp: Date().timeIntervalSince1970)
+                tags.append(contactTag)
+            }
+        }
+        return tags
+    }
+
+    
+    func inputBar(_ inputBar: InputBarAccessoryView, didChangeIntrinsicContentTo size: CGSize) {
+        // Adjust content insets
+        print("didchangeinputbarintrinsicsizeto:", size)
+        tableView.contentInset.bottom = size.height + keyboardHeight
+        updateMaxAutocompleteRows(keyboardHeight: keyboardHeight)
+        tableView.keyboardDismissMode = asyncCompletions.isEmpty ? .interactive : .none
+    }
+    
+    func updateMaxAutocompleteRows(keyboardHeight: Double) {
+        let inputHeight = inputBar.inputTextView.frame.height + 10
+        autocompleteManager.tableView.maxVisibleRows = Int((tableView.frame.height - keyboardHeight - inputHeight) / autocompleteManager.tableView.rowHeight)
+    }
+
+    @objc func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
+        inputBar.inputTextView.placeholderLabel.isHidden = !inputBar.inputTextView.text.isEmpty
+        inputBar.sendButton.isEnabled = inputBar.inputTextView.text != ""
+        processAutocompleteOnNextText(text)
+    }
+        
+}
+
+//MARK: - UITextViewDelegate
+
+//NOTE: We are snatching the UITextViewDelegate from the autocompleteManager, so 
+
+extension PostViewController: UITextViewDelegate {
+        
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+
+        // Don't allow whitespace as first character
+        if (text == " " || text == "\n") && textView.text.count == 0 {
+            textView.text = ""
+            return false
+        }
+        
+        guard textView.shouldChangeTextGivenMaxLengthOf(MAX_COMMENT_LENGTH, range, text) else { return false }
+        
+        return autocompleteManager.textView(textView, shouldChangeTextIn: range, replacementText: text)
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        autocompleteManager.textViewDidChange(textView)
+    }
+    
+    
+}
+
+extension PostViewController {
+    
+    //MARK: - User Interaction
+        
+    @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func dismissAllKeyboards() {
+        view.endEditing(true)
+    }
     
     func extractAutocompletionsFromInputBarText() -> [String: AnyObject] {
         // Here we can parse for which substrings were autocompleted
@@ -484,7 +605,7 @@ extension PostViewController {
         clearAllFields()
         inputBar.inputTextView.resignFirstResponder()
         tableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
-        post.commentcount += 1
+//        post.commentcount += 1
         comments.append(newComment)
         commentAuthors[newComment.author] = UserService.singleton.getUserAsFrontendReadOnlyUser()
         tableView.reloadData()
@@ -500,16 +621,16 @@ extension PostViewController {
 
 extension PostViewController: PostDelegate {
     
-    func handleVote(postId: Int, isAdding: Bool) {
+    func handleVote(postId: Int, emoji: String, action: VoteAction) {
         // viewController update
-        let originalVoteCount = post.votecount
-        post.votecount += isAdding ? 1 : -1
+        //Below is no longer needed
+//        let originalVoteCount = post.votecount
         
         // Singleton & remote update
         do {
-            try VoteService.singleton.handleVoteUpdate(postId: postId, isAdding)
+            try VoteService.singleton.handleVoteUpdate(postId: postId, emoji: emoji, action)
         } catch {
-            post.votecount = originalVoteCount //undo viewController data change
+//            post.votecount = originalVoteCount //undo viewController data change
             (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
             CustomSwiftMessages.displayError(error)
         }
@@ -529,6 +650,54 @@ extension PostViewController: PostDelegate {
     
     func handleDeletePost(postId: Int) {
         navigationController?.popViewController(animated: true)
+    }
+    
+    //MARK: - React interaction
+    
+    func handleReactTap(postId: Int) {
+        isKeyboardForEmojiReaction = true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        view.endEditing(true)
+        guard let postView = textField.superview as? PostView else { return false }
+        if !string.isSingleEmoji { return false }
+        postView.handleEmojiVote(emojiString: string)
+        return false
+    }
+    
+    @objc func keyboardWillChangeFrame(sender: NSNotification) {
+        let i = sender.userInfo!
+        let previousK = keyboardHeight
+        keyboardHeight = (i[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height
+                
+        if keyboardHeight < previousK {
+            if commentTextView.isFirstResponder { return } //this should only run for emoji keyboard, not comment keyboard
+            view.endEditing(true)
+        }
+        
+        if keyboardHeight > previousK && isKeyboardForEmojiReaction { //keyboard is appearing for the first time && we don't want to scroll the feed when the search controller keyboard is presented
+            isKeyboardForEmojiReaction = false
+            scrollFeedToPostRightAboveKeyboard()
+        }
+    }
+        
+    @objc func keyboardWillDismiss(sender: NSNotification) {
+        keyboardHeight = 0
+    }
+}
+
+extension PostViewController {
+    
+    //also not quite working
+    func scrollFeedToPostRightAboveKeyboard() {
+        let postIndex = 0 //because postVC
+        let postBottomYWithinFeed = tableView.rectForRow(at: IndexPath(row: postIndex, section: 0))
+        let postBottomY = tableView.convert(postBottomYWithinFeed, to: view).maxY
+        let keyboardTopY = view.bounds.height - keyboardHeight
+        let desiredOffset = postBottomY - keyboardTopY
+        if desiredOffset < 0 { return } //dont scroll up for the post
+        tableView.setContentOffset(tableView.contentOffset.applying(.init(translationX: 0, y: desiredOffset)), animated: true)
     }
     
 }

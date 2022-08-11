@@ -1728,8 +1728,8 @@ make that cute barista’s day,
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TaJ-4h-cFp">
                                 <rect key="frame" x="0.0" y="44" width="390" height="55"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Conversations" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fVs-qT-Doq">
-                                        <rect key="frame" x="22.666666666666671" y="8.3333333333333357" width="180.66666666666663" height="38.333333333333336"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DMs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fVs-qT-Doq">
+                                        <rect key="frame" x="22.666666666666668" y="8.3333333333333357" width="58.666666666666657" height="38.333333333333336"/>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="28"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>

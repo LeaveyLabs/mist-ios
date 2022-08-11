@@ -56,8 +56,7 @@ class AuthStartViewController: UIViewController, UITextViewDelegate {
             agreementTextView.isUserInteractionEnabled = true
             agreementTextView.textAlignment = NSTextAlignment.center
             agreementTextView.linkTextAttributes = [
-                .foregroundColor: UIColor.blue,
-                .underlineStyle: NSUnderlineStyle.single.rawValue
+                .foregroundColor: UIColor.darkGray,
             ]
         }
     }

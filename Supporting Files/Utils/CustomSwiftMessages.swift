@@ -47,10 +47,10 @@ struct CustomSwiftMessages {
                                          body: body,
                                          iconText: emoji)
             errorMessageView.button?.isHidden = true
-            errorMessageView.dismissButton.tintColor = .white
-            errorMessageView.dismissAction = {
-                SwiftMessages.hide()
-            }
+//            errorMessageView.dismissButton.tintColor = .white
+//            errorMessageView.dismissAction = {
+//                SwiftMessages.hide()
+//            }
             
             var messageConfig = SwiftMessages.Config()
             messageConfig.presentationContext = .window(windowLevel: .normal)
@@ -67,7 +67,7 @@ struct CustomSwiftMessages {
 
 extension CustomSwiftMessages {
     
-    static func showInfoCard(_ title: String, _ body: String, emoji: String, onDismiss: @escaping () -> Void = { }) {
+    static func showInfoCard(_ title: String, _ body: String, emoji: String) {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
             messageView.configureTheme(backgroundColor: .white, foregroundColor: .black)
@@ -76,11 +76,11 @@ extension CustomSwiftMessages {
             messageView.configureContent(title: title,
                                          body: body,
                                          iconText: emoji)
-            messageView.dismissButton.tintColor = .black
-            messageView.dismissAction = {
-                SwiftMessages.hide()
-                onDismiss()
-            }
+//            messageView.dismissButton.tintColor = .black
+//            messageView.dismissAction = {
+//                SwiftMessages.hide()
+//                onDismiss()
+//            }
             
             var messageConfig = SwiftMessages.Config()
             messageConfig.presentationContext = .window(windowLevel: .normal)

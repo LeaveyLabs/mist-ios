@@ -25,6 +25,7 @@ extension ExploreViewController {
             feed.topAnchor.constraint(equalTo: customNavigationBar.bottomAnchor),
         ])
         
+        feed.delegate = self
         feed.dataSource = self
         feed.tableFooterView = UIView(frame: .init(x: 0, y: 0, width: 100, height: 50))
         feed.estimatedRowHeight = 100
@@ -46,11 +47,41 @@ extension ExploreViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.feed.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-        cell.configurePostCell(post: postAnnotations[indexPath.row].post,
+        //in the feed, we don't need a reference to the postView like we do in 
+        let _ = cell.configurePostCell(post: postAnnotations[indexPath.row].post,
                                nestedPostViewDelegate: self,
                                bubbleTrianglePosition: .left,
                                isWithinPostVC: false)
         return cell
     }
     
+}
+
+extension ExploreViewController: UITableViewDelegate {
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        view.endEditing(true)
+    }
+    
+}
+
+//MARK: - Helper
+
+extension ExploreViewController {
+                
+    
+    //doesnt work for super tall posts
+    //the offset is right, but ... it's like, it's not happy with the top of the post going beyond the edge of the visible view
+    
+    func scrollFeedToPostRightAboveKeyboard(_ postIndex: Int) {
+        let postBottomYWithinFeed = feed.rectForRow(at: IndexPath(row: postIndex, section: 0))
+        let postBottomY = feed.convert(postBottomYWithinFeed, to: view).maxY
+        let keyboardTopY = view.bounds.height - keyboardHeight
+        let desiredOffset = postBottomY - keyboardTopY
+        if postIndex == 0 && desiredOffset < 0 { return } //dont scroll up for the very first post
+
+        //the content offset is right
+        //it's just that,,, somehow it knows what post im clicking on and doesnt let it go out of view
+        feed.setContentOffset(feed.contentOffset.applying(.init(translationX: 0, y: desiredOffset)), animated: true)
+    }
 }

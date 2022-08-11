@@ -122,7 +122,7 @@ class RequestResetPasswordViewController: KUIViewController, UITextFieldDelegate
     func handleFailure(_ error: Error) {
         isSubmitting = false
         validateInput()
-        CustomSwiftMessages.displayError("We couldn't find that email", "Please try again")
+        CustomSwiftMessages.displayError("That email doesn't exist", "Please try again")
     }
     
     func validateInput() {

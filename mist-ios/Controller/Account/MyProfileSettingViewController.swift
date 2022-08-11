@@ -125,7 +125,7 @@ class MyProfileSettingViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if section == 0 {
-            return "Your name can't be changed after signing up."
+            return "Your real name can't be changed."
         } else {
             return "Letters, numbers, underscores and periods."
         }
