@@ -114,6 +114,8 @@ class ChatViewController: MessagesViewController {
             setupWhenPresentedFromPost()
         }
         
+//        messagesCollectionView.directionalPressGestureRecognizer.allowedPressTypes
+        
         //Keyboard manager from InputBarAccessoryView
         view.addSubview(messageInputBar)
         keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
@@ -136,7 +138,7 @@ class ChatViewController: MessagesViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewHasAppeared = true
-//        enableInteractivePopGesture()
+        enableInteractivePopGesture()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -153,8 +155,13 @@ class ChatViewController: MessagesViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         viewHasAppeared = false
-//        disableInteractivePopGesture()
+        disableInteractivePopGesture()
     }
+    
+    //    //(2 of 2) Enable swipe left to go back with a bar button item
+        func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+            return true
+        }
     
     //MARK: - Setup
     
@@ -176,7 +183,7 @@ class ChatViewController: MessagesViewController {
         
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
 //        maintainPositionOnKeyboardFrameChanged = true // default false. this was causing a weird snap when scrolling the keyboard down
-        showMessageTimestampOnSwipeLeft = true // default false
+//        showMessageTimestampOnSwipeLeft = true // default false
         additionalBottomInset = 8
     }
     
@@ -217,6 +224,8 @@ class ChatViewController: MessagesViewController {
         messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
         messageInputBar.shouldAnimateTextDidChangeLayout = true
         messageInputBar.maxTextViewHeight = 144 //max of 6 lines with the given font
+        messageInputBar.setMiddleContentView(messageInputBar.inputTextView, animated: false)
+
 
         //Right
         messageInputBar.setRightStackViewWidthConstant(to: 38, animated: false)
@@ -499,10 +508,13 @@ extension ChatViewController: MessagesDisplayDelegate {
         //The default message content view has uneven padding which can't be set by the open interface 😒
         //Fix it here
         
+        ///if the message is not positioned correctly, then make the following edits
+        ///options:
+        ///only do this on the very first load of the VC
+        ///only do this on the very first render of the view ooooh i like this
+        /// if the view's cornerRadius is not 16.1
+        
         return .custom { view in
-            view.layer.cornerCurve = .continuous
-            view.layer.cornerRadius = 16
-            view.frame.size.width -= 4
             let messageLabel = view.subviews[0] as! MessageLabel
             if self.isFromCurrentSender(message: message) {
                 view.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
@@ -513,6 +525,11 @@ extension ChatViewController: MessagesDisplayDelegate {
                 view.layer.borderWidth = 0
                 messageLabel.center = CGPoint(x: messageLabel.center.x - 3, y: messageLabel.center.y)
             }
+            
+            guard view.layer.cornerRadius != 16.1 else { return } //Don't perform these positioning updates again if they were already performed once
+            view.layer.cornerCurve = .continuous
+            view.layer.cornerRadius = 16.1
+            view.frame.size.width -= 4
         }
     }
     

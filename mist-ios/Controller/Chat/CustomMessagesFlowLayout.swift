@@ -18,7 +18,7 @@ open class CustomMessagesFlowLayout: MessagesCollectionViewFlowLayout {
         setMessageIncomingAvatarSize(.init(width: 33, height: 33))
         setMessageOutgoingMessageBottomLabelAlignment(LabelAlignment(textAlignment: .right, textInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 12)))
         setMessageOutgoingMessagePadding(.init(top: 0, left: 70, bottom: 0, right: 0)) //limit age max width
-        setMessageIncomingMessagePadding(.init(top: 0, left: 0, bottom: 0, right: 70)) //limit age max width
+        setMessageIncomingMessagePadding(.init(top: 0, left: 5, bottom: 0, right: 70)) //limit max width, and create padding between avatar
         setMessageOutgoingCellTopLabelAlignment(.init(textAlignment: .center, textInsets: .init(top: 20, left: 0, bottom: 0, right: 0)))
         setMessageIncomingCellTopLabelAlignment(.init(textAlignment: .center, textInsets: .init(top: 20, left: 0, bottom: 0, right: 0)))
         setAvatarLeadingTrailingPadding(5)
