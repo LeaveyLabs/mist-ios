@@ -320,7 +320,19 @@ extension PostViewController: PostDelegate {
     }
     
     func handleCommentButtonTap(postId: Int) {
-        commentTextView.becomeFirstResponder()
+        if commentTextView.isFirstResponder {
+            commentTextView.resignFirstResponder()
+        } else {
+            if keyboardHeight > 0 {
+                view.endEditing(true)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in //let the other keyboard dismiss
+                    self?.commentTextView.becomeFirstResponder()
+                }
+            } else {
+                commentTextView.becomeFirstResponder()
+            }
+        }
+            
     }
     
     func handleDeletePost(postId: Int) {

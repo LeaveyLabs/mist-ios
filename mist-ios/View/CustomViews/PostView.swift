@@ -112,6 +112,7 @@ extension PostView {
         } else {
             dmButton.setTitleColor(.darkGray, for: .normal)
             dmButton.imageView?.tintColor = .darkGray
+            dmButton.loadingIndicator(false) // just to be sure
         }
         
         var arrowPosition: BubbleTrianglePosition!

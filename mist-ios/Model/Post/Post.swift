@@ -113,7 +113,7 @@ struct Post: Codable, Equatable {
     
     static private func randomUnusedEmoji(usedEmojis: [EmojiCountTuple]) -> String {
         while true {
-            let randomEmoji = ["🥹", "🥳", "😂", "🥰", "😍", "🧐", "😭", "🫠", "🫡", "😰", "👀", "👍", "👏", "💘", "😮", "🙄", "😇", "😳", "🫢", "😶", "🤠", "😦", "🍿", "🔥", "🙂",].randomElement()!
+            let randomEmoji = ["🥹", "🥳", "😂", "🥰", "😍", "🧐", "😭", "❤️", "😰", "👀", "🫶", "👏", "💘", "😮", "🙄", "😇", "😳", "🫢", "😶", "🤠", "😦", "🍿", "🔥", "🙂", "🤣"].randomElement()!
             let isEmojiUsed = usedEmojis.contains { $0.emoji == randomEmoji }
             if !isEmojiUsed {
                 return randomEmoji

@@ -75,28 +75,26 @@ class LoadingViewController: UIViewController {
     
     func goToHome() {
         Task {
-            var numberOfFailures = 0
-            var werePostsLoaded = false
-            while !werePostsLoaded {
-                do {
-                    try await loadEverything()
-                    werePostsLoaded = true
-                    mistWideLogoView.flyHeartUp()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + Env.LAUNCH_ANIMATION_DELAY) {
-                        self.transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
-                                                    viewControllerID: Constants.SBID.VC.TabBarController,
-                                                    duration: Env.LAUNCH_ANIMATION_DURATION) { _ in
-                        }
-                    }
-                } catch {
-                    if numberOfFailures > 1 {
-                        CustomSwiftMessages.displayError(error)
-                    } else {
-                        numberOfFailures += 1
-                    }
-                    sleep(2)
+            try await loadAndGoHome(failCount: 0)
+        }
+    }
+    
+    func loadAndGoHome(failCount: Int) async throws {
+        do {
+            try await loadEverything()
+            mistWideLogoView.flyHeartUp()
+            DispatchQueue.main.asyncAfter(deadline: .now() + Env.LAUNCH_ANIMATION_DELAY) {
+                self.transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
+                                            viewControllerID: Constants.SBID.VC.TabBarController,
+                                            duration: Env.LAUNCH_ANIMATION_DURATION) { _ in
                 }
             }
+        } catch {
+            if failCount >= 2 {
+                CustomSwiftMessages.displayError(error)
+            }
+            try await Task.sleep(nanoseconds: 3_000_000_000)
+            try await self.loadAndGoHome(failCount: failCount + 1)
         }
     }
 }
