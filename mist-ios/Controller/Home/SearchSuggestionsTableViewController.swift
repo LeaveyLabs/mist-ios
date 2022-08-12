@@ -67,7 +67,13 @@ extension SearchSuggestionsTableViewController {
         let resultType = MapSearchResultType.init(rawValue: section)!
         return resultType.sectionName
     }
-        
+    
+    //Fix font
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let header = view as? UITableViewHeaderFooterView else { return }
+        header.textLabel?.font = UIFont(name: Constants.Font.Medium, size: 15)
+    }
+            
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let resultType = MapSearchResultType.init(rawValue: section)!
         if searchText.isEmpty { return 0 }
@@ -89,6 +95,8 @@ extension SearchSuggestionsTableViewController {
             } else {
                 cell.configureNoWordResultsCell()
             }
+            cell.textLabel?.font = UIFont(name: Constants.Font.Medium, size: 16)
+            cell.subtitleLabel?.font = UIFont(name: Constants.Font.Medium, size: 12)
             return cell
         case .nearby:
             let cell = tableView.dequeueReusableCell(withIdentifier: SuggestedCompletionTableViewCell.reuseID, for: indexPath)
@@ -112,6 +120,8 @@ extension SearchSuggestionsTableViewController {
                 cell.accessoryType = .none
                 cell.isUserInteractionEnabled = false
             }
+            cell.textLabel?.font = UIFont(name: Constants.Font.Medium, size: 16)
+            cell.detailTextLabel?.font = UIFont(name: Constants.Font.Medium, size: 12)
             return cell
         }
     }

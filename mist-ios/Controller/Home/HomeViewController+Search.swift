@@ -19,6 +19,7 @@ extension HomeViewController {
         searchBarButton.delegate = self
         searchBarButton.setImage(UIImage(), for: .clear, state: .normal)
         searchBarButton.searchTextField.leftView?.tintColor = .secondaryLabel
+        searchBarButton.searchTextField.font = UIFont(name: Constants.Font.Medium, size: 18)
         searchBarButton.searchTextField.textColor = cornerButtonGrey
     }
     
@@ -43,6 +44,7 @@ extension HomeViewController {
         mySearchController.searchBar.searchTextField.tintColor = mistUIColor()
         mySearchController.searchBar.autocapitalizationType = .none
         mySearchController.searchBar.searchBarStyle = .prominent //when setting to .minimal, the background disappears and you can see nav bar underneath. if using .minimal, add a background color to searchBar to fix this.
+        mySearchController.searchBar.searchTextField.font = UIFont(name: Constants.Font.Medium, size: 18)
     }
     
 }

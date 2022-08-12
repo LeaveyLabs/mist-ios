@@ -104,14 +104,20 @@ class TagAPI {
     
     static func batchPostTags(comment:Int, tags: [Tag]) async throws -> [Tag] {
         var syncedTags = [Tag]()
-        try await withThrowingTaskGroup(of: Tag.self) { group in
+        try await withThrowingTaskGroup(of: Tag?.self) { group in
             for tag in tags {
                 group.addTask {
-                    return try await TagAPI.postTag(comment: comment, tagged_name: tag.tagged_name, tagging_user: tag.tagging_user, tagged_user: tag.tagged_user, tagged_phone_number: tag.tagged_phone_number)
+                    if let tagged_user = tag.tagged_user {
+                        return try await TagAPI.postTag(comment: comment, tagged_name: tag.tagged_name, tagging_user: tag.tagging_user, tagged_user: tagged_user)
+                    } else {
+                        guard let tagged_number = tag.tagged_phone_number else { return nil }
+                        return try await TagAPI.postTag(comment: comment, tagged_name: tag.tagged_name, tagging_user: tag.tagging_user, tagged_phone_number: tagged_number)
+                    }
                 }
             }
             for try await tag in group {
-                syncedTags.append(tag)
+                guard let successfulTag = tag else { return }
+                syncedTags.append(successfulTag)
             }
         }
         return syncedTags

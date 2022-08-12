@@ -17,10 +17,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PKG-OD-T7w">
-                        <rect key="frame" x="65" y="22" width="218.5" height="69"/>
+                        <rect key="frame" x="65" y="22" width="204.5" height="69"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="Omg this is so cute @adam" translatesAutoresizingMaskIntoConstraints="NO" id="3aT-vI-aN2" customClass="LinkTextView" customModule="mist_ios" customModuleProvider="target">
-                                <rect key="frame" x="12" y="8" width="194.5" height="55"/>
+                                <rect key="frame" x="5" y="2" width="194.5" height="66"/>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -28,10 +28,10 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
-                            <constraint firstItem="3aT-vI-aN2" firstAttribute="top" secondItem="PKG-OD-T7w" secondAttribute="top" constant="8" id="9Qn-O2-Yjc"/>
-                            <constraint firstAttribute="trailing" secondItem="3aT-vI-aN2" secondAttribute="trailing" constant="12" id="QMV-H7-25G"/>
-                            <constraint firstAttribute="bottom" secondItem="3aT-vI-aN2" secondAttribute="bottom" constant="6" id="SVe-pD-B7Q"/>
-                            <constraint firstItem="3aT-vI-aN2" firstAttribute="leading" secondItem="PKG-OD-T7w" secondAttribute="leading" constant="12" id="vf9-aZ-wy3"/>
+                            <constraint firstItem="3aT-vI-aN2" firstAttribute="top" secondItem="PKG-OD-T7w" secondAttribute="top" constant="2" id="9Qn-O2-Yjc"/>
+                            <constraint firstAttribute="trailing" secondItem="3aT-vI-aN2" secondAttribute="trailing" constant="5" id="QMV-H7-25G"/>
+                            <constraint firstAttribute="bottom" secondItem="3aT-vI-aN2" secondAttribute="bottom" constant="1" id="SVe-pD-B7Q"/>
+                            <constraint firstItem="3aT-vI-aN2" firstAttribute="leading" secondItem="PKG-OD-T7w" secondAttribute="leading" constant="5" id="vf9-aZ-wy3"/>
                         </constraints>
                     </view>
                     <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="NxU-m6-kFX">

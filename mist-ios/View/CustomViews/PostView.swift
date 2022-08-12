@@ -264,8 +264,8 @@ extension PostView {
         if reactButtonTextField.isFirstResponder {
             reactButtonTextField.resignFirstResponder()
         } else {
-            if let postVC = postDelegate as? PostViewController, postVC.commentTextView.isFirstResponder {
-                postVC.commentTextView.resignFirstResponder()
+            if let postVC = postDelegate as? PostViewController, postVC.inputBar.inputTextView.isFirstResponder {
+                postVC.inputBar.inputTextView.resignFirstResponder()
                 postDelegate.handleReactTap(postId: postId) //must come first to set flags
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { //let the other keyboard dismiss
                     self.reactButtonTextField.becomeFirstResponder()

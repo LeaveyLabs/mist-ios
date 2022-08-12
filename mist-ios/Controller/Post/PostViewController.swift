@@ -44,6 +44,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     //Keyboard
     var shouldStartWithRaisedKeyboard: Bool!
     var keyboardHeight: Double = 0
+    var isKeyboardForEmojiReaction: Bool = false
     
     //Autocomplete
     let contactStore = CNContactStore()
@@ -227,7 +228,6 @@ extension PostViewController: InputBarAccessoryViewDelegate {
             }
         }
     }
-    }
     
     func extractAutocompletionsFromInputBarText() -> [String: AnyObject] {
         // Here we can parse for which substrings were autocompleted
@@ -348,127 +348,7 @@ extension PostViewController {
     @objc func dismissAllKeyboards() {
         view.endEditing(true)
     }
-    
-    func extractAutocompletionsFromInputBarText() -> [String: AnyObject] {
-        // Here we can parse for which substrings were autocompleted
-        let attributedText = inputBar.inputTextView.attributedText!
-        let range = NSRange(location: 0, length: attributedText.length)
-        var commentAutocompletions = [String: AnyObject]()
-        attributedText.enumerateAttribute(.autocompleted, in: range, options: []) { (attributes, range, stop) in
-            let substring = attributedText.attributedSubstring(from: range)
-            let context = substring.attribute(.autocompletedContext, at: 0, effectiveRange: nil)
-            commentAutocompletions[substring.string] = context as AnyObject?
-        }
-        return commentAutocompletions
-    }
-    
-    func requestPermissionToTextIfNecessary(autocompletions commentAutocompletions: [String: AnyObject], closure: @escaping (_ authorizedTags: [Tag]) -> Void) {
-        let candidateTags = turnCommentAutocompletionsIntoTags(commentAutocompletions)
-        let candidateTagsFromUsers = candidateTags.filter({ $0.tagged_user != nil })
-        let candidateTagsFromContacts = candidateTags.filter({ $0.tagged_phone_number != nil })
         
-        if candidateTagsFromContacts.count == 0 {
-            closure(candidateTags)
-            return
-        }
-        
-        let firstNamesToText: [String] = commentAutocompletions.compactMap { name, context in
-            return (context[AutocompleteContext.queryName.rawValue] as? String)?.components(separatedBy: .whitespaces).first
-        }
-        var namesAsString: String = ""
-        firstNamesToText.forEach( { namesAsString.append($0 + " ") })
-        
-        let alertTitle: String = namesAsString + (firstNamesToText.count == 1 ? "isn't on Mist yet!" : "aren't on Mist yet!")
-        let alert = UIAlertController(title: alertTitle,
-                                      message: "We'll send a text to let them know you mentioned them.",
-                                      preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Cancel",
-                                      style: UIAlertAction.Style.default, handler: { alertAction in
-            closure(candidateTagsFromUsers)
-        }))
-        alert.addAction(UIAlertAction(title: "OK",
-                                      style: UIAlertAction.Style.default, handler: { alertAction in
-            closure(candidateTags)
-        }))
-        self.present(alert, animated: true)
-    }
-    
-    func turnCommentAutocompletionsIntoTags(_ commentAutocompletions: [String: AnyObject]) -> [Tag] {
-        var tags = [Tag]()
-        for (name, context) in commentAutocompletions {
-            if let taggedUserId = context[AutocompleteContext.id.rawValue] as? Int {
-                //Completion from users
-                let userTag = Tag(id: Int.random(in: 0..<Int.max), comment: 0, tagged_name: name, tagged_user: taggedUserId, tagged_phone_number: nil, tagging_user: UserService.singleton.getId(), timestamp: Date().timeIntervalSince1970)
-                tags.append(userTag)
-            } else if let number = context[AutocompleteContext.number.rawValue] as? String {
-                //Completion from contacts
-                let contactTag = Tag(id: Int.random(in: 0..<Int.max), comment: 0, tagged_name: name, tagged_user: nil, tagged_phone_number: number.formatAsDjangoPhoneNumber(), tagging_user: UserService.singleton.getId(), timestamp: Date().timeIntervalSince1970)
-                tags.append(contactTag)
-            }
-        }
-        return tags
-    }
-
-    
-    func inputBar(_ inputBar: InputBarAccessoryView, didChangeIntrinsicContentTo size: CGSize) {
-        // Adjust content insets
-        print("didchangeinputbarintrinsicsizeto:", size)
-        tableView.contentInset.bottom = size.height + keyboardHeight
-        updateMaxAutocompleteRows(keyboardHeight: keyboardHeight)
-        tableView.keyboardDismissMode = asyncCompletions.isEmpty ? .interactive : .none
-    }
-    
-    func updateMaxAutocompleteRows(keyboardHeight: Double) {
-        let inputHeight = inputBar.inputTextView.frame.height + 10
-        autocompleteManager.tableView.maxVisibleRows = Int((tableView.frame.height - keyboardHeight - inputHeight) / autocompleteManager.tableView.rowHeight)
-    }
-
-    @objc func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
-        inputBar.inputTextView.placeholderLabel.isHidden = !inputBar.inputTextView.text.isEmpty
-        inputBar.sendButton.isEnabled = inputBar.inputTextView.text != ""
-        processAutocompleteOnNextText(text)
-    }
-        
-}
-
-//MARK: - UITextViewDelegate
-
-//NOTE: We are snatching the UITextViewDelegate from the autocompleteManager, so 
-
-extension PostViewController: UITextViewDelegate {
-        
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-
-        // Don't allow whitespace as first character
-        if (text == " " || text == "\n") && textView.text.count == 0 {
-            textView.text = ""
-            return false
-        }
-        
-        guard textView.shouldChangeTextGivenMaxLengthOf(MAX_COMMENT_LENGTH, range, text) else { return false }
-        
-        return autocompleteManager.textView(textView, shouldChangeTextIn: range, replacementText: text)
-    }
-    
-    func textViewDidChange(_ textView: UITextView) {
-        autocompleteManager.textViewDidChange(textView)
-    }
-    
-    
-}
-
-extension PostViewController {
-    
-    //MARK: - User Interaction
-        
-    @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    @objc func dismissAllKeyboards() {
-        view.endEditing(true)
-    }
-    
 }
 
 //MARK: - Db Calls
@@ -672,7 +552,7 @@ extension PostViewController: PostDelegate {
         keyboardHeight = (i[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height
                 
         if keyboardHeight < previousK {
-            if commentTextView.isFirstResponder { return } //this should only run for emoji keyboard, not comment keyboard
+            if inputBar.inputTextView.isFirstResponder { return } //this should only run for emoji keyboard, not comment keyboard
             view.endEditing(true)
         }
         
