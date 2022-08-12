@@ -52,16 +52,19 @@ class CommentCell: UITableViewCell {
     func setupCommentTextView(text: String, tags: [Tag], delegate: CommentDelegate, commentauthorREMOVELATER: Int) {
         commentTextView.text = comment.body
         commentTextView.delegate = delegate
+        
+        var links: LinkTextView.Links = .init()
         for tag in tags {
             guard let _ = text.range(of: tag.tagged_name) else { return }
             if let number = tag.tagged_phone_number {
                 delegate.beginLoadingTaggedProfile(taggedUserId: nil, taggedNumber: number)
-                commentTextView.addLinks([tag.tagged_name: number])
+                links[tag.tagged_name] = number
             } else if let userId = tag.tagged_user {
                 delegate.beginLoadingTaggedProfile(taggedUserId: userId, taggedNumber: nil)
-                commentTextView.addLinks([tag.tagged_name: String(userId)])
+                links[tag.tagged_name] = String(userId)
             }
         }
+        commentTextView.addLinks(links)
                 
         //TODO: remove the code below once we're done with the defaults
         let tu = "Terms of Use"

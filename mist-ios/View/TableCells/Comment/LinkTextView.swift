@@ -33,6 +33,7 @@ class LinkTextView: UITextView {
         isScrollEnabled = false //on other applications, setting isScrollEnabled to false causes wrong behavior. Here, it's working fine though
         isEditable = false
         isSelectable = true
+        linkTextAttributes = CommentAutocompleteManager.tagTextAttributes
     }
     
     func addLinks(_ links: Links) {
@@ -41,19 +42,16 @@ class LinkTextView: UITextView {
         }
         let mText = NSMutableAttributedString(attributedString: attributedText)
         
-        self.textColor = .blue
         for (linkText, urlString) in links {
             if linkText.count > 0 {
                 let linkRanges = mText.string.ranges(of: linkText)
                 for range in linkRanges {
                     let nsrange = NSRange(range, in: self.attributedText.string)
                     mText.addAttribute(.link, value: urlString, range: nsrange)
-//                    mText.addAttributes(CommentAutocompleteManager.tagTextAttributes, range: NSRange)
                 }
             }
         }
         attributedText = mText
-        self.textColor = .red
     }
     
     //Disable long press on links
