@@ -197,12 +197,7 @@ class ChatViewController: MessagesViewController {
     
     func setupWhenPresentedFromPost() {
         xButton.setImage(UIImage(systemName: "xmark"), for: .normal)
-        
-        //We want to start with the messageInputBar's textView as first responder
-        //But for some reason, without this delay, self (the VC) remains the first responder
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.messageInputBar.inputTextView.becomeFirstResponder()
-        }
+        messageInputBar.inputTextView.becomeFirstResponder()
     }
     
     func setupMessageInputBarForChatting() {
