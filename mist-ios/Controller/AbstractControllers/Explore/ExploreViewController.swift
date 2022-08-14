@@ -62,6 +62,13 @@ extension ExploreViewController {
             mapView.camera.centerCoordinateDistance = 3000
             mapView.camera.pitch = 40
         }
+    }
+    
+    //TODO: OOHHH SHIT: maybe it's because i'm reloading the data, and during that reload of data, adjusting the views' positioning
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false) //for a better searchcontroller animation
+        reloadData()
         
         //Emoji keyboard autodismiss notification
         NotificationCenter.default.addObserver(self,
@@ -75,14 +82,9 @@ extension ExploreViewController {
             object: nil)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: false) //for a better searchcontroller animation
-        reloadData()
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
         navigationController?.setNavigationBarHidden(false, animated: false) //for a better searchcontroller animation
     }
     
@@ -245,12 +247,15 @@ extension ExploreViewController: PostDelegate {
         let previousK = keyboardHeight
         keyboardHeight = (i[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height
         
-        if keyboardHeight < previousK { //keyboard is going from emoji keyboard to regular keyboard
+        ///don't dismiss the keyboard when toggling to emoji search, which hardly (~1px) lowers the keyboard
+        /// and which does lower the keyboard at all (0px) on largest phones
+        ///do dismiss it when toggling to normal keyboard, which more significantly (~49px) lowers the keyboard
+        if keyboardHeight < previousK - 5 { //keyboard is going from emoji keyboard to regular keyboard
             view.endEditing(true)
         }
         
         if keyboardHeight == previousK && isKeyboardForEmojiReaction {
-            //already reacting to one post, tried to react on another postf
+            //already reacting to one post, tried to react on another post
             isKeyboardForEmojiReaction = false
             if isFeedVisible {
                 if let reactingPostIndex = reactingPostIndex {

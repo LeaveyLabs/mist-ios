@@ -141,20 +141,4 @@ class ProfileViewController: UIViewController {
     @IBAction func moreButtonDidPressed(_ sender: UIButton) {
         
     }
-    
-    //MARK: -Db Calls
-    
-//    func loadProfile() {
-//        Task {
-//            do {
-//                let readOnlyUserResults = try await UserAPI.fetchUsersByUsername(username: username)
-//                guard readOnlyUserResults.count == 1 else { throw APIError.NotFound }
-//                user = FrontendReadOnlyUser(readOnlyUser: readOnlyUserResults[0],
-//                                            profilePic: profilePic)
-//            } catch {
-//                CustomSwiftMessages.displayError(error)
-//            }
-//        }
-//    }
-
 }

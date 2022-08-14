@@ -37,16 +37,6 @@ extension PostDelegate where Self: UIViewController {
                 print("background profile loading task failed", error.localizedDescription)
             }
         }
-        
-//        guard loadAuthorProfilePicTasks[postId] == nil else { return } //Task was already started
-//        loadAuthorProfilePicTasks[postId] = Task {
-//            do {
-//                return try await FrontendReadOnlyUser(readOnlyUser: author, profilePic: UserAPI.UIImageFromURLString(url: author.picture))
-//            } catch {
-//                print("COULD NOT LOAD AUTHOR PROFILE PIC", error.localizedDescription)
-//                return nil
-//            }
-//        }
     }
 
     func handleDmTap(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String) {

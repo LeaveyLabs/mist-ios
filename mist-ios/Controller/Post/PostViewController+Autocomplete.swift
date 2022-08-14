@@ -340,7 +340,7 @@ extension PostViewController {
                     guard let bestNumber = await self?.bestPhoneNumberFrom(contact.phoneNumbers) else { return nil } //would be more ideal to check every phone number, not just the "best" one
                     let usersWithThatNumber = try await UserAPI.fetchUsersByWords(words: [bestNumber]) //TODO: CHANGE THIS TO BY PHONE NUMBER
                     if let user = usersWithThatNumber.first {
-                        let frontendUser = try await UserAPI.turnUserIntoFrontendUser(user)
+                        let frontendUser = try await UsersService.singleton.loadAndCacheUser(user: user)
                         let context: [String: Any] = [AutocompleteContext.id.rawValue: frontendUser.id,
                                    AutocompleteContext.pic.rawValue: frontendUser.profilePic,
                                    AutocompleteContext.queryName.rawValue: frontendUser.full_name]

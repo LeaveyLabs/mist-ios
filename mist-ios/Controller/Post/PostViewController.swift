@@ -98,9 +98,25 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         setupKeyboardManagerForBottomInputBar()
         loadComments()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //Emoji keyboard autodismiss notification
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(keyboardWillChangeFrame),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(keyboardWillDismiss(sender:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
+    }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
         //no longer using the postVC's willDismiss completion handler here: we could delete that
     }
     
@@ -348,6 +364,26 @@ extension PostViewController {
         
 }
 
+// MARK: - Helpers
+
+extension PostViewController {
+    
+    func handleSuccessfulCommentSubmission(newComment: Comment) {
+        clearAllFields()
+        inputBar.inputTextView.resignFirstResponder()
+        tableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
+//        post.commentcount += 1
+        comments.append(newComment)
+        commentAuthors[newComment.author] = UserService.singleton.getUserAsFrontendReadOnlyUser()
+        tableView.reloadData()
+    }
+    
+    func clearAllFields() {
+        inputBar.inputTextView.text = ""
+    }
+    
+}
+
 //MARK: - Db Calls
 
 extension PostViewController {
@@ -358,7 +394,6 @@ extension PostViewController {
                 activityIndicator.startAnimating()
                 comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
 //                commentAuthors = try await UsersService.singleton.loadAndCacheUsers(users: comments.map { $0.read_only_author } )
-//                commentAuthors = try await UserAPI.batchTurnUsersIntoFrontendUsers(comments.map { $0.read_only_author })
                 loadFakeProfilesWhenAWSIsDown()
                 DispatchQueue.main.async { [weak self] in
                     self?.tableView.reloadData()
@@ -457,56 +492,8 @@ extension PostViewController: CommentDelegate {
                 print("background profile loading task failed")
             }
         }
-//            guard loadTaggedProfileTasks[taggedUserId] == nil else { return }
-//            loadTaggedProfileTasks[taggedUserId] = Task {
-//                do {
-//                    return try await UsersService.singleton.loadAndCacheUser(userId: taggedUserId)
-////                    let user = try await UserAPI.fetchUsersByUserId(userId: taggedUserId)
-////                    return try await UserAPI.turnUserIntoFrontendUser(user)
-//                } catch {
-//                    print("LOADING PROFILE INFO FAILED")
-//                    return nil
-//                }
-//            }
-//        } else if let taggedNumber = taggedNumber {
-//            Task {
-//                do {
-//
-////                    let user = try await UserAPI.fetchUsersByUserId(userId: 10192840912) //TODO: Change to phone number api
-////                    guard loadTaggedProfileTasks[user.id] == nil else { return } //Task already started
-////                    loadTaggedProfileTasks[user.id] = Task {
-////                        return try await UsersService.singleton.loadAndCacheUser(user: [user])
-//////                        UserAPI.turnUserIntoFrontendUser(user)
-////                    }
-//                } catch {
-//                    print("background profile loading task failed")
-//                }
-//            }
-////            let _ : Task<FrontendReadOnlyUser?, Error> = Task {
-////            }
-//        }
     }
 
-}
-
-// MARK: - Helpers
-
-extension PostViewController {
-    
-    func handleSuccessfulCommentSubmission(newComment: Comment) {
-        clearAllFields()
-        inputBar.inputTextView.resignFirstResponder()
-        tableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
-//        post.commentcount += 1
-        comments.append(newComment)
-        commentAuthors[newComment.author] = UserService.singleton.getUserAsFrontendReadOnlyUser()
-        tableView.reloadData()
-    }
-    
-    func clearAllFields() {
-        inputBar.inputTextView.text = ""
-    }
-    
 }
 
 //MARK: - PostDelegate
@@ -562,13 +549,17 @@ extension PostViewController: PostDelegate {
         let i = sender.userInfo!
         let previousK = keyboardHeight
         keyboardHeight = (i[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height
-                
-        if keyboardHeight < previousK {
-            if inputBar.inputTextView.isFirstResponder { return } //this should only run for emoji keyboard, not comment keyboard
-            view.endEditing(true)
+        
+        ///don't dismiss the keyboard when toggling to emoji search, which hardly (~1px) lowers the keyboard
+        /// and which does lower the keyboard at all (0px) on largest phones
+        ///do dismiss it when toggling to normal keyboard, which more significantly (~49px) lowers the keyboard
+        if keyboardHeight < previousK - 5 {
+            if !inputBar.inputTextView.isFirstResponder { //only for emoji, not comment, keyboard
+                view.endEditing(true)
+            }
         }
         
-        if keyboardHeight > previousK && isKeyboardForEmojiReaction { //keyboard is appearing for the first time && we don't want to scroll the feed when the search controller keyboard is presented
+        if keyboardHeight > previousK && isKeyboardForEmojiReaction { //keyboard is appearing for the first time && we don't want to scroll the feed when the search controller keyboard is presentedkey
             isKeyboardForEmojiReaction = false
             scrollFeedToPostRightAboveKeyboard()
         }
