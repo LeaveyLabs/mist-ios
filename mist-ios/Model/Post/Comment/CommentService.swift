@@ -24,11 +24,6 @@ class CommentService: NSObject {
         super.init()
     }
     
-    //OLD
-//    func uploadComment(text: String, postId: Int) async throws -> Comment {
-//        return try await CommentAPI.postComment(body: text, post: postId, author: UserService.singleton.getId())
-//    }
-    
     func uploadComment(text: String, postId: Int, tags: [Tag]) async throws -> Comment {
         let newComment = try await CommentAPI.postComment(body: text, post: postId, author: UserService.singleton.getId())
         if !tags.isEmpty {

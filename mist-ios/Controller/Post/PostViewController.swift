@@ -232,7 +232,6 @@ extension PostViewController: InputBarAccessoryViewDelegate {
                     inputBar.invalidatePlugins()
                     inputBar.sendButton.isEnabled = false
                     let newComment = try await CommentService.singleton.uploadComment(text: trimmedCommentText, postId: post.id, tags: authorizedTags)
-                    print(newComment)
                     handleSuccessfulCommentSubmission(newComment: newComment)
                 } catch {
                     inputBar.sendButton.isEnabled = true
@@ -326,7 +325,7 @@ extension PostViewController: InputBarAccessoryViewDelegate {
 
 //MARK: - UITextViewDelegate
 
-//NOTE: We are snatching the UITextViewDelegate from the autocompleteManager, so 
+//NOTE: We are snatching the UITextViewDelegate from the autocompleteManager, so  make sure to call autocompleteManager.textView(...) at the end
 
 extension PostViewController: UITextViewDelegate {
         
@@ -393,8 +392,8 @@ extension PostViewController {
             do {
                 activityIndicator.startAnimating()
                 comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
-//                commentAuthors = try await UsersService.singleton.loadAndCacheUsers(users: comments.map { $0.read_only_author } )
-                loadFakeProfilesWhenAWSIsDown()
+                commentAuthors = try await UsersService.singleton.loadAndCacheUsers(users: comments.map { $0.read_only_author } )
+//                loadFakeProfilesWhenAWSIsDown()
                 DispatchQueue.main.async { [weak self] in
                     self?.tableView.reloadData()
                 }

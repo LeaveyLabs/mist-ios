@@ -87,7 +87,7 @@ class BasicAPI {
         for (header, value) in headers {
             request.setValue(value, forHTTPHeaderField: header)
         }
-        request.timeoutInterval = 6
+        request.timeoutInterval = Env.Timeout_Duration
         return request
     }
     

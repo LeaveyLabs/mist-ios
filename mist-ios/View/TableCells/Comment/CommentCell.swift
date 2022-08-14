@@ -46,16 +46,15 @@ class CommentCell: UITableViewCell {
         UIView.performWithoutAnimation {
             authorProfilePicButton.imageView?.becomeProfilePicImageView(with: author.profilePic)
         }
-        setupCommentTextView(text: comment.body, tags: comment.tags, delegate: delegate, commentauthorREMOVELATER: comment.author)
+        setupCommentTextView(text: comment.body, tags: comment.tags, delegate: delegate)
     }
     
-    func setupCommentTextView(text: String, tags: [Tag], delegate: CommentDelegate, commentauthorREMOVELATER: Int) {
+    func setupCommentTextView(text: String, tags: [Tag], delegate: CommentDelegate) {
         commentTextView.text = comment.body
         commentTextView.delegate = delegate
         
         var links: LinkTextView.Links = .init()
         for tag in tags {
-            print("TAGGED NAME:", tag.tagged_name)
             guard let _ = text.range(of: tag.tagged_name) else { return }
             delegate.beginLoadingTaggedProfile(taggedUserId: tag.tagged_user, taggedNumber: tag.tagged_phone_number) //one of the parameters must be nil
             if let number = tag.tagged_phone_number {
@@ -69,19 +68,6 @@ class CommentCell: UITableViewCell {
             }
         }
         commentTextView.addLinks(links)
-                
-        //TODO: remove the code below once we're done with the defaults
-        let tu = "Terms of Use"
-        let pp = "Privacy Policy"
-        commentTextView.text = "Please read the Some Company \(tu) and \(pp)"
-        delegate.beginLoadingTaggedProfile(taggedUserId: commentauthorREMOVELATER,
-                                           taggedNumber: nil)
-        let newTagLink = TagLink(tagType: .id, tagValue: String(commentauthorREMOVELATER), tagText: "TermsofUse")
-        guard let linkString = TagLink.encodeTagLink(newTagLink) else { return }
-        commentTextView.addLinks([
-            tu: linkString,
-            pp: linkString
-        ])
     }
     
     //MARK: - Lifecycle
