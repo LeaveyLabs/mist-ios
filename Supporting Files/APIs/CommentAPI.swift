@@ -13,7 +13,7 @@ struct CommentError: Codable {
     let author: [String]?
     // Error
     let non_field_errors: [String]?
-    let detail: [String]?
+    let detail: String?
 }
 
 class CommentAPI {
