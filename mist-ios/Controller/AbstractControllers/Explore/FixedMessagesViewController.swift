@@ -1,32 +1,15 @@
-/*
- MIT License
- 
- Copyright (c) 2017-2019 MessageKit
- 
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
- 
- The above copyright notice and this permission notice shall be included in all
- copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- SOFTWARE.
- */
+//
+//  FixedMessagesViewController.swift
+//  mist-ios
+//
+//  Created by Adam Monterey on 8/13/22.
+//
 
 import UIKit
 import MessageKit
 import InputBarAccessoryView
 
-class ChatViewController: MessagesViewController {
+class FixedMessagesViewController: MessagesViewController {
     
     //MARK: - Propreties
     
@@ -190,6 +173,8 @@ class ChatViewController: MessagesViewController {
 //        showMessageTimestampOnSwipeLeft = true // default false
 //        additionalBottomInset = 8
         additionalBottomInset = 51
+        print(keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal)
+        keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
     }
     
     func setupCustomNavigationBar() {
@@ -229,9 +214,7 @@ class ChatViewController: MessagesViewController {
         messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
         messageInputBar.shouldAnimateTextDidChangeLayout = true
         messageInputBar.maxTextViewHeight = 144 //max of 6 lines with the given font
-        if messageInputBar.middleContentView != messageInputBar.inputTextView {
-            messageInputBar.setMiddleContentView(messageInputBar.inputTextView, animated: false)
-        }
+        messageInputBar.setMiddleContentView(messageInputBar.inputTextView, animated: false)
 
 
         //Right
@@ -339,7 +322,7 @@ class ChatViewController: MessagesViewController {
 
 //MARK: - MessagesDataSource
 
-extension ChatViewController: MessagesDataSource {
+extension FixedMessagesViewController: MessagesDataSource {
     
     func currentSender() -> SenderType {
         return UserService.singleton.getUserAsFrontendReadOnlyUser()
@@ -368,15 +351,9 @@ extension ChatViewController: MessagesDataSource {
     }
 }
 
-extension InputBarAccessoryViewDelegate {
-    func accessoryViewRemovedFromSuperview() {
-        fatalError("Requries subclass implementation")
-    }
-}
-
 // MARK: - InputBarDelegate
 
-extension ChatViewController: InputBarAccessoryViewDelegate {
+extension FixedMessagesViewController: InputBarAccessoryViewDelegate {
     
     func accessoryViewRemovedFromSuperview() {
         print("HI")
@@ -427,7 +404,7 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
 
 //MARK: - ChatMoreDelegate
 
-extension ChatViewController: ChatMoreDelegate {
+extension FixedMessagesViewController: ChatMoreDelegate {
     
     func handleSuccessfulBlock() {
         customDismiss()
@@ -437,7 +414,7 @@ extension ChatViewController: ChatMoreDelegate {
 
 //MARK: - MatchRequestCellDelegate
 
-extension ChatViewController: MatchRequestCellDelegate {
+extension FixedMessagesViewController: MatchRequestCellDelegate {
     
     func matchRequestCellDidTapped(postId: Int) {
         guard let post = PostService.singleton.getPost(withPostId: postId) else { return }
@@ -449,7 +426,7 @@ extension ChatViewController: MatchRequestCellDelegate {
 
 //MARK: - WantToChatDelegate
 
-extension ChatViewController: WantToChatDelegate {
+extension FixedMessagesViewController: WantToChatDelegate {
     
     func handleAccept(_ acceptButton: UIButton) {
         Task {
@@ -498,7 +475,7 @@ extension ChatViewController: WantToChatDelegate {
 
 //MARK: - UITextViewDelegate
 
-extension ChatViewController: UITextViewDelegate {
+extension FixedMessagesViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         return textView.shouldChangeTextGivenMaxLengthOf(MAX_MESSAGE_LENGTH, range, text)
     }
@@ -507,7 +484,7 @@ extension ChatViewController: UITextViewDelegate {
 
 // MARK: - MessagesDisplayDelegate
 
-extension ChatViewController: MessagesDisplayDelegate {
+extension FixedMessagesViewController: MessagesDisplayDelegate {
         
     func detectorAttributes(for detector: DetectorType, and message: MessageType, at indexPath: IndexPath) -> [NSAttributedString.Key: Any] {
         return MessageLabel.defaultAttributes
@@ -565,7 +542,7 @@ extension ChatViewController: MessagesDisplayDelegate {
 
 // MARK: - MessagesLayoutDelegate
 
-extension ChatViewController: MessagesLayoutDelegate {
+extension FixedMessagesViewController: MessagesLayoutDelegate {
     
     //TODO: Can we delete these now that we have customcalculator?
     
@@ -581,7 +558,7 @@ extension ChatViewController: MessagesLayoutDelegate {
 
 //MARK: - ScrollViewDelegate
 
-extension ChatViewController {
+extension FixedMessagesViewController {
     
     override func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
         print("Why is this not being called?")
@@ -609,7 +586,7 @@ extension ChatViewController {
 
 // MARK: - MessageCellDelegate
 
-extension ChatViewController: MessageCellDelegate {
+extension FixedMessagesViewController: MessageCellDelegate {
     
     func didTapAvatar(in cell: MessageCollectionViewCell) {
         handleReceiverProfileDidTapped()
@@ -619,7 +596,7 @@ extension ChatViewController: MessageCellDelegate {
 
 // MARK: - MessageLabelDelegate
 
-extension ChatViewController: MessageLabelDelegate {
+extension FixedMessagesViewController: MessageLabelDelegate {
     
     func didSelectURL(_ url: URL) {
         print("URL Selected: \(url)")
@@ -628,7 +605,7 @@ extension ChatViewController: MessageLabelDelegate {
 
 // MARK: - Helpers
 
-extension ChatViewController {
+extension FixedMessagesViewController {
     
     func isLastMessageFromSender(message: MessageType, at indexPath: IndexPath) -> Bool {
         let startingIndex = indexPath.section
@@ -694,50 +671,3 @@ extension ChatViewController {
     }
 }
 
-
-//not in use:
-
-private func nextIndexPath(for currentIndexPath: IndexPath, in tableView: UICollectionView) -> IndexPath? {
-    var nextRow = 0
-    var nextSection = 0
-    var iteration = 0
-    var startRow = currentIndexPath.row
-    for section in currentIndexPath.section ..< tableView.numberOfSections {
-        nextSection = section
-        for row in startRow ..< tableView.numberOfItems(inSection: section) {
-            nextRow = row
-            iteration += 1
-            if iteration == 2 {
-                let nextIndexPath = IndexPath(row: nextRow, section: nextSection)
-                return nextIndexPath
-            }
-        }
-        startRow = 0
-    }
-
-    return nil
-}
-
-
-
-//    func setupMessageInputBarForChatting() {
-        //Positioning
-//        messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
-//        messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 14, bottom: 8, right: 14)
-//            if #available(iOS 13, *) {
-//                messageInputBar.inputTextView.layer.borderColor = UIColor.systemGray2.cgColor
-//            } else {
-//                messageInputBar.inputTextView.layer.borderColor = UIColor.lightGray.cgColor
-//            }
-//        messageInputBar.inputTextView.layer.borderWidth = 1.0
-//        messageInputBar.inputTextView.layer.cornerRadius = 16.0
-//        messageInputBar.inputTextView.layer.masksToBounds = true
-//        messageInputBar.inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-//        messageInputBar.setLeftStackViewWidthConstant(to: 0, animated: false)
-//        //Aesthetic
-//        messageInputBar.inputTextView.tintColor = mistUIColor()
-//        messageInputBar.sendButton.setTitleColor(mistUIColor(), for: .normal)
-//        messageInputBar.sendButton.setTitleColor(mistUIColor().withAlphaComponent(0.3), for: .highlighted)
-//        messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
-//        messageInputBar.shouldAnimateTextDidChangeLayout = true
-//    }

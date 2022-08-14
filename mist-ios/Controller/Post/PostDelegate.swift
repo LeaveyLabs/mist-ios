@@ -21,7 +21,7 @@ protocol PostDelegate: ShareActivityDelegate, UITextFieldDelegate { // , AnyObje
     func handleCommentButtonTap(postId: Int)
     func handleBackgroundTap(postId: Int)
     func handleDeletePost(postId: Int)    
-    var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] { get set }
+//    var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] { get set }
     func handleReactTap(postId: Int)
 }
 
@@ -30,15 +30,23 @@ protocol PostDelegate: ShareActivityDelegate, UITextFieldDelegate { // , AnyObje
 extension PostDelegate where Self: UIViewController {
     
     func beginLoadingAuthorProfilePic(postId: Int, author: ReadOnlyUser) {
-        guard loadAuthorProfilePicTasks[postId] == nil else { return } //Task was already started
-        loadAuthorProfilePicTasks[postId] = Task {
+        Task {
             do {
-                return try await FrontendReadOnlyUser(readOnlyUser: author, profilePic: UserAPI.UIImageFromURLString(url: author.picture))
+                let _ = try await UsersService.singleton.loadAndCacheUser(user: author)
             } catch {
-                print("COULD NOT LOAD AUTHOR PROFILE PIC", error.localizedDescription)
-                return nil
+                print("background profile loading task failed", error.localizedDescription)
             }
         }
+        
+//        guard loadAuthorProfilePicTasks[postId] == nil else { return } //Task was already started
+//        loadAuthorProfilePicTasks[postId] = Task {
+//            do {
+//                return try await FrontendReadOnlyUser(readOnlyUser: author, profilePic: UserAPI.UIImageFromURLString(url: author.picture))
+//            } catch {
+//                print("COULD NOT LOAD AUTHOR PROFILE PIC", error.localizedDescription)
+//                return nil
+//            }
+//        }
     }
 
     func handleDmTap(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String) {
@@ -51,30 +59,24 @@ extension PostDelegate where Self: UIViewController {
             CustomSwiftMessages.showAlreadyDmdMessage()
             return
         }
-        Task {
-            if let frontendAuthor = await loadAuthorProfilePicTasks[postId]!.value {
-                DispatchQueue.main.async { [self] in
-                    goToChat(postId: postId, postAuthor: frontendAuthor, postTitle: title)
-                }
-            } else {
-                DispatchQueue.main.async { [self] in
-                    reloadAuthorProfilePic(postId: postId, author: author, dmButton: dmButton, title: title)
-                }
-            }
+        
+        if let frontendAuthor = UsersService.singleton.getPotentiallyCachedUser(userId: author.id) {
+            goToChat(postId: postId, postAuthor: frontendAuthor, postTitle: title)
+        } else {
+            reloadAuthorProfilePic(postId: postId, author: author, dmButton: dmButton, title: title)
         }
     }
     
     func reloadAuthorProfilePic(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String) {
         dmButton.loadingIndicator(true)
         Task {
-            loadAuthorProfilePicTasks[postId] = nil
-            beginLoadingAuthorProfilePic(postId: postId, author: author)
-            if let reloadedAuthor = await loadAuthorProfilePicTasks[postId]!.value {
+            do {
+                let reloadedAuthor = try await UsersService.singleton.loadAndCacheUser(user: author)
                 DispatchQueue.main.async { [weak self] in
                     dmButton.loadingIndicator(false)
                     self?.goToChat(postId: postId, postAuthor: reloadedAuthor, postTitle: title)
                 }
-            } else {
+            } catch {
                 DispatchQueue.main.async {
                     dmButton.loadingIndicator(false)
                     CustomSwiftMessages.displayError("Something went wrong",

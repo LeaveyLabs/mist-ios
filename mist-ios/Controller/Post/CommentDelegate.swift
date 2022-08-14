@@ -9,9 +9,8 @@ import Foundation
 
 protocol CommentDelegate: UITextViewDelegate {
     func handleCommentProfilePicTap(commentAuthor: FrontendReadOnlyUser)
-    func handleTagTap(taggedUserId: Int?, taggedNumber: String?)
+    func handleTagTap(taggedUserId: Int?, taggedNumber: String?, taggedHandle: String)
     func beginLoadingTaggedProfile(taggedUserId: Int?, taggedNumber: String?)
-    var loadTaggedProfileTasks: [Int: Task<FrontendReadOnlyUser?, Error>] { get set }
     
     //UITextViewDelegate
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool

@@ -49,8 +49,9 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     //Autocomplete
     let contactStore = CNContactStore()
     var asyncCompletions: [AutocompleteCompletion] = []
-    var autocompleteTask: Task<Void, Never>?
-
+    var mostRecentAutocompleteQuery = ""
+    var autocompletionCache = [String: [AutocompleteCompletion]]()
+    var autocompletionTasks = [String: Task<Void, Never>]()
     open lazy var autocompleteManager: CommentAutocompleteManager = { [unowned self] in
         let manager = CommentAutocompleteManager(for: self.inputBar.inputTextView)
         inputBar.inputTextView.delegate = self //re-claim delegate status after AutocompleteManager became it
@@ -64,9 +65,6 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         }
         return manager
     }()
-    var mostRecentAutocompleteQuery = ""
-    var autocompletionCache = [String: [AutocompleteCompletion]]()
-    var autocompletionTasks = [String: Task<Void, Never>]()
     
     //Data
     var post: Post!
@@ -74,8 +72,8 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     var commentAuthors = [Int: FrontendReadOnlyUser]() //[authorId: author]
     
     //PostDelegate
-    var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] = [:]
-    var loadTaggedProfileTasks: [Int : Task<FrontendReadOnlyUser?, Error>] = [:] //Error, not Never, because we're doing 2 layers of DoTry calls
+//    var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] = [:]
+//    var loadTaggedProfileTasks: [Int : Task<FrontendReadOnlyUser?, Error>] = [:] //Error, not Never, because we're doing 2 layers of DoTry calls
 
     //Abandoned
 //    var prepareForDismiss: UpdatedPostCompletionHandler? //no longer needed
@@ -182,14 +180,13 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     }
     
     func setupKeyboardManagerForBottomInputBar() {
-        view.addSubview(inputBar)
-        keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
-        keyboardManager.bind(inputAccessoryView: inputBar)
-        keyboardManager.bind(to: tableView) // Binding to the tableView will enabled interactive dismissal
+        addKeyboardObservers()
+        
         keyboardManager.on(event: .didHide) { [weak self] keyboardNotification in
             self?.setAutocompleteManager(active: false)
-            self?.tableView.contentInset.bottom = 0 //EXPERIMENTAL: Not sure if this 100% works
+            self?.tableView.contentInset.bottom = 45 //EXPERIMENTAL: Not sure if this 100% works
         }
+        
         keyboardManager.on(event: .didShow) { [self] keyboardNotification in
             keyboardHeight = keyboardNotification.endFrame.height
             updateMaxAutocompleteRows(keyboardHeight: keyboardHeight)
@@ -360,7 +357,9 @@ extension PostViewController {
             do {
                 activityIndicator.startAnimating()
                 comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
-                commentAuthors = try await UserAPI.batchTurnUsersIntoFrontendUsers(comments.map { $0.read_only_author })
+//                commentAuthors = try await UsersService.singleton.loadAndCacheUsers(users: comments.map { $0.read_only_author } )
+//                commentAuthors = try await UserAPI.batchTurnUsersIntoFrontendUsers(comments.map { $0.read_only_author })
+                loadFakeProfilesWhenAWSIsDown()
                 DispatchQueue.main.async { [weak self] in
                     self?.tableView.reloadData()
                 }
@@ -370,6 +369,12 @@ extension PostViewController {
             activityIndicator.stopAnimating()
             tableView.sectionFooterHeight = 0
         }
+    }
+    
+    func loadFakeProfilesWhenAWSIsDown() {
+        commentAuthors = comments.reduce(into: [Int: FrontendReadOnlyUser](), { partialResult, comment in
+            partialResult[comment.author] = UserService.singleton.getUserAsFrontendReadOnlyUser()
+        })
     }
     
 }
@@ -420,59 +425,66 @@ extension PostViewController: CommentDelegate {
         navigationController?.present(profileVC, animated: true)
     }
     
-    //TODO: is URL a phone number or a userId??
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         print("SHOULD INTERACT W URL")
-        guard let userId = Int(URL.absoluteString) else { return false }
-        handleTagTap(taggedUserId: userId, taggedNumber: nil)
+        
+        guard let tagLink = TagLink.decodeTag(linkString: URL.absoluteString) else { return false }
+        switch tagLink.tagType {
+        case .id:
+            guard let userId = Int(tagLink.tagValue) else { return false }
+            handleTagTap(taggedUserId: userId, taggedNumber: nil, taggedHandle: tagLink.tagText)
+        case .phone:
+            handleTagTap(taggedUserId: nil, taggedNumber: tagLink.tagValue, taggedHandle: tagLink.tagText)
+        }
+        
         return false //could return "true" here if we're using real deep links, but we're just having LINK = the profile's username
     }
     
-    func handleTagTap(taggedUserId: Int?, taggedNumber: String?) {
+    func handleTagTap(taggedUserId: Int?, taggedNumber: String?, taggedHandle: String) {
+        let profileVC = ProfileViewController.createAndLoadData(userId: taggedUserId, userNumber: taggedNumber, handle: taggedHandle)
+        navigationController?.present(profileVC, animated: true)
+    }
+    
+    func beginLoadingTaggedProfile(taggedUserId: Int?, taggedNumber: String?) {
         Task {
             do {
                 if let taggedUserId = taggedUserId {
-                    guard let taggedUser = try await loadTaggedProfileTasks[taggedUserId]?.value else { return }
-                    DispatchQueue.main.async { [weak self] in
-                        let profileVC = ProfileViewController.create(for: taggedUser)
-                        self?.navigationController?.present(profileVC, animated: true)
-                    }
-                } else {
-                    //handle taggedNumber
+                    let _ = try await UsersService.singleton.loadAndCacheUser(userId: taggedUserId)
+                } else if let taggedNumber = taggedNumber {
+                    let _ = try await UsersService.singleton.loadAndCacheUser(phoneNumber: taggedNumber)
                 }
             } catch {
-                print("COULD NOT LOAD TAG PROFILE PART 2")
+                print("background profile loading task failed")
             }
         }
-    }
-    
-    //TODO: Fetch by tagged number
-    func beginLoadingTaggedProfile(taggedUserId: Int?, taggedNumber: String?) {
-        let _ : Task<FrontendReadOnlyUser?, Error> = Task {
-            do {
-                if let taggedUserId = taggedUserId {
-                    let user = try await UserAPI.fetchUsersByUserId(userId: taggedUserId)
-                    if let profile = loadTaggedProfileTasks[user.id] {
-                        return try await profile.value
-                    }
-                    loadTaggedProfileTasks[user.id] = Task {
-                        return try await UserAPI.turnUserIntoFrontendUser(user)
-                    }
-                } else {
-                    //handle taggedNumber
-//                    let user = try await UserAPI.fetchUsersByUserId(userId: taggedUserId)
-//                    if loadTaggedProfileTasks[user.id] != nil { return } //Task was already started
-//                    loadTaggedProfileTasks[user.id] = Task {
-//                        return try await UserAPI.turnUserIntoFrontendUser(user)
-//                    }
-                    return nil
-                }
-            } catch {
-                print("COULD NOT LOAD TAGGED PROFILE PIC")
-                return nil
-            }
-            return nil
-        }
+//            guard loadTaggedProfileTasks[taggedUserId] == nil else { return }
+//            loadTaggedProfileTasks[taggedUserId] = Task {
+//                do {
+//                    return try await UsersService.singleton.loadAndCacheUser(userId: taggedUserId)
+////                    let user = try await UserAPI.fetchUsersByUserId(userId: taggedUserId)
+////                    return try await UserAPI.turnUserIntoFrontendUser(user)
+//                } catch {
+//                    print("LOADING PROFILE INFO FAILED")
+//                    return nil
+//                }
+//            }
+//        } else if let taggedNumber = taggedNumber {
+//            Task {
+//                do {
+//
+////                    let user = try await UserAPI.fetchUsersByUserId(userId: 10192840912) //TODO: Change to phone number api
+////                    guard loadTaggedProfileTasks[user.id] == nil else { return } //Task already started
+////                    loadTaggedProfileTasks[user.id] = Task {
+////                        return try await UsersService.singleton.loadAndCacheUser(user: [user])
+//////                        UserAPI.turnUserIntoFrontendUser(user)
+////                    }
+//                } catch {
+//                    print("background profile loading task failed")
+//                }
+//            }
+////            let _ : Task<FrontendReadOnlyUser?, Error> = Task {
+////            }
+//        }
     }
 
 }

@@ -217,6 +217,14 @@
 		5B1F16CE287D1ABD00035F93 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16CD287D1ABD00035F93 /* HomeViewController.swift */; };
 		5B1F16D0287D1B0700035F93 /* HomeViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16CF287D1B0700035F93 /* HomeViewController+Search.swift */; };
 		5B1F16D2287D1E5000035F93 /* CustomExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16D1287D1E5000035F93 /* CustomExploreViewController.swift */; };
+		5B235AEC28A8857F00FD27A9 /* PostViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235AEB28A8857F00FD27A9 /* PostViewController+Keyboard.swift */; };
+		5B235AED28A8857F00FD27A9 /* PostViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235AEB28A8857F00FD27A9 /* PostViewController+Keyboard.swift */; };
+		5B235AEF28A88D5C00FD27A9 /* FixedMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235AEE28A88D5C00FD27A9 /* FixedMessagesViewController.swift */; };
+		5B235AF028A88D5C00FD27A9 /* FixedMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235AEE28A88D5C00FD27A9 /* FixedMessagesViewController.swift */; };
+		5B235AF228A8DD4800FD27A9 /* UsersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235AF128A8DD4800FD27A9 /* UsersService.swift */; };
+		5B235AF328A8DD4800FD27A9 /* UsersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235AF128A8DD4800FD27A9 /* UsersService.swift */; };
+		5B235AF528A97FB800FD27A9 /* TagLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235AF428A97FB800FD27A9 /* TagLink.swift */; };
+		5B235AF628A97FB800FD27A9 /* TagLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235AF428A97FB800FD27A9 /* TagLink.swift */; };
 		5B29262A28974E10008A1F5D /* CommentVote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43529E282890BBD000B3A484 /* CommentVote.swift */; };
 		5B37A36B28784A4B00279B2A /* EnterBiosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */; };
 		5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D589B28603A46002E2F94 /* PostCell.swift */; };
@@ -794,6 +802,10 @@
 		5B1F16CD287D1ABD00035F93 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		5B1F16CF287D1B0700035F93 /* HomeViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeViewController+Search.swift"; sourceTree = "<group>"; };
 		5B1F16D1287D1E5000035F93 /* CustomExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomExploreViewController.swift; sourceTree = "<group>"; };
+		5B235AEB28A8857F00FD27A9 /* PostViewController+Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+Keyboard.swift"; sourceTree = "<group>"; };
+		5B235AEE28A88D5C00FD27A9 /* FixedMessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedMessagesViewController.swift; sourceTree = "<group>"; };
+		5B235AF128A8DD4800FD27A9 /* UsersService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersService.swift; sourceTree = "<group>"; };
+		5B235AF428A97FB800FD27A9 /* TagLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagLink.swift; sourceTree = "<group>"; };
 		5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBiosViewController.swift; sourceTree = "<group>"; };
 		5B4D589B28603A46002E2F94 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ProfilePic.swift"; sourceTree = "<group>"; };
@@ -963,6 +975,7 @@
 			isa = PBXGroup;
 			children = (
 				43A25347289BA46800B1468F /* Tag.swift */,
+				5B235AF428A97FB800FD27A9 /* TagLink.swift */,
 			);
 			path = Tag;
 			sourceTree = "<group>";
@@ -1504,6 +1517,7 @@
 			isa = PBXGroup;
 			children = (
 				479AA1F227DCF2BD00EA0DFC /* PostViewController.swift */,
+				5B235AEB28A8857F00FD27A9 /* PostViewController+Keyboard.swift */,
 				5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */,
 				47C1D49027DF00B200970B3D /* PostMoreViewController.swift */,
 				5BBF5C4F289B9FB6000B2D31 /* InputAvatar.swift */,
@@ -1575,6 +1589,7 @@
 				4700F8C527DE4652006C2E08 /* ExploreViewController.swift */,
 				4752719C2855A80C00DDF84D /* ExploreViewController+Map.swift */,
 				475271992855A6A700DDF84D /* ExploreViewController+Feed.swift */,
+				5B235AEE28A88D5C00FD27A9 /* FixedMessagesViewController.swift */,
 			);
 			path = Explore;
 			sourceTree = "<group>";
@@ -1655,6 +1670,7 @@
 			children = (
 				47A3D70727D54F6F003DBEA5 /* User.swift */,
 				47A3D71127D57A6D003DBEA5 /* UserService.swift */,
+				5B235AF128A8DD4800FD27A9 /* UsersService.swift */,
 				4752717B28553F6200DDF84D /* ProfilePicWrapper.swift */,
 				5BB624BF28678A6F00DCD45B /* MatchRequest */,
 				5BB624C22867909400DCD45B /* Block */,
@@ -2111,6 +2127,7 @@
 				472A4BFB28408BD800FD52B7 /* Misc.swift in Sources */,
 				479AA20327DD4AA900EA0DFC /* KUIViewController.swift in Sources */,
 				470F271827DE758100C6DDAF /* SearchResultCell.swift in Sources */,
+				5B235AF528A97FB800FD27A9 /* TagLink.swift in Sources */,
 				5BE14736289EB68B0096FEBE /* CommentAutocompleteManager.swift in Sources */,
 				4316238C2834F8A600169AA9 /* SpecialTabBarController.swift in Sources */,
 				47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */,
@@ -2184,6 +2201,7 @@
 				4752717C28553F6200DDF84D /* ProfilePicWrapper.swift in Sources */,
 				438D6F222862D1BB00A074FA /* MessageAPI.swift in Sources */,
 				5BAD62772876812200DCFE45 /* SettingsViewController.swift in Sources */,
+				5B235AEF28A88D5C00FD27A9 /* FixedMessagesViewController.swift in Sources */,
 				47266AD227FF5531005DEDB1 /* UIView+LoadFromNib.swift in Sources */,
 				4700F8B427DD7BBA006C2E08 /* PostFlagAPI.swift in Sources */,
 				439E44F827DFE11F00E244D6 /* WordAPI.swift in Sources */,
@@ -2192,6 +2210,7 @@
 				47FF418128402EC600A44968 /* UIImage+Resize.swift in Sources */,
 				5B774DFC286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift in Sources */,
 				439E44FA27DFE20600E244D6 /* Word.swift in Sources */,
+				5B235AEC28A8857F00FD27A9 /* PostViewController+Keyboard.swift in Sources */,
 				5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */,
 				476971DE2847CCAB00123F72 /* UIView+FindVC.swift in Sources */,
 				472A4BF828408BD800FD52B7 /* DesignableTextField.swift in Sources */,
@@ -2262,6 +2281,7 @@
 				47E295D6284BB79600A680CC /* PostView.swift in Sources */,
 				43A25344289BA43A00B1468F /* TagAPI.swift in Sources */,
 				4329571C27F4008300FA48A9 /* EnterEmailViewController.swift in Sources */,
+				5B235AF228A8DD4800FD27A9 /* UsersService.swift in Sources */,
 				43D92526285280DB00438C5C /* MatchRequestAPI.swift in Sources */,
 				47A3D70827D54F6F003DBEA5 /* User.swift in Sources */,
 				472A4C0528408BD800FD52B7 /* AutoTextView.swift in Sources */,
@@ -2359,6 +2379,7 @@
 				5B739D9828935B9500E4EED0 /* UIImageView+Inspectable.swift in Sources */,
 				5B739D9928935B9500E4EED0 /* ImagePicker.swift in Sources */,
 				5B739D9A28935B9500E4EED0 /* FinishProfileViewController.swift in Sources */,
+				5B235AF628A97FB800FD27A9 /* TagLink.swift in Sources */,
 				5B739D9B28935B9500E4EED0 /* UIView+SafeAreaConstraints.swift in Sources */,
 				5B739D9C28935B9500E4EED0 /* PostAPI.swift in Sources */,
 				5B739D9D28935B9500E4EED0 /* UINavigationController+Completion.swift in Sources */,
@@ -2444,6 +2465,7 @@
 				5B739DE628935B9500E4EED0 /* UIView+PostBubble.swift in Sources */,
 				5B739DE728935B9500E4EED0 /* UIImage+Blur.swift in Sources */,
 				5B739DE828935B9500E4EED0 /* EnterBiosViewController.swift in Sources */,
+				5B235AED28A8857F00FD27A9 /* PostViewController+Keyboard.swift in Sources */,
 				5B739DE928935B9500E4EED0 /* ConversationService.swift in Sources */,
 				5B739DEA28935B9500E4EED0 /* UIImage+Thumbnail.swift in Sources */,
 				5B739DEB28935B9500E4EED0 /* MessageKitMessage.swift in Sources */,
@@ -2454,6 +2476,7 @@
 				5B739DEF28935B9500E4EED0 /* MessageAPI.swift in Sources */,
 				5B739DF028935B9500E4EED0 /* SettingsViewController.swift in Sources */,
 				5B739DF128935B9500E4EED0 /* UIView+LoadFromNib.swift in Sources */,
+				5B235AF328A8DD4800FD27A9 /* UsersService.swift in Sources */,
 				5B739DF228935B9500E4EED0 /* PostFlagAPI.swift in Sources */,
 				5B739DF328935B9500E4EED0 /* WordAPI.swift in Sources */,
 				5B739DF428935B9500E4EED0 /* Post.swift in Sources */,
@@ -2504,6 +2527,7 @@
 				5B739E1D28935B9500E4EED0 /* HomeViewController.swift in Sources */,
 				5B739E1E28935B9500E4EED0 /* DesignableLabel.swift in Sources */,
 				5B739E1F28935B9500E4EED0 /* KeyboardLayoutConstraint.swift in Sources */,
+				5B235AF028A88D5C00FD27A9 /* FixedMessagesViewController.swift in Sources */,
 				5B739E2028935B9500E4EED0 /* CommentAPI.swift in Sources */,
 				5B739E2128935B9500E4EED0 /* Array+FirstWhere.swift in Sources */,
 				5B739E2228935B9500E4EED0 /* NewPostViewController.swift in Sources */,

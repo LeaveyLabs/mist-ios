@@ -68,10 +68,6 @@ extension ExploreViewController: UITableViewDelegate {
 //MARK: - Helper
 
 extension ExploreViewController {
-                
-    
-    //doesnt work for super tall posts
-    //the offset is right, but ... it's like, it's not happy with the top of the post going beyond the edge of the visible view
     
     func scrollFeedToPostRightAboveKeyboard(_ postIndex: Int) {
         let postBottomYWithinFeed = feed.rectForRow(at: IndexPath(row: postIndex, section: 0))
@@ -79,9 +75,6 @@ extension ExploreViewController {
         let keyboardTopY = view.bounds.height - keyboardHeight
         let desiredOffset = postBottomY - keyboardTopY
         if postIndex == 0 && desiredOffset < 0 { return } //dont scroll up for the very first post
-
-        //the content offset is right
-        //it's just that,,, somehow it knows what post im clicking on and doesnt let it go out of view
         feed.setContentOffset(feed.contentOffset.applying(.init(translationX: 0, y: desiredOffset)), animated: true)
     }
 }

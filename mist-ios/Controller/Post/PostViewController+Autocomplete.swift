@@ -188,7 +188,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
                 
                 let suggestedUsers = try await UserAPI.fetchUsersByWords(words: [query])
                 let trimmedUsers = Array(suggestedUsers.prefix(15))
-                let frontendSuggestedUsers = try await Array(UserAPI.batchTurnUsersIntoFrontendUsers(trimmedUsers).values)
+                let frontendSuggestedUsers = try await Array(UsersService.singleton.loadAndCacheUsers(users: trimmedUsers).values)
                 
                 let newResults = turnResultsIntoAutocompletions(frontendSuggestedUsers, suggestedContacts)
                 autocompletionCache[query] = newResults
@@ -330,6 +330,7 @@ extension PostViewController {
         }
     }
     
+    //TODO: experimental, not in use yet. potential optimization
     //Returns an array of completions from either the user corresponding to the contact's phone number, if one exists, or the contact
     func checkIfContactsHaveExistingAccount(_ contacts: [CNContact]) async throws -> [AutocompleteCompletion] {
         var autocompletions = [AutocompleteCompletion]()

@@ -211,7 +211,7 @@ extension ExploreViewController: PostDelegate {
     // Helpers
     
     func sendToPostViewFor(_ post: Post, withRaisedKeyboard: Bool) {
-        let postVC = PostViewController.createPostVC(with: post, shouldStartWithRaisedKeyboard: withRaisedKeyboard) { [self] updatedPost in
+        let postVC = PostViewController.createPostVC(with: post, shouldStartWithRaisedKeyboard: withRaisedKeyboard) { updatedPost in
             //TODO: experimental. we dont need to update postannotations anymore
             //Update data to prepare for the next reloadData() upon self.willAppear()
 //            let index = postAnnotations.firstIndex { $0.post.id == updatedPost.id }!

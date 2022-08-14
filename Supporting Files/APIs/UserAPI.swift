@@ -254,6 +254,7 @@ class UserAPI {
     //MARK: - Batch Calls
     
     static func batchFetchUsersFromUserIds(_ userIds: Set<Int>) async throws -> [Int: ReadOnlyUser] {
+        guard userIds.count > 0 else { return [:] }
       var users: [Int: ReadOnlyUser] = [:]
       try await withThrowingTaskGroup(of: (Int, ReadOnlyUser).self) { group in
         for userId in userIds {
@@ -275,6 +276,7 @@ class UserAPI {
     }
     
     static func batchTurnUsersIntoFrontendUsers(_ users: [ReadOnlyUser]) async throws -> [Int: FrontendReadOnlyUser] {
+        guard users.count > 0 else { return [:] }
         var frontendUsers: [Int: FrontendReadOnlyUser] = [:]
         try await withThrowingTaskGroup(of: (Int, FrontendReadOnlyUser).self) { group in
           for user in users {
@@ -291,7 +293,8 @@ class UserAPI {
     }
     
     static func batchFetchProfilePicsForPicPaths(_ picPaths: [Int: String]) async throws -> [Int: UIImage] {
-      var thumbnails: [Int: UIImage] = [:]
+        guard picPaths.count > 0 else { return [:] }
+        var thumbnails: [Int: UIImage] = [:]
       try await withThrowingTaskGroup(of: (Int, UIImage).self) { group in
           for (userId, picPath) in picPaths {
               group.addTask {

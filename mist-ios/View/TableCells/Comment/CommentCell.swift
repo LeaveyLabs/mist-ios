@@ -55,13 +55,17 @@ class CommentCell: UITableViewCell {
         
         var links: LinkTextView.Links = .init()
         for tag in tags {
+            print("TAGGED NAME:", tag.tagged_name)
             guard let _ = text.range(of: tag.tagged_name) else { return }
+            delegate.beginLoadingTaggedProfile(taggedUserId: tag.tagged_user, taggedNumber: tag.tagged_phone_number) //one of the parameters must be nil
             if let number = tag.tagged_phone_number {
-                delegate.beginLoadingTaggedProfile(taggedUserId: nil, taggedNumber: number)
-                links[tag.tagged_name] = number
+                let newTagLink = TagLink(tagType: .phone, tagValue: number, tagText: tag.tagged_name)
+                guard let linkString = TagLink.encodeTagLink(newTagLink) else { continue }
+                links[tag.tagged_name] = linkString
             } else if let userId = tag.tagged_user {
-                delegate.beginLoadingTaggedProfile(taggedUserId: userId, taggedNumber: nil)
-                links[tag.tagged_name] = String(userId)
+                let newTagLink = TagLink(tagType: .id, tagValue: String(userId), tagText: tag.tagged_name)
+                guard let linkString = TagLink.encodeTagLink(newTagLink) else { continue }
+                links[tag.tagged_name] = linkString
             }
         }
         commentTextView.addLinks(links)
@@ -72,9 +76,11 @@ class CommentCell: UITableViewCell {
         commentTextView.text = "Please read the Some Company \(tu) and \(pp)"
         delegate.beginLoadingTaggedProfile(taggedUserId: commentauthorREMOVELATER,
                                            taggedNumber: nil)
+        let newTagLink = TagLink(tagType: .id, tagValue: String(commentauthorREMOVELATER), tagText: "TermsofUse")
+        guard let linkString = TagLink.encodeTagLink(newTagLink) else { return }
         commentTextView.addLinks([
-            tu: String(commentauthorREMOVELATER),
-            pp: String(commentauthorREMOVELATER)
+            tu: linkString,
+            pp: linkString
         ])
     }
     
