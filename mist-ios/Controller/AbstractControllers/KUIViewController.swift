@@ -73,6 +73,25 @@ class KUIViewController: UIViewController {
         // you may prefer to add a short delay here)
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let t = UITapGestureRecognizer(target: self, action: #selector(clearKeyboard))
+        view.addGestureRecognizer(t)
+        
+        //in PostViewController, this line below prevents the submit button tap from being registered while keyboard is up. do not uncomment it, because we want other touches in the view to be registered
+//        t.cancelsTouchesInView = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        keyboardNotifications()
+    }
+    
     func keyboardNotifications() {
         NotificationCenter.default.addObserver(self,
             selector: #selector(keyboardWillShow),
@@ -82,15 +101,5 @@ class KUIViewController: UIViewController {
             selector: #selector(keyboardWillHide),
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        keyboardNotifications()
-        let t = UITapGestureRecognizer(target: self, action: #selector(clearKeyboard))
-        view.addGestureRecognizer(t)
-        
-        //in PostViewController, this line below prevents the submit button tap from being registered while keyboard is up. do not uncomment it, because we want other touches in the view to be registered
-//        t.cancelsTouchesInView = false
     }
 }
