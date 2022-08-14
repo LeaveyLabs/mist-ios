@@ -27,7 +27,7 @@ import MapKit
     @IBOutlet weak var moreButton: UIButton!
     @IBOutlet weak var reactButton: UIButton! //ToggleButton!
     lazy var reactButtonTextField: EmojiTextField = {
-        let emojiTextField = EmojiTextField(frame: .init(x: 1, y: 1, width: 1, height: 1))
+        let emojiTextField = EmojiTextField(frame: .init(x: 1, y: backgroundBubbleView.frame.maxY, width: 1, height: 1)) //position the emojiTextField at the bottom left of postView. This prevents an error which existed where the emojiKeyboard raising wouldn't actually scroll for super long posts
         emojiTextField.isHidden = true
         emojiTextField.delegate = postDelegate
         emojiTextField.postDelegate = postDelegate
