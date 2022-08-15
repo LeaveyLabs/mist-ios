@@ -78,7 +78,7 @@ class TagAPI {
         let params = TagParams(comment: comment,
                                tagged_name: tagged_name,
                                tagging_user: tagging_user,
-                               tagged_user: tagging_user,
+                               tagged_user: tagged_user,
                                tagged_phone_number: nil)
         let json = try JSONEncoder().encode(params)
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
