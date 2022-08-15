@@ -85,7 +85,7 @@ extension HomeViewController {
     
     //TODO: if there's a reload task in progress, cancel it, and wait for the most recent one
     func reloadPosts(withType reloadType: ReloadType, closure: @escaping () -> Void = { } ) {
-        if isLoadingPosts { reloadTask!.cancel() }
+        if isLoadingPosts { reloadTask?.cancel() }
         reloadTask = Task {
             do {
                 isLoadingPosts = true

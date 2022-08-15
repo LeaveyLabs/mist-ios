@@ -22,7 +22,7 @@ class CommentVoteAPI {
     static let COMMENT_PARAM = "comment"
     static let RATING_PARAM = "rating"
     
-    static let COMMENT_VOTE_RECOVERY_MESSAGE = "Please try again."
+    static let COMMENT_VOTE_RECOVERY_MESSAGE = "Please try again later"
     
     static func filterCommentVoteErrors(data:Data, response:HTTPURLResponse) throws {
         let statusCode = response.statusCode

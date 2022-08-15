@@ -185,6 +185,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
                     suggestedContacts = fetchSuggestedContacts(partialString: query)
                     suggestedContacts = Array(suggestedContacts.prefix(20))
                 }
+                
                 let usersAssociatedWithContacts = try await UserAPI.fetchUsersByPhoneNumbers(phoneNumbers: suggestedContacts.compactMap { $0.bestPhoneNumberDjango })
                 let contactsWithoutAnAccount: [CNContact] = suggestedContacts.filter { contact in
                     guard let number = contact.bestPhoneNumberDjango else { return false }

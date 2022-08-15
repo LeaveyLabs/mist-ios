@@ -113,17 +113,17 @@ class AuthAPI {
     // Error Descriptions
     static let LOGIN_ERROR_DESCRIPTION = "Unable to log in"
     // Error Recovery Messages
-    static let EMAIL_RECOVERY_MESSAGE = "Please try another email."
-    static let CODE_RECOVERY_MESSAGE = "Please try another code."
-    static let USERNAME_RECOVERY_MESSAGE = "Please try another username."
-    static let FIRST_NAME_RECOVERY_MESSAGE = "Please try another first name."
-    static let LAST_NAME_RECOVERY_MESSAGE = "Please try another last name."
-    static let PICTURE_RECOVERY_MESSAGE = "Please try another picture."
-    static let PASSWORD_RECOVERY_MESSAGE = "Please try another password."
-    static let DOB_RECOVERY_MESSAGE = "Please enter a valid date of birth."
-    static let SEX_RECOVERY_MESSAGE = "Please try again."
-    static let EMAIL_OR_USERNAME_RECOVERY_MESSAGE = "Please try a valid email or username."
-    static let USERNAME_PASSWORD_RECOVERY_MESSAGE = "Please enter a valid username or email, and password."
+    static let EMAIL_RECOVERY_MESSAGE = "Please try again later"
+    static let CODE_RECOVERY_MESSAGE = "Please try again later"
+    static let USERNAME_RECOVERY_MESSAGE = "Please try again later"
+    static let FIRST_NAME_RECOVERY_MESSAGE = "Please try again later"
+    static let LAST_NAME_RECOVERY_MESSAGE = "Please try again later"
+    static let PICTURE_RECOVERY_MESSAGE = "Please try again later"
+    static let PASSWORD_RECOVERY_MESSAGE = "Please try again later"
+    static let DOB_RECOVERY_MESSAGE = "Please try again later"
+    static let SEX_RECOVERY_MESSAGE = "Please try again later"
+    static let EMAIL_OR_USERNAME_RECOVERY_MESSAGE = "Please try again later"
+    static let USERNAME_PASSWORD_RECOVERY_MESSAGE = "Please try again later"
     
     // Registers email in the database
     // (and database will send verifcation email)

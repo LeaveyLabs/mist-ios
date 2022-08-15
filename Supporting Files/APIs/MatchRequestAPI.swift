@@ -22,7 +22,7 @@ class MatchRequestAPI {
     static let RECEIVER_PARAM = "match_requested_user"
     static let POST_PARAM = "post"
     
-    static let MATCH_REQUEST_RECOVERY_MESSAGE = "Please try again."
+    static let MATCH_REQUEST_RECOVERY_MESSAGE = "Please try again later"
     
     static func filterMatchRequestErrors(data:Data, response:HTTPURLResponse) throws {
         let statusCode = response.statusCode
