@@ -38,7 +38,7 @@ class UsersService: NSObject {
     }
     
     func loadAndCacheUser(phoneNumber: String) async throws -> FrontendReadOnlyUser? {
-        guard let fetchedBackendUser = try await UserAPI.fetchUsersByPhoneNumbers(phoneNumbers: [phoneNumber]).first else { return nil }
+        guard let fetchedBackendUser = try await UserAPI.fetchUsersByPhoneNumbers(phoneNumbers: [phoneNumber]).first?.value else { return nil }
         if let cachedUser = cachedUsers[fetchedBackendUser.id] {
             return cachedUser
         }
@@ -78,13 +78,34 @@ class UsersService: NSObject {
             cachedUsers[userId] = user
         }
         
-        //Return the set intersection
+        //Return the set union
         return fetchedUsers.merging(alreadyCachedUsers) { (old, new) in new }
     }
     
-    func loadAndCacheUsers(phoneNumbers: [String]) async throws -> [Int: FrontendReadOnlyUser] {
-        let fetchedBackendUsers = try await UserAPI.fetchUsersByPhoneNumbers(phoneNumbers: phoneNumbers)
-        return try await loadAndCacheUsers(users: fetchedBackendUsers)
+    func loadAndCacheUsers(phoneNumbers: [PhoneNumber]) async throws -> [PhoneNumber: FrontendReadOnlyUser] {
+        let usersByPhoneNumber = try await UserAPI.fetchUsersByPhoneNumbers(phoneNumbers: phoneNumbers)
+        
+        var noncachedUsers = [ReadOnlyUser]()
+        var alreadyCachedUsers = [PhoneNumber: FrontendReadOnlyUser]()
+        for user in usersByPhoneNumber {
+            if let cachedUser = cachedUsers[user.value.id] {
+                alreadyCachedUsers[user.key] = cachedUser
+            } else {
+                noncachedUsers.append(user.value)
+            }
+        }
+        
+        //Only fetch and cache the users we haven't already cached
+        var newlyCachedUsers = [PhoneNumber: FrontendReadOnlyUser]()
+        let fetchedUsers = try await UserAPI.batchTurnUsersIntoFrontendUsers(noncachedUsers)
+        usersByPhoneNumber.forEach { phoneNumber, user in
+            if let fetchedUser = fetchedUsers[user.id] { //if we just fetched the profile pic for that particular user
+                newlyCachedUsers[phoneNumber] = fetchedUser //then associate the profile pic with their phone number
+            }
+        }
+        
+        //Return the set union
+        return newlyCachedUsers.merging(alreadyCachedUsers) { (old, new) in new }
     }
     
     func loadAndCacheUsers(users: [ReadOnlyUser]) async throws -> [Int: FrontendReadOnlyUser] {
@@ -104,7 +125,7 @@ class UsersService: NSObject {
             cachedUsers[userId] = user
         }
         
-        //Return the set intersection
+        //Return the set union
         return fetchedUsers.merging(alreadyCachedUsers) { (old, new) in new }
     }
     

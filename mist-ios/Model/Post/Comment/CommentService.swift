@@ -27,8 +27,16 @@ class CommentService: NSObject {
     func uploadComment(text: String, postId: Int, tags: [Tag]) async throws -> Comment {
         let newComment = try await CommentAPI.postComment(body: text, post: postId, author: UserService.singleton.getId())
         if !tags.isEmpty {
-            let syncedTags = try await TagAPI.batchPostTags(comment: newComment.id, tags: tags)
-            return Comment(comment: newComment, tags: syncedTags)
+            tags.forEach { tag in
+                print(tag.tagged_phone_number)
+            }
+            do {
+                let syncedTags = try await TagAPI.batchPostTags(comment: newComment.id, tags: tags)
+                return Comment(comment: newComment, tags: syncedTags)
+            } catch {
+                try await CommentAPI.deleteComment(comment_id: newComment.id)
+                throw error
+            }
         }
         return newComment
     }

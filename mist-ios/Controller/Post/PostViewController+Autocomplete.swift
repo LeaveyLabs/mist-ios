@@ -185,23 +185,18 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
                     suggestedContacts = fetchSuggestedContacts(partialString: query)
                     suggestedContacts = Array(suggestedContacts.prefix(20))
                 }
-                let usersAssociatedWithSuggestedContacts = try await UsersService.singleton.loadAndCacheUsers(phoneNumbers: suggestedContacts.compactMap { $0.bestPhoneNumber })
+                let usersAssociatedWithContacts = try await UserAPI.fetchUsersByPhoneNumbers(phoneNumbers: suggestedContacts.compactMap { $0.bestPhoneNumberDjango })
+                let contactsWithoutAnAccount: [CNContact] = suggestedContacts.filter { contact in
+                    guard let number = contact.bestPhoneNumberDjango else { return false }
+                    return !usersAssociatedWithContacts.keys.contains(number)
+                }
                 
-                //for each userAssociatedWithSuggestedContact, remove the associated suggestedContact
-//                usersAssociatedWithSuggestedContacts.forEach { userId, user in
-//                    suggestedContacts.removeAll { $0.bestPhoneNumber == user.}
-//                }
-//                suggestedContacts.filter { usersAs}
-                let suggestedUsers = try await UserAPI.fetchUsersByWords(words: [query])
-//
-//                sugg
-                //remove all the suggestedContacts which have an associatedUser
-                //set intersection of frontendSuggestedUsers and usersAssociated
-                
-                let trimmedUsers = Array(suggestedUsers.prefix(15))
+                let fetchedUsers = try await UserAPI.fetchUsersByWords(words: [query])
+                let nonduplicatedUsers = Set(fetchedUsers).union(usersAssociatedWithContacts.values)
+                let trimmedUsers = Array(nonduplicatedUsers.prefix(15))
                 let frontendSuggestedUsers = try await Array(UsersService.singleton.loadAndCacheUsers(users: trimmedUsers).values)
                 
-                let newResults = turnResultsIntoAutocompletions(frontendSuggestedUsers, suggestedContacts)
+                let newResults = turnResultsIntoAutocompletions(frontendSuggestedUsers, contactsWithoutAnAccount)
                 autocompletionCache[query] = newResults
                 
                 if query == mostRecentAutocompleteQuery {
@@ -248,7 +243,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
                 context[AutocompleteContext.pic.rawValue] = UIImage(data: data)
             }
             
-            guard let bestNumber = contact.bestPhoneNumber else { continue }
+            guard let bestNumber = contact.bestPhoneNumberPretty else { continue }
             context[AutocompleteContext.number.rawValue] = bestNumber
             context[AutocompleteContext.queryName.rawValue] = fullName
             
@@ -277,7 +272,15 @@ extension CNContact {
         return (givenName + "_" + familyName + randomStringOfNumbers(length: 2)).lowercased()
     }
     
-    var bestPhoneNumber: String? {
+    var bestPhoneNumberPretty: String? {
+        return bestPhoneNumber
+    }
+    
+    var bestPhoneNumberDjango: String? {
+        return bestPhoneNumber?.formatAsDjangoPhoneNumber()
+    }
+    
+    private var bestPhoneNumber: String? {
         var best: String?
         
         if phoneNumbers.count == 0 { return nil } //dont autoComplete contacts without numbers
@@ -292,17 +295,17 @@ extension CNContact {
                 }
             }
         }
-        //DJANGO CHECK: PHONE IS AT LEAST 10 AND NO LESS THAN 16 (15 digits and one +)
-        guard let formattedBest = best?.formatAsDjangoPhoneNumber() else { return nil }
-        let isProperlyFormatted = formattedBest.count >= 10 && formattedBest.count <= 16
-        return isProperlyFormatted ? best : nil
+        return best
     }
 }
 
 extension String {
     func formatAsDjangoPhoneNumber() -> String {
-        let filtered = self.filter("+0123456789".contains)
-        return filtered.first(where: { $0 == "+"}) == nil ? "+1" + filtered : filtered
+        return self.filter("0123456789".contains)
+        
+//            let filtered = self.filter("+0123456789".contains)
+            //        return bestPhoneNumber.first(where: { $0 == "+"}) == nil ? "+1" + filtered : filtered
+//        return filtered.first(where: { $0 == "+"}) == nil ? "+1" + filtered : filtered
     }
 }
 

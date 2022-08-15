@@ -32,7 +32,7 @@ protocol CompleteUserBackendProperties: Equatable {
 
 //MARK: - Structs
 
-struct ReadOnlyUser: Codable, ReadOnlyUserBackendProperties {
+struct ReadOnlyUser: Codable, ReadOnlyUserBackendProperties, Hashable {
     let id: Int
     let username: String
     let first_name: String
