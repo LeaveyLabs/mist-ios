@@ -19,6 +19,8 @@ extension NSMutableData {
 
 //https://github.com/kean/Nuke
 
+typealias PhoneNumber = String;
+
 struct UserError: Codable {
     let email: [String]?
     let username: [String]?
@@ -36,6 +38,7 @@ struct UserError: Codable {
 
 class UserAPI {
     static let PATH_TO_USER_MODEL = "api/users/"
+    static let PATH_TO_MATCHING_PHONE_NUMBERS = "api/matching-phone-numbers/"
     static let PATH_TO_MATCHES = "api/matches/"
     static let PATH_TO_FRIENDSHIPS = "api/friendships/"
     static let PATH_TO_NEARBY_USERS = "api/nearby-users/"
@@ -166,17 +169,17 @@ class UserAPI {
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
     }
     
-    static func fetchUsersByPhoneNumbers(phoneNumbers:[String]) async throws -> [ReadOnlyUser] {
-        var url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)?"
+    static func fetchUsersByPhoneNumbers(phoneNumbers:[PhoneNumber]) async throws -> [PhoneNumber: ReadOnlyUser] {
+        var url = "\(Env.BASE_URL)\(PATH_TO_MATCHING_PHONE_NUMBERS)?"
         if phoneNumbers.isEmpty {
-            return []
+            return [:]
         }
         for phoneNumber in phoneNumbers {
             url += "\(PHONE_NUMBERS_PARAM)=\(phoneNumber)&"
         }
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterUserErrors(data: data, response: response)
-        return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
+        return try JSONDecoder().decode([PhoneNumber: ReadOnlyUser].self, from: data)
     }
     
     static func fetchAuthedUserByToken(token:String) async throws -> CompleteUser {
