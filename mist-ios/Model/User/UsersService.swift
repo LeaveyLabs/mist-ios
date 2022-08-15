@@ -26,7 +26,7 @@ class UsersService: NSObject {
         
     //MARK: - Fetch one
     
-    func loadAndCacheUser(userId: Int) async throws -> FrontendReadOnlyUser {
+    func loadAndCacheUser(userId: Int) async throws -> FrontendReadOnlyUser? {
         if let cachedUser = cachedUsers[userId] {
             return cachedUser
         }
@@ -37,17 +37,8 @@ class UsersService: NSObject {
         return fetchedUser
     }
     
-    //TODO: return optional users
-    //right now, 404 errors of "user not found" for a certain ID are just propagated as errors. this is probably better handled as returning an optional user
-    //do the following check:
-//    let nserror = error as NSError
-//    if nserror.code != 404 {
-//    }
-    
-    func loadAndCacheUser(phoneNumber: String) async throws -> FrontendReadOnlyUser {
-        fatalError("need to implement load for phone number")
-        let fetchedBackendUser = try await UserAPI.fetchUsersByUserId(userId: Int(phoneNumber)!)
-        
+    func loadAndCacheUser(phoneNumber: String) async throws -> FrontendReadOnlyUser? {
+        guard let fetchedBackendUser = try await UserAPI.fetchUsersByPhoneNumbers(phoneNumbers: [phoneNumber]).first else { return nil }
         if let cachedUser = cachedUsers[fetchedBackendUser.id] {
             return cachedUser
         }
@@ -89,6 +80,11 @@ class UsersService: NSObject {
         
         //Return the set intersection
         return fetchedUsers.merging(alreadyCachedUsers) { (old, new) in new }
+    }
+    
+    func loadAndCacheUsers(phoneNumbers: [String]) async throws -> [Int: FrontendReadOnlyUser] {
+        let fetchedBackendUsers = try await UserAPI.fetchUsersByPhoneNumbers(phoneNumbers: phoneNumbers)
+        return try await loadAndCacheUsers(users: fetchedBackendUsers)
     }
     
     func loadAndCacheUsers(users: [ReadOnlyUser]) async throws -> [Int: FrontendReadOnlyUser] {

@@ -56,6 +56,7 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        profilePicUIImageView.tintColor = .black
         hasViewLoaded = true
         loadUser()
         renderUser()
@@ -77,13 +78,13 @@ class ProfileViewController: UIViewController {
         case .nonexisting:
             guard let handle = userHandleForLoading else { return }
             profilePicUIImageView.image = Constants.defaultProfilePic
-            nameLabel.text = "@" + handle
+            nameLabel.text = handle
             usernameLabel.text = "This user does not exist"
         case .notclaimed:
             guard let handle = userHandleForLoading else { return }
             profilePicUIImageView.image = Constants.defaultProfilePic
-            nameLabel.text = "@" + handle
-            usernameLabel.text = "This user has not yet been claimed"
+            nameLabel.text = handle
+            usernameLabel.text = "This account has not yet been claimed"
         case .none:
             break
         }
@@ -97,36 +98,38 @@ class ProfileViewController: UIViewController {
         if let userNumber = userPhoneNumberForLoading {
             Task {
                 do {
-                    let backendUser = try await UsersService.singleton.loadAndCacheUser(phoneNumber: userNumber)
-                    getProfileDataForUserId(backendUser.id, fromPhoneNumber: true)
+                    guard let backendUser = try await UsersService.singleton.loadAndCacheUser(phoneNumber: userNumber) else {
+                        status = .notclaimed
+                        return
+                    }
+                    getProfileDataForUserId(backendUser.id)
                 } catch {
                     CustomSwiftMessages.displayError(error)
-                    status = .nonexisting
                 }
             }
         } else if let userId = userIdForLoading {
-            getProfileDataForUserId(userId, fromPhoneNumber: false)
+            getProfileDataForUserId(userId)
         }
     }
     
-    func getProfileDataForUserId(_ userId: Int, fromPhoneNumber: Bool) {
+    func getProfileDataForUserId(_ userId: Int) {
         if let cachedUser = UsersService.singleton.getPotentiallyCachedUser(userId: userId) {
             user = cachedUser
             status = .loaded
             return
         }
         
-        fetchProfileDataForUserId(userId, fromPhoneNumber: fromPhoneNumber)
+        fetchProfileDataForUserId(userId)
     }
     
-    func fetchProfileDataForUserId(_ userId: Int, fromPhoneNumber: Bool) {
+    func fetchProfileDataForUserId(_ userId: Int) {
         status = .loading
         Task {
             do {
                 user = try await UsersService.singleton.loadAndCacheUser(userId: userId)
                 status = .loaded
             } catch {
-                status = fromPhoneNumber ? .notclaimed : .nonexisting
+                status = .nonexisting
                 CustomSwiftMessages.displayError(error)
             }
         }

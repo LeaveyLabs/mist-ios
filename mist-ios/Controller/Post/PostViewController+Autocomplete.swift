@@ -185,8 +185,19 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
                     suggestedContacts = fetchSuggestedContacts(partialString: query)
                     suggestedContacts = Array(suggestedContacts.prefix(20))
                 }
+                let usersAssociatedWithSuggestedContacts = try await UsersService.singleton.loadAndCacheUsers(phoneNumbers: suggestedContacts.compactMap { $0.bestPhoneNumber })
                 
+                //for each userAssociatedWithSuggestedContact, remove the associated suggestedContact
+//                usersAssociatedWithSuggestedContacts.forEach { userId, user in
+//                    suggestedContacts.removeAll { $0.bestPhoneNumber == user.}
+//                }
+//                suggestedContacts.filter { usersAs}
                 let suggestedUsers = try await UserAPI.fetchUsersByWords(words: [query])
+//
+//                sugg
+                //remove all the suggestedContacts which have an associatedUser
+                //set intersection of frontendSuggestedUsers and usersAssociated
+                
                 let trimmedUsers = Array(suggestedUsers.prefix(15))
                 let frontendSuggestedUsers = try await Array(UsersService.singleton.loadAndCacheUsers(users: trimmedUsers).values)
                 
@@ -237,7 +248,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
                 context[AutocompleteContext.pic.rawValue] = UIImage(data: data)
             }
             
-            guard let bestNumber = bestPhoneNumberFrom(contact.phoneNumbers) else { continue }
+            guard let bestNumber = contact.bestPhoneNumber else { continue }
             context[AutocompleteContext.number.rawValue] = bestNumber
             context[AutocompleteContext.queryName.rawValue] = fullName
             
@@ -264,6 +275,27 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
 extension CNContact {
     var generatedUsername: String {
         return (givenName + "_" + familyName + randomStringOfNumbers(length: 2)).lowercased()
+    }
+    
+    var bestPhoneNumber: String? {
+        var best: String?
+        
+        if phoneNumbers.count == 0 { return nil } //dont autoComplete contacts without numbers
+        if phoneNumbers.count == 1 {
+            best = phoneNumbers[0].value.stringValue
+        } else {
+            for cnNumber in phoneNumbers {
+                if cnNumber.label == CNLabelPhoneNumberMain ||
+                    cnNumber.label == CNLabelPhoneNumberiPhone ||
+                    cnNumber.label == CNLabelPhoneNumberMobile {
+                    best = cnNumber.value.stringValue
+                }
+            }
+        }
+        //DJANGO CHECK: PHONE IS AT LEAST 10 AND NO LESS THAN 16 (15 digits and one +)
+        guard let formattedBest = best?.formatAsDjangoPhoneNumber() else { return nil }
+        let isProperlyFormatted = formattedBest.count >= 10 && formattedBest.count <= 16
+        return isProperlyFormatted ? best : nil
     }
 }
 
@@ -330,61 +362,39 @@ extension PostViewController {
         }
     }
     
-    //TODO: experimental, not in use yet. potential optimization
+    //No longer needed because of the fetchUsersByNumbers api kevin made
     //Returns an array of completions from either the user corresponding to the contact's phone number, if one exists, or the contact
-    func checkIfContactsHaveExistingAccount(_ contacts: [CNContact]) async throws -> [AutocompleteCompletion] {
-        var autocompletions = [AutocompleteCompletion]()
-        try await withThrowingTaskGroup(of: AutocompleteCompletion?.self) { group in
-            for contact in contacts {
-                group.addTask { [weak self] in
-                    guard let bestNumber = await self?.bestPhoneNumberFrom(contact.phoneNumbers) else { return nil } //would be more ideal to check every phone number, not just the "best" one
-                    let usersWithThatNumber = try await UserAPI.fetchUsersByWords(words: [bestNumber]) //TODO: CHANGE THIS TO BY PHONE NUMBER
-                    if let user = usersWithThatNumber.first {
-                        let frontendUser = try await UsersService.singleton.loadAndCacheUser(user: user)
-                        let context: [String: Any] = [AutocompleteContext.id.rawValue: frontendUser.id,
-                                   AutocompleteContext.pic.rawValue: frontendUser.profilePic,
-                                   AutocompleteContext.queryName.rawValue: frontendUser.full_name]
-                        return AutocompleteCompletion(text: frontendUser.username,
-                                                      context: context)
-                    }
-                    let fullName = contact.givenName + " " + contact.familyName
-                    guard !contact.givenName.isEmpty || !contact.familyName.isEmpty else { return nil }
-                    let context = [AutocompleteContext.number.rawValue: bestNumber,
-                                   AutocompleteContext.queryName.rawValue: fullName]
-                    return AutocompleteCompletion(text: contact.generatedUsername, context: context)
-                }
-            }
-            for try await autocompletion in group {
-                if let autocompletion = autocompletion {
-                    autocompletions.append(autocompletion)
-                }
-            }
-        }
-        return autocompletions
-    }
-    
-    //MARK: - Helpers
-    
-    func bestPhoneNumberFrom(_ phoneNumbers: [CNLabeledValue<CNPhoneNumber>]) -> String? {
-        var best: String?
-        
-        if phoneNumbers.count == 0 { return nil } //dont autoComplete contacts without numbers
-        if phoneNumbers.count == 1 {
-            best = phoneNumbers[0].value.stringValue
-        } else {
-            for cnNumber in phoneNumbers {
-                if cnNumber.label == CNLabelPhoneNumberMain ||
-                    cnNumber.label == CNLabelPhoneNumberiPhone ||
-                    cnNumber.label == CNLabelPhoneNumberMobile {
-                    best = cnNumber.value.stringValue
-                }
-            }
-        }
-        //DJANGO CHECK: PHONE IS AT LEAST 10 AND NO LESS THAN 16 (15 digits and one +)
-        guard let formattedBest = best?.formatAsDjangoPhoneNumber() else { return nil }
-        let isProperlyFormatted = formattedBest.count >= 10 && formattedBest.count <= 16
-        return isProperlyFormatted ? best : nil
-    }
+//    func checkIfContactsHaveExistingAccount(_ contacts: [CNContact]) async throws -> [AutocompleteCompletion] {
+//        var autocompletions = [AutocompleteCompletion]()
+//        try await withThrowingTaskGroup(of: AutocompleteCompletion?.self) { group in
+//            for contact in contacts {
+//                group.addTask { [weak self] in
+//                    guard let bestNumber = await self?.bestPhoneNumberFrom(contact.phoneNumbers) else { return nil } //would be more ideal to check every phone number, not just the "best" one
+//                    let usersWithThatNumber = try await UserAPI.fetchUsersByWords(words: [bestNumber]) //TODO: CHANGE THIS TO BY PHONE NUMBER
+//                    if let user = usersWithThatNumber.first {
+//                        let frontendUser = try await UsersService.singleton.loadAndCacheUser(user: user)
+//                        let context: [String: Any] = [AutocompleteContext.id.rawValue: frontendUser.id,
+//                                   AutocompleteContext.pic.rawValue: frontendUser.profilePic,
+//                                   AutocompleteContext.queryName.rawValue: frontendUser.full_name]
+//                        return AutocompleteCompletion(text: frontendUser.username,
+//                                                      context: context)
+//                    }
+//                    let fullName = contact.givenName + " " + contact.familyName
+//                    guard !contact.givenName.isEmpty || !contact.familyName.isEmpty else { return nil }
+//                    let context = [AutocompleteContext.number.rawValue: bestNumber,
+//                                   AutocompleteContext.queryName.rawValue: fullName]
+//                    return AutocompleteCompletion(text: contact.generatedUsername, context: context)
+//                }
+//            }
+//            for try await autocompletion in group {
+//                if let autocompletion = autocompletion {
+//                    autocompletions.append(autocompletion)
+//                }
+//            }
+//        }
+//        return autocompletions
+//    }
+
 }
 
 //old process autocomplete text:

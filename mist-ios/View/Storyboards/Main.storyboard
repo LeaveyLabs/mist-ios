@@ -1338,12 +1338,13 @@ make that cute barista’s day,
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="onp-GH-hco">
-                                <rect key="frame" x="120" y="104" width="150" height="150"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.crop.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="onp-GH-hco">
+                                <rect key="frame" x="120" y="104.66666666666666" width="150" height="149"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="Aqh-d5-Ogt"/>
                                     <constraint firstAttribute="width" secondItem="onp-GH-hco" secondAttribute="height" multiplier="1:1" id="Pwz-iG-WVN"/>
                                 </constraints>
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="light"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adam Novak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDh-hd-9ul">
                                 <rect key="frame" x="104" y="269" width="182" height="41"/>
@@ -3018,6 +3019,7 @@ make that cute barista’s day,
         <image name="location" catalog="system" width="128" height="118"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="minus" catalog="system" width="128" height="24"/>
+        <image name="person.crop.circle" catalog="system" width="128" height="121"/>
         <image name="person.crop.circle.badge.plus" catalog="system" width="128" height="113"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="sparkles" catalog="system" width="112" height="128"/>
