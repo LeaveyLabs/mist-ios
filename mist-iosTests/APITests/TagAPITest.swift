@@ -46,7 +46,6 @@ class TagAPITest: XCTestCase {
     func testFetchTags() async throws {
         setGlobalAuthToken(token: TestConstants.Auth.TOKEN)
         let tags = try await TagAPI.fetchTags()
-        print(tags)
     }
     
     // POST
@@ -58,6 +57,10 @@ class TagAPITest: XCTestCase {
                                            tagged_name: TestConstants.Auth2.USERNAME,
                                            tagging_user: TestConstants.Auth.ID,
                                            tagged_user: TestConstants.Auth2.ID)
+        XCTAssertEqual(tag.comment, comment.id)
+        XCTAssertEqual(tag.tagged_name, TestConstants.Auth2.USERNAME)
+        XCTAssertEqual(tag.tagging_user, TestConstants.Auth.ID)
+        XCTAssertEqual(tag.tagged_user, TestConstants.Auth2.ID)
         try await PostAPI.deletePost(post_id: post.id)
     }
     
