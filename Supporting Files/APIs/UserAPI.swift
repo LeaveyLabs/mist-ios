@@ -39,6 +39,7 @@ struct UserError: Codable {
 class UserAPI {
     static let PATH_TO_USER_MODEL = "api/users/"
     static let PATH_TO_MATCHING_PHONE_NUMBERS = "api/matching-phone-numbers/"
+    static let PATH_TO_MATCHING_WORDS = "api/matching-words/"
     static let PATH_TO_MATCHES = "api/matches/"
     static let PATH_TO_FRIENDSHIPS = "api/friendships/"
     static let PATH_TO_NEARBY_USERS = "api/nearby-users/"
@@ -156,17 +157,30 @@ class UserAPI {
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
     }
     
-    static func fetchUsersByWords(words:[String]) async throws -> [ReadOnlyUser] {
-        var url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)?"
+//    static func fetchUsersByWords(words:[String]) async throws -> [ReadOnlyUser] {
+//        var url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)?"
+//        if words.isEmpty {
+//            return []
+//        }
+//        for word in words {
+//            url += "\(WORDS_PARAM)=\(word)&"
+//        }
+//        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+//        try filterUserErrors(data: data, response: response)
+//        return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
+//    }
+    
+    static func fetchUsersByWords(words:[String]) async throws -> [PhoneNumber: ReadOnlyUser] {
+        var url = "\(Env.BASE_URL)\(PATH_TO_MATCHING_WORDS)?"
         if words.isEmpty {
-            return []
+            return [:]
         }
         for word in words {
             url += "\(WORDS_PARAM)=\(word)&"
         }
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterUserErrors(data: data, response: response)
-        return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
+        return try JSONDecoder().decode([PhoneNumber: ReadOnlyUser].self, from: data)
     }
     
     static func fetchUsersByPhoneNumbers(phoneNumbers:[PhoneNumber]) async throws -> [PhoneNumber: ReadOnlyUser] {
