@@ -7,6 +7,8 @@
 
 import Foundation
 
+typealias ResetToken = String
+
 struct PhoneNumberError: Codable {
     let email: [String]?
     let phone_number: [String]?
@@ -114,7 +116,7 @@ class PhoneNumberAPI {
         try filterPhoneNumberErrors(data: data, response: response)
     }
     
-    static func validateResetEmail(email:String, code:String) async throws -> String {
+    static func validateResetEmail(email:String, code:String) async throws -> ResetToken {
         let url = "\(Env.BASE_URL)\(PATH_TO_VALIDATE_RESET_EMAIL)"
         let params:[String:String] = [
             EMAIL_PARAM: email,
@@ -127,7 +129,7 @@ class PhoneNumberAPI {
         return apiToken.token
     }
     
-    static func requestResetText(email:String, phoneNumber:String, resetToken:String) async throws {
+    static func requestResetText(email:String, phoneNumber:String, resetToken:ResetToken) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_REQUEST_RESET_TEXT)"
         let params:[String:String] = [
             EMAIL_PARAM: email,
@@ -139,7 +141,7 @@ class PhoneNumberAPI {
         try filterPhoneNumberErrors(data: data, response: response)
     }
     
-    static func validateResetText(phoneNumber:String, code:String, resetToken:String) async throws {
+    static func validateResetText(phoneNumber:String, code:String, resetToken:ResetToken) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_VALIDATE_RESET_TEXT)"
         let params:[String:String] = [
             PHONE_NUMBER_PARAM: phoneNumber,
