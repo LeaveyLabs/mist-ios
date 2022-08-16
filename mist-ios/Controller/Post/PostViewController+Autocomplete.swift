@@ -44,7 +44,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
             cell.imageView?.image = context[AutocompleteContext.pic.rawValue] as? UIImage
         } else {
             cell.isContact = true
-            cell.detailTextLabel?.text = context[AutocompleteContext.number.rawValue] as? String
+            cell.detailTextLabel?.text = context[AutocompleteContext.numberPretty.rawValue] as? String
             if let contactPic = context[AutocompleteContext.pic.rawValue] as? UIImage {
                 cell.imageView?.image = contactPic
             } else {
@@ -186,9 +186,9 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
                     suggestedContacts = Array(suggestedContacts.prefix(20))
                 }
                 
-                let usersAssociatedWithContacts = try await UserAPI.fetchUsersByPhoneNumbers(phoneNumbers: suggestedContacts.compactMap { $0.bestPhoneNumberDjango })
+                let usersAssociatedWithContacts = try await UserAPI.fetchUsersByPhoneNumbers(phoneNumbers: suggestedContacts.compactMap { $0.bestPhoneNumberE164 })
                 let contactsWithoutAnAccount: [CNContact] = suggestedContacts.filter { contact in
-                    guard let number = contact.bestPhoneNumberDjango else { return false }
+                    guard let number = contact.bestPhoneNumberE164 else { return false }
                     return !usersAssociatedWithContacts.keys.contains(number)
                 }
                 
@@ -244,8 +244,10 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
                 context[AutocompleteContext.pic.rawValue] = UIImage(data: data)
             }
             
-            guard let bestNumber = contact.bestPhoneNumberPretty else { continue }
-            context[AutocompleteContext.number.rawValue] = bestNumber
+            guard let bestNumberPretty = contact.bestPhoneNumberPretty else { continue }
+            guard let bestNumberE164 = contact.bestPhoneNumberE164 else { continue }
+            context[AutocompleteContext.numberPretty.rawValue] = bestNumberPretty
+            context[AutocompleteContext.numberE164.rawValue] = bestNumberE164
             context[AutocompleteContext.queryName.rawValue] = fullName
             
             if !suggestedUsersDict.contains(fullName) {
@@ -263,51 +265,6 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
 
     }
     
-}
-
-
-//MARK: - Contacts
-
-extension CNContact {
-    var generatedUsername: String {
-        return (givenName + "_" + familyName + randomStringOfNumbers(length: 2)).lowercased()
-    }
-    
-    var bestPhoneNumberPretty: String? {
-        return bestPhoneNumber
-    }
-    
-    var bestPhoneNumberDjango: String? {
-        return bestPhoneNumber?.formatAsDjangoPhoneNumber()
-    }
-    
-    private var bestPhoneNumber: String? {
-        var best: String?
-        
-        if phoneNumbers.count == 0 { return nil } //dont autoComplete contacts without numbers
-        if phoneNumbers.count == 1 {
-            best = phoneNumbers[0].value.stringValue
-        } else {
-            for cnNumber in phoneNumbers {
-                if cnNumber.label == CNLabelPhoneNumberMain ||
-                    cnNumber.label == CNLabelPhoneNumberiPhone ||
-                    cnNumber.label == CNLabelPhoneNumberMobile {
-                    best = cnNumber.value.stringValue
-                }
-            }
-        }
-        return best
-    }
-}
-
-extension String {
-    func formatAsDjangoPhoneNumber() -> String {
-        return self.filter("0123456789".contains)
-        
-//            let filtered = self.filter("+0123456789".contains)
-            //        return bestPhoneNumber.first(where: { $0 == "+"}) == nil ? "+1" + filtered : filtered
-//        return filtered.first(where: { $0 == "+"}) == nil ? "+1" + filtered : filtered
-    }
 }
 
 extension PostViewController {

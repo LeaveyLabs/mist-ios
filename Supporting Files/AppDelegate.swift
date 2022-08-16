@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        Performance.sharedInstance().isInstrumentationEnabled = false
 //        Performance.sharedInstance().isDataCollectionEnabled = false
 //        Analytics.setAnalyticsCollectionEnabled(false)
-
+        
         FirebaseApp.configure()
         return true
     }

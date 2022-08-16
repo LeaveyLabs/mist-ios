@@ -7,7 +7,7 @@
 
 import Foundation
 
-class UsersService: NSObject {
+actor UsersService: NSObject {
     
     static var singleton = UsersService()
     private var cachedUsers: [Int: FrontendReadOnlyUser] = [:]

@@ -39,7 +39,7 @@ extension PostDelegate where Self: UIViewController {
         }
     }
 
-    func handleDmTap(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String) {
+    @MainActor func handleDmTap(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String) {
         guard !BlockService.singleton.isBlockedByOrHasBlocked(author.id) else {
             CustomSwiftMessages.showAlreadyBlockedMessage()
             return
@@ -50,32 +50,33 @@ extension PostDelegate where Self: UIViewController {
             return
         }
         
-        if let frontendAuthor = UsersService.singleton.getPotentiallyCachedUser(userId: author.id) {
-            goToChat(postId: postId, postAuthor: frontendAuthor, postTitle: title)
-        } else {
-            reloadAuthorProfilePic(postId: postId, author: author, dmButton: dmButton, title: title)
-        }
-    }
-    
-    func reloadAuthorProfilePic(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String) {
-        dmButton.loadingIndicator(true)
         Task {
-            do {
-                let reloadedAuthor = try await UsersService.singleton.loadAndCacheUser(user: author)
-                DispatchQueue.main.async { [weak self] in
-                    dmButton.loadingIndicator(false)
-                    self?.goToChat(postId: postId, postAuthor: reloadedAuthor, postTitle: title)
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    dmButton.loadingIndicator(false)
-                    CustomSwiftMessages.displayError("Something went wrong",
-                                                     "Please try again later")
-                }
+            if let frontendAuthor = await UsersService.singleton.getPotentiallyCachedUser(userId: author.id) {
+                goToChat(postId: postId, postAuthor: frontendAuthor, postTitle: title)
+            } else {
+                await reloadAuthorProfilePic(postId: postId, author: author, dmButton: dmButton, title: title)
             }
         }
     }
     
+    func reloadAuthorProfilePic(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String) async {
+        await dmButton.loadingIndicator(true)
+        do {
+            let reloadedAuthor = try await UsersService.singleton.loadAndCacheUser(user: author)
+            DispatchQueue.main.async { [weak self] in
+                dmButton.loadingIndicator(false)
+                self?.goToChat(postId: postId, postAuthor: reloadedAuthor, postTitle: title)
+            }
+        } catch {
+            DispatchQueue.main.async {
+                dmButton.loadingIndicator(false)
+                CustomSwiftMessages.displayError("Something went wrong",
+                                                 "Please try again later")
+            }
+        }
+    }
+    
+    @MainActor
     func goToChat(postId: Int, postAuthor: FrontendReadOnlyUser, postTitle: String) {
         let chatVC = ChatViewController.createFromPost(postId: postId, postAuthor: postAuthor, postTitle: postTitle)
         let navigationController = UINavigationController(rootViewController: chatVC)

@@ -292,9 +292,9 @@ extension PostViewController: InputBarAccessoryViewDelegate {
                 //Completion from users
                 let userTag = Tag(id: Int.random(in: 0..<Int.max), comment: 0, tagged_name: name, tagged_user: taggedUserId, tagged_phone_number: nil, tagging_user: UserService.singleton.getId(), timestamp: Date().timeIntervalSince1970)
                 tags.append(userTag)
-            } else if let number = context[AutocompleteContext.number.rawValue] as? String {
+            } else if let numberE164 = context[AutocompleteContext.numberE164.rawValue] as? String {
                 //Completion from contacts
-                let contactTag = Tag(id: Int.random(in: 0..<Int.max), comment: 0, tagged_name: name, tagged_user: nil, tagged_phone_number: number.formatAsDjangoPhoneNumber(), tagging_user: UserService.singleton.getId(), timestamp: Date().timeIntervalSince1970)
+                let contactTag = Tag(id: Int.random(in: 0..<Int.max), comment: 0, tagged_name: name, tagged_user: nil, tagged_phone_number: numberE164, tagging_user: UserService.singleton.getId(), timestamp: Date().timeIntervalSince1970)
                 tags.append(contactTag)
             }
         }

@@ -12,7 +12,7 @@ import InputBarAccessoryView //dependency of MessageKit. If we remove MessageKit
 //"text" is what gets autocompleted: that will be the username
 //"queryName" is what appears on the tableView list when selecting
 enum AutocompleteContext: String {
-    case id, number, pic, queryName
+    case id, numberPretty, numberE164, pic, queryName
 //    case id, number, pic, username, name
 }
 

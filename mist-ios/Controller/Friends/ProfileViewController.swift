@@ -95,43 +95,40 @@ class ProfileViewController: UIViewController {
     func loadUser() {
         guard user == nil, status != .loaded else { return } //user already provided on creation
         
-        if let userNumber = userPhoneNumberForLoading {
-            Task {
+        Task {
+            if let userNumber = userPhoneNumberForLoading {
                 do {
                     guard let backendUser = try await UsersService.singleton.loadAndCacheUser(phoneNumber: userNumber) else {
                         status = .notclaimed
                         return
                     }
-                    getProfileDataForUserId(backendUser.id)
+                    await getProfileDataForUserId(backendUser.id)
                 } catch {
                     CustomSwiftMessages.displayError(error)
                 }
+            } else if let userId = userIdForLoading {
+                await getProfileDataForUserId(userId)
             }
-        } else if let userId = userIdForLoading {
-            getProfileDataForUserId(userId)
         }
     }
     
-    func getProfileDataForUserId(_ userId: Int) {
-        if let cachedUser = UsersService.singleton.getPotentiallyCachedUser(userId: userId) {
+    func getProfileDataForUserId(_ userId: Int) async {
+        if let cachedUser = await UsersService.singleton.getPotentiallyCachedUser(userId: userId) {
             user = cachedUser
             status = .loaded
-            return
+        } else {
+            await fetchProfileDataForUserId(userId)
         }
-        
-        fetchProfileDataForUserId(userId)
     }
     
-    func fetchProfileDataForUserId(_ userId: Int) {
+    func fetchProfileDataForUserId(_ userId: Int) async {
         status = .loading
-        Task {
-            do {
-                user = try await UsersService.singleton.loadAndCacheUser(userId: userId)
-                status = .loaded
-            } catch {
-                status = .nonexisting
-                CustomSwiftMessages.displayError(error)
-            }
+        do {
+            user = try await UsersService.singleton.loadAndCacheUser(userId: userId)
+            status = .loaded
+        } catch {
+            status = .nonexisting
+            CustomSwiftMessages.displayError(error)
         }
     }
     
