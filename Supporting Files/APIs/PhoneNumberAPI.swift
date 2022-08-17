@@ -86,7 +86,7 @@ class PhoneNumberAPI {
     }
     
     static func requestLoginCode(phoneNumber:String) async throws {
-        let url = "\(Env.BASE_URL)\(PATH_TO_VALIDATE_PHONE_NUMBER)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_REQUEST_LOGIN_CODE)"
         let params:[String:String] = [
             PHONE_NUMBER_PARAM: phoneNumber,
         ]
@@ -95,7 +95,7 @@ class PhoneNumberAPI {
         try filterPhoneNumberErrors(data: data, response: response)
     }
     
-    static func validateLoginCode(phoneNumber:String, code:String) async throws {
+    static func validateLoginCode(phoneNumber:String, code:String) async throws -> String {
         let url = "\(Env.BASE_URL)\(PATH_TO_VALIDATE_LOGIN_CODE)"
         let params:[String:String] = [
             PHONE_NUMBER_PARAM: phoneNumber,
@@ -104,6 +104,7 @@ class PhoneNumberAPI {
         let json = try JSONEncoder().encode(params)
         let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterPhoneNumberErrors(data: data, response: response)
+        return try JSONDecoder().decode(APIToken.self, from: data).token
     }
     
     static func requestResetEmail(email:String) async throws {
