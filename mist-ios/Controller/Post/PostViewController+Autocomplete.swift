@@ -140,7 +140,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
     
     func loadAutocompleteData(query: String) {
         if !hasPromptedUserForContactsAccess && !areContactsAuthorized() {
-           requestContactsAccessIfNecessary { _ in
+           requestContactsAccessIfNecessary { approved in
                self.loadAutocompleteData(query: query)
            }
            return
@@ -186,14 +186,19 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
                     suggestedContacts = Array(suggestedContacts.prefix(20))
                 }
                 
-                let usersAssociatedWithContacts = try await UserAPI.fetchUsersByPhoneNumbers(phoneNumbers: suggestedContacts.compactMap { $0.bestPhoneNumberE164 })
-                let contactsWithoutAnAccount: [CNContact] = suggestedContacts.filter { contact in
-                    guard let number = contact.bestPhoneNumberE164 else { return false }
-                    return !usersAssociatedWithContacts.keys.contains(number)
+                var usersInContacts = [ReadOnlyUser]()
+                var contactsWithoutAnAccount = [CNContact]()
+                for contact in suggestedContacts {
+                    guard let number = contact.bestPhoneNumberE164 else { continue }
+                    if let user = await UsersService.singleton.getUserAssociatedWithContact(phoneNumber: number) {
+                        usersInContacts.append(user)
+                    } else {
+                        contactsWithoutAnAccount.append(contact)
+                    }
                 }
                 
                 let fetchedUsers = try await UserAPI.fetchUsersByWords(words: [query])
-                let nonduplicatedUsers = Set(fetchedUsers).union(usersAssociatedWithContacts.values)
+                let nonduplicatedUsers = Set(fetchedUsers).union(usersInContacts)
                 let trimmedUsers = Array(nonduplicatedUsers.prefix(15))
                 let frontendSuggestedUsers = try await Array(UsersService.singleton.loadAndCacheUsers(users: trimmedUsers).values)
                 
@@ -250,10 +255,11 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
             context[AutocompleteContext.numberE164.rawValue] = bestNumberE164
             context[AutocompleteContext.queryName.rawValue] = fullName
             
-            if !suggestedUsersDict.contains(fullName) {
+            //Turning off this check for now
+//            if !suggestedUsersDict.contains(fullName) {
                 newAsyncCompletions.append(AutocompleteCompletion(text: contact.generatedUsername,
                                                                context: context))
-            }
+//            }
         }
         
         if newAsyncCompletions.count == 0 {
@@ -292,11 +298,18 @@ extension PostViewController {
         let status = CNContactStore.authorizationStatus(for: .contacts)
         switch status {
         case .notDetermined:
-            CustomSwiftMessages.showPermissionRequest(permissionType: .contacts, onApprove: { [self] in
-                contactStore.requestAccess(for: .contacts) { approved, _ in
-                    closure(approved)
+            CustomSwiftMessages.showPermissionRequest(permissionType: .contacts) { approved in
+                if approved {
+                    self.contactStore.requestAccess(for: .contacts) { approved, _ in
+                        Task {
+                            await UsersService.singleton.loadUsersAssociatedWithContacts()
+                            closure(true)
+                        }
+                    }
+                } else {
+                    closure(false)
                 }
-            })
+            }
         case .restricted:
             closure(false)
         case .denied:

@@ -82,6 +82,9 @@ class LoadingViewController: UIViewController {
     func loadAndGoHome(failCount: Int) async throws {
         do {
             try await loadEverything()
+            Task {
+                await UsersService.singleton.loadUsersAssociatedWithContacts() //for tagging
+            }
             mistWideLogoView.flyHeartUp()
             DispatchQueue.main.asyncAfter(deadline: .now() + Env.LAUNCH_ANIMATION_DELAY) {
                 self.transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,

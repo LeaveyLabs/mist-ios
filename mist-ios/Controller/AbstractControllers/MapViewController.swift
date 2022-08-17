@@ -146,13 +146,15 @@ extension MapViewController: CLLocationManagerDelegate {
         if locationManager.authorizationStatus == .denied ||
             locationManager.authorizationStatus == .notDetermined { //this check should also exist here for when the function is called after registering/logging in
             
-            CustomSwiftMessages.showPermissionRequest(permissionType: .userLocation, onApprove: { [weak self] in
-                if self?.locationManager.authorizationStatus == .notDetermined {
-                    self?.locationManager.requestWhenInUseAuthorization()
-                } else {
-                    CustomSwiftMessages.showSettingsAlertController(title: "Turn on location services for Mist in Settings.", message: "", on: self!)
+            CustomSwiftMessages.showPermissionRequest(permissionType: .userLocation) { approved in
+                if approved {
+                    if self.locationManager.authorizationStatus == .notDetermined {
+                        self.locationManager.requestWhenInUseAuthorization()
+                    } else {
+                        CustomSwiftMessages.showSettingsAlertController(title: "Turn on location services for Mist in Settings.", message: "", on: self)
+                    }
                 }
-            })
+            }
         }
     }
     

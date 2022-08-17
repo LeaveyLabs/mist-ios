@@ -140,7 +140,7 @@ extension CustomSwiftMessages {
 
 extension CustomSwiftMessages {
     
-    static func showPermissionRequest(permissionType: PermissionType, onApprove: @escaping () -> Void) {
+    static func showPermissionRequest(permissionType: PermissionType, onResponse: @escaping (Bool) -> Void) {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
 
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
@@ -163,10 +163,11 @@ extension CustomSwiftMessages {
             messageView.configureContent(title: title, body: body, iconText: emoji)
             messageView.approveAction = {
                 SwiftMessages.hide()
-                onApprove()
+                onResponse(true)
             }
             messageView.dismissAction = {
                 SwiftMessages.hide()
+                onResponse(false)
             }
             
             messageView.configureBackgroundView(width: 300)

@@ -6,11 +6,13 @@
 //
 
 import Foundation
+import Contacts
 
 actor UsersService: NSObject {
     
     static var singleton = UsersService()
     private var cachedUsers: [Int: FrontendReadOnlyUser] = [:]
+    private var usersInContacts: [PhoneNumber: ReadOnlyUser] = [:]
     
     //ALTERNATIVELY: cachedUsers -> cachedUserTasks as [Int: Task<>]
     //slightly more optimal, because maybe a usertask was almost finished loading when you checked and saw it was empty
@@ -129,10 +131,34 @@ actor UsersService: NSObject {
         return fetchedUsers.merging(alreadyCachedUsers) { (old, new) in new }
     }
     
+    //MARK: - Idk
+        
+    func loadUsersAssociatedWithContacts() async {
+        guard CNContactStore.authorizationStatus(for: .contacts) == .authorized else { return }
+        let contactStore = CNContactStore()
+        var allContacts = [CNContact]()
+        let keysToFetch = [CNContactPhoneNumbersKey] as [CNKeyDescriptor]
+        let request = CNContactFetchRequest(keysToFetch: keysToFetch)
+        do {
+            try contactStore.enumerateContacts(with: request) {
+                (contact, stop) in
+                allContacts.append(contact) // Array containing all unified contacts from everywhere
+            }
+            usersInContacts = try await UserAPI.fetchUsersByPhoneNumbers(phoneNumbers: allContacts.compactMap { $0.bestPhoneNumberE164 })
+            print("usersInContacts:", usersInContacts)
+        } catch {
+            print("Failed to fetch users for contacts, error: \(error)")
+        }
+    }
+    
     //MARK: - Getters
     
     func isUserCached(userId: Int) -> Bool {
         return cachedUsers[userId] != nil
+    }
+    
+    func getUserAssociatedWithContact(phoneNumber: PhoneNumber) -> ReadOnlyUser? {
+        return usersInContacts[phoneNumber]
     }
     
     func getPotentiallyCachedUser(userId: Int) -> FrontendReadOnlyUser? {
