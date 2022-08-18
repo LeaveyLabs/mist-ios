@@ -185,6 +185,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         inputBar.sendButton.title = "Post"
         inputBar.sendButton.setTitleColor(.clear, for: .disabled)
         inputBar.sendButton.setTitleColor(mistUIColor(), for: .normal)
+        inputBar.sendButton.setTitleColor(mistUIColor().withAlphaComponent(0.7), for: .highlighted)
         inputBar.sendButton.setSize(CGSize(width: 45, height: 40), animated: false) //to increase height
         inputBar.setRightStackViewWidthConstant(to: 45, animated: false)
         inputBar.setStackViewItems([inputBar.sendButton, InputBarButtonItem.fixedSpace(10)], forStack: .right, animated: false)
@@ -200,7 +201,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         
         keyboardManager.on(event: .didHide) { [weak self] keyboardNotification in
             self?.setAutocompleteManager(active: false)
-            self?.tableView.contentInset.bottom = 45 //EXPERIMENTAL: Not sure if this 100% works
+//            self?.tableView.contentInset.bottom = 45 //EXPERIMENTAL: Not sure if this 100% works
         }
         
         keyboardManager.on(event: .didShow) { [self] keyboardNotification in
@@ -223,15 +224,16 @@ extension PostViewController: InputBarAccessoryViewDelegate {
     
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         let commentAutocompletions = extractAutocompletionsFromInputBarText()
-        requestPermissionToTextIfNecessary(autocompletions: commentAutocompletions) { [self] authorizedTags in
-            guard !authorizedTags.isEmpty else { return }
+        let tags = turnCommentAutocompletionsIntoTags(commentAutocompletions)
+        requestPermissionToTextIfNecessary(autocompletions: commentAutocompletions, tags: tags) { [self] permission in
+            guard permission else { return }
             Task {
                 do {
                     let trimmedCommentText = inputBar.inputTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
                     inputBar.inputTextView.text = String() //now we can reset the input bar text
                     inputBar.invalidatePlugins()
                     inputBar.sendButton.isEnabled = false
-                    let newComment = try await CommentService.singleton.uploadComment(text: trimmedCommentText, postId: post.id, tags: authorizedTags)
+                    let newComment = try await CommentService.singleton.uploadComment(text: trimmedCommentText, postId: post.id, tags: tags)
                     handleSuccessfulCommentSubmission(newComment: newComment)
                 } catch {
                     inputBar.sendButton.isEnabled = true
@@ -254,13 +256,10 @@ extension PostViewController: InputBarAccessoryViewDelegate {
         return commentAutocompletions
     }
     
-    func requestPermissionToTextIfNecessary(autocompletions commentAutocompletions: [String: AnyObject], closure: @escaping (_ authorizedTags: [Tag]) -> Void) {
-        let candidateTags = turnCommentAutocompletionsIntoTags(commentAutocompletions)
-        let candidateTagsFromUsers = candidateTags.filter({ $0.tagged_user != nil })
-        let candidateTagsFromContacts = candidateTags.filter({ $0.tagged_phone_number != nil })
-        
-        if candidateTagsFromContacts.count == 0 {
-            closure(candidateTags)
+    func requestPermissionToTextIfNecessary(autocompletions commentAutocompletions: [String: AnyObject], tags: [Tag], closure: @escaping (_ permission: Bool) -> Void) {
+        let tagsFromContacts = tags.filter({ $0.tagged_phone_number != nil })
+        guard tagsFromContacts.count > 0 else {
+            closure(true)
             return
         }
         
@@ -276,11 +275,11 @@ extension PostViewController: InputBarAccessoryViewDelegate {
                                       preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Cancel",
                                       style: UIAlertAction.Style.default, handler: { alertAction in
-            closure(candidateTagsFromUsers)
+            closure(false)
         }))
         alert.addAction(UIAlertAction(title: "OK",
                                       style: UIAlertAction.Style.default, handler: { alertAction in
-            closure(candidateTags)
+            closure(true)
         }))
         self.present(alert, animated: true)
     }

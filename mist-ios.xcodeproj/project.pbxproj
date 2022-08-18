@@ -231,6 +231,10 @@
 		5B235AF928AC347C00FD27A9 /* CNContact+Number.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235AF728AC347C00FD27A9 /* CNContact+Number.swift */; };
 		5B235AFC28AC39D800FD27A9 /* PhoneNumberKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5B235AFB28AC39D800FD27A9 /* PhoneNumberKit */; };
 		5B235AFE28AC3A6E00FD27A9 /* PhoneNumberKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5B235AFD28AC3A6E00FD27A9 /* PhoneNumberKit */; };
+		5B235B0128ADE3B200FD27A9 /* EnterNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B0028ADE3B200FD27A9 /* EnterNumberViewController.swift */; };
+		5B235B0228ADE3B200FD27A9 /* EnterNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B0028ADE3B200FD27A9 /* EnterNumberViewController.swift */; };
+		5B235B0428ADE43800FD27A9 /* ConfirmNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B0328ADE43800FD27A9 /* ConfirmNumberViewController.swift */; };
+		5B235B0528ADE43800FD27A9 /* ConfirmNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B0328ADE43800FD27A9 /* ConfirmNumberViewController.swift */; };
 		5B29262A28974E10008A1F5D /* CommentVote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43529E282890BBD000B3A484 /* CommentVote.swift */; };
 		5B37A36B28784A4B00279B2A /* EnterBiosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */; };
 		5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D589B28603A46002E2F94 /* PostCell.swift */; };
@@ -814,6 +818,8 @@
 		5B235AF128A8DD4800FD27A9 /* UsersService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersService.swift; sourceTree = "<group>"; };
 		5B235AF428A97FB800FD27A9 /* TagLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagLink.swift; sourceTree = "<group>"; };
 		5B235AF728AC347C00FD27A9 /* CNContact+Number.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CNContact+Number.swift"; sourceTree = "<group>"; };
+		5B235B0028ADE3B200FD27A9 /* EnterNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNumberViewController.swift; sourceTree = "<group>"; };
+		5B235B0328ADE43800FD27A9 /* ConfirmNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmNumberViewController.swift; sourceTree = "<group>"; };
 		5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBiosViewController.swift; sourceTree = "<group>"; };
 		5B4D589B28603A46002E2F94 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ProfilePic.swift"; sourceTree = "<group>"; };
@@ -966,6 +972,7 @@
 		43770C4927EE8BED00F31CCF /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				5B235AFF28ADE39400FD27A9 /* PhoneAuthNew */,
 				5B1F16CC28791EF700035F93 /* Misc */,
 				5BE110002876CD6C00CB54A6 /* ResetPassword */,
 				5B18B97F2876C5F900F0F80E /* AuthStartViewController.swift */,
@@ -1604,6 +1611,15 @@
 				5B235AEE28A88D5C00FD27A9 /* FixedMessagesViewController.swift */,
 			);
 			path = Explore;
+			sourceTree = "<group>";
+		};
+		5B235AFF28ADE39400FD27A9 /* PhoneAuthNew */ = {
+			isa = PBXGroup;
+			children = (
+				5B235B0028ADE3B200FD27A9 /* EnterNumberViewController.swift */,
+				5B235B0328ADE43800FD27A9 /* ConfirmNumberViewController.swift */,
+			);
+			path = PhoneAuthNew;
 			sourceTree = "<group>";
 		};
 		5B4D58A52860D7E5002E2F94 /* UIImageView */ = {
@@ -2278,6 +2294,7 @@
 				472A4C0328408BD800FD52B7 /* SpringLabel.swift in Sources */,
 				474A5DAA27F40CB1004215F9 /* UISegmentedControl+Twitter.swift in Sources */,
 				472A4BF428408BD800FD52B7 /* SpringImageView.swift in Sources */,
+				5B235B0428ADE43800FD27A9 /* ConfirmNumberViewController.swift in Sources */,
 				5B18B9802876C5F900F0F80E /* AuthStartViewController.swift in Sources */,
 				43D925202852802600438C5C /* FriendRequest.swift in Sources */,
 				47AC881F28480AE1000150CA /* UIButton+RightSideImage.swift in Sources */,
@@ -2325,6 +2342,7 @@
 				474A4AC6284AB6D700B39A98 /* String+Indexing.swift in Sources */,
 				479683F82828180C00CA23BA /* ClusterAnnotationView.swift in Sources */,
 				43D9251628526DF300438C5C /* BlockAPI.swift in Sources */,
+				5B235B0128ADE3B200FD27A9 /* EnterNumberViewController.swift in Sources */,
 				476971DC2847C3F200123F72 /* UITextField+MaxLength.swift in Sources */,
 				5BE147C628A0CDAA0096FEBE /* UITextView+PreventPeriod.swift in Sources */,
 				47EE28FE28414AF700C6425C /* CustomCenteredView.swift in Sources */,
@@ -2404,6 +2422,7 @@
 				5BE147CF28A2937E0096FEBE /* CommentDelegate.swift in Sources */,
 				5B739D9F28935B9500E4EED0 /* TransitionZoom.swift in Sources */,
 				5B739DA028935B9500E4EED0 /* MyCommentCell.swift in Sources */,
+				5B235B0228ADE3B200FD27A9 /* EnterNumberViewController.swift in Sources */,
 				5B739DA128935B9500E4EED0 /* MatchCollectionCell.swift in Sources */,
 				5B739DA228935B9500E4EED0 /* CustomSwiftMessages.swift in Sources */,
 				5B739DA328935B9500E4EED0 /* MatchRequest.swift in Sources */,
@@ -2478,6 +2497,7 @@
 				5B739DE228935B9500E4EED0 /* UnwindSegue.swift in Sources */,
 				5B739DE328935B9500E4EED0 /* HomeViewController+Search.swift in Sources */,
 				5B739DE428935B9500E4EED0 /* UITextView+MaxLength.swift in Sources */,
+				5B235B0528ADE43800FD27A9 /* ConfirmNumberViewController.swift in Sources */,
 				5B739DE528935B9500E4EED0 /* UIImage+FromColor.swift in Sources */,
 				5B739DE628935B9500E4EED0 /* UIView+PostBubble.swift in Sources */,
 				5B739DE728935B9500E4EED0 /* UIImage+Blur.swift in Sources */,
@@ -2887,7 +2907,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mist-ios.app/mist-ios";
 			};
 			name = Debug;
@@ -2911,7 +2931,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mist-ios.app/mist-ios";
 			};
 			name = Release;
@@ -2936,7 +2956,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = "mist-ios";
 			};
 			name = Debug;
@@ -2957,7 +2977,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = "mist-ios";
 			};
 			name = Release;

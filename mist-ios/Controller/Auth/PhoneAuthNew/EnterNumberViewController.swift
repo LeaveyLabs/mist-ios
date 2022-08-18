@@ -1,3 +1,4 @@
+
 //
 //  EnterEmailViewController.swift
 //  mist-ios
@@ -6,10 +7,11 @@
 //
 
 import UIKit
+import PhoneNumberKit
 
-class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
+class EnterNumberViewController: KUIViewController, UITextFieldDelegate {
 
-    @IBOutlet weak var enterEmailTextField: UITextField!
+    @IBOutlet weak var enterNumberTextField: PhoneNumberTextField!
     @IBOutlet weak var continueButton: UIButton!
     
     var isValidInput: Bool! {
@@ -43,7 +45,7 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        enterEmailTextField.becomeFirstResponder()
+        enterNumberTextField.becomeFirstResponder()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -54,9 +56,12 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     //MARK: - Setup
     
     func setupEnterEmailTextField() {
-        enterEmailTextField.delegate = self
-        enterEmailTextField.layer.cornerRadius = 5
-        enterEmailTextField.setLeftAndRightPadding(10)
+        enterNumberTextField.delegate = self
+        enterNumberTextField.layer.cornerRadius = 5
+        enterNumberTextField.setLeftAndRightPadding(10)
+        
+        enterNumberTextField.countryCodePlaceholderColor = .red
+        enterNumberTextField.withFlag = true
     }
     
     func setupContinueButton() {
@@ -111,13 +116,13 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     //MARK: - Helpers
     
     func tryToContinue() {
-        if let email = enterEmailTextField.text?.lowercased() {
+        if let number = enterNumberTextField.text {
             isSubmitting = true
             Task {
                 do {
-                    try await AuthAPI.registerEmail(email: email)
-                    AuthContext.email = email
-                    let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ConfirmEmail)
+                    try await PhoneNumberAPI.registerNewPhoneNumber(email: AuthContext.email, phoneNumber: number)
+                    AuthContext.phoneNumber = number
+                    let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ConfirmNumber)
                     self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
                         self?.isSubmitting = false
                     })
@@ -130,13 +135,13 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     
     func handleFailure(_ error: Error) {
         isSubmitting = false
-        enterEmailTextField.text = ""
+        enterNumberTextField.text = ""
         validateInput()
         CustomSwiftMessages.displayError(error)
     }
     
     func validateInput() {
-        isValidInput = enterEmailTextField.text?.contains("@")
+        isValidInput = enterNumberTextField.text?.contains("@")
 //        isValidInput = enterEmailTextField.text?.suffix(8).lowercased() == "@usc.edu"
     }
     
@@ -144,7 +149,7 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
 
 // UIGestureRecognizerDelegate (already inherited in an extension)
 
-extension EnterEmailViewController {
+extension EnterNumberViewController {
     
     // Note: Must be called in viewDidLoad
     //(1 of 2) Enable swipe left to go back with a bar button item

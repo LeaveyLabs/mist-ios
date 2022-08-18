@@ -32,6 +32,7 @@ extension PostViewController {
         keyboardManager.bind(inputAccessoryView: inputBar) //properly positions inputAccessoryView
         keyboardManager.bind(to: tableView) //enables interactive dismissal
         keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
+//        updateMessageCollectionViewBottomInset()
         
         /// Observe didBeginEditing to scroll down the content
         NotificationCenter.default
@@ -83,6 +84,7 @@ extension PostViewController {
         guard self.presentedViewController == nil else { return }
         let collectionViewHeight = tableView.frame.height
         let newBottomInset = collectionViewHeight - (inputBar.frame.minY - additionalBottomInset) - automaticallyAddedBottomInset
+        print("new bottom isnet", newBottomInset)
         let normalizedNewBottomInset = max(0, newBottomInset)
         let differenceOfBottomInset = newBottomInset - messageCollectionViewBottomInset
 

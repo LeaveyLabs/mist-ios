@@ -10,6 +10,7 @@ import Foundation
 struct AuthContext {
     static var username: String = ""
     static var email: String = ""
+    static var phoneNumber: String = ""
     static var password: String = ""
     static var firstName: String = ""
     static var lastName: String = ""
