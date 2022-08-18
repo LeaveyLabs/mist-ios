@@ -104,8 +104,10 @@ struct Post: Codable, Equatable {
         
         //Add placeholder emojis
         let missingEmojiCount = 3 - emojiCountTuples.count
-        for _ in (0 ..< missingEmojiCount) {
-            emojiCountTuples.append(EmojiCountTuple(randomUnusedEmoji(usedEmojis: emojiCountTuples), 0))
+        if missingEmojiCount > 0 {
+            for _ in (0 ..< missingEmojiCount) {
+                emojiCountTuples.append(EmojiCountTuple(randomUnusedEmoji(usedEmojis: emojiCountTuples), 0))
+            }
         }
         
         return emojiCountTuples
