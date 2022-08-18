@@ -15,7 +15,7 @@ extension PostViewController {
     
     var additionalBottomInset: CGFloat {
         get {
-            return 51 //5 + inputBar.frame.height
+            return 60 + (window?.safeAreaInsets.bottom ?? 0)
         }
     }
     
@@ -32,7 +32,6 @@ extension PostViewController {
         keyboardManager.bind(inputAccessoryView: inputBar) //properly positions inputAccessoryView
         keyboardManager.bind(to: tableView) //enables interactive dismissal
         keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
-//        updateMessageCollectionViewBottomInset()
         
         /// Observe didBeginEditing to scroll down the content
         NotificationCenter.default
@@ -57,10 +56,7 @@ extension PostViewController {
             .delay(for: .milliseconds(50), scheduler: DispatchQueue.main) /// Wait for next runloop to lay out inputView properly
             .sink { [weak self] _ in
                 self?.updateMessageCollectionViewBottomInset()
-
-//                if !(self?.maintainPositionOnInputBarHeightChanged ?? false) {
-//                    self?.messagesCollectionView.scrollToLastItem()
-//                }
+                self?.scrollToBottom()
             }
 //            .store(in: &disposeBag)
 
@@ -71,7 +67,10 @@ extension PostViewController {
         .subscribe(on: DispatchQueue.global())
         .receive(on: DispatchQueue.main)
         .sink(receiveValue: { [weak self] _ in
-            self?.updateMessageCollectionViewBottomInset()
+            guard let self = self else { return }
+            if !self.activityIndicator.isAnimating { //so we don't move up the loading indicator above the keyboard while loading in comments
+                self.updateMessageCollectionViewBottomInset()
+            }
         })
 //        .store(in: &disposeBag)
     }
@@ -84,7 +83,6 @@ extension PostViewController {
         guard self.presentedViewController == nil else { return }
         let collectionViewHeight = tableView.frame.height
         let newBottomInset = collectionViewHeight - (inputBar.frame.minY - additionalBottomInset) - automaticallyAddedBottomInset
-        print("new bottom isnet", newBottomInset)
         let normalizedNewBottomInset = max(0, newBottomInset)
         let differenceOfBottomInset = newBottomInset - messageCollectionViewBottomInset
 
@@ -96,6 +94,11 @@ extension PostViewController {
     }
 
     // MARK: - Private methods
+    
+    private func scrollToBottom() {
+        let bottom: NSIndexPath = IndexPath(row: tableView(tableView, numberOfRowsInSection: 0) - 1, section: 0) as NSIndexPath
+        tableView.scrollToRow(at: bottom as IndexPath, at: .bottom, animated: true)
+    }
 
     private func handleTextViewDidBeginEditing(_ notification: Notification) {
         guard
@@ -105,16 +108,12 @@ extension PostViewController {
         else {
             return
         }
-//        tableView.scrollToBottom(animated: true)
-        updateMessageCollectionViewBottomInset()
-        
-        //WAIT... contentoffset vs inset??
-//        tableView.contentOffset.y = 45 + keyboardHeight
-        tableView.contentInset.bottom = 45 + keyboardHeight
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.tableView.scrollToBottom(animated: true)
+        if !activityIndicator.isAnimating {
+            tableView.layoutIfNeeded()
+            scrollToBottom()
         }
+        // tableView.scrollToBottom(animated: true) //only properly scrolls on the first, but not subsequent, calls for some reason
+//        tableView.setContentOffset(.init(x: 0, y: tableView.contentSize.height - tableView.contentInset.bottom + 10), animated: true) //works fine, but a bit complicated
     }
 
     /// UIScrollView can automatically add safe area insets to its contentInset,

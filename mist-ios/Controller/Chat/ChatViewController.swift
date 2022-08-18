@@ -181,6 +181,7 @@ class ChatViewController: MessagesViewController {
         
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
 //        showMessageTimestampOnSwipeLeft = true // default false
+        additionalBottomInset = 5
     }
     
     func setupCustomNavigationBar() {

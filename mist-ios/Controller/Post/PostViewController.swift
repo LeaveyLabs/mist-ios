@@ -20,14 +20,6 @@ extension AutocompleteManagerDelegate {
     }
 }
 
-class TopWindow: UIWindow {
-
-    override var windowLevel: UIWindow.Level {
-        get  { UIWindow.Level(rawValue: 20000000.000) }
-        set { self.windowLevel = newValue }
-    }
-}
-
 class PostViewController: UIViewController, UIViewControllerTransitioningDelegate {
     
     //MARK: - Properties
@@ -128,9 +120,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        // Im guessing there's a considerable number of people who will click "comment" to see comments but don't want the keyboard to pull up
         if shouldStartWithRaisedKeyboard {
-            // For that reason, we wont raise keyboard, for now
           self.inputBar.inputTextView.becomeFirstResponder()
         }
         enableInteractivePopGesture()
@@ -166,19 +156,12 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         
         keyboardManager.on(event: .didHide) { [weak self] keyboardNotification in
             self?.setAutocompleteManager(active: false)
-//            self?.tableView.contentInset.bottom = 45 //EXPERIMENTAL: Not sure if this 100% works
         }
         
         keyboardManager.on(event: .didShow) { [self] keyboardNotification in
             keyboardHeight = keyboardNotification.endFrame.height
             updateMaxAutocompleteRows(keyboardHeight: keyboardHeight)
         }
-    
-        //As is, this is causing a bad animation with the autocomplete results
-        //Ideal: on .didShow, *if the comment keyboard was previously dismissed*, and *if there is an active autocomplete session*, setAutoManager to true
-//        keyboardManager.on(event: .didShow) { [weak self] keyboardNotification in
-//            self?.setAutocompleteManager(active: true)
-//        }
     }
     
 }
@@ -195,13 +178,13 @@ extension PostViewController: InputBarAccessoryViewDelegate {
             Task {
                 do {
                     let trimmedCommentText = inputBar.inputTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
-                    inputBar.inputTextView.text = String() //now we can reset the input bar text
-                    inputBar.invalidatePlugins()
                     inputBar.sendButton.isEnabled = false
+//                    inputBar.inputTextView.isEditable = false
                     let newComment = try await CommentService.singleton.uploadComment(text: trimmedCommentText, postId: post.id, tags: tags)
                     handleSuccessfulCommentSubmission(newComment: newComment)
                 } catch {
                     inputBar.sendButton.isEnabled = true
+                    inputBar.inputTextView.isEditable = true
                     CustomSwiftMessages.displayError(error)
                 }
             }
@@ -286,6 +269,23 @@ extension PostViewController: InputBarAccessoryViewDelegate {
         }
         return tags
     }
+    
+    @MainActor
+    func handleSuccessfulCommentSubmission(newComment: Comment) {
+        inputBar.inputTextView.text = ""
+        inputBar.invalidatePlugins()
+        inputBar.inputTextView.isEditable = true
+        inputBar.inputTextView.resignFirstResponder()
+//        post.commentcount += 1
+        comments.append(newComment)
+        commentAuthors[newComment.author] = UserService.singleton.getUserAsFrontendReadOnlyUser()
+        tableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            if let self = self {
+                self.tableView.scrollToRow(at: IndexPath(row: self.comments.count, section: 0), at: .bottom, animated: true)
+            }
+        }
+    }
         
 }
 
@@ -329,26 +329,6 @@ extension PostViewController {
         
 }
 
-// MARK: - Helpers
-
-extension PostViewController {
-    
-    func handleSuccessfulCommentSubmission(newComment: Comment) {
-        clearAllFields()
-        inputBar.inputTextView.resignFirstResponder()
-        tableView.scrollToRow(at: IndexPath(row: comments.count, section: 0), at: .bottom, animated: true)
-//        post.commentcount += 1
-        comments.append(newComment)
-        commentAuthors[newComment.author] = UserService.singleton.getUserAsFrontendReadOnlyUser()
-        tableView.reloadData()
-    }
-    
-    func clearAllFields() {
-        inputBar.inputTextView.text = ""
-    }
-    
-}
-
 //MARK: - Db Calls
 
 extension PostViewController {
@@ -362,6 +342,7 @@ extension PostViewController {
 //                loadFakeProfilesWhenAWSIsDown()
                 DispatchQueue.main.async { [weak self] in
                     self?.tableView.reloadData()
+                    self?.updateMessageCollectionViewBottomInset()
                 }
             } catch {
                 CustomSwiftMessages.displayError(error)
@@ -524,15 +505,24 @@ extension PostViewController: PostDelegate {
             }
         }
         
-        if keyboardHeight > previousK && isKeyboardForEmojiReaction { //keyboard is appearing for the first time && we don't want to scroll the feed when the search controller keyboard is presentedkey
+        if keyboardHeight > previousK && isKeyboardForEmojiReaction { //keyboard is appearing for the first time
             isKeyboardForEmojiReaction = false
             scrollFeedToPostRightAboveKeyboard()
+            inputBar.isHidden = true
+        }
+        
+        if keyboardHeight > 0 && inputBar.inputTextView.isFirstResponder {
+            inputBar.isHidden = false
         }
     }
         
     @objc func keyboardWillDismiss(sender: NSNotification) {
         keyboardHeight = 0
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+            self?.inputBar.isHidden = false
+        }
     }
+    
 }
 
 extension PostViewController {

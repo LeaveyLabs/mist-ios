@@ -67,6 +67,7 @@ extension InputBarAccessoryView {
         maxTextViewHeight = 144 //max of 6 lines with the given font
         if let middleContentView = middleContentView, middleContentView != inputTextView {
             middleContentView.removeFromSuperview()
+            middleContentView.layer.shadowOpacity = 0
             setMiddleContentView(inputTextView, animated: false)
         }
 
