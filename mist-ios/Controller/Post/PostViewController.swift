@@ -109,6 +109,8 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+        inputBar.inputTextView.resignFirstResponder()
+        inputBar.inputTextView.canBecomeFirstResponder = false //so it doesnt become first responder again if the swipe back gesture is cancelled halfway through
         //no longer using the postVC's willDismiss completion handler here: we could delete that
     }
     
@@ -124,6 +126,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
           self.inputBar.inputTextView.becomeFirstResponder()
         }
         enableInteractivePopGesture()
+        inputBar.inputTextView.canBecomeFirstResponder = true // to offset viewWillDisappear
     }
     
     //MARK: - Setup

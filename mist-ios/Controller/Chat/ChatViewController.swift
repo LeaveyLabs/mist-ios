@@ -30,9 +30,13 @@ class ChatViewController: MessagesViewController {
     
     //MARK: - Propreties
     
-    override var canBecomeFirstResponder: Bool {
-        return !(!viewHasAppeared && isPresentedFromPost && messageInputBar.inputTextView.isFirstResponder) //when presented from post, don't let the ViewController interrupt the messageInputBarTextView keyboard rising
+    //We are using the subview rather than the first responder approach
+    override var canBecomeFirstResponder: Bool { return false }
+    
+    override var inputAccessoryView: UIView?{
+        return nil //this should be "messageInputBar" according to the docs, but then i was dealing with other problems. Instead, i just increased the bottom tableview inset by 43 points. The problem: when dismissing the chat view, the bottom message scrolls behind the keyboard. That's a downside im willing to take right now
     }
+    let keyboardManager = KeyboardManager()
     
     var viewHasAppeared = false
 
@@ -116,6 +120,12 @@ class ChatViewController: MessagesViewController {
             setupWhenPresentedFromPost()
         }
         
+        //Keyboard manager from InputBarAccessoryView
+        view.addSubview(messageInputBar)
+        keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
+        keyboardManager.bind(inputAccessoryView: messageInputBar) //properly positions inputAccessoryView
+        keyboardManager.bind(to: messagesCollectionView) //enables interactive dismissal
+        
         DispatchQueue.main.async { //scroll on the next cycle so that collectionView's data is loaded in beforehand
             self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
         }
@@ -126,17 +136,26 @@ class ChatViewController: MessagesViewController {
         navigationController!.setNavigationBarHidden(true, animated: animated)
         print("CHAT VIEW WILL APPEAR")
         messagesCollectionView.reloadDataAndKeepOffset()
+        if !messageInputBar.inputTextView.canBecomeFirstResponder {
+            messageInputBar.inputTextView.canBecomeFirstResponder = true //bc we set to false in viewdiddisappear
+        }
     }
         
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewHasAppeared = true
         enableInteractivePopGesture()
-        
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        messageInputBar.inputTextView.resignFirstResponder()
+        messageInputBar.inputTextView.canBecomeFirstResponder = false //so it doesnt become first responder again if the swipe back gesture is cancelled halfway through
+        UIView.animate(withDuration: 0.3, delay: 0) { [self] in
+            messagesCollectionView.contentInset = .init(top: 0, left: 0, bottom: additionalBottomInset, right: 0)
+        }
+
         //if is pushing a view controller
         if !self.isAboutToClose {
             navigationController?.setNavigationBarHidden(false, animated: animated)
@@ -181,7 +200,7 @@ class ChatViewController: MessagesViewController {
         
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
 //        showMessageTimestampOnSwipeLeft = true // default false
-        additionalBottomInset = 5
+        additionalBottomInset = 55
     }
     
     func setupCustomNavigationBar() {
