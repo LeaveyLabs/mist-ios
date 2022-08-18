@@ -237,6 +237,10 @@
 		5B235B0828AEAD4300FD27A9 /* UIViewController+Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B0628AEAD4300FD27A9 /* UIViewController+Window.swift */; };
 		5B235B0A28AEB11900FD27A9 /* InputBarAccessoryView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B0928AEB11900FD27A9 /* InputBarAccessoryView+.swift */; };
 		5B235B0B28AEB11900FD27A9 /* InputBarAccessoryView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B0928AEB11900FD27A9 /* InputBarAccessoryView+.swift */; };
+		5B235B0E28AEFDFC00FD27A9 /* PanGesture+Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B0D28AEFDFC00FD27A9 /* PanGesture+Direction.swift */; };
+		5B235B0F28AEFDFC00FD27A9 /* PanGesture+Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B0D28AEFDFC00FD27A9 /* PanGesture+Direction.swift */; };
+		5B235B1228AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B1128AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift */; };
+		5B235B1328AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B1128AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift */; };
 		5B29262A28974E10008A1F5D /* CommentVote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43529E282890BBD000B3A484 /* CommentVote.swift */; };
 		5B37A36B28784A4B00279B2A /* EnterBiosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */; };
 		5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D589B28603A46002E2F94 /* PostCell.swift */; };
@@ -823,6 +827,8 @@
 		5B235B0328ADE43800FD27A9 /* ConfirmNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmNumberViewController.swift; sourceTree = "<group>"; };
 		5B235B0628AEAD4300FD27A9 /* UIViewController+Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Window.swift"; sourceTree = "<group>"; };
 		5B235B0928AEB11900FD27A9 /* InputBarAccessoryView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InputBarAccessoryView+.swift"; sourceTree = "<group>"; };
+		5B235B0D28AEFDFC00FD27A9 /* PanGesture+Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PanGesture+Direction.swift"; sourceTree = "<group>"; };
+		5B235B1128AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationController+FullscreenInteractivePopGesture.swift"; sourceTree = "<group>"; };
 		5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBiosViewController.swift; sourceTree = "<group>"; };
 		5B4D589B28603A46002E2F94 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ProfilePic.swift"; sourceTree = "<group>"; };
@@ -1296,6 +1302,8 @@
 		47A3D71B27D593F0003DBEA5 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				5B235B1028AEFE1E00FD27A9 /* NavigationController */,
+				5B235B0C28AEFDEC00FD27A9 /* GestureRecognizer */,
 				5BB624B72863CA1300DCD45B /* UINavigation */,
 				5B4D58A52860D7E5002E2F94 /* UIImageView */,
 				5BE4D9BC285C017100197080 /* String */,
@@ -1624,6 +1632,22 @@
 				5B235B0328ADE43800FD27A9 /* ConfirmNumberViewController.swift */,
 			);
 			path = PhoneAuthNew;
+			sourceTree = "<group>";
+		};
+		5B235B0C28AEFDEC00FD27A9 /* GestureRecognizer */ = {
+			isa = PBXGroup;
+			children = (
+				5B235B0D28AEFDFC00FD27A9 /* PanGesture+Direction.swift */,
+			);
+			path = GestureRecognizer;
+			sourceTree = "<group>";
+		};
+		5B235B1028AEFE1E00FD27A9 /* NavigationController */ = {
+			isa = PBXGroup;
+			children = (
+				5B235B1128AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift */,
+			);
+			path = NavigationController;
 			sourceTree = "<group>";
 		};
 		5B4D58A52860D7E5002E2F94 /* UIImageView */ = {
@@ -2175,6 +2199,7 @@
 				4700F8BE27DD807C006C2E08 /* CommentCell.swift in Sources */,
 				47A3D72327D5A0D2003DBEA5 /* ProfileViewController.swift in Sources */,
 				4700F8BB27DD7BE3006C2E08 /* PostVote.swift in Sources */,
+				5B235B0E28AEFDFC00FD27A9 /* PanGesture+Direction.swift in Sources */,
 				5B235AF828AC347C00FD27A9 /* CNContact+Number.swift in Sources */,
 				5B774DF8286D068400CCCF28 /* UITextView+Newline.swift in Sources */,
 				47E2B1BD27FFC52900131B8D /* ShadowNavigationController.swift in Sources */,
@@ -2288,6 +2313,7 @@
 				472A4C0828408BD800FD52B7 /* LoadingView.swift in Sources */,
 				4752718328557C1300DDF84D /* PasswordSettingViewController.swift in Sources */,
 				43D92524285280D200438C5C /* FriendRequestAPI.swift in Sources */,
+				5B235B1228AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift in Sources */,
 				5BE1473C289F0FCE0096FEBE /* Validate.swift in Sources */,
 				472A4BF328408BD800FD52B7 /* Spring.swift in Sources */,
 				5B1F16CE287D1ABD00035F93 /* HomeViewController.swift in Sources */,
@@ -2429,6 +2455,7 @@
 				5B739D9F28935B9500E4EED0 /* TransitionZoom.swift in Sources */,
 				5B739DA028935B9500E4EED0 /* MyCommentCell.swift in Sources */,
 				5B235B0228ADE3B200FD27A9 /* EnterNumberViewController.swift in Sources */,
+				5B235B0F28AEFDFC00FD27A9 /* PanGesture+Direction.swift in Sources */,
 				5B739DA128935B9500E4EED0 /* MatchCollectionCell.swift in Sources */,
 				5B739DA228935B9500E4EED0 /* CustomSwiftMessages.swift in Sources */,
 				5B739DA328935B9500E4EED0 /* MatchRequest.swift in Sources */,
@@ -2486,6 +2513,7 @@
 				5B739DD228935B9500E4EED0 /* MyProfileSettingViewController.swift in Sources */,
 				5B739DD328935B9500E4EED0 /* SimpleInputCell.swift in Sources */,
 				5B739DD428935B9500E4EED0 /* PermissionsViewController.swift in Sources */,
+				5B235B1328AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift in Sources */,
 				5B739DD528935B9500E4EED0 /* UIViewController+DismissFlag.swift in Sources */,
 				5B739DD628935B9500E4EED0 /* MessageKitInfo.swift in Sources */,
 				5B739DD728935B9500E4EED0 /* CustomAttributedString.swift in Sources */,

@@ -89,6 +89,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         setupCommentInputBar()
         setupKeyboardManagerForBottomInputBar()
         loadComments()
+        navigationController?.fullscreenInteractivePopGestureRecognizer(delegate: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {

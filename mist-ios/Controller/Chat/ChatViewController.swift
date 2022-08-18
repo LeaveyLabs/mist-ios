@@ -129,6 +129,8 @@ class ChatViewController: MessagesViewController {
         DispatchQueue.main.async { //scroll on the next cycle so that collectionView's data is loaded in beforehand
             self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
         }
+        
+        navigationController?.fullscreenInteractivePopGestureRecognizer(delegate: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -144,7 +146,6 @@ class ChatViewController: MessagesViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewHasAppeared = true
-        enableInteractivePopGesture()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -199,7 +200,7 @@ class ChatViewController: MessagesViewController {
         if conversation.hasRenderedAllChatObjects() { refreshControl.removeFromSuperview() }
         
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
-//        showMessageTimestampOnSwipeLeft = true // default false
+        showMessageTimestampOnSwipeLeft = true // default false
         additionalBottomInset = 55
     }
     
@@ -312,6 +313,7 @@ class ChatViewController: MessagesViewController {
         }
         return super.collectionView(collectionView, cellForItemAt: indexPath)
     }
+    
 }
 
 //MARK: - MessagesDataSource
