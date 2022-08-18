@@ -170,14 +170,15 @@ class UserAPI {
     }
 
     static func fetchUsersByPhoneNumbers(phoneNumbers:[PhoneNumber]) async throws -> [PhoneNumber: ReadOnlyUser] {
-        var url = "\(Env.BASE_URL)\(PATH_TO_MATCHING_PHONE_NUMBERS)?"
+        let url = "\(Env.BASE_URL)\(PATH_TO_MATCHING_PHONE_NUMBERS)"
         if phoneNumbers.isEmpty {
             return [:]
         }
-        for phoneNumber in phoneNumbers {
-            url += "\(PHONE_NUMBERS_PARAM)=\(phoneNumber)&"
-        }
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let params:[String:[String]] = [
+            PHONE_NUMBERS_PARAM: phoneNumbers
+        ]
+        let json = try JSONEncoder().encode(params)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterUserErrors(data: data, response: response)
         return try JSONDecoder().decode([PhoneNumber: ReadOnlyUser].self, from: data)
     }
