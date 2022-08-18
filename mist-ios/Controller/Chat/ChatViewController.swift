@@ -30,12 +30,14 @@ class ChatViewController: MessagesViewController {
     
     //MARK: - Propreties
     
-    //We are using the subview rather than the first responder approach
-    override var canBecomeFirstResponder: Bool { return false }
-    
-    override var inputAccessoryView: UIView?{
-        return nil //this should be "messageInputBar" according to the docs, but then i was dealing with other problems. Instead, i just increased the bottom tableview inset by 43 points. The problem: when dismissing the chat view, the bottom message scrolls behind the keyboard. That's a downside im willing to take right now
+    override var canBecomeFirstResponder: Bool {
+        return messageInputBar.canBecomeFirstResponder
     }
+
+    override var inputAccessoryView: UIView?{
+        return messageInputBar
+    }
+    
     let keyboardManager = KeyboardManager()
     
     let INPUTBAR_PLACEHOLDER = "Message"
@@ -103,6 +105,7 @@ class ChatViewController: MessagesViewController {
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
+        
         messagesCollectionView = MessagesCollectionView(frame: .zero, collectionViewLayout: CustomMessagesFlowLayout()) //for registering custom MessageSizeCalculator for MessageKitMatch
         super.viewDidLoad()
         setupMessagesCollectionView()
@@ -120,10 +123,13 @@ class ChatViewController: MessagesViewController {
 //        messagesCollectionView.directionalPressGestureRecognizer.allowedPressTypes
         
         //Keyboard manager from InputBarAccessoryView
-        view.addSubview(messageInputBar)
-        keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
-        keyboardManager.bind(inputAccessoryView: messageInputBar) //properly positions inputAccessoryView
-        keyboardManager.bind(to: messagesCollectionView) //enables interactive dismissal
+//        view.addSubview(subviewInputBar)
+        
+        // Binding the inputBar will set the needed callback actions to position the inputBar on top of the keyboard
+//        keyboardManager.bind(inputAccessoryView: subviewInputBar)
+//        keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
+////        keyboardManager.bind(inputAccessoryView: messageInputBar) //properly positions inputAccessoryView
+//        keyboardManager.bind(to: messagesCollectionView) //enables interactive dismissal
         
         DispatchQueue.main.async { //scroll on the next cycle so that collectionView's data is loaded in beforehand
             self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
@@ -175,7 +181,6 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
         messagesCollectionView.delegate = self
-        messageInputBar.delegate = self
                 
         let matchNib = UINib(nibName: String(describing: MatchCollectionCell.self), bundle: nil)
         messagesCollectionView.register(matchNib, forCellWithReuseIdentifier: String(describing: MatchCollectionCell.self))
@@ -188,8 +193,6 @@ class ChatViewController: MessagesViewController {
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
 //        maintainPositionOnKeyboardFrameChanged = true // default false. this was causing a weird snap when scrolling the keyboard down
 //        showMessageTimestampOnSwipeLeft = true // default false
-//        additionalBottomInset = 8
-        additionalBottomInset = 51
     }
     
     func setupCustomNavigationBar() {
@@ -213,49 +216,16 @@ class ChatViewController: MessagesViewController {
     }
     
     func setupMessageInputBarForChatting() {
-        //iMessage
-        messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 36)
-        messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 36)
-        messageInputBar.separatorLine.height = 0
-        
-        //Center
-        messageInputBar.inputTextView.layer.borderWidth = 0.5
-        messageInputBar.inputTextView.layer.borderColor = UIColor.systemGray4.cgColor
-        messageInputBar.inputTextView.tintColor = mistUIColor()
-        messageInputBar.inputTextView.backgroundColor = .lightGray.withAlphaComponent(0.1)
-        messageInputBar.inputTextView.layer.cornerRadius = 16.0
-        messageInputBar.inputTextView.layer.masksToBounds = true
-        messageInputBar.inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
-        messageInputBar.shouldAnimateTextDidChangeLayout = true
-        messageInputBar.maxTextViewHeight = 144 //max of 6 lines with the given font
-        if messageInputBar.middleContentView != messageInputBar.inputTextView {
-            messageInputBar.setMiddleContentView(messageInputBar.inputTextView, animated: false)
-        }
-
-
-        //Right
-        messageInputBar.setRightStackViewWidthConstant(to: 38, animated: false)
-        messageInputBar.sendButton.setSize(CGSize(width: 36, height: 36), animated: false)
-        messageInputBar.setStackViewItems([messageInputBar.sendButton, InputBarButtonItem.fixedSpace(2)], forStack: .right, animated: false)
-        messageInputBar.sendButton.contentEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 4, right: 2)
-        messageInputBar.sendButton.setImage(UIImage(named: "enabled-send-button"), for: .normal)
-        messageInputBar.sendButton.title = nil
-        messageInputBar.sendButton.becomeRound()
+        messageInputBar.configureForChatting()
+        messageInputBar.delegate = self
+        messageInputBar.inputTextView.delegate = self //does this cause issues? i'm not entirely sure
     }
     
     func setupMessageInputBarForChatPrompt() {
         let joinChatView = WantToChatView()
         joinChatView.configure(firstName: conversation.sangdaebang.first_name, delegate: self)
-        
-        messageInputBar.layer.shadowColor = UIColor.black.cgColor
-        messageInputBar.layer.shadowRadius = 4
-        messageInputBar.layer.shadowOpacity = 0.3
-        messageInputBar.layer.shadowOffset = CGSize(width: 0, height: 0)
-        messageInputBar.separatorLine.isHidden = true
-        messageInputBar.setRightStackViewWidthConstant(to: 0, animated: false)
-        
-        messageInputBar.setMiddleContentView(joinChatView, animated: false)
+        messageInputBar.configureForChatPrompt(chatView: joinChatView)
     }
     
     //MARK: - User Interaction

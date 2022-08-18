@@ -158,42 +158,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     func setupCommentInputBar() {
         inputBar.delegate = self
         inputBar.inputTextView.delegate = self
-        inputBar.shouldAnimateTextDidChangeLayout = true
-        inputBar.maxTextViewHeight = 110 //max of 3 lines with the given font
-        inputBar.inputTextView.keyboardType = .twitter
-        inputBar.inputTextView.placeholder = COMMENT_PLACEHOLDER_TEXT
-        inputBar.inputTextView.font = UIFont(name: Constants.Font.Medium, size: 16) //from 17
-        inputBar.inputTextView.placeholderLabel.font = UIFont(name: Constants.Font.Medium, size: 16) //from 17
-        inputBar.inputTextView.placeholderTextColor = .systemGray
-//        inputBar.backgroundView.backgroundColor = UIColor(hex: "F8F8F8")
-//        inputBar.shouldForceTextViewMaxHeight
-        inputBar.separatorLine.height = 0.5
-        
-        //Middle
-        inputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 45)
-        inputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 45)
-        inputBar.inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-        inputBar.inputTextView.layer.borderColor = UIColor.systemGray2.cgColor
-        inputBar.inputTextView.tintColor = mistUIColor()
-        inputBar.inputTextView.backgroundColor = .systemGray6
-        inputBar.inputTextView.layer.borderWidth = 0.5
-        inputBar.inputTextView.layer.cornerRadius = 16.0
-        inputBar.inputTextView.layer.masksToBounds = true
-        inputBar.middleContentViewPadding.right = -45 //extends the inputbar to the right
-        
-        //Right
-        inputBar.sendButton.title = "Post"
-        inputBar.sendButton.setTitleColor(.clear, for: .disabled)
-        inputBar.sendButton.setTitleColor(mistUIColor(), for: .normal)
-        inputBar.sendButton.setTitleColor(mistUIColor().withAlphaComponent(0.7), for: .highlighted)
-        inputBar.sendButton.setSize(CGSize(width: 45, height: 40), animated: false) //to increase height
-        inputBar.setRightStackViewWidthConstant(to: 45, animated: false)
-        inputBar.setStackViewItems([inputBar.sendButton, InputBarButtonItem.fixedSpace(10)], forStack: .right, animated: false)
-
-        //Left
-        let inputAvatar = InputAvatar(frame: CGRect(x: 0, y: 0, width: 40, height: 40), profilePic: UserService.singleton.getProfilePic())
-        inputBar.setLeftStackViewWidthConstant(to: 48, animated: false)
-        inputBar.setStackViewItems([inputAvatar, InputBarButtonItem.fixedSpace(8)], forStack: .left, animated: false)
+        inputBar.configureForCommenting()
     }
     
     func setupKeyboardManagerForBottomInputBar() {
@@ -242,6 +207,28 @@ extension PostViewController: InputBarAccessoryViewDelegate {
             }
         }
     }
+
+    
+    func inputBar(_ inputBar: InputBarAccessoryView, didChangeIntrinsicContentTo size: CGSize) {
+        // Adjust content insets
+        print("didchangeinputbarintrinsicsizeto:", size)
+        tableView.contentInset.bottom = size.height + keyboardHeight
+        updateMaxAutocompleteRows(keyboardHeight: keyboardHeight)
+        tableView.keyboardDismissMode = asyncCompletions.isEmpty ? .interactive : .none
+    }
+    
+    func updateMaxAutocompleteRows(keyboardHeight: Double) {
+        let inputHeight = inputBar.inputTextView.frame.height + 10
+        autocompleteManager.tableView.maxVisibleRows = Int((tableView.frame.height - keyboardHeight - inputHeight) / autocompleteManager.tableView.rowHeight)
+    }
+
+    @objc func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
+        inputBar.inputTextView.placeholderLabel.isHidden = !inputBar.inputTextView.text.isEmpty
+        inputBar.sendButton.isEnabled = inputBar.inputTextView.text != ""
+        processAutocompleteOnNextText(text)
+    }
+    
+    //MARK: - InputBar Helpers
     
     func extractAutocompletionsFromInputBarText() -> [String: AnyObject] {
         // Here we can parse for which substrings were autocompleted
@@ -298,26 +285,6 @@ extension PostViewController: InputBarAccessoryViewDelegate {
             }
         }
         return tags
-    }
-
-    
-    func inputBar(_ inputBar: InputBarAccessoryView, didChangeIntrinsicContentTo size: CGSize) {
-        // Adjust content insets
-        print("didchangeinputbarintrinsicsizeto:", size)
-        tableView.contentInset.bottom = size.height + keyboardHeight
-        updateMaxAutocompleteRows(keyboardHeight: keyboardHeight)
-        tableView.keyboardDismissMode = asyncCompletions.isEmpty ? .interactive : .none
-    }
-    
-    func updateMaxAutocompleteRows(keyboardHeight: Double) {
-        let inputHeight = inputBar.inputTextView.frame.height + 10
-        autocompleteManager.tableView.maxVisibleRows = Int((tableView.frame.height - keyboardHeight - inputHeight) / autocompleteManager.tableView.rowHeight)
-    }
-
-    @objc func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
-        inputBar.inputTextView.placeholderLabel.isHidden = !inputBar.inputTextView.text.isEmpty
-        inputBar.sendButton.isEnabled = inputBar.inputTextView.text != ""
-        processAutocompleteOnNextText(text)
     }
         
 }
