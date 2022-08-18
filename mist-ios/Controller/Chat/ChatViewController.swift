@@ -31,15 +31,11 @@ class ChatViewController: MessagesViewController {
     //MARK: - Propreties
     
     override var canBecomeFirstResponder: Bool {
-        return messageInputBar.canBecomeFirstResponder
+        return !(!viewHasAppeared && isPresentedFromPost && messageInputBar.inputTextView.isFirstResponder) //when presented from post, don't let the ViewController interrupt the messageInputBarTextView keyboard rising
     }
+    
+    var viewHasAppeared = false
 
-    override var inputAccessoryView: UIView?{
-        return messageInputBar
-    }
-    
-    let keyboardManager = KeyboardManager()
-    
     let INPUTBAR_PLACEHOLDER = "Message"
     let MAX_MESSAGE_LENGTH = 999
     
@@ -120,17 +116,6 @@ class ChatViewController: MessagesViewController {
             setupWhenPresentedFromPost()
         }
         
-//        messagesCollectionView.directionalPressGestureRecognizer.allowedPressTypes
-        
-        //Keyboard manager from InputBarAccessoryView
-//        view.addSubview(subviewInputBar)
-        
-        // Binding the inputBar will set the needed callback actions to position the inputBar on top of the keyboard
-//        keyboardManager.bind(inputAccessoryView: subviewInputBar)
-//        keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
-////        keyboardManager.bind(inputAccessoryView: messageInputBar) //properly positions inputAccessoryView
-//        keyboardManager.bind(to: messagesCollectionView) //enables interactive dismissal
-        
         DispatchQueue.main.async { //scroll on the next cycle so that collectionView's data is loaded in beforehand
             self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
         }
@@ -142,13 +127,12 @@ class ChatViewController: MessagesViewController {
         print("CHAT VIEW WILL APPEAR")
         messagesCollectionView.reloadDataAndKeepOffset()
     }
-    
-    var viewHasAppeared = false
-    
+        
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewHasAppeared = true
         enableInteractivePopGesture()
+        
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -158,8 +142,6 @@ class ChatViewController: MessagesViewController {
             navigationController?.setNavigationBarHidden(false, animated: animated)
             navigationController?.navigationBar.tintColor = .black //otherwise it's blue... idk why
         }
-        
-        messageInputBar.inputTextView.resignFirstResponder() //better ui animation
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -168,10 +150,17 @@ class ChatViewController: MessagesViewController {
         disableInteractivePopGesture()
     }
     
-    //    //(2 of 2) Enable swipe left to go back with a bar button item
-        func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-            return true
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if isPresentedFromPost {
+            messageInputBar.inputTextView.becomeFirstResponder()
         }
+    }
+    
+    //(2 of 2) Enable swipe left to go back with a bar button item
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
     
     //MARK: - Setup
     
@@ -191,7 +180,6 @@ class ChatViewController: MessagesViewController {
         if conversation.hasRenderedAllChatObjects() { refreshControl.removeFromSuperview() }
         
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
-//        maintainPositionOnKeyboardFrameChanged = true // default false. this was causing a weird snap when scrolling the keyboard down
 //        showMessageTimestampOnSwipeLeft = true // default false
     }
     
@@ -212,7 +200,6 @@ class ChatViewController: MessagesViewController {
     
     func setupWhenPresentedFromPost() {
         xButton.setImage(UIImage(systemName: "xmark"), for: .normal)
-        messageInputBar.inputTextView.becomeFirstResponder()
     }
     
     func setupMessageInputBarForChatting() {
@@ -663,51 +650,3 @@ extension ChatViewController {
         return thisItem.sender.senderId == nextItem.sender.senderId
     }
 }
-
-
-//not in use:
-
-private func nextIndexPath(for currentIndexPath: IndexPath, in tableView: UICollectionView) -> IndexPath? {
-    var nextRow = 0
-    var nextSection = 0
-    var iteration = 0
-    var startRow = currentIndexPath.row
-    for section in currentIndexPath.section ..< tableView.numberOfSections {
-        nextSection = section
-        for row in startRow ..< tableView.numberOfItems(inSection: section) {
-            nextRow = row
-            iteration += 1
-            if iteration == 2 {
-                let nextIndexPath = IndexPath(row: nextRow, section: nextSection)
-                return nextIndexPath
-            }
-        }
-        startRow = 0
-    }
-
-    return nil
-}
-
-
-
-//    func setupMessageInputBarForChatting() {
-        //Positioning
-//        messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
-//        messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 14, bottom: 8, right: 14)
-//            if #available(iOS 13, *) {
-//                messageInputBar.inputTextView.layer.borderColor = UIColor.systemGray2.cgColor
-//            } else {
-//                messageInputBar.inputTextView.layer.borderColor = UIColor.lightGray.cgColor
-//            }
-//        messageInputBar.inputTextView.layer.borderWidth = 1.0
-//        messageInputBar.inputTextView.layer.cornerRadius = 16.0
-//        messageInputBar.inputTextView.layer.masksToBounds = true
-//        messageInputBar.inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-//        messageInputBar.setLeftStackViewWidthConstant(to: 0, animated: false)
-//        //Aesthetic
-//        messageInputBar.inputTextView.tintColor = mistUIColor()
-//        messageInputBar.sendButton.setTitleColor(mistUIColor(), for: .normal)
-//        messageInputBar.sendButton.setTitleColor(mistUIColor().withAlphaComponent(0.3), for: .highlighted)
-//        messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
-//        messageInputBar.shouldAnimateTextDidChangeLayout = true
-//    }
