@@ -168,7 +168,7 @@ class UserAPI {
         try filterUserErrors(data: data, response: response)
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
     }
-    
+
     static func fetchUsersByPhoneNumbers(phoneNumbers:[PhoneNumber]) async throws -> [PhoneNumber: ReadOnlyUser] {
         var url = "\(Env.BASE_URL)\(PATH_TO_MATCHING_PHONE_NUMBERS)?"
         if phoneNumbers.isEmpty {
