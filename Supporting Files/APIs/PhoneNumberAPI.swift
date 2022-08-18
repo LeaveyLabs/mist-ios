@@ -7,6 +7,8 @@
 
 import Foundation
 
+typealias ResetToken = String
+
 struct PhoneNumberError: Codable {
     let email: [String]?
     let phone_number: [String]?
@@ -84,7 +86,7 @@ class PhoneNumberAPI {
     }
     
     static func requestLoginCode(phoneNumber:String) async throws {
-        let url = "\(Env.BASE_URL)\(PATH_TO_VALIDATE_PHONE_NUMBER)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_REQUEST_LOGIN_CODE)"
         let params:[String:String] = [
             PHONE_NUMBER_PARAM: phoneNumber,
         ]
@@ -93,7 +95,7 @@ class PhoneNumberAPI {
         try filterPhoneNumberErrors(data: data, response: response)
     }
     
-    static func validateLoginCode(phoneNumber:String, code:String) async throws {
+    static func validateLoginCode(phoneNumber:String, code:String) async throws -> String {
         let url = "\(Env.BASE_URL)\(PATH_TO_VALIDATE_LOGIN_CODE)"
         let params:[String:String] = [
             PHONE_NUMBER_PARAM: phoneNumber,
@@ -102,6 +104,7 @@ class PhoneNumberAPI {
         let json = try JSONEncoder().encode(params)
         let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterPhoneNumberErrors(data: data, response: response)
+        return try JSONDecoder().decode(APIToken.self, from: data).token
     }
     
     static func requestResetEmail(email:String) async throws {
@@ -114,7 +117,7 @@ class PhoneNumberAPI {
         try filterPhoneNumberErrors(data: data, response: response)
     }
     
-    static func validateResetEmail(email:String, code:String) async throws -> String {
+    static func validateResetEmail(email:String, code:String) async throws -> ResetToken {
         let url = "\(Env.BASE_URL)\(PATH_TO_VALIDATE_RESET_EMAIL)"
         let params:[String:String] = [
             EMAIL_PARAM: email,
@@ -127,7 +130,7 @@ class PhoneNumberAPI {
         return apiToken.token
     }
     
-    static func requestResetText(email:String, phoneNumber:String, resetToken:String) async throws {
+    static func requestResetText(email:String, phoneNumber:String, resetToken:ResetToken) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_REQUEST_RESET_TEXT)"
         let params:[String:String] = [
             EMAIL_PARAM: email,
@@ -139,7 +142,7 @@ class PhoneNumberAPI {
         try filterPhoneNumberErrors(data: data, response: response)
     }
     
-    static func validateResetText(phoneNumber:String, code:String, resetToken:String) async throws {
+    static func validateResetText(phoneNumber:String, code:String, resetToken:ResetToken) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_VALIDATE_RESET_TEXT)"
         let params:[String:String] = [
             PHONE_NUMBER_PARAM: phoneNumber,
