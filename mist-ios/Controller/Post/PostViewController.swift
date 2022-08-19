@@ -368,6 +368,7 @@ extension PostViewController {
 //                loadFakeProfilesWhenAWSIsDown()
                 DispatchQueue.main.async { [weak self] in
                     self?.tableView.reloadData()
+                    self?.updateMessageCollectionViewBottomInset()
                 }
             } catch {
                 CustomSwiftMessages.displayError(error)
@@ -537,7 +538,9 @@ extension PostViewController: PostDelegate {
         
         if keyboardHeight > previousK && isKeyboardForEmojiReaction { //keyboard is appearing for the first time
             isKeyboardForEmojiReaction = false
-            scrollFeedToPostRightAboveKeyboard()
+            if commentAuthors.keys.count > 0 { //on big phones, if you scroll before comments have rendered, you get weird behavior
+                scrollFeedToPostRightAboveKeyboard()
+            }
         }
         
         if keyboardHeight > 0 {
@@ -561,13 +564,11 @@ extension PostViewController {
     func scrollFeedToPostRightAboveKeyboard() {
         let postIndex = 0 //because postVC
         let postRectWithinFeed = tableView.rectForRow(at: IndexPath(row: postIndex, section: 0))
-//        let postBottomYWithinView = tableView.convert(postRectWithinFeed, to: view).maxY
-        let postBottomYWithinFeed = postRectWithinFeed.maxY
-        let navHeight = navigationController!.navigationBar.frame.size.height
+        let postBottomYWithinView = tableView.convert(postRectWithinFeed, to: view).maxY
         
         let keyboardTopYWithinView = view.bounds.height - keyboardHeight
         let spaceBetweenPostCellAndPostView: Double = 15
-        let desiredOffset = postBottomYWithinFeed - keyboardTopYWithinView - spaceBetweenPostCellAndPostView
+        let desiredOffset = postBottomYWithinView - keyboardTopYWithinView - spaceBetweenPostCellAndPostView
         print(desiredOffset)
 //        if desiredOffset < 0 { return } //dont scroll up for the post
 //        tableView.setContentOffset(tableView.contentOffset.applying(.init(translationX: 0, y: desiredOffset)), animated: true)
