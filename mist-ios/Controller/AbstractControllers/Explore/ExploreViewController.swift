@@ -201,11 +201,13 @@ extension ExploreViewController: PostDelegate {
     }
     
     func handleBackgroundTap(postId: Int) {
+        view.endEditing(true)
         let tappedPostAnnotation = postAnnotations.first { $0.post.id == postId }!
         sendToPostViewFor(tappedPostAnnotation.post, withRaisedKeyboard: false)
     }
     
     func handleCommentButtonTap(postId: Int) {
+        view.endEditing(true)
         let tappedPostAnnotation = postAnnotations.first { $0.post.id == postId }!
         sendToPostViewFor(tappedPostAnnotation.post, withRaisedKeyboard: true)
     }

@@ -65,6 +65,11 @@ class EmojiButton: UIButton {
 
 class EmojiTextField: UITextField {
     
+    var canResign = true
+    override var canResignFirstResponder: Bool {
+        return canResign
+    }
+    
     // required for iOS 13
     override var textInputContextIdentifier: String? { "" } // return non-nil to show the Emoji keyboard ¯\_(ツ)_/¯
 

@@ -32,6 +32,10 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     let keyboardManager = KeyboardManager() //InputBarAccessoryView
     let inputBar = InputBarAccessoryView()
     let MAX_COMMENT_LENGTH = 499
+    
+    //EmojiInput
+    var emojiTextField: EmojiTextField?
+    var postView: PostView?
         
     //Keyboard
     var shouldStartWithRaisedKeyboard: Bool!
@@ -316,6 +320,24 @@ extension PostViewController: UITextViewDelegate {
         autocompleteManager.textViewDidChange(textView)
     }
     
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        //no idea why, but this delegate function is just not being called
+        //instead, we make the inputBar appear via a keyboard notification
+        print("SHOULD BEGIN EDITING")
+        inputBar.isHidden = false
+        return true
+    }
+    
+}
+
+//MARK: EmojiTextFieldDelegate
+
+extension PostViewController: UITextFieldDelegate {
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        inputBar.isHidden = true
+        return true
+    }
     
 }
 
@@ -339,14 +361,13 @@ extension PostViewController {
         
     func loadComments() {
         Task {
+            activityIndicator.startAnimating()
             do {
-                activityIndicator.startAnimating()
                 comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
                 commentAuthors = try await UsersService.singleton.loadAndCacheUsers(users: comments.map { $0.read_only_author } )
 //                loadFakeProfilesWhenAWSIsDown()
                 DispatchQueue.main.async { [weak self] in
                     self?.tableView.reloadData()
-                    self?.updateMessageCollectionViewBottomInset()
                 }
             } catch {
                 CustomSwiftMessages.displayError(error)
@@ -380,6 +401,11 @@ extension PostViewController: UITableViewDataSource {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
             cell.configurePostCell(post: post, nestedPostViewDelegate: self, bubbleTrianglePosition: .left, isWithinPostVC: true)
+            emojiTextField = cell.postView.reactButtonTextField
+            if let emojiTextField = emojiTextField {
+                view.addSubview(emojiTextField)
+            }
+            postView = cell.postView
             return cell
         }
         //else the cell is a comment
@@ -489,9 +515,9 @@ extension PostViewController: PostDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         view.endEditing(true)
-        guard let postView = textField.superview as? PostView else { return false }
+        guard textField is EmojiTextField else { return false }
         if !string.isSingleEmoji { return false }
-        postView.handleEmojiVote(emojiString: string)
+        postView?.handleEmojiVote(emojiString: string)
         return false
     }
     
@@ -512,12 +538,12 @@ extension PostViewController: PostDelegate {
         if keyboardHeight > previousK && isKeyboardForEmojiReaction { //keyboard is appearing for the first time
             isKeyboardForEmojiReaction = false
             scrollFeedToPostRightAboveKeyboard()
-            inputBar.isHidden = true
         }
         
-        if keyboardHeight > 0 && inputBar.inputTextView.isFirstResponder {
-            inputBar.isHidden = false
+        if keyboardHeight > 0 {
+            inputBar.isHidden = !inputBar.inputTextView.isFirstResponder
         }
+        
     }
         
     @objc func keyboardWillDismiss(sender: NSNotification) {
@@ -534,12 +560,20 @@ extension PostViewController {
     //also not quite working
     func scrollFeedToPostRightAboveKeyboard() {
         let postIndex = 0 //because postVC
-        let postBottomYWithinFeed = tableView.rectForRow(at: IndexPath(row: postIndex, section: 0))
-        let postBottomY = tableView.convert(postBottomYWithinFeed, to: view).maxY
-        let keyboardTopY = view.bounds.height - keyboardHeight
-        let desiredOffset = postBottomY - keyboardTopY
-        if desiredOffset < 0 { return } //dont scroll up for the post
-        tableView.setContentOffset(tableView.contentOffset.applying(.init(translationX: 0, y: desiredOffset)), animated: true)
+        let postRectWithinFeed = tableView.rectForRow(at: IndexPath(row: postIndex, section: 0))
+//        let postBottomYWithinView = tableView.convert(postRectWithinFeed, to: view).maxY
+        let postBottomYWithinFeed = postRectWithinFeed.maxY
+        let navHeight = navigationController!.navigationBar.frame.size.height
+        
+        let keyboardTopYWithinView = view.bounds.height - keyboardHeight
+        let spaceBetweenPostCellAndPostView: Double = 15
+        let desiredOffset = postBottomYWithinFeed - keyboardTopYWithinView - spaceBetweenPostCellAndPostView
+        print(desiredOffset)
+//        if desiredOffset < 0 { return } //dont scroll up for the post
+//        tableView.setContentOffset(tableView.contentOffset.applying(.init(translationX: 0, y: desiredOffset)), animated: true)
+        tableView.setContentOffset(CGPoint(x: 0, y: desiredOffset), animated: true)
+        
+//        tableView.setContentOffset(.init(x: 0, y: 500), animated: true)
     }
     
 }
