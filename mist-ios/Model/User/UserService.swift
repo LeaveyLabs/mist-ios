@@ -33,15 +33,15 @@ class UserService: NSObject {
             setupFirebaseAnalyticsProperties()
         }
         
-        Task {
-            while let latitude = frontendCompleteUser?.latitude,
-                  let longitude = frontendCompleteUser?.longitude,
-                  let id = frontendCompleteUser?.id {
-                let _ = try await UserAPI.patchLatitudeLongitude(latitude: latitude, longitude: longitude, id: id)
-                let _ = try await UserAPI.fetchNearbyUsers()
-                sleep(SLEEP_INTERVAL)
-            }
-        }
+//        Task {
+//            while let latitude = frontendCompleteUser?.latitude,
+//                  let longitude = frontendCompleteUser?.longitude,
+//                  let id = frontendCompleteUser?.id {
+//                let _ = try await UserAPI.patchLatitudeLongitude(latitude: latitude, longitude: longitude, id: id)
+//                let _ = try await UserAPI.fetchNearbyUsers()
+//                sleep(SLEEP_INTERVAL)
+//            }
+//        }
     }
     
     //MARK: - Getters
@@ -97,6 +97,7 @@ class UserService: NSObject {
                                             dob: dob)
         let token = try await AuthAPI.fetchAuthToken(email_or_username: username, password: password)
         setGlobalAuthToken(token: token)
+        waitAndRegisterDeviceToken(id: completeUser.id)
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
                                                     profilePic: newProfilePicWrapper,
                                                     token: token)
@@ -108,6 +109,7 @@ class UserService: NSObject {
         let token = try await AuthAPI.fetchAuthToken(json: json)
         setGlobalAuthToken(token: token)
         let completeUser = try await UserAPI.fetchAuthedUserByToken(token: token)
+        waitAndRegisterDeviceToken(id: completeUser.id)
         let profilePicUIImage = try await UserAPI.UIImageFromURLString(url: completeUser.picture)
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
                                                     profilePic: ProfilePicWrapper(image: profilePicUIImage,
@@ -207,6 +209,7 @@ class UserService: NSObject {
             frontendCompleteUser = try JSONDecoder().decode(FrontendCompleteUser.self, from: data)
             guard let frontendCompleteUser = frontendCompleteUser else { return }
             setGlobalAuthToken(token: frontendCompleteUser.token) //this shouldn't be necessary, but to be safe
+            waitAndRegisterDeviceToken(id: frontendCompleteUser.id)
         } catch {
             print("COULD NOT LOAD: \(error)")
         }
@@ -221,4 +224,14 @@ class UserService: NSObject {
         }
     }
     
+    // MARK: - Device Notifications
+    
+    func waitAndRegisterDeviceToken(id:Int) {
+        Task {
+            while AUTHTOKEN == "" || DEVICETOKEN == "" {
+                sleep(SLEEP_INTERVAL)
+            }
+            try await DeviceAPI.registerCurrentDeviceWithUser(user: id)
+        }
+    }
 }
