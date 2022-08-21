@@ -19,19 +19,18 @@ enum AutocompleteContext: String {
 extension AutocompleteTableView {
     
     var heightBetweenInputBarAndNavBar: CGFloat? {
-        return CGFloat(maxVisibleRows)
+//        return CGFloat(maxVisibleRows) //this method results in slightly off sizing for large iphones
         
-        //a hack i tried which was too complicated
-//        guard let inputAccessoryView = superview?.superview else {
-//            return nil
-//        }
-//        guard
-//            let navBarHeight = self.parentViewController()?.navigationController?.navigationBar.frame.height,
-//            let statusBarHeight = self.parentViewController()?.window?.windowScene?.statusBarManager?.statusBarFrame.height
-//        else { return nil }
-//
-//        let inputBarHeight = CGFloat(maxVisibleRows)
-//        return inputAccessoryView.frame.maxY - 1 - navBarHeight - inputBarHeight  - statusBarHeight
+        guard let inputAccessoryView = superview?.superview else {
+            return nil
+        }
+        guard
+            let navBarHeight = self.parentViewController()?.navigationController?.navigationBar.frame.height,
+            let statusBarHeight = self.parentViewController()?.window?.windowScene?.statusBarManager?.statusBarFrame.height
+        else { return nil }
+
+        let inputBarHeight = CGFloat(maxVisibleRows)
+        return inputAccessoryView.frame.maxY - 1 - navBarHeight - inputBarHeight  - statusBarHeight
     }
     
     open override var intrinsicContentSize: CGSize {
@@ -70,6 +69,8 @@ class CommentAutocompleteManager: AutocompleteManager {
         tableView.register(TagAutocompleteCell.self, forCellReuseIdentifier: TagAutocompleteCell.reuseIdentifier)
         placeholderLabel.font = UIFont(name: Constants.Font.Medium, size: 16)
         placeholderLabel.textColor = .black
+        
+//        tableView.backgroundColor = .red
         
 //        topLineView.frame = CGRect(x: 0, y: 0, width: tableView.frame.width, height: 0.5)
 //        topLineView.backgroundColor = .systemGray2

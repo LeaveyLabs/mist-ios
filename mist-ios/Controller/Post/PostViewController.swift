@@ -183,8 +183,8 @@ extension PostViewController: InputBarAccessoryViewDelegate {
     
     func updateMaxAutocompleteRows(keyboardHeight: Double) {
         let inputHeight = inputBar.inputTextView.frame.height + 10
-        let maxSpaceBetween = tableView.frame.height - keyboardHeight - inputHeight
-        autocompleteManager.tableView.maxVisibleRows = Int(maxSpaceBetween) //we are manipulating maxVisibleRows to use as the InputBarHeight when calculating the fullTableViewHeight. this is bad practice but the best workaround for now
+//        let maxSpaceBetween = tableView.frame.height - keyboardHeight - inputHeight //this method results in slightly off sizing for large iphones
+        autocompleteManager.tableView.maxVisibleRows = Int(inputHeight) //we are manipulating maxVisibleRows to use as the InputBarHeight when calculating the fullTableViewHeight. this is bad practice but the best workaround for now
     }
 
     @objc func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
