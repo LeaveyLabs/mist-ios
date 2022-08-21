@@ -108,6 +108,11 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
         }
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        detectAutoFill(textField: textField, range: range, string: string)
+        return true
+    }
+    
     //MARK: - Helpers
     
     func tryToContinue() {
@@ -138,6 +143,26 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     func validateInput() {
         isValidInput = enterEmailTextField.text?.contains("@")
 //        isValidInput = enterEmailTextField.text?.suffix(8).lowercased() == "@usc.edu"
+    }
+    
+    private var fieldPossibleAutofillReplacementAt: Date?
+    private var fieldPossibleAutofillReplacementRange: NSRange?
+    func detectAutoFill(textField: UITextField, range: NSRange, string: String) {
+        // To detect AutoFill, look for two quick replacements. The first replaces a range with a single space
+        // (or blank string starting with iOS 13.4).
+        // The next replaces the same range with the autofilled content.
+        if string == " " || string == "" {
+            self.fieldPossibleAutofillReplacementRange = range
+            self.fieldPossibleAutofillReplacementAt = Date()
+        } else {
+            if fieldPossibleAutofillReplacementRange == range, let replacedAt = self.fieldPossibleAutofillReplacementAt, Date().timeIntervalSince(replacedAt) < 0.1 {
+                DispatchQueue.main.async { [self] in
+                    tryToContinue()
+                }
+            }
+            self.fieldPossibleAutofillReplacementRange = nil
+            self.fieldPossibleAutofillReplacementAt = nil
+        }
     }
     
 }

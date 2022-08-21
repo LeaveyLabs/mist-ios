@@ -883,7 +883,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="tommytrojan1234" textAlignment="justified" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dby-jU-6UX">
-                                        <rect key="frame" x="25" y="63" width="364" height="45"/>
+                                        <rect key="frame" x="25" y="91.333333333333343" width="364" height="45"/>
                                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                                         <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -895,7 +895,7 @@
                                             <action selector="textFieldEditingChanged:" destination="tiY-QX-h2V" eventType="editingChanged" id="c7E-e6-83P"/>
                                         </connections>
                                     </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Letters, numbers, underscores and periods." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="UkC-dv-492">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Letters, numbers, underscores and periods." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="UkC-dv-492">
                                         <rect key="frame" x="25" y="58.000000000000007" width="364" height="23.333333333333336"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
@@ -906,7 +906,6 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="Rki-dU-leV" firstAttribute="leading" secondItem="hyK-MR-GGC" secondAttribute="leading" constant="25" id="4mC-qi-RNH"/>
-                                    <constraint firstItem="dby-jU-6UX" firstAttribute="top" secondItem="OPG-p1-Zen" secondAttribute="bottom" constant="15" id="5Z8-jn-Q5x"/>
                                     <constraint firstAttribute="trailing" secondItem="dby-jU-6UX" secondAttribute="trailing" constant="25" id="6ac-5T-0t7"/>
                                     <constraint firstItem="dby-jU-6UX" firstAttribute="leading" secondItem="hyK-MR-GGC" secondAttribute="leading" constant="25" id="8cm-0k-R0Q"/>
                                     <constraint firstItem="dby-jU-6UX" firstAttribute="centerX" secondItem="hyK-MR-GGC" secondAttribute="centerX" id="D8U-vR-EZ4"/>
@@ -915,8 +914,11 @@
                                     <constraint firstAttribute="bottom" secondItem="Rki-dU-leV" secondAttribute="bottom" constant="15" id="UfB-q0-CIv"/>
                                     <constraint firstAttribute="trailing" secondItem="Rki-dU-leV" secondAttribute="trailing" constant="25" id="Zua-0F-Gxx"/>
                                     <constraint firstItem="OPG-p1-Zen" firstAttribute="top" secondItem="hyK-MR-GGC" secondAttribute="top" priority="750" id="dmH-6T-nQR"/>
+                                    <constraint firstAttribute="trailing" secondItem="UkC-dv-492" secondAttribute="trailing" constant="25" id="fQe-Tp-jNu"/>
                                     <constraint firstItem="OPG-p1-Zen" firstAttribute="leading" secondItem="hyK-MR-GGC" secondAttribute="leading" constant="25" id="kxt-ez-5ff"/>
+                                    <constraint firstItem="UkC-dv-492" firstAttribute="leading" secondItem="hyK-MR-GGC" secondAttribute="leading" constant="25" id="mpq-Aa-Dds"/>
                                     <constraint firstItem="UkC-dv-492" firstAttribute="top" secondItem="OPG-p1-Zen" secondAttribute="bottom" constant="10" id="owD-xW-AaT"/>
+                                    <constraint firstItem="dby-jU-6UX" firstAttribute="top" secondItem="UkC-dv-492" secondAttribute="bottom" constant="10" id="zBs-jN-pUq"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -1277,7 +1279,7 @@
                                             <action selector="didPressedContinueButton:" destination="UyC-fl-2SL" eventType="touchUpInside" id="8B0-Id-uv9"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter the 6 digit code" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="22" translatesAutoresizingMaskIntoConstraints="NO" id="dKh-ip-f21">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your 6 digit code" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="22" translatesAutoresizingMaskIntoConstraints="NO" id="dKh-ip-f21">
                                         <rect key="frame" x="25" y="0.0" width="364" height="48"/>
                                         <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="35"/>
                                         <color key="textColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.86666667460000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -1431,7 +1433,7 @@
                                             <action selector="didPressedContinueButton:" destination="DIh-pb-ADG" eventType="touchUpInside" id="Fa8-cf-Hb6"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter the 6 digit code" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="22" translatesAutoresizingMaskIntoConstraints="NO" id="mTj-sR-FF0">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your 6 digit code" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="22" translatesAutoresizingMaskIntoConstraints="NO" id="mTj-sR-FF0">
                                         <rect key="frame" x="25" y="0.0" width="364" height="48"/>
                                         <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="35"/>
                                         <color key="textColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.86666667460000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -1864,7 +1866,7 @@
                                             <constraint firstAttribute="height" constant="45" id="Bqj-W1-lK2"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" returnKeyType="next" textContentType="given-name"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" returnKeyType="next"/>
                                         <connections>
                                             <action selector="textFieldEditingChanged:" destination="PnK-4K-Dtd" eventType="editingChanged" id="Mof-U4-PQc"/>
                                         </connections>
@@ -1890,7 +1892,7 @@
                                             <constraint firstAttribute="height" constant="45" id="XBX-fc-xDi"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" returnKeyType="next" textContentType="given-name"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" returnKeyType="next"/>
                                         <connections>
                                             <action selector="textFieldEditingChanged:" destination="PnK-4K-Dtd" eventType="editingChanged" id="3BL-bO-3T0"/>
                                         </connections>

@@ -32,6 +32,7 @@ extension InputBarAccessoryView {
         inputTextView.layer.borderWidth = 0.5
         inputTextView.layer.cornerRadius = 16.0
         inputTextView.layer.masksToBounds = true
+        inputTextView.autocorrectionType = .no
         middleContentViewPadding.right = -45 //extends the inputbar to the right
         
         //Right
