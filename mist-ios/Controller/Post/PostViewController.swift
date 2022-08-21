@@ -126,7 +126,6 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
         tableView.dataSource = self
-        tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.keyboardDismissMode = .interactive
         tableView.sectionFooterHeight = 50
@@ -137,6 +136,8 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         
         let tableViewTap = UITapGestureRecognizer.init(target: self, action: #selector(dismissAllKeyboards))
         tableView.addGestureRecognizer(tableViewTap)
+        
+        tableView.tableFooterView = activityIndicator
     }
     
     func setupCommentInputBar() {
@@ -184,9 +185,6 @@ extension PostViewController: InputBarAccessoryViewDelegate {
         let inputHeight = inputBar.inputTextView.frame.height + 10
         let maxSpaceBetween = tableView.frame.height - keyboardHeight - inputHeight
         autocompleteManager.tableView.maxVisibleRows = Int(maxSpaceBetween) //we are manipulating maxVisibleRows to use as the InputBarHeight when calculating the fullTableViewHeight. this is bad practice but the best workaround for now
-        DispatchQueue.main.async {
-            self.autocompleteManager.updateTableViewSubviews()
-        }
     }
 
     @objc func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
@@ -359,7 +357,8 @@ extension PostViewController {
                 CustomSwiftMessages.displayError(error)
             }
             activityIndicator.stopAnimating()
-            tableView.sectionFooterHeight = 0
+            activityIndicator.removeFromSuperview()
+            tableView.tableFooterView = nil
         }
     }
     
@@ -399,16 +398,6 @@ extension PostViewController: UITableViewDataSource {
         let comment = comments[indexPath.row-1]
         cell.configureCommentCell(comment: comment, delegate: self, author: commentAuthors[comment.author]!)
         return cell
-    }
-    
-}
-
-//MARK: - UITableViewDelegate
-
-extension PostViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return activityIndicator
     }
     
 }
