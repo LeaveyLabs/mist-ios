@@ -12,28 +12,28 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
     
     //MARK: - Properties
     
-    private lazy var datePicker: UIDatePicker = {
-        let datePicker = UIDatePicker(frame: .zero)
-        datePicker.datePickerMode = .date
-        datePicker.locale = Locale(identifier: "en_US")
-        if #available(iOS 14, *) {
-            datePicker.preferredDatePickerStyle = .wheels
-        }
-        
-        var dateComponents = DateComponents()
-        dateComponents.year = 2000
-        dateComponents.month = 1
-        dateComponents.day = 1
-        let startingDate = Calendar.current.date(from: dateComponents)!
-        let minimumAge = Calendar.current.date(byAdding: .year, value: -18, to: Date())!
-        
-        datePicker.date = startingDate
-        datePicker.maximumDate = minimumAge
-        return datePicker
-    }()
+//    private lazy var datePicker: UIDatePicker = {
+//        let datePicker = UIDatePicker(frame: .zero)
+//        datePicker.datePickerMode = .date
+//        datePicker.locale = Locale(identifier: "en_US")
+//        if #available(iOS 14, *) {
+//            datePicker.preferredDatePickerStyle = .wheels
+//        }
+//
+//        var dateComponents = DateComponents()
+//        dateComponents.year = 2000
+//        dateComponents.month = 1
+//        dateComponents.day = 1
+//        let startingDate = Calendar.current.date(from: dateComponents)!
+//        let minimumAge = Calendar.current.date(byAdding: .year, value: -18, to: Date())!
+//
+//        datePicker.date = startingDate
+//        datePicker.maximumDate = minimumAge
+//        return datePicker
+//    }()
     
     let RATHER_NOT_SAY = "Rather not say"
-    var dobData = ""
+//    var dobData = ""
     var sexOptions = [String]()
     private lazy var sexPicker: UIPickerView = {
         let sexPicker = UIPickerView(frame: .zero)
@@ -92,8 +92,8 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
         dobTextField.delegate = self
         dobTextField.layer.cornerRadius = 5
         dobTextField.setLeftAndRightPadding(10)
-        dobTextField.inputView = datePicker
-        datePicker.addTarget(self, action: #selector(handleDatePicker(sender:)), for: .valueChanged)
+//        dobTextField.inputView = datePicker
+//        datePicker.addTarget(self, action: #selector(handleDatePicker(sender:)), for: .valueChanged)
         dobTextField.becomeFirstResponder()
     }
 
@@ -110,15 +110,15 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
 
     //MARK: - User Interaction
     
-    @objc func handleDatePicker(sender: UIDatePicker) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "en_US")
-        dateFormatter.dateFormat = "MMMM d, yyyy"
-        dobTextField.text = dateFormatter.string(from: sender.date)
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        dobData = dateFormatter.string(from: sender.date)
-        validateInput()
-     }
+//    @objc func handleDatePicker(sender: UIDatePicker) {
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.locale = Locale(identifier: "en_US")
+//        dateFormatter.dateFormat = "MMMM d, yyyy"
+//        dobTextField.text = dateFormatter.string(from: sender.date)
+//        dateFormatter.dateFormat = "yyyy-MM-dd"
+//        dobData = dateFormatter.string(from: sender.date)
+//        validateInput()
+//     }
 
 //    @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
 //        navigationController?.popViewController(animated: true)
@@ -137,20 +137,54 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
     @IBAction func textFieldEditingChanged(_ sender: UITextField) {
         validateInput()
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == dobTextField {
+            //Handle dobTextField formatting
+            if dobTextField.text?.count == 2 || dobTextField.text?.count == 5 {
+                //Handle backspace being pressed
+                if !(string == "") {
+                    // append the text
+                    dobTextField.text = dobTextField.text! + "/"
+                }
+            }
+            // check the condition not exceed 9 chars
+            return !(textField.text!.count > 9 && (string.count ) > range.length)
+        } else {
+            return true
+        }
+    }
 
     //MARK: - Helpers
 
     func tryToContinue() {
-        if let _ = dobTextField.text, let sex = sexTextField.text {
-            AuthContext.dob = dobData
-            AuthContext.sex = sex == RATHER_NOT_SAY ? nil : sex == "Male" ? "m" : sex == "Female" ? "f" : "o"
-            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ChooseUsername)
-            self.navigationController?.pushViewController(vc, animated: true)
+        guard
+            let sex = sexTextField.text,
+            let dobComponents = dobTextField.text?.components(separatedBy: "/"),
+            dobComponents.count == 3,
+            let month = Int(dobComponents[0]),
+            let day = Int(dobComponents[1]),
+            let year = Int(dobComponents[2]),
+            month >= 1 && month <= 12,
+            day >= 1 && day <= 31
+        else {
+            CustomSwiftMessages.displayError("Something doesn't seem right", "Please try again")
+            return
         }
+        guard year <= 2004 else {
+            CustomSwiftMessages.displayError("You must be 18 to use Mist", "")
+            return
+        }
+//            AuthContext.dob = dobData
+        AuthContext.dob = dobComponents[2] + "-" + dobComponents[0] + "-" + dobComponents[1]
+        print(AuthContext.dob)
+        AuthContext.sex = sex == RATHER_NOT_SAY ? nil : sex == "Male" ? "m" : sex == "Female" ? "f" : "o"
+        let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ChooseUsername)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     func validateInput() {
-        isValidInput = dobTextField.text!.count > 0 && sexTextField.text!.count > 0
+        isValidInput = dobTextField.text!.count == 10 && sexTextField.text!.count > 0
     }
 }
 
