@@ -59,17 +59,10 @@ class CommentAutocompleteManager: AutocompleteManager {
 //    let topLineView = UIView()
     let activityIndicator = UIActivityIndicatorView(style: .medium)
     let placeholderLabel = UILabel(frame: .init(x: 0, y: 0, width: 250, height: 30))
-
-    static let tagTextAttributes: [NSAttributedString.Key : Any] = [
-//        .font: UIFont.preferredFont(forTextStyle: .body),
-        .font: UIFont(name: Constants.Font.Medium, size: 17)!,
-        .foregroundColor: UIColor.init(hex: "#1464a6"),
-//        .backgroundColor: UIColor.red.withAlphaComponent(0.1)
-    ]
     
     override init(for textView: UITextView) {
         super.init(for: textView)
-        register(prefix: "@", with: CommentAutocompleteManager.tagTextAttributes)
+        register(prefix: "@", with: Comment.tagTextAttributes)
         appendSpaceOnCompletion = true
         keepPrefixOnCompletion = true
         deleteCompletionByParts = false

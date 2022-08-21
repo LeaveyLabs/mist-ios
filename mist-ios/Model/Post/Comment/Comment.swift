@@ -13,6 +13,19 @@ let DUMMY_COMMENT_TIMESTAMP: Double = 0.0
 let DUMMY_COMMENT_USERNAME: String = ""
 
 struct Comment: Codable {
+    
+    static let tagTextAttributes: [NSAttributedString.Key : Any] = [
+//        .font: UIFont.preferredFont(forTextStyle: .body),
+        .font: UIFont(name: Constants.Font.Medium, size: 16)!,
+        .foregroundColor: UIColor.init(hex: "#1464a6"),
+    ]
+    
+    static let normalTextAttributes: [NSAttributedString.Key : Any] = [
+//        .font: UIFont.preferredFont(forTextStyle: .body),
+        .font: UIFont(name: Constants.Font.Medium, size: 16)!,
+        .foregroundColor: UIColor.black,
+    ]
+    
     let id: Int
     let body: String
     let timestamp: Double
