@@ -157,17 +157,21 @@ extension PostViewController: InputBarAccessoryViewDelegate {
         let tags = turnCommentAutocompletionsIntoTags(commentAutocompletions)
         requestPermissionToTextIfNecessary(autocompletions: commentAutocompletions, tags: tags) { [self] permission in
             guard permission else { return }
+            DispatchQueue.main.async {
+                self.inputBar.sendButton.isEnabled = false
+//              inputBar.inputTextView.isEditable = false
+            }
             Task {
                 do {
                     let trimmedCommentText = inputBar.inputTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
-                    inputBar.sendButton.isEnabled = false
-//                    inputBar.inputTextView.isEditable = false
                     let newComment = try await CommentService.singleton.uploadComment(text: trimmedCommentText, postId: post.id, tags: tags)
                     handleSuccessfulCommentSubmission(newComment: newComment)
                 } catch {
-                    inputBar.sendButton.isEnabled = true
-                    inputBar.inputTextView.isEditable = true
                     CustomSwiftMessages.displayError(error)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.inputBar.sendButton.isEnabled = true
+                        self?.inputBar.inputTextView.isEditable = true
+                    }
                 }
             }
         }
@@ -189,8 +193,8 @@ extension PostViewController: InputBarAccessoryViewDelegate {
 
     @objc func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
         inputBar.inputTextView.placeholderLabel.isHidden = !inputBar.inputTextView.text.isEmpty
-        inputBar.sendButton.isEnabled = inputBar.inputTextView.text != ""
         processAutocompleteOnNextText(text)
+        inputBar.sendButton.isHidden = inputBar.inputTextView.text == ""
     }
     
     //MARK: - InputBar Helpers
@@ -270,11 +274,12 @@ extension PostViewController: InputBarAccessoryViewDelegate {
 //        post.commentcount += 1
         comments.append(newComment)
         commentAuthors[newComment.author] = UserService.singleton.getUserAsFrontendReadOnlyUser()
+        
+        guard commentAuthors.values.count > 1 else { return } //only reload data if all commentAuthors are loaded in and rendered
         tableView.reloadData()
         DispatchQueue.main.async { [weak self] in
-            if let self = self {
-                self.tableView.scrollToRow(at: IndexPath(row: self.comments.count, section: 0), at: .bottom, animated: true)
-            }
+            guard let self = self else { return }
+            self.tableView.scrollToRow(at: IndexPath(row: self.comments.count, section: 0), at: .bottom, animated: true)
         }
     }
         
@@ -343,8 +348,8 @@ extension PostViewController {
 extension PostViewController {
         
     func loadComments() {
+        activityIndicator.startAnimating()
         Task {
-            activityIndicator.startAnimating()
             do {
                 comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
                 commentAuthors = try await UsersService.singleton.loadAndCacheUsers(users: comments.map { $0.read_only_author } )
@@ -356,9 +361,11 @@ extension PostViewController {
             } catch {
                 CustomSwiftMessages.displayError(error)
             }
-            activityIndicator.stopAnimating()
-            activityIndicator.removeFromSuperview()
-            tableView.tableFooterView = nil
+            DispatchQueue.main.async { [weak self] in
+                self?.activityIndicator.stopAnimating()
+                self?.activityIndicator.removeFromSuperview()
+                self?.tableView.tableFooterView = nil
+            }
         }
     }
     
@@ -396,7 +403,8 @@ extension PostViewController: UITableViewDataSource {
         //else the cell is a comment
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Comment, for: indexPath) as! CommentCell
         let comment = comments[indexPath.row-1]
-        cell.configureCommentCell(comment: comment, delegate: self, author: commentAuthors[comment.author]!)
+        guard let commentAuthor = commentAuthors[comment.author] else { return cell }
+        cell.configureCommentCell(comment: comment, delegate: self, author: commentAuthor)
         return cell
     }
     

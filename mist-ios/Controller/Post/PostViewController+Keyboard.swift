@@ -85,7 +85,6 @@ extension PostViewController {
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 self.updateMessageCollectionViewBottomInset()
-                self.scrollToBottom()
             }
 //            .store(in: &disposeBag)
 

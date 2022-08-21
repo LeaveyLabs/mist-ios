@@ -33,6 +33,7 @@ protocol CompleteUserBackendProperties: Equatable {
 //MARK: - Structs
 
 struct ReadOnlyUser: Codable, ReadOnlyUserBackendProperties, Hashable {
+        
     let id: Int
     let username: String
     let first_name: String
@@ -41,11 +42,13 @@ struct ReadOnlyUser: Codable, ReadOnlyUserBackendProperties, Hashable {
     
     //Equatable
     static func == (lhs: ReadOnlyUser, rhs: ReadOnlyUser) -> Bool { return lhs.id == rhs.id }
+    //Hashable
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
 }
 
 // Does not need to be codable, because we're not encoding other user information onto one's device
 struct FrontendReadOnlyUser: ReadOnlyUserBackendProperties, SenderType, Hashable {
-
+    
     // ReadOnlyUserBackendProperties
     let id: Int
     let username: String
@@ -77,6 +80,8 @@ struct FrontendReadOnlyUser: ReadOnlyUserBackendProperties, SenderType, Hashable
     
     //Equatable
     static func == (lhs: FrontendReadOnlyUser, rhs: FrontendReadOnlyUser) -> Bool { return lhs.id == rhs.id }
+    //Hashable
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
 }
 
 struct CompleteUser: Codable, CompleteUserBackendProperties {

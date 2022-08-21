@@ -36,12 +36,13 @@ extension InputBarAccessoryView {
         
         //Right
         sendButton.title = "Post"
-        sendButton.setTitleColor(.clear, for: .disabled)
+        sendButton.setTitleColor(.lightGray, for: .disabled)
         sendButton.setTitleColor(mistUIColor(), for: .normal)
-        sendButton.setTitleColor(mistUIColor().withAlphaComponent(0.7), for: .highlighted)
+        sendButton.setTitleColor(mistUIColor().withAlphaComponent(0.4), for: .highlighted)
         sendButton.setSize(CGSize(width: 45, height: 40), animated: false) //to increase height
         setRightStackViewWidthConstant(to: 45, animated: false)
         setStackViewItems([sendButton, InputBarButtonItem.fixedSpace(10)], forStack: .right, animated: false)
+        sendButton.isHidden = true
 
         //Left
         let inputAvatar = InputAvatar(frame: CGRect(x: 0, y: 0, width: 40, height: 40), profilePic: UserService.singleton.getProfilePic())
