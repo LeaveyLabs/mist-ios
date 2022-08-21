@@ -36,6 +36,10 @@ class LinkTextView: UITextView {
         linkTextAttributes = CommentAutocompleteManager.tagTextAttributes
     }
     
+    func removeAllLinks() {
+        attributedText = NSAttributedString(string: text, attributes: [.font: UIFont(name: Constants.Font.Medium, size: 15)!])
+    }
+    
     func addLinks(_ links: Links) {
         guard attributedText.length > 0  else {
             return

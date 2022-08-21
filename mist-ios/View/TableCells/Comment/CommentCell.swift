@@ -67,6 +67,7 @@ class CommentCell: UITableViewCell {
                 links[tag.tagged_name] = linkString
             }
         }
+        commentTextView.removeAllLinks()
         commentTextView.addLinks(links)
     }
     

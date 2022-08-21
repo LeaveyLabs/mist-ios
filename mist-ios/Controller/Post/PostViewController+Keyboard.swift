@@ -66,7 +66,6 @@ extension PostViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] notification in
                 guard let self = self else { return }
-//                guard !self.activityIndicator.isAnimating, !self.inputBar.inputTextView.isFirstResponder else { return }
                 self.handleTextViewDidBeginEditing(notification)
             }
 //            .store(in: &disposeBag)
@@ -85,7 +84,6 @@ extension PostViewController {
             .delay(for: .milliseconds(50), scheduler: DispatchQueue.main) /// Wait for next runloop to lay out inputView properly
             .sink { [weak self] _ in
                 guard let self = self else { return }
-//                guard !self.activityIndicator.isAnimating, !self.inputBar.inputTextView.isFirstResponder else { return }
                 self.updateMessageCollectionViewBottomInset()
                 self.scrollToBottom()
             }
@@ -99,7 +97,6 @@ extension PostViewController {
         .receive(on: DispatchQueue.main)
         .sink(receiveValue: { [weak self] _ in
             guard let self = self else { return }
-//            guard !self.activityIndicator.isAnimating, !self.inputBar.inputTextView.isFirstResponder else { return }
             self.updateMessageCollectionViewBottomInset()
         })
 //        .store(in: &disposeBag)
@@ -126,10 +123,12 @@ extension PostViewController {
     // MARK: - Private methods
     
     private func scrollToBottom() {
+        guard commentAuthors.count > 0 else { return } //tableView data has not yet loaded yet
         let bottom: NSIndexPath = IndexPath(row: tableView(tableView, numberOfRowsInSection: 0) - 1, section: 0) as NSIndexPath
         tableView.scrollToRow(at: bottom as IndexPath, at: .bottom, animated: true)
         
-//        tableView.setContentOffset(.init(x: 0, y: tableView.contentSize.height - tableView.contentInset.bottom + 10), animated: true) //for some reason, when i use this method to scroll to bottom, the intrinsiccontentsize of the autocompletetableview gets set too tall
+//        tableView.setContentOffset(.init(x: 0, y: tableView.contentSize.height - tableView.contentInset.bottom + 10), animated: true) //slightly more complicated
+        //tableView.scrollToBottom(animated: true) //only properly scrolls on the first, but not subsequent, calls for some reason
     }
 
     private func handleTextViewDidBeginEditing(_ notification: Notification) {
@@ -140,10 +139,8 @@ extension PostViewController {
         else {
             return
         }
-//        guard !activityIndicator.isAnimating, !inputBar.inputTextView.isFirstResponder else { return }
         tableView.layoutIfNeeded()
         scrollToBottom()
-//         tableView.scrollToBottom(animated: true) //only properly scrolls on the first, but not subsequent, calls for some reason
     }
 
     /// UIScrollView can automatically add safe area insets to its contentInset,
