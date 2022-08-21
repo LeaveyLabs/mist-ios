@@ -32,9 +32,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
         }
         
         guard let context = completion.context else {
-            cell.selectionStyle = .none
-            cell.textLabel?.text = completion.text
-            return cell
+            fatalError("Trying to display an autocomplete cell without a context")
         }
         cell.textLabel?.text = context[AutocompleteContext.queryName.rawValue] as? String
         
@@ -63,7 +61,6 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
     
     // Optional
     func autocompleteManager(_ manager: AutocompleteManager, shouldRegister prefix: String, at range: NSRange) -> Bool {
-        autocompleteManager.updateTableViewSubviews()
         print("SHOUDL REGISTER")
         return true
     }
@@ -88,13 +85,19 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
         let topStackView = inputBar.topStackView
         if active && !topStackView.arrangedSubviews.contains(autocompleteManager.tableView) {
             topStackView.insertArrangedSubview(autocompleteManager.tableView, at: topStackView.arrangedSubviews.count)
-            topStackView.layoutIfNeeded()
+            UIView.performWithoutAnimation { //prevent the placeholderText from disappearing to the bottom left corner
+                topStackView.setNeedsLayout()
+                topStackView.layoutIfNeeded()
+            }
         } else if !active && topStackView.arrangedSubviews.contains(autocompleteManager.tableView) {
             topStackView.removeArrangedSubview(autocompleteManager.tableView)
-            topStackView.layoutIfNeeded()
+            UIView.performWithoutAnimation { //prevent the placeholderText from disappearing to the bottom left corner
+                topStackView.setNeedsLayout()
+                topStackView.layoutIfNeeded()
+            }
             asyncCompletions = []
         }
-        inputBar.invalidateIntrinsicContentSize()
+        inputBar.invalidateIntrinsicContentSize() //i don't think this is necessary, but we'll leave it
     }
     
     //MARK: - Helpers
@@ -113,8 +116,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
         let fixedRange = NSRange(location: session.range.lowerBound, length: session.range.upperBound) //for some reason. upperBound is actually the length of the session's range? bc of that, we fix the range
         
         if fixedRange.upperBound > fullInputText.count { return } //TODO: Fix this hack later. for some reason, without this line of code, the session.range does not get updated properly and is out of bounds.
-        //Note: the above line was only necessary when allowing for spaces within autocomplete, and could now be removed safely
-        
+//
         let currentSessionText = fullInputText.substring(with: fixedRange.lowerBound..<fixedRange.upperBound)
         mostRecentAutocompleteQuery = currentSessionText.substring(from: 1) //strip the "@"
 
@@ -149,7 +151,8 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
         //Check if beginning of tag
         if query.isEmpty {
             DispatchQueue.main.async { [weak self] in
-                self?.asyncCompletions = [(.init(text: "Tag your contacts or friends"))]
+                self?.autocompleteManager.placeholderLabel.text = "Tag your contacts or friends"
+                self?.asyncCompletions = []
                 self?.autocompleteManager.reloadData()
                 self?.autocompleteManager.tableView.flashScrollIndicators()
                 self?.autocompleteManager.activityIndicator.stopAnimating()
@@ -207,6 +210,9 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
                 
                 if query == mostRecentAutocompleteQuery {
                     DispatchQueue.main.async { [weak self] in
+                        if newResults.isEmpty {
+                            self?.autocompleteManager.placeholderLabel.text = "No results found"
+                        }
                         self?.asyncCompletions = newResults
                         self?.autocompleteManager.reloadData()
                         self?.autocompleteManager.tableView.flashScrollIndicators()
@@ -260,10 +266,6 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
                 newAsyncCompletions.append(AutocompleteCompletion(text: contact.generatedUsername,
                                                                context: context))
 //            }
-        }
-        
-        if newAsyncCompletions.count == 0 {
-            return [.init(text: "No results found")]
         }
         
         //Sort alphabetically
@@ -388,3 +390,4 @@ extension PostViewController {
 //            autocompleteManager.invalidate()
 //            return
 //        }
+

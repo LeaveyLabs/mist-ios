@@ -16,13 +16,50 @@ enum AutocompleteContext: String {
 //    case id, number, pic, username, name
 }
 
+extension AutocompleteTableView {
+    
+    var heightBetweenInputBarAndNavBar: CGFloat? {
+        return CGFloat(maxVisibleRows)
+        
+        //a hack i tried which was too complicated
+//        guard let inputAccessoryView = superview?.superview else {
+//            return nil
+//        }
+//        guard
+//            let navBarHeight = self.parentViewController()?.navigationController?.navigationBar.frame.height,
+//            let statusBarHeight = self.parentViewController()?.window?.windowScene?.statusBarManager?.statusBarFrame.height
+//        else { return nil }
+//
+//        let inputBarHeight = CGFloat(maxVisibleRows)
+//        return inputAccessoryView.frame.maxY - 1 - navBarHeight - inputBarHeight  - statusBarHeight
+    }
+    
+    open override var intrinsicContentSize: CGSize {
+//        return
+        //original method:
+//        let rows = numberOfRows(inSection: 0) < maxVisibleRows ? numberOfRows(inSection: 0) : maxVisibleRows
+//        return CGSize(width: super.intrinsicContentSize.width, height: CGFloat(rows) * rowHeight)
+        
+        guard let height = heightBetweenInputBarAndNavBar else {
+            print("ERROR: Could not update intrinsic content size of autcompletetableview correctly")
+            let rows = 4
+            return CGSize(width: super.intrinsicContentSize.width, height: CGFloat(rows) * rowHeight)
+        }
+        return CGSize(width: super.intrinsicContentSize.width, height: height)
+    }
+    
+    open override func willMove(toSuperview newSuperview: UIView?) {
+        super.willMove(toSuperview: newSuperview)
+    }
+
+}
 
 class CommentAutocompleteManager: AutocompleteManager {
     
-    let topLineView = UIView()
+//    let topLineView = UIView()
     let activityIndicator = UIActivityIndicatorView(style: .medium)
-    let resultsCountLabel = UILabel(frame: .init(x: 0, y: 0, width: 60, height: 30))
-    
+    let placeholderLabel = UILabel(frame: .init(x: 0, y: 0, width: 250, height: 30))
+
     static let tagTextAttributes: [NSAttributedString.Key : Any] = [
 //        .font: UIFont.preferredFont(forTextStyle: .body),
         .font: UIFont(name: Constants.Font.Medium, size: 17)!,
@@ -38,19 +75,20 @@ class CommentAutocompleteManager: AutocompleteManager {
         deleteCompletionByParts = false
         tableView.rowHeight = 60
         tableView.register(TagAutocompleteCell.self, forCellReuseIdentifier: TagAutocompleteCell.reuseIdentifier)
+        placeholderLabel.font = UIFont(name: Constants.Font.Medium, size: 16)
+        placeholderLabel.textColor = .black
+        
+//        topLineView.frame = CGRect(x: 0, y: 0, width: tableView.frame.width, height: 0.5)
+//        topLineView.backgroundColor = .systemGray2
+        
         setupSubviews()
-        //not worrying about this for now
-//        tableView.addSubview(resultsCountLabel)
-//        resultsCountLabel.font = UIFont(name: Constants.Font.Medium, size: 12)
-//        resultsCountLabel.textColor = .gray
     }
     
 
     func setupSubviews() {
-        topLineView.frame = CGRect(x: 0, y: 0, width: tableView.frame.width, height: 0.5)
-        topLineView.backgroundColor = .systemGray2
-        tableView.addSubview(topLineView)
+//        tableView.addSubview(topLineView)
         tableView.addSubview(activityIndicator)
+        tableView.addSubview(placeholderLabel)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -58,15 +96,17 @@ class CommentAutocompleteManager: AutocompleteManager {
     }
     
     func updateTableViewSubviews() {
-        activityIndicator.frame.origin.x = tableView.frame.width - 35
-//        resultsCountLabel.frame.origin.x = tableView.frame.width - 60 //better to have a constraint....
+        activityIndicator.frame.origin.x = tableView.frame.width - 45
+//        activityIndicator.frame.origin.y = tableView.contentOffset.y + 20 for some reason, this does not work when the autocompleteTableView readjusts updates while inputting
+        activityIndicator.frame.origin.y = tableView.frame.minY + 20 //stay at top right
 
-        topLineView.frame.origin.y = tableView.contentOffset.y
-        activityIndicator.frame.origin.y = tableView.contentOffset.y + 20 + tableView.frame.height - tableView.rowHeight //stay at the bottom right
-//        resultsCountLabel.frame.origin.y = tableView.contentOffset.y + 13 + tableView.frame.height - 50 //stay at bottom right
+//        placeholderLabel.frame.origin.y = tableView.contentOffset.y + 15 same as above
+        placeholderLabel.frame.origin.y = tableView.frame.minY + 15
+        placeholderLabel.frame.origin.x = 20
         
-//        resultsCountLabel.text = String(tableView.numberOfRows(inSection: 0)) + " results"
-//        resultsCountLabel.isHidden = tableView.numberOfRows(inSection: 0) > 0 && activityIndicator.isAnimating == false
+        placeholderLabel.isHidden = tableView.numberOfRows(inSection: 0) > 0
+        
+//        topLineView.frame.origin.y = tableView.contentOffset.y
     }
     
     override func reloadData() {
@@ -83,10 +123,9 @@ class CommentAutocompleteManager: AutocompleteManager {
         ///we are currently solving by simply cancelling a newly start session upon faulty text
         
         super.reloadData()
+        super.tableView.layoutIfNeeded() //make sure the frame is updated before updating table view's subviews
         updateTableViewSubviews()
     }
-    
-    
     
     /// Overriding currentAutocompleteOptions because we need them to properly override didSelectRowAt and because the person who wrote AutocompleteManager unprudently made its access level private
     var currentAutocompleteOptions: [AutocompleteCompletion] {

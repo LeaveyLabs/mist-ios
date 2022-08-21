@@ -91,29 +91,14 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         super.viewDidLoad()
         setupTableView()
         setupCommentInputBar()
-        setupKeyboardManagerForBottomInputBar()
+//        setupKeyboardManagerForBottomInputBar()
         loadComments()
         navigationController?.fullscreenInteractivePopGestureRecognizer(delegate: self)
+        addKeyboardObservers()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        //Emoji keyboard autodismiss notification
-        NotificationCenter.default.addObserver(self,
-            selector: #selector(keyboardWillChangeFrame),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil)
-        
-        NotificationCenter.default.addObserver(self,
-            selector: #selector(keyboardWillDismiss(sender:)),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil)
-    }
-
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
         inputBar.inputTextView.resignFirstResponder()
         inputBar.inputTextView.canBecomeFirstResponder = false //so it doesnt become first responder again if the swipe back gesture is cancelled halfway through
         //no longer using the postVC's willDismiss completion handler here: we could delete that
@@ -122,6 +107,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         disableInteractivePopGesture()
+        removeKeyboardObservers()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -159,19 +145,6 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         inputBar.configureForCommenting()
     }
     
-    func setupKeyboardManagerForBottomInputBar() {
-        addKeyboardObservers()
-        
-        keyboardManager.on(event: .didHide) { [weak self] keyboardNotification in
-            self?.setAutocompleteManager(active: false)
-        }
-        
-        keyboardManager.on(event: .didShow) { [self] keyboardNotification in
-            keyboardHeight = keyboardNotification.endFrame.height
-            updateMaxAutocompleteRows(keyboardHeight: keyboardHeight)
-        }
-    }
-    
 }
 
 extension PostViewController: InputBarAccessoryViewDelegate {
@@ -201,16 +174,19 @@ extension PostViewController: InputBarAccessoryViewDelegate {
 
     
     func inputBar(_ inputBar: InputBarAccessoryView, didChangeIntrinsicContentTo size: CGSize) {
-        // Adjust content insets
         print("didchangeinputbarintrinsicsizeto:", size)
-        tableView.contentInset.bottom = size.height + keyboardHeight
         updateMaxAutocompleteRows(keyboardHeight: keyboardHeight)
+        updateMessageCollectionViewBottomInset()
         tableView.keyboardDismissMode = asyncCompletions.isEmpty ? .interactive : .none
     }
     
     func updateMaxAutocompleteRows(keyboardHeight: Double) {
         let inputHeight = inputBar.inputTextView.frame.height + 10
-        autocompleteManager.tableView.maxVisibleRows = Int((tableView.frame.height - keyboardHeight - inputHeight) / autocompleteManager.tableView.rowHeight)
+        let maxSpaceBetween = tableView.frame.height - keyboardHeight - inputHeight
+        autocompleteManager.tableView.maxVisibleRows = Int(maxSpaceBetween) //we are manipulating maxVisibleRows to use as the InputBarHeight when calculating the fullTableViewHeight. this is bad practice but the best workaround for now
+        DispatchQueue.main.async {
+            self.autocompleteManager.updateTableViewSubviews()
+        }
     }
 
     @objc func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
@@ -241,11 +217,20 @@ extension PostViewController: InputBarAccessoryViewDelegate {
             return
         }
         
-        let firstNamesToText: [String] = commentAutocompletions.compactMap { name, context in
-            return (context[AutocompleteContext.queryName.rawValue] as? String)?.components(separatedBy: .whitespaces).first
+        let firstNamesToText: [String] = tagsFromContacts.compactMap { tag in
+            guard
+                let correspondingAutcompletion = commentAutocompletions[tag.tagged_name] //can't cast this as an AutocompleteCompletion because technically it's not
+            else { return nil }
+            return (correspondingAutcompletion[AutocompleteContext.queryName.rawValue] as? String)?.components(separatedBy: .whitespaces).first
         }
+        
         var namesAsString: String = ""
-        firstNamesToText.forEach( { namesAsString.append($0 + " ") })
+        for (index, element) in firstNamesToText.enumerated() {
+            namesAsString.append(element + " ")
+            if index < firstNamesToText.count - 1 {
+                namesAsString.append("and ")
+            }
+        }
         
         let alertTitle: String = namesAsString + (firstNamesToText.count == 1 ? "isn't on Mist yet!" : "aren't on Mist yet!")
         let alert = UIAlertController(title: alertTitle,

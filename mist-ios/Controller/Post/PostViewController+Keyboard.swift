@@ -27,11 +27,37 @@ extension PostViewController {
 
     // MARK: - Register Observers
     
+    func removeKeyboardObservers() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UITextView.textDidBeginEditingNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
     func addKeyboardObservers() {
         view.addSubview(inputBar)
         keyboardManager.bind(inputAccessoryView: inputBar) //properly positions inputAccessoryView
         keyboardManager.bind(to: tableView) //enables interactive dismissal
         keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
+        
+        keyboardManager.on(event: .didHide) { [weak self] keyboardNotification in
+            self?.setAutocompleteManager(active: false)
+        }
+        
+        keyboardManager.on(event: .didShow) { [self] keyboardNotification in
+            keyboardHeight = keyboardNotification.endFrame.height
+            updateMaxAutocompleteRows(keyboardHeight: keyboardHeight)
+        }
+        
+        //Emoji keyboard autodismiss notification
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(keyboardWillChangeFrame),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(keyboardWillDismiss(sender:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
         
         /// Observe didBeginEditing to scroll down the content
         NotificationCenter.default
@@ -39,7 +65,9 @@ extension PostViewController {
             .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
             .sink { [weak self] notification in
-                self?.handleTextViewDidBeginEditing(notification)
+                guard let self = self else { return }
+//                guard !self.activityIndicator.isAnimating, !self.inputBar.inputTextView.isFirstResponder else { return }
+                self.handleTextViewDidBeginEditing(notification)
             }
 //            .store(in: &disposeBag)
 
@@ -49,14 +77,17 @@ extension PostViewController {
             .receive(on: DispatchQueue.main)
             .compactMap { $0.object as? InputTextView }
             .filter { [weak self] textView in
-                return textView == self?.inputBar.inputTextView
+                guard let self = self else { return false }
+                return textView == self.inputBar.inputTextView
             }
             .map(\.text)
             .removeDuplicates()
             .delay(for: .milliseconds(50), scheduler: DispatchQueue.main) /// Wait for next runloop to lay out inputView properly
             .sink { [weak self] _ in
-                self?.updateMessageCollectionViewBottomInset()
-                self?.scrollToBottom()
+                guard let self = self else { return }
+//                guard !self.activityIndicator.isAnimating, !self.inputBar.inputTextView.isFirstResponder else { return }
+                self.updateMessageCollectionViewBottomInset()
+                self.scrollToBottom()
             }
 //            .store(in: &disposeBag)
 
@@ -68,9 +99,8 @@ extension PostViewController {
         .receive(on: DispatchQueue.main)
         .sink(receiveValue: { [weak self] _ in
             guard let self = self else { return }
-            if !self.activityIndicator.isAnimating { //so we don't move up the loading indicator above the keyboard while loading in comments
-                self.updateMessageCollectionViewBottomInset()
-            }
+//            guard !self.activityIndicator.isAnimating, !self.inputBar.inputTextView.isFirstResponder else { return }
+            self.updateMessageCollectionViewBottomInset()
         })
 //        .store(in: &disposeBag)
     }
@@ -98,6 +128,8 @@ extension PostViewController {
     private func scrollToBottom() {
         let bottom: NSIndexPath = IndexPath(row: tableView(tableView, numberOfRowsInSection: 0) - 1, section: 0) as NSIndexPath
         tableView.scrollToRow(at: bottom as IndexPath, at: .bottom, animated: true)
+        
+//        tableView.setContentOffset(.init(x: 0, y: tableView.contentSize.height - tableView.contentInset.bottom + 10), animated: true) //for some reason, when i use this method to scroll to bottom, the intrinsiccontentsize of the autocompletetableview gets set too tall
     }
 
     private func handleTextViewDidBeginEditing(_ notification: Notification) {
@@ -108,12 +140,10 @@ extension PostViewController {
         else {
             return
         }
-        if !activityIndicator.isAnimating {
-            tableView.layoutIfNeeded()
-            scrollToBottom()
-        }
-        // tableView.scrollToBottom(animated: true) //only properly scrolls on the first, but not subsequent, calls for some reason
-//        tableView.setContentOffset(.init(x: 0, y: tableView.contentSize.height - tableView.contentInset.bottom + 10), animated: true) //works fine, but a bit complicated
+//        guard !activityIndicator.isAnimating, !inputBar.inputTextView.isFirstResponder else { return }
+        tableView.layoutIfNeeded()
+        scrollToBottom()
+//         tableView.scrollToBottom(animated: true) //only properly scrolls on the first, but not subsequent, calls for some reason
     }
 
     /// UIScrollView can automatically add safe area insets to its contentInset,

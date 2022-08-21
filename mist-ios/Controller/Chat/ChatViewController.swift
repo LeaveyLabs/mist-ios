@@ -36,6 +36,7 @@ class ChatViewController: MessagesViewController {
     override var inputAccessoryView: UIView?{
         return nil //this should be "messageInputBar" according to the docs, but then i was dealing with other problems. Instead, i just increased the bottom tableview inset by 43 points. The problem: when dismissing the chat view, the bottom message scrolls behind the keyboard. That's a downside im willing to take right now
     }
+    let inputBar = InputBarAccessoryView()
     let keyboardManager = KeyboardManager()
     
     var viewHasAppeared = false
@@ -105,7 +106,6 @@ class ChatViewController: MessagesViewController {
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
-        
         messagesCollectionView = MessagesCollectionView(frame: .zero, collectionViewLayout: CustomMessagesFlowLayout()) //for registering custom MessageSizeCalculator for MessageKitMatch
         super.viewDidLoad()
         setupMessagesCollectionView()
@@ -121,10 +121,18 @@ class ChatViewController: MessagesViewController {
         }
         
         //Keyboard manager from InputBarAccessoryView
-        view.addSubview(messageInputBar)
-        keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
-        keyboardManager.bind(inputAccessoryView: messageInputBar) //properly positions inputAccessoryView
-        keyboardManager.bind(to: messagesCollectionView) //enables interactive dismissal
+        addKeyboardObservers()
+//        view.addSubview(messageInputBar)
+//        keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
+//        keyboardManager.bind(inputAccessoryView: messageInputBar) //properly positions inputAccessoryView
+//        keyboardManager.bind(to: messagesCollectionView) //enables interactive dismissal
+////        messagesCollectionView.insetsLayoutMarginsFromSafeArea
+//        messagesCollectionView.contentInset.bottom = 80
+//        keyboardManager.on(event: .willShow) { [self] notification in
+//        }
+//        keyboardManager.on(event: .willHide) { [self] notification in
+//            messagesCollectionView.insets = 55 + (window?.safeAreaInsets.bottom ?? 0)
+//        }
         
         DispatchQueue.main.async { //scroll on the next cycle so that collectionView's data is loaded in beforehand
             self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
@@ -138,8 +146,8 @@ class ChatViewController: MessagesViewController {
         navigationController!.setNavigationBarHidden(true, animated: animated)
         print("CHAT VIEW WILL APPEAR")
         messagesCollectionView.reloadDataAndKeepOffset()
-        if !messageInputBar.inputTextView.canBecomeFirstResponder {
-            messageInputBar.inputTextView.canBecomeFirstResponder = true //bc we set to false in viewdiddisappear
+        if !inputBar.inputTextView.canBecomeFirstResponder {
+            inputBar.inputTextView.canBecomeFirstResponder = true //bc we set to false in viewdiddisappear
         }
     }
         
@@ -151,11 +159,11 @@ class ChatViewController: MessagesViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        messageInputBar.inputTextView.resignFirstResponder()
-        messageInputBar.inputTextView.canBecomeFirstResponder = false //so it doesnt become first responder again if the swipe back gesture is cancelled halfway through
-        UIView.animate(withDuration: 0.3, delay: 0) { [self] in
-            messagesCollectionView.contentInset = .init(top: 0, left: 0, bottom: additionalBottomInset, right: 0)
-        }
+        inputBar.inputTextView.resignFirstResponder()
+        inputBar.inputTextView.canBecomeFirstResponder = false //so it doesnt become first responder again if the swipe back gesture is cancelled halfway through
+//        UIView.animate(withDuration: 0.3, delay: 0) { [self] in
+//            messagesCollectionView.contentInset = .init(top: 0, left: 0, bottom: additionalBottomInset, right: 0)
+//        }
 
         //if is pushing a view controller
         if !self.isAboutToClose {
@@ -173,7 +181,7 @@ class ChatViewController: MessagesViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if isPresentedFromPost {
-            messageInputBar.inputTextView.becomeFirstResponder()
+            inputBar.inputTextView.becomeFirstResponder()
         }
     }
     
@@ -201,7 +209,7 @@ class ChatViewController: MessagesViewController {
         
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
         showMessageTimestampOnSwipeLeft = true // default false
-        additionalBottomInset = 55
+//        additionalBottomInset = 55 + (window?.safeAreaInsets.bottom ?? 0)
     }
     
     func setupCustomNavigationBar() {
@@ -224,16 +232,16 @@ class ChatViewController: MessagesViewController {
     }
     
     func setupMessageInputBarForChatting() {
-        messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
-        messageInputBar.configureForChatting()
-        messageInputBar.delegate = self
-        messageInputBar.inputTextView.delegate = self //does this cause issues? i'm not entirely sure
+        inputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
+        inputBar.configureForChatting()
+        inputBar.delegate = self
+        inputBar.inputTextView.delegate = self //does this cause issues? i'm not entirely sure
     }
     
     func setupMessageInputBarForChatPrompt() {
         let joinChatView = WantToChatView()
         joinChatView.configure(firstName: conversation.sangdaebang.first_name, delegate: self)
-        messageInputBar.configureForChatPrompt(chatView: joinChatView)
+        inputBar.configureForChatPrompt(chatView: joinChatView)
     }
     
     //MARK: - User Interaction
@@ -244,7 +252,7 @@ class ChatViewController: MessagesViewController {
     
     func customDismiss() {
         if isPresentedFromPost {
-            messageInputBar.inputTextView.resignFirstResponder()
+            inputBar.inputTextView.resignFirstResponder()
             self.resignFirstResponder() //to prevent the inputAccessory from staying on the screen after dismiss
             self.dismiss(animated: true)
             if conversation.messageThread.server_messages.isEmpty {
@@ -280,7 +288,7 @@ class ChatViewController: MessagesViewController {
     
     @IBAction func moreButtonDidTapped(_ sender: UIButton) {
         let moreVC = ChatMoreViewController.create(sangdaebangId: conversation.sangdaebang.id, delegate: self)
-//        messageInputBar.inputTextView.resignFirstResponder() //we need a "resign first responder and keep offset" function
+//        inputBar.inputTextView.resignFirstResponder() //we need a "resign first responder and keep offset" function
         present(moreVC, animated: true)
     }
     
@@ -363,14 +371,14 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
     
     @objc
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        processInputBar(messageInputBar)
+        processInputBar(inputBar)
     }
     
     func processInputBar(_ inputBar: InputBarAccessoryView) {
         let messageString = inputBar.inputTextView.attributedText.string.trimmingCharacters(in: .whitespaces)
         inputBar.inputTextView.text = String()
         inputBar.sendButton.isEnabled = false
-        messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
+        inputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
         Task {
             do {
                 try await conversation.sendMessage(messageText: messageString)
@@ -592,6 +600,14 @@ extension ChatViewController: MessageCellDelegate {
     
     func didTapAvatar(in cell: MessageCollectionViewCell) {
         handleReceiverProfileDidTapped()
+    }
+    
+    func didTapBackground(in cell: MessageCollectionViewCell) {
+        inputBar.inputTextView.resignFirstResponder()
+    }
+    
+    func didTapMessage(in cell: MessageCollectionViewCell) {
+        inputBar.inputTextView.resignFirstResponder()
     }
     
 }

@@ -137,7 +137,7 @@
 		4767E41428584CD70016202E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 4767E41328584CD70016202E /* Alamofire */; };
 		4767E41728584D110016202E /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 4767E41628584D110016202E /* Starscream */; };
 		476971DC2847C3F200123F72 /* UITextField+MaxLength.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476971DB2847C3F200123F72 /* UITextField+MaxLength.swift */; };
-		476971DE2847CCAB00123F72 /* UIView+FindVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476971DD2847CCAB00123F72 /* UIView+FindVC.swift */; };
+		476971DE2847CCAB00123F72 /* UIView+ParentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476971DD2847CCAB00123F72 /* UIView+ParentVC.swift */; };
 		477A6FD627DFB0450020F864 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477A6FD527DFB0450020F864 /* Color.swift */; };
 		4780E5B42832F0560012B741 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780E5B32832F0560012B741 /* ChatViewController.swift */; };
 		4780E5B6283308250012B741 /* MessageKitMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780E5B5283308250012B741 /* MessageKitMessage.swift */; };
@@ -357,7 +357,7 @@
 		5B739DF728935B9500E4EED0 /* CustomMessagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */; };
 		5B739DF828935B9500E4EED0 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F927DFE20600E244D6 /* Word.swift */; };
 		5B739DF928935B9500E4EED0 /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4D9BD285C018000197080 /* String+Capitalization.swift */; };
-		5B739DFA28935B9500E4EED0 /* UIView+FindVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476971DD2847CCAB00123F72 /* UIView+FindVC.swift */; };
+		5B739DFA28935B9500E4EED0 /* UIView+ParentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476971DD2847CCAB00123F72 /* UIView+ParentVC.swift */; };
 		5B739DFB28935B9500E4EED0 /* DesignableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A4BDA28408BD800FD52B7 /* DesignableTextField.swift */; };
 		5B739DFC28935B9500E4EED0 /* DesignableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A4BDF28408BD800FD52B7 /* DesignableButton.swift */; };
 		5B739DFD28935B9500E4EED0 /* BasicAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B227DD7BB9006C2E08 /* BasicAPI.swift */; };
@@ -542,6 +542,10 @@
 		5BC25A9F28991A2B005AAF69 /* Numbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9D28991A2B005AAF69 /* Numbers.swift */; };
 		5BC2763E286AE9BD00DA5A3D /* Loading.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */; };
 		5BC2763F286AE9BD00DA5A3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2763D286AE9BD00DA5A3D /* Main.storyboard */; };
+		5BC8822928AFF793007E83F8 /* ChatViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC8822828AFF793007E83F8 /* ChatViewController+Keyboard.swift */; };
+		5BC8822A28AFF793007E83F8 /* ChatViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC8822828AFF793007E83F8 /* ChatViewController+Keyboard.swift */; };
+		5BC8822C28B15192007E83F8 /* UIViewController+Logout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC8822B28B15192007E83F8 /* UIViewController+Logout.swift */; };
+		5BC8822D28B15192007E83F8 /* UIViewController+Logout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC8822B28B15192007E83F8 /* UIViewController+Logout.swift */; };
 		5BCC68D928611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */; };
 		5BCD490C287149210002BD02 /* WantToChatView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BCD490B287149210002BD02 /* WantToChatView.xib */; };
 		5BCD490E28714F920002BD02 /* WantToChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCD490D28714F920002BD02 /* WantToChatView.swift */; };
@@ -731,7 +735,7 @@
 		475B1F8C27FBAB2F00ED59CD /* UIView+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Animations.swift"; sourceTree = "<group>"; };
 		475B1F8E27FBC2D400ED59CD /* UIView+Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shadow.swift"; sourceTree = "<group>"; };
 		476971DB2847C3F200123F72 /* UITextField+MaxLength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+MaxLength.swift"; sourceTree = "<group>"; };
-		476971DD2847CCAB00123F72 /* UIView+FindVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+FindVC.swift"; sourceTree = "<group>"; };
+		476971DD2847CCAB00123F72 /* UIView+ParentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ParentVC.swift"; sourceTree = "<group>"; };
 		477A6FD527DFB0450020F864 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		4780E5B32832F0560012B741 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		4780E5B5283308250012B741 /* MessageKitMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageKitMessage.swift; sourceTree = "<group>"; };
@@ -877,6 +881,8 @@
 		5BC25A9D28991A2B005AAF69 /* Numbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numbers.swift; sourceTree = "<group>"; };
 		5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Loading.storyboard; sourceTree = "<group>"; };
 		5BC2763D286AE9BD00DA5A3D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		5BC8822828AFF793007E83F8 /* ChatViewController+Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Keyboard.swift"; sourceTree = "<group>"; };
+		5BC8822B28B15192007E83F8 /* UIViewController+Logout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Logout.swift"; sourceTree = "<group>"; };
 		5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeAreaInputAccessoryViewWrapperView.swift; sourceTree = "<group>"; };
 		5BCD490B287149210002BD02 /* WantToChatView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WantToChatView.xib; sourceTree = "<group>"; };
 		5BCD490D28714F920002BD02 /* WantToChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantToChatView.swift; sourceTree = "<group>"; };
@@ -1226,6 +1232,7 @@
 				4780E5B32832F0560012B741 /* ChatViewController.swift */,
 				5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */,
 				5BB624D42867D1C100DCD45B /* ChatMoreViewController.swift */,
+				5BC8822828AFF793007E83F8 /* ChatViewController+Keyboard.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1358,7 +1365,7 @@
 				475B1F8E27FBC2D400ED59CD /* UIView+Shadow.swift */,
 				47266AD127FF5531005DEDB1 /* UIView+LoadFromNib.swift */,
 				4718331128445A7C0061F9F3 /* UIView+PostBubble.swift */,
-				476971DD2847CCAB00123F72 /* UIView+FindVC.swift */,
+				476971DD2847CCAB00123F72 /* UIView+ParentVC.swift */,
 				4752719E2855AF1400DDF84D /* UIView+SafeAreaConstraints.swift */,
 				475271A02855BCB500DDF84D /* UIView+RoundedIndividualCorners.swift */,
 			);
@@ -1568,6 +1575,7 @@
 				5BAD626E2876661500DCFE45 /* UIViewController+MistShareActivity.swift */,
 				5BAD62702876703000DCFE45 /* UIViewController+OpenURL.swift */,
 				5B235B0628AEAD4300FD27A9 /* UIViewController+Window.swift */,
+				5BC8822B28B15192007E83F8 /* UIViewController+Logout.swift */,
 			);
 			path = UIViewController;
 			sourceTree = "<group>";
@@ -2229,6 +2237,7 @@
 				5BB624D92867DD8400DCD45B /* ConversationCell.swift in Sources */,
 				47AE72AA27F77B0B00A5E94C /* MyProfileSettingViewController.swift in Sources */,
 				47527194285584F400DDF84D /* SimpleInputCell.swift in Sources */,
+				5BC8822928AFF793007E83F8 /* ChatViewController+Keyboard.swift in Sources */,
 				5BCEA50F289A489700602A4D /* PostViewController+Autocomplete.swift in Sources */,
 				47EE28F22840991800C6425C /* PermissionsViewController.swift in Sources */,
 				5BE14742289F8E750096FEBE /* String+Pattern.swift in Sources */,
@@ -2273,7 +2282,7 @@
 				439E44FA27DFE20600E244D6 /* Word.swift in Sources */,
 				5B235AEC28A8857F00FD27A9 /* PostViewController+Keyboard.swift in Sources */,
 				5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */,
-				476971DE2847CCAB00123F72 /* UIView+FindVC.swift in Sources */,
+				476971DE2847CCAB00123F72 /* UIView+ParentVC.swift in Sources */,
 				472A4BF828408BD800FD52B7 /* DesignableTextField.swift in Sources */,
 				472A4BFD28408BD800FD52B7 /* DesignableButton.swift in Sources */,
 				4700F8B627DD7BBA006C2E08 /* BasicAPI.swift in Sources */,
@@ -2281,6 +2290,7 @@
 				5B235B0728AEAD4300FD27A9 /* UIViewController+Window.swift in Sources */,
 				471F92D1280159430079F8CA /* SegmentedControlCell.swift in Sources */,
 				5BB624C5286790D400DCD45B /* BlockService.swift in Sources */,
+				5BC8822C28B15192007E83F8 /* UIViewController+Logout.swift in Sources */,
 				5BB624B228620D4A00DCD45B /* CustomCardView.swift in Sources */,
 				47EE28F82840AE8200C6425C /* TestViewController.swift in Sources */,
 				477A6FD627DFB0450020F864 /* Color.swift in Sources */,
@@ -2539,6 +2549,7 @@
 				5B235AED28A8857F00FD27A9 /* PostViewController+Keyboard.swift in Sources */,
 				5B739DE928935B9500E4EED0 /* ConversationService.swift in Sources */,
 				5B739DEA28935B9500E4EED0 /* UIImage+Thumbnail.swift in Sources */,
+				5BC8822D28B15192007E83F8 /* UIViewController+Logout.swift in Sources */,
 				5B739DEB28935B9500E4EED0 /* MessageKitMessage.swift in Sources */,
 				5B739DEC28935B9500E4EED0 /* MatchRequestService.swift in Sources */,
 				5B739DED28935B9500E4EED0 /* ValidateResetPasswordViewController.swift in Sources */,
@@ -2556,7 +2567,7 @@
 				5B739DF728935B9500E4EED0 /* CustomMessagesFlowLayout.swift in Sources */,
 				5B739DF828935B9500E4EED0 /* Word.swift in Sources */,
 				5B739DF928935B9500E4EED0 /* String+Capitalization.swift in Sources */,
-				5B739DFA28935B9500E4EED0 /* UIView+FindVC.swift in Sources */,
+				5B739DFA28935B9500E4EED0 /* UIView+ParentVC.swift in Sources */,
 				5BC25A9828990BF9005AAF69 /* EmojiButton.swift in Sources */,
 				5B739DFB28935B9500E4EED0 /* DesignableTextField.swift in Sources */,
 				5B739DFC28935B9500E4EED0 /* DesignableButton.swift in Sources */,
@@ -2665,6 +2676,7 @@
 				5B739E5528935B9500E4EED0 /* PostAnnotation.swift in Sources */,
 				5B739E5628935B9500E4EED0 /* Favorite.swift in Sources */,
 				5B29262A28974E10008A1F5D /* CommentVote.swift in Sources */,
+				5BC8822A28AFF793007E83F8 /* ChatViewController+Keyboard.swift in Sources */,
 				5B739E5728935B9500E4EED0 /* FilterSheetViewController.swift in Sources */,
 				5B739E5828935B9500E4EED0 /* Error.swift in Sources */,
 				5B739E5928935B9500E4EED0 /* PostFlag.swift in Sources */,
