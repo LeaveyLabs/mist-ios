@@ -46,8 +46,8 @@
 //            subtitleLabel.textColor = .white
 //        case .pink:
 //            heartImageView.image = UIImage(named: "mist-pink-heart")
-//            mistLabel.textColor = mistUIColor()
-//            subtitleLabel.textColor = mistUIColor()
+//            mistLabel.textColor = Constants.Color.mistLilac
+//            subtitleLabel.textColor = Constants.Color.mistLilac
 //        }
 //
 //        if Env.environment == .dev {

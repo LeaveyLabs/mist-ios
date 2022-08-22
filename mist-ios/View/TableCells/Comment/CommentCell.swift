@@ -115,7 +115,7 @@ class CommentCell: UITableViewCell {
 //
 //        let shape = CAShapeLayer()
 //        shape.path = path
-//        shape.fillColor = mistSecondaryUIColor().cgColor
+//        shape.fillColor = Constants.Color.mistPink.cgColor
 //        triangleView.layer.insertSublayer(shape, at: 0)
 //     }
     

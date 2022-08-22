@@ -17,6 +17,14 @@ struct Constants {
         static let Size: CGFloat = 20
     }
     
+    struct Color {
+        static let mistPink = UIColor.init(named: "mist-pink")!
+        static let mistLilac = UIColor.init(named: "mist-lilac")!
+        static let mistPurple = UIColor.init(named: "mist-purple")!
+        static let mistNight = UIColor.init(named: "mist-night")!
+        static let mistBlack = UIColor.init(named: "mist-black")!
+    }
+    
     static let profilePicConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .unspecified)
     static let defaultProfilePic = UIImage(systemName: "person.crop.circle", withConfiguration: Constants.profilePicConfig)!
         

@@ -15,51 +15,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vO9-KN-2z0">
-                                <rect key="frame" x="37.5" y="218.5" width="300" height="130"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mist-white-heart" translatesAutoresizingMaskIntoConstraints="NO" id="gA9-Rf-1Q1">
-                                        <rect key="frame" x="30" y="5" width="70" height="100"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="70" id="CgZ-EU-YSB"/>
-                                            <constraint firstAttribute="height" constant="100" id="Ewe-Nq-AI4"/>
-                                        </constraints>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="mist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="beT-4D-4x1">
-                                        <rect key="frame" x="120" y="4.5" width="158.5" height="113.5"/>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="83"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="beta" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mru-yk-Uy9">
-                                        <rect key="frame" x="130.5" y="100" width="39.5" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="eow-tZ-9Sm"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="19"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="landingpage_lessgradient" translatesAutoresizingMaskIntoConstraints="NO" id="Vkq-Op-Y9M">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mistlogo_white_name" translatesAutoresizingMaskIntoConstraints="NO" id="Kvy-gP-buH">
+                                <rect key="frame" x="67.5" y="224" width="240" height="89"/>
                                 <constraints>
-                                    <constraint firstItem="Mru-yk-Uy9" firstAttribute="centerX" secondItem="vO9-KN-2z0" secondAttribute="centerX" id="0gQ-na-EuD"/>
-                                    <constraint firstAttribute="bottom" secondItem="Mru-yk-Uy9" secondAttribute="bottom" id="5HJ-sN-dyY"/>
-                                    <constraint firstAttribute="height" constant="130" id="csZ-by-uKQ"/>
-                                    <constraint firstAttribute="bottom" secondItem="gA9-Rf-1Q1" secondAttribute="bottom" constant="25" id="fMM-zB-Z5s"/>
-                                    <constraint firstItem="beT-4D-4x1" firstAttribute="leading" secondItem="gA9-Rf-1Q1" secondAttribute="trailing" constant="20" id="gXM-QM-jVt"/>
-                                    <constraint firstItem="gA9-Rf-1Q1" firstAttribute="leading" secondItem="vO9-KN-2z0" secondAttribute="leading" constant="30" id="id8-77-N5e"/>
-                                    <constraint firstItem="Mru-yk-Uy9" firstAttribute="top" secondItem="beT-4D-4x1" secondAttribute="bottom" constant="-18" id="rry-O4-djM"/>
-                                    <constraint firstAttribute="width" constant="300" id="ssI-Mf-7hg"/>
+                                    <constraint firstAttribute="width" constant="240" id="Sua-Zv-B4F"/>
                                 </constraints>
-                            </view>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="beta" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Shv-uL-jQ9">
+                                <rect key="frame" x="167" y="313" width="41.5" height="27.5"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rcR-iq-DKf"/>
-                        <color key="backgroundColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="vO9-KN-2z0" firstAttribute="centerY" secondItem="3ei-L9-LM3" secondAttribute="centerY" constant="-50" id="fCu-51-lXI"/>
-                            <constraint firstItem="vO9-KN-2z0" firstAttribute="centerX" secondItem="3ei-L9-LM3" secondAttribute="centerX" id="nk8-bj-Jhd"/>
+                            <constraint firstItem="Vkq-Op-Y9M" firstAttribute="top" secondItem="3ei-L9-LM3" secondAttribute="top" id="4yW-zt-pZR"/>
+                            <constraint firstItem="Shv-uL-jQ9" firstAttribute="centerX" secondItem="3ei-L9-LM3" secondAttribute="centerX" id="SGo-qf-Kau"/>
+                            <constraint firstAttribute="bottom" secondItem="Vkq-Op-Y9M" secondAttribute="bottom" id="aPv-Ed-L9I"/>
+                            <constraint firstItem="Shv-uL-jQ9" firstAttribute="top" secondItem="Kvy-gP-buH" secondAttribute="bottom" id="fmy-Pf-07l"/>
+                            <constraint firstItem="Vkq-Op-Y9M" firstAttribute="leading" secondItem="3ei-L9-LM3" secondAttribute="leading" id="kRj-2e-Cnd"/>
+                            <constraint firstItem="Kvy-gP-buH" firstAttribute="centerY" secondItem="3ei-L9-LM3" secondAttribute="centerY" constant="-65" id="rHc-DS-sfh"/>
+                            <constraint firstItem="Kvy-gP-buH" firstAttribute="centerX" secondItem="3ei-L9-LM3" secondAttribute="centerX" id="vhf-fg-Ioy"/>
+                            <constraint firstAttribute="trailing" secondItem="Vkq-Op-Y9M" secondAttribute="trailing" id="zgG-9W-4o4"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -69,6 +52,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="mist-white-heart" width="82.5" height="82.5"/>
+        <image name="landingpage_lessgradient" width="471" height="1019"/>
+        <image name="mistlogo_white_name" width="351" height="89"/>
     </resources>
 </document>

@@ -31,7 +31,7 @@ class EmojiButton: UIButton {
     override var isSelected: Bool {
         didSet {
             layer.shadowOpacity = isSelected ? 0.2 : 0
-            backgroundColor = isSelected ? mistSecondaryUIColor() : nil
+            backgroundColor = isSelected ? Constants.Color.mistPink : nil
         }
     }
     

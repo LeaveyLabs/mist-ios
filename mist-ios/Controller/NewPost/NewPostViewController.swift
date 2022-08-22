@@ -159,8 +159,8 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         //shadow button
         dateLabelWrapperView.applyLightShadow()
         timeLabelWrapperView.applyLightShadow()
-        dateLabelWrapperView.backgroundColor = mistSecondaryUIColor()
-        timeLabelWrapperView.backgroundColor = mistSecondaryUIColor()
+        dateLabelWrapperView.backgroundColor = Constants.Color.mistPink
+        timeLabelWrapperView.backgroundColor = Constants.Color.mistPink
         dateLabel.textColor = .placeholderText
         timeLabel.textColor = .placeholderText
     }

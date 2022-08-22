@@ -17,13 +17,13 @@ struct Comment: Codable {
     static let tagTextAttributes: [NSAttributedString.Key : Any] = [
 //        .font: UIFont.preferredFont(forTextStyle: .body),
         .font: UIFont(name: Constants.Font.Medium, size: 16)!,
-        .foregroundColor: UIColor.init(hex: "#A379BC"),
+        .foregroundColor: Constants.Color.mistPurple,
     ]
     
     static let normalTextAttributes: [NSAttributedString.Key : Any] = [
 //        .font: UIFont.preferredFont(forTextStyle: .body),
         .font: UIFont(name: Constants.Font.Medium, size: 16)!,
-        .foregroundColor: UIColor.black,
+        .foregroundColor: Constants.Color.mistBlack,
     ]
     
     let id: Int

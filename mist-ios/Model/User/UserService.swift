@@ -180,7 +180,9 @@ class UserService: NSObject {
     
     func kickUserToHomeScreenAndLogOut() {
         logOut()
-        transitionToAuth()
+        DispatchQueue.main.async {
+            transitionToAuth()
+        }
     }
     
     func deleteMyAccount() async throws {

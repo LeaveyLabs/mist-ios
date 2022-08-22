@@ -92,7 +92,7 @@ extension UIView {
         // Apply triangle
         let shape = CAShapeLayer()
         shape.path = path
-        shape.fillColor = mistSecondaryUIColor().cgColor
+        shape.fillColor = Constants.Color.mistPink.cgColor
         triangleView.layer.insertSublayer(shape, at: 0)
     }
 }
@@ -152,6 +152,6 @@ extension UIView {
 //    // Appply the triangle to the view
 //    let shape = CAShapeLayer()
 //    shape.path = path
-//    shape.fillColor = mistSecondaryUIColor().cgColor
+//    shape.fillColor = Constants.Color.mistPink.cgColor
 //    triangleView.layer.insertSublayer(shape, at: 0)
 //}

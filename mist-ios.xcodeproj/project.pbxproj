@@ -138,7 +138,6 @@
 		4767E41728584D110016202E /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 4767E41628584D110016202E /* Starscream */; };
 		476971DC2847C3F200123F72 /* UITextField+MaxLength.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476971DB2847C3F200123F72 /* UITextField+MaxLength.swift */; };
 		476971DE2847CCAB00123F72 /* UIView+ParentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476971DD2847CCAB00123F72 /* UIView+ParentVC.swift */; };
-		477A6FD627DFB0450020F864 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477A6FD527DFB0450020F864 /* Color.swift */; };
 		4780E5B42832F0560012B741 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780E5B32832F0560012B741 /* ChatViewController.swift */; };
 		4780E5B6283308250012B741 /* MessageKitMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780E5B5283308250012B741 /* MessageKitMessage.swift */; };
 		478A7899284E708D0058C845 /* CLLocationCoordinate+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A7898284E708D0058C845 /* CLLocationCoordinate+Distance.swift */; };
@@ -366,7 +365,6 @@
 		5B739E0028935B9500E4EED0 /* BlockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624C4286790D400DCD45B /* BlockService.swift */; };
 		5B739E0128935B9500E4EED0 /* CustomCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B128620D4A00DCD45B /* CustomCardView.swift */; };
 		5B739E0228935B9500E4EED0 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE28F72840AE8200C6425C /* TestViewController.swift */; };
-		5B739E0328935B9500E4EED0 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477A6FD527DFB0450020F864 /* Color.swift */; };
 		5B739E0428935B9500E4EED0 /* FeedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47061CD9285170CB0042F04C /* FeedType.swift */; };
 		5B739E0528935B9500E4EED0 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FB07042858592900BF1789 /* CircularProgressView.swift */; };
 		5B739E0628935B9500E4EED0 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A4BE128408BD800FD52B7 /* DesignableView.swift */; };
@@ -736,7 +734,6 @@
 		475B1F8E27FBC2D400ED59CD /* UIView+Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shadow.swift"; sourceTree = "<group>"; };
 		476971DB2847C3F200123F72 /* UITextField+MaxLength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+MaxLength.swift"; sourceTree = "<group>"; };
 		476971DD2847CCAB00123F72 /* UIView+ParentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ParentVC.swift"; sourceTree = "<group>"; };
-		477A6FD527DFB0450020F864 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		4780E5B32832F0560012B741 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		4780E5B5283308250012B741 /* MessageKitMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageKitMessage.swift; sourceTree = "<group>"; };
 		478A7898284E708D0058C845 /* CLLocationCoordinate+Distance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate+Distance.swift"; sourceTree = "<group>"; };
@@ -1298,8 +1295,6 @@
 				47A3D71C27D5940D003DBEA5 /* NewPostTextView.swift */,
 				5BCD490D28714F920002BD02 /* WantToChatView.swift */,
 				5BCD490B287149210002BD02 /* WantToChatView.xib */,
-				5BAD627C2876BE8800DCFE45 /* MistWideLogoView.swift */,
-				5BAD627A2876BD7600DCFE45 /* MistWideLogoView.xib */,
 				5BC25A9328990999005AAF69 /* EmojiButton.swift */,
 				5BC25A97289909FD005AAF69 /* Decomissioned */,
 			);
@@ -1529,7 +1524,6 @@
 			children = (
 				479AA1FC27DD109F00EA0DFC /* Constants.swift */,
 				47A3D70D27D55BB3003DBEA5 /* Time.swift */,
-				477A6FD527DFB0450020F864 /* Color.swift */,
 				478BA27C283E85D400C35507 /* ButtonConfigs.swift */,
 				47FF418228403AE700A44968 /* CustomAttributedString.swift */,
 				47D5B36928441296004CDE6C /* CustomSwiftMessages.swift */,
@@ -1833,6 +1827,8 @@
 		5BC25A97289909FD005AAF69 /* Decomissioned */ = {
 			isa = PBXGroup;
 			children = (
+				5BAD627C2876BE8800DCFE45 /* MistWideLogoView.swift */,
+				5BAD627A2876BD7600DCFE45 /* MistWideLogoView.xib */,
 				5BC25A95289909ED005AAF69 /* ToggleButton.swift */,
 			);
 			path = Decomissioned;
@@ -2293,7 +2289,6 @@
 				5BC8822C28B15192007E83F8 /* UIViewController+Logout.swift in Sources */,
 				5BB624B228620D4A00DCD45B /* CustomCardView.swift in Sources */,
 				47EE28F82840AE8200C6425C /* TestViewController.swift in Sources */,
-				477A6FD627DFB0450020F864 /* Color.swift in Sources */,
 				47061CDA285170CB0042F04C /* FeedType.swift in Sources */,
 				47FB07062858592900BF1789 /* CircularProgressView.swift in Sources */,
 				472A4BFF28408BD800FD52B7 /* DesignableView.swift in Sources */,
@@ -2577,7 +2572,6 @@
 				5B739E0028935B9500E4EED0 /* BlockService.swift in Sources */,
 				5B739E0128935B9500E4EED0 /* CustomCardView.swift in Sources */,
 				5B739E0228935B9500E4EED0 /* TestViewController.swift in Sources */,
-				5B739E0328935B9500E4EED0 /* Color.swift in Sources */,
 				5B739E0428935B9500E4EED0 /* FeedType.swift in Sources */,
 				5B739E0528935B9500E4EED0 /* CircularProgressView.swift in Sources */,
 				5B739E0628935B9500E4EED0 /* DesignableView.swift in Sources */,

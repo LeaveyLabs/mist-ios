@@ -9,6 +9,7 @@ import Foundation
 
 //extension UIViewController {
     // Reference: https://stackoverflow.com/questions/41144523/swap-rootviewcontroller-with-animation
+@MainActor
 func transitionToStoryboard(storyboardID: String,
                             viewControllerID: String,
                             duration: Double,
@@ -35,6 +36,7 @@ func transitionToStoryboard(storyboardID: String,
     UIView.transition(with: window, duration: duration, options: options, animations: {}, completion: completion)
 }
 
+@MainActor
 func transitionToAuth() {
     let sb = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil)
     let homeVC = sb.instantiateViewController(withIdentifier: Constants.SBID.VC.AuthNavigation)
@@ -46,7 +48,8 @@ func transitionToAuth() {
     let duration: TimeInterval = 2
     UIView.transition(with: window, duration: duration, options: options, animations: {}, completion: nil)
 }
-    
+
+@MainActor
 func transitionToHomeAndRequestPermissions(completion: @escaping () -> Void) {
     let sb = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil)
     let homeVC = sb.instantiateViewController(withIdentifier: Constants.SBID.VC.TabBarController) as! SpecialTabBarController

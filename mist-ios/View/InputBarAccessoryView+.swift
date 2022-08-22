@@ -27,7 +27,7 @@ extension InputBarAccessoryView {
         inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 45)
         inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         inputTextView.layer.borderColor = UIColor.systemGray2.cgColor
-        inputTextView.tintColor = mistUIColor()
+        inputTextView.tintColor = Constants.Color.mistLilac
         inputTextView.backgroundColor = .systemGray6
         inputTextView.layer.borderWidth = 0.5
         inputTextView.layer.cornerRadius = 16.0
@@ -38,8 +38,8 @@ extension InputBarAccessoryView {
         //Right
         sendButton.title = "Post"
         sendButton.setTitleColor(.lightGray, for: .disabled)
-        sendButton.setTitleColor(mistUIColor(), for: .normal)
-        sendButton.setTitleColor(mistUIColor().withAlphaComponent(0.4), for: .highlighted)
+        sendButton.setTitleColor(Constants.Color.mistLilac, for: .normal)
+        sendButton.setTitleColor(Constants.Color.mistLilac.withAlphaComponent(0.4), for: .highlighted)
         sendButton.setSize(CGSize(width: 45, height: 40), animated: false) //to increase height
         setRightStackViewWidthConstant(to: 45, animated: false)
         setStackViewItems([sendButton, InputBarButtonItem.fixedSpace(10)], forStack: .right, animated: false)
@@ -60,7 +60,7 @@ extension InputBarAccessoryView {
         //Center
         inputTextView.layer.borderWidth = 0.5
         inputTextView.layer.borderColor = UIColor.systemGray4.cgColor
-        inputTextView.tintColor = mistUIColor()
+        inputTextView.tintColor = Constants.Color.mistLilac
         inputTextView.backgroundColor = .lightGray.withAlphaComponent(0.1)
         inputTextView.layer.cornerRadius = 16.0
         inputTextView.layer.masksToBounds = true

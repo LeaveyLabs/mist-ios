@@ -74,7 +74,7 @@
                                     <state key="normal" title="[Button]"/>
                                     <buttonConfiguration key="configuration" style="plain" title="Turn On">
                                         <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="19"/>
-                                        <color key="baseForegroundColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="baseForegroundColor" name="mist-lilac"/>
                                     </buttonConfiguration>
                                     <connections>
                                         <action selector="approveButtonPressed" destination="g5x-hF-D0u" eventType="touchUpInside" id="cDi-fo-flM"/>
@@ -177,4 +177,9 @@
             <point key="canvasLocation" x="368.11594202898556" y="377.67857142857139"/>
         </view>
     </objects>
+    <resources>
+        <namedColor name="mist-lilac">
+            <color red="0.78431372549019607" green="0.62352941176470589" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>

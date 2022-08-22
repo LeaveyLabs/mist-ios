@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -408,7 +409,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mist Guidelines" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="VfI-kc-q4b">
                                 <rect key="frame" x="40" y="74" width="310" height="61.666666666666657"/>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="45"/>
-                                <color key="textColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" name="mist-lilac"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w0n-QH-4eX">
@@ -416,7 +417,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="5YU-2r-Icr"/>
                                 </constraints>
-                                <color key="tintColor" red="0.78039217000000005" green="0.67450982329999998" blue="0.87058818339999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="tintColor" name="mist-lilac"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Button">
                                     <attributedString key="attributedTitle">
@@ -716,7 +717,7 @@ make that cute barista’s day,
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="mist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TtB-Cc-hxV">
                                             <rect key="frame" x="164.66666666666666" y="4" width="61" height="44"/>
                                             <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="32"/>
-                                            <color key="textColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="textColor" name="mist-lilac"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 0.1.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mhx-CA-mSa">
@@ -903,6 +904,7 @@ make that cute barista’s day,
                                     <rect key="frame" x="0.0" y="0.0" width="350" height="43.666667938232422"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <color key="tintColor" name="mist-lilac"/>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -2177,14 +2179,14 @@ make that cute barista’s day,
                                                                 </subviews>
                                                             </view>
                                                         </subviews>
-                                                        <color key="backgroundColor" red="0.96078431369999995" green="0.94117647059999998" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="backgroundColor" name="mist-pink"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="189" id="zVM-KM-3t5"/>
                                                         </constraints>
                                                     </view>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Scd-dZ-nEi">
                                                         <rect key="frame" x="10" y="13" width="156" height="35"/>
-                                                        <color key="backgroundColor" red="0.95686274770000002" green="0.94117647410000005" blue="0.97254908080000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <color key="backgroundColor" name="mist-pink"/>
                                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
                                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="15" maxY="0.0"/>
@@ -2197,7 +2199,8 @@ make that cute barista’s day,
                                                         </connections>
                                                     </button>
                                                 </subviews>
-                                                <color key="backgroundColor" red="0.96078431369999995" green="0.94117647059999998" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" name="mist-pink"/>
+                                                <color key="tintColor" name="mist-lilac"/>
                                                 <constraints>
                                                     <constraint firstAttribute="trailing" secondItem="Iic-TR-uAk" secondAttribute="trailing" constant="15" id="1RP-sE-j0w"/>
                                                     <constraint firstItem="Iic-TR-uAk" firstAttribute="top" secondItem="Scd-dZ-nEi" secondAttribute="bottom" constant="15" id="1tc-I0-qTB"/>
@@ -2218,6 +2221,7 @@ make that cute barista’s day,
                                                 </constraints>
                                             </view>
                                         </subviews>
+                                        <color key="tintColor" name="mist-lilac"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="JSX-W4-xgB" secondAttribute="trailing" id="8KV-Mv-bLJ"/>
                                             <constraint firstAttribute="trailing" secondItem="x2W-5m-lTz" secondAttribute="trailing" constant="20" symbolic="YES" id="Mxh-Tf-xGu"/>
@@ -2239,7 +2243,7 @@ make that cute barista’s day,
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rnG-hx-2k9"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="tintColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" name="mist-lilac"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="rnG-hx-2k9" firstAttribute="bottom" secondItem="0vN-fR-xob" secondAttribute="bottom" id="UJf-92-glb"/>
@@ -2267,7 +2271,7 @@ make that cute barista’s day,
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FfO-4g-Uge">
                                         <rect key="frame" x="0.0" y="-2" width="98" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="tintColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" name="mist-lilac"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Guidelines">
                                             <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
@@ -2993,7 +2997,7 @@ make that cute barista’s day,
             <point key="canvasLocation" x="1263" y="-250"/>
         </scene>
     </scenes>
-    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+    <color key="tintColor" name="mist-black"/>
     <resources>
         <image name="FeaturedIcon" width="28" height="18"/>
         <image name="SpotifyIcon" width="26" height="26"/>
@@ -3027,6 +3031,15 @@ make that cute barista’s day,
         <image name="toggle-list-button" width="96" height="96"/>
         <image name="trash" catalog="system" width="121" height="128"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
+        <namedColor name="mist-black">
+            <color red="0.066666666666666666" green="0.066666666666666666" blue="0.066666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="mist-lilac">
+            <color red="0.78431372549019607" green="0.62352941176470589" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="mist-pink">
+            <color red="0.97647058823529409" green="0.96078431372549022" blue="0.99607843137254903" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
