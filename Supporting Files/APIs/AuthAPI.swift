@@ -24,14 +24,14 @@ struct EmailValidationError: Codable {
     let code: [String]?
     // Errors
     let non_field_errors: [String]?
-    let detail: [String]?
+    let detail: String?
 }
 
 struct UsernameValidationError: Codable {
     let username: [String]?
     // Errors
     let non_field_errors: [String]?
-    let detail: [String]?
+    let detail: String?
 }
 
 struct PasswordValidationError: Codable {
@@ -39,7 +39,7 @@ struct PasswordValidationError: Codable {
     let password: [String]?
     // Errors
     let non_field_errors: [String]?
-    let detail: [String]?
+    let detail: String?
 }
 
 struct UserCreationError: Codable {
@@ -53,7 +53,7 @@ struct UserCreationError: Codable {
     let sex: [String]?
     // Errors
     let non_field_errors: [String]?
-    let detail: [String]?
+    let detail: String?
 }
 
 struct LoginError: Codable {
@@ -61,14 +61,14 @@ struct LoginError: Codable {
     let password: [String]?
     // Errors
     let non_field_errors: [String]?
-    let detail: [String]?
+    let detail: String?
 }
 
 struct RequestResetPasswordError: Codable {
     let email: [String]?
     // Errors
     let non_field_errors: [String]?
-    let detail: [String]?
+    let detail: String?
 }
 
 struct ValidateResetPasswordError: Codable {
@@ -76,7 +76,7 @@ struct ValidateResetPasswordError: Codable {
     let code: [String]?
     // Errors
     let non_field_errors: [String]?
-    let detail: [String]?
+    let detail: String?
 }
 
 struct FinalizeResetPasswordError: Codable {
@@ -84,7 +84,7 @@ struct FinalizeResetPasswordError: Codable {
     let password: [String]?
     // Errors
     let non_field_errors: [String]?
-    let detail: [String]?
+    let detail: String?
 }
 
 // Property Enums
@@ -113,17 +113,17 @@ class AuthAPI {
     // Error Descriptions
     static let LOGIN_ERROR_DESCRIPTION = "Unable to log in"
     // Error Recovery Messages
-    static let EMAIL_RECOVERY_MESSAGE = "Please try again later"
-    static let CODE_RECOVERY_MESSAGE = "Please try again later"
-    static let USERNAME_RECOVERY_MESSAGE = "Please try again later"
-    static let FIRST_NAME_RECOVERY_MESSAGE = "Please try again later"
-    static let LAST_NAME_RECOVERY_MESSAGE = "Please try again later"
-    static let PICTURE_RECOVERY_MESSAGE = "Please try again later"
-    static let PASSWORD_RECOVERY_MESSAGE = "Please try again later"
-    static let DOB_RECOVERY_MESSAGE = "Please try again later"
-    static let SEX_RECOVERY_MESSAGE = "Please try again later"
-    static let EMAIL_OR_USERNAME_RECOVERY_MESSAGE = "Please try again later"
-    static let USERNAME_PASSWORD_RECOVERY_MESSAGE = "Please try again later"
+    static let EMAIL_RECOVERY_MESSAGE = "Please try again"
+    static let CODE_RECOVERY_MESSAGE = "Please try again"
+    static let USERNAME_RECOVERY_MESSAGE = "Please try again"
+    static let FIRST_NAME_RECOVERY_MESSAGE = "Please try again"
+    static let LAST_NAME_RECOVERY_MESSAGE = "Please try again"
+    static let PICTURE_RECOVERY_MESSAGE = "Please try again"
+    static let PASSWORD_RECOVERY_MESSAGE = "Please try again"
+    static let DOB_RECOVERY_MESSAGE = "Please try again"
+    static let SEX_RECOVERY_MESSAGE = "Please try again"
+    static let EMAIL_OR_USERNAME_RECOVERY_MESSAGE = "Please try again"
+    static let USERNAME_PASSWORD_RECOVERY_MESSAGE = "Please try again"
     
     // Registers email in the database
     // (and database will send verifcation email)
