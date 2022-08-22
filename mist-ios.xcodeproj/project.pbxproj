@@ -10,6 +10,8 @@
 		4316238228341F5F00169AA9 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4316238128341F5F00169AA9 /* MessageKit */; };
 		4316238428343D3F00169AA9 /* CustomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4316238328343D3F00169AA9 /* CustomSheetViewController.swift */; };
 		4316238C2834F8A600169AA9 /* SpecialTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4316238B2834F8A600169AA9 /* SpecialTabBarController.swift */; };
+		431767DF28B025F1000B2E32 /* DeviceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431767DE28B025F1000B2E32 /* DeviceAPI.swift */; };
+		431767E028B025F1000B2E32 /* DeviceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431767DE28B025F1000B2E32 /* DeviceAPI.swift */; };
 		431F3810288B494900A5F48B /* MessageThreadTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431F380F288B494900A5F48B /* MessageThreadTest.swift */; };
 		4329571C27F4008300FA48A9 /* EnterEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */; };
 		433970DF27FE501700876026 /* WelcomeTutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */; };
@@ -605,6 +607,9 @@
 /* Begin PBXFileReference section */
 		4316238328343D3F00169AA9 /* CustomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSheetViewController.swift; sourceTree = "<group>"; };
 		4316238B2834F8A600169AA9 /* SpecialTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialTabBarController.swift; sourceTree = "<group>"; };
+		431767DC28AEF353000B2E32 /* mist-iosDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "mist-iosDebug.entitlements"; sourceTree = "<group>"; };
+		431767DD28AEF358000B2E32 /* mist-ios-devDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "mist-ios-devDebug.entitlements"; sourceTree = "<group>"; };
+		431767DE28B025F1000B2E32 /* DeviceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceAPI.swift; sourceTree = "<group>"; };
 		431F380F288B494900A5F48B /* MessageThreadTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageThreadTest.swift; sourceTree = "<group>"; };
 		4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterEmailViewController.swift; sourceTree = "<group>"; };
 		433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeTutorialViewController.swift; sourceTree = "<group>"; };
@@ -1380,6 +1385,7 @@
 		47E74DFF27CA0FFE00467A0C = {
 			isa = PBXGroup;
 			children = (
+				431767DD28AEF358000B2E32 /* mist-ios-devDebug.entitlements */,
 				473CAF812832A6EB008D8807 /* mist-ios.xcconfig */,
 				47E74E0A27CA0FFE00467A0C /* mist-ios */,
 				47E74E3E27CA14CE00467A0C /* Supporting Files */,
@@ -1406,6 +1412,7 @@
 		47E74E0A27CA0FFE00467A0C /* mist-ios */ = {
 			isa = PBXGroup;
 			children = (
+				431767DC28AEF353000B2E32 /* mist-iosDebug.entitlements */,
 				5BA401F62878052B004A556E /* Env.swift */,
 				5B739E952893686200E4EED0 /* Prod.plists */,
 				5B739E942893684400E4EED0 /* Dev.plists */,
@@ -1504,6 +1511,7 @@
 				4700F8B127DD7BB9006C2E08 /* CommentAPI.swift */,
 				43529E2E2890BD3D00B3A484 /* CommentFlagAPI.swift */,
 				43529E2C2890BC9200B3A484 /* CommentVoteAPI.swift */,
+				431767DE28B025F1000B2E32 /* DeviceAPI.swift */,
 				43D9251D28527E5600438C5C /* FavoriteAPI.swift */,
 				43D92523285280D200438C5C /* FriendRequestAPI.swift */,
 				43D92525285280DB00438C5C /* MatchRequestAPI.swift */,
@@ -2335,6 +2343,7 @@
 				43D925202852802600438C5C /* FriendRequest.swift in Sources */,
 				47AC881F28480AE1000150CA /* UIButton+RightSideImage.swift in Sources */,
 				5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */,
+				431767DF28B025F1000B2E32 /* DeviceAPI.swift in Sources */,
 				5B774DFA286D4F9B00CCCF28 /* MessageKitMatchRequest.swift in Sources */,
 				472F8D1A28505F4600DB69C4 /* PostDelegate.swift in Sources */,
 				478A7899284E708D0058C845 /* CLLocationCoordinate+Distance.swift in Sources */,
@@ -2485,6 +2494,7 @@
 				5B739DB328935B9500E4EED0 /* RoundedImageView.swift in Sources */,
 				5B739DB428935B9500E4EED0 /* ChatViewController.swift in Sources */,
 				5B739DB528935B9500E4EED0 /* CommentCell.swift in Sources */,
+				431767E028B025F1000B2E32 /* DeviceAPI.swift in Sources */,
 				5B739DB628935B9500E4EED0 /* ProfileViewController.swift in Sources */,
 				5B739DB728935B9500E4EED0 /* PostVote.swift in Sources */,
 				5B739DB828935B9500E4EED0 /* UITextView+Newline.swift in Sources */,
@@ -2835,6 +2845,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
+				CODE_SIGN_ENTITLEMENTS = "mist-ios/mist-iosDebug.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 33;
@@ -3024,6 +3035,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
+				CODE_SIGN_ENTITLEMENTS = "mist-ios-devDebug.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 33;

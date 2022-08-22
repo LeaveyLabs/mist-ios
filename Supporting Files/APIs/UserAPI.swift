@@ -49,6 +49,7 @@ class UserAPI {
     static let LAST_NAME_PARAM = "last_name"
     static let DATE_OF_BIRTH_PARAM = "date_of_birth"
     static let SEX_PARAM = "sex"
+    static let KEYWORDS_PARAM = "keywords"
     static let WORDS_PARAM = "words"
     static let PHONE_NUMBERS_PARAM = "phone_numbers"
     static let TOKEN_PARAM = "token"
@@ -246,6 +247,17 @@ class UserAPI {
         let params:[String:Double] = [
             LATITUDE_PARAM: latitude,
             LONGITUDE_PARAM: longitude,
+        ]
+        let json = try JSONEncoder().encode(params)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
+        try filterUserErrors(data: data, response: response)
+        return try JSONDecoder().decode(CompleteUser.self, from: data)
+    }
+    
+    static func patchKeywords(keywords:[String], id:Int) async throws -> CompleteUser {
+        let url =  "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(id)/"
+        let params:[String:[String]] = [
+            KEYWORDS_PARAM: keywords,
         ]
         let json = try JSONEncoder().encode(params)
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)

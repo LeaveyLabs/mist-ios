@@ -27,6 +27,7 @@ protocol CompleteUserBackendProperties: Equatable {
     var email: String { get }
     var date_of_birth: String { get }
     var sex: String? { get }
+    var keywords: [String] { get }
     //let phone_number: String?
 }
 
@@ -96,6 +97,7 @@ struct CompleteUser: Codable, CompleteUserBackendProperties {
     let sex: String?
     let latitude: Double?
     let longitude: Double?
+    let keywords: [String]
     
     //Equatable
     static func == (lhs: CompleteUser, rhs: CompleteUser) -> Bool { return lhs.id == rhs.id }
@@ -114,6 +116,7 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
     let sex: String?
     let latitude: Double?
     let longitude: Double?
+    let keywords: [String]
     
     var full_name: String {
         return first_name + " " + last_name

@@ -12,7 +12,7 @@ import FirebaseAnalytics
 import FirebasePerformance
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -25,9 +25,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        Performance.sharedInstance().isInstrumentationEnabled = false
 //        Performance.sharedInstance().isDataCollectionEnabled = false
 //        Analytics.setAnalyticsCollectionEnabled(false)
+        registerForRemoteNotification()
         
         FirebaseApp.configure()
         return true
+    }
+    
+    func registerForRemoteNotification() {
+        if #available(iOS 10.0, *) {
+            let center  = UNUserNotificationCenter.current()
+            center.delegate = self
+            center.requestAuthorization(options: [.sound, .alert, .badge]) { (granted, error) in
+                print("Authorization executed")
+            }
+            UIApplication.shared.registerForRemoteNotifications()
+        }
+        else {
+            UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.sound, .alert, .badge], categories: nil))
+            UIApplication.shared.registerForRemoteNotifications()
+        }
+    }
+    
+    func application(
+        _ application: UIApplication,
+        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+    )
+    {
+        let tokenParts = deviceToken.map { data -> String in
+            return String(format: "%02.2hhx", data)
+        }
+
+        let token = tokenParts.joined()
+        setGlobalDevicetoken(token: token)
+        print("Device Token: \(token)")
     }
 
     // MARK: UISceneSession Lifecycle
@@ -47,5 +77,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.portrait
     }
-    
+
 }

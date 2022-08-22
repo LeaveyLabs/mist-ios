@@ -53,11 +53,11 @@ class UserAPITest: XCTestCase {
         let users = try await UserAPI.fetchUsersByUsername(username: TestConstants.Auth.USERNAME)
         XCTAssertTrue(users[0].username == TestConstants.Auth.USERNAME)
     }
-    // GET by text
-    func testGetUsersByText() async throws {
-        let users = try await UserAPI.fetchUsersByText(containing: TestConstants.Auth.USERNAME)
-        XCTAssertTrue(users[0].username == TestConstants.Auth.USERNAME)
-    }
+//    // GET by text
+//    func testGetUsersByText() async throws {
+//        let users = try await UserAPI.fetchUsersByText(containing: TestConstants.Auth.USERNAME)
+//        XCTAssertTrue(users[0].username == TestConstants.Auth.USERNAME)
+//    }
     // GET by token
     func testGeAuthedUserByToken() async throws {
         let user =  try await UserAPI.fetchAuthedUserByToken(token: TestConstants.Auth.TOKEN)
@@ -77,7 +77,13 @@ class UserAPITest: XCTestCase {
     func testPatchUserPicture() async throws {
         let picture = try await UserAPI.UIImageFromURLString(url: "https://cdn.cocoacasts.com/cc00ceb0c6bff0d536f25454d50223875d5c79f1/above-the-clouds.jpg")
         let user = try await UserAPI.patchProfilePic(image: picture, id: TestConstants.Auth.ID, username: TestConstants.Auth.USERNAME)
-        XCTAssertTrue(user.id == TestConstants.Auth.ID)
+        XCTAssertTrue(user.idco == TestConstants.Auth.ID)
+    }
+    // PATCH keywords
+    func testPatchUserKeywords() async throws {
+        let keywords = ["hello", "cool", "beans"]
+        let user = try await UserAPI.patchKeywords(keywords: keywords, id: TestConstants.Auth.ID)
+        XCTAssertTrue(user.keywords == keywords)
     }
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
