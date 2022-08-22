@@ -17,7 +17,7 @@ struct Comment: Codable {
     static let tagTextAttributes: [NSAttributedString.Key : Any] = [
 //        .font: UIFont.preferredFont(forTextStyle: .body),
         .font: UIFont(name: Constants.Font.Medium, size: 16)!,
-        .foregroundColor: UIColor.init(hex: "#1464a6"),
+        .foregroundColor: UIColor.init(hex: "#A379BC"),
     ]
     
     static let normalTextAttributes: [NSAttributedString.Key : Any] = [

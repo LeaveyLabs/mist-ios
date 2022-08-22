@@ -166,7 +166,8 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
             let day = Int(dobComponents[1]),
             let year = Int(dobComponents[2]),
             month >= 1 && month <= 12,
-            day >= 1 && day <= 31
+            day >= 1 && day <= 31,
+            year >= 1940
         else {
             CustomSwiftMessages.displayError("Something doesn't seem right", "Please try again")
             return

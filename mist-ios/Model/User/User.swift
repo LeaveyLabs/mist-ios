@@ -155,4 +155,6 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
     
     //Equatable
     static func == (lhs: FrontendCompleteUser, rhs: FrontendCompleteUser) -> Bool { return lhs.id == rhs.id }
+    
+    static let nilUser = FrontendCompleteUser(completeUser: CompleteUser(id: 0, username: "", first_name: "", last_name: "", picture: "", email: "", date_of_birth: "", sex: "", latitude: 0, longitude: 0), profilePic: ProfilePicWrapper(image: Constants.defaultProfilePic, withCompresssion: false), token: "")
 }

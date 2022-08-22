@@ -15,6 +15,20 @@ class UserService: NSObject {
     static var singleton = UserService()
     
     private var frontendCompleteUser: FrontendCompleteUser?
+    private var authedUser: FrontendCompleteUser { //a wrapper for the real underlying frontendCompleteUser. if for some unknown reason, frontendCompleteUser is nil, instead of the app crashing with a force unwrap, we kick them to the home screen and log them out
+        get {
+            guard let authedUser = frontendCompleteUser else {
+                kickUserToHomeScreenAndLogOut()
+                return FrontendCompleteUser.nilUser
+            }
+            return authedUser
+        }
+        set {
+            frontendCompleteUser = newValue
+        }
+    }
+
+    //add a local device storage object
     private let LOCAL_FILE_APPENDING_PATH = "myaccount.json"
     private var localFileLocation: URL!
     
@@ -52,29 +66,29 @@ class UserService: NSObject {
     }
     
     //User
-    func getUser() -> FrontendCompleteUser { return frontendCompleteUser! }
+    func getUser() -> FrontendCompleteUser { return authedUser }
     func getUserAsReadOnlyUser() -> ReadOnlyUser {
-        return ReadOnlyUser(id: frontendCompleteUser!.id,
-                            username: frontendCompleteUser!.username,
-                            first_name: frontendCompleteUser!.first_name,
-                            last_name: frontendCompleteUser!.last_name,
-                            picture: frontendCompleteUser!.picture)
+        return ReadOnlyUser(id: authedUser.id,
+                            username: authedUser.username,
+                            first_name: authedUser.first_name,
+                            last_name: authedUser.last_name,
+                            picture: authedUser.picture)
     }
     func getUserAsFrontendReadOnlyUser() -> FrontendReadOnlyUser {
         return FrontendReadOnlyUser(readOnlyUser: getUserAsReadOnlyUser(),
-                                    profilePic: frontendCompleteUser!.profilePicWrapper.image,
-                                    blurredPic: frontendCompleteUser!.profilePicWrapper.blurredImage)
+                                    profilePic: authedUser.profilePicWrapper.image,
+                                    blurredPic: authedUser.profilePicWrapper.blurredImage)
     }
     
     //Properties
-    func getId() -> Int { return frontendCompleteUser!.id }
-    func getUsername() -> String { return frontendCompleteUser!.username }
-    func getFirstName() -> String { return frontendCompleteUser!.first_name }
-    func getLastName() -> String { return frontendCompleteUser!.last_name }
-    func getFirstLastName() -> String { return frontendCompleteUser!.first_name + " " + frontendCompleteUser!.last_name }
-    func getEmail() -> String { return frontendCompleteUser!.email }
-    func getProfilePic() -> UIImage { return frontendCompleteUser!.profilePicWrapper.image }
-    func getBlurredPic() -> UIImage { return frontendCompleteUser!.profilePicWrapper.blurredImage }
+    func getId() -> Int { return authedUser.id }
+    func getUsername() -> String { return authedUser.username }
+    func getFirstName() -> String { return authedUser.first_name }
+    func getLastName() -> String { return authedUser.last_name }
+    func getFirstLastName() -> String { return authedUser.first_name + " " + authedUser.last_name }
+    func getEmail() -> String { return authedUser.email }
+    func getProfilePic() -> UIImage { return authedUser.profilePicWrapper.image }
+    func getBlurredPic() -> UIImage { return authedUser.profilePicWrapper.blurredImage }
     
     //MARK: - Login and create user
     
@@ -124,8 +138,11 @@ class UserService: NSObject {
         guard let frontendCompleteUser = frontendCompleteUser else { return }
         
         let updatedCompleteUser = try await UserAPI.patchUsername(username: newUsername, id: frontendCompleteUser.id)
-        self.frontendCompleteUser!.username = updatedCompleteUser.username
-        Task { await self.saveUserToFilesystem() }
+        self.authedUser.username = updatedCompleteUser.username
+        Task {
+            await self.saveUserToFilesystem()
+            await UsersService.singleton.updateCachedUser(updatedUser: self.getUserAsFrontendReadOnlyUser())
+        }
     }
     
     // No need to return new profilePic bc it is updated globally
@@ -137,9 +154,13 @@ class UserService: NSObject {
         let updatedCompleteUser = try await UserAPI.patchProfilePic(image: compressedNewProfilePic,
                                                                     id: frontendCompleteUser.id,
                                                                     username: frontendCompleteUser.username)
-        self.frontendCompleteUser!.profilePicWrapper = newProfilePicWrapper
-        self.frontendCompleteUser!.picture = updatedCompleteUser.picture
-        Task { await self.saveUserToFilesystem() }
+        self.authedUser.profilePicWrapper = newProfilePicWrapper
+        self.authedUser.picture = updatedCompleteUser.picture
+        
+        Task {
+            await self.saveUserToFilesystem()
+            await UsersService.singleton.updateCachedUser(updatedUser: self.getUserAsFrontendReadOnlyUser())
+        }
     }
     
     func updatePassword(to newPassword: String) async throws {
@@ -155,6 +176,11 @@ class UserService: NSObject {
         eraseUserFromFilesystem()
         frontendCompleteUser = nil
         setGlobalAuthToken(token: "")
+    }
+    
+    func kickUserToHomeScreenAndLogOut() {
+        logOut()
+        transitionToAuth()
     }
     
     func deleteMyAccount() async throws {
@@ -182,7 +208,7 @@ class UserService: NSObject {
         } else {
             ageBracket = "65+"
         }
-        Analytics.setUserProperty(frontendCompleteUser!.sex, forName: "sex")
+        Analytics.setUserProperty(authedUser.sex, forName: "sex")
         Analytics.setUserProperty(ageBracket, forName: "age")
     }
     

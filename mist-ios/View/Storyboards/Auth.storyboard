@@ -60,15 +60,23 @@
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="10"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mistlogo_gradientpurple_nameandslogan" translatesAutoresizingMaskIntoConstraints="NO" id="uIQ-Ty-cZB">
+                                <rect key="frame" x="82" y="332.66666666666669" width="250" height="131"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="UhF-gu-MzL"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="UUV-KT-ah5"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="UUV-KT-ah5" firstAttribute="bottom" secondItem="855-FN-OIn" secondAttribute="bottom" constant="10" id="3F1-hr-GgS"/>
                             <constraint firstItem="855-FN-OIn" firstAttribute="centerX" secondItem="g07-uP-5a9" secondAttribute="centerX" id="Bi8-MX-hFd"/>
+                            <constraint firstItem="uIQ-Ty-cZB" firstAttribute="centerX" secondItem="g07-uP-5a9" secondAttribute="centerX" id="G2N-CB-06T"/>
                             <constraint firstItem="UUV-KT-ah5" firstAttribute="trailing" secondItem="CZN-Hl-vez" secondAttribute="trailing" constant="25" id="WZp-Gb-jcs"/>
                             <constraint firstItem="yet-V7-pLL" firstAttribute="top" secondItem="CZN-Hl-vez" secondAttribute="bottom" constant="15" id="c1d-6s-E9m"/>
                             <constraint firstItem="CZN-Hl-vez" firstAttribute="leading" secondItem="UUV-KT-ah5" secondAttribute="leading" constant="25" id="eVa-fU-hJt"/>
+                            <constraint firstItem="uIQ-Ty-cZB" firstAttribute="centerY" secondItem="g07-uP-5a9" secondAttribute="centerY" constant="-50" id="mED-HA-b8l"/>
                             <constraint firstItem="UUV-KT-ah5" firstAttribute="trailing" secondItem="yet-V7-pLL" secondAttribute="trailing" constant="25" id="tXp-Bf-BRm"/>
                             <constraint firstItem="yet-V7-pLL" firstAttribute="leading" secondItem="UUV-KT-ah5" secondAttribute="leading" constant="25" id="v5e-JD-HkS"/>
                             <constraint firstItem="855-FN-OIn" firstAttribute="top" secondItem="yet-V7-pLL" secondAttribute="bottom" constant="10" id="xuS-rh-Vmw"/>
@@ -78,6 +86,7 @@
                     <connections>
                         <outlet property="agreementTextView" destination="855-FN-OIn" id="99T-rE-wkM"/>
                         <outlet property="loginButton" destination="yet-V7-pLL" id="Ivs-q3-Doa"/>
+                        <outlet property="mistWideLogoView" destination="uIQ-Ty-cZB" id="wyJ-BH-2Fo"/>
                         <outlet property="registerButton" destination="CZN-Hl-vez" id="3d6-tj-8WA"/>
                     </connections>
                 </viewController>
@@ -104,7 +113,7 @@
                                             <constraint firstAttribute="height" constant="45" id="7Gh-Ph-CJ1"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="yes" keyboardType="emailAddress" returnKeyType="continue" textContentType="email"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" returnKeyType="continue" textContentType="email"/>
                                         <connections>
                                             <action selector="textFieldEditingChanged:" destination="2yy-YR-CED" eventType="editingChanged" id="6Gx-Wl-67F"/>
                                         </connections>
@@ -550,7 +559,7 @@
                                                     <constraint firstAttribute="height" constant="40" id="FR6-6V-HkC"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next" textContentType="username"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" returnKeyType="next" textContentType="email"/>
                                                 <connections>
                                                     <action selector="textFieldEditingChanged:" destination="578-PS-30b" eventType="editingChanged" id="n4y-9t-TH6"/>
                                                 </connections>
@@ -2212,6 +2221,7 @@
         <image name="camera.circle" catalog="system" width="128" height="121"/>
         <image name="camera.circle.fill" catalog="system" width="128" height="121"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
+        <image name="mistlogo_gradientpurple_nameandslogan" width="356" height="131"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -166,4 +166,10 @@ actor UsersService: NSObject {
         return cachedUsers[userId]
     }
     
+    //MARK: - Updaters
+    
+    func updateCachedUser(updatedUser: FrontendReadOnlyUser) {
+        cachedUsers[updatedUser.id] = updatedUser
+    }
+    
 }

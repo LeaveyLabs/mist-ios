@@ -34,7 +34,7 @@ class PhoneNumberAPI {
     static let CODE_PARAM = "code"
     static let TOKEN_PARAM = "token"
     
-    static let PHONE_NUMBER_RECOVERY_MESSAGE = "Please try again later"
+    static let PHONE_NUMBER_RECOVERY_MESSAGE = "Please try again"
     
     static func filterPhoneNumberErrors(data:Data, response:HTTPURLResponse) throws {
         let statusCode = response.statusCode

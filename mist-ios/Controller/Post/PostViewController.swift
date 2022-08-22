@@ -91,7 +91,6 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         super.viewDidLoad()
         setupTableView()
         setupCommentInputBar()
-//        setupKeyboardManagerForBottomInputBar()
         loadComments()
         navigationController?.fullscreenInteractivePopGestureRecognizer(delegate: self)
         addKeyboardObservers()
@@ -275,10 +274,10 @@ extension PostViewController: InputBarAccessoryViewDelegate {
         comments.append(newComment)
         commentAuthors[newComment.author] = UserService.singleton.getUserAsFrontendReadOnlyUser()
         
-        guard commentAuthors.values.count > 1 else { return } //only reload data if all commentAuthors are loaded in and rendered
-        tableView.reloadData()
+        guard !activityIndicator.isAnimating else { return } //only reload data if all commentAuthors are loaded in and rendered
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
+            self.tableView.reloadData()
             self.tableView.scrollToRow(at: IndexPath(row: self.comments.count, section: 0), at: .bottom, animated: true)
         }
     }

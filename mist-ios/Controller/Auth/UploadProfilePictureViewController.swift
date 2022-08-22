@@ -119,16 +119,17 @@ class UploadProfilePictureViewController: UIViewController {
         }
     }
     
+    //TODO: better error handling here
     func handleFailure(_ error: Error) {
         isSubmitting = false
-        profilePic = defaultPic
+//        profilePic = defaultPic
         CustomSwiftMessages.displayError(error)
         
-        DispatchQueue.main.async { [self] in
-            transitionToStoryboard(storyboardID: Constants.SBID.SB.Auth,
-                                        viewControllerID: Constants.SBID.VC.AuthNavigation,
-                                        duration: Env.LAUNCH_ANIMATION_DURATION) { _ in}
-        }
+//        DispatchQueue.main.async { [self] in
+//            transitionToStoryboard(storyboardID: Constants.SBID.SB.Auth,
+//                                        viewControllerID: Constants.SBID.VC.AuthNavigation,
+//                                        duration: Env.LAUNCH_ANIMATION_DURATION) { _ in}
+//        }
     }
     
     func validateInput() -> Bool {

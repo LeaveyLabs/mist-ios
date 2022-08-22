@@ -15,14 +15,14 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Mj-jC-BX6" userLabel="Background view" customClass="CornerRoundingView" customModule="SwiftMessages">
                     <rect key="frame" x="20" y="44" width="394" height="286"/>
                     <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="700" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="YST-yc-0HK" userLabel="Content view">
-                            <rect key="frame" x="30" y="30" width="334" height="176"/>
+                        <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="700" axis="vertical" alignment="center" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="YST-yc-0HK" userLabel="Content view">
+                            <rect key="frame" x="30" y="30" width="334" height="171"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="700" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" translatesAutoresizingMaskIntoConstraints="NO" id="hUK-sr-A3U" userLabel="Icon image view">
-                                    <rect key="frame" x="142" y="0.0" width="50" height="23"/>
+                                    <rect key="frame" x="142" y="0.0" width="50" height="12"/>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="700" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" verticalCompressionResistancePriority="753" text="😬" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="elb-HW-olH" userLabel="Icon label" propertyAccessControl="none">
-                                    <rect key="frame" x="140" y="38" width="54" height="60"/>
+                                    <rect key="frame" x="140" y="29" width="54" height="60"/>
                                     <accessibility key="accessibilityConfiguration">
                                         <bool key="isElement" value="NO"/>
                                     </accessibility>
@@ -31,7 +31,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="700" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="[Title]" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ggW-gB-SWF">
-                                    <rect key="frame" x="141" y="113" width="52.5" height="27.5"/>
+                                    <rect key="frame" x="141" y="106" width="52.5" height="27.5"/>
                                     <accessibility key="accessibilityConfiguration">
                                         <bool key="isElement" value="NO"/>
                                     </accessibility>
@@ -40,7 +40,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="700" verticalHuggingPriority="251" verticalCompressionResistancePriority="752" text="[Message Body]" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TGC-Td-alh">
-                                    <rect key="frame" x="113" y="155.5" width="108.5" height="20.5"/>
+                                    <rect key="frame" x="113" y="150.5" width="108.5" height="20.5"/>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     <accessibility key="accessibilityConfiguration">
                                         <bool key="isElement" value="NO"/>
@@ -52,14 +52,15 @@
                             </subviews>
                         </stackView>
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="1gp-r2-h1d">
-                            <rect key="frame" x="0.0" y="236" width="394" height="50"/>
+                            <rect key="frame" x="0.0" y="226" width="394" height="60"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="700" horizontalCompressionResistancePriority="752" verticalCompressionResistancePriority="754" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="byZ-AJ-mNz" userLabel="Cancel Button">
-                                    <rect key="frame" x="0.0" y="0.0" width="197" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="197" height="60"/>
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                     <state key="normal" title="Not Now"/>
                                     <buttonConfiguration key="configuration" style="plain" title="Not Now">
-                                        <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
+                                        <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
+                                        <directionalEdgeInsets key="contentInsets" top="5" leading="5" bottom="5" trailing="5"/>
                                         <color key="baseForegroundColor" red="0.41176470590000003" green="0.41176470590000003" blue="0.41176470590000003" alpha="1" colorSpace="calibratedRGB"/>
                                     </buttonConfiguration>
                                     <connections>
@@ -67,12 +68,12 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="700" horizontalCompressionResistancePriority="752" verticalCompressionResistancePriority="754" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VOA-Iy-PCr">
-                                    <rect key="frame" x="197" y="0.0" width="197" height="50"/>
+                                    <rect key="frame" x="197" y="0.0" width="197" height="60"/>
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                     <color key="tintColor" red="1" green="0.40448085480000001" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <state key="normal" title="[Button]"/>
                                     <buttonConfiguration key="configuration" style="plain" title="Turn On">
-                                        <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
+                                        <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="19"/>
                                         <color key="baseForegroundColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </buttonConfiguration>
                                     <connections>
@@ -81,7 +82,7 @@
                                 </button>
                             </subviews>
                             <constraints>
-                                <constraint firstAttribute="height" constant="50" id="uCf-GA-EKT"/>
+                                <constraint firstAttribute="height" constant="60" id="uCf-GA-EKT"/>
                             </constraints>
                         </stackView>
                     </subviews>
@@ -97,7 +98,7 @@
                         <constraint firstAttribute="trailing" secondItem="1gp-r2-h1d" secondAttribute="trailing" id="Vlk-7g-anA"/>
                         <constraint firstAttribute="width" relation="lessThanOrEqual" priority="900" constant="500" id="Y89-EE-TtG"/>
                         <constraint firstItem="1gp-r2-h1d" firstAttribute="leading" secondItem="0Mj-jC-BX6" secondAttribute="leading" id="ngv-8y-Eir"/>
-                        <constraint firstItem="1gp-r2-h1d" firstAttribute="top" secondItem="YST-yc-0HK" secondAttribute="bottom" constant="30" id="rd9-2A-aMU"/>
+                        <constraint firstItem="1gp-r2-h1d" firstAttribute="top" secondItem="YST-yc-0HK" secondAttribute="bottom" constant="25" id="rd9-2A-aMU"/>
                         <constraint firstItem="YST-yc-0HK" firstAttribute="top" secondItem="0Mj-jC-BX6" secondAttribute="top" constant="30" id="yRl-kK-cQH">
                             <variation key="widthClass=regular" constant="30"/>
                         </constraint>
