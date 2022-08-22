@@ -57,6 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         let token = tokenParts.joined()
         setGlobalDevicetoken(token: token)
+        print("Device Token: \(token)")
     }
 
     // MARK: UISceneSession Lifecycle

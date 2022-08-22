@@ -65,6 +65,11 @@ class PostAPITest: XCTestCase {
         XCTAssertTrue(posts[0].title == "hey")
     }
     
+    func testKeywordPosts() async throws {
+        let posts = try await PostAPI.fetchKeywordPosts()
+        XCTAssertTrue(posts == [])
+    }
+    
     // DELETE
     func testDeletePost() async throws {
         let post = try await PostAPI.createPost(title: "hey", text: "bro", locationDescription: "bruh", latitude: 0, longitude: 1.0, timestamp: 2.0, author: TestConstants.Auth.ID)

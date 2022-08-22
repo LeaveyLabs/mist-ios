@@ -28,6 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "47E74E1D27CA100000467A0C"
+               BuildableName = "mist-iosTests.xctest"
+               BlueprintName = "mist-iosTests"
+               ReferencedContainer = "container:mist-ios.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "47E74E2727CA100000467A0C"
+               BuildableName = "mist-iosUITests.xctest"
+               BlueprintName = "mist-iosUITests"
+               ReferencedContainer = "container:mist-ios.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
