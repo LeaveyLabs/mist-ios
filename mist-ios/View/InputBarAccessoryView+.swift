@@ -11,39 +11,39 @@ import InputBarAccessoryView
 extension InputBarAccessoryView {
     
     func configureForCommenting() {
-        shouldAnimateTextDidChangeLayout = true
+        shouldAnimateTextDidChangeLayout = false
         maxTextViewHeight = 110 //max of 3 lines with the given font
         inputTextView.keyboardType = .twitter
         inputTextView.placeholder = COMMENT_PLACEHOLDER_TEXT
-        inputTextView.font = UIFont(name: Constants.Font.Medium, size: 16) //from 17
-        inputTextView.placeholderLabel.font = UIFont(name: Constants.Font.Medium, size: 16) //from 17
-        inputTextView.placeholderTextColor = .systemGray
+//        inputTextView.font = UIFont(name: Constants.Font.Medium, size: 16) this is disregarded when using autocompleteManager
+        inputTextView.placeholderLabel.font = Comment.inputAttributes[.font] as? UIFont
+        inputTextView.placeholderTextColor = UIColor.systemGray2
 //        inputBar.backgroundView.backgroundColor = UIColor(hex: "F8F8F8")
 //        inputBar.shouldForceTextViewMaxHeight
         separatorLine.height = 0.5
+        separatorLine.backgroundColor = UIColor.systemGray3
         
         //Middle
-        inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 45)
-        inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 45)
-        inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-        inputTextView.layer.borderColor = UIColor.systemGray2.cgColor
+        inputTextView.textContainerInset = UIEdgeInsets(top: 9, left: 8, bottom: 8, right: 45)
+        inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 9, left: 12, bottom: 8, right: 45)
+        inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 9, left: 0, bottom: 8, right: 0)
+        inputTextView.layer.borderColor = UIColor.systemGray4.cgColor
         inputTextView.tintColor = Constants.Color.mistLilac
-        inputTextView.backgroundColor = .systemGray6
-        inputTextView.layer.borderWidth = 0.5
+//        inputTextView.backgroundColor = .systemGray6
+        inputTextView.layer.borderWidth = 1
         inputTextView.layer.cornerRadius = 16.0
         inputTextView.layer.masksToBounds = true
-        inputTextView.autocorrectionType = .no
+        inputTextView.autocorrectionType = .default
         middleContentViewPadding.right = -45 //extends the inputbar to the right
         
         //Right
         sendButton.title = "Post"
-        sendButton.setTitleColor(.lightGray, for: .disabled)
+        sendButton.setTitleColor(.clear, for: .disabled)
         sendButton.setTitleColor(Constants.Color.mistLilac, for: .normal)
         sendButton.setTitleColor(Constants.Color.mistLilac.withAlphaComponent(0.4), for: .highlighted)
         sendButton.setSize(CGSize(width: 45, height: 40), animated: false) //to increase height
         setRightStackViewWidthConstant(to: 45, animated: false)
         setStackViewItems([sendButton, InputBarButtonItem.fixedSpace(10)], forStack: .right, animated: false)
-        sendButton.isHidden = true
 
         //Left
         let inputAvatar = InputAvatar(frame: CGRect(x: 0, y: 0, width: 40, height: 40), profilePic: UserService.singleton.getProfilePic())
@@ -58,7 +58,7 @@ extension InputBarAccessoryView {
         separatorLine.height = 0
         
         //Center
-        inputTextView.layer.borderWidth = 0.5
+        inputTextView.layer.borderWidth = 1
         inputTextView.layer.borderColor = UIColor.systemGray4.cgColor
         inputTextView.tintColor = Constants.Color.mistLilac
         inputTextView.backgroundColor = .lightGray.withAlphaComponent(0.1)

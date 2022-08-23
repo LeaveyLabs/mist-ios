@@ -24,7 +24,7 @@ class CommentCell: UITableViewCell {
     @IBOutlet weak var authorProfilePicButton: UIButton!
 //    @IBOutlet weak var commentLabel: UILabel!
     @IBOutlet weak var commentTextView: LinkTextView!
-    @IBOutlet weak var backgroundBubbleView: UIView!
+//    @IBOutlet weak var backgroundBubbleView: UIView!
     @IBOutlet weak var timestampLabel: UILabel!
     
     //Information
@@ -41,8 +41,9 @@ class CommentCell: UITableViewCell {
         self.comment = comment
         self.commentDelegate = delegate
         self.author = author
+        self.separatorInset = .init(top: 0, left: 65, bottom: 0, right: 0)
         timestampLabel.text = getShortFormattedTimeString(timestamp: comment.timestamp)
-        authorUsernameButton.setTitle("@" + author.username, for: .normal)
+        authorUsernameButton.setTitle(author.username, for: .normal)
         UIView.performWithoutAnimation {
             authorProfilePicButton.imageView?.becomeProfilePicImageView(with: author.profilePic)
         }
@@ -75,7 +76,7 @@ class CommentCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        setupBubbleArrow()
+//        setupBubbleArrow()
     }
     
     //MARK: -User Interaction
@@ -86,13 +87,13 @@ class CommentCell: UITableViewCell {
     
     //MARK: -Setup
     
-    func setupBubbleArrow() {
-        let triangleView = UIView()
-        triangleView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
-        backgroundBubbleView.addSubview(triangleView)
-        backgroundBubbleView.sendSubviewToBack(triangleView)
-        backgroundBubbleView.becomeCommentView()
-    }
+//    func setupBubbleArrow() {
+//        let triangleView = UIView()
+//        triangleView.translatesAutoresizingMaskIntoConstraints = false //allows programmatic settings of constraints
+//        backgroundBubbleView.addSubview(triangleView)
+//        backgroundBubbleView.sendSubviewToBack(triangleView)
+//        backgroundBubbleView.becomeCommentView()
+//    }
     
 //    //https://stackoverflow.com/questions/30650343/triangle-uiview-swift
 //    func addLeftTriangleLayer(to triangleView: UIView) {

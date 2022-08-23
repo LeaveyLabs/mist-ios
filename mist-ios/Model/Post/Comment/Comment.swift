@@ -16,13 +16,16 @@ struct Comment: Codable {
     
     static let tagTextAttributes: [NSAttributedString.Key : Any] = [
 //        .font: UIFont.preferredFont(forTextStyle: .body),
-        .font: UIFont(name: Constants.Font.Medium, size: 16)!,
-        .foregroundColor: Constants.Color.mistPurple,
+        .font: UIFont(name: Constants.Font.Roman, size: 15)!,
+        .foregroundColor: UIColor(hex: "6D29C3"),
     ]
     
     static let normalTextAttributes: [NSAttributedString.Key : Any] = [
-//        .font: UIFont.preferredFont(forTextStyle: .body),
-        .font: UIFont(name: Constants.Font.Medium, size: 16)!,
+        .font: UIFont(name: Constants.Font.Roman, size: 15)!,
+        .foregroundColor: Constants.Color.mistBlack,
+    ]
+    static let inputAttributes: [NSAttributedString.Key : Any] = [
+        .font: UIFont(name: Constants.Font.Roman, size: 16)!,
         .foregroundColor: Constants.Color.mistBlack,
     ]
     

@@ -17,6 +17,9 @@ struct APIToken: Codable {
 // Error Formats
 struct EmailRegistrationError: Codable {
     let email: [String]?
+    // Errors
+    let non_field_errors: [String]?
+    let detail: String?
 }
 
 struct EmailValidationError: Codable {

@@ -125,7 +125,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
         tableView.dataSource = self
-        tableView.separatorStyle = .none
+        tableView.separatorStyle = .singleLine
         tableView.keyboardDismissMode = .interactive
         tableView.sectionFooterHeight = 50
 
@@ -157,6 +157,7 @@ extension PostViewController: InputBarAccessoryViewDelegate {
         requestPermissionToTextIfNecessary(autocompletions: commentAutocompletions, tags: tags) { [self] permission in
             guard permission else { return }
             DispatchQueue.main.async {
+                self.inputBar.sendButton.setTitleColor(Constants.Color.mistLilac.withAlphaComponent(0.4), for: .disabled)
                 self.inputBar.sendButton.isEnabled = false
 //              inputBar.inputTextView.isEditable = false
             }
@@ -168,6 +169,7 @@ extension PostViewController: InputBarAccessoryViewDelegate {
                 } catch {
                     CustomSwiftMessages.displayError(error)
                     DispatchQueue.main.async { [weak self] in
+                        self?.inputBar.sendButton.setTitleColor(.clear, for: .disabled)
                         self?.inputBar.sendButton.isEnabled = true
                         self?.inputBar.inputTextView.isEditable = true
                     }
@@ -193,7 +195,7 @@ extension PostViewController: InputBarAccessoryViewDelegate {
     @objc func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
         inputBar.inputTextView.placeholderLabel.isHidden = !inputBar.inputTextView.text.isEmpty
         processAutocompleteOnNextText(text)
-        inputBar.sendButton.isHidden = inputBar.inputTextView.text == ""
+        inputBar.sendButton.isEnabled = inputBar.inputTextView.text != ""
     }
     
     //MARK: - InputBar Helpers
@@ -268,7 +270,8 @@ extension PostViewController: InputBarAccessoryViewDelegate {
     func handleSuccessfulCommentSubmission(newComment: Comment) {
         inputBar.inputTextView.text = ""
         inputBar.invalidatePlugins()
-        inputBar.inputTextView.isEditable = true
+//        inputBar.inputTextView.isEditable = true //not needed righ tnow
+        inputBar.sendButton.setTitleColor(.clear, for: .disabled)
         inputBar.inputTextView.resignFirstResponder()
 //        post.commentcount += 1
         comments.append(newComment)
@@ -404,6 +407,10 @@ extension PostViewController: UITableViewDataSource {
         let comment = comments[indexPath.row-1]
         guard let commentAuthor = commentAuthors[comment.author] else { return cell }
         cell.configureCommentCell(comment: comment, delegate: self, author: commentAuthor)
+        let isLastComment = indexPath.row == comments.count
+        if isLastComment {
+            cell.separatorInset = .init(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+        }
         return cell
     }
     

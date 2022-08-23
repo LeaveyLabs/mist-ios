@@ -12,6 +12,7 @@ import MapKit
 struct Constants {
     struct Font {
         static let Light: String = "Avenir-Light"
+        static let Roman: String = "Avenir-Roman"
         static let Medium: String = "Avenir-Medium"
         static let Heavy: String = "Avenir-Heavy"
         static let Size: CGFloat = 20
