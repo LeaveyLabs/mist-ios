@@ -94,9 +94,10 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     //MARK: - TextField Delegate
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if isValidInput {
-            tryToContinue()
-        }
+        //people's thumbs get in the way
+//        if isValidInput {
+//            tryToContinue()
+//        }
         return false
     }
     

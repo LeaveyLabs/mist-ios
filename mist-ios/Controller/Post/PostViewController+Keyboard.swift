@@ -122,7 +122,7 @@ extension PostViewController {
     // MARK: - Private methods
     
     private func scrollToBottom() {
-        guard commentAuthors.count > 0 else { return } //tableView data has not yet loaded yet
+        guard !activityIndicator.isAnimating else { return } //tableView data has not yet loaded yet
         let bottom: NSIndexPath = IndexPath(row: tableView(tableView, numberOfRowsInSection: 0) - 1, section: 0) as NSIndexPath
         tableView.scrollToRow(at: bottom as IndexPath, at: .bottom, animated: true)
         

@@ -30,6 +30,7 @@ class PostCell: UITableViewCell {
         super.init(style: .default, reuseIdentifier: Constants.SBID.Cell.Post)
         
         selectionStyle = .none
+        separatorInset = .init(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
         
         postView = PostView()
         postView.translatesAutoresizingMaskIntoConstraints = false

@@ -23,7 +23,7 @@ enum APIError: Error, Equatable {
     public var errorDescription: String? {
         switch self {
         case .CouldNotConnect:
-            return NSLocalizedString("Something went wrong", comment: "")
+            return NSLocalizedString("Poor internet connection", comment: "")
         case .ServerError:
             return NSLocalizedString("Our servers are down", comment: "")
         case .ClientError(let errorDescription, _):

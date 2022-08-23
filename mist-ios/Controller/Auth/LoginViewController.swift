@@ -103,9 +103,10 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         if textField == usernameTextField {
             passwordTextField.becomeFirstResponder()
         } else {
-            if isValidInput {
-                tryToLogin()
-            }
+            //people's thumbs get in the way, so don't submit early
+//            if isValidInput {
+//                tryToLogin()
+//            }
         }
         return false
     }
