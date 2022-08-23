@@ -57,6 +57,8 @@ class CommentCell: UITableViewCell {
         
         let longTap = UILongPressGestureRecognizer(target: self, action: #selector(didLongPressComment))
         self.addGestureRecognizer(longTap)
+        let swipeLeftGesture = PanDirectionGestureRecognizer(axis: .horizontal, direction: .left, target: self, action: #selector(didLongPressComment))
+        self.addGestureRecognizer(swipeLeftGesture)
     }
     
     func setupVoteButton(_ votecount: Int) {
