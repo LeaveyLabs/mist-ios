@@ -57,6 +57,7 @@ struct Constants {
             static let NoConversations = "NoConversationsCell"
             static let MyProfile = "MyProfileCell"
             static let SimpleInput = "SimpleInputCell"
+            static let CommentHeaderCell = "CommentHeaderCell"
         }
         struct VC {
             //Post
