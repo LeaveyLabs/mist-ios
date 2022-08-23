@@ -505,7 +505,7 @@ extension ChatViewController: MessagesDisplayDelegate {
     }
         
     func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-        return isFromCurrentSender(message: message) ? .white : .lightGray.withAlphaComponent(0.25)
+        return isFromCurrentSender(message: message) ? .lightGray.withAlphaComponent(0.2) : .white
     }
     
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
@@ -523,12 +523,12 @@ extension ChatViewController: MessagesDisplayDelegate {
         return .custom { view in
             guard let messageLabel = view.subviews[0] as? MessageLabel else { return }
             if self.isFromCurrentSender(message: message) {
-                view.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
-                view.layer.borderWidth = 1
-                messageLabel.center = CGPoint(x: messageLabel.center.x, y: messageLabel.center.y)
-            } else {
                 view.layer.borderColor = UIColor.clear.cgColor
                 view.layer.borderWidth = 0
+                messageLabel.center = CGPoint(x: messageLabel.center.x, y: messageLabel.center.y)
+            } else {
+                view.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+                view.layer.borderWidth = 1
                 messageLabel.center = CGPoint(x: messageLabel.center.x - 3, y: messageLabel.center.y)
             }
             
