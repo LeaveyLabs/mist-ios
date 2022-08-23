@@ -41,9 +41,9 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         willSet {
             animatesWhenAdded = true
             canShowCallout = false
-            glyphImage = UIImage(named: "mist-heart-pink-padded")
+            glyphImage = UIImage(named: "dropicon_white")
             glyphTintColor = .white
-            markerTintColor = mistUIColor()
+            markerTintColor = Constants.Color.mistLilac
             displayPriority = .required
 //            clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
         }
@@ -73,14 +73,14 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         super.setSelected(selected, animated: animated)
 
         if selected {
-            glyphTintColor = mistUIColor()
-            markerTintColor = mistSecondaryUIColor()
+            glyphTintColor = Constants.Color.mistLilac
+            markerTintColor = Constants.Color.mistPink
             if let postCalloutView = postCalloutView {
                 postCalloutView.removeFromSuperview() // This shouldn't be needed, but just in case
             }
         } else {
             glyphTintColor = .white
-            markerTintColor = mistUIColor()
+            markerTintColor = Constants.Color.mistLilac
             endEditing(true)
             if let postCalloutView = postCalloutView {
                 postCalloutView.fadeOut(duration: 0.25, delay: 0, completion: { Bool in

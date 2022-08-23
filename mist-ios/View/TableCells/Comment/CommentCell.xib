@@ -17,21 +17,21 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PKG-OD-T7w">
-                        <rect key="frame" x="65" y="22" width="215.5" height="69"/>
+                        <rect key="frame" x="65" y="22" width="204.5" height="69"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="omg so cute @kevinsun did you dm them" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cd9-6T-PPr">
-                                <rect key="frame" x="12" y="8" width="191.5" height="55"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="Omg this is so cute @adam" translatesAutoresizingMaskIntoConstraints="NO" id="3aT-vI-aN2" customClass="LinkTextView" customModule="mist_ios" customModuleProvider="target">
+                                <rect key="frame" x="5" y="1" width="194.5" height="68"/>
+                                <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
-                            <constraint firstItem="cd9-6T-PPr" firstAttribute="leading" secondItem="PKG-OD-T7w" secondAttribute="leading" constant="12" id="79o-Wu-2Qj"/>
-                            <constraint firstItem="cd9-6T-PPr" firstAttribute="top" secondItem="PKG-OD-T7w" secondAttribute="top" constant="8" id="R4j-Rg-Ia6"/>
-                            <constraint firstAttribute="trailing" secondItem="cd9-6T-PPr" secondAttribute="trailing" constant="12" id="g1L-Kx-Wto"/>
-                            <constraint firstAttribute="bottom" secondItem="cd9-6T-PPr" secondAttribute="bottom" constant="6" id="g7x-qB-xma"/>
+                            <constraint firstItem="3aT-vI-aN2" firstAttribute="top" secondItem="PKG-OD-T7w" secondAttribute="top" constant="1" id="9Qn-O2-Yjc"/>
+                            <constraint firstAttribute="trailing" secondItem="3aT-vI-aN2" secondAttribute="trailing" constant="5" id="QMV-H7-25G"/>
+                            <constraint firstAttribute="bottom" secondItem="3aT-vI-aN2" secondAttribute="bottom" id="SVe-pD-B7Q"/>
+                            <constraint firstItem="3aT-vI-aN2" firstAttribute="leading" secondItem="PKG-OD-T7w" secondAttribute="leading" constant="5" id="vf9-aZ-wy3"/>
                         </constraints>
                     </view>
                     <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="NxU-m6-kFX">
@@ -81,18 +81,18 @@
                     <constraint firstItem="PKG-OD-T7w" firstAttribute="leading" secondItem="IXa-b6-del" secondAttribute="trailing" constant="8" id="ATR-kg-C3s"/>
                     <constraint firstItem="NxU-m6-kFX" firstAttribute="top" secondItem="41s-gV-vCI" secondAttribute="top" constant="3" id="FCm-Lz-N1v"/>
                     <constraint firstItem="IXa-b6-del" firstAttribute="leading" secondItem="41s-gV-vCI" secondAttribute="leading" constant="15" id="TYD-BM-unK"/>
+                    <constraint firstItem="NxU-m6-kFX" firstAttribute="leading" secondItem="PKG-OD-T7w" secondAttribute="leading" constant="2" id="Xyk-7Y-gI5"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="PKG-OD-T7w" secondAttribute="trailing" constant="22" id="cq8-sj-h09"/>
                     <constraint firstItem="PKG-OD-T7w" firstAttribute="top" secondItem="NxU-m6-kFX" secondAttribute="bottom" constant="-1" id="eEe-ya-WbB"/>
                     <constraint firstAttribute="bottom" secondItem="PKG-OD-T7w" secondAttribute="bottom" constant="15" id="hXY-9y-dWQ"/>
                     <constraint firstItem="IXa-b6-del" firstAttribute="top" secondItem="PKG-OD-T7w" secondAttribute="top" constant="-8" id="nXw-hW-SFm"/>
-                    <constraint firstItem="NxU-m6-kFX" firstAttribute="leading" secondItem="cd9-6T-PPr" secondAttribute="leading" constant="-10" id="oVj-th-1Yo"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="authorProfilePicButton" destination="IXa-b6-del" id="wZv-sK-n11"/>
                 <outlet property="authorUsernameButton" destination="OeR-EL-HNX" id="OOY-lz-OyF"/>
                 <outlet property="backgroundBubbleView" destination="PKG-OD-T7w" id="wWN-Q2-USK"/>
-                <outlet property="commentLabel" destination="cd9-6T-PPr" id="K0l-7H-BeQ"/>
+                <outlet property="commentTextView" destination="3aT-vI-aN2" id="mTL-yq-t0O"/>
                 <outlet property="timestampLabel" destination="gAP-XP-bhf" id="ehF-CG-b2s"/>
             </connections>
             <point key="canvasLocation" x="-68.115942028985515" y="14.0625"/>
@@ -101,6 +101,9 @@
     <resources>
         <image name="adam" width="893" height="880"/>
         <image name="circle.fill" catalog="system" width="128" height="121"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

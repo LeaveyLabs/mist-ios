@@ -17,6 +17,17 @@ struct Constants {
         static let Size: CGFloat = 20
     }
     
+    struct Color {
+        static let mistPink = UIColor.init(named: "mist-pink")!
+        static let mistLilac = UIColor.init(named: "mist-lilac")!
+        static let mistPurple = UIColor.init(named: "mist-purple")!
+        static let mistNight = UIColor.init(named: "mist-night")!
+        static let mistBlack = UIColor.init(named: "mist-black")!
+    }
+    
+    static let profilePicConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .unspecified)
+    static let defaultProfilePic = UIImage(systemName: "person.crop.circle", withConfiguration: Constants.profilePicConfig)!
+        
     static let maxPasswordLength = 1000
     
     struct Coordinates {
@@ -90,6 +101,8 @@ struct Constants {
             static let SetupTime = "SetupTimeViewController"
             static let EnterBios = "EnterBiosViewController"
             static let FinishProfile = "FinishProfileViewController"
+            static let EnterNumber = "EnterNumberViewController"
+            static let ConfirmNumber = "ConfirmNumberViewController"
             //Reset password
             static let RequestResetPassword = "RequestResetPasswordViewController"
             static let ValidateResetPassword = "ValidateResetPasswordViewController"

@@ -13,13 +13,26 @@ let DUMMY_COMMENT_TIMESTAMP: Double = 0.0
 let DUMMY_COMMENT_USERNAME: String = ""
 
 struct Comment: Codable {
+    
+    static let tagTextAttributes: [NSAttributedString.Key : Any] = [
+//        .font: UIFont.preferredFont(forTextStyle: .body),
+        .font: UIFont(name: Constants.Font.Medium, size: 16)!,
+        .foregroundColor: Constants.Color.mistPurple,
+    ]
+    
+    static let normalTextAttributes: [NSAttributedString.Key : Any] = [
+//        .font: UIFont.preferredFont(forTextStyle: .body),
+        .font: UIFont(name: Constants.Font.Medium, size: 16)!,
+        .foregroundColor: Constants.Color.mistBlack,
+    ]
+    
     let id: Int
     let body: String
     let timestamp: Double
     let post: Int
     let author: Int
     let read_only_author: ReadOnlyUser
-    let tags: [Tag]?
+    let tags: [Tag]
     
     // Used when creating a comment
     init(id: Int = DUMMY_COMMENT_ID,
@@ -33,5 +46,16 @@ struct Comment: Codable {
         self.author = UserService.singleton.getId()
         self.read_only_author = UserService.singleton.getUserAsReadOnlyUser()
         self.tags = []
+    }
+    
+    //Used when creating a comment with recently received tags
+    init(comment: Comment, tags: [Tag]) {
+        self.id = comment.id
+        self.body = comment.body
+        self.timestamp = comment.timestamp
+        self.post = comment.post
+        self.author = comment.author
+        self.read_only_author = comment.read_only_author
+        self.tags = tags
     }
 }

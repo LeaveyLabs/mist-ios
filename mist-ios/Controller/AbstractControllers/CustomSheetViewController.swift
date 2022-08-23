@@ -41,12 +41,8 @@ class CustomSheetViewController: UIViewController, UIViewControllerTransitioning
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        containingView.layer.cornerRadius = 10
-        //containingView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner] // Only curve top corners
-        
         view.layer.cornerRadius = 15
-        
+        view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner] // Only curve top corners
         modalPresentationStyle = .custom
         transitioningDelegate = self
     }

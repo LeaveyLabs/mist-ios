@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum APIError: Error {
+enum APIError: Error, Equatable {
     
     case CouldNotConnect
     case ServerError
@@ -23,7 +23,7 @@ enum APIError: Error {
     public var errorDescription: String? {
         switch self {
         case .CouldNotConnect:
-            return NSLocalizedString("Poor internet connection", comment: "")
+            return NSLocalizedString("Something went wrong", comment: "")
         case .ServerError:
             return NSLocalizedString("Our servers are down", comment: "")
         case .ClientError(let errorDescription, _):

@@ -14,14 +14,46 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="landingpage_lessgradient" translatesAutoresizingMaskIntoConstraints="NO" id="q6Z-n0-zZb">
+                                <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mistlogo_white_nameandslogan" translatesAutoresizingMaskIntoConstraints="NO" id="wgg-za-GTS">
+                                <rect key="frame" x="89" y="347.66666666666669" width="250" height="131"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="hL3-G6-IT2"/>
+                                </constraints>
+                            </imageView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="DXr-HJ-PIo">
+                                <rect key="frame" x="204" y="488.66666666666669" width="20" height="20"/>
+                                <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="q6Z-n0-zZb" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="5Cj-nL-qHE"/>
+                            <constraint firstItem="q6Z-n0-zZb" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="O7c-fW-ozM"/>
+                            <constraint firstItem="DXr-HJ-PIo" firstAttribute="top" secondItem="wgg-za-GTS" secondAttribute="bottom" constant="10" id="Os3-1g-u72"/>
+                            <constraint firstItem="DXr-HJ-PIo" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="TrS-TX-unr"/>
+                            <constraint firstAttribute="bottom" secondItem="q6Z-n0-zZb" secondAttribute="bottom" id="hb1-16-Sxr"/>
+                            <constraint firstItem="wgg-za-GTS" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-50" id="lOK-5J-mZQ"/>
+                            <constraint firstItem="wgg-za-GTS" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="mnh-uX-tkV"/>
+                            <constraint firstAttribute="trailing" secondItem="q6Z-n0-zZb" secondAttribute="trailing" id="vZ1-UI-78N"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="DXr-HJ-PIo" id="FdX-R4-aQC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-883.17757009345792" y="340.82073434125272"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="landingpage_lessgradient" width="471" height="1019"/>
+        <image name="mistlogo_white_nameandslogan" width="356" height="131"/>
+    </resources>
 </document>

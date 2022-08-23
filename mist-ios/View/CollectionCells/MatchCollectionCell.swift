@@ -44,14 +44,14 @@ class MatchCollectionCell: UICollectionViewCell {
 
         //the matchRequest.post is nil if the post was deleted upon load in
         //PostService.singleton.getPost is nil if the post was deleted during user's session
-        if let postId = messageKitMatch.matchRequest.post, let _ = PostService.singleton.getPost(withPostId: postId) {
+        let isPlaceholderMatchRequest = messageKitMatch.matchRequest.id == MatchRequest.PLACEHOLDER_ID
+        if let postId = messageKitMatch.matchRequest.post, let _ = PostService.singleton.getPost(withPostId: postId), !isPlaceholderMatchRequest {
             moreIndicator.isHidden = false
             bgView.gestureRecognizers?.forEach({ $0.isEnabled = true })
         } else {
             moreIndicator.isHidden = true
             bgView.gestureRecognizers?.forEach({ $0.isEnabled = false })
             
-            let isPlaceholderMatchRequest = messageKitMatch.matchRequest.id == MatchRequest.PLACEHOLDER_ID
             if !isPlaceholderMatchRequest {
                 titleLabel.text = MatchRequest.DELETED_POST_TITLE
             }

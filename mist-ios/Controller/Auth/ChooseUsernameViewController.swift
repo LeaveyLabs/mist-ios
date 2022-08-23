@@ -120,6 +120,6 @@ class ChooseUsernameViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func validateInput() {
-        isValidInput = usernameTextField.text!.count > 3
+        isValidInput = Validate.validateUsername(usernameTextField.text ?? "")
     }
 }

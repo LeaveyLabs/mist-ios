@@ -10,7 +10,7 @@ import SwiftMessages
 import MapKit
 
 enum PermissionType {
-    case userLocation
+    case userLocation, notifications, contacts
 }
 
 //MARK: Errors
@@ -140,24 +140,37 @@ extension CustomSwiftMessages {
 
 extension CustomSwiftMessages {
     
-    static func showPermissionRequest(permissionType: PermissionType, onApprove: @escaping () -> Void) {
+    static func showPermissionRequest(permissionType: PermissionType, onResponse: @escaping (Bool) -> Void) {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
 
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
             
-            var title, body: String
+            var title, body, emoji: String
             switch permissionType {
             case .userLocation:
                 title = "Would you like to share your current location?"
                 body = "This makes finding and submitting mists even easier"
+                emoji = "📍"
+                messageView.customConfig(approveText: "Let's do it", dismissText: "No thanks")
+            case .contacts:
+                title = "Share your contacts for better tagging"
+                body = "If you tag a friend who doesn't have Mist, we'll shoot them a text."
+                emoji = "📞"
+                messageView.customConfig(approveText: "Share", dismissText: "Nah")
+            case .notifications:
+                title = "Would you like to turn on notifications?"
+                body = "Get notified about incoming DMs and mists which might be about you."
+                emoji = ""
+                messageView.customConfig(approveText: "Of course", dismissText: "No, I'd rather miss out")
             }
-            messageView.configureContent(title: title, body: body, iconText: "📍")
+            messageView.configureContent(title: title, body: body, iconText: emoji)
             messageView.approveAction = {
                 SwiftMessages.hide()
-                onApprove()
+                onResponse(true)
             }
             messageView.dismissAction = {
                 SwiftMessages.hide()
+                onResponse(false)
             }
             
             messageView.configureBackgroundView(width: 300)

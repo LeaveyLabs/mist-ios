@@ -56,7 +56,7 @@ class UserAPI {
     static let LATITUDE_PARAM = "latitude"
     static let LONGITUDE_PARAM = "longitude"
     
-    static let USER_RECOVERY_MESSAGE = "Please try again."
+    static let USER_RECOVERY_MESSAGE = "Please try again later"
     
     static func throwAPIError(error: UserError) throws {
         if let emailErrors = error.email,
@@ -273,17 +273,18 @@ class UserAPI {
     
     static func UIImageFromURLString(url:String?) async throws -> UIImage {
         guard let url = url else {
-            return UIImage(systemName: "person.crop.circle")!
+            return Constants.defaultProfilePic
         }
 
         let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterUserErrors(data: data, response: response)
-        return UIImage(data: data) ?? UIImage(systemName: "person.crop.circle")!
+        return UIImage(data: data) ?? Constants.defaultProfilePic
     }
     
     //MARK: - Batch Calls
     
     static func batchFetchUsersFromUserIds(_ userIds: Set<Int>) async throws -> [Int: ReadOnlyUser] {
+        guard userIds.count > 0 else { return [:] }
       var users: [Int: ReadOnlyUser] = [:]
       try await withThrowingTaskGroup(of: (Int, ReadOnlyUser).self) { group in
         for userId in userIds {
@@ -299,7 +300,13 @@ class UserAPI {
       return users
     }
     
+    static func turnUserIntoFrontendUser(_ user: ReadOnlyUser) async throws -> FrontendReadOnlyUser {
+        return FrontendReadOnlyUser(readOnlyUser: user,
+                                    profilePic: try await UIImageFromURLString(url: user.picture))
+    }
+    
     static func batchTurnUsersIntoFrontendUsers(_ users: [ReadOnlyUser]) async throws -> [Int: FrontendReadOnlyUser] {
+        guard users.count > 0 else { return [:] }
         var frontendUsers: [Int: FrontendReadOnlyUser] = [:]
         try await withThrowingTaskGroup(of: (Int, FrontendReadOnlyUser).self) { group in
           for user in users {
@@ -316,7 +323,8 @@ class UserAPI {
     }
     
     static func batchFetchProfilePicsForPicPaths(_ picPaths: [Int: String]) async throws -> [Int: UIImage] {
-      var thumbnails: [Int: UIImage] = [:]
+        guard picPaths.count > 0 else { return [:] }
+        var thumbnails: [Int: UIImage] = [:]
       try await withThrowingTaskGroup(of: (Int, UIImage).self) { group in
           for (userId, picPath) in picPaths {
               group.addTask {

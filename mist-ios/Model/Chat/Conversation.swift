@@ -175,11 +175,11 @@ extension Conversation: Comparable {
     
     //The first conversations should be the ones with the largest dates
     static func < (lhs: Conversation, rhs: Conversation) -> Bool {
-        return lhs.chatObjects.last!.sentDate > rhs.chatObjects.last!.sentDate
+        return lhs.chatObjects.last?.sentDate ?? Date() > rhs.chatObjects.last?.sentDate ?? Date()
     }
     
     static func == (lhs: Conversation, rhs: Conversation) -> Bool {
-        return lhs.chatObjects.last!.sentDate == rhs.chatObjects.last!.sentDate
+        return lhs.chatObjects.last?.sentDate == rhs.chatObjects.last?.sentDate
     }
 
 }

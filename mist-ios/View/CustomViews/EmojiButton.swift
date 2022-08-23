@@ -31,7 +31,7 @@ class EmojiButton: UIButton {
     override var isSelected: Bool {
         didSet {
             layer.shadowOpacity = isSelected ? 0.2 : 0
-            backgroundColor = isSelected ? mistSecondaryUIColor() : nil
+            backgroundColor = isSelected ? Constants.Color.mistPink : nil
         }
     }
     
@@ -64,6 +64,11 @@ class EmojiButton: UIButton {
 //EmojiTextField is the text field which is linked to ReactButton (not emoji button) which summons the emoji keyboard
 
 class EmojiTextField: UITextField {
+    
+    var canResign = true
+    override var canResignFirstResponder: Bool {
+        return canResign
+    }
     
     // required for iOS 13
     override var textInputContextIdentifier: String? { "" } // return non-nil to show the Emoji keyboard ¯\_(ツ)_/¯

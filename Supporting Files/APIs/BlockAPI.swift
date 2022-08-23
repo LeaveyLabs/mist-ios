@@ -21,7 +21,7 @@ class BlockAPI {
     static let BLOCKING_USER_PARAM = "blocking_user"
     static let BLOCKED_USER_PARAM = "blocked_user"
     // Error Recovery Messages
-    static let BLOCK_RECOVERY_MESSAGE = "Please try again."
+    static let BLOCK_RECOVERY_MESSAGE = "Please try again later"
     
     static func filterBlockErrors(data:Data, response:HTTPURLResponse) throws {
         let statusCode = response.statusCode

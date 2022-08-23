@@ -31,7 +31,7 @@ class PostAPI {
     static let LOC_DESCRIPTION_PARAM = "location_description"
     static let AUTHOR_PARAM = "author"
     
-    static let POST_RECOVERY_MESSAGE = "Please try again."
+    static let POST_RECOVERY_MESSAGE = "Please try again"
     
     static func filterPostErrors(data:Data, response:HTTPURLResponse) throws {
         let statusCode = response.statusCode

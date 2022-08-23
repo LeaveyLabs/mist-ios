@@ -33,7 +33,8 @@ protocol CompleteUserBackendProperties: Equatable {
 
 //MARK: - Structs
 
-struct ReadOnlyUser: Codable, ReadOnlyUserBackendProperties {
+struct ReadOnlyUser: Codable, ReadOnlyUserBackendProperties, Hashable {
+        
     let id: Int
     let username: String
     let first_name: String
@@ -42,11 +43,13 @@ struct ReadOnlyUser: Codable, ReadOnlyUserBackendProperties {
     
     //Equatable
     static func == (lhs: ReadOnlyUser, rhs: ReadOnlyUser) -> Bool { return lhs.id == rhs.id }
+    //Hashable
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
 }
 
 // Does not need to be codable, because we're not encoding other user information onto one's device
 struct FrontendReadOnlyUser: ReadOnlyUserBackendProperties, SenderType, Hashable {
-
+    
     // ReadOnlyUserBackendProperties
     let id: Int
     let username: String
@@ -55,7 +58,9 @@ struct FrontendReadOnlyUser: ReadOnlyUserBackendProperties, SenderType, Hashable
     let picture: String?
 
     // Frontend-only properties
-    let first_last: String
+    var full_name: String {
+        return first_name + " " + last_name
+    }
     let profilePic: UIImage
     let blurredPic: UIImage
     
@@ -70,13 +75,14 @@ struct FrontendReadOnlyUser: ReadOnlyUserBackendProperties, SenderType, Hashable
         self.last_name = readOnlyUser.last_name
         self.picture = readOnlyUser.picture
         
-        self.first_last = first_name + " " + last_name
         self.profilePic = profilePic
         self.blurredPic = blurredPic == nil ? profilePic.blur() : blurredPic!
     }
     
     //Equatable
     static func == (lhs: FrontendReadOnlyUser, rhs: FrontendReadOnlyUser) -> Bool { return lhs.id == rhs.id }
+    //Hashable
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
 }
 
 struct CompleteUser: Codable, CompleteUserBackendProperties {
@@ -112,6 +118,10 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
     let longitude: Double?
     let keywords: [String]
     
+    var full_name: String {
+        return first_name + " " + last_name
+    }
+    
     // Frontend-only properties
     var profilePicWrapper: ProfilePicWrapper
     var token: String
@@ -141,6 +151,7 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
         self.sex = completeUser.sex
         self.latitude = completeUser.latitude
         self.longitude = completeUser.longitude
+        self.keywords = completeUser.keywords
         
         self.profilePicWrapper = profilePic
         self.token = token
@@ -148,4 +159,6 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
     
     //Equatable
     static func == (lhs: FrontendCompleteUser, rhs: FrontendCompleteUser) -> Bool { return lhs.id == rhs.id }
+    
+    static let nilUser = FrontendCompleteUser(completeUser: CompleteUser(id: 0, username: "", first_name: "", last_name: "", picture: "", email: "", date_of_birth: "", sex: "", latitude: 0, longitude: 0, keywords: []), profilePic: ProfilePicWrapper(image: Constants.defaultProfilePic, withCompresssion: false), token: "")
 }

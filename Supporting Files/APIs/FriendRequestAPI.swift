@@ -21,7 +21,7 @@ class FriendRequestAPI {
     static let SENDER_PARAM = "friend_requesting_user"
     static let RECEIVER_PARAM = "friend_requested_user"
     
-    static let FRIEND_REQUEST_RECOVERY_MESSAGE = "Please try again."
+    static let FRIEND_REQUEST_RECOVERY_MESSAGE = "Please try again later"
     
     static func filterFriendRequestErrors(data: Data, response: HTTPURLResponse) throws {
         let statusCode = response.statusCode

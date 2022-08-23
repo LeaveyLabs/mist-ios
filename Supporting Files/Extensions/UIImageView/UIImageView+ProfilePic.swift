@@ -9,7 +9,7 @@ import Foundation
 
 extension UIImageView {
     
-    func becomeProfilePicImageView(with profilePic: UIImage) {
+    func becomeProfilePicImageView(with profilePic: UIImage?) {
         image = profilePic
         contentMode = .scaleAspectFill
         becomeRound()

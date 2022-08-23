@@ -15,24 +15,27 @@ class Env {
     
     #if DEV
     static let environment: EnvType = .dev
-    static let LAUNCH_ANIMATION_DELAY: Double = 0
-    static let LAUNCH_ANIMATION_DURATION: Double = 0
+    static let TRANSITION_TO_AUTH_DURATION: Double = 1
+    static let TRANSITION_TO_HOME_DURATION: Double = 1.5
     static let BASE_URL: String = "https://mist-backend-test.herokuapp.com/"
     static let CHAT_URL: String = "wss://mist-chat-test.herokuapp.com/"
+    static let Timeout_Duration: Double = 60
     #elseif DEBUG
     static let environment: EnvType = .dev
-    static let LAUNCH_ANIMATION_DELAY: Double = 0
-    static let LAUNCH_ANIMATION_DURATION: Double = 0
+    static let TRANSITION_TO_AUTH_DURATION: Double = 1
+    static let TRANSITION_TO_HOME_DURATION: Double = 1.5
     static let BASE_URL: String = "https://mist-backend-test.herokuapp.com/"
     static let CHAT_URL: String = "wss://mist-chat-test.herokuapp.com/"
+    static let Timeout_Duration: Double = 60
 //    #if DEBUG
     //^there's also the option for debug/release flags for more specificity within each environment
     #else
     static let environment: EnvType = .prod
-    static let LAUNCH_ANIMATION_DELAY: Double = 1.2
-    static let LAUNCH_ANIMATION_DURATION: Double = 0.7
+    static let TRANSITION_TO_AUTH_DURATION: Double = 1
+    static let TRANSITION_TO_HOME_DURATION: Double = 1.5
     static let BASE_URL: String = "https://mist-backend.herokuapp.com/"
     static let CHAT_URL: String = "wss://mist-chat.herokuapp.com/"
+    static let Timeout_Duration: Double = 8
     #endif
 }
 

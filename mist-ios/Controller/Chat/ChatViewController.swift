@@ -30,6 +30,17 @@ class ChatViewController: MessagesViewController {
     
     //MARK: - Propreties
     
+    //We are using the subview rather than the first responder approach
+    override var canBecomeFirstResponder: Bool { return false }
+    
+    override var inputAccessoryView: UIView?{
+        return nil //this should be "messageInputBar" according to the docs, but then i was dealing with other problems. Instead, i just increased the bottom tableview inset by 43 points. The problem: when dismissing the chat view, the bottom message scrolls behind the keyboard. That's a downside im willing to take right now
+    }
+    let inputBar = InputBarAccessoryView()
+    let keyboardManager = KeyboardManager()
+    
+    var viewHasAppeared = false
+
     let INPUTBAR_PLACEHOLDER = "Message"
     let MAX_MESSAGE_LENGTH = 999
     
@@ -109,19 +120,51 @@ class ChatViewController: MessagesViewController {
             setupWhenPresentedFromPost()
         }
         
+        //Keyboard manager from InputBarAccessoryView
+        addKeyboardObservers()
+//        view.addSubview(messageInputBar)
+//        keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
+//        keyboardManager.bind(inputAccessoryView: messageInputBar) //properly positions inputAccessoryView
+//        keyboardManager.bind(to: messagesCollectionView) //enables interactive dismissal
+////        messagesCollectionView.insetsLayoutMarginsFromSafeArea
+//        messagesCollectionView.contentInset.bottom = 80
+//        keyboardManager.on(event: .willShow) { [self] notification in
+//        }
+//        keyboardManager.on(event: .willHide) { [self] notification in
+//            messagesCollectionView.insets = 55 + (window?.safeAreaInsets.bottom ?? 0)
+//        }
+        
         DispatchQueue.main.async { //scroll on the next cycle so that collectionView's data is loaded in beforehand
             self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
         }
+        
+        navigationController?.fullscreenInteractivePopGestureRecognizer(delegate: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController!.setNavigationBarHidden(true, animated: animated)
-        self.messagesCollectionView.reloadData()
+        print("CHAT VIEW WILL APPEAR")
+        messagesCollectionView.reloadDataAndKeepOffset()
+        if !inputBar.inputTextView.canBecomeFirstResponder {
+            inputBar.inputTextView.canBecomeFirstResponder = true //bc we set to false in viewdiddisappear
+        }
+    }
+        
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewHasAppeared = true
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        inputBar.inputTextView.resignFirstResponder()
+        inputBar.inputTextView.canBecomeFirstResponder = false //so it doesnt become first responder again if the swipe back gesture is cancelled halfway through
+//        UIView.animate(withDuration: 0.3, delay: 0) { [self] in
+//            messagesCollectionView.contentInset = .init(top: 0, left: 0, bottom: additionalBottomInset, right: 0)
+//        }
+
         //if is pushing a view controller
         if !self.isAboutToClose {
             navigationController?.setNavigationBarHidden(false, animated: animated)
@@ -129,16 +172,22 @@ class ChatViewController: MessagesViewController {
         }
     }
     
-    var viewHasAppeared = false
-        
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        viewHasAppeared = true
-    }
-    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         viewHasAppeared = false
+        disableInteractivePopGesture()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if isPresentedFromPost {
+            inputBar.inputTextView.becomeFirstResponder()
+        }
+    }
+    
+    //(2 of 2) Enable swipe left to go back with a bar button item
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
     //MARK: - Setup
@@ -149,7 +198,6 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
         messagesCollectionView.delegate = self
-        messageInputBar.delegate = self
                 
         let matchNib = UINib(nibName: String(describing: MatchCollectionCell.self), bundle: nil)
         messagesCollectionView.register(matchNib, forCellWithReuseIdentifier: String(describing: MatchCollectionCell.self))
@@ -160,9 +208,8 @@ class ChatViewController: MessagesViewController {
         if conversation.hasRenderedAllChatObjects() { refreshControl.removeFromSuperview() }
         
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
-//        maintainPositionOnKeyboardFrameChanged = true // default false. this was causing a weird snap when scrolling the keyboard down
         showMessageTimestampOnSwipeLeft = true // default false
-        additionalBottomInset = 8
+//        additionalBottomInset = 55 + (window?.safeAreaInsets.bottom ?? 0)
     }
     
     func setupCustomNavigationBar() {
@@ -182,54 +229,19 @@ class ChatViewController: MessagesViewController {
     
     func setupWhenPresentedFromPost() {
         xButton.setImage(UIImage(systemName: "xmark"), for: .normal)
-        
-        //We want to start with the messageInputBar's textView as first responder
-        //But for some reason, without this delay, self (the VC) remains the first responder
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.messageInputBar.inputTextView.becomeFirstResponder()
-        }
     }
     
     func setupMessageInputBarForChatting() {
-        //iMessage
-        messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 36)
-        messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 36)
-        if #available(iOS 13, *) {
-            messageInputBar.inputTextView.layer.borderColor = UIColor.systemGray2.withAlphaComponent(0.8).cgColor
-        } else {
-            messageInputBar.inputTextView.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.8).cgColor
-        }
-        messageInputBar.inputTextView.font = UIFont(name: Constants.Font.Medium, size: 17)
-        messageInputBar.inputTextView.backgroundColor = .lightGray.withAlphaComponent(0.1)
-        messageInputBar.inputTextView.layer.borderWidth = 0.5
-        messageInputBar.inputTextView.layer.cornerRadius = 16.0
-        messageInputBar.inputTextView.layer.masksToBounds = true
-        messageInputBar.inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-        messageInputBar.setRightStackViewWidthConstant(to: 38, animated: false)
-        messageInputBar.setStackViewItems([messageInputBar.sendButton, InputBarButtonItem.fixedSpace(2)], forStack: .right, animated: false)
-        messageInputBar.sendButton.contentEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 4, right: 2)
-        messageInputBar.sendButton.setSize(CGSize(width: 36, height: 36), animated: false)
-        messageInputBar.sendButton.setImage(UIImage(named: "enabled-send-button"), for: .normal)
-        messageInputBar.sendButton.title = nil
-        messageInputBar.sendButton.becomeRound()
-        messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
-        messageInputBar.shouldAnimateTextDidChangeLayout = true
-        
-        messageInputBar.middleContentViewPadding.right = -38
+        inputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
+        inputBar.configureForChatting()
+        inputBar.delegate = self
+        inputBar.inputTextView.delegate = self //does this cause issues? i'm not entirely sure
     }
     
     func setupMessageInputBarForChatPrompt() {
         let joinChatView = WantToChatView()
         joinChatView.configure(firstName: conversation.sangdaebang.first_name, delegate: self)
-        
-        messageInputBar.layer.shadowColor = UIColor.black.cgColor
-        messageInputBar.layer.shadowRadius = 4
-        messageInputBar.layer.shadowOpacity = 0.3
-        messageInputBar.layer.shadowOffset = CGSize(width: 0, height: 0)
-        messageInputBar.separatorLine.isHidden = true
-        messageInputBar.setRightStackViewWidthConstant(to: 0, animated: false)
-        
-        messageInputBar.setMiddleContentView(joinChatView, animated: false)
+        inputBar.configureForChatPrompt(chatView: joinChatView)
     }
     
     //MARK: - User Interaction
@@ -240,7 +252,7 @@ class ChatViewController: MessagesViewController {
     
     func customDismiss() {
         if isPresentedFromPost {
-            messageInputBar.inputTextView.resignFirstResponder()
+            inputBar.inputTextView.resignFirstResponder()
             self.resignFirstResponder() //to prevent the inputAccessory from staying on the screen after dismiss
             self.dismiss(animated: true)
             if conversation.messageThread.server_messages.isEmpty {
@@ -276,7 +288,7 @@ class ChatViewController: MessagesViewController {
     
     @IBAction func moreButtonDidTapped(_ sender: UIButton) {
         let moreVC = ChatMoreViewController.create(sangdaebangId: conversation.sangdaebang.id, delegate: self)
-//        messageInputBar.inputTextView.resignFirstResponder() //we need a "resign first responder and keep offset" function
+//        inputBar.inputTextView.resignFirstResponder() //we need a "resign first responder and keep offset" function
         present(moreVC, animated: true)
     }
     
@@ -309,6 +321,7 @@ class ChatViewController: MessagesViewController {
         }
         return super.collectionView(collectionView, cellForItemAt: indexPath)
     }
+    
 }
 
 //MARK: - MessagesDataSource
@@ -342,20 +355,30 @@ extension ChatViewController: MessagesDataSource {
     }
 }
 
+extension InputBarAccessoryViewDelegate {
+    func accessoryViewRemovedFromSuperview() {
+        fatalError("Requries subclass implementation")
+    }
+}
+
 // MARK: - InputBarDelegate
 
 extension ChatViewController: InputBarAccessoryViewDelegate {
-
+    
+    func accessoryViewRemovedFromSuperview() {
+        print("HI")
+    }
+    
     @objc
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        processInputBar(messageInputBar)
+        processInputBar(inputBar)
     }
     
     func processInputBar(_ inputBar: InputBarAccessoryView) {
         let messageString = inputBar.inputTextView.attributedText.string.trimmingCharacters(in: .whitespaces)
         inputBar.inputTextView.text = String()
-        inputBar.sendButton.startAnimating()
-        messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
+        inputBar.sendButton.isEnabled = false
+        inputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
         Task {
             do {
                 try await conversation.sendMessage(messageText: messageString)
@@ -369,8 +392,6 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
     }
     
     func handleNewMessage() {
-        messageInputBar.sendButton.stopAnimating()
-        
         isAuthedUserProfileHidden = conversation.isAuthedUserHidden
         if isSangdaebangProfileHidden && !conversation.isSangdaebangHidden {
             //Don't insert a new section, simply reload the data. This is because even though we're handling a new message, we're also removing the last placeholder "info" message, so we shouldn't insert any sections
@@ -491,11 +512,16 @@ extension ChatViewController: MessagesDisplayDelegate {
         //The default message content view has uneven padding which can't be set by the open interface 😒
         //Fix it here
         
+        ///if the message is not positioned correctly, then make the following edits
+        ///options:
+        ///only do this on the very first load of the VC
+        ///only do this on the very first render of the view ooooh i like this
+        /// if the view's cornerRadius is not 16.1
+        
+//        print("MESSAGE STYLE FUNCTION")
+        
         return .custom { view in
-            view.layer.cornerCurve = .continuous
-            view.layer.cornerRadius = 16
-            view.frame.size.width -= 4
-            let messageLabel = view.subviews[0] as! MessageLabel
+            guard let messageLabel = view.subviews[0] as? MessageLabel else { return }
             if self.isFromCurrentSender(message: message) {
                 view.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
                 view.layer.borderWidth = 1
@@ -505,6 +531,13 @@ extension ChatViewController: MessagesDisplayDelegate {
                 view.layer.borderWidth = 0
                 messageLabel.center = CGPoint(x: messageLabel.center.x - 3, y: messageLabel.center.y)
             }
+            
+            //Only perform these positioning updates again if they were not already performed once
+//            if view.layer.cornerRadius == 16.1 {
+                view.layer.cornerCurve = .continuous
+                view.layer.cornerRadius = 16.1
+                view.frame.size.width -= 4
+//            }
         }
     }
     
@@ -521,7 +554,7 @@ extension ChatViewController: MessagesDisplayDelegate {
 
 extension ChatViewController: MessagesLayoutDelegate {
     
-    //TODO: I THINK I CAN DELETE THESE TWO NOW WITH CUSTOM CALCULATOR
+    //TODO: Can we delete these now that we have customcalculator?
     
     func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return isTimeLabelVisible(at: indexPath) ? 50 : 0
@@ -541,6 +574,7 @@ extension ChatViewController {
         print("Why is this not being called?")
     }
     
+    //Refreshes new messages when you reach the top
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y <= 0 && !refreshControl.isRefreshing && !conversation.hasRenderedAllChatObjects() && viewHasAppeared && refreshControl.isEnabled {
             refreshControl.beginRefreshing()
@@ -566,6 +600,14 @@ extension ChatViewController: MessageCellDelegate {
     
     func didTapAvatar(in cell: MessageCollectionViewCell) {
         handleReceiverProfileDidTapped()
+    }
+    
+    func didTapBackground(in cell: MessageCollectionViewCell) {
+        inputBar.inputTextView.resignFirstResponder()
+    }
+    
+    func didTapMessage(in cell: MessageCollectionViewCell) {
+        inputBar.inputTextView.resignFirstResponder()
     }
     
 }
@@ -646,49 +688,3 @@ extension ChatViewController {
         return thisItem.sender.senderId == nextItem.sender.senderId
     }
 }
-
-
-private func nextIndexPath(for currentIndexPath: IndexPath, in tableView: UICollectionView) -> IndexPath? {
-    var nextRow = 0
-    var nextSection = 0
-    var iteration = 0
-    var startRow = currentIndexPath.row
-    for section in currentIndexPath.section ..< tableView.numberOfSections {
-        nextSection = section
-        for row in startRow ..< tableView.numberOfItems(inSection: section) {
-            nextRow = row
-            iteration += 1
-            if iteration == 2 {
-                let nextIndexPath = IndexPath(row: nextRow, section: nextSection)
-                return nextIndexPath
-            }
-        }
-        startRow = 0
-    }
-
-    return nil
-}
-
-
-
-//    func setupMessageInputBarForChatting() {
-        //Positioning
-//        messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
-//        messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 14, bottom: 8, right: 14)
-//            if #available(iOS 13, *) {
-//                messageInputBar.inputTextView.layer.borderColor = UIColor.systemGray2.cgColor
-//            } else {
-//                messageInputBar.inputTextView.layer.borderColor = UIColor.lightGray.cgColor
-//            }
-//        messageInputBar.inputTextView.layer.borderWidth = 1.0
-//        messageInputBar.inputTextView.layer.cornerRadius = 16.0
-//        messageInputBar.inputTextView.layer.masksToBounds = true
-//        messageInputBar.inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-//        messageInputBar.setLeftStackViewWidthConstant(to: 0, animated: false)
-//        //Aesthetic
-//        messageInputBar.inputTextView.tintColor = mistUIColor()
-//        messageInputBar.sendButton.setTitleColor(mistUIColor(), for: .normal)
-//        messageInputBar.sendButton.setTitleColor(mistUIColor().withAlphaComponent(0.3), for: .highlighted)
-//        messageInputBar.inputTextView.placeholder = INPUTBAR_PLACEHOLDER
-//        messageInputBar.shouldAnimateTextDidChangeLayout = true
-//    }

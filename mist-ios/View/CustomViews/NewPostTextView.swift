@@ -85,7 +85,7 @@ class NewPostTextView: UITextView {
         circularProgressView.progress = 0.0
         circularProgressView.trackLineWidth = 3.0
         circularProgressView.trackTintColor = .lightGray.withAlphaComponent(0.2)
-        circularProgressView.progressTintColor = mistUIColor()
+        circularProgressView.progressTintColor = Constants.Color.mistLilac
         circularProgressView.roundedProgressLineCap = true
         
         // Constraints
@@ -95,7 +95,7 @@ class NewPostTextView: UITextView {
         
         progressLabel.textAlignment = .center
         progressLabel.font = UIFont(name: Constants.Font.Medium, size: 16)
-        progressLabel.textColor = mistUIColor()
+        progressLabel.textColor = Constants.Color.mistLilac
         
         // Constraints
         circularProgressView.addSubview(progressLabel)
@@ -130,8 +130,8 @@ class NewPostTextView: UITextView {
                 circularProgressView.progressTintColor = .red
                 progressLabel.textColor = .red
             } else {
-                circularProgressView.progressTintColor = mistUIColor()
-                progressLabel.textColor = mistUIColor()
+                circularProgressView.progressTintColor = Constants.Color.mistLilac
+                progressLabel.textColor = Constants.Color.mistLilac
             }
         } else {
             progressLabel.text = ""

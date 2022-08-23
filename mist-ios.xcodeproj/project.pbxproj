@@ -139,8 +139,7 @@
 		4767E41428584CD70016202E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 4767E41328584CD70016202E /* Alamofire */; };
 		4767E41728584D110016202E /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 4767E41628584D110016202E /* Starscream */; };
 		476971DC2847C3F200123F72 /* UITextField+MaxLength.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476971DB2847C3F200123F72 /* UITextField+MaxLength.swift */; };
-		476971DE2847CCAB00123F72 /* UIView+FindVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476971DD2847CCAB00123F72 /* UIView+FindVC.swift */; };
-		477A6FD627DFB0450020F864 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477A6FD527DFB0450020F864 /* Color.swift */; };
+		476971DE2847CCAB00123F72 /* UIView+ParentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476971DD2847CCAB00123F72 /* UIView+ParentVC.swift */; };
 		4780E5B42832F0560012B741 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780E5B32832F0560012B741 /* ChatViewController.swift */; };
 		4780E5B6283308250012B741 /* MessageKitMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780E5B5283308250012B741 /* MessageKitMessage.swift */; };
 		478A7899284E708D0058C845 /* CLLocationCoordinate+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A7898284E708D0058C845 /* CLLocationCoordinate+Distance.swift */; };
@@ -221,6 +220,28 @@
 		5B1F16CE287D1ABD00035F93 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16CD287D1ABD00035F93 /* HomeViewController.swift */; };
 		5B1F16D0287D1B0700035F93 /* HomeViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16CF287D1B0700035F93 /* HomeViewController+Search.swift */; };
 		5B1F16D2287D1E5000035F93 /* CustomExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16D1287D1E5000035F93 /* CustomExploreViewController.swift */; };
+		5B235AEC28A8857F00FD27A9 /* PostViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235AEB28A8857F00FD27A9 /* PostViewController+Keyboard.swift */; };
+		5B235AED28A8857F00FD27A9 /* PostViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235AEB28A8857F00FD27A9 /* PostViewController+Keyboard.swift */; };
+		5B235AF228A8DD4800FD27A9 /* UsersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235AF128A8DD4800FD27A9 /* UsersService.swift */; };
+		5B235AF328A8DD4800FD27A9 /* UsersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235AF128A8DD4800FD27A9 /* UsersService.swift */; };
+		5B235AF528A97FB800FD27A9 /* TagLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235AF428A97FB800FD27A9 /* TagLink.swift */; };
+		5B235AF628A97FB800FD27A9 /* TagLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235AF428A97FB800FD27A9 /* TagLink.swift */; };
+		5B235AF828AC347C00FD27A9 /* CNContact+Number.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235AF728AC347C00FD27A9 /* CNContact+Number.swift */; };
+		5B235AF928AC347C00FD27A9 /* CNContact+Number.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235AF728AC347C00FD27A9 /* CNContact+Number.swift */; };
+		5B235AFC28AC39D800FD27A9 /* PhoneNumberKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5B235AFB28AC39D800FD27A9 /* PhoneNumberKit */; };
+		5B235AFE28AC3A6E00FD27A9 /* PhoneNumberKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5B235AFD28AC3A6E00FD27A9 /* PhoneNumberKit */; };
+		5B235B0128ADE3B200FD27A9 /* EnterNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B0028ADE3B200FD27A9 /* EnterNumberViewController.swift */; };
+		5B235B0228ADE3B200FD27A9 /* EnterNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B0028ADE3B200FD27A9 /* EnterNumberViewController.swift */; };
+		5B235B0428ADE43800FD27A9 /* ConfirmNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B0328ADE43800FD27A9 /* ConfirmNumberViewController.swift */; };
+		5B235B0528ADE43800FD27A9 /* ConfirmNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B0328ADE43800FD27A9 /* ConfirmNumberViewController.swift */; };
+		5B235B0728AEAD4300FD27A9 /* UIViewController+Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B0628AEAD4300FD27A9 /* UIViewController+Window.swift */; };
+		5B235B0828AEAD4300FD27A9 /* UIViewController+Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B0628AEAD4300FD27A9 /* UIViewController+Window.swift */; };
+		5B235B0A28AEB11900FD27A9 /* InputBarAccessoryView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B0928AEB11900FD27A9 /* InputBarAccessoryView+.swift */; };
+		5B235B0B28AEB11900FD27A9 /* InputBarAccessoryView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B0928AEB11900FD27A9 /* InputBarAccessoryView+.swift */; };
+		5B235B0E28AEFDFC00FD27A9 /* PanGesture+Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B0D28AEFDFC00FD27A9 /* PanGesture+Direction.swift */; };
+		5B235B0F28AEFDFC00FD27A9 /* PanGesture+Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B0D28AEFDFC00FD27A9 /* PanGesture+Direction.swift */; };
+		5B235B1228AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B1128AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift */; };
+		5B235B1328AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B1128AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift */; };
 		5B29262A28974E10008A1F5D /* CommentVote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43529E282890BBD000B3A484 /* CommentVote.swift */; };
 		5B37A36B28784A4B00279B2A /* EnterBiosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */; };
 		5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D589B28603A46002E2F94 /* PostCell.swift */; };
@@ -337,7 +358,7 @@
 		5B739DF728935B9500E4EED0 /* CustomMessagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */; };
 		5B739DF828935B9500E4EED0 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F927DFE20600E244D6 /* Word.swift */; };
 		5B739DF928935B9500E4EED0 /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4D9BD285C018000197080 /* String+Capitalization.swift */; };
-		5B739DFA28935B9500E4EED0 /* UIView+FindVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476971DD2847CCAB00123F72 /* UIView+FindVC.swift */; };
+		5B739DFA28935B9500E4EED0 /* UIView+ParentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476971DD2847CCAB00123F72 /* UIView+ParentVC.swift */; };
 		5B739DFB28935B9500E4EED0 /* DesignableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A4BDA28408BD800FD52B7 /* DesignableTextField.swift */; };
 		5B739DFC28935B9500E4EED0 /* DesignableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A4BDF28408BD800FD52B7 /* DesignableButton.swift */; };
 		5B739DFD28935B9500E4EED0 /* BasicAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B227DD7BB9006C2E08 /* BasicAPI.swift */; };
@@ -346,7 +367,6 @@
 		5B739E0028935B9500E4EED0 /* BlockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624C4286790D400DCD45B /* BlockService.swift */; };
 		5B739E0128935B9500E4EED0 /* CustomCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B128620D4A00DCD45B /* CustomCardView.swift */; };
 		5B739E0228935B9500E4EED0 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE28F72840AE8200C6425C /* TestViewController.swift */; };
-		5B739E0328935B9500E4EED0 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477A6FD527DFB0450020F864 /* Color.swift */; };
 		5B739E0428935B9500E4EED0 /* FeedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47061CD9285170CB0042F04C /* FeedType.swift */; };
 		5B739E0528935B9500E4EED0 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FB07042858592900BF1789 /* CircularProgressView.swift */; };
 		5B739E0628935B9500E4EED0 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A4BE128408BD800FD52B7 /* DesignableView.swift */; };
@@ -512,6 +532,8 @@
 		5BB624D92867DD8400DCD45B /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624D72867DD8400DCD45B /* ConversationCell.swift */; };
 		5BB624DA2867DD8400DCD45B /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BB624D82867DD8400DCD45B /* ConversationCell.xib */; };
 		5BB624DC2867E98500DCD45B /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624DB2867E98500DCD45B /* Conversation.swift */; };
+		5BBF5C50289B9FB6000B2D31 /* InputAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF5C4F289B9FB6000B2D31 /* InputAvatar.swift */; };
+		5BBF5C51289B9FE1000B2D31 /* InputAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF5C4F289B9FB6000B2D31 /* InputAvatar.swift */; };
 		5BC25A9428990999005AAF69 /* EmojiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9328990999005AAF69 /* EmojiButton.swift */; };
 		5BC25A96289909ED005AAF69 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A95289909ED005AAF69 /* ToggleButton.swift */; };
 		5BC25A9828990BF9005AAF69 /* EmojiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9328990999005AAF69 /* EmojiButton.swift */; };
@@ -520,15 +542,43 @@
 		5BC25A9F28991A2B005AAF69 /* Numbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9D28991A2B005AAF69 /* Numbers.swift */; };
 		5BC2763E286AE9BD00DA5A3D /* Loading.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */; };
 		5BC2763F286AE9BD00DA5A3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2763D286AE9BD00DA5A3D /* Main.storyboard */; };
+		5BC8822928AFF793007E83F8 /* ChatViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC8822828AFF793007E83F8 /* ChatViewController+Keyboard.swift */; };
+		5BC8822A28AFF793007E83F8 /* ChatViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC8822828AFF793007E83F8 /* ChatViewController+Keyboard.swift */; };
+		5BC8822C28B15192007E83F8 /* UIViewController+Logout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC8822B28B15192007E83F8 /* UIViewController+Logout.swift */; };
+		5BC8822D28B15192007E83F8 /* UIViewController+Logout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC8822B28B15192007E83F8 /* UIViewController+Logout.swift */; };
 		5BCC68D928611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */; };
 		5BCD490C287149210002BD02 /* WantToChatView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BCD490B287149210002BD02 /* WantToChatView.xib */; };
 		5BCD490E28714F920002BD02 /* WantToChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCD490D28714F920002BD02 /* WantToChatView.swift */; };
+		5BCEA50F289A489700602A4D /* PostViewController+Autocomplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */; };
+		5BCEA510289A489700602A4D /* PostViewController+Autocomplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */; };
 		5BD6F47E2896B3020002A60B /* StringChat+Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */; };
 		5BD6F47F2896B3020002A60B /* StringChat+Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */; };
 		5BE110022876CD9D00CB54A6 /* RequestResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */; };
 		5BE110042876CDB100CB54A6 /* ValidateResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */; };
 		5BE110062876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */; };
 		5BE110082876CE4200CB54A6 /* ResetPasswordContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110072876CE4200CB54A6 /* ResetPasswordContext.swift */; };
+		5BE14733289D3D990096FEBE /* FeederData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14732289D3D990096FEBE /* FeederData.swift */; };
+		5BE14734289D3D9D0096FEBE /* FeederData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14732289D3D990096FEBE /* FeederData.swift */; };
+		5BE14736289EB68B0096FEBE /* CommentAutocompleteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14735289EB68B0096FEBE /* CommentAutocompleteManager.swift */; };
+		5BE14737289EB68B0096FEBE /* CommentAutocompleteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14735289EB68B0096FEBE /* CommentAutocompleteManager.swift */; };
+		5BE14739289EB6EA0096FEBE /* TagAutocompleteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14738289EB6EA0096FEBE /* TagAutocompleteCell.swift */; };
+		5BE1473A289EB6EA0096FEBE /* TagAutocompleteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14738289EB6EA0096FEBE /* TagAutocompleteCell.swift */; };
+		5BE1473C289F0FCE0096FEBE /* Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE1473B289F0FCE0096FEBE /* Validate.swift */; };
+		5BE1473D289F0FCE0096FEBE /* Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE1473B289F0FCE0096FEBE /* Validate.swift */; };
+		5BE1473F289F1A7C0096FEBE /* String+Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE1473E289F1A7C0096FEBE /* String+Random.swift */; };
+		5BE14740289F1A7C0096FEBE /* String+Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE1473E289F1A7C0096FEBE /* String+Random.swift */; };
+		5BE14742289F8E750096FEBE /* String+Pattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14741289F8E750096FEBE /* String+Pattern.swift */; };
+		5BE14743289F8E750096FEBE /* String+Pattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14741289F8E750096FEBE /* String+Pattern.swift */; };
+		5BE1474528A045CF0096FEBE /* UIImageView+Initials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE1474428A045CF0096FEBE /* UIImageView+Initials.swift */; };
+		5BE1474628A045CF0096FEBE /* UIImageView+Initials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE1474428A045CF0096FEBE /* UIImageView+Initials.swift */; };
+		5BE147C628A0CDAA0096FEBE /* UITextView+PreventPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE147C528A0CDAA0096FEBE /* UITextView+PreventPeriod.swift */; };
+		5BE147C728A0CDAA0096FEBE /* UITextView+PreventPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE147C528A0CDAA0096FEBE /* UITextView+PreventPeriod.swift */; };
+		5BE147CB28A28CEF0096FEBE /* LinkTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE147CA28A28CEF0096FEBE /* LinkTextView.swift */; };
+		5BE147CC28A28CEF0096FEBE /* LinkTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE147CA28A28CEF0096FEBE /* LinkTextView.swift */; };
+		5BE147CE28A2937E0096FEBE /* CommentDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE147CD28A2937E0096FEBE /* CommentDelegate.swift */; };
+		5BE147CF28A2937E0096FEBE /* CommentDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE147CD28A2937E0096FEBE /* CommentDelegate.swift */; };
+		5BE147D128A2A1E80096FEBE /* String+Ranges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE147D028A2A1E80096FEBE /* String+Ranges.swift */; };
+		5BE147D228A2A1E80096FEBE /* String+Ranges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE147D028A2A1E80096FEBE /* String+Ranges.swift */; };
 		5BE147D428A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE147D328A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift */; };
 		5BE147D528A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE147D328A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift */; };
 		5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4D9BD285C018000197080 /* String+Capitalization.swift */; };
@@ -688,8 +738,7 @@
 		475B1F8C27FBAB2F00ED59CD /* UIView+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Animations.swift"; sourceTree = "<group>"; };
 		475B1F8E27FBC2D400ED59CD /* UIView+Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shadow.swift"; sourceTree = "<group>"; };
 		476971DB2847C3F200123F72 /* UITextField+MaxLength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+MaxLength.swift"; sourceTree = "<group>"; };
-		476971DD2847CCAB00123F72 /* UIView+FindVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+FindVC.swift"; sourceTree = "<group>"; };
-		477A6FD527DFB0450020F864 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		476971DD2847CCAB00123F72 /* UIView+ParentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ParentVC.swift"; sourceTree = "<group>"; };
 		4780E5B32832F0560012B741 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		4780E5B5283308250012B741 /* MessageKitMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageKitMessage.swift; sourceTree = "<group>"; };
 		478A7898284E708D0058C845 /* CLLocationCoordinate+Distance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate+Distance.swift"; sourceTree = "<group>"; };
@@ -776,6 +825,16 @@
 		5B1F16CD287D1ABD00035F93 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		5B1F16CF287D1B0700035F93 /* HomeViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeViewController+Search.swift"; sourceTree = "<group>"; };
 		5B1F16D1287D1E5000035F93 /* CustomExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomExploreViewController.swift; sourceTree = "<group>"; };
+		5B235AEB28A8857F00FD27A9 /* PostViewController+Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+Keyboard.swift"; sourceTree = "<group>"; };
+		5B235AF128A8DD4800FD27A9 /* UsersService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersService.swift; sourceTree = "<group>"; };
+		5B235AF428A97FB800FD27A9 /* TagLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagLink.swift; sourceTree = "<group>"; };
+		5B235AF728AC347C00FD27A9 /* CNContact+Number.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CNContact+Number.swift"; sourceTree = "<group>"; };
+		5B235B0028ADE3B200FD27A9 /* EnterNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNumberViewController.swift; sourceTree = "<group>"; };
+		5B235B0328ADE43800FD27A9 /* ConfirmNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmNumberViewController.swift; sourceTree = "<group>"; };
+		5B235B0628AEAD4300FD27A9 /* UIViewController+Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Window.swift"; sourceTree = "<group>"; };
+		5B235B0928AEB11900FD27A9 /* InputBarAccessoryView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InputBarAccessoryView+.swift"; sourceTree = "<group>"; };
+		5B235B0D28AEFDFC00FD27A9 /* PanGesture+Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PanGesture+Direction.swift"; sourceTree = "<group>"; };
+		5B235B1128AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationController+FullscreenInteractivePopGesture.swift"; sourceTree = "<group>"; };
 		5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBiosViewController.swift; sourceTree = "<group>"; };
 		5B4D589B28603A46002E2F94 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ProfilePic.swift"; sourceTree = "<group>"; };
@@ -818,19 +877,34 @@
 		5BB624D72867DD8400DCD45B /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		5BB624D82867DD8400DCD45B /* ConversationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationCell.xib; sourceTree = "<group>"; };
 		5BB624DB2867E98500DCD45B /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		5BBF5C4F289B9FB6000B2D31 /* InputAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAvatar.swift; sourceTree = "<group>"; };
 		5BC25A9328990999005AAF69 /* EmojiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiButton.swift; sourceTree = "<group>"; };
 		5BC25A95289909ED005AAF69 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		5BC25A9D28991A2B005AAF69 /* Numbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numbers.swift; sourceTree = "<group>"; };
 		5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Loading.storyboard; sourceTree = "<group>"; };
 		5BC2763D286AE9BD00DA5A3D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		5BC8822828AFF793007E83F8 /* ChatViewController+Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Keyboard.swift"; sourceTree = "<group>"; };
+		5BC8822B28B15192007E83F8 /* UIViewController+Logout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Logout.swift"; sourceTree = "<group>"; };
 		5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeAreaInputAccessoryViewWrapperView.swift; sourceTree = "<group>"; };
 		5BCD490B287149210002BD02 /* WantToChatView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WantToChatView.xib; sourceTree = "<group>"; };
 		5BCD490D28714F920002BD02 /* WantToChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantToChatView.swift; sourceTree = "<group>"; };
+		5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+Autocomplete.swift"; sourceTree = "<group>"; };
 		5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringChat+Emoji.swift"; sourceTree = "<group>"; };
 		5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResetPasswordViewController.swift; sourceTree = "<group>"; };
 		5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateResetPasswordViewController.swift; sourceTree = "<group>"; };
 		5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalizeResetPasswordViewController.swift; sourceTree = "<group>"; };
 		5BE110072876CE4200CB54A6 /* ResetPasswordContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordContext.swift; sourceTree = "<group>"; };
+		5BE14732289D3D990096FEBE /* FeederData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeederData.swift; sourceTree = "<group>"; };
+		5BE14735289EB68B0096FEBE /* CommentAutocompleteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAutocompleteManager.swift; sourceTree = "<group>"; };
+		5BE14738289EB6EA0096FEBE /* TagAutocompleteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagAutocompleteCell.swift; sourceTree = "<group>"; };
+		5BE1473B289F0FCE0096FEBE /* Validate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validate.swift; sourceTree = "<group>"; };
+		5BE1473E289F1A7C0096FEBE /* String+Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Random.swift"; sourceTree = "<group>"; };
+		5BE14741289F8E750096FEBE /* String+Pattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Pattern.swift"; sourceTree = "<group>"; };
+		5BE1474428A045CF0096FEBE /* UIImageView+Initials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Initials.swift"; sourceTree = "<group>"; };
+		5BE147C528A0CDAA0096FEBE /* UITextView+PreventPeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+PreventPeriod.swift"; sourceTree = "<group>"; };
+		5BE147CA28A28CEF0096FEBE /* LinkTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkTextView.swift; sourceTree = "<group>"; };
+		5BE147CD28A2937E0096FEBE /* CommentDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDelegate.swift; sourceTree = "<group>"; };
+		5BE147D028A2A1E80096FEBE /* String+Ranges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ranges.swift"; sourceTree = "<group>"; };
 		5BE147D328A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+LoadingIndicator.swift"; sourceTree = "<group>"; };
 		5BE4D9BD285C018000197080 /* String+Capitalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Capitalization.swift"; sourceTree = "<group>"; };
 		5BEFCD22287816FB00379CE6 /* Launch-beta.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch-beta.storyboard"; sourceTree = "<group>"; };
@@ -852,6 +926,7 @@
 				5B739D732891FD4C00E4EED0 /* FirebaseAnalyticsSwift in Frameworks */,
 				5B739D772891FD4C00E4EED0 /* FirebaseDynamicLinks in Frameworks */,
 				5B739D752891FD4C00E4EED0 /* FirebaseCrashlytics in Frameworks */,
+				5B235AFC28AC39D800FD27A9 /* PhoneNumberKit in Frameworks */,
 				5B739D7D2891FD4C00E4EED0 /* FirebaseRemoteConfigSwift in Frameworks */,
 				47AC882228487EC3000150CA /* IQKeyboardManagerSwift in Frameworks */,
 				4767E41728584D110016202E /* Starscream in Frameworks */,
@@ -885,6 +960,7 @@
 				5B739E6A28935B9500E4EED0 /* FirebaseAnalyticsSwift in Frameworks */,
 				5B739E6B28935B9500E4EED0 /* FirebaseDynamicLinks in Frameworks */,
 				5B739E6C28935B9500E4EED0 /* FirebaseCrashlytics in Frameworks */,
+				5B235AFE28AC3A6E00FD27A9 /* PhoneNumberKit in Frameworks */,
 				5B739E6D28935B9500E4EED0 /* FirebaseRemoteConfigSwift in Frameworks */,
 				5B739E6E28935B9500E4EED0 /* IQKeyboardManagerSwift in Frameworks */,
 				5B739E6F28935B9500E4EED0 /* Starscream in Frameworks */,
@@ -913,6 +989,7 @@
 		43770C4927EE8BED00F31CCF /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				5B235AFF28ADE39400FD27A9 /* PhoneAuthNew */,
 				5B1F16CC28791EF700035F93 /* Misc */,
 				5BE110002876CD6C00CB54A6 /* ResetPassword */,
 				5B18B97F2876C5F900F0F80E /* AuthStartViewController.swift */,
@@ -932,6 +1009,7 @@
 			isa = PBXGroup;
 			children = (
 				43A25347289BA46800B1468F /* Tag.swift */,
+				5B235AF428A97FB800FD27A9 /* TagLink.swift */,
 			);
 			path = Tag;
 			sourceTree = "<group>";
@@ -1100,6 +1178,7 @@
 				47E2B1BE2800C1CD00131B8D /* UITextView+Placeholder.swift */,
 				474A4AB4284A953200B39A98 /* UITextView+MaxLength.swift */,
 				5B774DF7286D068400CCCF28 /* UITextView+Newline.swift */,
+				5BE147C528A0CDAA0096FEBE /* UITextView+PreventPeriod.swift */,
 			);
 			path = UITextView;
 			sourceTree = "<group>";
@@ -1119,6 +1198,7 @@
 			isa = PBXGroup;
 			children = (
 				5B4D589B28603A46002E2F94 /* PostCell.swift */,
+				5BE14738289EB6EA0096FEBE /* TagAutocompleteCell.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -1130,6 +1210,7 @@
 				4700F8BD27DD807C006C2E08 /* CommentCell.xib */,
 				47E2B1C02800E9EB00131B8D /* MyCommentCell.swift */,
 				47E2B1C12800E9EB00131B8D /* MyCommentCell.xib */,
+				5BE147CA28A28CEF0096FEBE /* LinkTextView.swift */,
 			);
 			path = Comment;
 			sourceTree = "<group>";
@@ -1151,7 +1232,9 @@
 			children = (
 				475B1F8A27FB86C000ED59CD /* ConversationsViewController.swift */,
 				4780E5B32832F0560012B741 /* ChatViewController.swift */,
+				5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */,
 				5BB624D42867D1C100DCD45B /* ChatMoreViewController.swift */,
+				5BC8822828AFF793007E83F8 /* ChatViewController+Keyboard.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1217,8 +1300,6 @@
 				47A3D71C27D5940D003DBEA5 /* NewPostTextView.swift */,
 				5BCD490D28714F920002BD02 /* WantToChatView.swift */,
 				5BCD490B287149210002BD02 /* WantToChatView.xib */,
-				5BAD627C2876BE8800DCFE45 /* MistWideLogoView.swift */,
-				5BAD627A2876BD7600DCFE45 /* MistWideLogoView.xib */,
 				5BC25A9328990999005AAF69 /* EmojiButton.swift */,
 				5BC25A97289909FD005AAF69 /* Decomissioned */,
 			);
@@ -1228,6 +1309,8 @@
 		47A3D71B27D593F0003DBEA5 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				5B235B1028AEFE1E00FD27A9 /* NavigationController */,
+				5B235B0C28AEFDEC00FD27A9 /* GestureRecognizer */,
 				5BB624B72863CA1300DCD45B /* UINavigation */,
 				5B4D58A52860D7E5002E2F94 /* UIImageView */,
 				5BE4D9BC285C017100197080 /* String */,
@@ -1244,6 +1327,7 @@
 				5B13B740285D05B0000ADF5E /* UISearchBar+CenterText.swift */,
 				5BF78338285E4477003C3955 /* UITableView+SectionShadow.swift */,
 				5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */,
+				5B235AF728AC347C00FD27A9 /* CNContact+Number.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1281,7 +1365,7 @@
 				475B1F8E27FBC2D400ED59CD /* UIView+Shadow.swift */,
 				47266AD127FF5531005DEDB1 /* UIView+LoadFromNib.swift */,
 				4718331128445A7C0061F9F3 /* UIView+PostBubble.swift */,
-				476971DD2847CCAB00123F72 /* UIView+FindVC.swift */,
+				476971DD2847CCAB00123F72 /* UIView+ParentVC.swift */,
 				4752719E2855AF1400DDF84D /* UIView+SafeAreaConstraints.swift */,
 				475271A02855BCB500DDF84D /* UIView+RoundedIndividualCorners.swift */,
 			);
@@ -1365,6 +1449,7 @@
 				5BB624BC28641A5600DCD45B /* Chat */,
 				5BB624BB28641A3100DCD45B /* User */,
 				5BB624BA28641A0D00DCD45B /* Post */,
+				5BE14732289D3D990096FEBE /* FeederData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1379,6 +1464,7 @@
 				470BD12E27DB1D9A00DD4622 /* TableCells */,
 				470BD12D27DB1D8700DD4622 /* Storyboards */,
 				47E74E1427CA0FFF00467A0C /* Assets.xcassets */,
+				5B235B0928AEB11900FD27A9 /* InputBarAccessoryView+.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1446,12 +1532,12 @@
 			children = (
 				479AA1FC27DD109F00EA0DFC /* Constants.swift */,
 				47A3D70D27D55BB3003DBEA5 /* Time.swift */,
-				477A6FD527DFB0450020F864 /* Color.swift */,
 				478BA27C283E85D400C35507 /* ButtonConfigs.swift */,
 				47FF418228403AE700A44968 /* CustomAttributedString.swift */,
 				47D5B36928441296004CDE6C /* CustomSwiftMessages.swift */,
 				5BF78336285D955F003C3955 /* Map.swift */,
 				5BC25A9D28991A2B005AAF69 /* Numbers.swift */,
+				5BE1473B289F0FCE0096FEBE /* Validate.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1471,8 +1557,13 @@
 			isa = PBXGroup;
 			children = (
 				479AA1F227DCF2BD00EA0DFC /* PostViewController.swift */,
+				5B235AEB28A8857F00FD27A9 /* PostViewController+Keyboard.swift */,
+				5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */,
 				47C1D49027DF00B200970B3D /* PostMoreViewController.swift */,
+				5BBF5C4F289B9FB6000B2D31 /* InputAvatar.swift */,
+				5BE14735289EB68B0096FEBE /* CommentAutocompleteManager.swift */,
 				472F8D1928505F4600DB69C4 /* PostDelegate.swift */,
+				5BE147CD28A2937E0096FEBE /* CommentDelegate.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -1485,6 +1576,8 @@
 				5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */,
 				5BAD626E2876661500DCFE45 /* UIViewController+MistShareActivity.swift */,
 				5BAD62702876703000DCFE45 /* UIViewController+OpenURL.swift */,
+				5B235B0628AEAD4300FD27A9 /* UIViewController+Window.swift */,
+				5BC8822B28B15192007E83F8 /* UIViewController+Logout.swift */,
 			);
 			path = UIViewController;
 			sourceTree = "<group>";
@@ -1542,11 +1635,37 @@
 			path = Explore;
 			sourceTree = "<group>";
 		};
+		5B235AFF28ADE39400FD27A9 /* PhoneAuthNew */ = {
+			isa = PBXGroup;
+			children = (
+				5B235B0028ADE3B200FD27A9 /* EnterNumberViewController.swift */,
+				5B235B0328ADE43800FD27A9 /* ConfirmNumberViewController.swift */,
+			);
+			path = PhoneAuthNew;
+			sourceTree = "<group>";
+		};
+		5B235B0C28AEFDEC00FD27A9 /* GestureRecognizer */ = {
+			isa = PBXGroup;
+			children = (
+				5B235B0D28AEFDFC00FD27A9 /* PanGesture+Direction.swift */,
+			);
+			path = GestureRecognizer;
+			sourceTree = "<group>";
+		};
+		5B235B1028AEFE1E00FD27A9 /* NavigationController */ = {
+			isa = PBXGroup;
+			children = (
+				5B235B1128AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift */,
+			);
+			path = NavigationController;
+			sourceTree = "<group>";
+		};
 		5B4D58A52860D7E5002E2F94 /* UIImageView */ = {
 			isa = PBXGroup;
 			children = (
 				474A5DA227F4042F004215F9 /* UIImageView+Inspectable.swift */,
 				5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */,
+				5BE1474428A045CF0096FEBE /* UIImageView+Initials.swift */,
 			);
 			path = UIImageView;
 			sourceTree = "<group>";
@@ -1617,6 +1736,7 @@
 			children = (
 				47A3D70727D54F6F003DBEA5 /* User.swift */,
 				47A3D71127D57A6D003DBEA5 /* UserService.swift */,
+				5B235AF128A8DD4800FD27A9 /* UsersService.swift */,
 				4752717B28553F6200DDF84D /* ProfilePicWrapper.swift */,
 				5BB624BF28678A6F00DCD45B /* MatchRequest */,
 				5BB624C22867909400DCD45B /* Block */,
@@ -1634,7 +1754,6 @@
 				5BAD626C2875522E00DCFE45 /* MessageKitInfo.swift */,
 				5BB624DB2867E98500DCD45B /* Conversation.swift */,
 				5BB624BD2864308E00DCD45B /* ConversationService.swift */,
-				5BC27633286A8BA900DA5A3D /* MessageLayout */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1716,17 +1835,11 @@
 		5BC25A97289909FD005AAF69 /* Decomissioned */ = {
 			isa = PBXGroup;
 			children = (
+				5BAD627C2876BE8800DCFE45 /* MistWideLogoView.swift */,
+				5BAD627A2876BD7600DCFE45 /* MistWideLogoView.xib */,
 				5BC25A95289909ED005AAF69 /* ToggleButton.swift */,
 			);
 			path = Decomissioned;
-			sourceTree = "<group>";
-		};
-		5BC27633286A8BA900DA5A3D /* MessageLayout */ = {
-			isa = PBXGroup;
-			children = (
-				5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */,
-			);
-			path = MessageLayout;
 			sourceTree = "<group>";
 		};
 		5BE110002876CD6C00CB54A6 /* ResetPassword */ = {
@@ -1745,6 +1858,9 @@
 				474A4AC5284AB6D700B39A98 /* String+Indexing.swift */,
 				5BE4D9BD285C018000197080 /* String+Capitalization.swift */,
 				5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */,
+				5BE1473E289F1A7C0096FEBE /* String+Random.swift */,
+				5BE14741289F8E750096FEBE /* String+Pattern.swift */,
+				5BE147D028A2A1E80096FEBE /* String+Ranges.swift */,
 			);
 			path = String;
 			sourceTree = "<group>";
@@ -1760,6 +1876,7 @@
 				47E74E0527CA0FFE00467A0C /* Frameworks */,
 				47E74E0627CA0FFE00467A0C /* Resources */,
 				5B739D7E2892533100E4EED0 /* ShellScript */,
+				5BCEA50D289A2B6E00602A4D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1779,6 +1896,7 @@
 				5B739D782891FD4C00E4EED0 /* FirebasePerformance */,
 				5B739D7A2891FD4C00E4EED0 /* FirebaseRemoteConfig */,
 				5B739D7C2891FD4C00E4EED0 /* FirebaseRemoteConfigSwift */,
+				5B235AFB28AC39D800FD27A9 /* PhoneNumberKit */,
 			);
 			productName = "mist-ios";
 			productReference = 47E74E0827CA0FFE00467A0C /* mist-ios.app */;
@@ -1847,6 +1965,7 @@
 				5B739D8F28935B9500E4EED0 /* FirebasePerformance */,
 				5B739D9028935B9500E4EED0 /* FirebaseRemoteConfig */,
 				5B739D9128935B9500E4EED0 /* FirebaseRemoteConfigSwift */,
+				5B235AFD28AC3A6E00FD27A9 /* PhoneNumberKit */,
 			);
 			productName = "mist-ios";
 			productReference = 5B739E8D28935B9500E4EED0 /* mist-ios-dev.app */;
@@ -1893,6 +2012,7 @@
 				4767E41228584CD70016202E /* XCRemoteSwiftPackageReference "Alamofire" */,
 				4767E41528584D110016202E /* XCRemoteSwiftPackageReference "Starscream" */,
 				5B739D6F2891FD4C00E4EED0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				5B235AFA28AC39D800FD27A9 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */,
 			);
 			productRefGroup = 47E74E0927CA0FFE00467A0C /* Products */;
 			projectDirPath = "";
@@ -2003,7 +2123,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
 		};
 		5B739E8928935B9500E4EED0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2022,7 +2142,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+		};
+		5BCEA50D289A2B6E00602A4D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols -gsp ${PROJECT_DIR}/mist-ios/Prod.plists/GoogleService-Info.plist -p ios ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2046,12 +2183,14 @@
 				47F10DC5285316AC00E1A3DC /* PlaceAnnotationView.swift in Sources */,
 				472A4BF128408BD800FD52B7 /* TransitionZoom.swift in Sources */,
 				47E2B1C22800E9EB00131B8D /* MyCommentCell.swift in Sources */,
+				5BE1474528A045CF0096FEBE /* UIImageView+Initials.swift in Sources */,
 				5B774DFF286D570400CCCF28 /* MatchCollectionCell.swift in Sources */,
 				47D5B36A28441296004CDE6C /* CustomSwiftMessages.swift in Sources */,
 				43D925222852802E00438C5C /* MatchRequest.swift in Sources */,
 				439E44FC27E01D4900E244D6 /* AuthAPI.swift in Sources */,
 				475271A12855BCB500DDF84D /* UIView+RoundedIndividualCorners.swift in Sources */,
 				47527191285584F400DDF84D /* MyProfileCell.swift in Sources */,
+				5BE147CE28A2937E0096FEBE /* CommentDelegate.swift in Sources */,
 				470F271C27DE764F00C6DDAF /* UserResultCell.swift in Sources */,
 				4752719D2855A80C00DDF84D /* ExploreViewController+Map.swift in Sources */,
 				5BAD62792876938900DCFE45 /* SettingsTapDelegate.swift in Sources */,
@@ -2059,16 +2198,21 @@
 				472A4BFB28408BD800FD52B7 /* Misc.swift in Sources */,
 				479AA20327DD4AA900EA0DFC /* KUIViewController.swift in Sources */,
 				470F271827DE758100C6DDAF /* SearchResultCell.swift in Sources */,
+				5B235AF528A97FB800FD27A9 /* TagLink.swift in Sources */,
+				5BE14736289EB68B0096FEBE /* CommentAutocompleteManager.swift in Sources */,
 				4316238C2834F8A600169AA9 /* SpecialTabBarController.swift in Sources */,
 				47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */,
 				47CEEE9828545207008947FC /* UIBarButtonItem+Image.swift in Sources */,
 				472A4BF028408BD800FD52B7 /* TransitionManager.swift in Sources */,
+				5B235B0A28AEB11900FD27A9 /* InputBarAccessoryView+.swift in Sources */,
 				478BA283283EF2DB00C35507 /* UIViewController+SBTransition.swift in Sources */,
 				474A5DA527F40606004215F9 /* RoundedImageView.swift in Sources */,
 				4780E5B42832F0560012B741 /* ChatViewController.swift in Sources */,
 				4700F8BE27DD807C006C2E08 /* CommentCell.swift in Sources */,
 				47A3D72327D5A0D2003DBEA5 /* ProfileViewController.swift in Sources */,
 				4700F8BB27DD7BE3006C2E08 /* PostVote.swift in Sources */,
+				5B235B0E28AEFDFC00FD27A9 /* PanGesture+Direction.swift in Sources */,
+				5B235AF828AC347C00FD27A9 /* CNContact+Number.swift in Sources */,
 				5B774DF8286D068400CCCF28 /* UITextView+Newline.swift in Sources */,
 				47E2B1BD27FFC52900131B8D /* ShadowNavigationController.swift in Sources */,
 				47E74E0E27CA0FFE00467A0C /* SceneDelegate.swift in Sources */,
@@ -2097,7 +2241,10 @@
 				5BB624D92867DD8400DCD45B /* ConversationCell.swift in Sources */,
 				47AE72AA27F77B0B00A5E94C /* MyProfileSettingViewController.swift in Sources */,
 				47527194285584F400DDF84D /* SimpleInputCell.swift in Sources */,
+				5BC8822928AFF793007E83F8 /* ChatViewController+Keyboard.swift in Sources */,
+				5BCEA50F289A489700602A4D /* PostViewController+Autocomplete.swift in Sources */,
 				47EE28F22840991800C6425C /* PermissionsViewController.swift in Sources */,
+				5BE14742289F8E750096FEBE /* String+Pattern.swift in Sources */,
 				5BB624B628622C8500DCD45B /* UIViewController+DismissFlag.swift in Sources */,
 				5BAD626D2875522E00DCFE45 /* MessageKitInfo.swift in Sources */,
 				47FF418328403AE700A44968 /* CustomAttributedString.swift in Sources */,
@@ -2137,17 +2284,19 @@
 				47FF418128402EC600A44968 /* UIImage+Resize.swift in Sources */,
 				5B774DFC286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift in Sources */,
 				439E44FA27DFE20600E244D6 /* Word.swift in Sources */,
+				5B235AEC28A8857F00FD27A9 /* PostViewController+Keyboard.swift in Sources */,
 				5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */,
-				476971DE2847CCAB00123F72 /* UIView+FindVC.swift in Sources */,
+				476971DE2847CCAB00123F72 /* UIView+ParentVC.swift in Sources */,
 				472A4BF828408BD800FD52B7 /* DesignableTextField.swift in Sources */,
 				472A4BFD28408BD800FD52B7 /* DesignableButton.swift in Sources */,
 				4700F8B627DD7BBA006C2E08 /* BasicAPI.swift in Sources */,
 				5BAD62712876703000DCFE45 /* UIViewController+OpenURL.swift in Sources */,
+				5B235B0728AEAD4300FD27A9 /* UIViewController+Window.swift in Sources */,
 				471F92D1280159430079F8CA /* SegmentedControlCell.swift in Sources */,
 				5BB624C5286790D400DCD45B /* BlockService.swift in Sources */,
+				5BC8822C28B15192007E83F8 /* UIViewController+Logout.swift in Sources */,
 				5BB624B228620D4A00DCD45B /* CustomCardView.swift in Sources */,
 				47EE28F82840AE8200C6425C /* TestViewController.swift in Sources */,
-				477A6FD627DFB0450020F864 /* Color.swift in Sources */,
 				47061CDA285170CB0042F04C /* FeedType.swift in Sources */,
 				47FB07062858592900BF1789 /* CircularProgressView.swift in Sources */,
 				472A4BFF28408BD800FD52B7 /* DesignableView.swift in Sources */,
@@ -2158,6 +2307,7 @@
 				4365279E28A84E16006BE4A9 /* PhoneNumberAPI.swift in Sources */,
 				472A4C0428408BD800FD52B7 /* DesignableTextView.swift in Sources */,
 				5BAD62732876706800DCFE45 /* Setting.swift in Sources */,
+				5BBF5C50289B9FB6000B2D31 /* InputAvatar.swift in Sources */,
 				472A4BFA28408BD800FD52B7 /* SpringTextView.swift in Sources */,
 				5BC25A96289909ED005AAF69 /* ToggleButton.swift in Sources */,
 				47A3D71227D57A6D003DBEA5 /* UserService.swift in Sources */,
@@ -2166,6 +2316,7 @@
 				475B1F8D27FBAB2F00ED59CD /* UIView+Animations.swift in Sources */,
 				47CE900C27E059DC0004B756 /* PinMapModalViewController.swift in Sources */,
 				474A4AB0284A922100B39A98 /* UIScrollView+ToTop.swift in Sources */,
+				5BE147CB28A28CEF0096FEBE /* LinkTextView.swift in Sources */,
 				5B6AD61528690E1800B1FFA8 /* AnnotationSelectionType.swift in Sources */,
 				478BA279283DD37E00C35507 /* UITextField+Padding.swift in Sources */,
 				5BC25A9428990999005AAF69 /* EmojiButton.swift in Sources */,
@@ -2175,6 +2326,8 @@
 				472A4C0828408BD800FD52B7 /* LoadingView.swift in Sources */,
 				4752718328557C1300DDF84D /* PasswordSettingViewController.swift in Sources */,
 				43D92524285280D200438C5C /* FriendRequestAPI.swift in Sources */,
+				5B235B1228AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift in Sources */,
+				5BE1473C289F0FCE0096FEBE /* Validate.swift in Sources */,
 				472A4BF328408BD800FD52B7 /* Spring.swift in Sources */,
 				5B1F16CE287D1ABD00035F93 /* HomeViewController.swift in Sources */,
 				472A4BF528408BD800FD52B7 /* DesignableLabel.swift in Sources */,
@@ -2185,6 +2338,7 @@
 				472A4C0328408BD800FD52B7 /* SpringLabel.swift in Sources */,
 				474A5DAA27F40CB1004215F9 /* UISegmentedControl+Twitter.swift in Sources */,
 				472A4BF428408BD800FD52B7 /* SpringImageView.swift in Sources */,
+				5B235B0428ADE43800FD27A9 /* ConfirmNumberViewController.swift in Sources */,
 				5B18B9802876C5F900F0F80E /* AuthStartViewController.swift in Sources */,
 				43D925202852802600438C5C /* FriendRequest.swift in Sources */,
 				47AC881F28480AE1000150CA /* UIButton+RightSideImage.swift in Sources */,
@@ -2194,6 +2348,7 @@
 				472F8D1A28505F4600DB69C4 /* PostDelegate.swift in Sources */,
 				478A7899284E708D0058C845 /* CLLocationCoordinate+Distance.swift in Sources */,
 				4700F8B727DD7BBA006C2E08 /* PostVoteAPI.swift in Sources */,
+				5BE1473F289F1A7C0096FEBE /* String+Random.swift in Sources */,
 				436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */,
 				43529E2F2890BD3D00B3A484 /* CommentFlagAPI.swift in Sources */,
 				5BE110022876CD9D00CB54A6 /* RequestResetPasswordViewController.swift in Sources */,
@@ -2205,6 +2360,7 @@
 				47E295D6284BB79600A680CC /* PostView.swift in Sources */,
 				43A25344289BA43A00B1468F /* TagAPI.swift in Sources */,
 				4329571C27F4008300FA48A9 /* EnterEmailViewController.swift in Sources */,
+				5B235AF228A8DD4800FD27A9 /* UsersService.swift in Sources */,
 				43D92526285280DB00438C5C /* MatchRequestAPI.swift in Sources */,
 				47A3D70827D54F6F003DBEA5 /* User.swift in Sources */,
 				472A4C0528408BD800FD52B7 /* AutoTextView.swift in Sources */,
@@ -2214,6 +2370,7 @@
 				439E44F427DFB71300E244D6 /* UserAPI.swift in Sources */,
 				472A4BF228408BD800FD52B7 /* ImageLoader.swift in Sources */,
 				47061CD228511C750042F04C /* MapSearchResultType.swift in Sources */,
+				5BE14739289EB6EA0096FEBE /* TagAutocompleteCell.swift in Sources */,
 				4700F8C627DE4652006C2E08 /* ExploreViewController.swift in Sources */,
 				5BE110062876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift in Sources */,
 				475B1F8B27FB86C000ED59CD /* ConversationsViewController.swift in Sources */,
@@ -2230,7 +2387,9 @@
 				474A4AC6284AB6D700B39A98 /* String+Indexing.swift in Sources */,
 				479683F82828180C00CA23BA /* ClusterAnnotationView.swift in Sources */,
 				43D9251628526DF300438C5C /* BlockAPI.swift in Sources */,
+				5B235B0128ADE3B200FD27A9 /* EnterNumberViewController.swift in Sources */,
 				476971DC2847C3F200123F72 /* UITextField+MaxLength.swift in Sources */,
+				5BE147C628A0CDAA0096FEBE /* UITextView+PreventPeriod.swift in Sources */,
 				47EE28FE28414AF700C6425C /* CustomCenteredView.swift in Sources */,
 				43D9251828526ECA00438C5C /* Block.swift in Sources */,
 				479683F5282817CC00CA23BA /* PostAnnotationView.swift in Sources */,
@@ -2243,11 +2402,13 @@
 				47CBF6F128356A7C00096514 /* FilterSheetViewController.swift in Sources */,
 				5B13B743285D3877000ADF5E /* Error.swift in Sources */,
 				4700F8BA27DD7BE3006C2E08 /* PostFlag.swift in Sources */,
+				5BE14733289D3D990096FEBE /* FeederData.swift in Sources */,
 				5BF78339285E4477003C3955 /* UITableView+SectionShadow.swift in Sources */,
 				5B4D58A72860D7FB002E2F94 /* UIImageView+ProfilePic.swift in Sources */,
 				470F271F27DE9ABE00C6DDAF /* SearchResultsTableViewController.swift in Sources */,
 				47061CD028510E4C0042F04C /* MKPlacemark+Address.swift in Sources */,
 				5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */,
+				5BE147D128A2A1E80096FEBE /* String+Ranges.swift in Sources */,
 				5BA401F72878052B004A556E /* Env.swift in Sources */,
 				5BB624D52867D1C100DCD45B /* ChatMoreViewController.swift in Sources */,
 				4752719A2855A6A700DDF84D /* ExploreViewController+Feed.swift in Sources */,
@@ -2298,12 +2459,17 @@
 				5B739D9828935B9500E4EED0 /* UIImageView+Inspectable.swift in Sources */,
 				5B739D9928935B9500E4EED0 /* ImagePicker.swift in Sources */,
 				5B739D9A28935B9500E4EED0 /* FinishProfileViewController.swift in Sources */,
+				5B235AF628A97FB800FD27A9 /* TagLink.swift in Sources */,
 				5B739D9B28935B9500E4EED0 /* UIView+SafeAreaConstraints.swift in Sources */,
 				5B739D9C28935B9500E4EED0 /* PostAPI.swift in Sources */,
 				5B739D9D28935B9500E4EED0 /* UINavigationController+Completion.swift in Sources */,
 				5B739D9E28935B9500E4EED0 /* PlaceAnnotationView.swift in Sources */,
+				5BE147CF28A2937E0096FEBE /* CommentDelegate.swift in Sources */,
+				5B235B0828AEAD4300FD27A9 /* UIViewController+Window.swift in Sources */,
 				5B739D9F28935B9500E4EED0 /* TransitionZoom.swift in Sources */,
 				5B739DA028935B9500E4EED0 /* MyCommentCell.swift in Sources */,
+				5B235B0228ADE3B200FD27A9 /* EnterNumberViewController.swift in Sources */,
+				5B235B0F28AEFDFC00FD27A9 /* PanGesture+Direction.swift in Sources */,
 				5B739DA128935B9500E4EED0 /* MatchCollectionCell.swift in Sources */,
 				5B739DA228935B9500E4EED0 /* CustomSwiftMessages.swift in Sources */,
 				5B739DA328935B9500E4EED0 /* MatchRequest.swift in Sources */,
@@ -2337,6 +2503,7 @@
 				5B739DBB28935B9500E4EED0 /* UIImage+Compress.swift in Sources */,
 				5B739DBC28935B9500E4EED0 /* UITextView+Placeholder.swift in Sources */,
 				5B739DBD28935B9500E4EED0 /* FlagService.swift in Sources */,
+				5BBF5C51289B9FE1000B2D31 /* InputAvatar.swift in Sources */,
 				5B739DBE28935B9500E4EED0 /* MKClusterAnnotation+*.swift in Sources */,
 				5B739DBF28935B9500E4EED0 /* AuthContext.swift in Sources */,
 				5B739DC028935B9500E4EED0 /* CLLocationCoordiante+Midpoint.swift in Sources */,
@@ -2357,9 +2524,11 @@
 				5B739DCF28935B9500E4EED0 /* SpringAnimation.swift in Sources */,
 				5B739DD028935B9500E4EED0 /* WantToChatView.swift in Sources */,
 				5B739DD128935B9500E4EED0 /* ConversationCell.swift in Sources */,
+				5BE14740289F1A7C0096FEBE /* String+Random.swift in Sources */,
 				5B739DD228935B9500E4EED0 /* MyProfileSettingViewController.swift in Sources */,
 				5B739DD328935B9500E4EED0 /* SimpleInputCell.swift in Sources */,
 				5B739DD428935B9500E4EED0 /* PermissionsViewController.swift in Sources */,
+				5B235B1328AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift in Sources */,
 				5B739DD528935B9500E4EED0 /* UIViewController+DismissFlag.swift in Sources */,
 				5B739DD628935B9500E4EED0 /* MessageKitInfo.swift in Sources */,
 				5B739DD728935B9500E4EED0 /* CustomAttributedString.swift in Sources */,
@@ -2377,19 +2546,24 @@
 				5B739DE228935B9500E4EED0 /* UnwindSegue.swift in Sources */,
 				5B739DE328935B9500E4EED0 /* HomeViewController+Search.swift in Sources */,
 				5B739DE428935B9500E4EED0 /* UITextView+MaxLength.swift in Sources */,
+				5B235B0528ADE43800FD27A9 /* ConfirmNumberViewController.swift in Sources */,
 				5B739DE528935B9500E4EED0 /* UIImage+FromColor.swift in Sources */,
 				5B739DE628935B9500E4EED0 /* UIView+PostBubble.swift in Sources */,
 				5B739DE728935B9500E4EED0 /* UIImage+Blur.swift in Sources */,
 				5B739DE828935B9500E4EED0 /* EnterBiosViewController.swift in Sources */,
+				5B235AED28A8857F00FD27A9 /* PostViewController+Keyboard.swift in Sources */,
 				5B739DE928935B9500E4EED0 /* ConversationService.swift in Sources */,
 				5B739DEA28935B9500E4EED0 /* UIImage+Thumbnail.swift in Sources */,
+				5BC8822D28B15192007E83F8 /* UIViewController+Logout.swift in Sources */,
 				5B739DEB28935B9500E4EED0 /* MessageKitMessage.swift in Sources */,
 				5B739DEC28935B9500E4EED0 /* MatchRequestService.swift in Sources */,
 				5B739DED28935B9500E4EED0 /* ValidateResetPasswordViewController.swift in Sources */,
 				5B739DEE28935B9500E4EED0 /* ProfilePicWrapper.swift in Sources */,
+				5BE14737289EB68B0096FEBE /* CommentAutocompleteManager.swift in Sources */,
 				5B739DEF28935B9500E4EED0 /* MessageAPI.swift in Sources */,
 				5B739DF028935B9500E4EED0 /* SettingsViewController.swift in Sources */,
 				5B739DF128935B9500E4EED0 /* UIView+LoadFromNib.swift in Sources */,
+				5B235AF328A8DD4800FD27A9 /* UsersService.swift in Sources */,
 				5B739DF228935B9500E4EED0 /* PostFlagAPI.swift in Sources */,
 				5B739DF328935B9500E4EED0 /* WordAPI.swift in Sources */,
 				5B739DF428935B9500E4EED0 /* Post.swift in Sources */,
@@ -2398,7 +2572,7 @@
 				5B739DF728935B9500E4EED0 /* CustomMessagesFlowLayout.swift in Sources */,
 				5B739DF828935B9500E4EED0 /* Word.swift in Sources */,
 				5B739DF928935B9500E4EED0 /* String+Capitalization.swift in Sources */,
-				5B739DFA28935B9500E4EED0 /* UIView+FindVC.swift in Sources */,
+				5B739DFA28935B9500E4EED0 /* UIView+ParentVC.swift in Sources */,
 				5BC25A9828990BF9005AAF69 /* EmojiButton.swift in Sources */,
 				5B739DFB28935B9500E4EED0 /* DesignableTextField.swift in Sources */,
 				5B739DFC28935B9500E4EED0 /* DesignableButton.swift in Sources */,
@@ -2408,7 +2582,6 @@
 				5B739E0028935B9500E4EED0 /* BlockService.swift in Sources */,
 				5B739E0128935B9500E4EED0 /* CustomCardView.swift in Sources */,
 				5B739E0228935B9500E4EED0 /* TestViewController.swift in Sources */,
-				5B739E0328935B9500E4EED0 /* Color.swift in Sources */,
 				5B739E0428935B9500E4EED0 /* FeedType.swift in Sources */,
 				5B739E0528935B9500E4EED0 /* CircularProgressView.swift in Sources */,
 				5B739E0628935B9500E4EED0 /* DesignableView.swift in Sources */,
@@ -2416,11 +2589,14 @@
 				5B739E0828935B9500E4EED0 /* SpringButton.swift in Sources */,
 				5B739E0928935B9500E4EED0 /* CustomSheetViewController.swift in Sources */,
 				5B739E0A28935B9500E4EED0 /* SafeAreaInputAccessoryViewWrapperView.swift in Sources */,
+				5BE1473A289EB6EA0096FEBE /* TagAutocompleteCell.swift in Sources */,
 				5B739E0B28935B9500E4EED0 /* DesignableTextView.swift in Sources */,
 				5B739E0C28935B9500E4EED0 /* Setting.swift in Sources */,
 				5B739E0D28935B9500E4EED0 /* SpringTextView.swift in Sources */,
 				5B739E0E28935B9500E4EED0 /* UserService.swift in Sources */,
+				5BE14743289F8E750096FEBE /* String+Pattern.swift in Sources */,
 				5B739E0F28935B9500E4EED0 /* UIView+Shadow.swift in Sources */,
+				5BE14734289D3D9D0096FEBE /* FeederData.swift in Sources */,
 				5B739E1028935B9500E4EED0 /* PlaceAnnotation.swift in Sources */,
 				5B739E1128935B9500E4EED0 /* UIView+Animations.swift in Sources */,
 				5B739E1228935B9500E4EED0 /* PinMapModalViewController.swift in Sources */,
@@ -2441,6 +2617,7 @@
 				5B739E2128935B9500E4EED0 /* Array+FirstWhere.swift in Sources */,
 				5B739E2228935B9500E4EED0 /* NewPostViewController.swift in Sources */,
 				5B739E2328935B9500E4EED0 /* SpringLabel.swift in Sources */,
+				5BE147CC28A28CEF0096FEBE /* LinkTextView.swift in Sources */,
 				5B739E2428935B9500E4EED0 /* UISegmentedControl+Twitter.swift in Sources */,
 				5B739E2528935B9500E4EED0 /* SpringImageView.swift in Sources */,
 				5B739E2628935B9500E4EED0 /* AuthStartViewController.swift in Sources */,
@@ -2457,6 +2634,7 @@
 				5B739E3128935B9500E4EED0 /* LoginViewController.swift in Sources */,
 				5B739E3228935B9500E4EED0 /* FeedViewController.swift in Sources */,
 				5B739E3328935B9500E4EED0 /* MistWideLogoView.swift in Sources */,
+				5BE147D228A2A1E80096FEBE /* String+Ranges.swift in Sources */,
 				5B739E3428935B9500E4EED0 /* CreatePasswordViewController.swift in Sources */,
 				5B739E3528935B9500E4EED0 /* PostView.swift in Sources */,
 				5B739E3628935B9500E4EED0 /* EnterEmailViewController.swift in Sources */,
@@ -2479,6 +2657,8 @@
 				5B739E4628935B9500E4EED0 /* ButtonConfigs.swift in Sources */,
 				5B739E4728935B9500E4EED0 /* UISearchBar+CenterText.swift in Sources */,
 				5B739E4828935B9500E4EED0 /* DesignableTabBarController.swift in Sources */,
+				5BE147C728A0CDAA0096FEBE /* UITextView+PreventPeriod.swift in Sources */,
+				5B235AF928AC347C00FD27A9 /* CNContact+Number.swift in Sources */,
 				5B739E4928935B9500E4EED0 /* SettingCell.swift in Sources */,
 				5B739E4A28935B9500E4EED0 /* String+Indexing.swift in Sources */,
 				5B739E4B28935B9500E4EED0 /* ClusterAnnotationView.swift in Sources */,
@@ -2487,15 +2667,20 @@
 				5B739E4D28935B9500E4EED0 /* UITextField+MaxLength.swift in Sources */,
 				5B739E4E28935B9500E4EED0 /* CustomCenteredView.swift in Sources */,
 				5B739E4F28935B9500E4EED0 /* Block.swift in Sources */,
+				5BCEA510289A489700602A4D /* PostViewController+Autocomplete.swift in Sources */,
+				5BE1473D289F0FCE0096FEBE /* Validate.swift in Sources */,
 				5B739E5028935B9500E4EED0 /* PostAnnotationView.swift in Sources */,
 				5B739E5128935B9500E4EED0 /* Map.swift in Sources */,
 				43A25349289BA46800B1468F /* Tag.swift in Sources */,
+				5BE1474628A045CF0096FEBE /* UIImageView+Initials.swift in Sources */,
+				5B235B0B28AEB11900FD27A9 /* InputBarAccessoryView+.swift in Sources */,
 				5B739E5228935B9500E4EED0 /* Constants.swift in Sources */,
 				5B739E5328935B9500E4EED0 /* DesignableImageView.swift in Sources */,
 				5B739E5428935B9500E4EED0 /* FriendRequestService.swift in Sources */,
 				5B739E5528935B9500E4EED0 /* PostAnnotation.swift in Sources */,
 				5B739E5628935B9500E4EED0 /* Favorite.swift in Sources */,
 				5B29262A28974E10008A1F5D /* CommentVote.swift in Sources */,
+				5BC8822A28AFF793007E83F8 /* ChatViewController+Keyboard.swift in Sources */,
 				5B739E5728935B9500E4EED0 /* FilterSheetViewController.swift in Sources */,
 				5B739E5828935B9500E4EED0 /* Error.swift in Sources */,
 				5B739E5928935B9500E4EED0 /* PostFlag.swift in Sources */,
@@ -2674,12 +2859,9 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mist-ios/Prod.plists/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Mist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Mist needs access to your camera to take your profile picture. We'll take the photo you took with the camera and upload it as a profile picture.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = always;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Mist needs your location to find missed connections near you! We'll use the information to center the map on your coordinates.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app wants access to your photo library.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Mist needs access to your library so that you can choose a profile photo. We'll take the photo you selected and upload it as a profile picture.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = Launch;
 				INFOPLIST_KEY_UIMainStoryboardFile = Loading;
@@ -2721,12 +2903,9 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mist-ios/Prod.plists/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Mist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Mist needs access to your camera to take your profile picture. We'll take the photo you took with the camera and upload it as a profile picture.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = always;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Mist needs your location to find missed connections near you! We'll use the information to center the map on your coordinates.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app wants access to your photo library.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Mist needs access to your library so that you can choose a profile photo. We'll take the photo you selected and upload it as a profile picture.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = Launch;
 				INFOPLIST_KEY_UIMainStoryboardFile = Loading;
@@ -2773,7 +2952,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mist-ios.app/mist-ios";
 			};
 			name = Debug;
@@ -2797,7 +2976,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mist-ios.app/mist-ios";
 			};
 			name = Release;
@@ -2822,7 +3001,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = "mist-ios";
 			};
 			name = Debug;
@@ -2843,7 +3022,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = "mist-ios";
 			};
 			name = Release;
@@ -2870,12 +3049,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mist-ios/Dev.plists/mist-ios-dev-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Mist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Mist needs access to your camera to take your profile picture. We'll take the photo you took with the camera and upload it as a profile picture.";
-				INFOPLIST_KEY_NSContactsUsageDescription = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = Selfieee;
+				INFOPLIST_KEY_NSContactsUsageDescription = "Tag your contacts on a mist even if they don't have the app.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = always;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Mist needs your location to find missed connections near you! We'll use the information to center the map on your coordinates.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Find nearby mists and drop a pin with your submissions.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app wants access to your photo library.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Mist needs access to your library so that you can choose a profile photo. We'll take the photo you selected and upload it as a profile picture.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Time to find that perfect profile pic";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch-beta";
 				INFOPLIST_KEY_UIMainStoryboardFile = Loading;
@@ -2920,12 +3099,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mist-ios/Dev.plists/mist-ios-dev-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Mist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Mist needs access to your camera to take your profile picture. We'll take the photo you took with the camera and upload it as a profile picture.";
-				INFOPLIST_KEY_NSContactsUsageDescription = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = Selfieee;
+				INFOPLIST_KEY_NSContactsUsageDescription = "Tag your contacts on a mist even if they don't have the app.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = always;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Mist needs your location to find missed connections near you! We'll use the information to center the map on your coordinates.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Find nearby mists and drop a pin with your submissions.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app wants access to your photo library.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Mist needs access to your library so that you can choose a profile photo. We'll take the photo you selected and upload it as a profile picture.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Time to find that perfect profile pic";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch-beta";
 				INFOPLIST_KEY_UIMainStoryboardFile = Loading;
@@ -3043,6 +3222,14 @@
 				minimumVersion = 9.0.0;
 			};
 		};
+		5B235AFA28AC39D800FD27A9 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/PhoneNumberKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.4.0;
+			};
+		};
 		5B739D6F2891FD4C00E4EED0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -3126,6 +3313,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 47EE28F42840A2F500C6425C /* XCRemoteSwiftPackageReference "SwiftMessages" */;
 			productName = SwiftMessages;
+		};
+		5B235AFB28AC39D800FD27A9 /* PhoneNumberKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B235AFA28AC39D800FD27A9 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
+			productName = PhoneNumberKit;
+		};
+		5B235AFD28AC3A6E00FD27A9 /* PhoneNumberKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B235AFA28AC39D800FD27A9 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
+			productName = PhoneNumberKit;
 		};
 		5B739D702891FD4C00E4EED0 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -38,7 +38,7 @@ extension UISegmentedControl {
         let underLineYPosition = self.bounds.size.height - 1.0
         let underlineFrame = CGRect(x: underlineXPosition, y: underLineYPosition, width: underlineWidth, height: underlineHeight)
         let underline = UIView(frame: underlineFrame)
-        underline.backgroundColor = mistUIColor()
+        underline.backgroundColor = Constants.Color.mistLilac
         underline.tag = 1
         self.addSubview(underline)
     }
@@ -68,7 +68,7 @@ extension UISegmentedControl {
     func removeBorder(){
         self.tintColor = UIColor.clear
         self.backgroundColor = UIColor.white
-        self.setTitleTextAttributes( [NSAttributedString.Key.foregroundColor : mistUIColor()], for: .selected)
+        self.setTitleTextAttributes( [NSAttributedString.Key.foregroundColor : Constants.Color.mistLilac], for: .selected)
         self.setTitleTextAttributes( [NSAttributedString.Key.foregroundColor : UIColor.gray], for: .normal)
         if #available(iOS 13.0, *) {
             self.selectedSegmentTintColor = UIColor.clear

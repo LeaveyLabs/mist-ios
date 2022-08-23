@@ -26,6 +26,7 @@ class SearchResultsTableViewController: FeedViewController {
         tableView.refreshControl = nil //disable pull down top refresh
         tableView.separatorStyle = .none
         navigationItem.title = feedValue
+        tableView.register(PostCell.self, forCellReuseIdentifier: Constants.SBID.Cell.Post)
     }
     
     override func viewDidAppear(_ animated: Bool) {

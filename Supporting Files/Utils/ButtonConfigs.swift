@@ -16,7 +16,7 @@ struct ButtonConfigs {
         var enabledConfig = UIButton.Configuration.filled()
         enabledConfig.attributedTitle = AttributedString(title, attributes: AttributeContainer(enabledTitleAttributes))
         enabledConfig.cornerStyle = .capsule
-        enabledConfig.background.backgroundColor = mistUIColor()
+        enabledConfig.background.backgroundColor = Constants.Color.mistLilac
 //        enabledConfig.contentInsets = .init(top: 10, leading: 0, bottom: 10, trailing: 0) // Custom size
         //Note: must set contentInsets to custom in storyboard in order to lead/trail align
         enabledConfig.imagePadding = 5 // Pads the activity indicator
@@ -27,7 +27,7 @@ struct ButtonConfigs {
         var disabledConfig = UIButton.Configuration.filled()
         disabledConfig.attributedTitle = AttributedString(title, attributes: AttributeContainer(disabledTitleAttributes))
         disabledConfig.cornerStyle = .capsule
-        disabledConfig.background.backgroundColor = mistUIColor()
+        disabledConfig.background.backgroundColor = Constants.Color.mistLilac
 //        disabledConfig.contentInsets = .init(top: 10, leading: 0, bottom: 10, trailing: 0) // Custom size
         disabledConfig.imagePadding = 5 // Pads the activity indicator
         return disabledConfig

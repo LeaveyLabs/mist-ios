@@ -21,7 +21,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView {
             if let annotation = annotation as? PlaceAnnotation {
                 glyphImage = annotation.category?.symbolUIImage ?? MKPointOfInterestCategory.defaultSymbolUIImage
             }
-            glyphTintColor = mistUIColor()
+            glyphTintColor = Constants.Color.mistLilac
             markerTintColor = .white
             displayPriority = .required
         }

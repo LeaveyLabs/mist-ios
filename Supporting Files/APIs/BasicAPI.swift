@@ -76,14 +76,18 @@ class BasicAPI {
     }
     
     static func formatURLRequest(url:String, method:String, body:Data, headers:[String:String]) throws -> URLRequest {
-        let serviceUrl = URL(string: url)!
+        guard let serviceUrl = URL(string: url) else {
+            print("ERROR FORMATTING URL IN BASIC API:", url)
+            throw APIError.CouldNotConnect
+        }
+            
         var request = URLRequest(url: serviceUrl)
         request.httpMethod = method
         request.httpBody = body
         for (header, value) in headers {
             request.setValue(value, forHTTPHeaderField: header)
         }
-        request.timeoutInterval = 6
+        request.timeoutInterval = Env.Timeout_Duration
         return request
     }
     

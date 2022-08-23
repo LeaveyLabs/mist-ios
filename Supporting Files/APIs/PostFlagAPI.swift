@@ -20,7 +20,7 @@ class PostFlagAPI {
     static let FLAGGER_PARAM = "flagger"
     static let POST_PARAM = "post"
     
-    static let POST_FLAG_RECOVERY_MESSAGE = "Please try again."
+    static let POST_FLAG_RECOVERY_MESSAGE = "Please try again"
     
     static func filterPostFlagErrors(data:Data, response:HTTPURLResponse) throws {
         let statusCode = response.statusCode

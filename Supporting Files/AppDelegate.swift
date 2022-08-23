@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //        Performance.sharedInstance().isInstrumentationEnabled = false
 //        Performance.sharedInstance().isDataCollectionEnabled = false
 //        Analytics.setAnalyticsCollectionEnabled(false)
-        registerForRemoteNotification()
+//        registerForRemoteNotification()
         
         FirebaseApp.configure()
         return true

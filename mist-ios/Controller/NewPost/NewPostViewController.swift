@@ -159,8 +159,8 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         //shadow button
         dateLabelWrapperView.applyLightShadow()
         timeLabelWrapperView.applyLightShadow()
-        dateLabelWrapperView.backgroundColor = mistSecondaryUIColor()
-        timeLabelWrapperView.backgroundColor = mistSecondaryUIColor()
+        dateLabelWrapperView.backgroundColor = Constants.Color.mistPink
+        timeLabelWrapperView.backgroundColor = Constants.Color.mistPink
         dateLabel.textColor = .placeholderText
         timeLabel.textColor = .placeholderText
     }
@@ -202,7 +202,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     @IBAction func cancelButtonDidPressed(_ sender: UIBarButtonItem) {
         let hasMadeEdits = !bodyTextView.text.isEmpty || !titleTextView.text.isEmpty || currentlyPinnedAnnotation != nil || hasUserTappedDateLabel == true || hasUserTappedTimeLabel == true
         if hasMadeEdits {
-            CustomSwiftMessages.showAlert(title: "Before you go", body: "Would you like to save this post as a draft?", emoji: "🗑", dismissText: "No thanks", approveText: "Save", onDismiss: {
+            CustomSwiftMessages.showAlert(title: "Would you like to save this post as a draft?", body: "", emoji: "🗑", dismissText: "No thanks", approveText: "Save", onDismiss: {
                 NewPostContext.clear()
                 self.dismiss(animated: true)
             }, onApprove: {
@@ -293,7 +293,8 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         // Don't allow " " as first character
-        if text == " " && textView.text.count == 0 {
+        if (text == " " || text == "\n") && textView.text.count == 0 {
+            textView.text = ""
             return false
         }
         if text == "\n" {

@@ -30,7 +30,7 @@ class PostVoteAPI {
     static let RATING_PARAM = "rating"
     static let EMOJI_PARAM = "emoji"
     
-    static let POST_VOTE_RECOVERY_MESSAGE = "Please try again."
+    static let POST_VOTE_RECOVERY_MESSAGE = "Please try again later"
     
     static func filterPostVoteErrors(data:Data, response:HTTPURLResponse) throws {
         let statusCode = response.statusCode

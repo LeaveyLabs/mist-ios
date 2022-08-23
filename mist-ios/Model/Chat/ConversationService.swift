@@ -47,10 +47,8 @@ class ConversationService: NSObject {
                 value.server_messages.sort()
             }
             
-            //Get the frontendusers (users and their profile pics) for each thread
-            let users = try await UserAPI.batchFetchUsersFromUserIds(Set(Array(messageThreadsByUserIds.keys)))
-            let frontendUsers = try await UserAPI.batchTurnUsersIntoFrontendUsers(users.map { $0.value })
-                        
+            let frontendUsers = try await UsersService.singleton.loadAndCacheUsers(userIds: Array(messageThreadsByUserIds.keys))
+            
             //Wait for matchRequests and blocks to load in
             try await group.waitForAll()
             

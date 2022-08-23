@@ -29,10 +29,15 @@ class CustomCenteredView: MessageView {
     }
     
     func customConfig(approveText: String, dismissText: String) {
-        let dismissAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 18)!]
-        let approveAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Heavy, size: 18)!]
+        let dismissFontSize: CGFloat = dismissText.length > 12 ? 15 : 17
+        let dismissAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: dismissFontSize)!]
+        let approveAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Heavy, size: 19)!]
         approveButton.configuration?.attributedTitle = AttributedString(approveText, attributes: AttributeContainer(approveAttributes))
         dismissButton.configuration?.attributedTitle = AttributedString(dismissText, attributes: AttributeContainer(dismissAttributes))
+        
+        dismissButton.titleLabel?.textAlignment = .center
+        approveButton.titleLabel?.textAlignment = .center
+        
         
         if approveText.isEmpty {
             approveButton.isHidden = true

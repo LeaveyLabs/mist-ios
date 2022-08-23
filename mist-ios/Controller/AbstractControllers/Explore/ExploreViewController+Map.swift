@@ -199,18 +199,18 @@ extension ExploreViewController {
         if let newPostAnnotation = postAnnotations.first {
             feed.reloadData() //need to reload data after rearranging posts
             feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
-            slowFlyOutAndIn(lat: newPostAnnotation.coordinate.latitude + latitudeOffset,
-                            long: newPostAnnotation.coordinate.longitude,
-                            withDuration: cameraAnimationDuration+2) { finished in
-                self.mapView.selectAnnotation(newPostAnnotation, animated: true)
-            }
-//            slowFlyTo(lat: newPostAnnotation.coordinate.latitude + latitudeOffset,
-//                      long: newPostAnnotation.coordinate.longitude,
-//                      incrementalZoom: false,
-//                      withDuration: cameraAnimationDuration+2,
-//                      completion: { [self] _ in
-//                mapView.selectAnnotation(newPostAnnotation, animated: true)
-//            })
+//            slowFlyOutAndIn(lat: newPostAnnotation.coordinate.latitude + latitudeOffset,
+//                            long: newPostAnnotation.coordinate.longitude,
+//                            withDuration: cameraAnimationDuration+2) { finished in
+//                self.mapView.selectAnnotation(newPostAnnotation, animated: true)
+//            }
+            slowFlyTo(lat: newPostAnnotation.coordinate.latitude + latitudeOffset,
+                      long: newPostAnnotation.coordinate.longitude,
+                      incrementalZoom: false,
+                      withDuration: cameraAnimationDuration+2,
+                      completion: { [self] _ in
+                mapView.selectAnnotation(newPostAnnotation, animated: true)
+            })
         }
     }
     

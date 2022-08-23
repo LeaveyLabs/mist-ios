@@ -23,7 +23,7 @@ class MessageAPI {
     static let SENDER_PARAM = "sender"
     static let RECEIVER_PARAM = "receiver"
     
-    static let MESSAGE_RECOVERY_MESSAGE = "Please try again."
+    static let MESSAGE_RECOVERY_MESSAGE = "Please try again"
     
     static func filterMessageErrors(data:Data, response:HTTPURLResponse) throws {
         let statusCode = response.statusCode

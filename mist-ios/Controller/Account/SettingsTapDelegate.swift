@@ -71,7 +71,7 @@ extension SettingsTapDelegate where Self: UIViewController {
                 DispatchQueue.main.async { [self] in
                     transitionToStoryboard(storyboardID: Constants.SBID.SB.Auth,
                                                 viewControllerID: Constants.SBID.VC.AuthNavigation,
-                                                duration: Env.LAUNCH_ANIMATION_DURATION) { _ in}
+                                                duration: Env.TRANSITION_TO_HOME_DURATION) { _ in}
                     view.isUserInteractionEnabled = true
                 }
             }

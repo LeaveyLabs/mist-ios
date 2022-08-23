@@ -27,7 +27,8 @@ import MapKit
     @IBOutlet weak var moreButton: UIButton!
     @IBOutlet weak var reactButton: UIButton! //ToggleButton!
     lazy var reactButtonTextField: EmojiTextField = {
-        let emojiTextField = EmojiTextField(frame: .init(x: 1, y: 1, width: 1, height: 1))
+        let emojiTextField = EmojiTextField(frame: .init(x: 1, y: backgroundBubbleView.frame.maxY - reactButton.frame.height, width: 10, height: 1)) //position the emojiTextField at the bottom of an emoji Button. This prevents an error which existed where the emojiKeyboard raising wouldn't actually scroll for super long posts. Note: Can't put it all the way down at the bottom of postView, because with the hidden inputBar on PostViewController resting on top of the emoji keyboard, the hidden input bar ends up "covering" the emojiTextField and iOS autocorrects the keyboard in a way we don't want
+//        emojiTextField.backgroundColor = .red
         emojiTextField.isHidden = true
         emojiTextField.delegate = postDelegate
         emojiTextField.postDelegate = postDelegate
@@ -264,8 +265,8 @@ extension PostView {
         if reactButtonTextField.isFirstResponder {
             reactButtonTextField.resignFirstResponder()
         } else {
-            if let postVC = postDelegate as? PostViewController, postVC.commentTextView.isFirstResponder {
-                postVC.commentTextView.resignFirstResponder()
+            if let postVC = postDelegate as? PostViewController, postVC.inputBar.inputTextView.isFirstResponder {
+                postVC.inputBar.inputTextView.resignFirstResponder()
                 postDelegate.handleReactTap(postId: postId) //must come first to set flags
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { //let the other keyboard dismiss
                     self.reactButtonTextField.becomeFirstResponder()

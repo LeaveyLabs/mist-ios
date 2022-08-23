@@ -22,7 +22,7 @@ class CommentAPI {
     static let POST_PARAM = "post"
     static let AUTHOR_PARAM = "author"
     
-    static let COMMENT_RECOVERY_MESSAGE = "Please try again later."
+    static let COMMENT_RECOVERY_MESSAGE = "Please try again later"
     
     static func filterCommentErrors(data:Data, response:HTTPURLResponse) throws {
         let statusCode = response.statusCode
