@@ -132,6 +132,8 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         tableView.register(PostCell.self, forCellReuseIdentifier: Constants.SBID.Cell.Post)
         let commentNib = UINib(nibName: Constants.SBID.Cell.Comment, bundle: nil)
         tableView.register(commentNib, forCellReuseIdentifier: Constants.SBID.Cell.Comment)
+        let commentHeaderNib = UINib(nibName: Constants.SBID.Cell.CommentHeaderCell, bundle: nil)
+        tableView.register(commentHeaderNib, forCellReuseIdentifier: Constants.SBID.Cell.CommentHeaderCell)
         
         let tableViewTap = UITapGestureRecognizer.init(target: self, action: #selector(dismissAllKeyboards))
         tableView.addGestureRecognizer(tableViewTap)
@@ -392,6 +394,7 @@ extension PostViewController: UITableViewDataSource {
     }
     
     func postAndCommentCellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
+        let numberOfNonCommentCells = 2
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
             cell.configurePostCell(post: post, nestedPostViewDelegate: self, bubbleTrianglePosition: .left, isWithinPostVC: true)
@@ -402,12 +405,17 @@ extension PostViewController: UITableViewDataSource {
             postView = cell.postView
             return cell
         }
+        if indexPath.row == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.CommentHeaderCell, for: indexPath) as! CommentHeaderCell
+            cell.configure(commentCount: comments.count)
+            return cell
+        }
         //else the cell is a comment
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Comment, for: indexPath) as! CommentCell
-        let comment = comments[indexPath.row-1]
+        let comment = comments[indexPath.row - numberOfNonCommentCells]
         guard let commentAuthor = commentAuthors[comment.author] else { return cell }
         cell.configureCommentCell(comment: comment, delegate: self, author: commentAuthor)
-        let isLastComment = indexPath.row == comments.count
+        let isLastComment = indexPath.row - 1 == comments.count - numberOfNonCommentCells
         if isLastComment {
             cell.separatorInset = .init(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
         }

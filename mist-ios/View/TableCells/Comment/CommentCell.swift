@@ -41,7 +41,7 @@ class CommentCell: UITableViewCell {
         self.comment = comment
         self.commentDelegate = delegate
         self.author = author
-        self.separatorInset = .init(top: 0, left: 65, bottom: 0, right: 0)
+        self.separatorInset = .init(top: 0, left: 70, bottom: 0, right: 0)
         timestampLabel.text = getShortFormattedTimeString(timestamp: comment.timestamp)
         authorUsernameButton.setTitle(author.username, for: .normal)
         UIView.performWithoutAnimation {
