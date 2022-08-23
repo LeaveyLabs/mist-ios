@@ -61,15 +61,17 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.estimatedSectionHeaderHeight = 0
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = 0
-            tableView.sectionHeaderHeight = 10
+            tableView.sectionHeaderHeight = 5
         }
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension //necessary when using constraints within cells
     }
     
     func registerNibs() {
-        let settingNib = UINib(nibName: String(describing: SettingCell.self), bundle: nil);
+        let settingNib = UINib(nibName: String(describing: SettingCell.self), bundle: nil)
         tableView.register(settingNib, forCellReuseIdentifier: String(describing: SettingCell.self))
+        let feedbackNib = UINib(nibName: String(describing: FeedbackFormCell.self), bundle: nil)
+        tableView.register(feedbackNib, forCellReuseIdentifier: String(describing: FeedbackFormCell.self))
     }
     
     //MARK: - Table View DataSource
@@ -96,4 +98,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         selectedSetting.tapAction(with: self)
     }
 
+}
+
+extension SettingsViewController: UITextViewDelegate {
+    
+    
+    
 }

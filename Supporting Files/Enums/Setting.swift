@@ -8,57 +8,52 @@
 import Foundation
 
 enum Setting {
-    case addFriends, myFriends
-    case submissions, favorites //mentions
-    case email, phoneNumber, password, notifications, explore
-    case shareMist, contentGuidelines, help, legal, rateMist, faq
-    
-    //other screens
-    case contactUs, deleteAccount
-    case privacyPolicy, terms
+    //friends
+    case friends
+    //mists
+    case mentions, submissions, favorites
+    //other
+    case settings, shareFeedback, learnMore
+        case email, phoneNumber, deleteAccount
+        case rateMist, leaveReview, contactUs
+        case faq, contentGuidelines, privacyPolicy, terms
     
     var displayName : String {
         switch self {
         case .submissions:
             return "Submissions"
-//        case .mentions:
-//            return "Mentions"
+        case .mentions:
+            return "Mentions"
         case .favorites:
             return "Favorites"
         case .email:
             return "Email"
         case .phoneNumber:
             return "Phone Number"
-        case .password:
-            return "Password"
-        case .shareMist:
-            return "Share Mist"
         case .contentGuidelines:
             return "Content Guidelines"
-        case .help:
-            return "Help"
-        case .legal:
-            return "Legal"
-        case .addFriends:
-            return "Add Friends"
-        case .myFriends:
-            return "My Friends"
-        case .notifications:
-            return "Notifications"
-        case .explore:
-            return "Explore"
+        case .friends:
+            return "Friends"
         case .rateMist:
             return "Rate Mist"
         case .faq:
             return "FAQ"
         case .contactUs:
-            return "Contact Us"
+            return "Contact us"
         case .deleteAccount:
             return "Delete Account"
         case .privacyPolicy:
             return "Privacy Policy"
         case .terms:
             return "Terms of Use"
+        case .settings:
+            return "Settings"
+        case .shareFeedback:
+            return "Share your feedback"
+        case .learnMore:
+            return "Learn more"
+        case .leaveReview:
+            return "Leave a review"
         }
     }
     
@@ -68,79 +63,69 @@ enum Setting {
             return UIImage(systemName: "envelope")!
         case .phoneNumber:
             return UIImage(systemName: "phone")!
-        case .password:
-            return UIImage(systemName: "lock")!
-        case .rateMist:
-            return UIImage(systemName: "star")!
-        case .addFriends:
-            return UIImage(systemName: "person.badge.plus")!
-        case .myFriends:
+        case .leaveReview:
+            return UIImage(systemName: "message")!
+        case .friends:
             return UIImage(systemName: "person.2")!
         case .submissions:
             return UIImage(systemName: "plus")!
-//        case .mentions:
-//            return UIImage(systemName: "at")!
+        case .mentions:
+            return UIImage(systemName: "at")!
         case .favorites:
             return UIImage(systemName: "bookmark")!
-        case .notifications:
-            return UIImage(systemName: "bell.badge")!
-        case .explore:
-            return UIImage(systemName: "magnifyingglass")!
-        case .shareMist:
-            return UIImage(systemName: "square.and.arrow.up")!
+//        case .notifications:
+//            return UIImage(systemName: "bell.badge")!
+//        case .shareMist:
+//            return UIImage(systemName: "square.and.arrow.up")!
         case .contentGuidelines:
             return UIImage(systemName: "pencil.and.outline")!
-        case .help:
+        case .shareFeedback:
             return UIImage(systemName: "hand.wave")!
-        case .legal:
+        case .learnMore:
             return UIImage(systemName: "doc.plaintext")!
         case .faq:
             return UIImage(systemName: "questionmark.circle")!
         case .contactUs:
-            return UIImage(systemName: "message")!
+            return UIImage(systemName: "envelope")!
         case .deleteAccount:
             return UIImage(systemName: "person.crop.circle.badge.xmark")!
         case .privacyPolicy:
             return UIImage(systemName: "doc.plaintext")!
         case .terms:
             return UIImage(systemName: "doc.plaintext")!
+        case .settings:
+            return UIImage(systemName: "gearshape")!
+        case .rateMist:
+            return UIImage(systemName: "star")!
         }
     }
     
     func tapAction(with settingsTapDelegate: SettingsTapDelegate) {
         switch self {
-        case .addFriends:
-            break
-        case .myFriends:
+        case .friends:
             break
         case .submissions:
             settingsTapDelegate.handlePosts(setting: self)
-//        case .mentions:
-//            settingsTapDelegate.handlePosts(setting: self)
+        case .mentions:
+            settingsTapDelegate.handlePosts(setting: self)
         case .favorites:
             settingsTapDelegate.handlePosts(setting: self)
         case .email:
             break
         case .phoneNumber:
-            break
-        case .password:
-            settingsTapDelegate.handlePassword()
-        case .notifications:
-            break
-        case .explore:
-            break
-        case .shareMist:
-            settingsTapDelegate.handleShare()
+            settingsTapDelegate.handlePhoneNumber()
+//        case .notifications:
+//            break
+//        case .shareMist:
+//            settingsTapDelegate.handleShare()
         case .contentGuidelines:
             settingsTapDelegate.handleLink(setting: self)
-        case .help:
-            settingsTapDelegate.handleHelp()
-        case .legal:
-            settingsTapDelegate.handleLegal()
-        case .rateMist:
-            break
+        case .shareFeedback:
+            settingsTapDelegate.handleShareFeedback()
+        case .learnMore:
+            settingsTapDelegate.handleLearnMore()
         case .faq:
-            break
+            settingsTapDelegate.handleLink(setting: self)
         case .contactUs:
             settingsTapDelegate.handleLink(setting: self)
         case .deleteAccount:
@@ -149,6 +134,12 @@ enum Setting {
             settingsTapDelegate.handleLink(setting: self)
         case .terms:
             settingsTapDelegate.handleLink(setting: self)
+        case .settings:
+            settingsTapDelegate.handleSettings()
+        case .rateMist:
+            AppStoreReviewManager.requestReviewIfAppropriate()
+        case .leaveReview:
+            settingsTapDelegate.handleLeaveReview()
         }
     }
 }

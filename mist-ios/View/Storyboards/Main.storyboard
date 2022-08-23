@@ -699,7 +699,7 @@ make that cute barista’s day,
             </objects>
             <point key="canvasLocation" x="-6609" y="630"/>
         </scene>
-        <!--Account-->
+        <!--adamvnovak-->
         <scene sceneID="MmO-ha-Hcx">
             <objects>
                 <viewController storyboardIdentifier="MyAccountViewController" modalPresentationStyle="fullScreen" hidesBottomBarWhenPushed="YES" id="yXj-jB-a0J" customClass="MyAccountViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
@@ -774,7 +774,7 @@ make that cute barista’s day,
                             <constraint firstItem="Rna-kL-yjN" firstAttribute="top" secondItem="CKZ-a5-01q" secondAttribute="top" id="e0B-aH-9Vh"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Account" id="kCv-4A-Uma">
+                    <navigationItem key="navigationItem" title="adamvnovak" id="kCv-4A-Uma">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="xmark" catalog="system" id="TRa-eT-od3">
                             <connections>
                                 <action selector="cancelButtonDidPressed:" destination="yXj-jB-a0J" id="oYR-Gk-CM4"/>

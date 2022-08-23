@@ -20,9 +20,9 @@ class PostService: NSObject {
     
     private var explorePostIds = [Int]()
     private var conversationPostIds = [Int]()
-    private var submissionIds = [Int]()
-    private var favoriteIds = [Int]()
-//    private var mentions = [Int]()
+    private var submissionPostIds = [Int]()
+    private var favoritePostIds = [Int]()
+    private var mentionPostIds = [Int]()
     
     private var explorePostFilter = PostFilter()
     
@@ -53,14 +53,18 @@ class PostService: NSObject {
     }
     
     func loadSubmissions() async throws {
-        submissionIds = cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchPostsByAuthor(userId: UserService.singleton.getId()))
+        submissionPostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchPostsByAuthor(userId: UserService.singleton.getId()))
     }
+    
+//    func loadMentions() async throws {
+//        getMentions() = cachePostsAndGetArrayOfPostIdsFrom(posts: <#T##[Post]#>)
+//    }
     
     //Called by FavoriteService after favorites are loaded in
     func loadFavorites(favoritedPostIds: [Int]) async throws {
         //TODO: we should remove this bottom check if kevin updates the backend accordingly
         if !favoritedPostIds.isEmpty {
-            favoriteIds = cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchPostsByIds(ids: favoritedPostIds))
+            favoritePostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchPostsByIds(ids: favoritedPostIds))
         }
     }
     
@@ -112,11 +116,15 @@ class PostService: NSObject {
     }
     
     func getSubmissions() -> [Post] {
-        return getLoadedPostsFor(postIds: submissionIds)
+        return getLoadedPostsFor(postIds: submissionPostIds)
     }
     
     func getFavorites() -> [Post] {
-        return getLoadedPostsFor(postIds: favoriteIds)
+        return getLoadedPostsFor(postIds: favoritePostIds)
+    }
+    
+    func getMentions() -> [Post] {
+        return getLoadedPostsFor(postIds: mentionPostIds)
     }
     
     func getExploreFilter() -> PostFilter {
@@ -177,7 +185,7 @@ class PostService: NSObject {
                                                    author: UserService.singleton.getId())
         allLoadedPosts[newPost.id] = newPost
         
-        submissionIds.insert(newPost.id, at: 0)
+        submissionPostIds.insert(newPost.id, at: 0)
         explorePostIds.insert(newPost.id, at: 0)
     }
     
@@ -188,8 +196,8 @@ class PostService: NSObject {
         
         explorePostIds.removeFirstAppearanceOf(object: postId)
         conversationPostIds.removeAll { $0 == postId }
-        submissionIds.removeFirstAppearanceOf(object: postId)
-        favoriteIds.removeFirstAppearanceOf(object: postId)
+        submissionPostIds.removeFirstAppearanceOf(object: postId)
+        favoritePostIds.removeFirstAppearanceOf(object: postId)
 //        mentions.removeAll { $0 == postId }
         
         rerenderAnyVisiblePosts()
@@ -200,7 +208,7 @@ class PostService: NSObject {
     }
     
     func setFavoritePostIds(postIds: [Int]) {
-        favoriteIds = postIds
+        favoritePostIds = postIds
     }
     
 }

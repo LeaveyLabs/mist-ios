@@ -10,36 +10,38 @@ import Foundation
 protocol SettingsTapDelegate {
     //push new vc
     func handlePosts(setting: Setting)
-    func handleLegal()
-    func handleHelp()
-    func handlePassword()
-    func handleLink(setting: Setting)
+    func handleLearnMore()
+    func handleShareFeedback()
+    func handleSettings()
     //other
-    func handleShare()
     func handleDeleteAccount()
-    
+    func handleLeaveReview()
+    func handleLink(setting: Setting)
+    func handlePhoneNumber()
 }
 
 extension SettingsTapDelegate where Self: UIViewController {
+    
+    //MARK: - Push VC
     
     func handlePosts(setting: Setting) {
         guard let customExplore = CustomExploreViewController.create(setting: setting) else { return }
         navigationController?.pushViewController(customExplore, animated: true)
     }
     
-    func handleLegal() {
-        let settingsVC = SettingsViewController.create(settings: [.privacyPolicy, .terms])
+    func handleSettings() {
+        let settingsVC = SettingsViewController.create(settings: [.email, .phoneNumber, .deleteAccount])
         navigationController?.pushViewController(settingsVC, animated: true)
     }
     
-    func handleHelp() {
-        let settingsVC = SettingsViewController.create(settings: [.contactUs, .deleteAccount])
+    func handleShareFeedback() {
+        let settingsVC = SettingsViewController.create(settings: [.rateMist, .leaveReview, .contactUs])
         navigationController?.pushViewController(settingsVC, animated: true)
     }
     
-    func handlePassword() {
-        let passwordSettingVC = PasswordSettingViewController.create()
-        navigationController?.pushViewController(passwordSettingVC, animated: true)
+    func handleLearnMore() {
+        let settingsVC = SettingsViewController.create(settings: [.faq, .contentGuidelines, .terms, .privacyPolicy])
+        navigationController?.pushViewController(settingsVC, animated: true)
     }
         
     func handleLink(setting: Setting) {
@@ -51,11 +53,9 @@ extension SettingsTapDelegate where Self: UIViewController {
             UIApplication.shared.open(URL(string: "mailto:whatsup@getmist.app")!) //mailto can't use safari
         } else if setting == .contentGuidelines {
             openURL(URL(string: "https://www.getmist.app/content-guidelines")!)
+        } else if setting == .faq {
+            openURL(URL(string: "https://www.getmist.app/faq")!)
         }
-    }
-    
-    func handleShare() {
-        presentMistShareActivity()
     }
     
     func handleDeleteAccount() {
@@ -77,5 +77,33 @@ extension SettingsTapDelegate where Self: UIViewController {
             }
         })
     }
+    
+    func handleLeaveReview() {
+        guard let productURL = URL(string: "https://apps.apple.com/app/id1631426995") else { return }
+        var components = URLComponents(url: productURL, resolvingAgainstBaseURL: false)
+        components?.queryItems = [ URLQueryItem(name: "action", value: "write-review") ]
+        guard let writeReviewURL = components?.url else { return }
+        UIApplication.shared.open(writeReviewURL)
+    }
+    
+    func handlePhoneNumber() {
+        let requestPasswordVC = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.RequestResetPassword)
+        let navigationController = UINavigationController(rootViewController: requestPasswordVC)
+        if view.frame.size.width < 350 { //otherwise the content gets clipped
+            navigationController.modalPresentationStyle = .fullScreen
+        }
+        present(navigationController, animated: true)
+    }
+    
+    //Deprecated
+    
+//    func handleShare() {
+//        presentMistShareActivity()
+//    }
+    
+    //    func handlePassword() {
+    //        let passwordSettingVC = PasswordSettingViewController.create()
+    //        navigationController?.pushViewController(passwordSettingVC, animated: true)
+    //    }
 
 }

@@ -137,8 +137,16 @@ class VoteService: NSObject {
         }
     }
     
+    //OOHHHH SHIT THIS IS INTERESTING: adam you need to handle this elsewhere
+    //you can't deleteVote by deletedVote.id like this because the deleted vote might have been a placeholderVote with a random, incorrect id
+    //either: update the placeholderVote when the official vote loads in
+    //or delete in a different way
+    
     private func deleteCommentVote(commentId: Int) throws {
+        print("deleting commentid:", commentId)
+        print("commentVotes", commentVotes.map { $0.comment })
         guard let deletedVote = commentVotes.first(where: { $0.comment == commentId } ) else { return }
+        print("deleted vote:", deletedVote)
         commentVotes.removeAll { $0.id == deletedVote.id }
         
         Task {

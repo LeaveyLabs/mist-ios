@@ -17,17 +17,17 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="Omg this is so cute @adam" translatesAutoresizingMaskIntoConstraints="NO" id="3aT-vI-aN2" customClass="LinkTextView" customModule="mist_ios" customModuleProvider="target">
-                        <rect key="frame" x="63" y="29" width="283" height="39"/>
+                        <rect key="frame" x="59" y="27" width="287" height="43"/>
                         <color key="textColor" systemColor="labelColor"/>
                         <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="15"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
-                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="NxU-m6-kFX">
-                        <rect key="frame" x="68" y="14" width="128.5" height="20"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="NxU-m6-kFX">
+                        <rect key="frame" x="64" y="14" width="103.5" height="20"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OeR-EL-HNX">
-                                <rect key="frame" x="0.0" y="0.0" width="78" height="20"/>
-                                <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="13"/>
+                                <rect key="frame" x="0.0" y="0.0" width="77" height="20"/>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="13"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="adamvnovak">
                                     <color key="titleColor" systemColor="systemGrayColor"/>
@@ -37,18 +37,18 @@
                                 </connections>
                             </button>
                             <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="fRm-YM-tFp">
-                                <rect key="frame" x="82" y="0.5" width="0.0" height="19.5"/>
+                                <rect key="frame" x="81" y="9.5" width="0.0" height="2"/>
                                 <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="2"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5m" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gAP-XP-bhf">
-                                <rect key="frame" x="86" y="0.0" width="18.5" height="20"/>
+                                <rect key="frame" x="85" y="1" width="18.5" height="18"/>
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
                                 <color key="textColor" systemColor="systemGrayColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XRN-FN-wyF">
-                                <rect key="frame" x="112.5" y="0.0" width="16" height="20"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XRN-FN-wyF">
+                                <rect key="frame" x="103.5" y="-2" width="16" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="16" id="cd8-NO-Rwh"/>
                                 </constraints>
@@ -56,7 +56,7 @@
                                 <color key="tintColor" systemColor="systemGrayColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="ellipsis" catalog="system">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="13"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="11"/>
                                 </state>
                                 <connections>
                                     <action selector="didPressedMoreButton:" destination="7Lf-tX-Otk" eventType="touchUpInside" id="bxO-1l-r1G"/>
@@ -68,9 +68,9 @@
                         </constraints>
                     </stackView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IXa-b6-del">
-                        <rect key="frame" x="16" y="16" width="42" height="42"/>
+                        <rect key="frame" x="16" y="16" width="38" height="38"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="42" id="4cL-Uh-zOV"/>
+                            <constraint firstAttribute="width" constant="38" id="4cL-Uh-zOV"/>
                             <constraint firstAttribute="width" secondItem="IXa-b6-del" secondAttribute="height" id="kWA-k9-wm9"/>
                         </constraints>
                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -80,48 +80,55 @@
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hBJ-p2-o9a" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
-                        <rect key="frame" x="347.5" y="17" width="20.5" height="22"/>
+                        <rect key="frame" x="347.5" y="19" width="20.5" height="22"/>
                         <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                         <state key="normal" image="heart" catalog="system">
                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="17"/>
                         </state>
                         <connections>
-                            <action selector="didPressedVoteButton:" destination="7Lf-tX-Otk" eventType="touchUpInside" id="ggY-Wj-NBA"/>
+                            <action selector="didPressedVoteButton:" destination="7Lf-tX-Otk" eventType="touchUpInside" id="KUY-DP-pRp"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LYK-PT-OpQ">
-                        <rect key="frame" x="348" y="41" width="20" height="18"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="20" id="QOr-7O-WHd"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
-                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N1U-p2-2I2">
-                        <rect key="frame" x="69" y="75.5" width="321" height="0.5"/>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <rect key="frame" x="65" y="75.5" width="325" height="0.5"/>
+                        <color key="backgroundColor" systemColor="systemGray5Color"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="0.5" id="7Ne-Kj-7Zd"/>
                         </constraints>
                     </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sh3-NB-xUw" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
+                        <rect key="frame" x="348" y="41" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="9WI-Jw-nag"/>
+                            <constraint firstAttribute="width" constant="20" id="e0Z-Le-0v8"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
+                        <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                        <state key="normal" title="22">
+                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                        <connections>
+                            <action selector="didPressedVoteButton:" destination="7Lf-tX-Otk" eventType="touchUpInside" id="Pz1-bG-JkY"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="hBJ-p2-o9a" firstAttribute="top" secondItem="IXa-b6-del" secondAttribute="top" constant="3" id="5KE-ZQ-InB"/>
                     <constraint firstItem="3aT-vI-aN2" firstAttribute="leading" secondItem="IXa-b6-del" secondAttribute="trailing" constant="5" id="8HR-kh-HAg"/>
-                    <constraint firstItem="NxU-m6-kFX" firstAttribute="top" secondItem="41s-gV-vCI" secondAttribute="top" constant="14" id="FCm-Lz-N1v"/>
-                    <constraint firstItem="hBJ-p2-o9a" firstAttribute="top" secondItem="41s-gV-vCI" secondAttribute="top" constant="17" id="FLW-xV-tZg"/>
                     <constraint firstItem="N1U-p2-2I2" firstAttribute="leading" secondItem="OeR-EL-HNX" secondAttribute="leading" constant="1" id="Gv4-7s-QxF"/>
-                    <constraint firstItem="LYK-PT-OpQ" firstAttribute="centerX" secondItem="hBJ-p2-o9a" secondAttribute="centerX" id="HTT-8m-eMd"/>
-                    <constraint firstItem="3aT-vI-aN2" firstAttribute="top" secondItem="NxU-m6-kFX" secondAttribute="bottom" constant="-5" id="IR6-mX-knp"/>
+                    <constraint firstItem="3aT-vI-aN2" firstAttribute="top" secondItem="NxU-m6-kFX" secondAttribute="bottom" constant="-7" id="IR6-mX-knp"/>
                     <constraint firstAttribute="trailing" secondItem="hBJ-p2-o9a" secondAttribute="trailing" constant="22" id="IXb-WL-5Lc"/>
                     <constraint firstItem="IXa-b6-del" firstAttribute="top" secondItem="41s-gV-vCI" secondAttribute="top" constant="16" id="PL4-wV-NMg"/>
+                    <constraint firstItem="Sh3-NB-xUw" firstAttribute="leading" secondItem="3aT-vI-aN2" secondAttribute="trailing" constant="2" id="SHN-zg-2dX"/>
                     <constraint firstItem="IXa-b6-del" firstAttribute="leading" secondItem="41s-gV-vCI" secondAttribute="leading" constant="16" id="TYD-BM-unK"/>
                     <constraint firstAttribute="trailing" secondItem="N1U-p2-2I2" secondAttribute="trailing" id="bxW-f4-XDF"/>
-                    <constraint firstAttribute="bottom" secondItem="3aT-vI-aN2" secondAttribute="bottom" constant="8" id="d4r-wp-Wb6"/>
+                    <constraint firstAttribute="bottom" secondItem="3aT-vI-aN2" secondAttribute="bottom" constant="6" id="d4r-wp-Wb6"/>
+                    <constraint firstItem="NxU-m6-kFX" firstAttribute="top" secondItem="IXa-b6-del" secondAttribute="top" constant="-2" id="dtn-uA-cVQ"/>
                     <constraint firstItem="NxU-m6-kFX" firstAttribute="leading" secondItem="IXa-b6-del" secondAttribute="trailing" constant="10" id="eFd-TA-1uM"/>
-                    <constraint firstItem="LYK-PT-OpQ" firstAttribute="top" secondItem="hBJ-p2-o9a" secondAttribute="bottom" constant="2" id="efj-CJ-PPK"/>
-                    <constraint firstItem="LYK-PT-OpQ" firstAttribute="leading" secondItem="3aT-vI-aN2" secondAttribute="trailing" constant="2" id="iSO-fp-POt"/>
+                    <constraint firstItem="Sh3-NB-xUw" firstAttribute="centerX" secondItem="hBJ-p2-o9a" secondAttribute="centerX" id="ner-0U-9rh"/>
+                    <constraint firstItem="Sh3-NB-xUw" firstAttribute="top" secondItem="hBJ-p2-o9a" secondAttribute="bottom" id="sHc-bL-Ym4"/>
                     <constraint firstAttribute="bottom" secondItem="N1U-p2-2I2" secondAttribute="bottom" id="t7Y-vA-QlX"/>
                 </constraints>
             </tableViewCellContentView>
@@ -133,7 +140,7 @@
                 <outlet property="moreButton" destination="XRN-FN-wyF" id="jWB-JF-1p0"/>
                 <outlet property="timestampLabel" destination="gAP-XP-bhf" id="ehF-CG-b2s"/>
                 <outlet property="voteButton" destination="hBJ-p2-o9a" id="3H3-z4-1F0"/>
-                <outlet property="voteLabel" destination="LYK-PT-OpQ" id="JJP-sg-ZEi"/>
+                <outlet property="voteLabelButton" destination="Sh3-NB-xUw" id="oZU-31-NCY"/>
             </connections>
             <point key="canvasLocation" x="-68.115942028985515" y="4.0178571428571423"/>
         </tableViewCell>
@@ -145,6 +152,9 @@
         <image name="heart" catalog="system" width="128" height="109"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGrayColor">
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

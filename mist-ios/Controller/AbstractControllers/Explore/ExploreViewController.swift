@@ -118,6 +118,8 @@ extension ExploreViewController {
                 turnPostsIntoAnnotations(PostService.singleton.getSubmissions())
             } else if setting == .favorites {
                 turnPostsIntoAnnotations(PostService.singleton.getFavorites())
+            } else if setting == .mentions {
+                turnPostsIntoAnnotations(PostService.singleton.getMentions())
             }
         } else {
             turnPostsIntoAnnotations(PostService.singleton.getExplorePosts())

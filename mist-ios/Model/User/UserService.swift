@@ -87,6 +87,7 @@ class UserService: NSObject {
     func getLastName() -> String { return authedUser.last_name }
     func getFirstLastName() -> String { return authedUser.first_name + " " + authedUser.last_name }
     func getEmail() -> String { return authedUser.email }
+    func getPhoneNumber() -> String { return "111111111" }
     func getProfilePic() -> UIImage { return authedUser.profilePicWrapper.image }
     func getBlurredPic() -> UIImage { return authedUser.profilePicWrapper.blurredImage }
     
