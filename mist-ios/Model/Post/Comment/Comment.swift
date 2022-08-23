@@ -14,17 +14,20 @@ let DUMMY_COMMENT_USERNAME: String = ""
 
 struct Comment: Codable {
     
-    static let tagTextAttributes: [NSAttributedString.Key : Any] = [
+    static let tagDisplayAttributes: [NSAttributedString.Key : Any] = [
 //        .font: UIFont.preferredFont(forTextStyle: .body),
         .font: UIFont(name: Constants.Font.Roman, size: 15)!,
         .foregroundColor: UIColor(hex: "6D29C3"),
     ]
-    
-    static let normalTextAttributes: [NSAttributedString.Key : Any] = [
+    static let normalDisplayAttributes: [NSAttributedString.Key : Any] = [
         .font: UIFont(name: Constants.Font.Roman, size: 15)!,
         .foregroundColor: Constants.Color.mistBlack,
     ]
-    static let inputAttributes: [NSAttributedString.Key : Any] = [
+    static let tagInputAttributes: [NSAttributedString.Key : Any] = [
+        .font: UIFont(name: Constants.Font.Roman, size: 16)!,
+        .foregroundColor: Constants.Color.mistBlack,
+    ]
+    static let normalInputAttributes: [NSAttributedString.Key : Any] = [
         .font: UIFont(name: Constants.Font.Roman, size: 16)!,
         .foregroundColor: Constants.Color.mistBlack,
     ]
@@ -36,6 +39,7 @@ struct Comment: Codable {
     let author: Int
     let read_only_author: ReadOnlyUser
     let tags: [Tag]
+    let votecount: Int
     
     // Used when creating a comment
     init(id: Int = DUMMY_COMMENT_ID,
@@ -49,6 +53,7 @@ struct Comment: Codable {
         self.author = UserService.singleton.getId()
         self.read_only_author = UserService.singleton.getUserAsReadOnlyUser()
         self.tags = []
+        self.votecount = 0
     }
     
     //Used when creating a comment with recently received tags
@@ -60,5 +65,6 @@ struct Comment: Codable {
         self.author = comment.author
         self.read_only_author = comment.read_only_author
         self.tags = tags
+        self.votecount = 0
     }
 }

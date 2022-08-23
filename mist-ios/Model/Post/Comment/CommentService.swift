@@ -38,7 +38,7 @@ class CommentService: NSObject {
         return newComment
     }
     
-    func deleteComment(commentId: Int, postId: Int) async throws {
+    func deleteComment(commentId: Int) async throws {
         try await CommentAPI.deleteComment(comment_id: commentId)
     }
     

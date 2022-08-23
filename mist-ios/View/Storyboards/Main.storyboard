@@ -2996,6 +2996,104 @@ make that cute barista’s day,
             </objects>
             <point key="canvasLocation" x="1263" y="-250"/>
         </scene>
+        <!--Comment More View Controller-->
+        <scene sceneID="bLc-kq-9NN">
+            <objects>
+                <viewController storyboardIdentifier="CommentMoreViewController" id="FI4-9c-sSi" customClass="CommentMoreViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3RA-Xy-ZOq">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Pv1-2k-btd">
+                                <rect key="frame" x="15" y="592" width="360" height="141"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tsQ-zW-igQ" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="360" height="70"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="70" id="sUd-lC-0Ll"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <inset key="titleEdgeInsets" minX="30" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="Report" image="flag" catalog="system">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="reportButton:" destination="FI4-9c-sSi" eventType="touchUpInside" id="Om8-yg-zFF"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UWg-zB-04b" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="70" width="360" height="70"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="70" id="Oma-20-MCr"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <inset key="titleEdgeInsets" minX="31" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="Delete" image="trash" catalog="system">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
+                                        </state>
+                                        <state key="selected" title="Best" image="cup.and.saucer.fill" catalog="system">
+                                            <color key="titleColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="deleteButtonDidPressed:" destination="FI4-9c-sSi" eventType="touchUpInside" id="Ajc-Pl-ZaS"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OHr-ZC-fsX">
+                                        <rect key="frame" x="0.0" y="140" width="360" height="1"/>
+                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="1V9-ny-tN0"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R8b-eJ-bAZ">
+                                <rect key="frame" x="10" y="743" width="370" height="60"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="Exo-A2-J1L"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Close"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Close">
+                                    <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="closeButtonDidPressed:" destination="FI4-9c-sSi" eventType="touchUpInside" id="N3Z-lr-VzT"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="0ds-yj-MRp"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="0ds-yj-MRp" firstAttribute="bottom" secondItem="R8b-eJ-bAZ" secondAttribute="bottom" constant="7" id="1LC-zR-QRt"/>
+                            <constraint firstItem="R8b-eJ-bAZ" firstAttribute="leading" secondItem="0ds-yj-MRp" secondAttribute="leading" constant="10" id="HXq-6D-H1w"/>
+                            <constraint firstItem="Pv1-2k-btd" firstAttribute="leading" secondItem="0ds-yj-MRp" secondAttribute="leading" constant="15" id="cEg-oW-F6L"/>
+                            <constraint firstItem="0ds-yj-MRp" firstAttribute="trailing" secondItem="Pv1-2k-btd" secondAttribute="trailing" constant="15" id="hjd-cm-JaH"/>
+                            <constraint firstItem="0ds-yj-MRp" firstAttribute="trailing" secondItem="R8b-eJ-bAZ" secondAttribute="trailing" constant="10" id="tRG-kd-Bnt"/>
+                            <constraint firstItem="R8b-eJ-bAZ" firstAttribute="top" secondItem="Pv1-2k-btd" secondAttribute="bottom" constant="10" id="yPu-Wy-v3c"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="closeButton" destination="R8b-eJ-bAZ" id="Py7-OC-7zO"/>
+                        <outlet property="deleteButton" destination="UWg-zB-04b" id="YhB-5s-Bmy"/>
+                        <outlet property="deleteButtonGrayLine" destination="OHr-ZC-fsX" id="EcW-yD-fep"/>
+                        <outlet property="flagButton" destination="tsQ-zW-igQ" id="zPA-DU-74G"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NPY-zB-vzC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1168" y="1419"/>
+        </scene>
     </scenes>
     <color key="tintColor" name="mist-black"/>
     <resources>

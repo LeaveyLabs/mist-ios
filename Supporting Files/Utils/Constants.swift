@@ -64,6 +64,7 @@ struct Constants {
             static let Post = "PostViewController"
             static let SortBy = "SortByViewController"
             static let PostMore = "PostMoreViewController"
+            static let CommentMore = "CommentMoreViewController"
             //NewPost
             static let NewPost = "NewPostViewController"
             static let Rules = "RulesViewController"

@@ -125,7 +125,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
         tableView.dataSource = self
-        tableView.separatorStyle = .singleLine
+        tableView.separatorStyle = .none
         tableView.keyboardDismissMode = .interactive
         tableView.sectionFooterHeight = 50
 
@@ -359,16 +359,19 @@ extension PostViewController {
                 commentAuthors = try await UsersService.singleton.loadAndCacheUsers(users: comments.map { $0.read_only_author } )
 //                loadFakeProfilesWhenAWSIsDown()
                 DispatchQueue.main.async { [weak self] in
+                    self?.activityIndicator.stopAnimating() //must come before reloading tableView, since the activityIndicator's "isAnimating" is the flag for whether comments have loaded or not
+                    self?.activityIndicator.removeFromSuperview()
+                    self?.tableView.tableFooterView = nil
                     self?.tableView.reloadData()
                     self?.updateMessageCollectionViewBottomInset()
                 }
             } catch {
                 CustomSwiftMessages.displayError(error)
-            }
-            DispatchQueue.main.async { [weak self] in
-                self?.activityIndicator.stopAnimating()
-                self?.activityIndicator.removeFromSuperview()
-                self?.tableView.tableFooterView = nil
+                DispatchQueue.main.async { [weak self] in
+                    self?.activityIndicator.stopAnimating()
+                    self?.activityIndicator.removeFromSuperview()
+                    self?.tableView.tableFooterView = nil
+                }
             }
         }
     }
@@ -386,7 +389,7 @@ extension PostViewController {
 extension PostViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return comments.count + 1
+        return activityIndicator.isAnimating ? 1 : comments.count + 2 //1 for post, 1 for comment header
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -414,11 +417,8 @@ extension PostViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Comment, for: indexPath) as! CommentCell
         let comment = comments[indexPath.row - numberOfNonCommentCells]
         guard let commentAuthor = commentAuthors[comment.author] else { return cell }
-        cell.configureCommentCell(comment: comment, delegate: self, author: commentAuthor)
-        let isLastComment = indexPath.row - 1 == comments.count - numberOfNonCommentCells
-        if isLastComment {
-            cell.separatorInset = .init(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-        }
+        let isLastComment = (indexPath.row - numberOfNonCommentCells) + 1 == comments.count
+        cell.configureCommentCell(comment: comment, delegate: self, author: commentAuthor, shouldHideDivider: isLastComment)
         return cell
     }
     
@@ -466,6 +466,42 @@ extension PostViewController: CommentDelegate {
             }
         }
     }
+    
+    func handleCommentMore(commentId: Int, commentAuthor: Int) {
+        let moreVC = CommentMoreViewController.create(commentId: commentId, commentAuthor: commentAuthor, commentDelegate: self)
+        view.endEditing(true)
+        present(moreVC, animated: true)
+    }
+    
+    func handleCommentVote(commentId: Int, isAdding: Bool) {
+        do {
+            try VoteService.singleton.handleCommentVoteUpdate(commentId: commentId, isAdding)
+        } catch {
+            CustomSwiftMessages.displayError(error)
+            DispatchQueue.main.async {
+                self.tableView.reloadData() //reloadData to ensure undos are visible
+            }
+        }
+    }
+    
+    func handleCommentFlag(commentId: Int, isAdding: Bool) {
+        // Singleton & remote update
+        do {
+            try FlagService.singleton.handleCommentFlagUpdate(commentId: commentId, isAdding)
+        } catch {
+            CustomSwiftMessages.displayError(error)
+        }
+    }
+    
+    func handleSuccessfulCommentDelete(commentId: Int) {
+        guard let commentIndex = comments.firstIndex(where: { $0.id == commentId }) else { return }
+        comments.remove(at: commentIndex)
+        DispatchQueue.main.async { [self] in
+            tableView.beginUpdates()
+            tableView.deleteRows(at: [IndexPath(row: commentIndex + 2, section: 0)], with: .fade)
+            tableView.endUpdates()
+        }
+    }
 
 }
 
@@ -480,7 +516,7 @@ extension PostViewController: PostDelegate {
         
         // Singleton & remote update
         do {
-            try VoteService.singleton.handleVoteUpdate(postId: postId, emoji: emoji, action)
+            try VoteService.singleton.handlePostVoteUpdate(postId: postId, emoji: emoji, action)
         } catch {
 //            post.votecount = originalVoteCount //undo viewController data change
             (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data

@@ -43,14 +43,14 @@ class PostMoreViewController: CustomSheetViewController {
         
         closeButton.layer.cornerRadius = 5
         
-        flagButton.isSelectedImage = UIImage.init(systemName: "flag.fill")!
-        flagButton.isNotSelectedImage = UIImage.init(systemName: "flag")!
-        flagButton.isSelectedTitle = "Flagged"
-        flagButton.isNotSelectedTitle = "Flag"
-        favoriteButton.isSelectedImage = UIImage(systemName: "bookmark.fill")!
-        favoriteButton.isNotSelectedImage = UIImage(systemName: "bookmark")!
-        favoriteButton.isSelectedTitle = "Favorited"
-        favoriteButton.isNotSelectedTitle = "Favorite"
+        flagButton.selectedImage = UIImage.init(systemName: "flag.fill")!
+        flagButton.notSelectedImage = UIImage.init(systemName: "flag")!
+        flagButton.selectedTitle = "Flagged"
+        flagButton.notSelectedTitle = "Flag"
+        favoriteButton.selectedImage = UIImage(systemName: "bookmark.fill")!
+        favoriteButton.notSelectedImage = UIImage(systemName: "bookmark")!
+        favoriteButton.selectedTitle = "Favorited"
+        favoriteButton.notSelectedTitle = "Favorite"
         
         flagButton.isSelected = FlagService.singleton.hasFlaggedPost(postId)
         favoriteButton.isSelected = FavoriteService.singleton.hasFavoritedPost(postId)
@@ -74,8 +74,8 @@ class PostMoreViewController: CustomSheetViewController {
         
         // Remote and storage updates
         postDelegate?.handleFavorite(postId: postId, isAdding: favoriteButton.isSelected)
-        favoriteButton.isEnabled = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+            self.favoriteButton.isEnabled = true
             self.dismiss(animated: true)
         }
     }
@@ -87,8 +87,8 @@ class PostMoreViewController: CustomSheetViewController {
         
         // Remote and storage updates
         postDelegate?.handleFlag(postId: postId, isAdding: flagButton.isSelected)
-        flagButton.isEnabled = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+            self.flagButton.isEnabled = true
             self.dismiss(animated: true)
         }
     }
@@ -97,11 +97,20 @@ class PostMoreViewController: CustomSheetViewController {
         CustomSwiftMessages.showAlert(title: "Delete this mist", body: "Are you sure you want to delete this mist? This can't be undone.", emoji: "😟", dismissText: "Nevermind", approveText: "Delete", onDismiss: {
             
         }, onApprove: { [self] in
+            deleteButton.isEnabled = false
             Task {
-                try await PostService.singleton.deletePost(postId: postId)
-                DispatchQueue.main.async { [self] in
-                    dismiss(animated: true)
-                    postDelegate.handleDeletePost(postId: postId)
+                do {
+                    try await PostService.singleton.deletePost(postId: postId)
+                    DispatchQueue.main.async { [self] in
+                        dismiss(animated: true)
+                        deleteButton.isEnabled = true
+                        postDelegate.handleDeletePost(postId: postId)
+                    }
+                } catch {
+                    CustomSwiftMessages.displayError(error)
+                    DispatchQueue.main.async { [self] in
+                        dismiss(animated: true)
+                    }
                 }
             }
         })

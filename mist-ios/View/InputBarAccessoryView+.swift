@@ -16,12 +16,12 @@ extension InputBarAccessoryView {
         inputTextView.keyboardType = .twitter
         inputTextView.placeholder = COMMENT_PLACEHOLDER_TEXT
 //        inputTextView.font = UIFont(name: Constants.Font.Medium, size: 16) this is disregarded when using autocompleteManager
-        inputTextView.placeholderLabel.font = Comment.inputAttributes[.font] as? UIFont
+        inputTextView.placeholderLabel.font = Comment.normalInputAttributes[.font] as? UIFont
         inputTextView.placeholderTextColor = UIColor.systemGray2
 //        inputBar.backgroundView.backgroundColor = UIColor(hex: "F8F8F8")
 //        inputBar.shouldForceTextViewMaxHeight
-        separatorLine.height = 0.5
-        separatorLine.backgroundColor = UIColor.systemGray3
+        separatorLine.height = 0.4
+        separatorLine.backgroundColor = UIColor.systemGray2
         
         //Middle
         inputTextView.textContainerInset = UIEdgeInsets(top: 9, left: 8, bottom: 8, right: 45)
