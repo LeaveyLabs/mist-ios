@@ -33,11 +33,11 @@ class LinkTextView: UITextView {
         isScrollEnabled = false //on other applications, setting isScrollEnabled to false causes wrong behavior. Here, it's working fine though
         isEditable = false
         isSelectable = true
-        linkTextAttributes = Comment.tagTextAttributes
+        linkTextAttributes = Comment.tagDisplayAttributes
     }
     
     func removeAllLinks() {
-        attributedText = NSAttributedString(string: text, attributes: Comment.normalTextAttributes)
+        attributedText = NSAttributedString(string: text, attributes: Comment.normalDisplayAttributes)
     }
     
     func addLinks(_ links: Links) {

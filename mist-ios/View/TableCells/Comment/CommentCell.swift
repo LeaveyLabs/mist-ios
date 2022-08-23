@@ -26,6 +26,11 @@ class CommentCell: UITableViewCell {
     @IBOutlet weak var commentTextView: LinkTextView!
 //    @IBOutlet weak var backgroundBubbleView: UIView!
     @IBOutlet weak var timestampLabel: UILabel!
+    @IBOutlet weak var bottomDividerView: UIView!
+    
+    @IBOutlet weak var voteButton: ToggleButton!
+    @IBOutlet weak var voteLabel: UILabel!
+    @IBOutlet weak var moreButton: UIButton!
     
     //Information
     var comment: Comment!
@@ -37,17 +42,31 @@ class CommentCell: UITableViewCell {
     
     //MARK: - Initializer
     
-    func configureCommentCell(comment: Comment, delegate: CommentDelegate, author: FrontendReadOnlyUser) {
+    func configureCommentCell(comment: Comment, delegate: CommentDelegate, author: FrontendReadOnlyUser, shouldHideDivider: Bool) {
         self.comment = comment
         self.commentDelegate = delegate
         self.author = author
-        self.separatorInset = .init(top: 0, left: 70, bottom: 0, right: 0)
+        bottomDividerView.isHidden = shouldHideDivider
         timestampLabel.text = getShortFormattedTimeString(timestamp: comment.timestamp)
         authorUsernameButton.setTitle(author.username, for: .normal)
         UIView.performWithoutAnimation {
             authorProfilePicButton.imageView?.becomeProfilePicImageView(with: author.profilePic)
         }
         setupCommentTextView(text: comment.body, tags: comment.tags, delegate: delegate)
+        setupVoteButton(comment.votecount)
+    }
+    
+    func setupVoteButton(_ votecount: Int) {
+        voteButton.selectedTintColor = Constants.Color.mistLilac
+        voteButton.notSelectedTintColor = .lightGray
+        voteButton.notSelectedTitle = ""
+        voteButton.selectedTitle = ""
+        voteButton.selectedImage = UIImage(systemName: "heart.fill")
+        voteButton.notSelectedImage = UIImage(systemName: "heart")
+        
+        voteLabel.text = String(votecount)
+        let didLikeThisComment = VoteService.singleton.voteForComment(commentId: comment.id) != nil
+        voteButton.isSelected = didLikeThisComment
     }
     
     func setupCommentTextView(text: String, tags: [Tag], delegate: CommentDelegate) {
@@ -83,6 +102,29 @@ class CommentCell: UITableViewCell {
         
     @IBAction func didPressedAuthorButton(_ sender: UIButton) {
         commentDelegate.handleCommentProfilePicTap(commentAuthor: author)
+    }
+    
+    @IBAction func didPressedMoreButton(_ sender: UIButton) {
+        moreButton.isEnabled = false
+        commentDelegate.handleCommentMore(commentId: comment.id, commentAuthor: comment.author)
+        DispatchQueue.main.async {
+            self.moreButton.isEnabled = true
+        }
+    }
+    
+    @IBAction func didPressedVoteButton(_ sender: UIButton) {
+        guard let voteLabelText = voteLabel.text, let commentVoteCount = Int(voteLabelText) else {
+            CustomSwiftMessages.displayError("Oh shoot, something went wrong", "Please try again later")
+            return
+        }
+        
+        voteButton.isEnabled = false
+        voteButton.isSelected = !voteButton.isSelected
+        voteLabel.text = voteButton.isSelected ? String(commentVoteCount + 1) : String(commentVoteCount - 1)
+        commentDelegate.handleCommentVote(commentId: comment.id, isAdding: voteButton.isSelected)
+        DispatchQueue.main.async {
+            self.voteButton.isEnabled = true
+        }
     }
     
     //MARK: -Setup

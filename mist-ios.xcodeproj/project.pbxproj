@@ -186,8 +186,6 @@
 		47E295D8284BB7B000A680CC /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47E295D7284BB7B000A680CC /* PostView.xib */; };
 		47E2B1BD27FFC52900131B8D /* ShadowNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */; };
 		47E2B1BF2800C1CD00131B8D /* UITextView+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E2B1BE2800C1CD00131B8D /* UITextView+Placeholder.swift */; };
-		47E2B1C22800E9EB00131B8D /* MyCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E2B1C02800E9EB00131B8D /* MyCommentCell.swift */; };
-		47E2B1C32800E9EB00131B8D /* MyCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47E2B1C12800E9EB00131B8D /* MyCommentCell.xib */; };
 		47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E0B27CA0FFE00467A0C /* AppDelegate.swift */; };
 		47E74E0E27CA0FFE00467A0C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E74E0D27CA0FFE00467A0C /* SceneDelegate.swift */; };
 		47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47E74E1427CA0FFF00467A0C /* Assets.xcassets */; };
@@ -268,7 +266,6 @@
 		5B739D9D28935B9500E4EED0 /* UINavigationController+Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */; };
 		5B739D9E28935B9500E4EED0 /* PlaceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F10DC4285316AC00E1A3DC /* PlaceAnnotationView.swift */; };
 		5B739D9F28935B9500E4EED0 /* TransitionZoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A4BD328408BD800FD52B7 /* TransitionZoom.swift */; };
-		5B739DA028935B9500E4EED0 /* MyCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E2B1C02800E9EB00131B8D /* MyCommentCell.swift */; };
 		5B739DA128935B9500E4EED0 /* MatchCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */; };
 		5B739DA228935B9500E4EED0 /* CustomSwiftMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D5B36928441296004CDE6C /* CustomSwiftMessages.swift */; };
 		5B739DA328935B9500E4EED0 /* MatchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D925212852802E00438C5C /* MatchRequest.swift */; };
@@ -487,7 +484,6 @@
 		5B739E7B28935B9500E4EED0 /* SettingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 475271962855851200DDF84D /* SettingCell.xib */; };
 		5B739E7C28935B9500E4EED0 /* CustomCenteredView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47EE28FF28414B2300C6425C /* CustomCenteredView.xib */; };
 		5B739E7D28935B9500E4EED0 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4700F8BD27DD807C006C2E08 /* CommentCell.xib */; };
-		5B739E7E28935B9500E4EED0 /* MyCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47E2B1C12800E9EB00131B8D /* MyCommentCell.xib */; };
 		5B739E7F28935B9500E4EED0 /* CustomCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BB624B328620D5F00DCD45B /* CustomCardView.xib */; };
 		5B739E8028935B9500E4EED0 /* Loading.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */; };
 		5B739E8128935B9500E4EED0 /* WantToChatView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BCD490B287149210002BD02 /* WantToChatView.xib */; };
@@ -553,6 +549,11 @@
 		5BCE5F7E28B467AB002078E1 /* CommentHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCE5F7B28B467AB002078E1 /* CommentHeaderCell.swift */; };
 		5BCE5F7F28B467AB002078E1 /* CommentHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BCE5F7C28B467AB002078E1 /* CommentHeaderCell.xib */; };
 		5BCE5F8028B467AB002078E1 /* CommentHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BCE5F7C28B467AB002078E1 /* CommentHeaderCell.xib */; };
+		5BCE5F8228B483D2002078E1 /* CommentMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCE5F8128B483D2002078E1 /* CommentMoreViewController.swift */; };
+		5BCE5F8328B483D2002078E1 /* CommentMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCE5F8128B483D2002078E1 /* CommentMoreViewController.swift */; };
+		5BCE5F8428B48559002078E1 /* CommentFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43529E2A2890BC5900B3A484 /* CommentFlag.swift */; };
+		5BCE5F8528B485AB002078E1 /* CommentFlagAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43529E2E2890BD3D00B3A484 /* CommentFlagAPI.swift */; };
+		5BCE5F8628B48937002078E1 /* CommentVoteAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43529E2C2890BC9200B3A484 /* CommentVoteAPI.swift */; };
 		5BCEA50F289A489700602A4D /* PostViewController+Autocomplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */; };
 		5BCEA510289A489700602A4D /* PostViewController+Autocomplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */; };
 		5BD6F47E2896B3020002A60B /* StringChat+Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */; };
@@ -791,8 +792,6 @@
 		47E295D7284BB7B000A680CC /* PostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostView.xib; sourceTree = "<group>"; };
 		47E2B1BC27FFC52900131B8D /* ShadowNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowNavigationController.swift; sourceTree = "<group>"; };
 		47E2B1BE2800C1CD00131B8D /* UITextView+Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Placeholder.swift"; sourceTree = "<group>"; };
-		47E2B1C02800E9EB00131B8D /* MyCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommentCell.swift; sourceTree = "<group>"; };
-		47E2B1C12800E9EB00131B8D /* MyCommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyCommentCell.xib; sourceTree = "<group>"; };
 		47E74E0827CA0FFE00467A0C /* mist-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mist-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47E74E0B27CA0FFE00467A0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		47E74E0D27CA0FFE00467A0C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -894,6 +893,7 @@
 		5BCD490D28714F920002BD02 /* WantToChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantToChatView.swift; sourceTree = "<group>"; };
 		5BCE5F7B28B467AB002078E1 /* CommentHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentHeaderCell.swift; sourceTree = "<group>"; };
 		5BCE5F7C28B467AB002078E1 /* CommentHeaderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentHeaderCell.xib; sourceTree = "<group>"; };
+		5BCE5F8128B483D2002078E1 /* CommentMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentMoreViewController.swift; sourceTree = "<group>"; };
 		5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+Autocomplete.swift"; sourceTree = "<group>"; };
 		5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringChat+Emoji.swift"; sourceTree = "<group>"; };
 		5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResetPasswordViewController.swift; sourceTree = "<group>"; };
@@ -1214,8 +1214,6 @@
 			children = (
 				4700F8BC27DD807C006C2E08 /* CommentCell.swift */,
 				4700F8BD27DD807C006C2E08 /* CommentCell.xib */,
-				47E2B1C02800E9EB00131B8D /* MyCommentCell.swift */,
-				47E2B1C12800E9EB00131B8D /* MyCommentCell.xib */,
 				5BE147CA28A28CEF0096FEBE /* LinkTextView.swift */,
 				5BCE5F7B28B467AB002078E1 /* CommentHeaderCell.swift */,
 				5BCE5F7C28B467AB002078E1 /* CommentHeaderCell.xib */,
@@ -1572,6 +1570,7 @@
 				5BE14735289EB68B0096FEBE /* CommentAutocompleteManager.swift */,
 				472F8D1928505F4600DB69C4 /* PostDelegate.swift */,
 				5BE147CD28A2937E0096FEBE /* CommentDelegate.swift */,
+				5BCE5F8128B483D2002078E1 /* CommentMoreViewController.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -2053,7 +2052,6 @@
 				47EE290028414B2300C6425C /* CustomCenteredView.xib in Resources */,
 				4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */,
 				5BCE5F7F28B467AB002078E1 /* CommentHeaderCell.xib in Resources */,
-				47E2B1C32800E9EB00131B8D /* MyCommentCell.xib in Resources */,
 				5BB624B428620D5F00DCD45B /* CustomCardView.xib in Resources */,
 				5BC2763E286AE9BD00DA5A3D /* Loading.storyboard in Resources */,
 				5BCD490C287149210002BD02 /* WantToChatView.xib in Resources */,
@@ -2099,7 +2097,6 @@
 				5B739E7C28935B9500E4EED0 /* CustomCenteredView.xib in Resources */,
 				5B739E7D28935B9500E4EED0 /* CommentCell.xib in Resources */,
 				5BCE5F8028B467AB002078E1 /* CommentHeaderCell.xib in Resources */,
-				5B739E7E28935B9500E4EED0 /* MyCommentCell.xib in Resources */,
 				5B739E7F28935B9500E4EED0 /* CustomCardView.xib in Resources */,
 				5B739E8028935B9500E4EED0 /* Loading.storyboard in Resources */,
 				5B739E8128935B9500E4EED0 /* WantToChatView.xib in Resources */,
@@ -2192,7 +2189,6 @@
 				478BA27B283E77C100C35507 /* UINavigationController+Completion.swift in Sources */,
 				47F10DC5285316AC00E1A3DC /* PlaceAnnotationView.swift in Sources */,
 				472A4BF128408BD800FD52B7 /* TransitionZoom.swift in Sources */,
-				47E2B1C22800E9EB00131B8D /* MyCommentCell.swift in Sources */,
 				5BE1474528A045CF0096FEBE /* UIImageView+Initials.swift in Sources */,
 				5B774DFF286D570400CCCF28 /* MatchCollectionCell.swift in Sources */,
 				47D5B36A28441296004CDE6C /* CustomSwiftMessages.swift in Sources */,
@@ -2418,6 +2414,7 @@
 				5B4D58A72860D7FB002E2F94 /* UIImageView+ProfilePic.swift in Sources */,
 				470F271F27DE9ABE00C6DDAF /* SearchResultsTableViewController.swift in Sources */,
 				47061CD028510E4C0042F04C /* MKPlacemark+Address.swift in Sources */,
+				5BCE5F8228B483D2002078E1 /* CommentMoreViewController.swift in Sources */,
 				5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */,
 				5BE147D128A2A1E80096FEBE /* String+Ranges.swift in Sources */,
 				5BA401F72878052B004A556E /* Env.swift in Sources */,
@@ -2478,7 +2475,6 @@
 				5BE147CF28A2937E0096FEBE /* CommentDelegate.swift in Sources */,
 				5B235B0828AEAD4300FD27A9 /* UIViewController+Window.swift in Sources */,
 				5B739D9F28935B9500E4EED0 /* TransitionZoom.swift in Sources */,
-				5B739DA028935B9500E4EED0 /* MyCommentCell.swift in Sources */,
 				5B235B0228ADE3B200FD27A9 /* EnterNumberViewController.swift in Sources */,
 				5B235B0F28AEFDFC00FD27A9 /* PanGesture+Direction.swift in Sources */,
 				5B739DA128935B9500E4EED0 /* MatchCollectionCell.swift in Sources */,
@@ -2486,6 +2482,7 @@
 				5B739DA328935B9500E4EED0 /* MatchRequest.swift in Sources */,
 				5B739DA428935B9500E4EED0 /* AuthAPI.swift in Sources */,
 				5B739DA528935B9500E4EED0 /* UIView+RoundedIndividualCorners.swift in Sources */,
+				5BCE5F8328B483D2002078E1 /* CommentMoreViewController.swift in Sources */,
 				5B739DA628935B9500E4EED0 /* MyProfileCell.swift in Sources */,
 				5B739DA728935B9500E4EED0 /* UserResultCell.swift in Sources */,
 				5B739DA828935B9500E4EED0 /* ExploreViewController+Map.swift in Sources */,
@@ -2583,6 +2580,7 @@
 				5B739DF728935B9500E4EED0 /* CustomMessagesFlowLayout.swift in Sources */,
 				5B739DF828935B9500E4EED0 /* Word.swift in Sources */,
 				5B739DF928935B9500E4EED0 /* String+Capitalization.swift in Sources */,
+				5BCE5F8428B48559002078E1 /* CommentFlag.swift in Sources */,
 				5B739DFA28935B9500E4EED0 /* UIView+ParentVC.swift in Sources */,
 				5BC25A9828990BF9005AAF69 /* EmojiButton.swift in Sources */,
 				5B739DFB28935B9500E4EED0 /* DesignableTextField.swift in Sources */,
@@ -2594,6 +2592,7 @@
 				5B739E0128935B9500E4EED0 /* CustomCardView.swift in Sources */,
 				5B739E0228935B9500E4EED0 /* TestViewController.swift in Sources */,
 				5B739E0428935B9500E4EED0 /* FeedType.swift in Sources */,
+				5BCE5F8528B485AB002078E1 /* CommentFlagAPI.swift in Sources */,
 				5B739E0528935B9500E4EED0 /* CircularProgressView.swift in Sources */,
 				5B739E0628935B9500E4EED0 /* DesignableView.swift in Sources */,
 				5B739E0728935B9500E4EED0 /* LoadingViewController.swift in Sources */,
@@ -2648,6 +2647,7 @@
 				5BE147D228A2A1E80096FEBE /* String+Ranges.swift in Sources */,
 				5B739E3428935B9500E4EED0 /* CreatePasswordViewController.swift in Sources */,
 				5B739E3528935B9500E4EED0 /* PostView.swift in Sources */,
+				5BCE5F8628B48937002078E1 /* CommentVoteAPI.swift in Sources */,
 				5B739E3628935B9500E4EED0 /* EnterEmailViewController.swift in Sources */,
 				5B739E3728935B9500E4EED0 /* MatchRequestAPI.swift in Sources */,
 				5B739E3828935B9500E4EED0 /* User.swift in Sources */,

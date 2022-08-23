@@ -307,7 +307,9 @@ extension PostView {
             }
         }
 
-        emojiButtons.forEach { $0.isEnabled = true }
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            self.emojiButtons.forEach { $0.isEnabled = true }
+        }
     }
     
 }

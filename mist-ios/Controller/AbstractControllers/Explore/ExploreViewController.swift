@@ -193,7 +193,7 @@ extension ExploreViewController: PostDelegate {
                 
         // Singleton & remote update
         do {
-            try VoteService.singleton.handleVoteUpdate(postId: postId, emoji: emoji, action)
+            try VoteService.singleton.handlePostVoteUpdate(postId: postId, emoji: emoji, action)
         } catch {
             reloadData() //reloadData to ensure undos are visible
             CustomSwiftMessages.displayError(error)

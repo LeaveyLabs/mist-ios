@@ -58,6 +58,9 @@
                                 <state key="normal" image="ellipsis" catalog="system">
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="13"/>
                                 </state>
+                                <connections>
+                                    <action selector="didPressedMoreButton:" destination="7Lf-tX-Otk" eventType="touchUpInside" id="bxO-1l-r1G"/>
+                                </connections>
                             </button>
                         </subviews>
                         <constraints>
@@ -76,16 +79,19 @@
                             <action selector="didPressedAuthorButton:" destination="7Lf-tX-Otk" eventType="touchUpInside" id="3K6-aa-ENA"/>
                         </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hBJ-p2-o9a">
-                        <rect key="frame" x="347.5" y="16" width="20.5" height="22"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hBJ-p2-o9a" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
+                        <rect key="frame" x="347.5" y="17" width="20.5" height="22"/>
                         <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                         <state key="normal" image="heart" catalog="system">
                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="17"/>
                         </state>
+                        <connections>
+                            <action selector="didPressedVoteButton:" destination="7Lf-tX-Otk" eventType="touchUpInside" id="ggY-Wj-NBA"/>
+                        </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LYK-PT-OpQ">
-                        <rect key="frame" x="348" y="40" width="20" height="18"/>
+                        <rect key="frame" x="348" y="41" width="20" height="18"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="20" id="QOr-7O-WHd"/>
                         </constraints>
@@ -93,27 +99,41 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N1U-p2-2I2">
+                        <rect key="frame" x="69" y="75.5" width="321" height="0.5"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="0.5" id="7Ne-Kj-7Zd"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="3aT-vI-aN2" firstAttribute="leading" secondItem="IXa-b6-del" secondAttribute="trailing" constant="5" id="8HR-kh-HAg"/>
                     <constraint firstItem="NxU-m6-kFX" firstAttribute="top" secondItem="41s-gV-vCI" secondAttribute="top" constant="14" id="FCm-Lz-N1v"/>
-                    <constraint firstItem="hBJ-p2-o9a" firstAttribute="top" secondItem="41s-gV-vCI" secondAttribute="top" constant="16" id="FLW-xV-tZg"/>
+                    <constraint firstItem="hBJ-p2-o9a" firstAttribute="top" secondItem="41s-gV-vCI" secondAttribute="top" constant="17" id="FLW-xV-tZg"/>
+                    <constraint firstItem="N1U-p2-2I2" firstAttribute="leading" secondItem="OeR-EL-HNX" secondAttribute="leading" constant="1" id="Gv4-7s-QxF"/>
                     <constraint firstItem="LYK-PT-OpQ" firstAttribute="centerX" secondItem="hBJ-p2-o9a" secondAttribute="centerX" id="HTT-8m-eMd"/>
                     <constraint firstItem="3aT-vI-aN2" firstAttribute="top" secondItem="NxU-m6-kFX" secondAttribute="bottom" constant="-5" id="IR6-mX-knp"/>
                     <constraint firstAttribute="trailing" secondItem="hBJ-p2-o9a" secondAttribute="trailing" constant="22" id="IXb-WL-5Lc"/>
                     <constraint firstItem="IXa-b6-del" firstAttribute="top" secondItem="41s-gV-vCI" secondAttribute="top" constant="16" id="PL4-wV-NMg"/>
                     <constraint firstItem="IXa-b6-del" firstAttribute="leading" secondItem="41s-gV-vCI" secondAttribute="leading" constant="16" id="TYD-BM-unK"/>
+                    <constraint firstAttribute="trailing" secondItem="N1U-p2-2I2" secondAttribute="trailing" id="bxW-f4-XDF"/>
                     <constraint firstAttribute="bottom" secondItem="3aT-vI-aN2" secondAttribute="bottom" constant="8" id="d4r-wp-Wb6"/>
                     <constraint firstItem="NxU-m6-kFX" firstAttribute="leading" secondItem="IXa-b6-del" secondAttribute="trailing" constant="10" id="eFd-TA-1uM"/>
                     <constraint firstItem="LYK-PT-OpQ" firstAttribute="top" secondItem="hBJ-p2-o9a" secondAttribute="bottom" constant="2" id="efj-CJ-PPK"/>
                     <constraint firstItem="LYK-PT-OpQ" firstAttribute="leading" secondItem="3aT-vI-aN2" secondAttribute="trailing" constant="2" id="iSO-fp-POt"/>
+                    <constraint firstAttribute="bottom" secondItem="N1U-p2-2I2" secondAttribute="bottom" id="t7Y-vA-QlX"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="authorProfilePicButton" destination="IXa-b6-del" id="wZv-sK-n11"/>
                 <outlet property="authorUsernameButton" destination="OeR-EL-HNX" id="OOY-lz-OyF"/>
+                <outlet property="bottomDividerView" destination="N1U-p2-2I2" id="j9o-mA-oB5"/>
                 <outlet property="commentTextView" destination="3aT-vI-aN2" id="mTL-yq-t0O"/>
+                <outlet property="moreButton" destination="XRN-FN-wyF" id="jWB-JF-1p0"/>
                 <outlet property="timestampLabel" destination="gAP-XP-bhf" id="ehF-CG-b2s"/>
+                <outlet property="voteButton" destination="hBJ-p2-o9a" id="3H3-z4-1F0"/>
+                <outlet property="voteLabel" destination="LYK-PT-OpQ" id="JJP-sg-ZEi"/>
             </connections>
             <point key="canvasLocation" x="-68.115942028985515" y="4.0178571428571423"/>
         </tableViewCell>

@@ -8,19 +8,23 @@
 import Foundation
 
 class ToggleButton: UIButton {
-    var isSelectedImage: UIImage!
-    var isSelectedTitle: String!
-    var isNotSelectedImage: UIImage!
-    var isNotSelectedTitle: String!
+    var selectedImage: UIImage!
+    var selectedTitle: String!
+    var notSelectedImage: UIImage!
+    var notSelectedTitle: String!
+    var selectedTintColor: UIColor = .black
+    var notSelectedTintColor: UIColor = .black
     
     override var isSelected: Bool {
         didSet {
             if isSelected {
-                setImage(isSelectedImage, for: .normal)
-                setTitle(isSelectedTitle, for: .normal)
+                tintColor = selectedTintColor
+                setImage(selectedImage, for: .normal)
+                setTitle(selectedTitle, for: .normal)
             } else {
-                setImage(isNotSelectedImage, for: .normal)
-                setTitle(isNotSelectedTitle, for: .normal)
+                tintColor = notSelectedTintColor
+                setImage(notSelectedImage, for: .normal)
+                setTitle(notSelectedTitle, for: .normal)
             }
         }
     }

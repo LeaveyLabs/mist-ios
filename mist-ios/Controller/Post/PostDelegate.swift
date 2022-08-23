@@ -10,7 +10,6 @@ import Foundation
 protocol PostDelegate: ShareActivityDelegate, UITextFieldDelegate { // , AnyObject not needed bc UITextFieldDelegate
     // Implemented below
     func handleMoreTap(postId: Int, postAuthor: Int)
-    func handleVote(postId: Int, emoji: String, action: VoteAction)
     func handleFavorite(postId: Int, isAdding: Bool)
     func handleFlag(postId: Int, isAdding: Bool)
     func handleDmTap(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String)
@@ -18,6 +17,7 @@ protocol PostDelegate: ShareActivityDelegate, UITextFieldDelegate { // , AnyObje
     func emojiKeyboardDidDelete()
 
     // Require subclass implementation
+    func handleVote(postId: Int, emoji: String, action: VoteAction)
     func handleCommentButtonTap(postId: Int)
     func handleBackgroundTap(postId: Int)
     func handleDeletePost(postId: Int)    
@@ -96,7 +96,7 @@ extension PostDelegate where Self: UIViewController {
     func handleFlag(postId: Int, isAdding: Bool) {
         // Singleton & remote update
         do {
-            try FlagService.singleton.handleFlagUpdate(postId: postId, isAdding)
+            try FlagService.singleton.handlePostFlagUpdate(postId: postId, isAdding)
         } catch {
             CustomSwiftMessages.displayError(error)
         }

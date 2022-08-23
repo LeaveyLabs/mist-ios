@@ -12,6 +12,11 @@ protocol CommentDelegate: UITextViewDelegate {
     func handleTagTap(taggedUserId: Int?, taggedNumber: String?, taggedHandle: String)
     func beginLoadingTaggedProfile(taggedUserId: Int?, taggedNumber: String?)
     
+    func handleCommentMore(commentId: Int, commentAuthor: Int)
+    func handleCommentVote(commentId: Int, isAdding: Bool)
+    func handleCommentFlag(commentId: Int, isAdding: Bool)
+    func handleSuccessfulCommentDelete(commentId: Int)
+    
     //UITextViewDelegate
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool
 }
