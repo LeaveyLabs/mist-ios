@@ -22,7 +22,7 @@ extension UIButton {
             self.isEnabled = false
             self.alpha = 0.5
             let indicator = UIActivityIndicatorView()
-            indicator.color = .black
+            indicator.color = Constants.Color.mistBlack
             let buttonHeight = self.bounds.size.height
             let buttonWidth = self.bounds.size.width
             indicator.center = CGPoint(x: buttonWidth/2, y: buttonHeight/2)

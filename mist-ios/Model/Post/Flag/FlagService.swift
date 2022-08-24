@@ -63,7 +63,7 @@ class FlagService: NSObject {
     }
     
     private func unFlagPost(_ postToBeUnFlagged: Int) throws {
-        let flagToDelete = postFlagsFromYou.first { $0.post == postToBeUnFlagged }!
+        guard let flagToDelete = postFlagsFromYou.first(where: { $0.post == postToBeUnFlagged }) else { return }
         postFlagsFromYou.removeAll { $0.id == flagToDelete.id }
         
         Task {
@@ -101,9 +101,8 @@ class FlagService: NSObject {
     }
     
     private func unFlagComment(_ commentToBeUnFlagged: Int) throws {
-        let flagToDelete = commentFlagsFromYou.first { $0.comment == commentToBeUnFlagged }!
+        guard let flagToDelete = commentFlagsFromYou.first(where: { $0.comment == commentToBeUnFlagged }) else { return }
         commentFlagsFromYou.removeAll { $0.id == flagToDelete.id }
-        
         Task {
             do {
                 let _ = try await CommentFlagAPI.deleteFlag(flaggerId: UserService.singleton.getId(), commentId: commentToBeUnFlagged)

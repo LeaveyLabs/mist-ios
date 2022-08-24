@@ -278,6 +278,17 @@ extension PostView {
         }
     }
     
+    @objc func postWasDoubleTapped() {
+        print("WAS DOUBLE TAPPED")
+        guard
+            let random = Array(0x1F300...0x1F3F0).randomElement(),
+            let randomEmojiScalar = UnicodeScalar(random)
+        else { return }
+        let randomEmoji = String(randomEmojiScalar)
+        guard randomEmoji.isSingleEmoji else { return }
+        handleEmojiVote(emojiString: randomEmoji)
+    }
+    
     @IBAction func emojiButtonDidPressed(_ sender: EmojiButton) {
         handleEmojiVote(emojiString: sender.emoji)
     }

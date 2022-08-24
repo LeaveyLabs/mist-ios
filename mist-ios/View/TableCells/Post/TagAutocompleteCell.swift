@@ -95,7 +95,7 @@ class TagAutocompleteCell: AutocompleteCell {
         }
         imageView.addInitials(initials: initials,
                               font: UIFont(name: Constants.Font.Heavy, size: 16)!,
-                              textColor: .black,
+                              textColor: Constants.Color.mistBlack,
                               backgroundColor: .systemGray6)
     }
     

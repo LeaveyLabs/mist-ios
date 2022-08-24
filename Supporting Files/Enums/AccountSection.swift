@@ -8,18 +8,18 @@
 import Foundation
 
 enum AccountSection: Int, CaseIterable {
-    case profile, posts, settings, more, logout // friends
+    case profile, posts, other, logout //friends
     
     var displayName : String {
         switch self {
         case .profile:
             return "PROFILE"
+//        case .friends:
+//            return "FRIENDS"
         case .posts:
             return "MISTS"
-        case .settings:
-            return "SETTINGS"
-        case .more:
-            return "MORE"
+        case .other:
+            return "OTHER"
         case .logout:
             return ""
         }
@@ -29,12 +29,12 @@ enum AccountSection: Int, CaseIterable {
         switch self {
         case .profile:
             return []
+//        case .friends:
+//            return [.friends]
         case .posts:
-            return [.favorites, .submissions]
-        case .settings:
-            return [.email, .password]
-        case .more:
-            return [.shareMist, .contentGuidelines, .help, .legal]
+            return [.mentions, .submissions, .favorites]
+        case .other:
+            return [.settings, .shareFeedback, .learnMore]
         case .logout:
             return []
         }
