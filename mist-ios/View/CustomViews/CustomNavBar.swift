@@ -11,6 +11,8 @@ protocol CustomNavBarDelegate {
     func handleProfileButtonTap()
     func handleMapButtonTap()
     func handleSearchButtonTap()
+    func handleXMarkButtonTap()
+    func handleBackButtonTap()
 }
 
 extension CustomNavBarDelegate where Self: UIViewController {
@@ -31,13 +33,40 @@ extension CustomNavBarDelegate where Self: UIViewController {
     func handleSearchButtonTap() {
         fatalError("Sublcass must override this method")
     }
-}
-
-enum CustomNavBarItem: CaseIterable {
-    case profile, search, title, map
+    
+    func handleXMarkButtonTap() {
+        fatalError("Sublcass must override this method")
+    }
+    
+    func handleBackButtonTap() {
+        dismiss(animated: true)
+    }
 }
 
 class CustomNavBar: UIView {
+    
+    static let navBarButtonConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default)
+    
+    enum CustomNavBarItem: CaseIterable {
+        case profile, search, title, map, back, xmark
+
+        var image: UIImage {
+            switch self {
+            case .profile:
+                return UserService.singleton.getProfilePic()
+            case .search:
+                return UIImage(systemName: "magnifyingglass", withConfiguration: navBarButtonConfig)!
+            case .title:
+                return UIImage()
+            case .map:
+                return UIImage(named: "toggle-map-button")!
+            case .back:
+                return UIImage(systemName: "chevron.backward", withConfiguration: navBarButtonConfig)!
+            case .xmark:
+                return UIImage(systemName: "xmark", withConfiguration: navBarButtonConfig)!
+            }
+        }
+    }
     
     //MARK: - Properties
         
@@ -62,28 +91,25 @@ class CustomNavBar: UIView {
     }
     
     private func customInit() {
-        guard let contentView = loadViewFromNib(nibName: "CustomNavBar") else { return }
+        nibInit()
+        applyLightBottomOnlyShadow()
+    }
+    
+    private func nibInit() {
+        guard let contentView = loadViewFromNib(nibName: String(describing: CustomNavBar.self)) else { return }
         contentView.frame = self.bounds
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(contentView)
-        
-//        self.applyLightBottomOnlyShadow()
-        contentView.applyLightBottomOnlyShadow()
     }
     
-    func setupItem(_ item: CustomNavBarItem, on stackView: UIStackView, withTitle title: String) {
+    private func setupItem(_ item: CustomNavBarItem, on stackView: UIStackView, withTitle title: String) {
         switch item {
         case .search:
-            break
+            stackView.addArrangedSubview(navBarButton(for: .search))
         case .profile:
-            accountButton = UIButton(type: .custom)
+            accountButton = navBarButton(for: .profile)
             guard let accountButton = accountButton else { return }
-            accountButton.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
-            accountButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
             accountButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
-            accountButton.addAction(.init(handler: { action in
-                self.delegate.handleProfileButtonTap()
-            }), for: .touchUpInside)
             stackView.addArrangedSubview(accountButton)
         case .title:
             let titleLabel = UILabel()
@@ -92,14 +118,59 @@ class CustomNavBar: UIView {
             titleLabel.textColor = Constants.Color.mistBlack
             stackView.addArrangedSubview(titleLabel)
         case .map:
-            let button = UIButton()
-            button.imageView?.image = UIImage(named: "toggle-map-button")
-            button.tintColor = Constants.Color.mistBlack
+            stackView.addArrangedSubview(navBarButton(for: .map))
+        case .back:
+            let asdf = navBarButton(for: .back)
+            stackView.addArrangedSubview(asdf)
+        case .xmark:
+            stackView.addArrangedSubview(navBarButton(for: .xmark))
+        }
+    }
+    
+    private func navBarButton(for item: CustomNavBarItem) -> UIButton {
+        let button = UIButton(type: .custom)
+        button.setImage(item.image, for: .normal)
+        button.tintColor = Constants.Color.mistBlack
+        let buttonWidth = item == .profile ? 35 : 20
+        button.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: buttonWidth)
+        button.widthAnchor.constraint(equalToConstant: button.frame.width).isActive = true
+        
+        switch item {
+        case .profile:
+            button.addAction(.init(handler: { action in
+                self.delegate.handleProfileButtonTap()
+            }), for: .touchUpInside)
+        case .search:
+            button.addAction(.init(handler: { action in
+                self.delegate.handleSearchButtonTap()
+            }), for: .touchUpInside)
+        case .title:
+            break
+        case .map:
             button.addAction(.init(handler: { action in
                 self.delegate.handleMapButtonTap()
             }), for: .touchUpInside)
-            stackView.addArrangedSubview(button)
+        case .back:
+            button.addAction(.init(handler: { action in
+                self.delegate.handleBackButtonTap()
+            }), for: .touchUpInside)
+        case .xmark:
+            button.addAction(.init(handler: { action in
+                self.delegate.handleXMarkButtonTap()
+            }), for: .touchUpInside)
         }
+        return button
+    }
+    
+    private func setupConstraints(with superview: UIView, height: CGFloat) {
+        self.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.topAnchor.constraint(equalTo: superview.safeTopAnchor),
+            self.widthAnchor.constraint(equalTo: superview.widthAnchor),
+            self.heightAnchor.constraint(equalToConstant: height),
+            self.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
+        ])
+        superview.bringSubviewToFront(self)
     }
     
     //MARK: - Lifecycle
@@ -122,16 +193,9 @@ extension CustomNavBar {
             print("custom nav bar must be added to superview before being configured")
             return
         }
-        self.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            self.topAnchor.constraint(equalTo: superview.safeTopAnchor),
-            self.widthAnchor.constraint(equalTo: superview.widthAnchor),
-            self.heightAnchor.constraint(equalToConstant: height),
-            self.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
-        ])
-        superview.bringSubviewToFront(self)
-        
+        setupConstraints(with: superview, height: height)
         self.delegate = delegate
+        
         leftItems.forEach { item in
             setupItem(item, on: leftStackView, withTitle: title)
         }

@@ -10,9 +10,9 @@ import Foundation
 protocol SettingsTapDelegate {
     //push new vc
     func handlePosts(setting: Setting)
-    func handleLearnMore()
-    func handleShareFeedback()
-    func handleSettings()
+    func handleLearnMore(setting: Setting)
+    func handleShareFeedback(setting: Setting)
+    func handleSettings(setting: Setting)
     //other
     func handleDeleteAccount()
     func handleLeaveReview()
@@ -29,18 +29,18 @@ extension SettingsTapDelegate where Self: UIViewController {
         navigationController?.pushViewController(customExplore, animated: true)
     }
     
-    func handleSettings() {
-        let settingsVC = SettingsViewController.create(settings: [.email, .phoneNumber, .deleteAccount])
+    func handleSettings(setting: Setting) {
+        let settingsVC = SettingsViewController.create(settings: [.email, .phoneNumber, .deleteAccount], title: setting.displayName)
         navigationController?.pushViewController(settingsVC, animated: true)
     }
     
-    func handleShareFeedback() {
-        let settingsVC = SettingsViewController.create(settings: [.rateMist, .leaveReview, .contactUs])
+    func handleShareFeedback(setting: Setting) {
+        let settingsVC = SettingsViewController.create(settings: [.rateMist, .contactUs, .leaveReview], title: setting.displayName)
         navigationController?.pushViewController(settingsVC, animated: true)
     }
     
-    func handleLearnMore() {
-        let settingsVC = SettingsViewController.create(settings: [.faq, .contentGuidelines, .terms, .privacyPolicy])
+    func handleLearnMore(setting: Setting) {
+        let settingsVC = SettingsViewController.create(settings: [.faq, .contentGuidelines, .terms, .privacyPolicy], title: setting.displayName)
         navigationController?.pushViewController(settingsVC, animated: true)
     }
         

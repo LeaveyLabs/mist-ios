@@ -23,7 +23,7 @@ class MyAccountViewController: SettingsViewController {
         navigationItem.title = UserService.singleton.getUsername()
         
         tableView.tableFooterView = mistFooterView
-        appVersionLabel.text = "Version " + (Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String)
+        appVersionLabel.text = "version " + (Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String)
     }
     
     override func setupTableView() {

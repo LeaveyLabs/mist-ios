@@ -21,39 +21,39 @@ enum Setting {
     var displayName : String {
         switch self {
         case .submissions:
-            return "Submissions"
+            return "Submissions".lowercased()
         case .mentions:
-            return "Mentions"
+            return "Mentions".lowercased()
         case .favorites:
-            return "Favorites"
+            return "Favorites".lowercased()
         case .email:
-            return "Email"
+            return "Email".lowercased()
         case .phoneNumber:
-            return "Phone Number"
+            return "Phone Number".lowercased()
         case .contentGuidelines:
-            return "Content Guidelines"
+            return "Content Guidelines".lowercased()
         case .friends:
-            return "Friends"
+            return "Friends".lowercased()
         case .rateMist:
-            return "Rate Mist"
+            return "Rate Mist".lowercased()
         case .faq:
-            return "FAQ"
+            return "FAQ".lowercased()
         case .contactUs:
-            return "Contact us"
+            return "Contact us".lowercased()
         case .deleteAccount:
-            return "Delete Account"
+            return "Delete Account".lowercased()
         case .privacyPolicy:
-            return "Privacy Policy"
+            return "Privacy Policy".lowercased()
         case .terms:
-            return "Terms of Use"
+            return "Terms of Use".lowercased()
         case .settings:
-            return "Settings"
+            return "Settings".lowercased()
         case .shareFeedback:
-            return "Share your feedback"
+            return "Share your feedback".lowercased()
         case .learnMore:
-            return "Learn more"
+            return "Learn more".lowercased()
         case .leaveReview:
-            return "Leave a review"
+            return "Leave a review".lowercased()
         }
     }
     
@@ -121,9 +121,9 @@ enum Setting {
         case .contentGuidelines:
             settingsTapDelegate.handleLink(setting: self)
         case .shareFeedback:
-            settingsTapDelegate.handleShareFeedback()
+            settingsTapDelegate.handleShareFeedback(setting: self)
         case .learnMore:
-            settingsTapDelegate.handleLearnMore()
+            settingsTapDelegate.handleLearnMore(setting: self)
         case .faq:
             settingsTapDelegate.handleLink(setting: self)
         case .contactUs:
@@ -135,7 +135,7 @@ enum Setting {
         case .terms:
             settingsTapDelegate.handleLink(setting: self)
         case .settings:
-            settingsTapDelegate.handleSettings()
+            settingsTapDelegate.handleSettings(setting: self)
         case .rateMist:
             AppStoreReviewManager.requestReviewIfAppropriate()
         case .leaveReview:

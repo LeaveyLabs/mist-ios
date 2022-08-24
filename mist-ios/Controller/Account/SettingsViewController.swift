@@ -19,13 +19,15 @@ import UIKit
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SettingsTapDelegate {
     
     @IBOutlet weak var tableView: UITableView!
+    var navTitle: String!
     var settings = [Setting]()
     
     //MARK: - Initialization
     
-    class func create(settings: [Setting]) -> SettingsViewController {
+    class func create(settings: [Setting], title: String) -> SettingsViewController {
         let settingVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Settings) as! SettingsViewController
         settingVC.settings = settings
+        settingVC.navTitle = title
         return settingVC
     }
             
@@ -36,6 +38,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         setupTableView()
         registerNibs()
         setupBackButton()
+        navigationItem.title = navTitle
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -97,11 +100,15 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         let selectedSetting = settings[indexPath.section]
         selectedSetting.tapAction(with: self)
     }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard
+            let header:UITableViewHeaderFooterView = view as? UITableViewHeaderFooterView,
+            let textLabel = header.textLabel
+        else { return }
+        //textLabel.font.pointSize is 13, seems kinda small
+        textLabel.font = UIFont(name: Constants.Font.Roman, size: 15)
+        textLabel.text = textLabel.text?.lowercased()
+    }
 
-}
-
-extension SettingsViewController: UITextViewDelegate {
-    
-    
-    
 }

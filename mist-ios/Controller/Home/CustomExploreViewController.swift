@@ -35,7 +35,7 @@ class CustomExploreViewController: ExploreViewController {
         ])
         makeFeedVisible()
         
-        headerTitleLabel.text = setting.displayName
+        headerTitleLabel.text = setting.displayName.lowercased()
         renderNewPostsOnFeedAndMap(withType: .newSearch, customSetting: setting) //using newSearch in order to force a relocation of the map
     }
     

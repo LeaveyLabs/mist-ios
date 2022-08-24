@@ -743,8 +743,8 @@ make that cute barista’s day,
                                             <rect key="frame" x="0.0" y="0.0" width="350" height="49"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logout" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hkJ-GK-gDe">
-                                                    <rect key="frame" x="145.66666666666666" y="11" width="59" height="27"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="logout" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hkJ-GK-gDe">
+                                                    <rect key="frame" x="148.33333333333334" y="11" width="53.666666666666657" height="27"/>
                                                     <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
                                                     <color key="textColor" systemColor="systemRedColor"/>
                                                     <nil key="highlightedColor"/>
@@ -790,7 +790,7 @@ make that cute barista’s day,
             </objects>
             <point key="canvasLocation" x="-1763" y="-250"/>
         </scene>
-        <!--profile-->
+        <!--update profile-->
         <scene sceneID="hx6-Hg-4qg">
             <objects>
                 <tableViewController id="TJI-kg-NyR" customClass="MyProfileSettingViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
@@ -817,7 +817,7 @@ make that cute barista’s day,
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ziz-OH-z1c">
-                                    <rect key="frame" x="245" y="160" width="40" height="40"/>
+                                    <rect key="frame" x="240" y="155" width="40" height="40"/>
                                     <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="40" id="8u3-AJ-Hnc"/>
@@ -834,8 +834,8 @@ make that cute barista’s day,
                                 </button>
                             </subviews>
                             <constraints>
-                                <constraint firstItem="ziz-OH-z1c" firstAttribute="bottom" secondItem="L6t-3z-PO7" secondAttribute="bottom" id="II8-eZ-Oww"/>
-                                <constraint firstItem="ziz-OH-z1c" firstAttribute="trailing" secondItem="L6t-3z-PO7" secondAttribute="trailing" id="OIK-7R-mCe"/>
+                                <constraint firstItem="ziz-OH-z1c" firstAttribute="bottom" secondItem="L6t-3z-PO7" secondAttribute="bottom" constant="-5" id="II8-eZ-Oww"/>
+                                <constraint firstItem="ziz-OH-z1c" firstAttribute="trailing" secondItem="L6t-3z-PO7" secondAttribute="trailing" constant="-5" id="OIK-7R-mCe"/>
                                 <constraint firstItem="L6t-3z-PO7" firstAttribute="centerX" secondItem="d22-NN-8y2" secondAttribute="centerX" id="STE-ek-UIX"/>
                                 <constraint firstItem="L6t-3z-PO7" firstAttribute="top" secondItem="d22-NN-8y2" secondAttribute="top" constant="20" id="mHE-dG-TEa"/>
                                 <constraint firstAttribute="bottom" secondItem="L6t-3z-PO7" secondAttribute="bottom" id="nao-ni-CxR"/>
@@ -847,7 +847,7 @@ make that cute barista’s day,
                             <outlet property="delegate" destination="TJI-kg-NyR" id="DnY-Sf-NiD"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="profile" id="i3e-ij-ezF">
+                    <navigationItem key="navigationItem" title="update profile" id="i3e-ij-ezF">
                         <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="ESn-eV-sFy">
                             <connections>
                                 <action selector="cancelButtonDidPressed:" destination="TJI-kg-NyR" id="GTH-Ao-CBg"/>
@@ -2813,8 +2813,8 @@ make that cute barista’s day,
                                             <rect key="frame" x="0.0" y="0.0" width="350" height="49"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logout" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5U2-rF-wmY">
-                                                    <rect key="frame" x="149" y="11" width="52" height="27"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5U2-rF-wmY">
+                                                    <rect key="frame" x="175" y="11" width="0.0" height="27"/>
                                                     <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
                                                     <color key="textColor" systemColor="systemRedColor"/>
                                                     <nil key="highlightedColor"/>
@@ -2965,7 +2965,7 @@ make that cute barista’s day,
                                                 </constraints>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" image="chevron.backward" catalog="system">
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" scale="default"/>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" scale="default" weight="medium"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="backButtonDidTapped:" destination="aeT-Rt-rsD" eventType="touchUpInside" id="CuA-Td-ewQ"/>
