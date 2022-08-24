@@ -254,6 +254,28 @@ class UserAPI {
         return try JSONDecoder().decode(CompleteUser.self, from: data)
     }
     
+    static func patchFirstName(firstName:String, id:Int) async throws -> CompleteUser {
+        let url =  "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(id)/"
+        let params:[String:String] = [
+            FIRST_NAME_PARAM: firstName,
+        ]
+        let json = try JSONEncoder().encode(params)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
+        try filterUserErrors(data: data, response: response)
+        return try JSONDecoder().decode(CompleteUser.self, from: data)
+    }
+    
+    static func patchLastName(lastName:String, id:Int) async throws -> CompleteUser {
+        let url =  "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(id)/"
+        let params:[String:String] = [
+            LAST_NAME_PARAM: lastName,
+        ]
+        let json = try JSONEncoder().encode(params)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
+        try filterUserErrors(data: data, response: response)
+        return try JSONDecoder().decode(CompleteUser.self, from: data)
+    }
+    
     static func patchKeywords(keywords:[String], id:Int) async throws -> CompleteUser {
         let url =  "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(id)/"
         let params:[String:[String]] = [

@@ -505,10 +505,6 @@
 		5B774DFC286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */; };
 		5B774DFF286D570400CCCF28 /* MatchCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */; };
 		5B774E00286D570400CCCF28 /* MatchCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */; };
-		5B879E6928B5DD4700D2DFC1 /* CustomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E6828B5DD4700D2DFC1 /* CustomNavBar.swift */; };
-		5B879E6A28B5DD4700D2DFC1 /* CustomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E6828B5DD4700D2DFC1 /* CustomNavBar.swift */; };
-		5B879E6C28B5DD7600D2DFC1 /* CustomNavBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B879E6B28B5DD7600D2DFC1 /* CustomNavBar.xib */; };
-		5B879E6D28B5DD7600D2DFC1 /* CustomNavBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B879E6B28B5DD7600D2DFC1 /* CustomNavBar.xib */; };
 		5BA401F72878052B004A556E /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA401F62878052B004A556E /* Env.swift */; };
 		5BA967322872BC5E00724CD9 /* Array+FirstWhere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */; };
 		5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */; };
@@ -627,6 +623,10 @@
 		431767DE28B025F1000B2E32 /* DeviceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceAPI.swift; sourceTree = "<group>"; };
 		431F380F288B494900A5F48B /* MessageThreadTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageThreadTest.swift; sourceTree = "<group>"; };
 		4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterEmailViewController.swift; sourceTree = "<group>"; };
+		433665C128B6CC5B00152AF7 /* mist-iosDebug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "mist-iosDebug.entitlements"; sourceTree = "<group>"; };
+		433665C228B6CC5B00152AF7 /* mist-ios-dev.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "mist-ios-dev.entitlements"; sourceTree = "<group>"; };
+		433665C328B6CC5B00152AF7 /* mist-ios.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "mist-ios.entitlements"; sourceTree = "<group>"; };
+		433665C428B6CC5B00152AF7 /* mist-ios-devDebug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = "mist-ios-devDebug.entitlements"; path = "../../.Trash/mist-ios-devDebug.entitlements"; sourceTree = "<group>"; };
 		433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeTutorialViewController.swift; sourceTree = "<group>"; };
 		43483BB128025179001C7C6A /* ChooseUsernameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseUsernameViewController.swift; sourceTree = "<group>"; };
 		43483BB32802519C001C7C6A /* CreatePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePasswordViewController.swift; sourceTree = "<group>"; };
@@ -864,8 +864,6 @@
 		5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessagesFlowLayout.swift; sourceTree = "<group>"; };
 		5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCollectionCell.swift; sourceTree = "<group>"; };
 		5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MatchCollectionCell.xib; sourceTree = "<group>"; };
-		5B879E6828B5DD4700D2DFC1 /* CustomNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavBar.swift; sourceTree = "<group>"; };
-		5B879E6B28B5DD7600D2DFC1 /* CustomNavBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomNavBar.xib; sourceTree = "<group>"; };
 		5BA401F62878052B004A556E /* Env.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+FirstWhere.swift"; sourceTree = "<group>"; };
 		5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationCollectionCell.swift; sourceTree = "<group>"; };
@@ -1324,8 +1322,6 @@
 				5BCD490D28714F920002BD02 /* WantToChatView.swift */,
 				5BCD490B287149210002BD02 /* WantToChatView.xib */,
 				5BC25A9328990999005AAF69 /* EmojiButton.swift */,
-				5B879E6828B5DD4700D2DFC1 /* CustomNavBar.swift */,
-				5B879E6B28B5DD7600D2DFC1 /* CustomNavBar.xib */,
 				5BC25A97289909FD005AAF69 /* Decomissioned */,
 			);
 			path = CustomViews;
@@ -1412,6 +1408,10 @@
 		47E74DFF27CA0FFE00467A0C = {
 			isa = PBXGroup;
 			children = (
+				433665C228B6CC5B00152AF7 /* mist-ios-dev.entitlements */,
+				433665C428B6CC5B00152AF7 /* mist-ios-devDebug.entitlements */,
+				433665C328B6CC5B00152AF7 /* mist-ios.entitlements */,
+				433665C128B6CC5B00152AF7 /* mist-iosDebug.entitlements */,
 				473CAF812832A6EB008D8807 /* mist-ios.xcconfig */,
 				47E74E0A27CA0FFE00467A0C /* mist-ios */,
 				47E74E3E27CA14CE00467A0C /* Supporting Files */,
@@ -2066,7 +2066,6 @@
 				5BAD627B2876BD7600DCFE45 /* MistWideLogoView.xib in Resources */,
 				47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */,
 				47E86F6E2853EA65005A7DC7 /* Auth.storyboard in Resources */,
-				5B879E6C28B5DD7600D2DFC1 /* CustomNavBar.xib in Resources */,
 				470F271927DE758100C6DDAF /* SearchResultCell.xib in Resources */,
 				47527192285584F400DDF84D /* MyProfileCell.xib in Resources */,
 				475271982855851200DDF84D /* SettingCell.xib in Resources */,
@@ -2113,7 +2112,6 @@
 				5B739E7628935B9500E4EED0 /* MistWideLogoView.xib in Resources */,
 				5B739E7728935B9500E4EED0 /* Assets.xcassets in Resources */,
 				5B739E7828935B9500E4EED0 /* Auth.storyboard in Resources */,
-				5B879E6D28B5DD7600D2DFC1 /* CustomNavBar.xib in Resources */,
 				5B739E7928935B9500E4EED0 /* SearchResultCell.xib in Resources */,
 				5B739E7A28935B9500E4EED0 /* MyProfileCell.xib in Resources */,
 				5B739E7B28935B9500E4EED0 /* SettingCell.xib in Resources */,
@@ -2383,7 +2381,6 @@
 				5BE1473F289F1A7C0096FEBE /* String+Random.swift in Sources */,
 				436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */,
 				43529E2F2890BD3D00B3A484 /* CommentFlagAPI.swift in Sources */,
-				5B879E6928B5DD4700D2DFC1 /* CustomNavBar.swift in Sources */,
 				5BE110022876CD9D00CB54A6 /* RequestResetPasswordViewController.swift in Sources */,
 				47A3D70E27D55BB3003DBEA5 /* Time.swift in Sources */,
 				43770C4B27EE8C0F00F31CCF /* LoginViewController.swift in Sources */,
@@ -2671,7 +2668,6 @@
 				5B739E2F28935B9500E4EED0 /* RequestResetPasswordViewController.swift in Sources */,
 				5B739E3028935B9500E4EED0 /* Time.swift in Sources */,
 				5B739E3128935B9500E4EED0 /* LoginViewController.swift in Sources */,
-				5B879E6A28B5DD4700D2DFC1 /* CustomNavBar.swift in Sources */,
 				5B739E3228935B9500E4EED0 /* FeedViewController.swift in Sources */,
 				5B739E3328935B9500E4EED0 /* MistWideLogoView.swift in Sources */,
 				5BE147D228A2A1E80096FEBE /* String+Ranges.swift in Sources */,
@@ -2889,7 +2885,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
-				CODE_SIGN_ENTITLEMENTS = None;
+				CODE_SIGN_ENTITLEMENTS = "mist-ios/mist-iosDebug.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 36;
@@ -2942,7 +2938,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
-				CODE_SIGN_ENTITLEMENTS = None;
+				CODE_SIGN_ENTITLEMENTS = "mist-ios/mist-ios.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 36;
@@ -3086,7 +3082,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
-				CODE_SIGN_ENTITLEMENTS = None;
+				CODE_SIGN_ENTITLEMENTS = "mist-ios-devDebug.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 36;
@@ -3142,7 +3138,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
-				CODE_SIGN_ENTITLEMENTS = None;
+				CODE_SIGN_ENTITLEMENTS = "mist-ios-dev.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 36;
