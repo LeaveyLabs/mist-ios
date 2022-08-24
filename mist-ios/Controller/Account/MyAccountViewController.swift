@@ -20,6 +20,7 @@ class MyAccountViewController: SettingsViewController {
         super.viewDidLoad()
         registerNibs()
         setupTableView()
+        navigationItem.title = UserService.singleton.getUsername()
         
         tableView.tableFooterView = mistFooterView
         appVersionLabel.text = "Version " + (Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String)

@@ -65,7 +65,7 @@ class FavoriteService: NSObject {
     }
     
     private func handleFavoriteDelete(postId: Int) throws {
-        let favoriteToDelete = favorites.first { $0.post == postId }!
+        guard let favoriteToDelete = favorites.first(where: { $0.post == postId }) else { return }
         favorites.removeAll { $0.id == favoriteToDelete.id }
         
         Task {

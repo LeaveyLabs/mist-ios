@@ -70,6 +70,7 @@ struct Constants {
             static let Rules = "RulesViewController"
             //Account
             static let Profile = "ProfileViewController"
+            static let PhotoDetail = "PhotoDetailViewController"
             static let Feed = "FeedTableViewController"
             static let MyProfile = "MyProfileViewController"
             //Settings

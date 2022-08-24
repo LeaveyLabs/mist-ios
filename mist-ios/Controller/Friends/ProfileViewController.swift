@@ -12,7 +12,7 @@ class ProfileViewController: UIViewController {
     //MARK: - Properties
     
     //UI
-    @IBOutlet weak var profilePicUIImageView: UIImageView!
+    @IBOutlet weak var profilePicButton: UIButton!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var friendStatusView: UIView!
@@ -56,7 +56,7 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        profilePicUIImageView.tintColor = .black
+        profilePicButton.imageView?.tintColor = Constants.Color.mistBlack
         hasViewLoaded = true
         loadUser()
         renderUser()
@@ -68,21 +68,21 @@ class ProfileViewController: UIViewController {
         switch status {
         case .loaded:
             guard let user = user else { return }
-            profilePicUIImageView.becomeProfilePicImageView(with: user.profilePic)
+            profilePicButton.imageView?.becomeProfilePicImageView(with: user.profilePic)
             nameLabel.text = user.full_name
-            usernameLabel.text = "@" + user.username
+            usernameLabel.text = user.username
         case .loading:
-            profilePicUIImageView.image = Constants.defaultProfilePic
+            profilePicButton.imageView?.image = Constants.defaultProfilePic
             nameLabel.text = "Loading..."
             usernameLabel.text = ""
         case .nonexisting:
             guard let handle = userHandleForLoading else { return }
-            profilePicUIImageView.image = Constants.defaultProfilePic
+            profilePicButton.imageView?.image = Constants.defaultProfilePic
             nameLabel.text = handle
             usernameLabel.text = "This user does not exist"
         case .notclaimed:
             guard let handle = userHandleForLoading else { return }
-            profilePicUIImageView.image = Constants.defaultProfilePic
+            profilePicButton.imageView?.image = Constants.defaultProfilePic
             nameLabel.text = handle
             usernameLabel.text = "This account has not yet been claimed"
         case .none:
@@ -140,5 +140,12 @@ class ProfileViewController: UIViewController {
     
     @IBAction func moreButtonDidPressed(_ sender: UIButton) {
         
+    }
+    
+    @IBAction func profilePicDidPressed(_ sender: UIButton) {
+        guard let user = user else { return }
+        let photoDetailVC = PhotoDetailViewController.create(photo: user.profilePic)
+        photoDetailVC.modalPresentationStyle = .fullScreen
+        present(photoDetailVC, animated: true)
     }
 }

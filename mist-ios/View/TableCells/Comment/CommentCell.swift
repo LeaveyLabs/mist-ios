@@ -29,7 +29,7 @@ class CommentCell: UITableViewCell {
     @IBOutlet weak var bottomDividerView: UIView!
     
     @IBOutlet weak var voteButton: ToggleButton!
-    @IBOutlet weak var voteLabel: UILabel!
+    @IBOutlet weak var voteLabelButton: UIButton!
     @IBOutlet weak var moreButton: UIButton!
     
     //Information
@@ -46,7 +46,7 @@ class CommentCell: UITableViewCell {
         self.comment = comment
         self.commentDelegate = delegate
         self.author = author
-        bottomDividerView.isHidden = shouldHideDivider
+        bottomDividerView.isHidden = true //shouldHideDivider
         timestampLabel.text = getShortFormattedTimeString(timestamp: comment.timestamp)
         authorUsernameButton.setTitle(author.username, for: .normal)
         UIView.performWithoutAnimation {
@@ -54,6 +54,11 @@ class CommentCell: UITableViewCell {
         }
         setupCommentTextView(text: comment.body, tags: comment.tags, delegate: delegate)
         setupVoteButton(comment.votecount)
+        
+        let longTap = UILongPressGestureRecognizer(target: self, action: #selector(didLongPressComment))
+        self.addGestureRecognizer(longTap)
+        let swipeLeftGesture = PanDirectionGestureRecognizer(axis: .horizontal, direction: .left, target: self, action: #selector(didLongPressComment))
+        self.addGestureRecognizer(swipeLeftGesture)
     }
     
     func setupVoteButton(_ votecount: Int) {
@@ -63,10 +68,15 @@ class CommentCell: UITableViewCell {
         voteButton.selectedTitle = ""
         voteButton.selectedImage = UIImage(systemName: "heart.fill")
         voteButton.notSelectedImage = UIImage(systemName: "heart")
+        voteLabelButton.setTitleColor(Constants.Color.mistLilac, for: .selected)
+        voteLabelButton.setTitleColor(.lightGray, for: .normal)
         
-        voteLabel.text = String(votecount)
         let didLikeThisComment = VoteService.singleton.voteForComment(commentId: comment.id) != nil
+
+        voteLabelButton.setTitle(votecount == 0 ? "" : String(votecount), for: .normal)
+        voteLabelButton.setTitle(votecount == 0 ? "1" : String(didLikeThisComment ? votecount : votecount + 1), for: .selected)
         voteButton.isSelected = didLikeThisComment
+        voteLabelButton.isSelected = didLikeThisComment
     }
     
     func setupCommentTextView(text: String, tags: [Tag], delegate: CommentDelegate) {
@@ -105,6 +115,14 @@ class CommentCell: UITableViewCell {
     }
     
     @IBAction func didPressedMoreButton(_ sender: UIButton) {
+        handleMore()
+    }
+    
+    @objc func didLongPressComment() {
+        handleMore()
+    }
+    
+    func handleMore() {
         moreButton.isEnabled = false
         commentDelegate.handleCommentMore(commentId: comment.id, commentAuthor: comment.author)
         DispatchQueue.main.async {
@@ -113,16 +131,13 @@ class CommentCell: UITableViewCell {
     }
     
     @IBAction func didPressedVoteButton(_ sender: UIButton) {
-        guard let voteLabelText = voteLabel.text, let commentVoteCount = Int(voteLabelText) else {
-            CustomSwiftMessages.displayError("Oh shoot, something went wrong", "Please try again later")
-            return
-        }
-        
         voteButton.isEnabled = false
+        voteLabelButton.isEnabled = false
+        voteLabelButton.isSelected = !voteLabelButton.isSelected
         voteButton.isSelected = !voteButton.isSelected
-        voteLabel.text = voteButton.isSelected ? String(commentVoteCount + 1) : String(commentVoteCount - 1)
         commentDelegate.handleCommentVote(commentId: comment.id, isAdding: voteButton.isSelected)
         DispatchQueue.main.async {
+            self.voteLabelButton.isEnabled = true
             self.voteButton.isEnabled = true
         }
     }

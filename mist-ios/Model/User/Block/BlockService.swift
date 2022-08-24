@@ -58,7 +58,7 @@ class BlockService: NSObject {
     
     @available(iOS, obsoleted: 4.0, message: "Unblocking is not yet supported")
     func unBlockUser(_ userToBeUnBlockedId: Int) async throws {
-        let blockToDelete = usersWhoYouBlocked.first { $0.blocked_user == userToBeUnBlockedId }!
+        guard let blockToDelete = usersWhoYouBlocked.first(where: { $0.blocked_user == userToBeUnBlockedId }) else { return }
         usersWhoYouBlocked.removeAll { $0.id == blockToDelete.id }
         do {
             let _ = try await BlockAPI.deleteBlock(blockingUserId: UserService.singleton.getId(), blockedUserId: userToBeUnBlockedId)

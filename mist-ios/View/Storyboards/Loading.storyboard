@@ -18,14 +18,16 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="landingpage_lessgradient" translatesAutoresizingMaskIntoConstraints="NO" id="q6Z-n0-zZb">
                                 <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mistlogo_white_nameandslogan" translatesAutoresizingMaskIntoConstraints="NO" id="wgg-za-GTS">
-                                <rect key="frame" x="89" y="347.66666666666669" width="250" height="131"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mistwidewhite" translatesAutoresizingMaskIntoConstraints="NO" id="wgg-za-GTS">
+                                <rect key="frame" x="89" y="363" width="250" height="100"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="hL3-G6-IT2"/>
+                                    <constraint firstAttribute="height" constant="100" id="qCc-dc-nEM"/>
                                 </constraints>
                             </imageView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="DXr-HJ-PIo">
-                                <rect key="frame" x="204" y="488.66666666666669" width="20" height="20"/>
+                                <rect key="frame" x="204" y="473" width="20" height="20"/>
                                 <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </activityIndicatorView>
                         </subviews>
@@ -54,6 +56,6 @@
     </scenes>
     <resources>
         <image name="landingpage_lessgradient" width="471" height="1019"/>
-        <image name="mistlogo_white_nameandslogan" width="356" height="131"/>
+        <image name="mistwidewhite" width="4094" height="1602"/>
     </resources>
 </document>

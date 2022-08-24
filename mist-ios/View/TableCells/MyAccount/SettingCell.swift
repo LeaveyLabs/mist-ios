@@ -29,24 +29,44 @@ class SettingCell: UITableViewCell {
         accessoryImageView.isHidden = false
         selectionStyle = .default
         
-        if setting == .email {
+        switch setting {
+        case .friends:
+            //TODO: notifications for new friends
+            break
+        case .mentions:
+            accessoryLabel.text = String(PostService.singleton.getMentions().count)
+        case .submissions:
+            accessoryLabel.text = String(PostService.singleton.getSubmissions().count)
+        case .favorites:
+            accessoryLabel.text = String(PostService.singleton.getFavorites().count)
+        case .settings:
+            break
+        case .shareFeedback:
+            break
+        case .learnMore:
+            break
+        case .email:
             accessoryLabel.text = UserService.singleton.getEmail()
             accessoryImageView.isHidden = true
             selectionStyle = .none
-        }
-        if setting == .phoneNumber {
-//            accessoryLabel.text = UserService.singleton.getPhoneNumber()
-            accessoryImageView.isHidden = true
-            selectionStyle = .none
-        }
-        if setting == .submissions {
-            accessoryLabel.text = String(PostService.singleton.getSubmissions().count)
-        }
-        if setting == .favorites {
-            accessoryLabel.text = String(PostService.singleton.getFavorites().count)
-        }
-        if setting == .contactUs {
+        case .phoneNumber:
+            accessoryLabel.text = UserService.singleton.getPhoneNumber()
+        case .deleteAccount:
+            break
+        case .contactUs:
             accessoryLabel.text = "whatsup@getmist.app"
+        case .leaveReview:
+            break
+        case .faq:
+            break
+        case .contentGuidelines:
+            break
+        case .privacyPolicy:
+            break
+        case .terms:
+            break
+        case .rateMist:
+            break
         }
     }
 }

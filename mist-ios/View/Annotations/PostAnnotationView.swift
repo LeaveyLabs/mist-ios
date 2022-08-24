@@ -202,7 +202,7 @@ extension PostAnnotationView {
         swipeDemoInstructionsLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         swipeDemoInstructionsLabel.text = "Swipe to see more mists"
         swipeDemoInstructionsLabel.font = UIFont(name: Constants.Font.Medium, size: 15)
-        swipeDemoInstructionsLabel.textColor = .black
+        swipeDemoInstructionsLabel.textColor = Constants.Color.mistBlack
         swipeDemoInstructionsLabel.textAlignment = .center
         swipeDemoView.addSubview(swipeDemoInstructionsLabel)
         
