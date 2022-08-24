@@ -18,8 +18,9 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="landingpage_lessgradient" translatesAutoresizingMaskIntoConstraints="NO" id="q6Z-n0-zZb">
                                 <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mistlogo_white_nameandslogan" translatesAutoresizingMaskIntoConstraints="NO" id="wgg-za-GTS">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mistwidewhite" translatesAutoresizingMaskIntoConstraints="NO" id="wgg-za-GTS">
                                 <rect key="frame" x="89" y="363" width="250" height="100"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="hL3-G6-IT2"/>
                                     <constraint firstAttribute="height" constant="100" id="qCc-dc-nEM"/>
@@ -55,6 +56,6 @@
     </scenes>
     <resources>
         <image name="landingpage_lessgradient" width="471" height="1019"/>
-        <image name="mistlogo_white_nameandslogan" width="28458" height="11841"/>
+        <image name="mistwidewhite" width="4094" height="1602"/>
     </resources>
 </document>

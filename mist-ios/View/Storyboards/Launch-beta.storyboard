@@ -18,27 +18,32 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="landingpage_lessgradient" translatesAutoresizingMaskIntoConstraints="NO" id="aTv-Z2-YyM">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mistwidewhite" translatesAutoresizingMaskIntoConstraints="NO" id="BR8-Ru-btt">
+                                <rect key="frame" x="62.5" y="233.5" width="250" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="PqH-kB-ahk"/>
+                                    <constraint firstAttribute="height" constant="100" id="gzv-Ua-d3R"/>
+                                </constraints>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="beta" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h8A-5o-Uqf">
-                                <rect key="frame" x="168.5" y="321" width="38" height="25"/>
-                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
+                                <rect key="frame" x="166" y="338.5" width="43" height="27.5"/>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mistlogo_white_nameandslogan_new_2x (1)" translatesAutoresizingMaskIntoConstraints="NO" id="BR8-Ru-btt">
-                                <rect key="frame" x="67" y="173" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rcR-iq-DKf"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="aTv-Z2-YyM" secondAttribute="bottom" id="7YG-yf-Z3J"/>
-                            <constraint firstItem="h8A-5o-Uqf" firstAttribute="centerY" secondItem="3ei-L9-LM3" secondAttribute="centerY" id="9Td-Se-ib5"/>
                             <constraint firstItem="h8A-5o-Uqf" firstAttribute="centerX" secondItem="3ei-L9-LM3" secondAttribute="centerX" id="DIQ-Pw-Cec"/>
                             <constraint firstItem="aTv-Z2-YyM" firstAttribute="top" secondItem="3ei-L9-LM3" secondAttribute="top" id="JnG-om-F8f"/>
+                            <constraint firstItem="BR8-Ru-btt" firstAttribute="centerX" secondItem="3ei-L9-LM3" secondAttribute="centerX" id="WdW-ir-vEb"/>
                             <constraint firstItem="aTv-Z2-YyM" firstAttribute="leading" secondItem="3ei-L9-LM3" secondAttribute="leading" id="lha-7m-7fB"/>
                             <constraint firstAttribute="trailing" secondItem="aTv-Z2-YyM" secondAttribute="trailing" id="m2z-HM-McQ"/>
+                            <constraint firstItem="BR8-Ru-btt" firstAttribute="centerY" secondItem="3ei-L9-LM3" secondAttribute="centerY" constant="-50" id="oJA-Su-FEO"/>
+                            <constraint firstItem="h8A-5o-Uqf" firstAttribute="top" secondItem="BR8-Ru-btt" secondAttribute="bottom" constant="5" id="z8F-z1-DHN"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -49,6 +54,6 @@
     </scenes>
     <resources>
         <image name="landingpage_lessgradient" width="471" height="1019"/>
-        <image name="mistlogo_white_nameandslogan_new_2x (1)" width="19346" height="7818"/>
+        <image name="mistwidewhite" width="1536" height="602"/>
     </resources>
 </document>

@@ -32,7 +32,7 @@
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleDarkContent</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
+	<true/>
 	<key>firebase_performance_collection_enabled</key>
 	<true/>
 </dict>

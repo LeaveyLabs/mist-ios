@@ -61,7 +61,7 @@
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="10"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mistlogo_gradientpurple_nameandslogan" translatesAutoresizingMaskIntoConstraints="NO" id="uIQ-Ty-cZB">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mistwidelilac" translatesAutoresizingMaskIntoConstraints="NO" id="uIQ-Ty-cZB">
                                 <rect key="frame" x="82" y="348" width="250" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="8UV-EM-kOO"/>
@@ -2201,7 +2201,7 @@
         <image name="camera.circle" catalog="system" width="128" height="121"/>
         <image name="camera.circle.fill" catalog="system" width="128" height="121"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
-        <image name="mistlogo_gradientpurple_nameandslogan" width="28482" height="11865"/>
+        <image name="mistwidelilac" width="1536" height="602"/>
         <namedColor name="mist-black">
             <color red="0.066666666666666666" green="0.066666666666666666" blue="0.066666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

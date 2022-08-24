@@ -505,6 +505,10 @@
 		5B774DFC286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */; };
 		5B774DFF286D570400CCCF28 /* MatchCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */; };
 		5B774E00286D570400CCCF28 /* MatchCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */; };
+		5B879E6928B5DD4700D2DFC1 /* CustomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E6828B5DD4700D2DFC1 /* CustomNavBar.swift */; };
+		5B879E6A28B5DD4700D2DFC1 /* CustomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E6828B5DD4700D2DFC1 /* CustomNavBar.swift */; };
+		5B879E6C28B5DD7600D2DFC1 /* CustomNavBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B879E6B28B5DD7600D2DFC1 /* CustomNavBar.xib */; };
+		5B879E6D28B5DD7600D2DFC1 /* CustomNavBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B879E6B28B5DD7600D2DFC1 /* CustomNavBar.xib */; };
 		5BA401F72878052B004A556E /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA401F62878052B004A556E /* Env.swift */; };
 		5BA967322872BC5E00724CD9 /* Array+FirstWhere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */; };
 		5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */; };
@@ -544,6 +548,8 @@
 		5BC25A9F28991A2B005AAF69 /* Numbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9D28991A2B005AAF69 /* Numbers.swift */; };
 		5BC2763E286AE9BD00DA5A3D /* Loading.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */; };
 		5BC2763F286AE9BD00DA5A3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2763D286AE9BD00DA5A3D /* Main.storyboard */; };
+		5BC2EC4228B5B99A0047D5B4 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2EC4128B5B99A0047D5B4 /* PhotoDetailViewController.swift */; };
+		5BC2EC4328B5B99A0047D5B4 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2EC4128B5B99A0047D5B4 /* PhotoDetailViewController.swift */; };
 		5BC8822928AFF793007E83F8 /* ChatViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC8822828AFF793007E83F8 /* ChatViewController+Keyboard.swift */; };
 		5BC8822A28AFF793007E83F8 /* ChatViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC8822828AFF793007E83F8 /* ChatViewController+Keyboard.swift */; };
 		5BC8822C28B15192007E83F8 /* UIViewController+Logout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC8822B28B15192007E83F8 /* UIViewController+Logout.swift */; };
@@ -860,6 +866,8 @@
 		5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessagesFlowLayout.swift; sourceTree = "<group>"; };
 		5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCollectionCell.swift; sourceTree = "<group>"; };
 		5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MatchCollectionCell.xib; sourceTree = "<group>"; };
+		5B879E6828B5DD4700D2DFC1 /* CustomNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavBar.swift; sourceTree = "<group>"; };
+		5B879E6B28B5DD7600D2DFC1 /* CustomNavBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomNavBar.xib; sourceTree = "<group>"; };
 		5BA401F62878052B004A556E /* Env.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+FirstWhere.swift"; sourceTree = "<group>"; };
 		5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationCollectionCell.swift; sourceTree = "<group>"; };
@@ -895,6 +903,7 @@
 		5BC25A9D28991A2B005AAF69 /* Numbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numbers.swift; sourceTree = "<group>"; };
 		5BC2763C286AE9BD00DA5A3D /* Loading.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Loading.storyboard; sourceTree = "<group>"; };
 		5BC2763D286AE9BD00DA5A3D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		5BC2EC4128B5B99A0047D5B4 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		5BC8822828AFF793007E83F8 /* ChatViewController+Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Keyboard.swift"; sourceTree = "<group>"; };
 		5BC8822B28B15192007E83F8 /* UIViewController+Logout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Logout.swift"; sourceTree = "<group>"; };
 		5BCC68D828611A4E00EA1CB3 /* SafeAreaInputAccessoryViewWrapperView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeAreaInputAccessoryViewWrapperView.swift; sourceTree = "<group>"; };
@@ -1317,6 +1326,8 @@
 				5BCD490D28714F920002BD02 /* WantToChatView.swift */,
 				5BCD490B287149210002BD02 /* WantToChatView.xib */,
 				5BC25A9328990999005AAF69 /* EmojiButton.swift */,
+				5B879E6828B5DD4700D2DFC1 /* CustomNavBar.swift */,
+				5B879E6B28B5DD7600D2DFC1 /* CustomNavBar.xib */,
 				5BC25A97289909FD005AAF69 /* Decomissioned */,
 			);
 			path = CustomViews;
@@ -1693,6 +1704,7 @@
 			isa = PBXGroup;
 			children = (
 				47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */,
+				5BC2EC4128B5B99A0047D5B4 /* PhotoDetailViewController.swift */,
 			);
 			path = Friends;
 			sourceTree = "<group>";
@@ -2058,6 +2070,7 @@
 				5BAD627B2876BD7600DCFE45 /* MistWideLogoView.xib in Resources */,
 				47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */,
 				47E86F6E2853EA65005A7DC7 /* Auth.storyboard in Resources */,
+				5B879E6C28B5DD7600D2DFC1 /* CustomNavBar.xib in Resources */,
 				470F271927DE758100C6DDAF /* SearchResultCell.xib in Resources */,
 				47527192285584F400DDF84D /* MyProfileCell.xib in Resources */,
 				475271982855851200DDF84D /* SettingCell.xib in Resources */,
@@ -2104,6 +2117,7 @@
 				5B739E7628935B9500E4EED0 /* MistWideLogoView.xib in Resources */,
 				5B739E7728935B9500E4EED0 /* Assets.xcassets in Resources */,
 				5B739E7828935B9500E4EED0 /* Auth.storyboard in Resources */,
+				5B879E6D28B5DD7600D2DFC1 /* CustomNavBar.xib in Resources */,
 				5B739E7928935B9500E4EED0 /* SearchResultCell.xib in Resources */,
 				5B739E7A28935B9500E4EED0 /* MyProfileCell.xib in Resources */,
 				5B739E7B28935B9500E4EED0 /* SettingCell.xib in Resources */,
@@ -2373,6 +2387,7 @@
 				5BE1473F289F1A7C0096FEBE /* String+Random.swift in Sources */,
 				436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */,
 				43529E2F2890BD3D00B3A484 /* CommentFlagAPI.swift in Sources */,
+				5B879E6928B5DD4700D2DFC1 /* CustomNavBar.swift in Sources */,
 				5BE110022876CD9D00CB54A6 /* RequestResetPasswordViewController.swift in Sources */,
 				47A3D70E27D55BB3003DBEA5 /* Time.swift in Sources */,
 				43770C4B27EE8C0F00F31CCF /* LoginViewController.swift in Sources */,
@@ -2433,6 +2448,7 @@
 				5BCE5F8228B483D2002078E1 /* CommentMoreViewController.swift in Sources */,
 				5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */,
 				5BE147D128A2A1E80096FEBE /* String+Ranges.swift in Sources */,
+				5BC2EC4228B5B99A0047D5B4 /* PhotoDetailViewController.swift in Sources */,
 				5BA401F72878052B004A556E /* Env.swift in Sources */,
 				5BB624D52867D1C100DCD45B /* ChatMoreViewController.swift in Sources */,
 				4752719A2855A6A700DDF84D /* ExploreViewController+Feed.swift in Sources */,
@@ -2659,6 +2675,7 @@
 				5B739E2F28935B9500E4EED0 /* RequestResetPasswordViewController.swift in Sources */,
 				5B739E3028935B9500E4EED0 /* Time.swift in Sources */,
 				5B739E3128935B9500E4EED0 /* LoginViewController.swift in Sources */,
+				5B879E6A28B5DD4700D2DFC1 /* CustomNavBar.swift in Sources */,
 				5B739E3228935B9500E4EED0 /* FeedViewController.swift in Sources */,
 				5B739E3328935B9500E4EED0 /* MistWideLogoView.swift in Sources */,
 				5BE147D228A2A1E80096FEBE /* String+Ranges.swift in Sources */,
@@ -2719,6 +2736,7 @@
 				5B739E5D28935B9500E4EED0 /* MKPlacemark+Address.swift in Sources */,
 				5B739E5E28935B9500E4EED0 /* InformationCollectionCell.swift in Sources */,
 				5B739E5F28935B9500E4EED0 /* Env.swift in Sources */,
+				5BC2EC4328B5B99A0047D5B4 /* PhotoDetailViewController.swift in Sources */,
 				5B739E6028935B9500E4EED0 /* ChatMoreViewController.swift in Sources */,
 				5BCE5F7E28B467AB002078E1 /* CommentHeaderCell.swift in Sources */,
 				5B739E6128935B9500E4EED0 /* ExploreViewController+Feed.swift in Sources */,

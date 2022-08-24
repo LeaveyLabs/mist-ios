@@ -1085,7 +1085,7 @@ make that cute barista’s day,
                 <navigationController id="wFi-Ri-Whx" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" selectedImage="compass-filled" id="qzf-Mi-VWD">
                         <imageReference key="image" image="compass-outlined" symbolScale="default"/>
-                        <inset key="imageInsets" minX="-2" minY="-1" maxX="-2" maxY="-1"/>
+                        <inset key="imageInsets" minX="-2" minY="-3" maxX="-2" maxY="0.0"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xk5-cg-NcZ">
                         <rect key="frame" x="0.0" y="44" width="390" height="44"/>
@@ -1337,15 +1337,8 @@ make that cute barista’s day,
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.crop.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="onp-GH-hco">
-                                <rect key="frame" x="50" y="119.66666666666663" width="290" height="289"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="onp-GH-hco" secondAttribute="height" multiplier="1:1" id="Pwz-iG-WVN"/>
-                                </constraints>
-                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="light"/>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adam Novak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDh-hd-9ul">
-                                <rect key="frame" x="98" y="424" width="194" height="44"/>
+                                <rect key="frame" x="98" y="369" width="194" height="44"/>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="32"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1387,7 +1380,7 @@ make that cute barista’s day,
                                 <nil key="highlightedColor"/>
                             </label>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iYr-eL-glx">
-                                <rect key="frame" x="128.33333333333331" y="468" width="133.33333333333331" height="36"/>
+                                <rect key="frame" x="128.33333333333331" y="413" width="133.33333333333331" height="36"/>
                                 <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" image="person.crop.circle.badge.plus" catalog="system" title="Add Friend" imagePadding="6">
@@ -1395,36 +1388,112 @@ make that cute barista’s day,
                                     <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                             </button>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Osc-em-zqX">
+                                <rect key="frame" x="80" y="129" width="230" height="230"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Osc-em-zqX" secondAttribute="height" id="SfA-pM-3mB"/>
+                                    <constraint firstAttribute="width" constant="230" id="jmH-x2-l0D"/>
+                                </constraints>
+                                <color key="tintColor" name="mist-black"/>
+                                <state key="normal" image="pic1">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="100"/>
+                                </state>
+                                <connections>
+                                    <action selector="didPressedChoosePhotoButton:" destination="TJI-kg-NyR" eventType="touchUpInside" id="ZOm-XW-jCQ"/>
+                                    <action selector="profilePicDidPressed:" destination="KKi-Sx-eAl" eventType="touchUpInside" id="Mgf-Vj-ObY"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="sJV-Uf-tOy"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="W3a-GG-5aG" firstAttribute="centerX" secondItem="zDM-BA-NN5" secondAttribute="centerX" id="1a9-cJ-wPT"/>
-                            <constraint firstItem="onp-GH-hco" firstAttribute="top" secondItem="W3a-GG-5aG" secondAttribute="bottom" constant="20" id="24U-Z5-4Vk"/>
                             <constraint firstItem="Ytd-X7-2hj" firstAttribute="leading" secondItem="sJV-Uf-tOy" secondAttribute="leading" constant="15" id="27W-Nd-rOY"/>
+                            <constraint firstItem="Osc-em-zqX" firstAttribute="top" secondItem="W3a-GG-5aG" secondAttribute="bottom" constant="30" id="8fm-gL-BJd"/>
                             <constraint firstItem="W3a-GG-5aG" firstAttribute="top" secondItem="sJV-Uf-tOy" secondAttribute="top" constant="30" id="Cmr-m7-ypD"/>
-                            <constraint firstItem="onp-GH-hco" firstAttribute="centerX" secondItem="zDM-BA-NN5" secondAttribute="centerX" id="FOg-ln-4SP"/>
                             <constraint firstItem="iaB-dd-3Tv" firstAttribute="centerY" secondItem="W3a-GG-5aG" secondAttribute="centerY" id="IPV-rb-f6a"/>
-                            <constraint firstItem="sJV-Uf-tOy" firstAttribute="trailing" secondItem="onp-GH-hco" secondAttribute="trailing" constant="50" id="OZw-ev-cgZ"/>
+                            <constraint firstItem="fDh-hd-9ul" firstAttribute="top" secondItem="Osc-em-zqX" secondAttribute="bottom" constant="10" id="Xio-Yq-3n5"/>
+                            <constraint firstItem="Osc-em-zqX" firstAttribute="centerX" secondItem="zDM-BA-NN5" secondAttribute="centerX" id="YuJ-lk-7UG"/>
                             <constraint firstItem="Ytd-X7-2hj" firstAttribute="centerY" secondItem="W3a-GG-5aG" secondAttribute="centerY" id="aIa-B7-tF0"/>
-                            <constraint firstItem="onp-GH-hco" firstAttribute="leading" secondItem="sJV-Uf-tOy" secondAttribute="leading" constant="50" id="bcq-fC-2qB"/>
                             <constraint firstItem="iYr-eL-glx" firstAttribute="top" secondItem="fDh-hd-9ul" secondAttribute="bottom" id="g7h-No-aLI"/>
                             <constraint firstItem="fDh-hd-9ul" firstAttribute="centerX" secondItem="zDM-BA-NN5" secondAttribute="centerX" id="m8N-rC-uif"/>
                             <constraint firstItem="iYr-eL-glx" firstAttribute="centerX" secondItem="zDM-BA-NN5" secondAttribute="centerX" id="qLi-7T-LRf"/>
                             <constraint firstAttribute="trailing" secondItem="iaB-dd-3Tv" secondAttribute="trailing" constant="15" id="x1r-tE-ezi"/>
-                            <constraint firstItem="fDh-hd-9ul" firstAttribute="top" secondItem="onp-GH-hco" secondAttribute="bottom" constant="15" id="yKn-oF-Onr"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Mk0-Kw-vGC"/>
                     <connections>
                         <outlet property="nameLabel" destination="fDh-hd-9ul" id="8Vc-DW-lsk"/>
-                        <outlet property="profilePicUIImageView" destination="onp-GH-hco" id="ngw-dF-W6e"/>
+                        <outlet property="profilePicButton" destination="Osc-em-zqX" id="uQH-pH-pJB"/>
                         <outlet property="usernameLabel" destination="W3a-GG-5aG" id="wif-tr-jba"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EmX-wU-zZ9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1374" y="503"/>
+            <point key="canvasLocation" x="1370.7692307692307" y="511.84834123222748"/>
+        </scene>
+        <!--Photo Detail View Controller-->
+        <scene sceneID="B8i-kb-Avv">
+            <objects>
+                <viewController storyboardIdentifier="PhotoDetailViewController" id="asc-Bx-3qe" customClass="PhotoDetailViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cDh-hg-czb">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="91K-hc-R0u" customClass="ImageScrollView" customModule="ImageScrollView">
+                                <rect key="frame" x="0.0" y="41" width="390" height="769"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pic2" translatesAutoresizingMaskIntoConstraints="NO" id="YW2-eP-XrX">
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="769"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="YW2-eP-XrX" firstAttribute="top" secondItem="DAN-Jl-GU5" secondAttribute="top" id="Efl-IK-q6x"/>
+                                    <constraint firstItem="YW2-eP-XrX" firstAttribute="bottom" secondItem="DAN-Jl-GU5" secondAttribute="bottom" constant="390" id="FGI-ja-DF2"/>
+                                    <constraint firstItem="YW2-eP-XrX" firstAttribute="leading" secondItem="DAN-Jl-GU5" secondAttribute="leading" id="I7B-29-cq4"/>
+                                    <constraint firstItem="YW2-eP-XrX" firstAttribute="height" secondItem="rBx-vC-5hF" secondAttribute="height" id="X9P-kU-gT4"/>
+                                    <constraint firstItem="YW2-eP-XrX" firstAttribute="width" secondItem="rBx-vC-5hF" secondAttribute="width" id="dcN-5P-gOY"/>
+                                    <constraint firstItem="YW2-eP-XrX" firstAttribute="trailing" secondItem="DAN-Jl-GU5" secondAttribute="trailing" constant="390" id="wMD-vF-B7d"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="DAN-Jl-GU5"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="rBx-vC-5hF"/>
+                            </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zRE-75-tmQ">
+                                <rect key="frame" x="15" y="59.000000000000007" width="26" height="25.333333333333336"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25.329999999999998" id="qS8-ZD-2R4"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="xmark" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="25"/>
+                                </state>
+                                <connections>
+                                    <action selector="didPressX" destination="asc-Bx-3qe" eventType="touchUpInside" id="3rF-ct-6Zv"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="gS1-YI-Zne"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="gS1-YI-Zne" firstAttribute="bottom" secondItem="91K-hc-R0u" secondAttribute="bottom" id="MyM-wh-oLz"/>
+                            <constraint firstItem="91K-hc-R0u" firstAttribute="leading" secondItem="gS1-YI-Zne" secondAttribute="leading" id="Oai-dY-w5H"/>
+                            <constraint firstItem="91K-hc-R0u" firstAttribute="trailing" secondItem="gS1-YI-Zne" secondAttribute="trailing" id="PUS-tn-MBs"/>
+                            <constraint firstItem="gS1-YI-Zne" firstAttribute="top" secondItem="91K-hc-R0u" secondAttribute="top" constant="3" id="hff-fj-iUm"/>
+                            <constraint firstItem="zRE-75-tmQ" firstAttribute="leading" secondItem="gS1-YI-Zne" secondAttribute="leading" constant="15" id="keD-yg-ruF"/>
+                            <constraint firstItem="zRE-75-tmQ" firstAttribute="top" secondItem="gS1-YI-Zne" secondAttribute="top" constant="15" id="kuE-5a-94R"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="boh-bb-j36"/>
+                    <connections>
+                        <outlet property="photoImageView" destination="YW2-eP-XrX" id="lv4-YA-7D1"/>
+                        <outlet property="scrollView" destination="91K-hc-R0u" id="9XC-Ot-bBl"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3rk-vu-utC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2093.8461538461538" y="511.84834123222748"/>
         </scene>
         <!--dummy-->
         <scene sceneID="sMQ-dh-kZ2">
@@ -1792,7 +1861,7 @@ make that cute barista’s day,
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sgT-Cj-JbC" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="chat" selectedImage="chat-filled" id="Nyq-Td-DCa">
-                        <inset key="imageInsets" minX="0.0" minY="19" maxX="0.0" maxY="20"/>
+                        <inset key="imageInsets" minX="0.0" minY="17" maxX="0.0" maxY="21"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mRG-4Y-hFV">
@@ -3135,8 +3204,9 @@ make that cute barista’s day,
         <image name="location" catalog="system" width="128" height="118"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="minus" catalog="system" width="128" height="24"/>
-        <image name="person.crop.circle" catalog="system" width="128" height="121"/>
         <image name="person.crop.circle.badge.plus" catalog="system" width="128" height="113"/>
+        <image name="pic1" width="665" height="1182"/>
+        <image name="pic2" width="1024" height="769"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="sparkles" catalog="system" width="112" height="128"/>
         <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>

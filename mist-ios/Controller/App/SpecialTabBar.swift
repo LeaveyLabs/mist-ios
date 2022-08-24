@@ -32,7 +32,7 @@ class SpecialTabBar: UITabBar {
     
     func addMiddleButton() {
         NSLayoutConstraint.activate([
-            middleButton.topAnchor.constraint(equalTo: self.topAnchor, constant: -25),
+            middleButton.topAnchor.constraint(equalTo: self.topAnchor, constant: -30),
             middleButton.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0),
         ])
     }
