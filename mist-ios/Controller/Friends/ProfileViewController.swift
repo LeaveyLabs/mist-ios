@@ -56,7 +56,7 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        profilePicUIImageView.tintColor = .black
+        profilePicUIImageView.tintColor = Constants.Color.mistBlack
         hasViewLoaded = true
         loadUser()
         renderUser()

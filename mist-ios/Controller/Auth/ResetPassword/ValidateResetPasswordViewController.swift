@@ -109,7 +109,7 @@ class ValidateResetPasswordViewController: KUIViewController, UITextFieldDelegat
     
     func setupBackButton() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(goBack))
-        navigationItem.leftBarButtonItem?.tintColor = .black
+        navigationItem.leftBarButtonItem?.tintColor = Constants.Color.mistBlack
     }
     
     //MARK: - User Interaction

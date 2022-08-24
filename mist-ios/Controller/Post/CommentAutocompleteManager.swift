@@ -69,7 +69,7 @@ class CommentAutocompleteManager: AutocompleteManager {
         tableView.rowHeight = 60
         tableView.register(TagAutocompleteCell.self, forCellReuseIdentifier: TagAutocompleteCell.reuseIdentifier)
         placeholderLabel.font = UIFont(name: Constants.Font.Medium, size: 16)
-        placeholderLabel.textColor = .black
+        placeholderLabel.textColor = Constants.Color.mistBlack
         
 //        tableView.backgroundColor = .red
         

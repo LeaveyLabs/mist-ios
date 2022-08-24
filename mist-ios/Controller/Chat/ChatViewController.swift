@@ -168,7 +168,7 @@ class ChatViewController: MessagesViewController {
         //if is pushing a view controller
         if !self.isAboutToClose {
             navigationController?.setNavigationBarHidden(false, animated: animated)
-            navigationController?.navigationBar.tintColor = .black //otherwise it's blue... idk why
+            navigationController?.navigationBar.tintColor = Constants.Color.mistBlack //otherwise it's blue... idk why
         }
     }
     
@@ -495,6 +495,10 @@ extension ChatViewController: UITextViewDelegate {
 // MARK: - MessagesDisplayDelegate
 
 extension ChatViewController: MessagesDisplayDelegate {
+    
+    func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        return Constants.Color.mistBlack
+    }
         
     func detectorAttributes(for detector: DetectorType, and message: MessageType, at indexPath: IndexPath) -> [NSAttributedString.Key: Any] {
         return MessageLabel.defaultAttributes

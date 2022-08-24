@@ -40,8 +40,8 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         didSet {
             if let newAnnotation = currentlyPinnedAnnotation {
                 locationButton.setTitle(newAnnotation.title, for: .normal)
-                locationButton.setTitleColor(.black, for: .normal)
-                locationButton.tintColor = .black
+                locationButton.setTitleColor(Constants.Color.mistBlack, for: .normal)
+                locationButton.tintColor = Constants.Color.mistBlack
             } else {
                 locationButton.setTitle(LOCATION_PLACEHOLDER_TEXT, for: .normal)
                 locationButton.setTitleColor(.placeholderText, for: .normal)
@@ -55,7 +55,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
             if hasUserTappedDateLabel {
                 let (date, _) = getDateAndTimeForNewPost(selectedDate: datePicker.date)
                 dateLabel.text = date
-                dateLabel.textColor = .black
+                dateLabel.textColor = Constants.Color.mistBlack
             }
             validateAllFields()
         }
@@ -65,7 +65,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
             if hasUserTappedTimeLabel {
                 let (_, time) = getDateAndTimeForNewPost(selectedDate: datePicker.date)
                 timeLabel.text = time
-                timeLabel.textColor = .black
+                timeLabel.textColor = Constants.Color.mistBlack
             }
             validateAllFields()
         }

@@ -68,7 +68,7 @@ class RequestResetPasswordViewController: KUIViewController, UITextFieldDelegate
     
     func setupBackButton() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(goBack))
-        navigationItem.leftBarButtonItem?.tintColor = .black
+        navigationItem.leftBarButtonItem?.tintColor = Constants.Color.mistBlack
     }
     
     //MARK: - User Interaction

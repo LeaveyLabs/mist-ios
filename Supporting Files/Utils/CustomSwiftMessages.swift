@@ -70,13 +70,13 @@ extension CustomSwiftMessages {
     static func showInfoCard(_ title: String, _ body: String, emoji: String) {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
-            messageView.configureTheme(backgroundColor: .white, foregroundColor: .black)
+            messageView.configureTheme(backgroundColor: .white, foregroundColor: Constants.Color.mistBlack)
             messageView.applyMediumShadow()
             messageView.button?.isHidden = true
             messageView.configureContent(title: title,
                                          body: body,
                                          iconText: emoji)
-//            messageView.dismissButton.tintColor = .black
+//            messageView.dismissButton.tintColor = Constants.Color.mistBlack
 //            messageView.dismissAction = {
 //                SwiftMessages.hide()
 //                onDismiss()

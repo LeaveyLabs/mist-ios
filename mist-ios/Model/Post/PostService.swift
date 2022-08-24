@@ -56,9 +56,9 @@ class PostService: NSObject {
         submissionPostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchPostsByAuthor(userId: UserService.singleton.getId()))
     }
     
-//    func loadMentions() async throws {
-//        getMentions() = cachePostsAndGetArrayOfPostIdsFrom(posts: <#T##[Post]#>)
-//    }
+    func loadMentions() async throws {
+        mentionPostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchTaggedPosts())
+    }
     
     //Called by FavoriteService after favorites are loaded in
     func loadFavorites(favoritedPostIds: [Int]) async throws {
