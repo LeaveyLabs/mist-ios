@@ -12,7 +12,7 @@ class MyAccountViewController: SettingsViewController {
     @IBOutlet weak var mistFooterView: UIView!
     @IBOutlet weak var appVersionLabel: UILabel!
     
-    var rerenderProfileCallback: (() -> Void)!
+    var rerenderProfileCallback: (() -> Void)?
         
     //MARK: - Life Cycle
     
@@ -63,7 +63,7 @@ class MyAccountViewController: SettingsViewController {
     //MARK: - User Interaction
      
     @IBAction func cancelButtonDidPressed(_ sender: UIBarButtonItem) {
-        rerenderProfileCallback()
+        rerenderProfileCallback?()
         self.dismiss(animated: true, completion: nil) //bc it's the nav controller's root vc
     }
     

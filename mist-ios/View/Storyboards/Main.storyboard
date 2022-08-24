@@ -1802,52 +1802,19 @@ make that cute barista’s day,
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TaJ-4h-cFp">
-                                <rect key="frame" x="0.0" y="44" width="390" height="55"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dms" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fVs-qT-Doq">
-                                        <rect key="frame" x="25.000000000000004" y="7" width="58.333333333333343" height="41"/>
-                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="30"/>
-                                        <color key="textColor" name="mist-black"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4X2-Dw-upd">
-                                        <rect key="frame" x="330" y="10" width="35" height="35"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="4X2-Dw-upd" secondAttribute="height" multiplier="1:1" id="3zO-Xw-2qr"/>
-                                            <constraint firstAttribute="height" constant="35" id="txl-yu-957"/>
-                                        </constraints>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="Button" image="adam"/>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstItem="fVs-qT-Doq" firstAttribute="centerY" secondItem="TaJ-4h-cFp" secondAttribute="centerY" id="6HL-QV-fb0"/>
-                                    <constraint firstAttribute="height" constant="55" id="BhF-qT-QGq"/>
-                                    <constraint firstItem="4X2-Dw-upd" firstAttribute="centerY" secondItem="TaJ-4h-cFp" secondAttribute="centerY" id="IIv-V5-Ki0"/>
-                                    <constraint firstItem="fVs-qT-Doq" firstAttribute="leading" secondItem="TaJ-4h-cFp" secondAttribute="leading" constant="25" id="acK-Sb-FFE"/>
-                                    <constraint firstAttribute="trailing" secondItem="4X2-Dw-upd" secondAttribute="trailing" constant="25" id="wmU-6q-W9B"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="RjK-TR-yFD"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="WSE-Y6-pMB" firstAttribute="leading" secondItem="RjK-TR-yFD" secondAttribute="leading" id="1g2-zK-4Cu"/>
-                            <constraint firstItem="RjK-TR-yFD" firstAttribute="trailing" secondItem="TaJ-4h-cFp" secondAttribute="trailing" id="MoZ-cm-Vk0"/>
                             <constraint firstItem="WSE-Y6-pMB" firstAttribute="trailing" secondItem="RjK-TR-yFD" secondAttribute="trailing" id="P3T-x8-oQa"/>
                             <constraint firstAttribute="bottom" secondItem="WSE-Y6-pMB" secondAttribute="bottom" id="RIJ-yX-Mxl"/>
-                            <constraint firstItem="TaJ-4h-cFp" firstAttribute="leading" secondItem="RjK-TR-yFD" secondAttribute="leading" id="jI4-2A-7TK"/>
-                            <constraint firstItem="TaJ-4h-cFp" firstAttribute="top" secondItem="RjK-TR-yFD" secondAttribute="top" id="uOX-gh-AHI"/>
-                            <constraint firstItem="WSE-Y6-pMB" firstAttribute="top" secondItem="TaJ-4h-cFp" secondAttribute="bottom" id="uVg-w4-UrM"/>
+                            <constraint firstItem="WSE-Y6-pMB" firstAttribute="top" secondItem="RjK-TR-yFD" secondAttribute="top" constant="55" id="vr0-ky-IIt"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Conversations" largeTitleDisplayMode="always" id="gdG-aN-X7P"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="accountButton" destination="4X2-Dw-upd" id="n6f-P0-Rze"/>
-                        <outlet property="customNavigationBar" destination="TaJ-4h-cFp" id="92M-wy-NZ0"/>
                         <outlet property="tableView" destination="WSE-Y6-pMB" id="sD8-ze-Px7"/>
                         <segue destination="h1m-Q9-Hfd" kind="show" identifier="unusedIdentifier" id="w6b-ry-ZtW"/>
                     </connections>
