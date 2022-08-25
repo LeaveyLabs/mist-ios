@@ -66,7 +66,7 @@ class ChatViewController: MessagesViewController {
         
     var isAuthedUserProfileHidden: Bool! {
         didSet {
-            senderProfileNameButton.setTitle("You", for: .normal)
+            senderProfileNameButton.setTitle("you", for: .normal)
             if isAuthedUserProfileHidden {
                 senderProfilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getBlurredPic())
             } else {

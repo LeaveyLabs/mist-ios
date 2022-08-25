@@ -57,10 +57,10 @@ class ChooseUsernameViewController: KUIViewController, UITextFieldDelegate {
     func setupContinueButton() {
         continueButton.configurationUpdateHandler = { [weak self] button in
             if button.isEnabled {
-                button.configuration = ButtonConfigs.enabledConfig(title: "Continue")
+                button.configuration = ButtonConfigs.enabledConfig(title: "continue")
             }
             else {
-                button.configuration = ButtonConfigs.disabledConfig(title: "Continue")
+                button.configuration = ButtonConfigs.disabledConfig(title: "continue")
             }
             button.configuration?.showsActivityIndicator = self?.isSubmitting ?? false
         }

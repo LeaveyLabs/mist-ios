@@ -88,10 +88,10 @@ class FinishProfileViewController: KUIViewController, UITextFieldDelegate {
 //    func setupButtons() {
 //        continueButton.configurationUpdateHandler = { button in
 //            if button.isEnabled {
-//                button.configuration = ButtonConfigs.enabledConfig(title: "Start")
+//                button.configuration = ButtonConfigs.enabledConfig(title: "start")
 //            }
 //            else {
-//                button.configuration = ButtonConfigs.disabledConfig(title: "Start")
+//                button.configuration = ButtonConfigs.disabledConfig(title: "start")
 //            }
 //        }
 //        // Setup miniCameraButton

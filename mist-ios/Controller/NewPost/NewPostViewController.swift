@@ -9,9 +9,9 @@ import UIKit
 import CoreLocation
 import MapKit
 
-let BODY_PLACEHOLDER_TEXT = "Pour your heart out"
-let TITLE_PLACEHOLDER_TEXT = "A cute title"
-let LOCATION_PLACEHOLDER_TEXT = "Drop a pin"
+let BODY_PLACEHOLDER_TEXT = "pour your heart out"
+let TITLE_PLACEHOLDER_TEXT = "a cute title"
+let LOCATION_PLACEHOLDER_TEXT = "drop a pin"
 let TEXT_LENGTH_BEYOND_MAX_PERMITTED = 5
 
 let TITLE_CHARACTER_LIMIT = 40
@@ -153,8 +153,8 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         timeLabelWrapperView.layer.cornerCurve = .continuous
         timeLabelWrapperView.layer.masksToBounds = true //necessary for curving edge
         
-        dateLabel.text = "Day"
-        timeLabel.text = "Time"
+        dateLabel.text = "day"
+        timeLabel.text = "time"
         
         //shadow button
         dateLabelWrapperView.applyLightShadow()
@@ -202,7 +202,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     @IBAction func cancelButtonDidPressed(_ sender: UIBarButtonItem) {
         let hasMadeEdits = !bodyTextView.text.isEmpty || !titleTextView.text.isEmpty || currentlyPinnedAnnotation != nil || hasUserTappedDateLabel == true || hasUserTappedTimeLabel == true
         if hasMadeEdits {
-            CustomSwiftMessages.showAlert(title: "Would you like to save this post as a draft?", body: "", emoji: "🗑", dismissText: "No thanks", approveText: "Save", onDismiss: {
+            CustomSwiftMessages.showAlert(title: "would you like to save this post as a draft?", body: "", emoji: "🗑", dismissText: "no thanks", approveText: "save", onDismiss: {
                 NewPostContext.clear()
                 self.dismiss(animated: true)
             }, onApprove: {

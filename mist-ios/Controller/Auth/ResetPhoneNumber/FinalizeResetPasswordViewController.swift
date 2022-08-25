@@ -62,10 +62,10 @@ class FinalizeResetPasswordViewController: KUIViewController, UITextFieldDelegat
     func setupContinueButton() {
         continueButton.configurationUpdateHandler = { button in
             if button.isEnabled {
-                button.configuration = ButtonConfigs.enabledConfig(title: "Finish")
+                button.configuration = ButtonConfigs.enabledConfig(title: "finish")
             }
             else {
-                button.configuration = ButtonConfigs.disabledConfig(title: "Finish")
+                button.configuration = ButtonConfigs.disabledConfig(title: "finish")
             }
             button.configuration?.showsActivityIndicator = self.isSubmitting
         }
@@ -114,16 +114,16 @@ class FinalizeResetPasswordViewController: KUIViewController, UITextFieldDelegat
                 Task {
                     do {
                         try await AuthAPI.finalizeResetPassword(email: ResetPasswordContext.email, password: password)
-                        CustomSwiftMessages.showInfoCentered("Password successfully updated.", "Keep it safe and secure.", emoji: "🤐") { [self] in
+                        CustomSwiftMessages.showInfoCentered("password successfully updated.", "keep it safe and secure", emoji: "🤐") { [self] in
                             isSubmitting = false
                             navigationController?.dismiss(animated: true)
                         }
                     } catch {
-                        handleFailure("Not strong enough", "Cmon now, that's just too easy")
+                        handleFailure("not strong enough", "cmon now, that's just too easy")
                     }
                 }
             } else {
-                handleFailure("The passwords don't match", "Your worst nightmare")
+                handleFailure("the passwords don't match", "your worst nightmare")
             }
         }
     }

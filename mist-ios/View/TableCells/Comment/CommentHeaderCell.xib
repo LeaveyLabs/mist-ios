@@ -17,8 +17,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99+ Comments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7vo-E6-slm">
-                        <rect key="frame" x="111" y="5" width="98" height="20"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99+ comments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7vo-E6-slm">
+                        <rect key="frame" x="112.5" y="5" width="95" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="IiB-V7-diH"/>
                         </constraints>
@@ -27,14 +27,14 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="35F-7M-Dyv">
-                        <rect key="frame" x="0.0" y="15" width="96" height="0.5"/>
+                        <rect key="frame" x="0.0" y="15" width="97.5" height="0.5"/>
                         <color key="backgroundColor" systemColor="systemGray4Color"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="0.5" id="qlY-5n-OQW"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Xq-90-87O">
-                        <rect key="frame" x="226" y="15" width="94" height="0.5"/>
+                        <rect key="frame" x="224.5" y="15" width="95.5" height="0.5"/>
                         <color key="backgroundColor" systemColor="systemGray4Color"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="0.5" id="KB1-QH-Qja"/>

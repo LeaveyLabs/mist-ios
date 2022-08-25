@@ -58,10 +58,10 @@ class UploadProfilePictureViewController: UIViewController {
     func setupButtons() {
         continueButton.configurationUpdateHandler = { button in
             if button.isEnabled {
-                button.configuration = ButtonConfigs.enabledConfig(title: "Start")
+                button.configuration = ButtonConfigs.enabledConfig(title: "start")
             }
             else {
-                button.configuration = ButtonConfigs.disabledConfig(title: "Start")
+                button.configuration = ButtonConfigs.disabledConfig(title: "start")
             }
             button.configuration?.showsActivityIndicator = self.isSubmitting
         }

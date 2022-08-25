@@ -1,13 +1,13 @@
 //
-//  EnterEmailViewController.swift
+//  RequestResetPasswordViewController.swift
 //  mist-ios
 //
-//  Created by Kevin Sun on 3/29/22.
+//  Created by Adam Monterey on 7/7/22.
 //
 
 import UIKit
 
-class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
+class RequestResetPasswordViewController: KUIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var enterEmailTextField: UITextField!
     @IBOutlet weak var continueButton: UIButton!
@@ -27,8 +27,8 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         isValidInput = false
-        validateInput()
         shouldNotAnimateKUIAccessoryInputView = true
         setupPopGesture()
         setupEnterEmailTextField()
@@ -38,17 +38,9 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        enableInteractivePopGesture()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        disableInteractivePopGesture() //because it's the root view controller of a navigation vc
         enterEmailTextField.becomeFirstResponder()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        disableInteractivePopGesture()
+        validateInput()
     }
     
     //MARK: - Setup
@@ -57,20 +49,17 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
         enterEmailTextField.delegate = self
         enterEmailTextField.layer.cornerRadius = 5
         enterEmailTextField.setLeftAndRightPadding(10)
+        enterEmailTextField.becomeFirstResponder()
     }
     
     func setupContinueButton() {
-        //Three states:
-        // 1. enabled
-        // 2. disabled (faded white text)
-        // 3. disabled and submitting (dark grey foreground) bc i dont think you can change the activityIndicator color
         continueButton.configurationUpdateHandler = { [weak self] button in
             if button.isEnabled {
-                button.configuration = ButtonConfigs.enabledConfig(title: "Continue")
+                button.configuration = ButtonConfigs.enabledConfig(title: "continue")
             }
             else {
                 if !(self?.isSubmitting ?? false) {
-                    button.configuration = ButtonConfigs.disabledConfig(title: "Continue")
+                    button.configuration = ButtonConfigs.disabledConfig(title: "continue")
                 }
             }
             button.configuration?.showsActivityIndicator = self?.isSubmitting ?? false
@@ -78,13 +67,14 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func setupBackButton() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(goBack))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(goBack))
+        navigationItem.leftBarButtonItem?.tintColor = Constants.Color.mistBlack
     }
     
     //MARK: - User Interaction
     
     @objc func goBack() {
-        navigationController?.popViewController(animated: true)
+        navigationController?.dismiss(animated: true)
     }
     
     @IBAction func didPressedContinueButton(_ sender: Any) {
@@ -94,10 +84,9 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     //MARK: - TextField Delegate
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        //people's thumbs get in the way
-//        if isValidInput {
-//            tryToContinue()
-//        }
+        if isValidInput {
+            tryToContinue()
+        }
         return false
     }
     
@@ -109,21 +98,17 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
         }
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        detectAutoFill(textField: textField, range: range, string: string)
-        return true
-    }
-    
     //MARK: - Helpers
     
     func tryToContinue() {
         if let email = enterEmailTextField.text?.lowercased() {
-            isSubmitting = true
             Task {
+                isSubmitting = true
                 do {
-                    try await AuthAPI.registerEmail(email: email)
-                    AuthContext.email = email
-                    let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ConfirmEmail)
+                    try await AuthAPI.requestResetPassword(email: email)
+                    // Move to the next code view
+                    ResetPasswordContext.email = email
+                    let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ValidateResetPassword)
                     self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
                         self?.isSubmitting = false
                     })
@@ -136,7 +121,6 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     
     func handleFailure(_ error: Error) {
         isSubmitting = false
-        enterEmailTextField.text = ""
         validateInput()
         CustomSwiftMessages.displayError(error)
     }
@@ -146,31 +130,11 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
 //        isValidInput = enterEmailTextField.text?.suffix(8).lowercased() == "@usc.edu"
     }
     
-    private var fieldPossibleAutofillReplacementAt: Date?
-    private var fieldPossibleAutofillReplacementRange: NSRange?
-    func detectAutoFill(textField: UITextField, range: NSRange, string: String) {
-        // To detect AutoFill, look for two quick replacements. The first replaces a range with a single space
-        // (or blank string starting with iOS 13.4).
-        // The next replaces the same range with the autofilled content.
-        if string == " " || string == "" {
-            self.fieldPossibleAutofillReplacementRange = range
-            self.fieldPossibleAutofillReplacementAt = Date()
-        } else {
-            if fieldPossibleAutofillReplacementRange == range, let replacedAt = self.fieldPossibleAutofillReplacementAt, Date().timeIntervalSince(replacedAt) < 0.1 {
-                DispatchQueue.main.async { [self] in
-                    tryToContinue()
-                }
-            }
-            self.fieldPossibleAutofillReplacementRange = nil
-            self.fieldPossibleAutofillReplacementAt = nil
-        }
-    }
-    
 }
 
 // UIGestureRecognizerDelegate (already inherited in an extension)
 
-extension EnterEmailViewController {
+extension RequestResetPasswordViewController {
     
     // Note: Must be called in viewDidLoad
     //(1 of 2) Enable swipe left to go back with a bar button item

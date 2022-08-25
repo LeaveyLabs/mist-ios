@@ -152,7 +152,7 @@ extension HomeViewController {
             do {
                 let response = try await localSearch.start()
                 if didAppleOverrideLocalSearchRegion(response.boundingRegion) {
-                    CustomSwiftMessages.showInfoCard("No results found", "Try adjusting the map and search again", emoji: "🧐")
+                    CustomSwiftMessages.showInfoCard("no results found", "try adjusting the map and search again", emoji: "🧐")
                 } else {
                     appleregion = response.boundingRegion
                     turnPlacesIntoAnnotations(response.mapItems)

@@ -38,7 +38,7 @@ class MatchCollectionCell: UICollectionViewCell {
         
         let theirName = isSangdaebangHidden ? "???" : sangdaebang.first_name
         subtitleLabel.text = messageKitMatch.matchRequest.match_requesting_user == UserService.singleton.getId() ?
-            "You replied to " + theirName + "'s mist:" :
+            "you replied to " + theirName + "'s mist:" :
             theirName + " replied to your mist:"
         titleLabel.text = messageKitMatch.postTitle
 

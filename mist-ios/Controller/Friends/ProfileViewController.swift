@@ -73,18 +73,18 @@ class ProfileViewController: UIViewController {
             usernameLabel.text = user.username
         case .loading:
             profilePicButton.imageView?.image = Constants.defaultProfilePic
-            nameLabel.text = "Loading..."
+            nameLabel.text = "loading..."
             usernameLabel.text = ""
         case .nonexisting:
             guard let handle = userHandleForLoading else { return }
             profilePicButton.imageView?.image = Constants.defaultProfilePic
             nameLabel.text = handle
-            usernameLabel.text = "This user does not exist"
+            usernameLabel.text = "this user does not exist"
         case .notclaimed:
             guard let handle = userHandleForLoading else { return }
             profilePicButton.imageView?.image = Constants.defaultProfilePic
             nameLabel.text = handle
-            usernameLabel.text = "This account has not yet been claimed"
+            usernameLabel.text = "this account has not yet been claimed"
         case .none:
             break
         }

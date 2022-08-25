@@ -32,7 +32,7 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
 //        return datePicker
 //    }()
     
-    let RATHER_NOT_SAY = "Rather not say"
+    let RATHER_NOT_SAY = "rather not say"
 //    var dobData = ""
     var sexOptions = [String]()
     private lazy var sexPicker: UIPickerView = {
@@ -87,7 +87,7 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
         sexTextField.layer.cornerRadius = 5
         sexTextField.setLeftAndRightPadding(10)
         sexTextField.inputView = sexPicker
-        sexOptions = ["", "Male", "Female", "Other", RATHER_NOT_SAY]
+        sexOptions = ["", "male", "female", "other", RATHER_NOT_SAY]
 
         dobTextField.delegate = self
         dobTextField.layer.cornerRadius = 5
@@ -100,10 +100,10 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
     func setupContinueButton() {
         continueButton.configurationUpdateHandler = { button in
             if button.isEnabled {
-                button.configuration = ButtonConfigs.enabledConfig(title: "Continue")
+                button.configuration = ButtonConfigs.enabledConfig(title: "continue")
             }
             else {
-                button.configuration = ButtonConfigs.disabledConfig(title: "Continue")
+                button.configuration = ButtonConfigs.disabledConfig(title: "continue")
             }
         }
     }

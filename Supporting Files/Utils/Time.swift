@@ -118,9 +118,9 @@ func getDateAndTimeForNewPost(selectedDate: Date) -> (String, String) {
         let wasYesterday = dayFormatter.string(from: selectedDate) == dayFormatter.string(from: Date.yesterday)
         
         if wasToday {
-            return ("Today", time)
+            return ("today", time)
         } else if wasYesterday {
-            return ("Yesterday", time)
+            return ("yesterday", time)
         } else {
             dateFormatter.dateFormat = "EEEE"
             return (dateFormatter.string(from: selectedDate), time)
@@ -185,10 +185,10 @@ func getDateFromSlider(indexFromZeroToOne index: Float, timescale: FilterTimesca
     var dateString: String
     if timescale == .week {
         if index >= 1 - 1.0/7 {
-            dateString = "Today"
+            dateString = "today"
         }
         else if index >= 1 - 2.0/7 {
-            dateString = "Yesterday"
+            dateString = "yesterday"
         }
         else {
             let millisecondsInADay = 86400000.0
@@ -198,18 +198,18 @@ func getDateFromSlider(indexFromZeroToOne index: Float, timescale: FilterTimesca
     }
     else { // timescale == .month
         if index >= 1 - 1.0/3 {
-            dateString = "This week"
+            dateString = "this week"
         }
         else if index >= 1 - 2.0/3 {
-            dateString = "This month"
+            dateString = "this month"
         }
         else {
-            dateString = "All time"
+            dateString = "all time"
         }
     }
     // If the user wants lowercase, only lowercase month timescales (bc days of week should always be capitalized)
     if lowercase {
-        if timescale == .month || dateString == "Today" || dateString == "Yesterday" {
+        if timescale == .month || dateString == "today" || dateString == "yesterday" {
             return dateString.lowercased()
         }
     }

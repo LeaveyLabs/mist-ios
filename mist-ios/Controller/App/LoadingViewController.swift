@@ -104,6 +104,7 @@ class LoadingViewController: UIViewController {
         } catch {
             if let apiError = error as? APIError, apiError == .Unauthorized {
                 logoutAndGoToAuth()
+                return
             }
             if failCount >= 2 {
                 CustomSwiftMessages.displayError(error)

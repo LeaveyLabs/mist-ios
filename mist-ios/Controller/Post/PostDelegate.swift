@@ -70,8 +70,8 @@ extension PostDelegate where Self: UIViewController {
         } catch {
             DispatchQueue.main.async {
                 dmButton.loadingIndicator(false)
-                CustomSwiftMessages.displayError("Something went wrong",
-                                                 "Please try again later")
+                CustomSwiftMessages.displayError("something went wrong",
+                                                 "please try again later")
             }
         }
     }

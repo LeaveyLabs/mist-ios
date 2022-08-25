@@ -13,6 +13,7 @@ class EnterNumberViewController: KUIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var enterNumberTextField: PhoneNumberTextField!
     @IBOutlet weak var continueButton: UIButton!
+    @IBOutlet weak var enterNumberTextFieldWrapperView: UIView!
     
     var isValidInput: Bool! {
         didSet {
@@ -33,7 +34,7 @@ class EnterNumberViewController: KUIViewController, UITextFieldDelegate {
         validateInput()
         shouldNotAnimateKUIAccessoryInputView = true
         setupPopGesture()
-        setupEnterEmailTextField()
+        setupEnterNumberTextField()
         setupContinueButton() //uncomment this button for standard button behavior, where !isEnabled greys it out
         setupBackButton()
     }
@@ -55,13 +56,14 @@ class EnterNumberViewController: KUIViewController, UITextFieldDelegate {
     
     //MARK: - Setup
     
-    func setupEnterEmailTextField() {
+    func setupEnterNumberTextField() {
+        enterNumberTextFieldWrapperView.layer.cornerRadius = 5
+        enterNumberTextFieldWrapperView.layer.cornerCurve = .continuous
         enterNumberTextField.delegate = self
-        enterNumberTextField.layer.cornerRadius = 5
-        enterNumberTextField.setLeftAndRightPadding(10)
-        
         enterNumberTextField.countryCodePlaceholderColor = .red
         enterNumberTextField.withFlag = true
+        enterNumberTextField.withPrefix = true
+//        enterNumberTextField.withExamplePlaceholder = true
     }
     
     func setupContinueButton() {
@@ -71,11 +73,11 @@ class EnterNumberViewController: KUIViewController, UITextFieldDelegate {
         // 3. disabled and submitting (dark grey foreground) bc i dont think you can change the activityIndicator color
         continueButton.configurationUpdateHandler = { [weak self] button in
             if button.isEnabled {
-                button.configuration = ButtonConfigs.enabledConfig(title: "Continue")
+                button.configuration = ButtonConfigs.enabledConfig(title: "continue")
             }
             else {
                 if !(self?.isSubmitting ?? false) {
-                    button.configuration = ButtonConfigs.disabledConfig(title: "Continue")
+                    button.configuration = ButtonConfigs.disabledConfig(title: "continue")
                 }
             }
             button.configuration?.showsActivityIndicator = self?.isSubmitting ?? false
@@ -98,6 +100,16 @@ class EnterNumberViewController: KUIViewController, UITextFieldDelegate {
     
     //MARK: - TextField Delegate
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let didAutofillTextfield = range == NSRange(location: 0, length: 0) && string.count > 1
+        if didAutofillTextfield {
+            DispatchQueue.main.async {
+                self.tryToContinue()
+            }
+        }
+        return true
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if isValidInput {
             tryToContinue()
@@ -106,29 +118,28 @@ class EnterNumberViewController: KUIViewController, UITextFieldDelegate {
     }
     
     @IBAction func textFieldEditingChanged(_ sender: UITextField) {
-        validateInput()
-        let maxLength = 30
+        let maxLength = 17 //the max length for US numbers
         if sender.text!.count > maxLength {
             sender.deleteBackward()
         }
+        validateInput()
     }
     
     //MARK: - Helpers
     
     func tryToContinue() {
-        if let number = enterNumberTextField.text {
-            isSubmitting = true
-            Task {
-                do {
-                    try await PhoneNumberAPI.registerNewPhoneNumber(email: AuthContext.email, phoneNumber: number)
-                    AuthContext.phoneNumber = number
-                    let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ConfirmNumber)
-                    self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
-                        self?.isSubmitting = false
-                    })
-                } catch {
-                    handleFailure(error)
-                }
+        guard let number = enterNumberTextField.text?.asE164PhoneNumber else { return }
+        isSubmitting = true
+        Task {
+            do {
+                try await PhoneNumberAPI.registerNewPhoneNumber(email: AuthContext.email, phoneNumber: number)
+                AuthContext.phoneNumber = number
+                let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ConfirmNumber)
+                self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
+                    self?.isSubmitting = false
+                })
+            } catch {
+                handleFailure(error)
             }
         }
     }
@@ -141,8 +152,7 @@ class EnterNumberViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func validateInput() {
-        isValidInput = enterNumberTextField.text?.contains("@")
-//        isValidInput = enterEmailTextField.text?.suffix(8).lowercased() == "@usc.edu"
+        isValidInput = enterNumberTextField.text?.asE164PhoneNumber != nil
     }
     
 }

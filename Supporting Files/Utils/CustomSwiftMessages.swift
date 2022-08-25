@@ -95,7 +95,7 @@ extension CustomSwiftMessages {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
             messageView.configureContent(title: title, body: body, iconText: emoji)
-            messageView.customConfig(approveText: "", dismissText: "Okay")
+            messageView.customConfig(approveText: "", dismissText: "ok")
             messageView.dismissAction = {
                 SwiftMessages.hide()
                 onDismiss()
@@ -148,20 +148,20 @@ extension CustomSwiftMessages {
             var title, body, emoji: String
             switch permissionType {
             case .userLocation:
-                title = "Would you like to share your current location?"
-                body = "This makes finding and submitting mists even easier"
+                title = "would you like to share your current location?"
+                body = "this makes finding and submitting mists even easier"
                 emoji = "📍"
-                messageView.customConfig(approveText: "Let's do it", dismissText: "No thanks")
+                messageView.customConfig(approveText: "sure", dismissText: "no, I'd rather mist out")
             case .contacts:
-                title = "Share your contacts for better tagging"
-                body = "If you tag a friend who doesn't have Mist, we'll shoot them a text."
+                title = "share your contacts for better tagging"
+                body = "if you tag a friend who doesn't have Mist, we'll shoot them a text."
                 emoji = "📞"
-                messageView.customConfig(approveText: "Share", dismissText: "Nah")
+                messageView.customConfig(approveText: "share", dismissText: "nah")
             case .notifications:
-                title = "Would you like to turn on notifications?"
-                body = "Get notified about incoming DMs and mists which might be about you."
+                title = "would you like to turn on notifications?"
+                body = "get notified about incoming DMs and mists which might be about you."
                 emoji = ""
-                messageView.customConfig(approveText: "Of course", dismissText: "No, I'd rather miss out")
+                messageView.customConfig(approveText: "of course", dismissText: "no thanks")
             }
             messageView.configureContent(title: title, body: body, iconText: emoji)
             messageView.approveAction = {
@@ -183,10 +183,10 @@ extension CustomSwiftMessages {
     static func showBlockPrompt(completion: @escaping (Bool) -> Void) {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
-            let title = "Are you sure you want to block this user?"
-            let body = "You won't be able to see their profile or your conversation again"
+            let title = "are you sure you want to block this user?"
+            let body = "you won't be able to see their profile or your conversation again"
             messageView.configureContent(title: title, body: body, iconText: "✋")
-            messageView.customConfig(approveText: "I'm sure", dismissText: "Nevermind")
+            messageView.customConfig(approveText: "i'm sure", dismissText: "nevermind")
             messageView.approveAction = {
                 SwiftMessages.hide()
                 completion(true)
@@ -206,10 +206,10 @@ extension CustomSwiftMessages {
     static func showAlreadyBlockedMessage() {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
-            let title = "You can't chat with this user"
-            let body = "Either you or the author have blocked each other"
+            let title = "you can't chat with this user"
+            let body = "either you or the author have blocked each other"
             messageView.configureContent(title: title, body: body, iconText: "😕")
-            messageView.customConfig(approveText: "", dismissText: "Okay")
+            messageView.customConfig(approveText: "", dismissText: "ok")
             messageView.approveAction = {
                 SwiftMessages.hide()
             }
@@ -227,10 +227,10 @@ extension CustomSwiftMessages {
     static func showAlreadyDmdMessage() {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
-            let title = "You already responded to this mist"
-            let body = "Check your conversations to keep chatting"
+            let title = "you already responded to this mist"
+            let body = "check your conversations to keep chatting"
             messageView.configureContent(title: title, body: body, iconText: "😉")
-            messageView.customConfig(approveText: "", dismissText: "Okay")
+            messageView.customConfig(approveText: "", dismissText: "ok")
             messageView.approveAction = {
                 SwiftMessages.hide()
             }
@@ -274,8 +274,8 @@ extension CustomSwiftMessages {
 
       let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
-      let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
-      let settingsAction = UIAlertAction(title: NSLocalizedString("Settings", comment: ""), style: .default) { (UIAlertAction) in
+      let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .cancel, handler: nil)
+      let settingsAction = UIAlertAction(title: NSLocalizedString("settings", comment: ""), style: .default) { (UIAlertAction) in
           UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
       }
 

@@ -9,7 +9,7 @@ import UIKit
 import Contacts
 import InputBarAccessoryView //dependency of MessageKit. If we remove MessageKit, we should install this package independently
 
-let COMMENT_PLACEHOLDER_TEXT = "Comment & tag friends"
+let COMMENT_PLACEHOLDER_TEXT = "comment & tag friends"
 typealias UpdatedPostCompletionHandler = ((Post) -> Void)
 var hasPromptedUserForContactsAccess = false
 
@@ -237,15 +237,15 @@ extension PostViewController: InputBarAccessoryViewDelegate {
             }
         }
         
-        let alertTitle: String = namesAsString + (firstNamesToText.count == 1 ? "isn't on Mist yet!" : "aren't on Mist yet!")
+        let alertTitle: String = namesAsString + (firstNamesToText.count == 1 ? "isn't on Mist yet" : "aren't on Mist yet")
         let alert = UIAlertController(title: alertTitle,
-                                      message: "We'll send a text to let them know you mentioned them.",
+                                      message: "we'll send a text to let them know you mentioned them",
                                       preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Cancel",
+        alert.addAction(UIAlertAction(title: "cancel",
                                       style: UIAlertAction.Style.default, handler: { alertAction in
             closure(false)
         }))
-        alert.addAction(UIAlertAction(title: "OK",
+        alert.addAction(UIAlertAction(title: "ok",
                                       style: UIAlertAction.Style.default, handler: { alertAction in
             closure(true)
         }))

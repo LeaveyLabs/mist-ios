@@ -49,3 +49,25 @@ extension CNContact {
         return best
     }
 }
+
+extension String {
+    
+    var asE164PhoneNumber: String? {
+        do {
+            let phoneNumber = try phoneNumberKit.parse(self)
+            return phoneNumberKit.format(phoneNumber, toType: .e164) // +61236618300
+        } catch {
+            return nil
+        }
+    }
+    
+    var asNationalPhoneNumber: String? {
+        do {
+            let phoneNumber = try phoneNumberKit.parse(self)
+            return phoneNumberKit.format(phoneNumber, toType: .national)
+        } catch {
+            return nil
+        }
+    }
+    
+}

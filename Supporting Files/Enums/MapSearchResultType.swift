@@ -14,24 +14,23 @@ enum MapSearchResultType: Int, CaseIterable {
     var sectionName : String {
         switch self {
         case .containing:
-            return "Mists containing:"
+            return "mists containing:"
         case .nearby:
-            return "Mists nearby:"
+            return "mists nearby:"
         }
     }
     
     static func randomPlaceholder() -> String {
-        return ["USC Village Starbucks",
-                "Literatea",
-                "Dulce",
-                "Leavey Library",
-                "Old Annenberg",
-                "Doheny Lawn",
-                "The 9-0",
-                "Green eyes",
-                "Kinda tall",
-                "Red northface backpack",
-                "Kevin",].randomElement()!
+        return ["usc village starbucks",
+                "literatea",
+                "dulce",
+                "leavey library",
+                "old annenberg",
+                "doheny lawn",
+                "the 9-0",
+                "green eyes",
+                "kinda tall",
+                "red northface backpack"].randomElement()!
     }
 }
 

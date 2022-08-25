@@ -55,10 +55,10 @@ class EnterNameViewController: KUIViewController, UITextFieldDelegate {
     func setupContinueButton() {
         continueButton.configurationUpdateHandler = { button in
             if button.isEnabled {
-                button.configuration = ButtonConfigs.enabledConfig(title: "Continue")
+                button.configuration = ButtonConfigs.enabledConfig(title: "continue")
             }
             else {
-                button.configuration = ButtonConfigs.disabledConfig(title: "Continue")
+                button.configuration = ButtonConfigs.disabledConfig(title: "continue")
             }
         }
     }

@@ -63,10 +63,10 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     func setupLoginButton() {
         loginButton.configurationUpdateHandler = { [weak self] button in
             if button.isEnabled {
-                button.configuration = ButtonConfigs.enabledConfig(title: "Login")
+                button.configuration = ButtonConfigs.enabledConfig(title: "login")
             } else {
                 if !(self?.isSubmitting ?? false) {
-                    button.configuration = ButtonConfigs.disabledConfig(title: "Login")
+                    button.configuration = ButtonConfigs.disabledConfig(title: "login")
                 }
             }
             button.configuration?.showsActivityIndicator = self?.isSubmitting ?? false

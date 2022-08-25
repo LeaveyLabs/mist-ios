@@ -14,7 +14,7 @@ class RulesViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let attributedString = NSMutableAttributedString(string: "Learn more about how we moderate content here.")
+        let attributedString = NSMutableAttributedString(string: "learn more about how we moderate content here.")
         attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.systemBlue, range: .init(location: 41, length: 4))
         learnMoreLabel.attributedText = attributedString
     }

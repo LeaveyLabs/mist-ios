@@ -104,7 +104,7 @@ extension SearchSuggestionsTableViewController {
             if !completerResults.isEmpty {
                 if indexPath.row == 0 {
                     cell.textLabel?.text = searchText // + "\""
-                    cell.detailTextLabel?.text = "Nearby search"
+                    cell.detailTextLabel?.text = "nearby search"
                     cell.accessoryType = .disclosureIndicator
                     cell.isUserInteractionEnabled = true
                 } else {
@@ -115,7 +115,7 @@ extension SearchSuggestionsTableViewController {
                     cell.isUserInteractionEnabled = true
                 }
             } else {
-                cell.textLabel?.text = "No results"
+                cell.textLabel?.text = "no results"
                 cell.detailTextLabel?.text = ""
                 cell.accessoryType = .none
                 cell.isUserInteractionEnabled = false

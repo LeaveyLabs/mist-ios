@@ -76,16 +76,16 @@ class ValidateResetPasswordViewController: KUIViewController, UITextFieldDelegat
                 button.isEnabled = true
                 button.configuration?.showsActivityIndicator = false
                 button.configuration?.image = nil
-                button.configuration?.attributedTitle = AttributedString("Resend", attributes: AttributeContainer(resendAttributes))
+                button.configuration?.attributedTitle = AttributedString("resend", attributes: AttributeContainer(resendAttributes))
             case .sending:
                 button.isEnabled = false
                 button.configuration?.showsActivityIndicator = true
-                button.configuration?.attributedTitle = AttributedString("Resending", attributes: AttributeContainer(resendAttributes))
+                button.configuration?.attributedTitle = AttributedString("resending", attributes: AttributeContainer(resendAttributes))
             case .sent:
                 button.isEnabled = false
                 button.configuration?.showsActivityIndicator = false
                 button.configuration?.image = UIImage(systemName: "checkmark")
-                button.configuration?.attributedTitle = AttributedString("Resent", attributes: AttributeContainer(resendAttributes))
+                button.configuration?.attributedTitle = AttributedString("resent", attributes: AttributeContainer(resendAttributes))
             case .none:
                 break
             }
@@ -96,11 +96,11 @@ class ValidateResetPasswordViewController: KUIViewController, UITextFieldDelegat
         continueButton.configurationUpdateHandler = { [weak self] button in
             
             if button.isEnabled {
-                button.configuration = ButtonConfigs.enabledConfig(title: "Continue")
+                button.configuration = ButtonConfigs.enabledConfig(title: "continue")
             }
             else {
                 if !(self?.isSubmitting ?? false) {
-                    button.configuration = ButtonConfigs.disabledConfig(title: "Continue")
+                    button.configuration = ButtonConfigs.disabledConfig(title: "continue")
                 }
             }
             button.configuration?.showsActivityIndicator = self?.isSubmitting ?? false

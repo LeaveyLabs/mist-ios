@@ -45,12 +45,12 @@ class PostMoreViewController: CustomSheetViewController {
         
         flagButton.selectedImage = UIImage.init(systemName: "flag.fill")!
         flagButton.notSelectedImage = UIImage.init(systemName: "flag")!
-        flagButton.selectedTitle = "Flagged"
-        flagButton.notSelectedTitle = "Flag"
+        flagButton.selectedTitle = "flagged"
+        flagButton.notSelectedTitle = "flag"
         favoriteButton.selectedImage = UIImage(systemName: "bookmark.fill")!
         favoriteButton.notSelectedImage = UIImage(systemName: "bookmark")!
-        favoriteButton.selectedTitle = "Favorited"
-        favoriteButton.notSelectedTitle = "Favorite"
+        favoriteButton.selectedTitle = "favorited"
+        favoriteButton.notSelectedTitle = "favorite"
         
         flagButton.isSelected = FlagService.singleton.hasFlaggedPost(postId)
         favoriteButton.isSelected = FavoriteService.singleton.hasFavoritedPost(postId)
@@ -94,7 +94,7 @@ class PostMoreViewController: CustomSheetViewController {
     }
     
     @IBAction func deleteButtonDidPressed(_ sender: UIButton) {
-        CustomSwiftMessages.showAlert(title: "Delete this mist", body: "Are you sure you want to delete this mist? This can't be undone.", emoji: "😟", dismissText: "Nevermind", approveText: "Delete", onDismiss: {
+        CustomSwiftMessages.showAlert(title: "delete this mist", body: "are you sure you want to delete this mist? this can't be undone.", emoji: "😟", dismissText: "nevermind", approveText: "delete", onDismiss: {
             
         }, onApprove: { [self] in
             deleteButton.isEnabled = false

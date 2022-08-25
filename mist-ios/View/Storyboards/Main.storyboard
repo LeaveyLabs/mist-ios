@@ -1221,7 +1221,7 @@ make that cute barista’s day,
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="KxA-ya-rAI">
                                         <rect key="frame" x="10" y="51" width="360" height="40"/>
                                         <subviews>
-                                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search for mists" translatesAutoresizingMaskIntoConstraints="NO" id="f4p-DM-7no">
+                                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="search for mists" translatesAutoresizingMaskIntoConstraints="NO" id="f4p-DM-7no">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </searchBar>
@@ -1573,7 +1573,7 @@ make that cute barista’s day,
                                         <color key="tintColor" name="mist-black"/>
                                         <inset key="titleEdgeInsets" minX="31" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Share" image="square.and.arrow.up" catalog="system">
+                                        <state key="normal" title="share" image="square.and.arrow.up" catalog="system">
                                             <color key="titleColor" name="mist-black"/>
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
                                         </state>
@@ -1600,7 +1600,7 @@ make that cute barista’s day,
                                         <color key="tintColor" name="mist-black"/>
                                         <inset key="titleEdgeInsets" minX="33" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Save" image="bookmark" catalog="system">
+                                        <state key="normal" title="favorite" image="bookmark" catalog="system">
                                             <color key="titleColor" name="mist-black"/>
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
                                         </state>
@@ -1624,7 +1624,7 @@ make that cute barista’s day,
                                         <color key="tintColor" name="mist-black"/>
                                         <inset key="titleEdgeInsets" minX="30" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Report" image="flag" catalog="system">
+                                        <state key="normal" title="report" image="flag" catalog="system">
                                             <color key="titleColor" name="mist-black"/>
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
                                         </state>
@@ -1648,7 +1648,7 @@ make that cute barista’s day,
                                         <color key="tintColor" name="mist-black"/>
                                         <inset key="titleEdgeInsets" minX="31" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Delete" image="trash" catalog="system">
+                                        <state key="normal" title="delete" image="trash" catalog="system">
                                             <color key="titleColor" name="mist-black"/>
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
                                         </state>
@@ -1737,13 +1737,13 @@ make that cute barista’s day,
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No matches yet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hmR-he-T4G">
-                                                    <rect key="frame" x="121.66666666666669" y="120" width="147" height="0.0"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nothing yet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hmR-he-T4G">
+                                                    <rect key="frame" x="139" y="120" width="112.33333333333331" height="0.0"/>
                                                     <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="When you reply to someone’s mist or they reply to yours, you can chat here. " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uh5-EF-10m">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="when you reply to someone’s mist or they reply to yours, you can chat here" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uh5-EF-10m">
                                                     <rect key="frame" x="66" y="126.99999999999999" width="258" height="38.333333333333329"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="258" id="qfZ-Dl-VHf"/>
@@ -2239,7 +2239,7 @@ make that cute barista’s day,
                                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
                                                         <color key="tintColor" name="mist-black"/>
                                                         <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="15" maxY="0.0"/>
-                                                        <state key="normal" title="Drop a pin">
+                                                        <state key="normal" title="drop a pin">
                                                             <color key="titleColor" name="mist-black"/>
                                                             <imageReference key="image" image="chevron.right" catalog="system" symbolScale="small"/>
                                                         </state>
@@ -2738,7 +2738,7 @@ make that cute barista’s day,
                                         <color key="tintColor" name="mist-black"/>
                                         <inset key="titleEdgeInsets" minX="32" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Block" image="hand.raised" catalog="system">
+                                        <state key="normal" title="block" image="hand.raised" catalog="system">
                                             <color key="titleColor" name="mist-black"/>
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
                                         </state>
@@ -2766,7 +2766,7 @@ make that cute barista’s day,
                                 <color key="tintColor" name="mist-black"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Close"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Close">
+                                <buttonConfiguration key="configuration" style="plain" title="close">
                                     <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -3066,7 +3066,7 @@ make that cute barista’s day,
                                         <color key="tintColor" name="mist-black"/>
                                         <inset key="titleEdgeInsets" minX="30" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Report" image="flag" catalog="system">
+                                        <state key="normal" title="report" image="flag" catalog="system">
                                             <color key="titleColor" name="mist-black"/>
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
                                         </state>
@@ -3083,7 +3083,7 @@ make that cute barista’s day,
                                         <color key="tintColor" name="mist-black"/>
                                         <inset key="titleEdgeInsets" minX="31" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Delete" image="trash" catalog="system">
+                                        <state key="normal" title="delete" image="trash" catalog="system">
                                             <color key="titleColor" name="mist-black"/>
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
                                         </state>
