@@ -103,16 +103,16 @@ class UserService: NSObject {
                     dob: String) async throws {
         let newProfilePicWrapper = ProfilePicWrapper(image: profilePic, withCompresssion: true)
         let compressedProfilePic = newProfilePicWrapper.image
-        let completeUser = try await AuthAPI.createUser(username: username,
+        let token = try await AuthAPI.createUser(username: username,
                                             first_name: firstName,
                                             last_name: lastName,
                                             picture: compressedProfilePic,
                                             email: email,
                                             phone_number: phoneNumber,
                                             dob: dob)
-        let token = try await PhoneNumberAPI.validateLoginCode(phoneNumber: phoneNumber,
-                                                               code: AuthContext.)
         setGlobalAuthToken(token: token)
+        let completeUser = try await UserAPI.fetchAuthedUserByToken(token: token)
+        
         Task { try await waitAndRegisterDeviceToken(id: completeUser.id) }
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
                                                     profilePic: newProfilePicWrapper,
