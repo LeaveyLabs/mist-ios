@@ -87,7 +87,7 @@ class UserService: NSObject {
     func getLastName() -> String { return authedUser.last_name }
     func getFirstLastName() -> String { return authedUser.first_name + " " + authedUser.last_name }
     func getEmail() -> String { return authedUser.email }
-    func getPhoneNumber() -> String { return "111111111" }
+    func getPhoneNumber() -> String? { return authedUser.phone_number }
     func getProfilePic() -> UIImage { return authedUser.profilePicWrapper.image }
     func getBlurredPic() -> UIImage { return authedUser.profilePicWrapper.blurredImage }
     
@@ -99,7 +99,7 @@ class UserService: NSObject {
                     lastName: String,
                     profilePic: UIImage,
                     email: String,
-                    password: String,
+                    phoneNumber: String,
                     dob: String) async throws {
         let newProfilePicWrapper = ProfilePicWrapper(image: profilePic, withCompresssion: true)
         let compressedProfilePic = newProfilePicWrapper.image
@@ -108,9 +108,10 @@ class UserService: NSObject {
                                             last_name: lastName,
                                             picture: compressedProfilePic,
                                             email: email,
-                                            password: password,
+                                            phone_number: phoneNumber,
                                             dob: dob)
-        let token = try await AuthAPI.fetchAuthToken(email_or_username: username, password: password)
+        let token = try await PhoneNumberAPI.validateLoginCode(phoneNumber: phoneNumber,
+                                                               code: AuthContext.)
         setGlobalAuthToken(token: token)
         Task { try await waitAndRegisterDeviceToken(id: completeUser.id) }
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,

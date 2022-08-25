@@ -51,6 +51,7 @@ class UserAPI {
     static let SEX_PARAM = "sex"
     static let KEYWORDS_PARAM = "keywords"
     static let WORDS_PARAM = "words"
+    static let PHONE_NUMBER_PARAM = "phone_number"
     static let PHONE_NUMBERS_PARAM = "phone_numbers"
     static let TOKEN_PARAM = "token"
     static let LATITUDE_PARAM = "latitude"

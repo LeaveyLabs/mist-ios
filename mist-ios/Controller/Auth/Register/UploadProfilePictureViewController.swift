@@ -107,9 +107,10 @@ class UploadProfilePictureViewController: UIViewController {
                         lastName: AuthContext.lastName,
                         profilePic: selectedProfilePic,
                         email: AuthContext.email,
-                        password: AuthContext.password,
+                        phoneNumber: AuthContext.password,
                         dob: AuthContext.dob)
                     try await loadEverything()
+                    AuthContext.reset()
                     isSubmitting = false
                     transitionToHomeAndRequestPermissions() { }
                 } catch {

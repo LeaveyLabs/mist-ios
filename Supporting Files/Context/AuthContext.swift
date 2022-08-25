@@ -11,9 +11,19 @@ struct AuthContext {
     static var username: String = ""
     static var email: String = ""
     static var phoneNumber: String = ""
-    static var password: String = ""
+    static var password: String = "" //depcreated
     static var firstName: String = ""
     static var lastName: String = ""
     static var dob: String = ""
     static var sex: String?
+    
+    static func reset() {
+        username = ""
+        email = ""
+        phoneNumber = ""
+        firstName = ""
+        lastName = ""
+        dob = ""
+        sex = nil
+    }
 }

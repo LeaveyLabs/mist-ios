@@ -246,7 +246,7 @@ class AuthAPI {
                            last_name:String,
                            picture:UIImage?,
                            email:String,
-                           password:String,
+                           phone_number:String,
                            dob: String,
                            sex:String?=nil) async throws -> CompleteUser {
         var params:[String:String] = [
@@ -254,8 +254,9 @@ class AuthAPI {
             UserAPI.FIRST_NAME_PARAM: first_name,
             UserAPI.LAST_NAME_PARAM: last_name,
             UserAPI.EMAIL_PARAM: email,
-            UserAPI.PASSWORD_PARAM: password,
+            UserAPI.PHONE_NUMBER_PARAM: phone_number,
             UserAPI.DATE_OF_BIRTH_PARAM: dob,
+            UserAPI.PASSWORD_PARAM: "randomstringofcharacters1234"
         ]
         if let sex = sex {
             params[UserAPI.SEX_PARAM] = sex

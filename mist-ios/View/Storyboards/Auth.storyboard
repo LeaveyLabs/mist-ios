@@ -142,7 +142,7 @@
                                         <rect key="frame" x="25" y="55.333333333333343" width="364" height="54.666666666666657"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
-                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" name="mist-black"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -270,12 +270,12 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cdu-Tn-wAt">
-                                        <rect key="frame" x="299.33333333333331" y="165" width="89.666666666666686" height="16.666666666666657"/>
+                                        <rect key="frame" x="299.33333333333331" y="168" width="89.666666666666686" height="16.666666666666657"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="forgot password">
                                             <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="12"/>
                                             <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
-                                            <color key="baseForegroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="baseForegroundColor" name="mist-black"/>
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="forgotButtonDidPressed:" destination="578-PS-30b" eventType="touchUpInside" id="c7r-ru-JzG"/>
@@ -304,7 +304,7 @@
                                 <constraints>
                                     <constraint firstItem="XJF-UW-mZf" firstAttribute="leading" secondItem="9ck-fn-tJV" secondAttribute="leading" constant="25" id="093-sv-7b3"/>
                                     <constraint firstItem="Cdu-Tn-wAt" firstAttribute="trailing" secondItem="pa4-PQ-kx4" secondAttribute="trailing" id="0kG-0d-63g"/>
-                                    <constraint firstItem="Cdu-Tn-wAt" firstAttribute="top" secondItem="pa4-PQ-kx4" secondAttribute="bottom" constant="5" id="9oH-GY-hYC"/>
+                                    <constraint firstItem="Cdu-Tn-wAt" firstAttribute="top" secondItem="pa4-PQ-kx4" secondAttribute="bottom" constant="8" id="9oH-GY-hYC"/>
                                     <constraint firstAttribute="trailing" secondItem="XJF-UW-mZf" secondAttribute="trailing" constant="25" id="V2E-HL-Sx7"/>
                                     <constraint firstAttribute="bottom" secondItem="XJF-UW-mZf" secondAttribute="bottom" constant="15" id="kJH-II-yZQ"/>
                                     <constraint firstItem="EJ1-w8-CgY" firstAttribute="top" secondItem="9ck-fn-tJV" secondAttribute="top" id="nDk-gE-NPw"/>
@@ -961,7 +961,7 @@
                                         <rect key="frame" x="25" y="58" width="364" height="26"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="19"/>
-                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" name="mist-black"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" textAlignment="justified" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qUa-1v-kQZ">
@@ -1017,7 +1017,7 @@
                                         <buttonConfiguration key="configuration" style="plain" title="resend">
                                             <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="12"/>
                                             <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
-                                            <color key="baseForegroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="baseForegroundColor" name="mist-black"/>
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="didPressedResendButton:" destination="UyC-fl-2SL" eventType="touchUpInside" id="hUK-98-a5j"/>
@@ -1113,7 +1113,7 @@
                                         <rect key="frame" x="25" y="58" width="364" height="26"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="19"/>
-                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" name="mist-black"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" textAlignment="justified" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FAL-9a-vpx">
@@ -1134,7 +1134,7 @@
                                         <buttonConfiguration key="configuration" style="plain" title="resend">
                                             <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="12"/>
                                             <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
-                                            <color key="baseForegroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="baseForegroundColor" name="mist-black"/>
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="didPressedResendButton:" destination="DIh-pb-ADG" eventType="touchUpInside" id="O5G-lp-uyH"/>
@@ -1807,7 +1807,7 @@
                                         <rect key="frame" x="25" y="58" width="364" height="52"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="19"/>
-                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" name="mist-black"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dc7-8J-9hk">

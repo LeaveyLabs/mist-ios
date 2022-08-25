@@ -65,6 +65,7 @@ class AuthStartViewController: UIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        AuthContext.reset()
         mistWideLogoView.alpha = 0
         loginButton.alpha = 0
         registerButton.alpha = 0
