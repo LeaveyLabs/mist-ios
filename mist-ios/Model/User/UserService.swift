@@ -163,6 +163,28 @@ class UserService: NSObject {
         }
     }
     
+    func updateFirstName(to newFirstName: String) async throws {
+        guard let frontendCompleteUser = frontendCompleteUser else { return }
+        
+        let updatedCompleteUser = try await UserAPI.patchFirstName(firstName: newFirstName, id: frontendCompleteUser.id)
+        self.authedUser.first_name = updatedCompleteUser.first_name
+        Task {
+            await self.saveUserToFilesystem()
+            await UsersService.singleton.updateCachedUser(updatedUser: self.getUserAsFrontendReadOnlyUser())
+        }
+    }
+    
+    func updateLastName(to newLastName: String) async throws {
+        guard let frontendCompleteUser = frontendCompleteUser else { return }
+        
+        let updatedCompleteUser = try await UserAPI.patchLastName(lastName: newLastName, id: frontendCompleteUser.id)
+        self.authedUser.last_name = updatedCompleteUser.last_name
+        Task {
+            await self.saveUserToFilesystem()
+            await UsersService.singleton.updateCachedUser(updatedUser: self.getUserAsFrontendReadOnlyUser())
+        }
+    }
+    
     // No need to return new profilePic bc it is updated globally
     func updateProfilePic(to newProfilePic: UIImage) async throws {
         guard let frontendCompleteUser = frontendCompleteUser else { return }
@@ -181,12 +203,12 @@ class UserService: NSObject {
         }
     }
     
-    func updatePassword(to newPassword: String) async throws {
-        guard let frontendCompleteUser = frontendCompleteUser else { return }
-        
-        let _ = try await UserAPI.patchPassword(password: newPassword, id: frontendCompleteUser.id)
-        //no need for a local update, since we don't actually save the password locally
-    }
+//    func updatePassword(to newPassword: String) async throws {
+//        guard let frontendCompleteUser = frontendCompleteUser else { return }
+//
+//        let _ = try await UserAPI.patchPassword(password: newPassword, id: frontendCompleteUser.id)
+//        //no need for a local update, since we don't actually save the password locally
+//    }
     
     //MARK: - Logout and delete user
     

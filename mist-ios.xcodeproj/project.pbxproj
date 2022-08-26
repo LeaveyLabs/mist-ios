@@ -518,6 +518,8 @@
 		5B879E7E28B8219100D2DFC1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7C28B8219100D2DFC1 /* LoginViewController.swift */; };
 		5B879E8028B821B300D2DFC1 /* ResetNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7F28B821B300D2DFC1 /* ResetNumberViewController.swift */; };
 		5B879E8128B821B300D2DFC1 /* ResetNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7F28B821B300D2DFC1 /* ResetNumberViewController.swift */; };
+		5B879E8328B8A49C00D2DFC1 /* GetVerifiedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E8228B8A49C00D2DFC1 /* GetVerifiedViewController.swift */; };
+		5B879E8428B8A49C00D2DFC1 /* GetVerifiedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E8228B8A49C00D2DFC1 /* GetVerifiedViewController.swift */; };
 		5BA401F72878052B004A556E /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA401F62878052B004A556E /* Env.swift */; };
 		5BA967322872BC5E00724CD9 /* Array+FirstWhere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */; };
 		5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */; };
@@ -881,6 +883,7 @@
 		5B879E7928B804B900D2DFC1 /* ConfirmCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmCodeViewController.swift; sourceTree = "<group>"; };
 		5B879E7C28B8219100D2DFC1 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		5B879E7F28B821B300D2DFC1 /* ResetNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetNumberViewController.swift; sourceTree = "<group>"; };
+		5B879E8228B8A49C00D2DFC1 /* GetVerifiedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVerifiedViewController.swift; sourceTree = "<group>"; };
 		5BA401F62878052B004A556E /* Env.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+FirstWhere.swift"; sourceTree = "<group>"; };
 		5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationCollectionCell.swift; sourceTree = "<group>"; };
@@ -1627,6 +1630,7 @@
 				47AE72A927F77B0B00A5E94C /* MyProfileSettingViewController.swift */,
 				4752718228557C1300DDF84D /* PasswordSettingViewController.swift */,
 				5BAD62782876938900DCFE45 /* SettingsTapDelegate.swift */,
+				5B879E8228B8A49C00D2DFC1 /* GetVerifiedViewController.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -2408,6 +2412,7 @@
 				472A4C0328408BD800FD52B7 /* SpringLabel.swift in Sources */,
 				474A5DAA27F40CB1004215F9 /* UISegmentedControl+Twitter.swift in Sources */,
 				472A4BF428408BD800FD52B7 /* SpringImageView.swift in Sources */,
+				5B879E8328B8A49C00D2DFC1 /* GetVerifiedViewController.swift in Sources */,
 				5B235B0428ADE43800FD27A9 /* ConfirmNumberViewController.swift in Sources */,
 				5B18B9802876C5F900F0F80E /* AuthStartViewController.swift in Sources */,
 				43D925202852802600438C5C /* FriendRequest.swift in Sources */,
@@ -2700,6 +2705,7 @@
 				5B739E2328935B9500E4EED0 /* SpringLabel.swift in Sources */,
 				5BE147CC28A28CEF0096FEBE /* LinkTextView.swift in Sources */,
 				5B739E2428935B9500E4EED0 /* UISegmentedControl+Twitter.swift in Sources */,
+				5B879E8428B8A49C00D2DFC1 /* GetVerifiedViewController.swift in Sources */,
 				5B739E2528935B9500E4EED0 /* SpringImageView.swift in Sources */,
 				5B739E2628935B9500E4EED0 /* AuthStartViewController.swift in Sources */,
 				5B739E2728935B9500E4EED0 /* FriendRequest.swift in Sources */,

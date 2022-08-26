@@ -404,8 +404,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="mist guidelines" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="VfI-kc-q4b">
-                                <rect key="frame" x="40" y="74" width="310" height="61.666666666666657"/>
-                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="45"/>
+                                <rect key="frame" x="40" y="74" width="310" height="54.666666666666657"/>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="40"/>
                                 <color key="textColor" name="mist-lilac"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -425,7 +425,7 @@
                                         </fragment>
                                     </attributedString>
                                 </state>
-                                <buttonConfiguration key="configuration" style="filled" title="f">
+                                <buttonConfiguration key="configuration" style="filled" title="got it">
                                     <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -433,14 +433,14 @@
                                     <action selector="understoodButtonDidPressed:" destination="UkW-Qo-P11" eventType="touchUpInside" id="a5K-VY-kGL"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="help us keep mist a wholesome, heart-warming space." textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="RnK-5v-xjh">
-                                <rect key="frame" x="25" y="135.66666666666666" width="340" height="19.333333333333343"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="help keep mist a wholesome, heart-warming space." textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="RnK-5v-xjh">
+                                <rect key="frame" x="25" y="128.66666666666666" width="340" height="19.333333333333343"/>
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
                                 <color key="textColor" name="mist-black"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="hQ6-f1-lGW">
-                                <rect key="frame" x="30" y="189.99999999999997" width="330" height="346.33333333333326"/>
+                                <rect key="frame" x="30" y="182.99999999999997" width="330" height="346.33333333333326"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="17k-UD-kCP">
                                         <rect key="frame" x="0.0" y="0.0" width="330" height="105.66666666666667"/>
@@ -799,11 +799,11 @@ make that cute barista’s day,
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="d22-NN-8y2">
-                            <rect key="frame" x="0.0" y="0.0" width="390" height="200"/>
+                            <rect key="frame" x="0.0" y="0.0" width="390" height="273"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L6t-3z-PO7">
-                                    <rect key="frame" x="105" y="20" width="180" height="180"/>
+                                    <rect key="frame" x="93.666666666666686" y="20" width="203" height="203"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="200" id="FTO-hY-joF"/>
                                         <constraint firstAttribute="width" secondItem="L6t-3z-PO7" secondAttribute="height" multiplier="1:1" id="cGH-uf-gMi"/>
@@ -817,7 +817,7 @@ make that cute barista’s day,
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ziz-OH-z1c">
-                                    <rect key="frame" x="240" y="155" width="40" height="40"/>
+                                    <rect key="frame" x="251.66666666666663" y="178" width="40" height="40"/>
                                     <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="40" id="8u3-AJ-Hnc"/>
@@ -832,13 +832,32 @@ make that cute barista’s day,
                                         <action selector="didPressedChoosePhotoButton:" destination="TJI-kg-NyR" eventType="touchUpInside" id="RqP-8o-grp"/>
                                     </connections>
                                 </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HPJ-ZZ-0km">
+                                    <rect key="frame" x="127" y="231" width="136" height="35"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="136" id="0Ts-Me-HjI"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                    <color key="tintColor" systemColor="systemRedColor"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
+                                    <state key="normal" title="get verified" image="exclamationmark.circle.fill" catalog="system">
+                                        <color key="titleColor" name="mist-black"/>
+                                    </state>
+                                    <connections>
+                                        <segue destination="nbf-2g-8V2" kind="presentation" id="0va-C5-n27"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <constraints>
+                                <constraint firstItem="HPJ-ZZ-0km" firstAttribute="centerX" secondItem="d22-NN-8y2" secondAttribute="centerX" id="HgI-AZ-eCT"/>
                                 <constraint firstItem="ziz-OH-z1c" firstAttribute="bottom" secondItem="L6t-3z-PO7" secondAttribute="bottom" constant="-5" id="II8-eZ-Oww"/>
+                                <constraint firstItem="HPJ-ZZ-0km" firstAttribute="top" secondItem="L6t-3z-PO7" secondAttribute="bottom" constant="8" symbolic="YES" id="IVO-f9-XHb"/>
                                 <constraint firstItem="ziz-OH-z1c" firstAttribute="trailing" secondItem="L6t-3z-PO7" secondAttribute="trailing" constant="-5" id="OIK-7R-mCe"/>
                                 <constraint firstItem="L6t-3z-PO7" firstAttribute="centerX" secondItem="d22-NN-8y2" secondAttribute="centerX" id="STE-ek-UIX"/>
                                 <constraint firstItem="L6t-3z-PO7" firstAttribute="top" secondItem="d22-NN-8y2" secondAttribute="top" constant="20" id="mHE-dG-TEa"/>
-                                <constraint firstAttribute="bottom" secondItem="L6t-3z-PO7" secondAttribute="bottom" id="nao-ni-CxR"/>
+                                <constraint firstAttribute="bottom" secondItem="HPJ-ZZ-0km" secondAttribute="bottom" constant="7" id="mQf-Wc-txq"/>
+                                <constraint firstAttribute="bottom" secondItem="L6t-3z-PO7" secondAttribute="bottom" constant="50" id="nao-ni-CxR"/>
                             </constraints>
                         </view>
                         <sections/>
@@ -857,11 +876,12 @@ make that cute barista’s day,
                     <connections>
                         <outlet property="miniCameraButton" destination="ziz-OH-z1c" id="zdl-rB-OIN"/>
                         <outlet property="profilePictureButton" destination="L6t-3z-PO7" id="jlG-pb-poE"/>
+                        <outlet property="verifiedButton" destination="HPJ-ZZ-0km" id="Mex-1K-7vD"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wmh-jR-Ydc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1012" y="-250"/>
+            <point key="canvasLocation" x="-1012.3076923076923" y="-250.23696682464453"/>
         </scene>
         <!--Update Password-->
         <scene sceneID="Wg8-at-4S8">
@@ -919,7 +939,7 @@ make that cute barista’s day,
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RxN-PE-qFu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-286" y="-250"/>
+            <point key="canvasLocation" x="-286" y="-899"/>
         </scene>
         <!--Post View Controller-->
         <scene sceneID="FdI-xE-i1Q">
@@ -1367,7 +1387,7 @@ make that cute barista’s day,
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="xmark" catalog="system">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" weight="regular"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" weight="medium"/>
                                 </state>
                                 <connections>
                                     <action selector="cancelButtonDidPressed:" destination="KKi-Sx-eAl" eventType="touchUpInside" id="3PM-uu-MBo"/>
@@ -2847,7 +2867,7 @@ make that cute barista’s day,
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TDI-5M-eSP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="440" y="-250"/>
+            <point key="canvasLocation" x="440" y="-899"/>
         </scene>
         <!--Custom Explore View Controller-->
         <scene sceneID="hrl-Vj-TRz">
@@ -3044,7 +3064,7 @@ make that cute barista’s day,
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0kp-1U-8G2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1263" y="-250"/>
+            <point key="canvasLocation" x="1194" y="-250"/>
         </scene>
         <!--Comment More View Controller-->
         <scene sceneID="bLc-kq-9NN">
@@ -3144,6 +3164,123 @@ make that cute barista’s day,
             </objects>
             <point key="canvasLocation" x="1168" y="1419"/>
         </scene>
+        <!--Rules View Controller-->
+        <scene sceneID="Q5h-i6-fx9">
+            <objects>
+                <viewController storyboardIdentifier="RulesViewController" id="nbf-2g-8V2" customClass="RulesViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zZ0-XU-qaH">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="get verified" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="Dev-ys-ctH">
+                                <rect key="frame" x="40" y="74" width="310" height="41"/>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="30"/>
+                                <color key="textColor" name="mist-lilac"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tmg-hC-aca">
+                                <rect key="frame" x="30" y="725" width="330" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="tyu-9j-YiR"/>
+                                </constraints>
+                                <color key="tintColor" name="mist-lilac"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Button">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="Got it!">
+                                            <attributes>
+                                                <font key="NSFont" size="23" name="Avenir-Medium"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </state>
+                                <buttonConfiguration key="configuration" style="plain" title="first i'll update my profile pic">
+                                    <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="understoodButtonDidPressed:" destination="evG-sf-QYx" eventType="touchUpInside" id="XxL-ha-CRC"/>
+                                    <action selector="understoodButtonDidPressed:" destination="UkW-Qo-P11" eventType="touchUpInside" id="be4-vQ-zLs"/>
+                                    <action selector="understoodButtonDidPressed:" destination="nbf-2g-8V2" eventType="touchUpInside" id="zYQ-Dt-BkT"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="ZPp-5m-IsN">
+                                <rect key="frame" x="30" y="169.33333333333337" width="330" height="205.66666666666663"/>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0wI-Rr-iEt">
+                                <rect key="frame" x="320" y="709.33333333333337" width="40" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="Gw3-yn-NRq"/>
+                                    <constraint firstAttribute="width" constant="40" id="ijK-z5-n8i"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <connections>
+                                    <action selector="learnMoreButtonDidPressed:" destination="nbf-2g-8V2" eventType="touchUpInside" id="A97-P8-kpV"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WP0-PE-86v">
+                                <rect key="frame" x="15" y="74.666666666666671" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="DCh-iG-I5N"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="xmark" catalog="system">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" weight="medium"/>
+                                </state>
+                                <connections>
+                                    <action selector="cancelButtonDidPressed:" destination="KKi-Sx-eAl" eventType="touchUpInside" id="VHG-vt-30a"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tL7-wc-8aS">
+                                <rect key="frame" x="30" y="658" width="330" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="98F-cd-MOV"/>
+                                </constraints>
+                                <color key="tintColor" name="mist-lilac"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Button">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="Got it!">
+                                            <attributes>
+                                                <font key="NSFont" size="23" name="Avenir-Medium"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </state>
+                                <buttonConfiguration key="configuration" style="filled" title="let's do it">
+                                    <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="understoodButtonDidPressed:" destination="nbf-2g-8V2" eventType="touchUpInside" id="8At-6K-aIf"/>
+                                    <action selector="understoodButtonDidPressed:" destination="evG-sf-QYx" eventType="touchUpInside" id="DN2-Mh-p8n"/>
+                                    <action selector="understoodButtonDidPressed:" destination="UkW-Qo-P11" eventType="touchUpInside" id="dQn-Mc-blW"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="NRl-3J-v8r"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ZPp-5m-IsN" firstAttribute="leading" secondItem="NRl-3J-v8r" secondAttribute="leading" constant="30" id="26t-wY-OMU"/>
+                            <constraint firstItem="NRl-3J-v8r" firstAttribute="trailing" secondItem="Dev-ys-ctH" secondAttribute="trailing" constant="40" id="7Ui-bK-QqX"/>
+                            <constraint firstItem="NRl-3J-v8r" firstAttribute="trailing" secondItem="0wI-Rr-iEt" secondAttribute="trailing" constant="30" id="95J-Rc-VRz"/>
+                            <constraint firstAttribute="trailing" secondItem="ZPp-5m-IsN" secondAttribute="trailing" constant="30" id="GOY-Ln-b53"/>
+                            <constraint firstItem="WP0-PE-86v" firstAttribute="centerY" secondItem="Dev-ys-ctH" secondAttribute="centerY" id="IHj-tk-MqZ"/>
+                            <constraint firstItem="Dev-ys-ctH" firstAttribute="top" secondItem="NRl-3J-v8r" secondAttribute="top" constant="30" id="LJb-zD-bLa"/>
+                            <constraint firstItem="Tmg-hC-aca" firstAttribute="bottom" secondItem="NRl-3J-v8r" secondAttribute="bottom" constant="-15" id="aHg-17-y4N"/>
+                            <constraint firstItem="NRl-3J-v8r" firstAttribute="trailing" secondItem="Tmg-hC-aca" secondAttribute="trailing" constant="30" id="cZG-9X-3kG"/>
+                            <constraint firstItem="Tmg-hC-aca" firstAttribute="leading" secondItem="NRl-3J-v8r" secondAttribute="leading" constant="30" id="ck3-XH-Nxe"/>
+                            <constraint firstItem="WP0-PE-86v" firstAttribute="width" secondItem="WP0-PE-86v" secondAttribute="height" multiplier="1:1" id="kZg-h9-kL7"/>
+                            <constraint firstItem="WP0-PE-86v" firstAttribute="leading" secondItem="NRl-3J-v8r" secondAttribute="leading" constant="15" id="oka-Qv-jVw"/>
+                            <constraint firstItem="Dev-ys-ctH" firstAttribute="leading" secondItem="NRl-3J-v8r" secondAttribute="leading" constant="40" id="qqi-4I-opN"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="oEz-K4-Uxr"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5GZ-Fb-zgE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="evG-sf-QYx" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="-286.15384615384613" y="-250.23696682464453"/>
+        </scene>
     </scenes>
     <color key="tintColor" name="mist-black"/>
     <resources>
@@ -3165,6 +3302,7 @@ make that cute barista’s day,
         <image name="cup.and.saucer" catalog="system" width="128" height="91"/>
         <image name="cup.and.saucer.fill" catalog="system" width="128" height="91"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
+        <image name="exclamationmark.circle.fill" catalog="system" width="128" height="121"/>
         <image name="filter-button" width="96" height="96"/>
         <image name="flag" catalog="system" width="128" height="121"/>
         <image name="hand.raised" catalog="system" width="128" height="128"/>

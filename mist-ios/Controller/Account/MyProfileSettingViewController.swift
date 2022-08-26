@@ -14,6 +14,7 @@ class MyProfileSettingViewController: UITableViewController {
     var saveButton: UIButton!
     @IBOutlet weak var profilePictureButton: UIButton!
     @IBOutlet weak var miniCameraButton: UIButton!
+    @IBOutlet weak var verifiedButton: UIButton!
     
     var firstNameTextField: UITextField!
     var lastNameTextField: UITextField!
@@ -90,6 +91,16 @@ class MyProfileSettingViewController: UITableViewController {
     func setupButtons() {
         miniCameraButton.becomeRound()
         profilePictureButton.imageView?.becomeProfilePicImageView(with: profilePic)
+        
+        let isVerified = true
+        verifiedButton.roundCorners(corners: .allCorners, radius: 5)
+        verifiedButton.backgroundColor = isVerified ? .clear : .white
+        verifiedButton.applyMediumShadow()
+        verifiedButton.layer.shadowOpacity = isVerified ? 0 : 1
+        verifiedButton.setImage(isVerified ? UIImage(systemName: "checkmark.seal.fill") : UIImage(systemName: "exclamationmark.circle.fill"), for: .normal)
+        verifiedButton.tintColor = isVerified ? .systemBlue : .systemRed
+        verifiedButton.setTitle(isVerified ? "verified" : "get verified", for: .normal)
+        verifiedButton.isEnabled = !isVerified
     }
     
     func setupSaveButton() {
@@ -194,16 +205,24 @@ class MyProfileSettingViewController: UITableViewController {
             do {
                 try await withThrowingTaskGroup(of: Void.self) { group in
                     if firstName != UserService.singleton.getFirstName() {
-                        group.addTask { }
+                        group.addTask {
+                            try await UserService.singleton.updateFirstName(to: self.firstName)
+                        }
                     }
                     if lastName != UserService.singleton.getLastName() {
-                        group.addTask { }
+                        group.addTask {
+                            try await UserService.singleton.updateLastName(to: self.lastName)
+                        }
                     }
                     if username != UserService.singleton.getUsername() {
-                        group.addTask { try await UserService.singleton.updateUsername(to: self.username.lowercased()) }
+                        group.addTask {
+                            try await UserService.singleton.updateUsername(to: self.username.lowercased())
+                        }
                     }
                     if profilePic != UserService.singleton.getProfilePic() {
-                        group.addTask { try await UserService.singleton.updateProfilePic(to: self.profilePic) }
+                        group.addTask {
+                            try await UserService.singleton.updateProfilePic(to: self.profilePic)
+                        }
                     }
                     try await group.waitForAll()
                 }
@@ -227,7 +246,10 @@ class MyProfileSettingViewController: UITableViewController {
     
     func handleSuccessfulUpdate() {
         CustomSwiftMessages.showSuccess("successfully updated", "your profile is really popping off")
-        validateInput()
+        DispatchQueue.main.async {
+            self.validateInput()
+            self.saveButton.isEnabled = false
+        }
     }
     
 }
