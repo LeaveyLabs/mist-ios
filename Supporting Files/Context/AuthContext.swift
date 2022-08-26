@@ -17,13 +17,17 @@ struct AuthContext {
     static var dob: String = ""
     static var sex: String?
     
+    static var resetToken: ResetToken = ""
+    
     static func reset() {
         username = ""
         email = ""
         phoneNumber = ""
+        password = ""
         firstName = ""
         lastName = ""
         dob = ""
         sex = nil
+        resetToken = ""
     }
 }

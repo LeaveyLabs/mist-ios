@@ -50,7 +50,7 @@ class SettingCell: UITableViewCell {
             accessoryImageView.isHidden = true
             selectionStyle = .none
         case .phoneNumber:
-            accessoryLabel.text = UserService.singleton.getPhoneNumber()
+            accessoryLabel.text = UserService.singleton.getPhoneNumberPretty()
         case .deleteAccount:
             break
         case .contactUs:

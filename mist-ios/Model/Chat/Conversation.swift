@@ -114,7 +114,9 @@ class Conversation {
     }
     
     func sendMessage(messageText: String) async throws {
-        if let placeholderMatchRequest = placeholderMessageKitMatchRequest, let postId = placeholderMatchRequest.matchRequest.post {
+        if
+            let placeholderMatchRequest = placeholderMessageKitMatchRequest,
+            let postId = placeholderMatchRequest.matchRequest.post {
             try await sendInitiatingMatchRequest(forPostId: postId)
             renderedIndex += 1
         }

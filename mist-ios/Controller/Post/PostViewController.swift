@@ -283,7 +283,7 @@ extension PostViewController: InputBarAccessoryViewDelegate {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.tableView.reloadData()
-            self.tableView.scrollToRow(at: IndexPath(row: self.comments.count, section: 0), at: .bottom, animated: true)
+            self.scrollToBottom()
         }
     }
         

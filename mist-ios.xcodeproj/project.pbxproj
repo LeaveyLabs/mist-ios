@@ -28,7 +28,7 @@
 		4369DB0A282EC436009215D4 /* MessageThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB09282EC436009215D4 /* MessageThread.swift */; };
 		4369DB0C282EC465009215D4 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB0B282EC465009215D4 /* Message.swift */; };
 		436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */; };
-		43770C4B27EE8C0F00F31CCF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */; };
+		43770C4B27EE8C0F00F31CCF /* PasswordLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43770C4A27EE8C0F00F31CCF /* PasswordLoginViewController.swift */; };
 		438D6F222862D1BB00A074FA /* MessageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438D6F212862D1BB00A074FA /* MessageAPI.swift */; };
 		439BE29E287F0247003637E3 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439BE29D287F0247003637E3 /* SnapshotHelper.swift */; };
 		439E44F427DFB71300E244D6 /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F327DFB71300E244D6 /* UserAPI.swift */; };
@@ -307,7 +307,6 @@
 		5B739DC128935B9500E4EED0 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF86A027DC712F0076A1CA /* Comment.swift */; };
 		5B739DC228935B9500E4EED0 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3E0127E0151200381218 /* MapViewController.swift */; };
 		5B739DC328935B9500E4EED0 /* ChooseUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB128025179001C7C6A /* ChooseUsernameViewController.swift */; };
-		5B739DC428935B9500E4EED0 /* ResetPasswordContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110072876CE4200CB54A6 /* ResetPasswordContext.swift */; };
 		5B739DC528935B9500E4EED0 /* UIColor+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479683F22826494100CA23BA /* UIColor+Theme.swift */; };
 		5B739DC628935B9500E4EED0 /* SpringTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A4BE028408BD800FD52B7 /* SpringTextField.swift */; };
 		5B739DC728935B9500E4EED0 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479AA1F227DCF2BD00EA0DFC /* PostViewController.swift */; };
@@ -413,9 +412,9 @@
 		5B739E2C28935B9500E4EED0 /* CLLocationCoordinate+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A7898284E708D0058C845 /* CLLocationCoordinate+Distance.swift */; };
 		5B739E2D28935B9500E4EED0 /* PostVoteAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B327DD7BB9006C2E08 /* PostVoteAPI.swift */; };
 		5B739E2E28935B9500E4EED0 /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */; };
-		5B739E2F28935B9500E4EED0 /* RequestResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */; };
+		5B739E2F28935B9500E4EED0 /* RequestResetNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110012876CD9D00CB54A6 /* RequestResetNumberViewController.swift */; };
 		5B739E3028935B9500E4EED0 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70D27D55BB3003DBEA5 /* Time.swift */; };
-		5B739E3128935B9500E4EED0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */; };
+		5B739E3128935B9500E4EED0 /* PasswordLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43770C4A27EE8C0F00F31CCF /* PasswordLoginViewController.swift */; };
 		5B739E3228935B9500E4EED0 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D6FF27D50CF1003DBEA5 /* FeedViewController.swift */; };
 		5B739E3328935B9500E4EED0 /* MistWideLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD627C2876BE8800DCFE45 /* MistWideLogoView.swift */; };
 		5B739E3428935B9500E4EED0 /* CreatePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB32802519C001C7C6A /* CreatePasswordViewController.swift */; };
@@ -511,6 +510,14 @@
 		5B879E6D28B5DD7600D2DFC1 /* CustomNavBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B879E6B28B5DD7600D2DFC1 /* CustomNavBar.xib */; };
 		5B879E6F28B6BA5500D2DFC1 /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E6E28B6BA5500D2DFC1 /* InsetLabel.swift */; };
 		5B879E7028B6BA5500D2DFC1 /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E6E28B6BA5500D2DFC1 /* InsetLabel.swift */; };
+		5B879E7628B7E3C000D2DFC1 /* CreateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7528B7E3C000D2DFC1 /* CreateProfileViewController.swift */; };
+		5B879E7728B7E3C000D2DFC1 /* CreateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7528B7E3C000D2DFC1 /* CreateProfileViewController.swift */; };
+		5B879E7A28B804B900D2DFC1 /* ConfirmCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7928B804B900D2DFC1 /* ConfirmCodeViewController.swift */; };
+		5B879E7B28B804B900D2DFC1 /* ConfirmCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7928B804B900D2DFC1 /* ConfirmCodeViewController.swift */; };
+		5B879E7D28B8219100D2DFC1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7C28B8219100D2DFC1 /* LoginViewController.swift */; };
+		5B879E7E28B8219100D2DFC1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7C28B8219100D2DFC1 /* LoginViewController.swift */; };
+		5B879E8028B821B300D2DFC1 /* ResetNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7F28B821B300D2DFC1 /* ResetNumberViewController.swift */; };
+		5B879E8128B821B300D2DFC1 /* ResetNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7F28B821B300D2DFC1 /* ResetNumberViewController.swift */; };
 		5BA401F72878052B004A556E /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA401F62878052B004A556E /* Env.swift */; };
 		5BA967322872BC5E00724CD9 /* Array+FirstWhere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */; };
 		5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */; };
@@ -572,10 +579,9 @@
 		5BCEA510289A489700602A4D /* PostViewController+Autocomplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */; };
 		5BD6F47E2896B3020002A60B /* StringChat+Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */; };
 		5BD6F47F2896B3020002A60B /* StringChat+Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */; };
-		5BE110022876CD9D00CB54A6 /* RequestResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */; };
+		5BE110022876CD9D00CB54A6 /* RequestResetNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110012876CD9D00CB54A6 /* RequestResetNumberViewController.swift */; };
 		5BE110042876CDB100CB54A6 /* ValidateResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */; };
 		5BE110062876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */; };
-		5BE110082876CE4200CB54A6 /* ResetPasswordContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110072876CE4200CB54A6 /* ResetPasswordContext.swift */; };
 		5BE14733289D3D990096FEBE /* FeederData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14732289D3D990096FEBE /* FeederData.swift */; };
 		5BE14734289D3D9D0096FEBE /* FeederData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14732289D3D990096FEBE /* FeederData.swift */; };
 		5BE14736289EB68B0096FEBE /* CommentAutocompleteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14735289EB68B0096FEBE /* CommentAutocompleteManager.swift */; };
@@ -644,7 +650,7 @@
 		4369DB09282EC436009215D4 /* MessageThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageThread.swift; sourceTree = "<group>"; };
 		4369DB0B282EC465009215D4 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewController.swift; sourceTree = "<group>"; };
-		43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		43770C4A27EE8C0F00F31CCF /* PasswordLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordLoginViewController.swift; sourceTree = "<group>"; };
 		438D6F212862D1BB00A074FA /* MessageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageAPI.swift; sourceTree = "<group>"; };
 		439BE29D287F0247003637E3 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		439E44F327DFB71300E244D6 /* UserAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
@@ -871,6 +877,10 @@
 		5B879E6828B5DD4700D2DFC1 /* CustomNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavBar.swift; sourceTree = "<group>"; };
 		5B879E6B28B5DD7600D2DFC1 /* CustomNavBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomNavBar.xib; sourceTree = "<group>"; };
 		5B879E6E28B6BA5500D2DFC1 /* InsetLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetLabel.swift; sourceTree = "<group>"; };
+		5B879E7528B7E3C000D2DFC1 /* CreateProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileViewController.swift; sourceTree = "<group>"; };
+		5B879E7928B804B900D2DFC1 /* ConfirmCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmCodeViewController.swift; sourceTree = "<group>"; };
+		5B879E7C28B8219100D2DFC1 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		5B879E7F28B821B300D2DFC1 /* ResetNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetNumberViewController.swift; sourceTree = "<group>"; };
 		5BA401F62878052B004A556E /* Env.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+FirstWhere.swift"; sourceTree = "<group>"; };
 		5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationCollectionCell.swift; sourceTree = "<group>"; };
@@ -917,10 +927,9 @@
 		5BCE5F8128B483D2002078E1 /* CommentMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentMoreViewController.swift; sourceTree = "<group>"; };
 		5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+Autocomplete.swift"; sourceTree = "<group>"; };
 		5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringChat+Emoji.swift"; sourceTree = "<group>"; };
-		5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResetPasswordViewController.swift; sourceTree = "<group>"; };
+		5BE110012876CD9D00CB54A6 /* RequestResetNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResetNumberViewController.swift; sourceTree = "<group>"; };
 		5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateResetPasswordViewController.swift; sourceTree = "<group>"; };
 		5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalizeResetPasswordViewController.swift; sourceTree = "<group>"; };
-		5BE110072876CE4200CB54A6 /* ResetPasswordContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordContext.swift; sourceTree = "<group>"; };
 		5BE14732289D3D990096FEBE /* FeederData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeederData.swift; sourceTree = "<group>"; };
 		5BE14735289EB68B0096FEBE /* CommentAutocompleteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAutocompleteManager.swift; sourceTree = "<group>"; };
 		5BE14738289EB6EA0096FEBE /* TagAutocompleteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagAutocompleteCell.swift; sourceTree = "<group>"; };
@@ -1017,6 +1026,7 @@
 			isa = PBXGroup;
 			children = (
 				5B18B97F2876C5F900F0F80E /* AuthStartViewController.swift */,
+				5B879E7928B804B900D2DFC1 /* ConfirmCodeViewController.swift */,
 				5B879E7228B6EFD100D2DFC1 /* Register */,
 				5B879E7328B6EFE700D2DFC1 /* Login */,
 				5BE110002876CD6C00CB54A6 /* ResetPhoneNumber */,
@@ -1402,7 +1412,6 @@
 		47D9FD1F28457D83004E4BE3 /* Context */ = {
 			isa = PBXGroup;
 			children = (
-				5BE110072876CE4200CB54A6 /* ResetPasswordContext.swift */,
 				478BA27E283E85F500C35507 /* AuthContext.swift */,
 				47D9FD1D28457D72004E4BE3 /* NewPostContext.swift */,
 			);
@@ -1729,12 +1738,10 @@
 			isa = PBXGroup;
 			children = (
 				4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */,
-				436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */,
 				5B235B0028ADE3B200FD27A9 /* EnterNumberViewController.swift */,
-				5B235B0328ADE43800FD27A9 /* ConfirmNumberViewController.swift */,
 				5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */,
 				433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */,
-				43E30CFD2826355C00DBEB57 /* UploadProfilePictureViewController.swift */,
+				5B879E7528B7E3C000D2DFC1 /* CreateProfileViewController.swift */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -1742,7 +1749,7 @@
 		5B879E7328B6EFE700D2DFC1 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */,
+				5B879E7C28B8219100D2DFC1 /* LoginViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1750,10 +1757,16 @@
 		5B879E7428B6F3E700D2DFC1 /* Decomissioned */ = {
 			isa = PBXGroup;
 			children = (
+				43770C4A27EE8C0F00F31CCF /* PasswordLoginViewController.swift */,
+				5B235B0328ADE43800FD27A9 /* ConfirmNumberViewController.swift */,
+				436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */,
 				43483BB32802519C001C7C6A /* CreatePasswordViewController.swift */,
 				43483BB128025179001C7C6A /* ChooseUsernameViewController.swift */,
 				43483BB5280251B1001C7C6A /* EnterNameViewController.swift */,
 				5B1F16CA28791EDD00035F93 /* FinishProfileViewController.swift */,
+				5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */,
+				5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */,
+				43E30CFD2826355C00DBEB57 /* UploadProfilePictureViewController.swift */,
 			);
 			path = Decomissioned;
 			sourceTree = "<group>";
@@ -1896,9 +1909,8 @@
 		5BE110002876CD6C00CB54A6 /* ResetPhoneNumber */ = {
 			isa = PBXGroup;
 			children = (
-				5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */,
-				5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */,
-				5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */,
+				5BE110012876CD9D00CB54A6 /* RequestResetNumberViewController.swift */,
+				5B879E7F28B821B300D2DFC1 /* ResetNumberViewController.swift */,
 			);
 			path = ResetPhoneNumber;
 			sourceTree = "<group>";
@@ -2282,7 +2294,6 @@
 				47FF86A127DC712F0076A1CA /* Comment.swift in Sources */,
 				47EA3E0227E0151200381218 /* MapViewController.swift in Sources */,
 				43483BB228025179001C7C6A /* ChooseUsernameViewController.swift in Sources */,
-				5BE110082876CE4200CB54A6 /* ResetPasswordContext.swift in Sources */,
 				479683F32826494100CA23BA /* UIColor+Theme.swift in Sources */,
 				472A4BFE28408BD800FD52B7 /* SpringTextField.swift in Sources */,
 				479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */,
@@ -2310,6 +2321,7 @@
 				47A3D71D27D5940D003DBEA5 /* NewPostTextView.swift in Sources */,
 				5BB624D12867A51500DCD45B /* VoteService.swift in Sources */,
 				472A4BFC28408BD800FD52B7 /* SpringView.swift in Sources */,
+				5B879E7A28B804B900D2DFC1 /* ConfirmCodeViewController.swift in Sources */,
 				47CE900A27E058090004B756 /* PinMapViewController.swift in Sources */,
 				47C2834F27DED77500A19128 /* FeedHeaderCell.swift in Sources */,
 				470F271327DE6F5800C6DDAF /* SearchSuggestionsTableViewController.swift in Sources */,
@@ -2354,6 +2366,7 @@
 				5BC8822C28B15192007E83F8 /* UIViewController+Logout.swift in Sources */,
 				5BB624B228620D4A00DCD45B /* CustomCardView.swift in Sources */,
 				47EE28F82840AE8200C6425C /* TestViewController.swift in Sources */,
+				5B879E7D28B8219100D2DFC1 /* LoginViewController.swift in Sources */,
 				47061CDA285170CB0042F04C /* FeedType.swift in Sources */,
 				47FB07062858592900BF1789 /* CircularProgressView.swift in Sources */,
 				472A4BFF28408BD800FD52B7 /* DesignableView.swift in Sources */,
@@ -2409,9 +2422,9 @@
 				436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */,
 				43529E2F2890BD3D00B3A484 /* CommentFlagAPI.swift in Sources */,
 				5B879E6928B5DD4700D2DFC1 /* CustomNavBar.swift in Sources */,
-				5BE110022876CD9D00CB54A6 /* RequestResetPasswordViewController.swift in Sources */,
+				5BE110022876CD9D00CB54A6 /* RequestResetNumberViewController.swift in Sources */,
 				47A3D70E27D55BB3003DBEA5 /* Time.swift in Sources */,
-				43770C4B27EE8C0F00F31CCF /* LoginViewController.swift in Sources */,
+				43770C4B27EE8C0F00F31CCF /* PasswordLoginViewController.swift in Sources */,
 				47A3D70027D50CF1003DBEA5 /* FeedViewController.swift in Sources */,
 				5BAD627D2876BE8800DCFE45 /* MistWideLogoView.swift in Sources */,
 				43483BB42802519C001C7C6A /* CreatePasswordViewController.swift in Sources */,
@@ -2454,6 +2467,7 @@
 				479683F5282817CC00CA23BA /* PostAnnotationView.swift in Sources */,
 				5BF78337285D955F003C3955 /* Map.swift in Sources */,
 				479AA1FD27DD109F00EA0DFC /* Constants.swift in Sources */,
+				5B879E8028B821B300D2DFC1 /* ResetNumberViewController.swift in Sources */,
 				472A4BEE28408BD800FD52B7 /* DesignableImageView.swift in Sources */,
 				5BB624C72867933000DCD45B /* FriendRequestService.swift in Sources */,
 				47EA3E0027E013EB00381218 /* PostAnnotation.swift in Sources */,
@@ -2467,6 +2481,7 @@
 				470F271F27DE9ABE00C6DDAF /* SearchResultsTableViewController.swift in Sources */,
 				47061CD028510E4C0042F04C /* MKPlacemark+Address.swift in Sources */,
 				5BCE5F8228B483D2002078E1 /* CommentMoreViewController.swift in Sources */,
+				5B879E7628B7E3C000D2DFC1 /* CreateProfileViewController.swift in Sources */,
 				5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */,
 				5BE147D128A2A1E80096FEBE /* String+Ranges.swift in Sources */,
 				5BC2EC4228B5B99A0047D5B4 /* PhotoDetailViewController.swift in Sources */,
@@ -2573,7 +2588,6 @@
 				5B739DC128935B9500E4EED0 /* Comment.swift in Sources */,
 				5B739DC228935B9500E4EED0 /* MapViewController.swift in Sources */,
 				5B739DC328935B9500E4EED0 /* ChooseUsernameViewController.swift in Sources */,
-				5B739DC428935B9500E4EED0 /* ResetPasswordContext.swift in Sources */,
 				5B739DC528935B9500E4EED0 /* UIColor+Theme.swift in Sources */,
 				5B739DC628935B9500E4EED0 /* SpringTextField.swift in Sources */,
 				5B739DC728935B9500E4EED0 /* PostViewController.swift in Sources */,
@@ -2599,6 +2613,7 @@
 				5B739DD928935B9500E4EED0 /* PostService.swift in Sources */,
 				5BE147D528A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift in Sources */,
 				5B739DDA28935B9500E4EED0 /* NewPostTextView.swift in Sources */,
+				5B879E7B28B804B900D2DFC1 /* ConfirmCodeViewController.swift in Sources */,
 				5B739DDB28935B9500E4EED0 /* VoteService.swift in Sources */,
 				5B739DDC28935B9500E4EED0 /* SpringView.swift in Sources */,
 				5B739DDD28935B9500E4EED0 /* PinMapViewController.swift in Sources */,
@@ -2643,6 +2658,7 @@
 				5B739DFD28935B9500E4EED0 /* BasicAPI.swift in Sources */,
 				5B739DFE28935B9500E4EED0 /* UIViewController+OpenURL.swift in Sources */,
 				5B739DFF28935B9500E4EED0 /* SegmentedControlCell.swift in Sources */,
+				5B879E7E28B8219100D2DFC1 /* LoginViewController.swift in Sources */,
 				5B739E0028935B9500E4EED0 /* BlockService.swift in Sources */,
 				5B739E0128935B9500E4EED0 /* CustomCardView.swift in Sources */,
 				5B739E0228935B9500E4EED0 /* TestViewController.swift in Sources */,
@@ -2694,9 +2710,9 @@
 				5B739E2C28935B9500E4EED0 /* CLLocationCoordinate+Distance.swift in Sources */,
 				5B739E2D28935B9500E4EED0 /* PostVoteAPI.swift in Sources */,
 				5B739E2E28935B9500E4EED0 /* ConfirmEmailViewController.swift in Sources */,
-				5B739E2F28935B9500E4EED0 /* RequestResetPasswordViewController.swift in Sources */,
+				5B739E2F28935B9500E4EED0 /* RequestResetNumberViewController.swift in Sources */,
 				5B739E3028935B9500E4EED0 /* Time.swift in Sources */,
-				5B739E3128935B9500E4EED0 /* LoginViewController.swift in Sources */,
+				5B739E3128935B9500E4EED0 /* PasswordLoginViewController.swift in Sources */,
 				5B879E6A28B5DD4700D2DFC1 /* CustomNavBar.swift in Sources */,
 				5B739E3228935B9500E4EED0 /* FeedViewController.swift in Sources */,
 				5B739E3328935B9500E4EED0 /* MistWideLogoView.swift in Sources */,
@@ -2743,6 +2759,7 @@
 				5BE1474628A045CF0096FEBE /* UIImageView+Initials.swift in Sources */,
 				5B235B0B28AEB11900FD27A9 /* InputBarAccessoryView+.swift in Sources */,
 				5B739E5228935B9500E4EED0 /* Constants.swift in Sources */,
+				5B879E8128B821B300D2DFC1 /* ResetNumberViewController.swift in Sources */,
 				5B739E5328935B9500E4EED0 /* DesignableImageView.swift in Sources */,
 				5B739E5428935B9500E4EED0 /* FriendRequestService.swift in Sources */,
 				5B739E5528935B9500E4EED0 /* PostAnnotation.swift in Sources */,
@@ -2756,6 +2773,7 @@
 				5B739E5B28935B9500E4EED0 /* UIImageView+ProfilePic.swift in Sources */,
 				5B739E5C28935B9500E4EED0 /* SearchResultsTableViewController.swift in Sources */,
 				5B739E5D28935B9500E4EED0 /* MKPlacemark+Address.swift in Sources */,
+				5B879E7728B7E3C000D2DFC1 /* CreateProfileViewController.swift in Sources */,
 				5B739E5E28935B9500E4EED0 /* InformationCollectionCell.swift in Sources */,
 				5B739E5F28935B9500E4EED0 /* Env.swift in Sources */,
 				5BC2EC4328B5B99A0047D5B4 /* PhotoDetailViewController.swift in Sources */,

@@ -15,8 +15,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="390" height="78"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mists containing:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bEP-Rx-0g7" customClass="MistUILabel" customModule="mist_ios" customModuleProvider="target">
-                        <rect key="frame" x="20" y="5" width="100" height="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="mists containing:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bEP-Rx-0g7" customClass="MistUILabel" customModule="mist_ios" customModuleProvider="target">
+                        <rect key="frame" x="20" y="5" width="103" height="16"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="dus-OI-vu4"/>
                         </constraints>
@@ -46,9 +46,4 @@
             <point key="canvasLocation" x="-146.37681159420291" y="-15.401785714285714"/>
         </tableViewCell>
     </objects>
-    <designables>
-        <designable name="bEP-Rx-0g7">
-            <size key="intrinsicContentSize" width="100" height="18"/>
-        </designable>
-    </designables>
 </document>

@@ -6,15 +6,8 @@
 //
 
 import Foundation
-
-//
-//  SettingsViewController.swift
-//  mist-ios
-//
-//  Created by Adam Novak on 2022/03/31.
-//
-
 import UIKit
+import MessageUI
 
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SettingsTapDelegate {
     
@@ -111,4 +104,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         textLabel.text = textLabel.text?.lowercased()
     }
 
+}
+
+extension SettingsViewController {
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    }
+    
 }

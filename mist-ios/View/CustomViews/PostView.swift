@@ -102,8 +102,8 @@ extension PostView {
         if postDelegate.isKind(of: PostViewController.self) {
             messageLabel.numberOfLines = 0
         }
-        timestampLabel.text = getFormattedTimeString(timestamp: post.timestamp)
-        locationLabel.text = post.location_description
+        timestampLabel.text = getFormattedTimeString(timestamp: post.timestamp).lowercased()
+        locationLabel.text = post.location_description?.lowercased()
         messageLabel.text = post.body
         postTitleLabel.text = post.title
         
