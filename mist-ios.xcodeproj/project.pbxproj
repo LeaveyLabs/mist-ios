@@ -634,11 +634,13 @@
 /* Begin PBXFileReference section */
 		4316238328343D3F00169AA9 /* CustomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSheetViewController.swift; sourceTree = "<group>"; };
 		4316238B2834F8A600169AA9 /* SpecialTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialTabBarController.swift; sourceTree = "<group>"; };
-		431767DC28AEF353000B2E32 /* mist-iosDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "mist-iosDebug.entitlements"; sourceTree = "<group>"; };
-		431767DD28AEF358000B2E32 /* mist-ios-devDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "mist-ios-devDebug.entitlements"; sourceTree = "<group>"; };
 		431767DE28B025F1000B2E32 /* DeviceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceAPI.swift; sourceTree = "<group>"; };
 		431F380F288B494900A5F48B /* MessageThreadTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageThreadTest.swift; sourceTree = "<group>"; };
 		4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterEmailViewController.swift; sourceTree = "<group>"; };
+		433665C128B6CC5B00152AF7 /* mist-iosDebug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "mist-iosDebug.entitlements"; sourceTree = "<group>"; };
+		433665C228B6CC5B00152AF7 /* mist-ios-dev.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "mist-ios-dev.entitlements"; sourceTree = "<group>"; };
+		433665C328B6CC5B00152AF7 /* mist-ios.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "mist-ios.entitlements"; sourceTree = "<group>"; };
+		433665C428B6CC5B00152AF7 /* mist-ios-devDebug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = "mist-ios-devDebug.entitlements"; path = "../../.Trash/mist-ios-devDebug.entitlements"; sourceTree = "<group>"; };
 		433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeTutorialViewController.swift; sourceTree = "<group>"; };
 		43483BB128025179001C7C6A /* ChooseUsernameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseUsernameViewController.swift; sourceTree = "<group>"; };
 		43483BB32802519C001C7C6A /* CreatePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePasswordViewController.swift; sourceTree = "<group>"; };
@@ -1336,8 +1338,6 @@
 				5BCD490D28714F920002BD02 /* WantToChatView.swift */,
 				5BCD490B287149210002BD02 /* WantToChatView.xib */,
 				5BC25A9328990999005AAF69 /* EmojiButton.swift */,
-				5B879E6828B5DD4700D2DFC1 /* CustomNavBar.swift */,
-				5B879E6B28B5DD7600D2DFC1 /* CustomNavBar.xib */,
 				5BC25A97289909FD005AAF69 /* Decomissioned */,
 				5B879E6E28B6BA5500D2DFC1 /* InsetLabel.swift */,
 			);
@@ -1424,7 +1424,10 @@
 		47E74DFF27CA0FFE00467A0C = {
 			isa = PBXGroup;
 			children = (
-				431767DD28AEF358000B2E32 /* mist-ios-devDebug.entitlements */,
+				433665C228B6CC5B00152AF7 /* mist-ios-dev.entitlements */,
+				433665C428B6CC5B00152AF7 /* mist-ios-devDebug.entitlements */,
+				433665C328B6CC5B00152AF7 /* mist-ios.entitlements */,
+				433665C128B6CC5B00152AF7 /* mist-iosDebug.entitlements */,
 				473CAF812832A6EB008D8807 /* mist-ios.xcconfig */,
 				47E74E0A27CA0FFE00467A0C /* mist-ios */,
 				47E74E3E27CA14CE00467A0C /* Supporting Files */,
@@ -1451,7 +1454,6 @@
 		47E74E0A27CA0FFE00467A0C /* mist-ios */ = {
 			isa = PBXGroup;
 			children = (
-				431767DC28AEF353000B2E32 /* mist-iosDebug.entitlements */,
 				5BA401F62878052B004A556E /* Env.swift */,
 				5B739E952893686200E4EED0 /* Prod.plists */,
 				5B739E942893684400E4EED0 /* Dev.plists */,
@@ -2106,7 +2108,6 @@
 				5BAD627B2876BD7600DCFE45 /* MistWideLogoView.xib in Resources */,
 				47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */,
 				47E86F6E2853EA65005A7DC7 /* Auth.storyboard in Resources */,
-				5B879E6C28B5DD7600D2DFC1 /* CustomNavBar.xib in Resources */,
 				470F271927DE758100C6DDAF /* SearchResultCell.xib in Resources */,
 				47527192285584F400DDF84D /* MyProfileCell.xib in Resources */,
 				475271982855851200DDF84D /* SettingCell.xib in Resources */,
@@ -2153,7 +2154,6 @@
 				5B739E7628935B9500E4EED0 /* MistWideLogoView.xib in Resources */,
 				5B739E7728935B9500E4EED0 /* Assets.xcassets in Resources */,
 				5B739E7828935B9500E4EED0 /* Auth.storyboard in Resources */,
-				5B879E6D28B5DD7600D2DFC1 /* CustomNavBar.xib in Resources */,
 				5B739E7928935B9500E4EED0 /* SearchResultCell.xib in Resources */,
 				5B739E7A28935B9500E4EED0 /* MyProfileCell.xib in Resources */,
 				5B739E7B28935B9500E4EED0 /* SettingCell.xib in Resources */,
@@ -2940,9 +2940,9 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "mist-ios/mist-iosDebug.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 36;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = SHD3A2G97F;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2971,10 +2971,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.3;
+				MARKETING_VERSION = 0.2.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development app.getmist.mist-ios";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/Objective-C/mist-ios-Bridging-Header.h";
@@ -2992,9 +2992,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CODE_SIGN_ENTITLEMENTS = "mist-ios/mist-ios.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 36;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEV=0";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -3018,9 +3019,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.3;
+				MARKETING_VERSION = 0.2.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore app.getmist.mist-ios";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/Objective-C/mist-ios-Bridging-Header.h";
@@ -3035,7 +3036,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 36;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -3063,7 +3064,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 36;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEV=1";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -3086,7 +3087,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 36;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEV=1",
@@ -3111,7 +3112,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 36;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEV=1";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -3138,7 +3139,7 @@
 				CODE_SIGN_ENTITLEMENTS = "mist-ios-devDebug.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 36;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = SHD3A2G97F;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3167,7 +3168,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 0.2.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "-DDEV";
 				PRODUCT_BUNDLE_IDENTIFIER = "app.getmist.mist-ios-dev";
@@ -3191,9 +3192,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
+				CODE_SIGN_ENTITLEMENTS = "mist-ios-dev.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 36;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEV=1";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -3217,7 +3219,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 0.2.1;
 				OTHER_SWIFT_FLAGS = "-DDEV";
 				PRODUCT_BUNDLE_IDENTIFIER = "app.getmist.mist-ios-dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
