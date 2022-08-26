@@ -64,6 +64,9 @@ struct FrontendReadOnlyUser: ReadOnlyUserBackendProperties, SenderType, Hashable
     }
     let profilePic: UIImage
     let blurredPic: UIImage
+    var is_verified: Bool {
+        return false
+    }
     
     //MessageKit's SenderType
     var senderId: String { return String(id) }

@@ -12,6 +12,8 @@ class GetVerifiedViewController: UIViewController, UITextViewDelegate {
 
     @IBOutlet weak var verifyButton: UIButton!
     @IBOutlet weak var profilePicImageView: UIImageView!
+    @IBOutlet weak var nameButton: UIButton!
+    
     var imagePicker: ImagePicker!
     let VERIFY_BUTTON_TEXT = "get verfied with a selfie"
 
@@ -26,17 +28,20 @@ class GetVerifiedViewController: UIViewController, UITextViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        profilePicImageView.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
         setupImagePicker()
+        nameButton.setTitle(UserService.singleton.getFirstLastName(), for: .normal)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        profilePicImageView.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
     }
     
     //MARK: - Setup
     
     @IBAction func verifyButtonDidPressed(_ sender: UIButton) {
         guard UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) else {
-            let alert  = UIAlertController(title: "camera access not granted", message: "please allow camera access in settings first", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            CustomSwiftMessages.showSettingsAlertController(title: "allow camera access for mist in settings", message: "", on: self)
             return
         }
         imagePicker.present(from: sender)
@@ -60,7 +65,6 @@ class GetVerifiedViewController: UIViewController, UITextViewDelegate {
     
     @IBAction func dismissButtonDidPressed(_ sender: UIButton) {
         dismiss(animated: true)
-        presentingViewController!.dismiss(animated: true)
     }
 
     func setupImagePicker() {
@@ -75,7 +79,7 @@ class GetVerifiedViewController: UIViewController, UITextViewDelegate {
                 let verified = false
                 if verified {
                     //if verified, set that on the device
-                    CustomSwiftMessages.showInfoCentered("successfully verified!", "enjoy your blue badge", emoji: "✅") {
+                    CustomSwiftMessages.showInfoCentered("successfully verified!", "enjoy your lilac badge", emoji: "✅") {
                         self.dismiss(animated: true)
                     }
                 } else {

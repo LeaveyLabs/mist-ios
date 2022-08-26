@@ -637,10 +637,6 @@
 		431767DE28B025F1000B2E32 /* DeviceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceAPI.swift; sourceTree = "<group>"; };
 		431F380F288B494900A5F48B /* MessageThreadTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageThreadTest.swift; sourceTree = "<group>"; };
 		4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterEmailViewController.swift; sourceTree = "<group>"; };
-		433665C128B6CC5B00152AF7 /* mist-iosDebug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "mist-iosDebug.entitlements"; sourceTree = "<group>"; };
-		433665C228B6CC5B00152AF7 /* mist-ios-dev.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "mist-ios-dev.entitlements"; sourceTree = "<group>"; };
-		433665C328B6CC5B00152AF7 /* mist-ios.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "mist-ios.entitlements"; sourceTree = "<group>"; };
-		433665C428B6CC5B00152AF7 /* mist-ios-devDebug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = "mist-ios-devDebug.entitlements"; path = "../../.Trash/mist-ios-devDebug.entitlements"; sourceTree = "<group>"; };
 		433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeTutorialViewController.swift; sourceTree = "<group>"; };
 		43483BB128025179001C7C6A /* ChooseUsernameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseUsernameViewController.swift; sourceTree = "<group>"; };
 		43483BB32802519C001C7C6A /* CreatePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePasswordViewController.swift; sourceTree = "<group>"; };
@@ -1426,10 +1422,6 @@
 		47E74DFF27CA0FFE00467A0C = {
 			isa = PBXGroup;
 			children = (
-				433665C228B6CC5B00152AF7 /* mist-ios-dev.entitlements */,
-				433665C428B6CC5B00152AF7 /* mist-ios-devDebug.entitlements */,
-				433665C328B6CC5B00152AF7 /* mist-ios.entitlements */,
-				433665C128B6CC5B00152AF7 /* mist-iosDebug.entitlements */,
 				473CAF812832A6EB008D8807 /* mist-ios.xcconfig */,
 				47E74E0A27CA0FFE00467A0C /* mist-ios */,
 				47E74E3E27CA14CE00467A0C /* Supporting Files */,
@@ -1630,10 +1622,9 @@
 			isa = PBXGroup;
 			children = (
 				5BAD62762876812200DCFE45 /* SettingsViewController.swift */,
+				5BAD62782876938900DCFE45 /* SettingsTapDelegate.swift */,
 				47EE95F927F64C00003B351E /* MyAccountViewController.swift */,
 				47AE72A927F77B0B00A5E94C /* MyProfileSettingViewController.swift */,
-				4752718228557C1300DDF84D /* PasswordSettingViewController.swift */,
-				5BAD62782876938900DCFE45 /* SettingsTapDelegate.swift */,
 				5B879E8228B8A49C00D2DFC1 /* GetVerifiedViewController.swift */,
 			);
 			path = Account;
@@ -1663,6 +1654,7 @@
 		5B1F16D3287D41ED00035F93 /* Decomissioned */ = {
 			isa = PBXGroup;
 			children = (
+				4752718228557C1300DDF84D /* PasswordSettingViewController.swift */,
 				470F271E27DE9ABE00C6DDAF /* SearchResultsTableViewController.swift */,
 			);
 			path = Decomissioned;
@@ -2943,7 +2935,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "mist-ios/mist-iosDebug.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 36;
@@ -2996,7 +2987,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "mist-ios/mist-ios.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 36;
@@ -3140,7 +3130,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "mist-ios-devDebug.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 36;
@@ -3196,7 +3185,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "mist-ios-dev.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 36;

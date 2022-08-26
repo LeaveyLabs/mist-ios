@@ -16,6 +16,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var friendStatusView: UIView!
+    @IBOutlet weak var verifiedImageView: UIImageView!
     
     //Data
     var user: FrontendReadOnlyUser?
@@ -71,6 +72,7 @@ class ProfileViewController: UIViewController {
             profilePicButton.imageView?.becomeProfilePicImageView(with: user.profilePic)
             nameLabel.text = user.full_name
             usernameLabel.text = user.username
+            verifiedImageView.image = user.is_verified ? UIImage(systemName: "checkmark.seal.fill") : nil
         case .loading:
             profilePicButton.imageView?.image = Constants.defaultProfilePic
             nameLabel.text = "loading..."

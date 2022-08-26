@@ -72,7 +72,7 @@ class UploadProfilePictureViewController: UIViewController {
     }
     
     func setupImagePicker() {
-        imagePicker = ImagePicker(presentationController: self, delegate: self)
+        imagePicker = ImagePicker(presentationController: self, delegate: self, pickerSources: [.camera, .photoLibrary])
     }
     
     func setupLabels() {

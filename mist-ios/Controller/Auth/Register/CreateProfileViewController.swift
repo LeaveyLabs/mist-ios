@@ -213,7 +213,8 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
 extension CreateProfileViewController: ImagePickerDelegate {
 
     func didSelect(image: UIImage?) {
-        profilePic = image?.withRenderingMode(.alwaysOriginal)
+        guard let newImage = image else { return }
+        profilePic = newImage.withRenderingMode(.alwaysOriginal)
     }
     
 }

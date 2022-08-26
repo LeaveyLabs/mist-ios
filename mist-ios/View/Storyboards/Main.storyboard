@@ -799,11 +799,11 @@ make that cute barista’s day,
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="d22-NN-8y2">
-                            <rect key="frame" x="0.0" y="0.0" width="390" height="273"/>
+                            <rect key="frame" x="0.0" y="0.0" width="390" height="294"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L6t-3z-PO7">
-                                    <rect key="frame" x="93.666666666666686" y="20" width="203" height="203"/>
+                                    <rect key="frame" x="85.666666666666686" y="20" width="219" height="219"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="200" id="FTO-hY-joF"/>
                                         <constraint firstAttribute="width" secondItem="L6t-3z-PO7" secondAttribute="height" multiplier="1:1" id="cGH-uf-gMi"/>
@@ -817,7 +817,7 @@ make that cute barista’s day,
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ziz-OH-z1c">
-                                    <rect key="frame" x="251.66666666666663" y="178" width="40" height="40"/>
+                                    <rect key="frame" x="254.66666666666663" y="189" width="40" height="40"/>
                                     <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="40" id="8u3-AJ-Hnc"/>
@@ -833,12 +833,13 @@ make that cute barista’s day,
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HPJ-ZZ-0km">
-                                    <rect key="frame" x="127" y="231" width="136" height="35"/>
+                                    <rect key="frame" x="120" y="251" width="150" height="40"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="136" id="0Ts-Me-HjI"/>
+                                        <constraint firstAttribute="width" constant="150" id="0Ts-Me-HjI"/>
+                                        <constraint firstAttribute="height" constant="40" id="t5T-FJ-3Kg"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
                                     <color key="tintColor" systemColor="systemRedColor"/>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
                                     <state key="normal" title="get verified" image="exclamationmark.circle.fill" catalog="system">
@@ -851,13 +852,12 @@ make that cute barista’s day,
                             </subviews>
                             <constraints>
                                 <constraint firstItem="HPJ-ZZ-0km" firstAttribute="centerX" secondItem="d22-NN-8y2" secondAttribute="centerX" id="HgI-AZ-eCT"/>
-                                <constraint firstItem="ziz-OH-z1c" firstAttribute="bottom" secondItem="L6t-3z-PO7" secondAttribute="bottom" constant="-5" id="II8-eZ-Oww"/>
-                                <constraint firstItem="HPJ-ZZ-0km" firstAttribute="top" secondItem="L6t-3z-PO7" secondAttribute="bottom" constant="8" symbolic="YES" id="IVO-f9-XHb"/>
-                                <constraint firstItem="ziz-OH-z1c" firstAttribute="trailing" secondItem="L6t-3z-PO7" secondAttribute="trailing" constant="-5" id="OIK-7R-mCe"/>
+                                <constraint firstItem="ziz-OH-z1c" firstAttribute="bottom" secondItem="L6t-3z-PO7" secondAttribute="bottom" constant="-10" id="II8-eZ-Oww"/>
+                                <constraint firstItem="HPJ-ZZ-0km" firstAttribute="top" secondItem="L6t-3z-PO7" secondAttribute="bottom" constant="12" id="IVO-f9-XHb"/>
+                                <constraint firstItem="ziz-OH-z1c" firstAttribute="trailing" secondItem="L6t-3z-PO7" secondAttribute="trailing" constant="-10" id="OIK-7R-mCe"/>
                                 <constraint firstItem="L6t-3z-PO7" firstAttribute="centerX" secondItem="d22-NN-8y2" secondAttribute="centerX" id="STE-ek-UIX"/>
                                 <constraint firstItem="L6t-3z-PO7" firstAttribute="top" secondItem="d22-NN-8y2" secondAttribute="top" constant="20" id="mHE-dG-TEa"/>
-                                <constraint firstAttribute="bottom" secondItem="HPJ-ZZ-0km" secondAttribute="bottom" constant="7" id="mQf-Wc-txq"/>
-                                <constraint firstAttribute="bottom" secondItem="L6t-3z-PO7" secondAttribute="bottom" constant="50" id="nao-ni-CxR"/>
+                                <constraint firstAttribute="bottom" secondItem="HPJ-ZZ-0km" secondAttribute="bottom" constant="3" id="mQf-Wc-txq"/>
                             </constraints>
                         </view>
                         <sections/>
@@ -1357,8 +1357,8 @@ make that cute barista’s day,
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adam Novak" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="fDh-hd-9ul">
-                                <rect key="frame" x="98" y="386" width="194" height="44"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adam Novak" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="fDh-hd-9ul">
+                                <rect key="frame" x="98" y="391" width="194" height="44"/>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="32"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1400,7 +1400,7 @@ make that cute barista’s day,
                                 <nil key="highlightedColor"/>
                             </label>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iYr-eL-glx">
-                                <rect key="frame" x="128.33333333333331" y="430" width="133.33333333333331" height="36"/>
+                                <rect key="frame" x="128.33333333333331" y="435" width="133.33333333333331" height="36"/>
                                 <color key="tintColor" red="0.80392156859999997" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" image="person.crop.circle.badge.plus" catalog="system" title="Add Friend" imagePadding="6">
@@ -1412,7 +1412,6 @@ make that cute barista’s day,
                                 <rect key="frame" x="70" y="126" width="250" height="250"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Osc-em-zqX" secondAttribute="height" id="SfA-pM-3mB"/>
-                                    <constraint firstAttribute="width" constant="250" id="jmH-x2-l0D"/>
                                 </constraints>
                                 <color key="tintColor" name="mist-black"/>
                                 <state key="normal" image="person.crop.circle" catalog="system">
@@ -1423,6 +1422,13 @@ make that cute barista’s day,
                                     <action selector="profilePicDidPressed:" destination="KKi-Sx-eAl" eventType="touchUpInside" id="Mgf-Vj-ObY"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark.seal.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="67x-Io-GLW">
+                                <rect key="frame" x="300" y="399" width="26.333333333333314" height="28"/>
+                                <color key="tintColor" systemColor="systemBlueColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="67x-Io-GLW" secondAttribute="height" id="GYe-EL-1h3"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="sJV-Uf-tOy"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1431,13 +1437,20 @@ make that cute barista’s day,
                             <constraint firstItem="Ytd-X7-2hj" firstAttribute="leading" secondItem="sJV-Uf-tOy" secondAttribute="leading" constant="15" id="27W-Nd-rOY"/>
                             <constraint firstItem="Osc-em-zqX" firstAttribute="top" secondItem="W3a-GG-5aG" secondAttribute="bottom" constant="30" id="8fm-gL-BJd"/>
                             <constraint firstItem="W3a-GG-5aG" firstAttribute="top" secondItem="sJV-Uf-tOy" secondAttribute="top" constant="30" id="Cmr-m7-ypD"/>
+                            <constraint firstItem="67x-Io-GLW" firstAttribute="height" secondItem="fDh-hd-9ul" secondAttribute="height" multiplier="0.6" id="Fe9-bg-SRN"/>
                             <constraint firstItem="iaB-dd-3Tv" firstAttribute="centerY" secondItem="W3a-GG-5aG" secondAttribute="centerY" id="IPV-rb-f6a"/>
-                            <constraint firstItem="fDh-hd-9ul" firstAttribute="top" secondItem="Osc-em-zqX" secondAttribute="bottom" constant="10" id="Xio-Yq-3n5"/>
+                            <constraint firstItem="fDh-hd-9ul" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="sJV-Uf-tOy" secondAttribute="leading" constant="70" id="IVE-bg-RnF"/>
+                            <constraint firstItem="67x-Io-GLW" firstAttribute="leading" secondItem="fDh-hd-9ul" secondAttribute="trailing" constant="8" symbolic="YES" id="Uen-xU-5aI"/>
+                            <constraint firstItem="sJV-Uf-tOy" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="fDh-hd-9ul" secondAttribute="trailing" constant="70" id="WFA-dX-d4U"/>
+                            <constraint firstItem="fDh-hd-9ul" firstAttribute="top" secondItem="Osc-em-zqX" secondAttribute="bottom" constant="15" id="Xio-Yq-3n5"/>
                             <constraint firstItem="Osc-em-zqX" firstAttribute="centerX" secondItem="zDM-BA-NN5" secondAttribute="centerX" id="YuJ-lk-7UG"/>
                             <constraint firstItem="Ytd-X7-2hj" firstAttribute="centerY" secondItem="W3a-GG-5aG" secondAttribute="centerY" id="aIa-B7-tF0"/>
+                            <constraint firstItem="Osc-em-zqX" firstAttribute="leading" secondItem="sJV-Uf-tOy" secondAttribute="leading" constant="70" id="fIO-2m-pH6"/>
                             <constraint firstItem="iYr-eL-glx" firstAttribute="top" secondItem="fDh-hd-9ul" secondAttribute="bottom" id="g7h-No-aLI"/>
                             <constraint firstItem="fDh-hd-9ul" firstAttribute="centerX" secondItem="zDM-BA-NN5" secondAttribute="centerX" id="m8N-rC-uif"/>
                             <constraint firstItem="iYr-eL-glx" firstAttribute="centerX" secondItem="zDM-BA-NN5" secondAttribute="centerX" id="qLi-7T-LRf"/>
+                            <constraint firstItem="sJV-Uf-tOy" firstAttribute="trailing" secondItem="Osc-em-zqX" secondAttribute="trailing" constant="70" id="sSF-I9-gdb"/>
+                            <constraint firstItem="67x-Io-GLW" firstAttribute="centerY" secondItem="fDh-hd-9ul" secondAttribute="centerY" id="uVN-P2-lSs"/>
                             <constraint firstAttribute="trailing" secondItem="iaB-dd-3Tv" secondAttribute="trailing" constant="15" id="x1r-tE-ezi"/>
                         </constraints>
                     </view>
@@ -1446,6 +1459,7 @@ make that cute barista’s day,
                         <outlet property="nameLabel" destination="fDh-hd-9ul" id="8Vc-DW-lsk"/>
                         <outlet property="profilePicButton" destination="Osc-em-zqX" id="uQH-pH-pJB"/>
                         <outlet property="usernameLabel" destination="W3a-GG-5aG" id="wif-tr-jba"/>
+                        <outlet property="verifiedImageView" destination="67x-Io-GLW" id="14H-p4-CVo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EmX-wU-zZ9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1699,7 +1713,7 @@ make that cute barista’s day,
                                 <color key="tintColor" name="mist-black"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Close"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Close">
+                                <buttonConfiguration key="configuration" style="plain" title="close">
                                     <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -1892,7 +1906,7 @@ make that cute barista’s day,
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal">
                                             <imageReference key="image" image="ellipsis" catalog="system" symbolScale="large"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" weight="medium"/>
                                         </state>
                                         <connections>
                                             <action selector="moreButtonDidTapped:" destination="h1m-Q9-Hfd" eventType="touchUpInside" id="4H9-mH-D0N"/>
@@ -1908,7 +1922,7 @@ make that cute barista’s day,
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" image="chevron.left" catalog="system">
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" weight="medium"/>
                                         </state>
                                         <connections>
                                             <action selector="xButtonDidPressed:" destination="h1m-Q9-Hfd" eventType="touchUpInside" id="sos-eX-3eM"/>
@@ -1926,16 +1940,18 @@ make that cute barista’s day,
                                             <action selector="senderProfileDidTapped:" destination="h1m-Q9-Hfd" eventType="touchUpInside" id="Yqx-lR-tUE"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EQ4-3u-yEf">
-                                        <rect key="frame" x="215" y="97" width="60" height="10"/>
+                                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EQ4-3u-yEf">
+                                        <rect key="frame" x="210" y="97" width="70" height="10"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="10" id="29L-x8-AFz"/>
-                                            <constraint firstAttribute="width" constant="60" id="SNN-mc-LPH"/>
+                                            <constraint firstAttribute="width" constant="70" id="SNN-mc-LPH"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="10"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="Y">
+                                        <color key="tintColor" name="mist-lilac"/>
+                                        <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Adam" image="checkmark.seal.fill" catalog="system">
                                             <color key="titleColor" name="mist-black"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="8"/>
                                         </state>
                                         <connections>
                                             <action selector="senderProfileDidTapped:" destination="h1m-Q9-Hfd" eventType="touchUpInside" id="aPH-kF-HSi"/>
@@ -1953,16 +1969,19 @@ make that cute barista’s day,
                                             <action selector="receiverProfileDidTapped:" destination="h1m-Q9-Hfd" eventType="touchUpInside" id="XSD-8q-mZh"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lgd-Ki-XuH">
-                                        <rect key="frame" x="115" y="97" width="60" height="10"/>
+                                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lgd-Ki-XuH">
+                                        <rect key="frame" x="110" y="97" width="70" height="10"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="60" id="H9v-F9-4F6"/>
+                                            <constraint firstAttribute="width" constant="70" id="H9v-F9-4F6"/>
                                             <constraint firstAttribute="height" constant="10" id="nds-b2-PuO"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="10"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="?">
+                                        <color key="tintColor" name="mist-lilac"/>
+                                        <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="???">
                                             <color key="titleColor" name="mist-black"/>
+                                            <imageReference key="image" image="checkmark.seal.fill" catalog="system" symbolScale="default"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="8"/>
                                         </state>
                                         <connections>
                                             <action selector="receiverProfileDidTapped:" destination="h1m-Q9-Hfd" eventType="touchUpInside" id="hoK-jJ-BPE"/>
@@ -3134,7 +3153,7 @@ make that cute barista’s day,
                                 <color key="tintColor" name="mist-black"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Close"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Close">
+                                <buttonConfiguration key="configuration" style="plain" title="close">
                                     <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -3197,7 +3216,7 @@ make that cute barista’s day,
                                         </fragment>
                                     </attributedString>
                                 </state>
-                                <buttonConfiguration key="configuration" style="plain" title="let me update my profile pic first">
+                                <buttonConfiguration key="configuration" style="plain" title="i'll pass">
                                     <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -3207,39 +3226,70 @@ make that cute barista’s day,
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="ZPp-5m-IsN">
-                                <rect key="frame" x="85" y="288" width="220" height="357"/>
+                                <rect key="frame" x="65" y="115" width="260" height="530"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="want a verified profile badge?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NYi-MM-HTO">
-                                        <rect key="frame" x="0.0" y="0.0" width="220" height="19.333333333333332"/>
-                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZjR-Qg-vxY">
+                                        <rect key="frame" x="0.0" y="0.0" width="260" height="0.0"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </view>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="CGL-qI-QV1">
+                                        <rect key="frame" x="0.0" y="25" width="260" height="295"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="1F2-0U-U9r">
+                                                <rect key="frame" x="2.6666666666666856" y="0.0" width="255" height="255"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="1F2-0U-U9r" secondAttribute="height" id="kV0-Dn-oWz"/>
+                                                </constraints>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nc8-B6-xVl">
+                                                <rect key="frame" x="40.000000000000014" y="270" width="180.33333333333337" height="25"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="25" id="Gkg-pH-b1j"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="26"/>
+                                                <color key="tintColor" name="mist-lilac"/>
+                                                <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="Adam Novak" image="checkmark.seal.fill" catalog="system">
+                                                    <color key="titleColor" name="mist-black"/>
+                                                </state>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="want a verified profile badge?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="NYi-MM-HTO">
+                                        <rect key="frame" x="0.0" y="345" width="260" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="22" id="j4t-HD-Dqp"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="16"/>
                                         <color key="textColor" name="mist-black"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="upload a selfie and we'll confirm that it matches your profile pic" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zGd-7W-XJI">
-                                        <rect key="frame" x="0.0" y="44.333333333333314" width="220" height="38.333333333333343"/>
-                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="upload a selfie and we'll confirm that it matches your profile pic." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="zGd-7W-XJI">
+                                        <rect key="frame" x="0.0" y="392" width="260" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="UAM-B3-idi"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="16"/>
                                         <color key="textColor" name="mist-black"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="if you match with someone, this helps them trust who you are" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7TZ-Uq-tUD">
-                                        <rect key="frame" x="0.0" y="107.66666666666669" width="220" height="38.333333333333343"/>
-                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="this helps others trust who you are. plus, it just looks cool 💁‍♀️" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="7TZ-Uq-tUD">
+                                        <rect key="frame" x="0.0" y="461" width="260" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="oyc-Gb-tJ2"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="16"/>
                                         <color key="textColor" name="mist-black"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="plus, it just looks cool 💁‍♀️" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cfp-dp-yWd">
-                                        <rect key="frame" x="0.0" y="171" width="220" height="19.333333333333343"/>
-                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
-                                        <color key="textColor" name="mist-black"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jBD-KZ-eCB">
-                                        <rect key="frame" x="0.0" y="215.33333333333331" width="220" height="141.66666666666669"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sv9-JY-Ksp">
+                                        <rect key="frame" x="0.0" y="530" width="260" height="0.0"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="220" id="lZ5-aU-6nX"/>
+                                    <constraint firstItem="ZjR-Qg-vxY" firstAttribute="height" secondItem="Sv9-JY-Ksp" secondAttribute="height" id="YQv-oL-Okb"/>
+                                    <constraint firstAttribute="width" constant="260" id="lZ5-aU-6nX"/>
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WP0-PE-86v">
@@ -3282,36 +3332,13 @@ make that cute barista’s day,
                                     <action selector="verifyButtonDidPressed:" destination="nbf-2g-8V2" eventType="touchUpInside" id="o5v-LS-4YX"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nc8-B6-xVl">
-                                <rect key="frame" x="145" y="243" width="100" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="25" id="Gkg-pH-b1j"/>
-                                    <constraint firstAttribute="width" constant="100" id="pWO-JO-ENH"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
-                                <color key="tintColor" systemColor="systemBlueColor"/>
-                                <inset key="imageEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="verified" image="checkmark.seal.fill" catalog="system">
-                                    <color key="titleColor" name="mist-black"/>
-                                </state>
-                            </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="1F2-0U-U9r">
-                                <rect key="frame" x="145" y="135" width="100" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="1F2-0U-U9r" secondAttribute="height" id="kV0-Dn-oWz"/>
-                                    <constraint firstAttribute="height" constant="100" id="z07-M2-61W"/>
-                                </constraints>
-                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="NRl-3J-v8r"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="1F2-0U-U9r" firstAttribute="top" secondItem="Dev-ys-ctH" secondAttribute="bottom" constant="20" id="1jY-dn-DhJ"/>
-                            <constraint firstItem="1F2-0U-U9r" firstAttribute="centerX" secondItem="zZ0-XU-qaH" secondAttribute="centerX" id="4pj-re-eML"/>
                             <constraint firstItem="NRl-3J-v8r" firstAttribute="trailing" secondItem="Dev-ys-ctH" secondAttribute="trailing" constant="40" id="7Ui-bK-QqX"/>
                             <constraint firstItem="tL7-wc-8aS" firstAttribute="leading" secondItem="NRl-3J-v8r" secondAttribute="leading" constant="30" id="Au6-TC-AKd"/>
                             <constraint firstItem="tL7-wc-8aS" firstAttribute="top" secondItem="ZPp-5m-IsN" secondAttribute="bottom" constant="20" id="BMe-hj-97M"/>
-                            <constraint firstItem="ZPp-5m-IsN" firstAttribute="top" secondItem="nc8-B6-xVl" secondAttribute="bottom" constant="20" id="C1r-sF-fqG"/>
                             <constraint firstItem="WP0-PE-86v" firstAttribute="centerY" secondItem="Dev-ys-ctH" secondAttribute="centerY" id="IHj-tk-MqZ"/>
                             <constraint firstItem="Dev-ys-ctH" firstAttribute="top" secondItem="NRl-3J-v8r" secondAttribute="top" constant="30" id="LJb-zD-bLa"/>
                             <constraint firstItem="NRl-3J-v8r" firstAttribute="trailing" secondItem="tL7-wc-8aS" secondAttribute="trailing" constant="30" id="ZPS-UG-wIR"/>
@@ -3321,14 +3348,14 @@ make that cute barista’s day,
                             <constraint firstItem="Tmg-hC-aca" firstAttribute="top" secondItem="tL7-wc-8aS" secondAttribute="bottom" constant="10" id="coG-xw-HmU"/>
                             <constraint firstItem="ZPp-5m-IsN" firstAttribute="centerX" secondItem="zZ0-XU-qaH" secondAttribute="centerX" id="eTo-jE-flM"/>
                             <constraint firstItem="WP0-PE-86v" firstAttribute="width" secondItem="WP0-PE-86v" secondAttribute="height" multiplier="1:1" id="kZg-h9-kL7"/>
-                            <constraint firstItem="nc8-B6-xVl" firstAttribute="centerX" secondItem="1F2-0U-U9r" secondAttribute="centerX" id="kbO-Zt-hUe"/>
-                            <constraint firstItem="nc8-B6-xVl" firstAttribute="top" secondItem="1F2-0U-U9r" secondAttribute="bottom" constant="8" symbolic="YES" id="kxF-RS-j2x"/>
                             <constraint firstItem="WP0-PE-86v" firstAttribute="leading" secondItem="NRl-3J-v8r" secondAttribute="leading" constant="15" id="oka-Qv-jVw"/>
                             <constraint firstItem="Dev-ys-ctH" firstAttribute="leading" secondItem="NRl-3J-v8r" secondAttribute="leading" constant="40" id="qqi-4I-opN"/>
+                            <constraint firstItem="ZPp-5m-IsN" firstAttribute="top" secondItem="Dev-ys-ctH" secondAttribute="bottom" id="wll-hb-pvu"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="oEz-K4-Uxr"/>
                     <connections>
+                        <outlet property="nameButton" destination="nc8-B6-xVl" id="4ey-0t-w5B"/>
                         <outlet property="profilePicImageView" destination="1F2-0U-U9r" id="p3a-6r-GWk"/>
                         <outlet property="verifyButton" destination="tL7-wc-8aS" id="Q5e-va-kRW"/>
                     </connections>

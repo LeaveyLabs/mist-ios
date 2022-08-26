@@ -91,6 +91,7 @@ class UserService: NSObject {
     func getPhoneNumberPretty() -> String? { return authedUser.phone_number?.asNationalPhoneNumber }
     func getProfilePic() -> UIImage { return authedUser.profilePicWrapper.image }
     func getBlurredPic() -> UIImage { return authedUser.profilePicWrapper.blurredImage }
+    func isVerified() -> Bool { return false }
     
     //MARK: - Login and create user
     

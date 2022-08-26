@@ -54,6 +54,7 @@ class CommentCell: UITableViewCell {
         }
         setupCommentTextView(text: comment.body, tags: comment.tags, delegate: delegate)
         setupVoteButton(comment.votecount)
+        authorUsernameButton.setImage(nil, for: .normal)
         
         let longTap = UILongPressGestureRecognizer(target: self, action: #selector(didLongPressComment))
         self.addGestureRecognizer(longTap)

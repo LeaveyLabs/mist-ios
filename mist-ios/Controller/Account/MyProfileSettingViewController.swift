@@ -59,6 +59,11 @@ class MyProfileSettingViewController: UITableViewController {
         setupButtons()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupIsVerifiedButton()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupImagePicker()
@@ -88,19 +93,27 @@ class MyProfileSettingViewController: UITableViewController {
         tableView.register(inputCellNib, forCellReuseIdentifier: Constants.SBID.Cell.SimpleInput)
     }
     
+    func setupIsVerifiedButton() {
+        let isVerified = UserService.singleton.isVerified()
+        verifiedButton.roundCorners(corners: .allCorners, radius: 8)
+        verifiedButton.backgroundColor = isVerified ? .clear : .white
+        verifiedButton.applyMediumShadow()
+        verifiedButton.layer.shadowOpacity = isVerified ? 0 : 1
+        verifiedButton.setImage(isVerified ? UIImage(systemName: "checkmark.seal.fill") : UIImage(systemName: "exclamationmark.circle.fill"), for: .normal)
+        verifiedButton.tintColor = isVerified ? Constants.Color.mistLilac : .systemRed
+        verifiedButton.setTitle(isVerified ? "verified" : "get verified", for: .normal)
+        verifiedButton.isEnabled = !isVerified
+        
+        //shadow not working?????
+//        verifiedButton.applyMediumShadow()
+//        applyShadowOnView(verifiedButton)
+//        verifiedButton.titleLabel.font = UIFont(name: Constants.Font.Medium, size: 18)
+    }
+    
     func setupButtons() {
         miniCameraButton.becomeRound()
         profilePictureButton.imageView?.becomeProfilePicImageView(with: profilePic)
-        
-//        let isVerified = true
-//        verifiedButton.roundCorners(corners: .allCorners, radius: 5)
-//        verifiedButton.backgroundColor = isVerified ? .clear : .white
-//        verifiedButton.applyMediumShadow()
-//        verifiedButton.layer.shadowOpacity = isVerified ? 0 : 1
-//        verifiedButton.setImage(isVerified ? UIImage(systemName: "checkmark.seal.fill") : UIImage(systemName: "exclamationmark.circle.fill"), for: .normal)
-//        verifiedButton.tintColor = isVerified ? .systemBlue : .systemRed
-//        verifiedButton.setTitle(isVerified ? "verified" : "get verified", for: .normal)
-//        verifiedButton.isEnabled = !isVerified
+        setupIsVerifiedButton()
     }
     
     func setupSaveButton() {
@@ -122,7 +135,7 @@ class MyProfileSettingViewController: UITableViewController {
     }
     
     func setupImagePicker() {
-        imagePicker = ImagePicker(presentationController: self, delegate: self)
+        imagePicker = ImagePicker(presentationController: self, delegate: self, pickerSources: [.camera, .photoLibrary])
     }
     
     //MARK: - Table View

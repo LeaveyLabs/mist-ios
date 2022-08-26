@@ -66,7 +66,8 @@ class ChatViewController: MessagesViewController {
         
     var isAuthedUserProfileHidden: Bool! {
         didSet {
-            senderProfileNameButton.setTitle("you", for: .normal)
+            senderProfileNameButton.setTitle(UserService.singleton.getFirstName(), for: .normal)
+            senderProfileNameButton.setImage(UserService.singleton.isVerified() ? UIImage(systemName: "checkmark.seal.fill") : nil, for: .normal)
             if isAuthedUserProfileHidden {
                 senderProfilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getBlurredPic())
             } else {
@@ -76,6 +77,7 @@ class ChatViewController: MessagesViewController {
     }
     var isSangdaebangProfileHidden: Bool! {
         didSet {
+            receiverProfileNameButton.setImage(conversation.sangdaebang.is_verified ? UIImage(systemName: "checkmark.seal.fill") : nil, for: .normal)
             if isSangdaebangProfileHidden {
                 receiverProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.blurredPic)
                 receiverProfileNameButton.setTitle("???", for: .normal)
