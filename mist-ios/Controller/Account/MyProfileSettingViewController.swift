@@ -92,15 +92,15 @@ class MyProfileSettingViewController: UITableViewController {
         miniCameraButton.becomeRound()
         profilePictureButton.imageView?.becomeProfilePicImageView(with: profilePic)
         
-        let isVerified = true
-        verifiedButton.roundCorners(corners: .allCorners, radius: 5)
-        verifiedButton.backgroundColor = isVerified ? .clear : .white
-        verifiedButton.applyMediumShadow()
-        verifiedButton.layer.shadowOpacity = isVerified ? 0 : 1
-        verifiedButton.setImage(isVerified ? UIImage(systemName: "checkmark.seal.fill") : UIImage(systemName: "exclamationmark.circle.fill"), for: .normal)
-        verifiedButton.tintColor = isVerified ? .systemBlue : .systemRed
-        verifiedButton.setTitle(isVerified ? "verified" : "get verified", for: .normal)
-        verifiedButton.isEnabled = !isVerified
+//        let isVerified = true
+//        verifiedButton.roundCorners(corners: .allCorners, radius: 5)
+//        verifiedButton.backgroundColor = isVerified ? .clear : .white
+//        verifiedButton.applyMediumShadow()
+//        verifiedButton.layer.shadowOpacity = isVerified ? 0 : 1
+//        verifiedButton.setImage(isVerified ? UIImage(systemName: "checkmark.seal.fill") : UIImage(systemName: "exclamationmark.circle.fill"), for: .normal)
+//        verifiedButton.tintColor = isVerified ? .systemBlue : .systemRed
+//        verifiedButton.setTitle(isVerified ? "verified" : "get verified", for: .normal)
+//        verifiedButton.isEnabled = !isVerified
     }
     
     func setupSaveButton() {

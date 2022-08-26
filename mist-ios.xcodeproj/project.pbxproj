@@ -504,10 +504,6 @@
 		5B774DFC286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */; };
 		5B774DFF286D570400CCCF28 /* MatchCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */; };
 		5B774E00286D570400CCCF28 /* MatchCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */; };
-		5B879E6928B5DD4700D2DFC1 /* CustomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E6828B5DD4700D2DFC1 /* CustomNavBar.swift */; };
-		5B879E6A28B5DD4700D2DFC1 /* CustomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E6828B5DD4700D2DFC1 /* CustomNavBar.swift */; };
-		5B879E6C28B5DD7600D2DFC1 /* CustomNavBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B879E6B28B5DD7600D2DFC1 /* CustomNavBar.xib */; };
-		5B879E6D28B5DD7600D2DFC1 /* CustomNavBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B879E6B28B5DD7600D2DFC1 /* CustomNavBar.xib */; };
 		5B879E6F28B6BA5500D2DFC1 /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E6E28B6BA5500D2DFC1 /* InsetLabel.swift */; };
 		5B879E7028B6BA5500D2DFC1 /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E6E28B6BA5500D2DFC1 /* InsetLabel.swift */; };
 		5B879E7628B7E3C000D2DFC1 /* CreateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7528B7E3C000D2DFC1 /* CreateProfileViewController.swift */; };
@@ -520,6 +516,10 @@
 		5B879E8128B821B300D2DFC1 /* ResetNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7F28B821B300D2DFC1 /* ResetNumberViewController.swift */; };
 		5B879E8328B8A49C00D2DFC1 /* GetVerifiedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E8228B8A49C00D2DFC1 /* GetVerifiedViewController.swift */; };
 		5B879E8428B8A49C00D2DFC1 /* GetVerifiedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E8228B8A49C00D2DFC1 /* GetVerifiedViewController.swift */; };
+		5B879E9128B9129100D2DFC1 /* CustomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E8F28B9129100D2DFC1 /* CustomNavBar.swift */; };
+		5B879E9228B9129100D2DFC1 /* CustomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E8F28B9129100D2DFC1 /* CustomNavBar.swift */; };
+		5B879E9328B9129100D2DFC1 /* CustomNavBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B879E9028B9129100D2DFC1 /* CustomNavBar.xib */; };
+		5B879E9428B9129100D2DFC1 /* CustomNavBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B879E9028B9129100D2DFC1 /* CustomNavBar.xib */; };
 		5BA401F72878052B004A556E /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA401F62878052B004A556E /* Env.swift */; };
 		5BA967322872BC5E00724CD9 /* Array+FirstWhere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */; };
 		5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */; };
@@ -878,14 +878,14 @@
 		5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessagesFlowLayout.swift; sourceTree = "<group>"; };
 		5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCollectionCell.swift; sourceTree = "<group>"; };
 		5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MatchCollectionCell.xib; sourceTree = "<group>"; };
-		5B879E6828B5DD4700D2DFC1 /* CustomNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavBar.swift; sourceTree = "<group>"; };
-		5B879E6B28B5DD7600D2DFC1 /* CustomNavBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomNavBar.xib; sourceTree = "<group>"; };
 		5B879E6E28B6BA5500D2DFC1 /* InsetLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetLabel.swift; sourceTree = "<group>"; };
 		5B879E7528B7E3C000D2DFC1 /* CreateProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileViewController.swift; sourceTree = "<group>"; };
 		5B879E7928B804B900D2DFC1 /* ConfirmCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmCodeViewController.swift; sourceTree = "<group>"; };
 		5B879E7C28B8219100D2DFC1 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		5B879E7F28B821B300D2DFC1 /* ResetNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetNumberViewController.swift; sourceTree = "<group>"; };
 		5B879E8228B8A49C00D2DFC1 /* GetVerifiedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVerifiedViewController.swift; sourceTree = "<group>"; };
+		5B879E8F28B9129100D2DFC1 /* CustomNavBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavBar.swift; sourceTree = "<group>"; };
+		5B879E9028B9129100D2DFC1 /* CustomNavBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomNavBar.xib; sourceTree = "<group>"; };
 		5BA401F62878052B004A556E /* Env.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+FirstWhere.swift"; sourceTree = "<group>"; };
 		5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationCollectionCell.swift; sourceTree = "<group>"; };
@@ -1340,6 +1340,8 @@
 				5BC25A9328990999005AAF69 /* EmojiButton.swift */,
 				5BC25A97289909FD005AAF69 /* Decomissioned */,
 				5B879E6E28B6BA5500D2DFC1 /* InsetLabel.swift */,
+				5B879E8F28B9129100D2DFC1 /* CustomNavBar.swift */,
+				5B879E9028B9129100D2DFC1 /* CustomNavBar.xib */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -2112,6 +2114,7 @@
 				47527192285584F400DDF84D /* MyProfileCell.xib in Resources */,
 				475271982855851200DDF84D /* SettingCell.xib in Resources */,
 				47EE290028414B2300C6425C /* CustomCenteredView.xib in Resources */,
+				5B879E9328B9129100D2DFC1 /* CustomNavBar.xib in Resources */,
 				4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */,
 				5BCE5F7F28B467AB002078E1 /* CommentHeaderCell.xib in Resources */,
 				5BB624B428620D5F00DCD45B /* CustomCardView.xib in Resources */,
@@ -2158,6 +2161,7 @@
 				5B739E7A28935B9500E4EED0 /* MyProfileCell.xib in Resources */,
 				5B739E7B28935B9500E4EED0 /* SettingCell.xib in Resources */,
 				5B739E7C28935B9500E4EED0 /* CustomCenteredView.xib in Resources */,
+				5B879E9428B9129100D2DFC1 /* CustomNavBar.xib in Resources */,
 				5B739E7D28935B9500E4EED0 /* CommentCell.xib in Resources */,
 				5BCE5F8028B467AB002078E1 /* CommentHeaderCell.xib in Resources */,
 				5B739E7F28935B9500E4EED0 /* CustomCardView.xib in Resources */,
@@ -2248,6 +2252,7 @@
 				43E30D0228263E1200DBEB57 /* ImagePicker.swift in Sources */,
 				5B1F16CB28791EDD00035F93 /* FinishProfileViewController.swift in Sources */,
 				43A25348289BA46800B1468F /* Tag.swift in Sources */,
+				5B879E9128B9129100D2DFC1 /* CustomNavBar.swift in Sources */,
 				4752719F2855AF1400DDF84D /* UIView+SafeAreaConstraints.swift in Sources */,
 				47FF869827DB1F470076A1CA /* PostAPI.swift in Sources */,
 				478BA27B283E77C100C35507 /* UINavigationController+Completion.swift in Sources */,
@@ -2426,7 +2431,6 @@
 				5BE1473F289F1A7C0096FEBE /* String+Random.swift in Sources */,
 				436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */,
 				43529E2F2890BD3D00B3A484 /* CommentFlagAPI.swift in Sources */,
-				5B879E6928B5DD4700D2DFC1 /* CustomNavBar.swift in Sources */,
 				5BE110022876CD9D00CB54A6 /* RequestResetNumberViewController.swift in Sources */,
 				47A3D70E27D55BB3003DBEA5 /* Time.swift in Sources */,
 				43770C4B27EE8C0F00F31CCF /* PasswordLoginViewController.swift in Sources */,
@@ -2541,6 +2545,7 @@
 				5B739D9928935B9500E4EED0 /* ImagePicker.swift in Sources */,
 				5B739D9A28935B9500E4EED0 /* FinishProfileViewController.swift in Sources */,
 				5B235AF628A97FB800FD27A9 /* TagLink.swift in Sources */,
+				5B879E9228B9129100D2DFC1 /* CustomNavBar.swift in Sources */,
 				5B739D9B28935B9500E4EED0 /* UIView+SafeAreaConstraints.swift in Sources */,
 				5B739D9C28935B9500E4EED0 /* PostAPI.swift in Sources */,
 				5B739D9D28935B9500E4EED0 /* UINavigationController+Completion.swift in Sources */,
@@ -2719,7 +2724,6 @@
 				5B739E2F28935B9500E4EED0 /* RequestResetNumberViewController.swift in Sources */,
 				5B739E3028935B9500E4EED0 /* Time.swift in Sources */,
 				5B739E3128935B9500E4EED0 /* PasswordLoginViewController.swift in Sources */,
-				5B879E6A28B5DD4700D2DFC1 /* CustomNavBar.swift in Sources */,
 				5B739E3228935B9500E4EED0 /* FeedViewController.swift in Sources */,
 				5B739E3328935B9500E4EED0 /* MistWideLogoView.swift in Sources */,
 				5BE147D228A2A1E80096FEBE /* String+Ranges.swift in Sources */,

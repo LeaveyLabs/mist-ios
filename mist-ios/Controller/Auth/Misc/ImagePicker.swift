@@ -17,14 +17,16 @@ open class ImagePicker: NSObject {
     private let pickerController: UIImagePickerController
     private weak var presentationController: UIViewController?
     private weak var delegate: ImagePickerDelegate?
+    private var pickerSources: [UIImagePickerController.SourceType]! //cameraRoll is contained within photoLibrary
 
-    public init(presentationController: UIViewController, delegate: ImagePickerDelegate) {
+    public init(presentationController: UIViewController, delegate: ImagePickerDelegate, pickerSources: [UIImagePickerController.SourceType]) {
         self.pickerController = UIImagePickerController()
 
         super.init()
 
         self.presentationController = presentationController
         self.delegate = delegate
+        self.pickerSources = pickerSources
 
         self.pickerController.delegate = self
         self.pickerController.allowsEditing = true
@@ -46,14 +48,17 @@ open class ImagePicker: NSObject {
 
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        if let action = self.action(for: .camera, title: "Take photo") {
-            alertController.addAction(action)
-        }
-        if let action = self.action(for: .savedPhotosAlbum, title: "Camera roll") {
-            alertController.addAction(action)
-        }
-        if let action = self.action(for: .photoLibrary, title: "Photo library") {
-            alertController.addAction(action)
+        pickerSources.forEach { sourceType in
+            if sourceType == .camera {
+                if let action = self.action(for: .camera, title: "Take photo") {
+                    alertController.addAction(action)
+                }
+            }
+            if sourceType == .photoLibrary {
+                if let action = self.action(for: .photoLibrary, title: "Photo library") {
+                    alertController.addAction(action)
+                }
+            }
         }
 
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

@@ -3164,16 +3164,19 @@ make that cute barista’s day,
             </objects>
             <point key="canvasLocation" x="1168" y="1419"/>
         </scene>
-        <!--Rules View Controller-->
+        <!--Get Verified View Controller-->
         <scene sceneID="Q5h-i6-fx9">
             <objects>
-                <viewController storyboardIdentifier="RulesViewController" id="nbf-2g-8V2" customClass="RulesViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GetVerifiedViewController" id="nbf-2g-8V2" customClass="GetVerifiedViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zZ0-XU-qaH">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="get verified" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="Dev-ys-ctH">
                                 <rect key="frame" x="40" y="74" width="310" height="41"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="41" id="FwX-KQ-PQ5"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="30"/>
                                 <color key="textColor" name="mist-lilac"/>
                                 <nil key="highlightedColor"/>
@@ -3194,29 +3197,51 @@ make that cute barista’s day,
                                         </fragment>
                                     </attributedString>
                                 </state>
-                                <buttonConfiguration key="configuration" style="plain" title="first i'll update my profile pic">
+                                <buttonConfiguration key="configuration" style="plain" title="let me update my profile pic first">
                                     <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
                                 </buttonConfiguration>
                                 <connections>
+                                    <action selector="dismissButtonDidPressed:" destination="nbf-2g-8V2" eventType="touchUpInside" id="Zml-2Y-dda"/>
                                     <action selector="understoodButtonDidPressed:" destination="evG-sf-QYx" eventType="touchUpInside" id="XxL-ha-CRC"/>
                                     <action selector="understoodButtonDidPressed:" destination="UkW-Qo-P11" eventType="touchUpInside" id="be4-vQ-zLs"/>
-                                    <action selector="understoodButtonDidPressed:" destination="nbf-2g-8V2" eventType="touchUpInside" id="zYQ-Dt-BkT"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="ZPp-5m-IsN">
-                                <rect key="frame" x="30" y="169.33333333333337" width="330" height="205.66666666666663"/>
-                            </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0wI-Rr-iEt">
-                                <rect key="frame" x="320" y="709.33333333333337" width="40" height="20"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="ZPp-5m-IsN">
+                                <rect key="frame" x="85" y="288" width="220" height="357"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="want a verified profile badge?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NYi-MM-HTO">
+                                        <rect key="frame" x="0.0" y="0.0" width="220" height="19.333333333333332"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
+                                        <color key="textColor" name="mist-black"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="upload a selfie and we'll confirm that it matches your profile pic" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zGd-7W-XJI">
+                                        <rect key="frame" x="0.0" y="44.333333333333314" width="220" height="38.333333333333343"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
+                                        <color key="textColor" name="mist-black"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="if you match with someone, this helps them trust who you are" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7TZ-Uq-tUD">
+                                        <rect key="frame" x="0.0" y="107.66666666666669" width="220" height="38.333333333333343"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
+                                        <color key="textColor" name="mist-black"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="plus, it just looks cool 💁‍♀️" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cfp-dp-yWd">
+                                        <rect key="frame" x="0.0" y="171" width="220" height="19.333333333333343"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
+                                        <color key="textColor" name="mist-black"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jBD-KZ-eCB">
+                                        <rect key="frame" x="0.0" y="215.33333333333331" width="220" height="141.66666666666669"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </view>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="Gw3-yn-NRq"/>
-                                    <constraint firstAttribute="width" constant="40" id="ijK-z5-n8i"/>
+                                    <constraint firstAttribute="width" constant="220" id="lZ5-aU-6nX"/>
                                 </constraints>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <connections>
-                                    <action selector="learnMoreButtonDidPressed:" destination="nbf-2g-8V2" eventType="touchUpInside" id="A97-P8-kpV"/>
-                                </connections>
-                            </button>
+                            </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WP0-PE-86v">
                                 <rect key="frame" x="15" y="74.666666666666671" width="40" height="40"/>
                                 <constraints>
@@ -3229,10 +3254,11 @@ make that cute barista’s day,
                                 </state>
                                 <connections>
                                     <action selector="cancelButtonDidPressed:" destination="KKi-Sx-eAl" eventType="touchUpInside" id="VHG-vt-30a"/>
+                                    <action selector="dismissButtonDidPressed:" destination="nbf-2g-8V2" eventType="touchUpInside" id="T1B-1Q-7NX"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tL7-wc-8aS">
-                                <rect key="frame" x="30" y="658" width="330" height="50"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tL7-wc-8aS">
+                                <rect key="frame" x="30" y="665" width="330" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="98F-cd-MOV"/>
                                 </constraints>
@@ -3247,34 +3273,65 @@ make that cute barista’s day,
                                         </fragment>
                                     </attributedString>
                                 </state>
-                                <buttonConfiguration key="configuration" style="filled" title="let's do it">
-                                    <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
+                                <buttonConfiguration key="configuration" style="filled" title="get verified with a selfie">
+                                    <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="understoodButtonDidPressed:" destination="nbf-2g-8V2" eventType="touchUpInside" id="8At-6K-aIf"/>
                                     <action selector="understoodButtonDidPressed:" destination="evG-sf-QYx" eventType="touchUpInside" id="DN2-Mh-p8n"/>
                                     <action selector="understoodButtonDidPressed:" destination="UkW-Qo-P11" eventType="touchUpInside" id="dQn-Mc-blW"/>
+                                    <action selector="verifyButtonDidPressed:" destination="nbf-2g-8V2" eventType="touchUpInside" id="o5v-LS-4YX"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nc8-B6-xVl">
+                                <rect key="frame" x="145" y="243" width="100" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="Gkg-pH-b1j"/>
+                                    <constraint firstAttribute="width" constant="100" id="pWO-JO-ENH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
+                                <color key="tintColor" systemColor="systemBlueColor"/>
+                                <inset key="imageEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="verified" image="checkmark.seal.fill" catalog="system">
+                                    <color key="titleColor" name="mist-black"/>
+                                </state>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="1F2-0U-U9r">
+                                <rect key="frame" x="145" y="135" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="1F2-0U-U9r" secondAttribute="height" id="kV0-Dn-oWz"/>
+                                    <constraint firstAttribute="height" constant="100" id="z07-M2-61W"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="NRl-3J-v8r"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="ZPp-5m-IsN" firstAttribute="leading" secondItem="NRl-3J-v8r" secondAttribute="leading" constant="30" id="26t-wY-OMU"/>
+                            <constraint firstItem="1F2-0U-U9r" firstAttribute="top" secondItem="Dev-ys-ctH" secondAttribute="bottom" constant="20" id="1jY-dn-DhJ"/>
+                            <constraint firstItem="1F2-0U-U9r" firstAttribute="centerX" secondItem="zZ0-XU-qaH" secondAttribute="centerX" id="4pj-re-eML"/>
                             <constraint firstItem="NRl-3J-v8r" firstAttribute="trailing" secondItem="Dev-ys-ctH" secondAttribute="trailing" constant="40" id="7Ui-bK-QqX"/>
-                            <constraint firstItem="NRl-3J-v8r" firstAttribute="trailing" secondItem="0wI-Rr-iEt" secondAttribute="trailing" constant="30" id="95J-Rc-VRz"/>
-                            <constraint firstAttribute="trailing" secondItem="ZPp-5m-IsN" secondAttribute="trailing" constant="30" id="GOY-Ln-b53"/>
+                            <constraint firstItem="tL7-wc-8aS" firstAttribute="leading" secondItem="NRl-3J-v8r" secondAttribute="leading" constant="30" id="Au6-TC-AKd"/>
+                            <constraint firstItem="tL7-wc-8aS" firstAttribute="top" secondItem="ZPp-5m-IsN" secondAttribute="bottom" constant="20" id="BMe-hj-97M"/>
+                            <constraint firstItem="ZPp-5m-IsN" firstAttribute="top" secondItem="nc8-B6-xVl" secondAttribute="bottom" constant="20" id="C1r-sF-fqG"/>
                             <constraint firstItem="WP0-PE-86v" firstAttribute="centerY" secondItem="Dev-ys-ctH" secondAttribute="centerY" id="IHj-tk-MqZ"/>
                             <constraint firstItem="Dev-ys-ctH" firstAttribute="top" secondItem="NRl-3J-v8r" secondAttribute="top" constant="30" id="LJb-zD-bLa"/>
+                            <constraint firstItem="NRl-3J-v8r" firstAttribute="trailing" secondItem="tL7-wc-8aS" secondAttribute="trailing" constant="30" id="ZPS-UG-wIR"/>
                             <constraint firstItem="Tmg-hC-aca" firstAttribute="bottom" secondItem="NRl-3J-v8r" secondAttribute="bottom" constant="-15" id="aHg-17-y4N"/>
                             <constraint firstItem="NRl-3J-v8r" firstAttribute="trailing" secondItem="Tmg-hC-aca" secondAttribute="trailing" constant="30" id="cZG-9X-3kG"/>
                             <constraint firstItem="Tmg-hC-aca" firstAttribute="leading" secondItem="NRl-3J-v8r" secondAttribute="leading" constant="30" id="ck3-XH-Nxe"/>
+                            <constraint firstItem="Tmg-hC-aca" firstAttribute="top" secondItem="tL7-wc-8aS" secondAttribute="bottom" constant="10" id="coG-xw-HmU"/>
+                            <constraint firstItem="ZPp-5m-IsN" firstAttribute="centerX" secondItem="zZ0-XU-qaH" secondAttribute="centerX" id="eTo-jE-flM"/>
                             <constraint firstItem="WP0-PE-86v" firstAttribute="width" secondItem="WP0-PE-86v" secondAttribute="height" multiplier="1:1" id="kZg-h9-kL7"/>
+                            <constraint firstItem="nc8-B6-xVl" firstAttribute="centerX" secondItem="1F2-0U-U9r" secondAttribute="centerX" id="kbO-Zt-hUe"/>
+                            <constraint firstItem="nc8-B6-xVl" firstAttribute="top" secondItem="1F2-0U-U9r" secondAttribute="bottom" constant="8" symbolic="YES" id="kxF-RS-j2x"/>
                             <constraint firstItem="WP0-PE-86v" firstAttribute="leading" secondItem="NRl-3J-v8r" secondAttribute="leading" constant="15" id="oka-Qv-jVw"/>
                             <constraint firstItem="Dev-ys-ctH" firstAttribute="leading" secondItem="NRl-3J-v8r" secondAttribute="leading" constant="40" id="qqi-4I-opN"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="oEz-K4-Uxr"/>
+                    <connections>
+                        <outlet property="profilePicImageView" destination="1F2-0U-U9r" id="p3a-6r-GWk"/>
+                        <outlet property="verifyButton" destination="tL7-wc-8aS" id="Q5e-va-kRW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5GZ-Fb-zgE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="evG-sf-QYx" userLabel="Exit" sceneMemberID="exit"/>
@@ -3293,6 +3350,7 @@ make that cute barista’s day,
         <image name="camera.circle.fill" catalog="system" width="128" height="121"/>
         <image name="chat" width="84" height="68"/>
         <image name="chat-filled" width="84" height="68"/>
+        <image name="checkmark.seal.fill" catalog="system" width="128" height="128"/>
         <image name="chevron.backward" catalog="system" width="96" height="128"/>
         <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
@@ -3332,6 +3390,9 @@ make that cute barista’s day,
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray2Color">
             <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

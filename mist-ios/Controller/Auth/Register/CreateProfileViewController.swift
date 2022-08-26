@@ -98,7 +98,7 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func setupImagePicker() {
-        imagePicker = ImagePicker(presentationController: self, delegate: self)
+        imagePicker = ImagePicker(presentationController: self, delegate: self, pickerSources: [.camera, .photoLibrary])
     }
     
     //MARK: - TextField Delegate
