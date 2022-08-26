@@ -46,7 +46,6 @@ class MyAccountViewController: SettingsViewController {
         super.registerNibs()
         let myProfileNib = UINib(nibName: String(describing: MyProfileCell.self), bundle: nil)
         tableView.register(myProfileNib, forCellReuseIdentifier: String(describing: MyProfileCell.self))
-
     }
     
     //MARK: - Navigation

@@ -110,7 +110,7 @@ class ConfirmEmailViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func setupAgreementLabel() {
-        let attributedString = NSMutableAttributedString(string: "By clicking continue, you agree to our Terms of Use and Privacy Policy.")
+        let attributedString = NSMutableAttributedString(string: "by clicking continue, you agree to our terms of use and privacy policy.")
         attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.systemBlue, range: .init(location: 39, length: 12))
         attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.systemBlue, range: .init(location: 56, length: 14))
         agreementLabel.attributedText = attributedString

@@ -62,7 +62,7 @@ extension SettingsTapDelegate where Self: UIViewController {
     func handleDeleteAccount() {
         CustomSwiftMessages.showAlert(title: "are you sure you want to delete your account?",
                                       body: "all of your data will be erased, and you will not be able to access or recover it again",
-                                      emoji: "😟", dismissText: "nvermind", approveText: "delete",
+                                      emoji: "😟", dismissText: "nevermind", approveText: "delete",
                                       onDismiss: {
         }, onApprove: { [self] in
             view.isUserInteractionEnabled = false

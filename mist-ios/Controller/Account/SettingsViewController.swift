@@ -39,6 +39,18 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.reloadData()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let nav = navigationController, nav.viewControllers.count > 1 {
+            enableInteractivePopGesture()
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        disableInteractivePopGesture()
+    }
+    
     func setupBackButton() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(goBack))
     }

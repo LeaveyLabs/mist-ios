@@ -50,7 +50,7 @@
                                     <segue destination="578-PS-30b" kind="show" id="qPL-JR-ade"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="By continuing, you agree to our Terms of Use and Privacy Policy." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="855-FN-OIn" userLabel="AgreementTextView">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="by continuing, you agree to our terms of use and privacy policy" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="855-FN-OIn" userLabel="AgreementTextView">
                                 <rect key="frame" x="112" y="808" width="190" height="44"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
@@ -964,7 +964,7 @@
                                         <color key="textColor" name="mist-lilac"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sent to: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="7de-VV-9m2">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sent to " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="7de-VV-9m2">
                                         <rect key="frame" x="25" y="58" width="364" height="26"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="19"/>
@@ -1421,7 +1421,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="XBX-fc-xDi"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" returnKeyType="next"/>
                                         <connections>
                                             <action selector="textFieldEditingChanged:" destination="PnK-4K-Dtd" eventType="editingChanged" id="3BL-bO-3T0"/>

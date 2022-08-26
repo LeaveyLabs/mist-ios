@@ -168,6 +168,9 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
     //MARK: - TextField Delegate
 
     @IBAction func textFieldEditingChanged(_ sender: UITextField) {
+        if sender == dobTextField, sender.text?.count == 10 {
+            sexTextField.becomeFirstResponder()
+        }
         validateInput()
     }
     
@@ -193,7 +196,7 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
     func tryToContinue() {
         guard
             let sexText = sexTextField.text,
-            let sex = Sex(rawValue: sexText),
+            let sex: Sex = sexText == Sex.ratherNotSay.displayName ? .ratherNotSay : Sex(rawValue: sexText),
             sex != .blank
         else {
             CustomSwiftMessages.displayError("no sex option selected", "please try again")
@@ -221,7 +224,6 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
         }
         AuthContext.dob = dobComponents[2] + "-" + dobComponents[0] + "-" + dobComponents[1]
         AuthContext.sex = sex.databaseName
-        print(AuthContext.sex ?? "nope it's nil", AuthContext.dob)
         let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.CreateProfile)
         self.navigationController?.pushViewController(vc, animated: true)
     }

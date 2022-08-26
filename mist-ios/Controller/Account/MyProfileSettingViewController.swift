@@ -9,19 +9,25 @@ import UIKit
 
 class MyProfileSettingViewController: UITableViewController {
 
+    //MARK: - Properties
+    
     var saveButton: UIButton!
     @IBOutlet weak var profilePictureButton: UIButton!
     @IBOutlet weak var miniCameraButton: UIButton!
     
+    var firstNameTextField: UITextField!
+    var lastNameTextField: UITextField!
     var usernameTextField: UITextField!
     var imagePicker: ImagePicker!
     
-    var firstName: String = UserService.singleton.getFirstName()
-    var lastName: String = UserService.singleton.getLastName()
+    var firstName: String = UserService.singleton.getFirstName() {
+        didSet { validateInput() }
+    }
+    var lastName: String = UserService.singleton.getLastName() {
+        didSet { validateInput() }
+    }
     var username: String = UserService.singleton.getUsername() {
-        didSet {
-            validateInput()
-        }
+        didSet { validateInput() }
     }
     var profilePic: UIImage = UserService.singleton.getProfilePic() {
         didSet {
@@ -29,9 +35,6 @@ class MyProfileSettingViewController: UITableViewController {
             validateInput()
         }
     }
-    
-    var originalUsername: String = UserService.singleton.getUsername()
-    var originalProfilePic: UIImage = UserService.singleton.getProfilePic()
 
     var isSaving: Bool = false {
         didSet {
@@ -41,6 +44,13 @@ class MyProfileSettingViewController: UITableViewController {
     }
     var rerenderProfileCallback: (() -> Void)!
 
+    //MARK: - Lifecycle
+    
+    override func loadView() { //you should load programmatically created views here
+        super.loadView()
+        setupSaveButton()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
@@ -51,11 +61,7 @@ class MyProfileSettingViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupImagePicker()
-    }
-    
-    override func loadView() { //you should load programmatically created views here
-        super.loadView()
-        setupSaveButton()
+        enableInteractivePopGesture()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -63,10 +69,17 @@ class MyProfileSettingViewController: UITableViewController {
         rerenderProfileCallback()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        disableInteractivePopGesture()
+    }
+    
+    //MARK: - Setup
+    
     func setupTableView() {
         tableView.keyboardDismissMode = .interactive
-        tableView.sectionHeaderTopPadding = 30
-        tableView.sectionFooterHeight = 30
+        tableView.sectionHeaderTopPadding = 10
+        tableView.sectionFooterHeight = 10
     }
     
     func registerNibs() {
@@ -88,7 +101,7 @@ class MyProfileSettingViewController: UITableViewController {
                 button.configuration?.title = ""
             } else {
                 button.configuration?.showsActivityIndicator = false
-                button.configuration?.title = "Save"
+                button.configuration?.title = "save"
             }
         }
         saveButton.configuration?.contentInsets = .zero //important step when using a UIButton with configuration in UIBarButtonItem
@@ -117,38 +130,50 @@ class MyProfileSettingViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return "NAME"
+            return "name"
         } else {
-            return "USERNAME"
+            return "username"
         }
     }
     
-    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        if section == 0 {
-            return "Your real name can't be changed."
-        } else {
-            return "Letters, numbers, underscores and periods."
-        }
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard
+            let header:UITableViewHeaderFooterView = view as? UITableViewHeaderFooterView,
+            let textLabel = header.textLabel
+        else { return }
+        textLabel.font = UIFont(name: Constants.Font.Roman, size: 15)
+        textLabel.text = textLabel.text?.lowercased()
     }
+    
+//    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+//        if section == 0 {
+//            return "your real name can't be changed."
+//        } else {
+//            return "letters, numbers, underscores and periods"
+//        }
+//    }
         
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.SimpleInput, for: indexPath) as! SimpleInputCell
+        cell.textField.delegate = self
+        cell.selectionStyle = .none
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 cell.textField.text = firstName
+                firstNameTextField = cell.textField
+                cell.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             } else {
                 cell.textField.text = lastName
+                lastNameTextField = cell.textField
+                cell.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             }
-            cell.textField.isEnabled = false
         } else {
             usernameTextField = cell.textField
             cell.textField.autocorrectionType = .no
             cell.textField.autocapitalizationType = .none
             cell.textField.text = username
-            cell.textField.delegate = self
             cell.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         }
-        cell.selectionStyle = .none
         return cell
     }
     
@@ -163,32 +188,45 @@ class MyProfileSettingViewController: UITableViewController {
     }
     
     @objc func tryToUpdateProfile() {
-        usernameTextField.resignFirstResponder()
+        view.endEditing(true)
         isSaving = true
         Task {
             do {
-                try await UserService.singleton.updateUsername(to: username.lowercased())
-                try await UserService.singleton.updateProfilePic(to: profilePic)
-                isSaving = false
+                try await withThrowingTaskGroup(of: Void.self) { group in
+                    if firstName != UserService.singleton.getFirstName() {
+                        group.addTask { }
+                    }
+                    if lastName != UserService.singleton.getLastName() {
+                        group.addTask { }
+                    }
+                    if username != UserService.singleton.getUsername() {
+                        group.addTask { try await UserService.singleton.updateUsername(to: self.username.lowercased()) }
+                    }
+                    if profilePic != UserService.singleton.getProfilePic() {
+                        group.addTask { try await UserService.singleton.updateProfilePic(to: self.profilePic) }
+                    }
+                    try await group.waitForAll()
+                }
                 handleSuccessfulUpdate()
             } catch {
-                isSaving = false
                 CustomSwiftMessages.displayError(error)
             }
+            isSaving = false
         }
     }
     
     //MARK: - Helpers
     
     func validateInput() {
-        let isValid = Validate.validateUsername(username) && !(username == originalUsername && profilePic == originalProfilePic)
+        let isNewName = firstName.count > 0 && lastName.count > 0 && (firstName != UserService.singleton.getFirstName() || lastName != UserService.singleton.getLastName())
+        let isNewUsername = Validate.validateUsername(username) && username != UserService.singleton.getUsername()
+        let isNewPic = profilePic != UserService.singleton.getProfilePic()
+        let isValid = isNewPic || isNewName || isNewUsername
         saveButton.isEnabled = isValid
     }
     
     func handleSuccessfulUpdate() {
-        CustomSwiftMessages.showSuccess("Successfully updated", "It's the little wins that count.")
-        originalUsername = username
-        originalProfilePic = profilePic
+        CustomSwiftMessages.showSuccess("successfully updated", "your profile is really popping off")
         validateInput()
     }
     
@@ -199,8 +237,14 @@ class MyProfileSettingViewController: UITableViewController {
 extension MyProfileSettingViewController: UITextFieldDelegate {
     
     @objc func textFieldDidChange(_ textField: UITextField) {
-        guard let newUsername = textField.text else { return }
-        username = newUsername
+        guard let newText = textField.text else { return }
+        if textField == firstNameTextField {
+            firstName = newText
+        } else if textField == lastNameTextField {
+            lastName = newText
+        } else if textField == usernameTextField {
+            username = newText
+        }
     }
     
     // Max length UI text field: https://stackoverflow.com/questions/25223407/max-length-uitextfield

@@ -70,6 +70,16 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
         confirmTextField.becomeFirstResponder()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        enableInteractivePopGesture()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        disableInteractivePopGesture()
+    }
+    
     //MARK: - Setup
     
     func setupConfirmEmailTextField() {
@@ -155,9 +165,6 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
     
     @IBAction func textFieldEditingChanged(_ sender: UITextField) {
         validateInput()
-        if isValidInput {
-            tryToContinue()
-        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -173,8 +180,32 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
             DispatchQueue.main.async {
                 self.tryToContinue()
             }
+        } else {
+            detectAutoFillFromTexts(textField: textField, range: range, string: string)
         }
         return textField.shouldChangeCharactersGivenMaxLengthOf(6, range, string)
+    }
+    
+    //MARK: DetectAutoFill
+
+    private var fieldPossibleAutofillReplacementAt: Date?
+    private var fieldPossibleAutofillReplacementRange: NSRange?
+    func detectAutoFillFromTexts(textField: UITextField, range: NSRange, string: String) {
+        // To detect AutoFill, look for two quick replacements. The first replaces a range with a single space
+        // (or blank string starting with iOS 13.4).
+        // The next replaces the same range with the autofilled content.
+        if string == " " || string == "" {
+            self.fieldPossibleAutofillReplacementRange = range
+            self.fieldPossibleAutofillReplacementAt = Date()
+        } else {
+            if fieldPossibleAutofillReplacementRange == range, let replacedAt = self.fieldPossibleAutofillReplacementAt, Date().timeIntervalSince(replacedAt) < 0.1 {
+                DispatchQueue.main.async { [self] in
+                    tryToContinue()
+                }
+            }
+            self.fieldPossibleAutofillReplacementRange = nil
+            self.fieldPossibleAutofillReplacementAt = nil
+        }
     }
     
     //MARK: - Helpers
