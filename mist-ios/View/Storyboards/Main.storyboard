@@ -799,11 +799,11 @@ make that cute barista’s day,
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="d22-NN-8y2">
-                            <rect key="frame" x="0.0" y="0.0" width="390" height="294"/>
+                            <rect key="frame" x="0.0" y="0.0" width="390" height="268"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L6t-3z-PO7">
-                                    <rect key="frame" x="85.666666666666686" y="20" width="219" height="219"/>
+                                    <rect key="frame" x="95" y="20" width="200" height="200"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="200" id="FTO-hY-joF"/>
                                         <constraint firstAttribute="width" secondItem="L6t-3z-PO7" secondAttribute="height" multiplier="1:1" id="cGH-uf-gMi"/>
@@ -817,7 +817,7 @@ make that cute barista’s day,
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ziz-OH-z1c">
-                                    <rect key="frame" x="254.66666666666663" y="189" width="40" height="40"/>
+                                    <rect key="frame" x="245" y="170" width="40" height="40"/>
                                     <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="40" id="8u3-AJ-Hnc"/>
@@ -833,11 +833,10 @@ make that cute barista’s day,
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HPJ-ZZ-0km">
-                                    <rect key="frame" x="120" y="251" width="150" height="40"/>
+                                    <rect key="frame" x="120" y="232" width="150" height="33"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="150" id="0Ts-Me-HjI"/>
-                                        <constraint firstAttribute="height" constant="40" id="t5T-FJ-3Kg"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
                                     <color key="tintColor" systemColor="systemRedColor"/>
@@ -3229,20 +3228,21 @@ make that cute barista’s day,
                                 <rect key="frame" x="65" y="115" width="260" height="530"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZjR-Qg-vxY">
-                                        <rect key="frame" x="0.0" y="0.0" width="260" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="260" height="27.666666666666668"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="CGL-qI-QV1">
-                                        <rect key="frame" x="0.0" y="25" width="260" height="295"/>
+                                        <rect key="frame" x="0.0" y="52.666666666666657" width="260" height="239.99999999999997"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="1F2-0U-U9r">
-                                                <rect key="frame" x="2.6666666666666856" y="0.0" width="255" height="255"/>
+                                                <rect key="frame" x="30" y="0.0" width="200" height="200"/>
                                                 <constraints>
+                                                    <constraint firstAttribute="width" constant="200" id="ddb-Rb-oLv"/>
                                                     <constraint firstAttribute="width" secondItem="1F2-0U-U9r" secondAttribute="height" id="kV0-Dn-oWz"/>
                                                 </constraints>
                                             </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nc8-B6-xVl">
-                                                <rect key="frame" x="40.000000000000014" y="270" width="180.33333333333337" height="25"/>
+                                            <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nc8-B6-xVl">
+                                                <rect key="frame" x="40.000000000000014" y="215.00000000000003" width="180.33333333333337" height="25"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="25" id="Gkg-pH-b1j"/>
                                                 </constraints>
@@ -3256,7 +3256,7 @@ make that cute barista’s day,
                                         </subviews>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="want a verified profile badge?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="NYi-MM-HTO">
-                                        <rect key="frame" x="0.0" y="345" width="260" height="22"/>
+                                        <rect key="frame" x="0.0" y="317.66666666666669" width="260" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="22" id="j4t-HD-Dqp"/>
                                         </constraints>
@@ -3265,7 +3265,7 @@ make that cute barista’s day,
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="upload a selfie and we'll confirm that it matches your profile pic." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="zGd-7W-XJI">
-                                        <rect key="frame" x="0.0" y="392" width="260" height="44"/>
+                                        <rect key="frame" x="0.0" y="364.66666666666669" width="260" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="UAM-B3-idi"/>
                                         </constraints>
@@ -3274,7 +3274,7 @@ make that cute barista’s day,
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="this helps others trust who you are. plus, it just looks cool 💁‍♀️" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="7TZ-Uq-tUD">
-                                        <rect key="frame" x="0.0" y="461" width="260" height="44"/>
+                                        <rect key="frame" x="0.0" y="433.66666666666663" width="260" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="oyc-Gb-tJ2"/>
                                         </constraints>
@@ -3283,7 +3283,7 @@ make that cute barista’s day,
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sv9-JY-Ksp">
-                                        <rect key="frame" x="0.0" y="530" width="260" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="502.66666666666657" width="260" height="27.333333333333314"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </view>
                                 </subviews>
