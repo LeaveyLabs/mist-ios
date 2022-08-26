@@ -19,14 +19,14 @@ class Env {
     static let TRANSITION_TO_HOME_DURATION: Double = 1.5
     static let BASE_URL: String = "https://mist-backend-test.herokuapp.com/"
     static let CHAT_URL: String = "wss://mist-chat-test.herokuapp.com/"
-    static let Timeout_Duration: Double = 60
+    static let Timeout_Duration: Double = 10
     #elseif DEBUG
     static let environment: EnvType = .dev
     static let TRANSITION_TO_AUTH_DURATION: Double = 1
     static let TRANSITION_TO_HOME_DURATION: Double = 1.5
     static let BASE_URL: String = "https://mist-backend-test.herokuapp.com/"
     static let CHAT_URL: String = "wss://mist-chat-test.herokuapp.com/"
-    static let Timeout_Duration: Double = 60
+    static let Timeout_Duration: Double = 10
 //    #if DEBUG
     //^there's also the option for debug/release flags for more specificity within each environment
     #else
@@ -35,7 +35,7 @@ class Env {
     static let TRANSITION_TO_HOME_DURATION: Double = 1.5
     static let BASE_URL: String = "https://mist-backend.herokuapp.com/"
     static let CHAT_URL: String = "wss://mist-chat.herokuapp.com/"
-    static let Timeout_Duration: Double = 8
+    static let Timeout_Duration: Double = 10
     #endif
 }
 

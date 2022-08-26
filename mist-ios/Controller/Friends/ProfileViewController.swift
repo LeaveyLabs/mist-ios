@@ -78,13 +78,15 @@ class ProfileViewController: UIViewController {
         case .nonexisting:
             guard let handle = userHandleForLoading else { return }
             profilePicButton.imageView?.image = Constants.defaultProfilePic
-            nameLabel.text = handle
-            usernameLabel.text = "this user does not exist"
+            nameLabel.text = "this user does not exist"
+            nameLabel.font = UIFont(name: Constants.Font.Medium, size: 18)
+            usernameLabel.text = handle.filter({ $0 != "@" })
         case .notclaimed:
             guard let handle = userHandleForLoading else { return }
             profilePicButton.imageView?.image = Constants.defaultProfilePic
-            nameLabel.text = handle
-            usernameLabel.text = "this account has not yet been claimed"
+            nameLabel.text = "this account has not yet been claimed"
+            nameLabel.font = UIFont(name: Constants.Font.Medium, size: 18)
+            usernameLabel.text = handle.filter({ $0 != "@" })
         case .none:
             break
         }

@@ -35,7 +35,7 @@ class SearchResultCell: UITableViewCell {
     
     func configureNoWordResultsCell() {
         imageView?.image = UIImage(systemName: "magnifyingglass")
-        titleLabel.text = "No results"
+        titleLabel.text = "no results"
 //        subtitleLabel.text = ""
         accessoryLabel.text = ""
         accessoryType = .none
@@ -55,7 +55,7 @@ class SearchResultCell: UITableViewCell {
         
     func configureNoCompleterResultsCell() {
         imageView?.image = UIImage(systemName: "mappin.circle")
-        titleLabel.text = "No results"
+        titleLabel.text = "no results"
         subtitleLabel.text = ""
         accessoryLabel.text = ""
         accessoryType = .none

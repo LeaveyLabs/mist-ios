@@ -134,7 +134,7 @@ class EnterNumberViewController: KUIViewController, UITextFieldDelegate {
             do {
                 try await PhoneNumberAPI.registerNewPhoneNumber(email: AuthContext.email, phoneNumber: number)
                 AuthContext.phoneNumber = number
-                let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ConfirmNumber)
+                let vc = ConfirmCodeViewController.create(confirmMethod: .signupText)
                 self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
                     self?.isSubmitting = false
                 })

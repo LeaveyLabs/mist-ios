@@ -72,6 +72,7 @@ extension SearchSuggestionsTableViewController {
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else { return }
         header.textLabel?.font = UIFont(name: Constants.Font.Medium, size: 15)
+        header.textLabel?.text = header.textLabel?.text?.lowercased()
     }
             
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

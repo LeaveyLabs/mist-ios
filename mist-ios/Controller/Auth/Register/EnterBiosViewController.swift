@@ -32,9 +32,42 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
 //        return datePicker
 //    }()
     
-    let RATHER_NOT_SAY = "rather not say"
+    enum Sex: String, CaseIterable {
+        case blank, female, male, other, ratherNotSay
+        
+        var displayName: String {
+            switch self {
+            case .blank:
+                return ""
+            case .female:
+                return "female"
+            case .male:
+                return "male"
+            case .other:
+                return "other"
+            case .ratherNotSay:
+                return "rather not say"
+            }
+        }
+        
+        var databaseName: String? {
+            switch self {
+            case .blank:
+                return "" //should never be accessed.. throw?
+            case .female:
+                return "f"
+            case .male:
+                return "m"
+            case .ratherNotSay:
+                return nil
+            case .other:
+                return "o"
+            }
+        }
+    }
+    
 //    var dobData = ""
-    var sexOptions = [String]()
+    var sexOptions = [Sex]()
     private lazy var sexPicker: UIPickerView = {
         let sexPicker = UIPickerView(frame: .zero)
         sexPicker.delegate = self
@@ -87,7 +120,7 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
         sexTextField.layer.cornerRadius = 5
         sexTextField.setLeftAndRightPadding(10)
         sexTextField.inputView = sexPicker
-        sexOptions = ["", "male", "female", "other", RATHER_NOT_SAY]
+        sexOptions = [.blank, .female, .male, .other, .ratherNotSay]
 
         dobTextField.delegate = self
         dobTextField.layer.cornerRadius = 5
@@ -129,7 +162,7 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
     }
 
     @IBAction func whyWeAskDidTapped(_ sender: UIButton) {
-        CustomSwiftMessages.showInfoCentered("Why we ask about age", "In order to follow legal guidelines for platforms with user-generated content, we must ensure all account holders are above their country's minimum age requirement.", emoji: "")
+        CustomSwiftMessages.showInfoCentered("why we ask about age", "in order to follow legal guidelines for platforms with user-generated content, we must ensure all account holders are above their country's minimum age requirement.", emoji: "")
     }
     
     //MARK: - TextField Delegate
@@ -159,28 +192,37 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
 
     func tryToContinue() {
         guard
-            let sex = sexTextField.text,
+            let sexText = sexTextField.text,
+            let sex = Sex(rawValue: sexText),
+            sex != .blank
+        else {
+            CustomSwiftMessages.displayError("no sex option selected", "please try again")
+            return
+        }
+        guard
             let dobComponents = dobTextField.text?.components(separatedBy: "/"),
             dobComponents.count == 3,
             let month = Int(dobComponents[0]),
             let day = Int(dobComponents[1]),
             let year = Int(dobComponents[2]),
             month >= 1 && month <= 12,
-            day >= 1 && day <= 31,
-            year >= 1940
+            day >= 1 && day <= 31
         else {
-            CustomSwiftMessages.displayError("Something doesn't seem right", "Please try again")
+            CustomSwiftMessages.displayError("improper birthday formatting", "try again with (mm/dd/yyyy)")
+            return
+        }
+        guard year >= 1940 else {
+            CustomSwiftMessages.displayError("there's no way you're that old", "")
             return
         }
         guard year <= 2004 else {
-            CustomSwiftMessages.displayError("You must be 18 to use Mist", "")
+            CustomSwiftMessages.displayError("you must be 18 to use mist", "")
             return
         }
-//            AuthContext.dob = dobData
         AuthContext.dob = dobComponents[2] + "-" + dobComponents[0] + "-" + dobComponents[1]
-        print(AuthContext.dob)
-        AuthContext.sex = sex == RATHER_NOT_SAY ? nil : sex == "Male" ? "m" : sex == "Female" ? "f" : "o"
-        let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ChooseUsername)
+        AuthContext.sex = sex.databaseName
+        print(AuthContext.sex ?? "nope it's nil", AuthContext.dob)
+        let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.CreateProfile)
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -200,11 +242,11 @@ extension EnterBiosViewController: UIPickerViewDelegate, UIPickerViewDataSource 
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return sexOptions[row]
+        return sexOptions[row].displayName
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        sexTextField.text = sexOptions[pickerView.selectedRow(inComponent: component)]
+        sexTextField.text = sexOptions[pickerView.selectedRow(inComponent: component)].displayName
         validateInput()
     }
     

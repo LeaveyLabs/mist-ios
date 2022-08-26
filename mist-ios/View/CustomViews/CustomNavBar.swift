@@ -114,7 +114,7 @@ class CustomNavBar: UIView {
         case .title:
             let titleLabel = UILabel()
             titleLabel.text = title
-            titleLabel.font = UIFont(name: Constants.Font.Heavy, size: 30)
+            titleLabel.font = UIFont(name: Constants.Font.Heavy, size: 28)
             titleLabel.textColor = Constants.Color.mistBlack
             stackView.addArrangedSubview(titleLabel)
         case .map:

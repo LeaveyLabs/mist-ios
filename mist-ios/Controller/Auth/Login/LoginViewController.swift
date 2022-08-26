@@ -1,43 +1,53 @@
 //
-//  EnterCodeViewController.swift
+//  LoginViewController.swift
 //  mist-ios
 //
-//  Created by Kevin Sun on 3/29/22.
+//  Created by Adam Monterey on 8/25/22.
 //
 
+import Foundation
 import UIKit
+import PhoneNumberKit
 
 class LoginViewController: KUIViewController, UITextFieldDelegate {
 
-    @IBOutlet weak var usernameTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var enterNumberTextField: PhoneNumberTextField!
+    @IBOutlet weak var continueButton: UIButton!
+    @IBOutlet weak var enterNumberTextFieldWrapperView: UIView!
     
     var isValidInput: Bool! {
         didSet {
-            loginButton.isEnabled = isValidInput
-            loginButton.setNeedsUpdateConfiguration()
+            continueButton.isEnabled = isValidInput
+            continueButton.setNeedsUpdateConfiguration()
         }
     }
     var isSubmitting: Bool = false {
         didSet {
-            loginButton.isEnabled = !isSubmitting
-            loginButton.setNeedsUpdateConfiguration()
+            continueButton.isEnabled = !isSubmitting
+            continueButton.setNeedsUpdateConfiguration()
         }
     }
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
+        isValidInput = false
         validateInput()
         shouldNotAnimateKUIAccessoryInputView = true
-        setupTextFields()
-        setupLoginButton()
+        setupPopGesture()
+        setupEnterNumberTextField()
+        setupContinueButton() //uncomment this button for standard button behavior, where !isEnabled greys it out
         setupBackButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewDidAppear(true)
         enableInteractivePopGesture()
+        AuthContext.reset()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        enterNumberTextField.becomeFirstResponder()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -47,26 +57,28 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     
     //MARK: - Setup
     
-    func setupTextFields() {
-        usernameTextField.delegate = self
-        usernameTextField.smartInsertDeleteType = UITextSmartInsertDeleteType.no
-        usernameTextField.layer.cornerRadius = 5
-        usernameTextField.setLeftAndRightPadding(10)
-        usernameTextField.becomeFirstResponder()
-        
-        passwordTextField.delegate = self
-        passwordTextField.smartInsertDeleteType = UITextSmartInsertDeleteType.no
-        passwordTextField.layer.cornerRadius = 5
-        passwordTextField.setLeftAndRightPadding(10)
+    func setupEnterNumberTextField() {
+        enterNumberTextFieldWrapperView.layer.cornerRadius = 5
+        enterNumberTextFieldWrapperView.layer.cornerCurve = .continuous
+        enterNumberTextField.delegate = self
+        enterNumberTextField.countryCodePlaceholderColor = .red
+        enterNumberTextField.withFlag = true
+        enterNumberTextField.withPrefix = true
+//        enterNumberTextField.withExamplePlaceholder = true
     }
     
-    func setupLoginButton() {
-        loginButton.configurationUpdateHandler = { [weak self] button in
+    func setupContinueButton() {
+        //Three states:
+        // 1. enabled
+        // 2. disabled (faded white text)
+        // 3. disabled and submitting (dark grey foreground) bc i dont think you can change the activityIndicator color
+        continueButton.configurationUpdateHandler = { [weak self] button in
             if button.isEnabled {
-                button.configuration = ButtonConfigs.enabledConfig(title: "login")
-            } else {
+                button.configuration = ButtonConfigs.enabledConfig(title: "continue")
+            }
+            else {
                 if !(self?.isSubmitting ?? false) {
-                    button.configuration = ButtonConfigs.disabledConfig(title: "login")
+                    button.configuration = ButtonConfigs.disabledConfig(title: "continue")
                 }
             }
             button.configuration?.showsActivityIndicator = self?.isSubmitting ?? false
@@ -83,111 +95,87 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func loginButtonDidPressed(_ sender: Any) {
-        tryToLogin()
+    @IBAction func didPressedContinueButton(_ sender: Any) {
+        tryToContinue()
     }
     
-    @IBAction func forgotButtonDidPressed(_ sender: UIButton) {
-        let requestPasswordVC = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.RequestResetPassword)
-        let navigationController = UINavigationController(rootViewController: requestPasswordVC)
+    @IBAction func resetButtonDidPressed(_ sender: UIButton) {
+        let resetVC = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.RequestReset)
+        let navigationController = UINavigationController(rootViewController: resetVC)
         present(navigationController, animated: true)
     }
     
     //MARK: - TextField Delegate
     
-    @IBAction func textFieldEditingChanged(_ sender: UITextField) {
-        validateInput()
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let didAutofillTextfield = range == NSRange(location: 0, length: 0) && string.count > 1
+        if didAutofillTextfield {
+            DispatchQueue.main.async {
+                self.tryToContinue()
+            }
+        }
+        return true
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == usernameTextField {
-            passwordTextField.becomeFirstResponder()
-        } else {
-            //people's thumbs get in the way, so don't submit early
-//            if isValidInput {
-//                tryToLogin()
-//            }
+        if isValidInput {
+            tryToContinue()
         }
         return false
     }
     
-    // Max length UI text field: https://stackoverflow.com/questions/25223407/max-length-uitextfield
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard let textFieldText = textField.text,
-            let rangeOfTextToReplace = Range(range, in: textFieldText) else {
-                return false
+    @IBAction func textFieldEditingChanged(_ sender: UITextField) {
+        let maxLength = 17 //the max length for US numbers
+        if sender.text!.count > maxLength {
+            sender.deleteBackward()
         }
-        let substringToReplace = textFieldText[rangeOfTextToReplace]
-        let count = textFieldText.count - substringToReplace.count + string.count
-        return count <= Constants.maxPasswordLength
+        validateInput()
     }
     
     //MARK: - Helpers
     
-    func tryToLogin() {
-        // If you've inputted the code
-        if let password = passwordTextField.text, let email_or_username = usernameTextField.text {
-            isSubmitting = true
-            Task {
-                do {
-                    // SecureTextEntry forces us to transform
-                    // the password into a Data object
-                    let params:[String:String] = [
-                        AuthAPI.AUTH_EMAIL_OR_USERNAME_PARAM: email_or_username,
-                        AuthAPI.AUTH_PASSWORD_PARAM: password,
-                    ]
-                    let json = try JSONEncoder().encode(params)
-                    // Send it over to login
-                    try await UserService.singleton.logIn(json: json)
-                    try await loadEverything()
-                    isSubmitting = false
-                    transitionToHomeAndRequestPermissions() { }
-                } catch {
-                    handleLoginFail(error)
-                }
+    func tryToContinue() {
+        guard let number = enterNumberTextField.text?.asE164PhoneNumber else { return }
+        isSubmitting = true
+        Task {
+            do {
+                try await PhoneNumberAPI.requestLoginCode(phoneNumber: number)
+                AuthContext.phoneNumber = number
+                let vc = ConfirmCodeViewController.create(confirmMethod: .loginText)
+                self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
+                    self?.isSubmitting = false
+                })
+            } catch {
+                handleFailure(error)
             }
         }
     }
     
-    func handleLoginFail(_ error: Error) {
+    func handleFailure(_ error: Error) {
         isSubmitting = false
-        passwordTextField.text = ""
+        enterNumberTextField.text = ""
         validateInput()
         CustomSwiftMessages.displayError(error)
     }
     
     func validateInput() {
-        isValidInput = !passwordTextField.text!.isEmpty && !usernameTextField.text!.isEmpty
+        isValidInput = enterNumberTextField.text?.asE164PhoneNumber != nil
     }
     
 }
 
-//extension LoginViewController: UIGestureRecognizerDelegate {
-//
-//    // Note: Must be called in viewDidLoad
-//    //(1 of 2) Enable swipe left to go back with a bar button item
-//    func setupPopGesture() {
-//        self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
-//    }
-//
-//    //(2 of 2) Enable swipe left to go back with a bar button item
-//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-//        return true
-//    }
-//}
+// UIGestureRecognizerDelegate (already inherited in an extension)
 
-extension UIViewController: UIGestureRecognizerDelegate {
-
-  func disableInteractivePopGesture() {
-    navigationItem.hidesBackButton = true
-    navigationController?.interactivePopGestureRecognizer?.delegate = self
-    navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-  }
-
-  func enableInteractivePopGesture() {
-    navigationItem.hidesBackButton = false
-    navigationController?.interactivePopGestureRecognizer?.delegate = self
-    navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-  }
+extension LoginViewController {
     
+    // Note: Must be called in viewDidLoad
+    //(1 of 2) Enable swipe left to go back with a bar button item
+    func setupPopGesture() {
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
+    }
+        
+    //(2 of 2) Enable swipe left to go back with a bar button item
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
 }

@@ -117,8 +117,13 @@ extension HomeViewController {
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        guard let titleView = view as? UITableViewHeaderFooterView else { return } //disregard the feed's headerView
-        titleView.textLabel?.text =  titleView.textLabel?.text?.lowercased().capitalizeFirstLetter()
+        guard
+            let header:UITableViewHeaderFooterView = view as? UITableViewHeaderFooterView,
+            let textLabel = header.textLabel
+        else { return }
+        //textLabel.font.pointSize is 13, seems kinda small
+        textLabel.font = UIFont(name: Constants.Font.Roman, size: 15)
+        textLabel.text = textLabel.text?.lowercased()//.capitalizeFirstLetter()
     }
     
 }

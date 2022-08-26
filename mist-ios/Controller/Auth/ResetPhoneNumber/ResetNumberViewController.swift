@@ -1,16 +1,19 @@
 //
-//  RequestResetPasswordViewController.swift
+//  ResetNumberViewController.swift
 //  mist-ios
 //
-//  Created by Adam Monterey on 7/7/22.
+//  Created by Adam Monterey on 8/25/22.
 //
 
+import Foundation
 import UIKit
+import PhoneNumberKit
 
-class RequestResetPasswordViewController: KUIViewController, UITextFieldDelegate {
+class ResetNumberViewController: KUIViewController, UITextFieldDelegate {
 
-    @IBOutlet weak var enterEmailTextField: UITextField!
+    @IBOutlet weak var enterNumberTextField: PhoneNumberTextField!
     @IBOutlet weak var continueButton: UIButton!
+    @IBOutlet weak var enterNumberTextFieldWrapperView: UIView!
     
     var isValidInput: Bool! {
         didSet {
@@ -27,32 +30,47 @@ class RequestResetPasswordViewController: KUIViewController, UITextFieldDelegate
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         isValidInput = false
+        validateInput()
         shouldNotAnimateKUIAccessoryInputView = true
         setupPopGesture()
-        setupEnterEmailTextField()
+        setupEnterNumberTextField()
         setupContinueButton() //uncomment this button for standard button behavior, where !isEnabled greys it out
         setupBackButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        disableInteractivePopGesture() //because it's the root view controller of a navigation vc
-        enterEmailTextField.becomeFirstResponder()
-        validateInput()
+        enableInteractivePopGesture()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        enterNumberTextField.becomeFirstResponder()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        disableInteractivePopGesture()
     }
     
     //MARK: - Setup
     
-    func setupEnterEmailTextField() {
-        enterEmailTextField.delegate = self
-        enterEmailTextField.layer.cornerRadius = 5
-        enterEmailTextField.setLeftAndRightPadding(10)
-        enterEmailTextField.becomeFirstResponder()
+    func setupEnterNumberTextField() {
+        enterNumberTextFieldWrapperView.layer.cornerRadius = 5
+        enterNumberTextFieldWrapperView.layer.cornerCurve = .continuous
+        enterNumberTextField.delegate = self
+        enterNumberTextField.countryCodePlaceholderColor = .red
+        enterNumberTextField.withFlag = true
+        enterNumberTextField.withPrefix = true
+//        enterNumberTextField.withExamplePlaceholder = true
     }
     
     func setupContinueButton() {
+        //Three states:
+        // 1. enabled
+        // 2. disabled (faded white text)
+        // 3. disabled and submitting (dark grey foreground) bc i dont think you can change the activityIndicator color
         continueButton.configurationUpdateHandler = { [weak self] button in
             if button.isEnabled {
                 button.configuration = ButtonConfigs.enabledConfig(title: "continue")
@@ -67,14 +85,13 @@ class RequestResetPasswordViewController: KUIViewController, UITextFieldDelegate
     }
     
     func setupBackButton() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(goBack))
-        navigationItem.leftBarButtonItem?.tintColor = Constants.Color.mistBlack
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(goBack))
     }
     
     //MARK: - User Interaction
     
     @objc func goBack() {
-        navigationController?.dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     @IBAction func didPressedContinueButton(_ sender: Any) {
@@ -82,6 +99,16 @@ class RequestResetPasswordViewController: KUIViewController, UITextFieldDelegate
     }
     
     //MARK: - TextField Delegate
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let didAutofillTextfield = range == NSRange(location: 0, length: 0) && string.count > 1
+        if didAutofillTextfield {
+            DispatchQueue.main.async {
+                self.tryToContinue()
+            }
+        }
+        return true
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if isValidInput {
@@ -91,50 +118,47 @@ class RequestResetPasswordViewController: KUIViewController, UITextFieldDelegate
     }
     
     @IBAction func textFieldEditingChanged(_ sender: UITextField) {
-        validateInput()
-        let maxLength = 30
+        let maxLength = 17 //the max length for US numbers
         if sender.text!.count > maxLength {
             sender.deleteBackward()
         }
+        validateInput()
     }
     
     //MARK: - Helpers
     
     func tryToContinue() {
-        if let email = enterEmailTextField.text?.lowercased() {
-            Task {
-                isSubmitting = true
-                do {
-                    try await AuthAPI.requestResetPassword(email: email)
-                    // Move to the next code view
-                    ResetPasswordContext.email = email
-                    let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ValidateResetPassword)
-                    self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
-                        self?.isSubmitting = false
-                    })
-                } catch {
-                    handleFailure(error)
-                }
+        guard let number = enterNumberTextField.text?.asE164PhoneNumber else { return }
+        isSubmitting = true
+        Task {
+            do {
+                try await PhoneNumberAPI.requestResetText(email: AuthContext.email, phoneNumber: number, resetToken: AuthContext.resetToken)
+                let vc = ConfirmCodeViewController.create(confirmMethod: .resetPhoneNumberText)
+                self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
+                    self?.isSubmitting = false
+                })
+            } catch {
+                handleFailure(error)
             }
         }
     }
     
     func handleFailure(_ error: Error) {
         isSubmitting = false
+        enterNumberTextField.text = ""
         validateInput()
         CustomSwiftMessages.displayError(error)
     }
     
     func validateInput() {
-        isValidInput = enterEmailTextField.text?.contains("@")
-//        isValidInput = enterEmailTextField.text?.suffix(8).lowercased() == "@usc.edu"
+        isValidInput = enterNumberTextField.text?.asE164PhoneNumber != nil
     }
     
 }
 
 // UIGestureRecognizerDelegate (already inherited in an extension)
 
-extension RequestResetPasswordViewController {
+extension ResetNumberViewController {
     
     // Note: Must be called in viewDidLoad
     //(1 of 2) Enable swipe left to go back with a bar button item

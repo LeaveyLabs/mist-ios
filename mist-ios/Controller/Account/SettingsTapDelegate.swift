@@ -60,9 +60,9 @@ extension SettingsTapDelegate where Self: UIViewController {
     }
     
     func handleDeleteAccount() {
-        CustomSwiftMessages.showAlert(title: "Are you sure you want to delete your account?",
-                                      body: "All of your data will be erased, and you will not be able to access or recover it again.",
-                                      emoji: "😟", dismissText: "Nevermind", approveText: "Delete",
+        CustomSwiftMessages.showAlert(title: "are you sure you want to delete your account?",
+                                      body: "all of your data will be erased, and you will not be able to access or recover it again",
+                                      emoji: "😟", dismissText: "nvermind", approveText: "delete",
                                       onDismiss: {
         }, onApprove: { [self] in
             view.isUserInteractionEnabled = false
@@ -88,8 +88,9 @@ extension SettingsTapDelegate where Self: UIViewController {
     }
     
     func handlePhoneNumber() {
-        let requestPasswordVC = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.RequestResetPassword)
+        let requestPasswordVC = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.RequestReset)
         let navigationController = UINavigationController(rootViewController: requestPasswordVC)
+        navigationController.navigationBar.tintColor = Constants.Color.mistBlack
         if view.frame.size.width < 350 { //otherwise the content gets clipped
             navigationController.modalPresentationStyle = .fullScreen
         }
@@ -108,6 +109,8 @@ extension SettingsTapDelegate where Self: UIViewController {
     //    }
 
 }
+
+//MARK: - CustomEmailAPpOpener
 
 import MessageUI
 import UIKit
@@ -151,9 +154,5 @@ extension SettingsTapDelegate where Self: UIViewController {
         }
         
         return defaultUrl
-    }
-    
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true)
     }
 }

@@ -88,6 +88,7 @@ class UserService: NSObject {
     func getFirstLastName() -> String { return authedUser.first_name + " " + authedUser.last_name }
     func getEmail() -> String { return authedUser.email }
     func getPhoneNumber() -> String? { return authedUser.phone_number }
+    func getPhoneNumberPretty() -> String? { return authedUser.phone_number?.asNationalPhoneNumber }
     func getProfilePic() -> UIImage { return authedUser.profilePicWrapper.image }
     func getBlurredPic() -> UIImage { return authedUser.profilePicWrapper.blurredImage }
     
@@ -121,10 +122,23 @@ class UserService: NSObject {
         Task { await self.saveUserToFilesystem() }
     }
     
-    func logIn(json: Data) async throws {
-        let token = try await AuthAPI.fetchAuthToken(json: json)
+//    func logIn(json: Data) async throws {
+//        let token = try await AuthAPI.fetchAuthToken(json: json)
+//        setGlobalAuthToken(token: token)
+//        let completeUser = try await UserAPI.fetchAuthedUserByToken(token: token)
+//        Task { try await waitAndRegisterDeviceToken(id: completeUser.id) }
+//        let profilePicUIImage = try await UserAPI.UIImageFromURLString(url: completeUser.picture)
+//        frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
+//                                                    profilePic: ProfilePicWrapper(image: profilePicUIImage,
+//                                                                                  withCompresssion: false),
+//                                                    token: token)
+//        setupFirebaseAnalyticsProperties()
+//        Task { await self.saveUserToFilesystem() }
+//    }
+    
+    func logInWith(authToken token: String) async throws {
         setGlobalAuthToken(token: token)
-        let completeUser = try await UserAPI.fetchAuthedUserByToken(token: token)
+        let completeUser = try await UserAPI.fetchAuthedUserByToken(token: getGlobalAuthToken())
         Task { try await waitAndRegisterDeviceToken(id: completeUser.id) }
         let profilePicUIImage = try await UserAPI.UIImageFromURLString(url: completeUser.picture)
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
