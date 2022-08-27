@@ -1,5 +1,5 @@
 //
-//  HomeViewController+Search.swift
+//  ExploreViewController+Search.swift
 //  mist-ios
 //
 //  Created by Adam Monterey on 7/12/22.
@@ -13,15 +13,16 @@ import MapKit
 
 let cornerButtonGrey = UIColor.black.withAlphaComponent(0.7)
 
-extension HomeViewController {
+extension ExploreViewController {
     
-    func setupSearchBarButton() {
-        searchBarButton.delegate = self
-        searchBarButton.setImage(UIImage(), for: .clear, state: .normal)
-        searchBarButton.searchTextField.leftView?.tintColor = .secondaryLabel
-        searchBarButton.searchTextField.font = UIFont(name: Constants.Font.Medium, size: 18)
-        searchBarButton.searchTextField.textColor = cornerButtonGrey
-    }
+    //Not using searchbarbutton implementation anymore
+//    func setupSearchBarButton() {
+//        searchBarButton.delegate = self
+//        searchBarButton.setImage(UIImage(), for: .clear, state: .normal)
+//        searchBarButton.searchTextField.leftView?.tintColor = .secondaryLabel
+//        searchBarButton.searchTextField.font = UIFont(name: Constants.Font.Medium, size: 18)
+//        searchBarButton.searchTextField.textColor = cornerButtonGrey
+//    }
     
     func setupSearchBar() {
         //self
@@ -51,7 +52,7 @@ extension HomeViewController {
 
 // MARK: - SearchController Delegate
 
-extension HomeViewController: UISearchControllerDelegate {
+extension ExploreViewController: UISearchControllerDelegate {
     
     func willDismissSearchController(_ searchController: UISearchController) {
 //        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
@@ -62,19 +63,24 @@ extension HomeViewController: UISearchControllerDelegate {
 
     // MARK: - UISearchBarDelegate
 
-extension HomeViewController: UISearchBarDelegate {
+extension ExploreViewController: UISearchBarDelegate {
     
-    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        if searchBar == searchBarButton {
-            if mySearchController.isActive || mySearchController.isBeingPresented { return false }
-            mySearchController.searchBar.placeholder = MapSearchResultType.randomPlaceholder()
-            present(mySearchController, animated: true) { [self] in
-                searchSuggestionsVC.startProvidingCompletions(for: MKCoordinateRegion(center: mapView.region.center, latitudinalMeters: 100, longitudinalMeters: 100))
-                resetCurrentFilter() //TODO: change this. if they press search and then cancel, we dont want to relocate them to a new part of the world
-            }
-            return false
+    //not using a searchbarbutton anymore
+//    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+//        if searchBar == searchBarButton {
+//            if mySearchController.isActive || mySearchController.isBeingPresented { return false }
+//            presentExploreSearchController()
+//            return false
+//        }
+//        return true
+//    }
+    
+    func presentExploreSearchController() {
+        mySearchController.searchBar.placeholder = MapSearchResultType.randomPlaceholder()
+        present(mySearchController, animated: true) { [self] in
+            searchSuggestionsVC.startProvidingCompletions(for: MKCoordinateRegion(center: mapView.region.center, latitudinalMeters: 100, longitudinalMeters: 100))
+//            resetCurrentFilter() //TODO: change this. if they press search and then cancel, we dont want to relocate them to a new part of the world
         }
-        return true
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -85,7 +91,7 @@ extension HomeViewController: UISearchBarDelegate {
 
 // MARK: - UITableViewDelegate
 
-extension HomeViewController {
+extension ExploreViewController {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == feed { return }
@@ -95,24 +101,24 @@ extension HomeViewController {
         switch resultType {
         case .containing:
             let query = searchSuggestionsVC.wordResults[indexPath.row]
-            searchBarButton.text = query.text
+//            searchBarButton.text = query.text
             PostService.singleton.updateFilter(newText: query.text)
             PostService.singleton.updateFilter(newSearchBy: .text)
-            reloadPosts(withType: .newSearch)
+//            reloadPosts(withType: .newSearch) //when we allowed search by words
         case .nearby:
             if indexPath.row == 0 {
                 let query = searchSuggestionsVC.completerResults[indexPath.row].title
-                searchBarButton.text = query
+//                searchBarButton.text = query
                 PostService.singleton.updateFilter(newSearchBy: .location)
                 search(for: query)
             } else {
                 let suggestion = searchSuggestionsVC.completerResults[indexPath.row-1]
-                searchBarButton.text = suggestion.title
+//                searchBarButton.text = suggestion.title
                 PostService.singleton.updateFilter(newSearchBy: .location)
                 search(for: suggestion) //first gets places from Apple, then calls reloadPosts(0
             }
         }
-        searchBarButton.searchTextField.leftView?.tintColor = cornerButtonGrey
+//        searchBarButton.searchTextField.leftView?.tintColor = cornerButtonGrey
         mySearchController.isActive = false
     }
     
@@ -130,7 +136,7 @@ extension HomeViewController {
 
 // MARK: - Map Search
 
-extension HomeViewController {
+extension ExploreViewController {
     
     
     /// - Parameter suggestedCompletion: A search completion provided by `MKLocalSearchCompleter` when tapping on a search completion table row
@@ -161,8 +167,10 @@ extension HomeViewController {
                 } else {
                     appleregion = response.boundingRegion
                     turnPlacesIntoAnnotations(response.mapItems)
-                    PostService.singleton.updateFilter(newRegion: getRegionCenteredAround(placeAnnotations)!)
-                    reloadPosts(withType: .newSearch)
+                    renderNewPlacesOnMap()
+//                    PostService.singleton.updateFilter(newRegion: getRegionCenteredAround(placeAnnotations)!)
+//                    reloadPosts(withType: .newSearch)
+//                    renderNewPostsOnFeedAndMap(withType: .newSearch)
                 }
             } catch {
                 if let error = error as? MKError {

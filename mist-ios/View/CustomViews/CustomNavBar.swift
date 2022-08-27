@@ -9,9 +9,13 @@ import Foundation
 
 protocol CustomNavBarDelegate {
     func handleProfileButtonTap()
+    
+    func handleFilterButtonTap()
+    func handleFeedButtonTap()
     func handleMapButtonTap()
     func handleSearchButtonTap()
-    func handleXMarkButtonTap()
+    
+    func handleCloseButtonTap()
     func handleBackButtonTap()
 }
 
@@ -26,16 +30,24 @@ extension CustomNavBarDelegate where Self: UIViewController {
         self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
     }
     
+    func handleFilterButtonTap() {
+        fatalError("requires subclass implementation")
+    }
+    
+    func handleFeedButtonTap() {
+        fatalError("requires subclass implementation")
+    }
+    
     func handleMapButtonTap() {
-        fatalError("Sublcass must override this method")
+        fatalError("requires subclass implementation")
     }
     
     func handleSearchButtonTap() {
-        fatalError("Sublcass must override this method")
+        fatalError("requires subclass implementation")
     }
     
-    func handleXMarkButtonTap() {
-        fatalError("Sublcass must override this method")
+    func handleCloseButtonTap() {
+        dismiss(animated: true)
     }
     
     func handleBackButtonTap() {
@@ -48,7 +60,7 @@ class CustomNavBar: UIView {
     static let navBarButtonConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default)
     
     enum CustomNavBarItem: CaseIterable {
-        case profile, search, title, map, back, xmark
+        case title, profile, search, filter, map, feed, back, close
 
         var image: UIImage {
             switch self {
@@ -62,8 +74,12 @@ class CustomNavBar: UIView {
                 return UIImage(named: "toggle-map-button")!
             case .back:
                 return UIImage(systemName: "chevron.backward", withConfiguration: navBarButtonConfig)!
-            case .xmark:
+            case .close:
                 return UIImage(systemName: "xmark", withConfiguration: navBarButtonConfig)!
+            case .filter:
+                return UIImage(named: "filter-button")!
+            case .feed:
+                return UIImage(named: "toggle-list-button")!
             }
         }
     }
@@ -120,10 +136,13 @@ class CustomNavBar: UIView {
         case .map:
             stackView.addArrangedSubview(navBarButton(for: .map))
         case .back:
-            let asdf = navBarButton(for: .back)
-            stackView.addArrangedSubview(asdf)
-        case .xmark:
-            stackView.addArrangedSubview(navBarButton(for: .xmark))
+            stackView.addArrangedSubview(navBarButton(for: .back))
+        case .close:
+            stackView.addArrangedSubview(navBarButton(for: .close))
+        case .filter:
+            stackView.addArrangedSubview(navBarButton(for: .filter))
+        case .feed:
+            stackView.addArrangedSubview(navBarButton(for: .feed))
         }
     }
     
@@ -154,9 +173,17 @@ class CustomNavBar: UIView {
             button.addAction(.init(handler: { action in
                 self.delegate.handleBackButtonTap()
             }), for: .touchUpInside)
-        case .xmark:
+        case .close:
             button.addAction(.init(handler: { action in
-                self.delegate.handleXMarkButtonTap()
+                self.delegate.handleCloseButtonTap()
+            }), for: .touchUpInside)
+        case .filter:
+            button.addAction(.init(handler: { action in
+                self.delegate.handleFilterButtonTap()
+            }), for: .touchUpInside)
+        case .feed:
+            button.addAction(.init(handler: { action in
+                self.delegate.handleFeedButtonTap()
             }), for: .touchUpInside)
         }
         return button
@@ -193,6 +220,7 @@ extension CustomNavBar {
             print("custom nav bar must be added to superview before being configured")
             return
         }
+        print("CONFIGURING")
         setupConstraints(with: superview, height: height)
         self.delegate = delegate
         

@@ -17,8 +17,11 @@ enum ReloadType {
 class ExploreViewController: MapViewController {
     
     // UI
-    @IBOutlet weak var customNavigationBar: UIView!
-    @IBOutlet weak var toggleButton: UIButton!
+    var customNavBar = CustomNavBar()
+    func setupCustomNavigationBar() {
+        fatalError("requires subclass implementation")
+    }
+    
     var feed: UITableView!
     
     //Flags
@@ -34,6 +37,12 @@ class ExploreViewController: MapViewController {
         guard let selected = selectedAnnotationView else { return nil }
         return postAnnotations.firstIndex(of: selected.annotation as! PostAnnotation)
     }
+    
+    // Search
+    var mySearchController: UISearchController!
+    var searchSuggestionsVC: SearchSuggestionsTableViewController!
+    //experimental, for debugging purposes only
+    var appleregion: MKCoordinateRegion = .init()
     
     // Feed
     var reactingPostIndex: Int? //for scrolling to the right index on the feed when react keyboard raises
@@ -54,7 +63,6 @@ extension ExploreViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         latitudeOffset = 0.00095
-        setupCustomNavigationBar()
         setupCustomTapGestureRecognizerOnMap()
         
         if let userLocation = locationManager.location {
@@ -138,17 +146,19 @@ extension ExploreViewController {
         mapView.addAnnotations(postAnnotations)
     }
     
+    func renderNewPlacesOnMap() {
+        removeExistingPlaceAnnotationsFromMap()
+        mapView.region = getRegionCenteredAround(postAnnotations + placeAnnotations) ?? PostService.singleton.getExploreFilter().region
+        mapView.addAnnotations(placeAnnotations)
+    }
+    
 }
 
 // MARK: - Toggle
 
 extension ExploreViewController {
     
-    func setupCustomNavigationBar() {
-        customNavigationBar.applyMediumBottomOnlyShadow()
-    }
-    
-    @IBAction func toggleButtonDidTapped(_ sender: UIButton) {
+    func toggleButtonDidTapped() {
         reloadData()
         if isFeedVisible {
             makeMapVisible()
@@ -170,17 +180,29 @@ extension ExploreViewController {
             self.feed.reloadData()
         }
     }
-    
+        
     func makeFeedVisible() {
-        view.insertSubview(feed, belowSubview: customNavigationBar)
-        toggleButton.setImage(UIImage(named: "toggle-map-button"), for: .normal)
-        isFeedVisible = true
+        feed.alpha = 0
+        view.insertSubview(feed, belowSubview: customNavBar)
+        view.isUserInteractionEnabled = false
+        UIView.animate(withDuration: 0.1, delay: 0, options: .curveLinear) {
+            self.feed.alpha = 1
+        } completion: { [self] completed in
+            isFeedVisible = true
+            view.isUserInteractionEnabled = true
+        }
     }
     
     func makeMapVisible() {
-        view.sendSubviewToBack(feed)
-        toggleButton.setImage(UIImage(named: "toggle-list-button"), for: .normal)
-        isFeedVisible = false
+        feed.alpha = 1
+        view.isUserInteractionEnabled = false
+        UIView.animate(withDuration: 0.1, delay: 0, options: .curveLinear) {
+            self.feed.alpha = 0
+        } completion: { [self] completed in
+            view.sendSubviewToBack(feed)
+            isFeedVisible = false
+            view.isUserInteractionEnabled = true
+        }
     }
     
 }

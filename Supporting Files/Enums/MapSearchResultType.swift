@@ -28,9 +28,9 @@ enum MapSearchResultType: Int, CaseIterable {
                 "old annenberg",
                 "doheny lawn",
                 "the 9-0",
-                "green eyes",
-                "kinda tall",
-                "red northface backpack"].randomElement()!
+//                "green eyes",
+//                "kinda tall",
+                ].randomElement()!
     }
 }
 

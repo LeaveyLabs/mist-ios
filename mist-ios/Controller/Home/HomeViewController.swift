@@ -12,13 +12,7 @@ class HomeViewController: ExploreViewController {
     
     //MARK: - Properties
 
-    @IBOutlet weak var searchBarButton: UISearchBar!
     @IBOutlet weak var refreshButton: UIButton!
-    @IBOutlet weak var filterButton: UIButton!
-    var mySearchController: UISearchController!
-    var searchSuggestionsVC: SearchSuggestionsTableViewController!
-    //experimental, for debugging purposes only
-    var appleregion: MKCoordinateRegion = .init()
     var isLoadingPosts: Bool = false {
         didSet {
             //Should also probably disable some other interactions...
@@ -39,10 +33,10 @@ class HomeViewController: ExploreViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupSearchBarButton()
         setupRefreshButton()
         renderNewPostsOnFeedAndMap(withType: .firstLoad)
         setupRefreshableFeed()
+        setupCustomNavigationBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -57,6 +51,34 @@ class HomeViewController: ExploreViewController {
         }
         // Dependent on map dimensions
 //        searchBarButton.centerText()
+    }
+    
+    //MARK: - Setup
+    
+    override func setupCustomNavigationBar() {
+        navigationController?.isNavigationBarHidden = true
+        view.addSubview(customNavBar)
+        customNavBar.configure(title: "explore", leftItems: [.title], rightItems: [.filter, .map], delegate: self)
+    }
+    
+}
+
+extension HomeViewController: CustomNavBarDelegate {
+    
+    func handleFilterButtonTap() {
+        //do nothing for now
+    }
+    
+    func handleFeedButtonTap() {
+        toggleButtonDidTapped()
+    }
+    
+    func handleMapButtonTap() {
+        toggleButtonDidTapped()
+    }
+    
+    func handleSearchButtonTap() {
+        presentExploreSearchController()
     }
     
 }
@@ -126,10 +148,10 @@ extension HomeViewController {
     // Helpers
     
     func resetCurrentFilter() {
-        searchBarButton.text = ""
+//        searchBarButton.text = ""
 //        searchBarButton.centerText()
-        searchBarButton.searchTextField.leftView?.tintColor = .secondaryLabel
-        searchBarButton.setImage(UIImage(systemName: "magnifyingglass"), for: .search, state: .normal)
+//        searchBarButton.searchTextField.leftView?.tintColor = .secondaryLabel
+//        searchBarButton.setImage(UIImage(systemName: "magnifyingglass"), for: .search, state: .normal)
         placeAnnotations = []
         removeExistingPlaceAnnotationsFromMap()
         PostService.singleton.resetFilter()
