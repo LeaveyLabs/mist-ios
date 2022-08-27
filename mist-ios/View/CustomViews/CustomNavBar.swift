@@ -150,10 +150,22 @@ class CustomNavBar: UIView {
         let button = UIButton(type: .custom)
         button.setImage(item.image, for: .normal)
         button.tintColor = Constants.Color.mistBlack
-        let buttonWidth = item == .profile ? 35 : 20
-        button.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: buttonWidth)
-        button.widthAnchor.constraint(equalToConstant: button.frame.width).isActive = true
         
+        let buttonWidth: CGFloat
+        switch item {
+        case .title:
+            return button //the title doesnt get a button as of now. it's width is calculated automatically
+        case .profile:
+            buttonWidth = 35
+        case .search, .filter, .map, .feed:
+            buttonWidth = 35
+        case .back, .close:
+            buttonWidth = 20
+        }
+        button.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: buttonWidth)
+        button.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
+        button.heightAnchor.constraint(equalToConstant: buttonWidth).isActive = true
+
         switch item {
         case .profile:
             button.addAction(.init(handler: { action in
