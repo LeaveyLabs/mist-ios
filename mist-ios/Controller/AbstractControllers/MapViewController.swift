@@ -28,6 +28,9 @@ class MapViewController: UIViewController {
     let locationManager = CLLocationManager()
     
     // Camera
+    static let MIN_CAMERA_DISTANCE: Double = 500
+    static let MAX_CAMERA_PITCH: Double = 50
+    static let INCREMENTAL_ZOOM_FACTOR: Double = 6
     let minSpanDelta = 0.02
     var isCameraFlyingOutAndIn: Bool = false
     var isCameraFlying: Bool = false {
@@ -77,7 +80,7 @@ class MapViewController: UIViewController {
     
     func setupMapView() {
         // GENERAL SETTINGS
-        mapView.cameraZoomRange = MKMapView.CameraZoomRange(minCenterCoordinateDistance: 310) // Note: this creates an effect where, when the camera is pretty zoomed in, if you try to increase the pitch past a certian point, it automatically zooms in more. Not totally sure why. This is slightly undesirable but not that deep
+        mapView.cameraZoomRange = MKMapView.CameraZoomRange(minCenterCoordinateDistance: MapViewController.MIN_CAMERA_DISTANCE) // Note: this creates an effect where, when the camera is pretty zoomed in, if you try to increase the pitch past a certian point, it automatically zooms in more. Not totally sure why. This is slightly undesirable but not that deep
         //310 is range from which you view a post, that way you cant zoom in more afterwards
         mapView.showsUserLocation = true
         mapView.showsCompass = false
@@ -204,7 +207,7 @@ extension MapViewController {
           AnalyticsParameterItemName: analyticsTitle,
         ])
         
-        zoomByAFactorOf(0.33) {
+        zoomByAFactorOf(0.2) {
             self.view.isUserInteractionEnabled = true //in case the user scrolled map before pressing
         }
     }
@@ -216,7 +219,7 @@ extension MapViewController {
           AnalyticsParameterItemName: analyticsTitle,
         ])
         
-        zoomByAFactorOf(3) {
+        zoomByAFactorOf(5) {
             self.view.isUserInteractionEnabled = true //in case the user scrolled map before pressing
         }
     }
@@ -251,9 +254,10 @@ extension MapViewController: MKMapViewDelegate {
         let zoom = mapView.camera.centerCoordinateDistance //centerCoordinateDistance takes pitch into account
         
         // Limit minimum pitch. Doing this because of weird behavior with clicking on posts from a pitch less than 50
-        if mapView.camera.pitch > 50 && !modifyingMap {
+        
+        if mapView.camera.pitch > MapViewController.MAX_CAMERA_PITCH && !modifyingMap {
             modifyingMap = true
-            mapView.camera.pitch = 50
+            mapView.camera.pitch = MapViewController.MAX_CAMERA_PITCH
             modifyingMap = false
         }
         
@@ -339,7 +343,7 @@ extension MapViewController {
         var newCLLDistance: Double = 500
         let destination = CLLocationCoordinate2D(latitude: lat, longitude: long)
         if incrementalZoom {
-            newCLLDistance = self.mapView.camera.centerCoordinateDistance / 3
+            newCLLDistance = self.mapView.camera.centerCoordinateDistance / MapViewController.INCREMENTAL_ZOOM_FACTOR
         }
         let finalCamera = MKMapCamera(lookingAtCenter: destination,
                                          fromDistance: newCLLDistance,
@@ -436,10 +440,11 @@ extension MapViewController {
     func zoomByAFactorOf(_ factor: Double, _ completion: @escaping () -> Void) {
         isCameraFlying = true
         let newDistance = mapView.camera.centerCoordinateDistance * factor
+        let newAdjustedDistance = max(newDistance, MapViewController.MIN_CAMERA_DISTANCE)
         let newPitch = min(mapView.camera.pitch, 30) //I use 30 instead of 50 just to add the extra pitch transition to make it more dnamic when zooming out
         //Note: you have to actually set a newPitch value like above. It seems that if you use the old pitch value for rotationCamera, sometimes the camera won't actually be changed for some reason
         let rotationCamera = MKMapCamera(lookingAtCenter: mapView.camera.centerCoordinate,
-                                         fromDistance: newDistance,
+                                         fromDistance: newAdjustedDistance,
                                          pitch: newPitch,
                                          heading: mapView.camera.heading)
         UIView.animate(withDuration: 0.3,
@@ -459,7 +464,7 @@ extension MapViewController {
         // Prepare the new pitch based on the new value of isThreeDimensional
         var newPitch: Double
         if isThreeDimensional {
-            newPitch = 50.0
+            newPitch = MapViewController.MAX_CAMERA_PITCH
         } else {
             newPitch = 0.0
         }

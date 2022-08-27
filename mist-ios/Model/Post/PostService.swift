@@ -111,6 +111,10 @@ class PostService: NSObject {
     
     //MARK: - Getting
     
+    func getExplorePostCount() -> Int {
+        return getLoadedPostsFor(postIds: explorePostIds).count
+    }
+    
     func getExplorePosts() -> [Post] {
         return getLoadedPostsFor(postIds: explorePostIds)
     }

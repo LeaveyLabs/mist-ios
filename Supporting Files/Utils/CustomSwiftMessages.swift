@@ -228,7 +228,7 @@ extension CustomSwiftMessages {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
             let title = "you already responded to this mist"
-            let body = "check your conversations to keep chatting"
+            let body = "check your dms to keep chatting"
             messageView.configureContent(title: title, body: body, iconText: "😉")
             messageView.customConfig(approveText: "", dismissText: "ok")
             messageView.approveAction = {

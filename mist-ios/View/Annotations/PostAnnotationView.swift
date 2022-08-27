@@ -13,7 +13,7 @@ protocol AnnotationViewSwipeDelegate {
     func handlePostViewSwipeRight()
 }
 
-var hasSwipeDemoAnimationRun = false
+var hasSwipeDemoAnimationRun = true //turning this off by default for now
 
 final class PostAnnotationView: MKMarkerAnnotationView {
         
@@ -45,7 +45,7 @@ final class PostAnnotationView: MKMarkerAnnotationView {
             glyphTintColor = .white
             markerTintColor = Constants.Color.mistLilac
             displayPriority = .required
-//            clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
+            clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
         }
     }
     
@@ -141,8 +141,8 @@ extension PostAnnotationView {
         postCalloutView.configurePost(post: postAnnotation.post, delegate: postDelegate)
 
         //Do i need to call some of these? I dont think so.
-        mapView.layoutIfNeeded()
-        postCalloutView.setNeedsLayout()
+//        mapView.layoutIfNeeded()
+//        postCalloutView.setNeedsLayout()
         
         postCalloutView.alpha = 0
         postCalloutView.isHidden = true
@@ -159,7 +159,7 @@ extension PostAnnotationView {
         }
     }
     
-    func runSwipeDemoAnimation() {
+    private func runSwipeDemoAnimation() {
         guard let postCalloutView = postCalloutView, isSelected else { return } //The postCalloutView might have disappeared during that delay
         hasSwipeDemoAnimationRun = true
         displaySwipeDemoInstructions()
@@ -176,8 +176,6 @@ extension PostAnnotationView {
             }
         }
     }
-    
-    //put label within a ui view,
     
     func displaySwipeDemoInstructions() {
         swipeDemoView = UIView(frame: .zero)
@@ -221,9 +219,7 @@ extension PostAnnotationView {
             self?.layoutIfNeeded()
         }
     }
-    
-    //FUCK sometimes emoji button is just not woriking now...
-    
+        
     func movePostBackDownAfterEmojiKeyboardDismissed() {
         layoutIfNeeded()
         UIView.animate(withDuration: 0.25) { [weak self] in
@@ -268,8 +264,10 @@ extension PostAnnotationView {
     
     // Add a pan gesture captures the panning on map and prevents the post from being dismissed
     private func setupPanGesture() {
-        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gestureRecognizer:)))
+//        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gestureRecognizer:)))
+        let pan = UIPanGestureRecognizer(target: self, action: nil) //NOTE: NOT ADDING THE PAN FOR REGUALR POST ANNOTATION VIEWS FOR NOW. simply preventing swipes from doing anything
         addGestureRecognizer(pan)
+        
     }
     
     @objc func handlePan(gestureRecognizer: UIPanGestureRecognizer) {

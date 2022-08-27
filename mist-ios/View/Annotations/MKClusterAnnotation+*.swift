@@ -31,7 +31,7 @@ extension MKClusterAnnotation {
     }
     
     func updateIsHotspot(cameraDistance: Double) {
-        if cameraDistance < 600 {
+        if cameraDistance < MapViewController.MIN_CAMERA_DISTANCE + 1000 {
             if !isHotspot {
                 isHotspot = true
             }
