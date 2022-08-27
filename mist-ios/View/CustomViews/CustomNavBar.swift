@@ -11,8 +11,7 @@ protocol CustomNavBarDelegate {
     func handleProfileButtonTap()
     
     func handleFilterButtonTap()
-    func handleFeedButtonTap()
-    func handleMapButtonTap()
+    func handleMapFeedToggleButtonTap()
     func handleSearchButtonTap()
     
     func handleCloseButtonTap()
@@ -34,11 +33,7 @@ extension CustomNavBarDelegate where Self: UIViewController {
         fatalError("requires subclass implementation")
     }
     
-    func handleFeedButtonTap() {
-        fatalError("requires subclass implementation")
-    }
-    
-    func handleMapButtonTap() {
+    func handleMapFeedToggleButtonTap() {
         fatalError("requires subclass implementation")
     }
     
@@ -51,35 +46,29 @@ extension CustomNavBarDelegate where Self: UIViewController {
     }
     
     func handleBackButtonTap() {
-        dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 }
 
 class CustomNavBar: UIView {
-    
-    static let navBarButtonConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default)
-    
+        
     enum CustomNavBarItem: CaseIterable {
-        case title, profile, search, filter, map, feed, back, close
+        case title, profile, searchOrFilter, mapFeedToggle, back, close
 
         var image: UIImage {
             switch self {
             case .profile:
                 return UserService.singleton.getProfilePic()
-            case .search:
-                return UIImage(systemName: "magnifyingglass", withConfiguration: navBarButtonConfig)!
+            case .searchOrFilter:
+                return UIImage()
             case .title:
                 return UIImage()
-            case .map:
-                return UIImage(named: "toggle-map-button")!
+            case .mapFeedToggle:
+                return UIImage()
             case .back:
-                return UIImage(systemName: "chevron.backward", withConfiguration: navBarButtonConfig)!
+                return UIImage(systemName: "chevron.backward", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default))!
             case .close:
-                return UIImage(systemName: "xmark", withConfiguration: navBarButtonConfig)!
-            case .filter:
-                return UIImage(named: "filter-button")!
-            case .feed:
-                return UIImage(named: "toggle-list-button")!
+                return UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .medium, scale: .default))!
             }
         }
     }
@@ -87,13 +76,18 @@ class CustomNavBar: UIView {
     //MARK: - Properties
         
     //UI
-    @IBOutlet weak var leftStackView: UIStackView!
-    @IBOutlet weak var rightStackView: UIStackView!
+    @IBOutlet weak var stackView: UIStackView!
     
     var delegate: CustomNavBarDelegate!
     
     var accountButton: UIButton?
-            
+    var searchFilterButton: UIButton?
+    
+    let TOGGLE_MAP_IMAGE = UIImage(named: "toggle-map-button")!
+    let TOGGLE_FEED_IMAGE = UIImage(named: "toggle-feed-button")!
+    let SEARCH_IMAGE = UIImage(systemName: "magnifyingglass")!.withConfiguration(UIImage.SymbolConfiguration(pointSize: 30, weight: .medium, scale: .default))
+    let FILTER_IMAGE = UIImage() //UIImage(named: "filter-button")
+
     //MARK: - Constructors
         
     override init(frame: CGRect) {
@@ -109,6 +103,10 @@ class CustomNavBar: UIView {
     private func customInit() {
         nibInit()
         applyLightBottomOnlyShadow()
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.spacing = 15
+        
     }
     
     private func nibInit() {
@@ -120,8 +118,8 @@ class CustomNavBar: UIView {
     
     private func setupItem(_ item: CustomNavBarItem, on stackView: UIStackView, withTitle title: String) {
         switch item {
-        case .search:
-            stackView.addArrangedSubview(navBarButton(for: .search))
+        case .searchOrFilter:
+            stackView.addArrangedSubview(navBarButton(for: .searchOrFilter))
         case .profile:
             accountButton = navBarButton(for: .profile)
             guard let accountButton = accountButton else { return }
@@ -132,23 +130,27 @@ class CustomNavBar: UIView {
             titleLabel.text = title
             titleLabel.font = UIFont(name: Constants.Font.Heavy, size: 28)
             titleLabel.textColor = Constants.Color.mistBlack
+            titleLabel.sizeToFit()
             stackView.addArrangedSubview(titleLabel)
-        case .map:
-            stackView.addArrangedSubview(navBarButton(for: .map))
+        case .mapFeedToggle:
+            stackView.addArrangedSubview(navBarButton(for: .mapFeedToggle))
         case .back:
             stackView.addArrangedSubview(navBarButton(for: .back))
         case .close:
             stackView.addArrangedSubview(navBarButton(for: .close))
-        case .filter:
-            stackView.addArrangedSubview(navBarButton(for: .filter))
-        case .feed:
-            stackView.addArrangedSubview(navBarButton(for: .feed))
         }
     }
     
     private func navBarButton(for item: CustomNavBarItem) -> UIButton {
         let button = UIButton(type: .custom)
         button.setImage(item.image, for: .normal)
+        if item == .mapFeedToggle {
+            button.setImage(shouldFeedBeginVisible ? TOGGLE_MAP_IMAGE : TOGGLE_FEED_IMAGE, for: .normal)
+        }
+        if item == .searchOrFilter {
+            searchFilterButton = button
+            button.setImage(shouldFeedBeginVisible ? FILTER_IMAGE : SEARCH_IMAGE, for: .normal)
+        }
         button.tintColor = Constants.Color.mistBlack
         
         let buttonWidth: CGFloat
@@ -157,8 +159,8 @@ class CustomNavBar: UIView {
             return button //the title doesnt get a button as of now. it's width is calculated automatically
         case .profile:
             buttonWidth = 35
-        case .search, .filter, .map, .feed:
-            buttonWidth = 35
+        case .searchOrFilter, .mapFeedToggle:
+            buttonWidth = 30
         case .back, .close:
             buttonWidth = 20
         }
@@ -171,15 +173,26 @@ class CustomNavBar: UIView {
             button.addAction(.init(handler: { action in
                 self.delegate.handleProfileButtonTap()
             }), for: .touchUpInside)
-        case .search:
-            button.addAction(.init(handler: { action in
-                self.delegate.handleSearchButtonTap()
+        case .searchOrFilter:
+            button.addAction(.init(handler: { [self] action in
+                if button.image(for: .normal) == SEARCH_IMAGE {
+                    delegate.handleSearchButtonTap()
+                } else {
+                    delegate.handleFilterButtonTap()
+                }
             }), for: .touchUpInside)
         case .title:
             break
-        case .map:
-            button.addAction(.init(handler: { action in
-                self.delegate.handleMapButtonTap()
+        case .mapFeedToggle:
+            button.addAction(.init(handler: { [self] action in
+                if button.image(for: .normal) == TOGGLE_MAP_IMAGE {
+                    button.setImage(TOGGLE_FEED_IMAGE, for: .normal)
+                    searchFilterButton?.setImage(SEARCH_IMAGE, for: .normal)
+                } else {
+                    button.setImage(TOGGLE_MAP_IMAGE, for: .normal)
+                    searchFilterButton?.setImage(FILTER_IMAGE, for: .normal)
+                }
+                delegate.handleMapFeedToggleButtonTap()
             }), for: .touchUpInside)
         case .back:
             button.addAction(.init(handler: { action in
@@ -188,14 +201,6 @@ class CustomNavBar: UIView {
         case .close:
             button.addAction(.init(handler: { action in
                 self.delegate.handleCloseButtonTap()
-            }), for: .touchUpInside)
-        case .filter:
-            button.addAction(.init(handler: { action in
-                self.delegate.handleFilterButtonTap()
-            }), for: .touchUpInside)
-        case .feed:
-            button.addAction(.init(handler: { action in
-                self.delegate.handleFeedButtonTap()
             }), for: .touchUpInside)
         }
         return button
@@ -232,17 +237,15 @@ extension CustomNavBar {
             print("custom nav bar must be added to superview before being configured")
             return
         }
-        print("CONFIGURING")
         setupConstraints(with: superview, height: height)
         self.delegate = delegate
         
         leftItems.forEach { item in
-            setupItem(item, on: leftStackView, withTitle: title)
+            setupItem(item, on: stackView, withTitle: title)
         }
-        leftStackView.addArrangedSubview(UIView())
-        rightStackView.addArrangedSubview(UIView())
+        stackView.addArrangedSubview(UIView())
         rightItems.forEach { item in
-            setupItem(item, on: rightStackView, withTitle: title)
+            setupItem(item, on: stackView, withTitle: title)
         }
     }
     

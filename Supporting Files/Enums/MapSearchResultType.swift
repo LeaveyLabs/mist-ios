@@ -8,8 +8,8 @@
 import Foundation
 
 enum MapSearchResultType: Int, CaseIterable {
-    case containing // 0
-    case nearby // 1
+    case nearby // 0
+    case containing // 0 disabling this for now by setting searchSuggestionsVC to only allow display the first type of MapSearchResultTYpe
     
     var sectionName : String {
         switch self {

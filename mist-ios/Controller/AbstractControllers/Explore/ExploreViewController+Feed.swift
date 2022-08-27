@@ -16,8 +16,7 @@ extension ExploreViewController {
         feed = UITableView()
         feed.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(feed)
-        let shouldStartWithMap = false
-        if shouldStartWithMap {
+        if !shouldFeedBeginVisible {
             view.sendSubviewToBack(feed)
         }
         NSLayoutConstraint.activate([

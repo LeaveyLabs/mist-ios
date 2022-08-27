@@ -14,6 +14,8 @@ enum ReloadType {
     case refresh, cancel, newSearch, newPost, firstLoad
 }
 
+var shouldFeedBeginVisible = true
+
 class ExploreViewController: MapViewController {
     
     // UI
@@ -26,7 +28,7 @@ class ExploreViewController: MapViewController {
     
     //Flags
     var reloadTask: Task<Void, Never>?
-    var isFeedVisible = false //we have to use this flag and send tableview to the front/back instead of using isHidden so that when tableviewcells aren't rerendered when tableview reappears and so we can have a scroll to top animation before reloading tableview data
+    var isFeedVisible = shouldFeedBeginVisible //we have to use this flag and send tableview to the front/back instead of using isHidden so that when tableviewcells aren't rerendered when tableview reappears and so we can have a scroll to top animation before reloading tableview data
     var annotationSelectionType: AnnotationSelectionType = .normal
     var keyboardHeight: CGFloat = 0 //emoji keyboard autodismiss flag
     var isKeyboardForEmojiReaction: Bool = false
@@ -51,13 +53,14 @@ class ExploreViewController: MapViewController {
     var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] = [:]
 }
 
-// MARK: - View Life Cycle
+// MARK: - Life Cycle
 
 extension ExploreViewController {
 
     override func loadView() {
         super.loadView()
         setupTableView()
+        setupSearchBar()
     }
     
     override func viewDidLoad() {
@@ -148,7 +151,7 @@ extension ExploreViewController {
     
     func renderNewPlacesOnMap() {
         removeExistingPlaceAnnotationsFromMap()
-        mapView.region = getRegionCenteredAround(postAnnotations + placeAnnotations) ?? PostService.singleton.getExploreFilter().region
+        mapView.region = getRegionCenteredAround(placeAnnotations) ?? PostService.singleton.getExploreFilter().region
         mapView.addAnnotations(placeAnnotations)
     }
     

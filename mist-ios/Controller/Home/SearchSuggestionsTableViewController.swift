@@ -59,7 +59,7 @@ extension SearchSuggestionsTableViewController {
 extension SearchSuggestionsTableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1 //2
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -166,7 +166,7 @@ extension SearchSuggestionsTableViewController: UISearchResultsUpdating {
         
         didOneSearchAlreadyFinish = false
         startNearbySearch(with: searchText)
-        startWordSearch(with: searchText)
+//        startWordSearch(with: searchText)
     }
 }
 
@@ -205,10 +205,10 @@ extension SearchSuggestionsTableViewController {
     }
     
     private func handleFinishedSearch() {
-        if !didOneSearchAlreadyFinish {
-            didOneSearchAlreadyFinish = true
-            return
-        }
+//        if !didOneSearchAlreadyFinish { //necessary when searching for both nearby and words
+//            didOneSearchAlreadyFinish = true
+//            return
+//        }
         
         guard !searchText.isEmpty else { return } //If the user deleted all the searchText before the searchQuery finished, we don't want to display any results
         

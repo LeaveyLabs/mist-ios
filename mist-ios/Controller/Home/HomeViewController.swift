@@ -25,11 +25,6 @@ class HomeViewController: ExploreViewController {
     }
     
     //MARK: - Lifecycle
-
-    override func loadView() {
-        super.loadView()
-        setupSearchBar()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,10 +53,12 @@ class HomeViewController: ExploreViewController {
     override func setupCustomNavigationBar() {
         navigationController?.isNavigationBarHidden = true
         view.addSubview(customNavBar)
-        customNavBar.configure(title: "explore", leftItems: [.title], rightItems: [.filter, .map], delegate: self)
+        customNavBar.configure(title: "explore", leftItems: [.title], rightItems: [.searchOrFilter, .mapFeedToggle], delegate: self)
     }
     
 }
+
+//MARK: - NavBarDelegate
 
 extension HomeViewController: CustomNavBarDelegate {
     
@@ -69,11 +66,7 @@ extension HomeViewController: CustomNavBarDelegate {
         //do nothing for now
     }
     
-    func handleFeedButtonTap() {
-        toggleButtonDidTapped()
-    }
-    
-    func handleMapButtonTap() {
+    func handleMapFeedToggleButtonTap() {
         toggleButtonDidTapped()
     }
     

@@ -11,37 +11,29 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CustomNavBar" customModule="mist_ios" customModuleProvider="target">
             <connections>
-                <outlet property="leftStackView" destination="egL-1u-x0c" id="mWX-4J-c9G"/>
-                <outlet property="rightStackView" destination="SiT-nI-ieU" id="21q-gu-qNj"/>
+                <outlet property="stackView" destination="egL-1u-x0c" id="fyZ-QE-3pQ"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="MVN-he-SwE">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+            <rect key="frame" x="0.0" y="0.0" width="442" height="80"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="egL-1u-x0c">
-                    <rect key="frame" x="25" y="10" width="145" height="60"/>
-                </stackView>
-                <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="SiT-nI-ieU">
-                    <rect key="frame" x="244" y="10" width="145" height="60"/>
+                    <rect key="frame" x="25" y="10" width="392" height="26"/>
                 </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="IWY-I9-8EK"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <color key="tintColor" name="mist-lilac"/>
             <constraints>
-                <constraint firstItem="SiT-nI-ieU" firstAttribute="bottom" secondItem="egL-1u-x0c" secondAttribute="bottom" id="CaY-aU-B1q"/>
                 <constraint firstItem="egL-1u-x0c" firstAttribute="top" secondItem="MVN-he-SwE" secondAttribute="top" constant="10" id="MAA-Is-XHF"/>
-                <constraint firstItem="SiT-nI-ieU" firstAttribute="width" secondItem="egL-1u-x0c" secondAttribute="width" id="MkY-dm-F1j"/>
                 <constraint firstItem="IWY-I9-8EK" firstAttribute="bottom" secondItem="egL-1u-x0c" secondAttribute="bottom" constant="10" id="PtI-bn-kSd"/>
-                <constraint firstAttribute="trailing" secondItem="SiT-nI-ieU" secondAttribute="trailing" constant="25" id="gQq-JJ-sdY"/>
-                <constraint firstItem="SiT-nI-ieU" firstAttribute="top" secondItem="egL-1u-x0c" secondAttribute="top" id="o9j-gz-Wjs"/>
-                <constraint firstItem="egL-1u-x0c" firstAttribute="width" secondItem="MVN-he-SwE" secondAttribute="width" multiplier="0.35" id="p0v-9W-xsR"/>
+                <constraint firstAttribute="trailing" secondItem="egL-1u-x0c" secondAttribute="trailing" constant="25" id="c78-yo-8JF"/>
                 <constraint firstItem="egL-1u-x0c" firstAttribute="leading" secondItem="MVN-he-SwE" secondAttribute="leading" constant="25" id="rnA-LN-qvb"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="82.608695652173921" y="-79.017857142857139"/>
+            <point key="canvasLocation" x="102.89855072463769" y="-79.017857142857139"/>
         </view>
     </objects>
     <resources>

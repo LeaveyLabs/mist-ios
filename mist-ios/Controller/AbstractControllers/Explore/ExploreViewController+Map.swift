@@ -145,7 +145,12 @@ extension ExploreViewController {
                                                 withDelay: cameraAnimationDuration,
                                                 withPostDelegate: self)
             } else if let placeAnnotationView = view as? PlaceAnnotationView {
-                mapView.deselectAnnotation(placeAnnotationView.annotation, animated: false)
+                slowFlyTo(lat: view.annotation!.coordinate.latitude,
+                          long: view.annotation!.coordinate.longitude,
+                          incrementalZoom: false,
+                          withDuration: cameraAnimationDuration * 2,
+                          completion: { _ in })
+//                mapView.deselectAnnotation(placeAnnotationView.annotation, animated: false)
             }
         }
         annotationSelectionType = .normal // Return to default

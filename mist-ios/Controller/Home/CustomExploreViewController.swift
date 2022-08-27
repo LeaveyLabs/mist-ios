@@ -43,7 +43,7 @@ class CustomExploreViewController: ExploreViewController {
     override func setupCustomNavigationBar() {
         navigationController?.isNavigationBarHidden = true
         view.addSubview(customNavBar)
-        customNavBar.configure(title: setting.displayName.lowercased(), leftItems: [.back, .title], rightItems: [.filter, .map], delegate: self)
+        customNavBar.configure(title: setting.displayName.lowercased(), leftItems: [.back, .title], rightItems: [.searchOrFilter, .mapFeedToggle], delegate: self)
     }
     
     //MARK: - User Interaction
@@ -60,11 +60,7 @@ extension CustomExploreViewController: CustomNavBarDelegate {
         //nothing for now
     }
     
-    func handleFeedButtonTap() {
-        toggleButtonDidTapped()
-    }
-    
-    func handleMapButtonTap() {
+    func handleMapFeedToggleButtonTap() {
         toggleButtonDidTapped()
     }
     

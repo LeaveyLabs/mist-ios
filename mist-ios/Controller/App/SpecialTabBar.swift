@@ -14,7 +14,23 @@ class SpecialTabBar: UITabBar {
         middleButton.setImage(UIImage(named: "submitbutton")!, for: .normal)
         middleButton.translatesAutoresizingMaskIntoConstraints = false
         middleButton.isUserInteractionEnabled = true
+//        middleButton.frame = .init(x: 0, y: 0, width: 40, height: 40)
+//        middleButton.contentHorizontalAlignment = .fill
+//        middleButton.contentVerticalAlignment = .fill
+//        middleButton.imageView?.contentMode = .scaleAspectFit
         middleButton.addTarget(self, action: #selector(middleButtonAction), for: .touchUpInside)
+        
+        
+//        middleButton.setBackgroundImage(UIImage(named: "submitbutton"), for: .normal)
+//        middleButton.layoutIfNeeded()
+//        middleButton.subviews.first?.contentMode = .scaleAspectFit
+//        middleButton.subviews.forEach { view in
+//            if let button = view as? UIImageView {
+//                button.contentMode = .scaleAspectFit
+//            }
+//        }
+        
+        
         addSubview(middleButton)
         return middleButton
     }()
@@ -32,7 +48,7 @@ class SpecialTabBar: UITabBar {
     
     func addMiddleButton() {
         NSLayoutConstraint.activate([
-            middleButton.topAnchor.constraint(equalTo: self.topAnchor, constant: -30),
+            middleButton.topAnchor.constraint(equalTo: self.topAnchor, constant: -40),
             middleButton.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0),
         ])
     }
