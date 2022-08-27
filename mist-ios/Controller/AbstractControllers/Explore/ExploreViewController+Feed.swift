@@ -13,7 +13,7 @@ import UIKit
 extension ExploreViewController {
     
     func setupTableView() {
-        feed = UITableView()
+        feed = PostTableView()
         feed.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(feed)
         if !shouldFeedBeginVisible {

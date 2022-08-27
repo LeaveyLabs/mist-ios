@@ -17,11 +17,6 @@
                 <outlet property="emojiButton1" destination="QC2-Mt-A14" id="j1T-eq-YZU"/>
                 <outlet property="emojiButton2" destination="Ya0-s7-J3U" id="heZ-HR-3AW"/>
                 <outlet property="emojiButton3" destination="i0w-0o-6ZG" id="Qkn-4R-zbH"/>
-                <outlet property="fillerButton1" destination="kan-0P-2tr" id="Ps2-Wg-5aP"/>
-                <outlet property="fillerButton2" destination="hTI-fg-rcb" id="cNT-mG-lbB"/>
-                <outlet property="fillerButton3" destination="cME-Kf-XgS" id="I40-bk-sD1"/>
-                <outlet property="fillerButton4" destination="eYa-RX-VTS" id="EUk-l0-nAY"/>
-                <outlet property="fillerButton5" destination="D3Z-4z-sX3" id="Jl4-6u-6uD"/>
                 <outlet property="locationLabel" destination="hUc-aP-KHZ" id="gMn-3e-TMB"/>
                 <outlet property="messageLabel" destination="n8O-is-nrf" id="fQi-FD-JH8"/>
                 <outlet property="moreButton" destination="9PV-NB-WGv" id="Ib9-j3-DOd"/>

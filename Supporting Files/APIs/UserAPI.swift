@@ -57,7 +57,7 @@ class UserAPI {
     static let LATITUDE_PARAM = "latitude"
     static let LONGITUDE_PARAM = "longitude"
     
-    static let USER_RECOVERY_MESSAGE = "Please try again later"
+    static let USER_RECOVERY_MESSAGE = "try again later"
     
     static func throwAPIError(error: UserError) throws {
         if let emailErrors = error.email,

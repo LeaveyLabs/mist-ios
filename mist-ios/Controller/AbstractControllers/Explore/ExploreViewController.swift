@@ -24,7 +24,7 @@ class ExploreViewController: MapViewController {
         fatalError("requires subclass implementation")
     }
     
-    var feed: UITableView!
+    var feed: PostTableView!
     
     //Flags
     var reloadTask: Task<Void, Never>?
@@ -34,11 +34,7 @@ class ExploreViewController: MapViewController {
     var isKeyboardForEmojiReaction: Bool = false
         
     // Map
-    var selectedAnnotationView: MKAnnotationView?
-    var selectedAnnotationIndex: Int? {
-        guard let selected = selectedAnnotationView else { return nil }
-        return postAnnotations.firstIndex(of: selected.annotation as! PostAnnotation)
-    }
+    var selectedAnnotationView: AnnotationViewWithPosts?
     
     // Search
     var mySearchController: UISearchController!
@@ -174,12 +170,8 @@ extension ExploreViewController {
     
     // Called upon every viewWillAppear and map/feed toggle
     func reloadData() {
-        //Map
-        if let selectedPostAnnotationView = selectedAnnotationView as? PostAnnotationView {
-            selectedPostAnnotationView.rerenderCalloutForUpdatedPostData()
-        }
-        //Feed
-        DispatchQueue.main.async { // somehow, this prevents a strange animation for the reload
+        DispatchQueue.main.async {
+            self.selectedAnnotationView?.rerenderCalloutForUpdatedPostData()
             self.feed.reloadData()
         }
     }
@@ -300,7 +292,8 @@ extension ExploreViewController: PostDelegate {
                     scrollFeedToPostRightAboveKeyboard(reactingPostIndex)
                 }
             } else {
-                if let postAnnotationView = selectedAnnotationView as? PostAnnotationView, keyboardHeight > 100 { //keyboardHeight of 90 appears with postVC keyboard
+                print("selected:", selectedAnnotationView)
+                if let postAnnotationView = selectedAnnotationView as? AnnotationViewWithPosts, keyboardHeight > 100 { //keyboardHeight of 90 appears with postVC keyboard
                     postAnnotationView.movePostUpAfterEmojiKeyboardRaised()
                 }
             }
@@ -310,7 +303,7 @@ extension ExploreViewController: PostDelegate {
     @objc func keyboardWillDismiss(sender: NSNotification) {
         keyboardHeight = 0
         //DONT DO THE FOLLOWING IF THEY"RE CURRENTLY DRAGGING
-        if let postAnnotationView = selectedAnnotationView as? PostAnnotationView, !postAnnotationView.isPanning {
+        if let postAnnotationView = selectedAnnotationView as? AnnotationViewWithPosts { //!postAnnotationView.isPanning { this was useful when we allowed swiping between postsAnnotationViews. not needed anymore
             postAnnotationView.movePostBackDownAfterEmojiKeyboardDismissed()
         }
     }

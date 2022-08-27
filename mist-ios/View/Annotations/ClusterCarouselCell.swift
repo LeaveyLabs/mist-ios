@@ -1,44 +1,53 @@
-////
-////  PostCarouselCell.swift
-////  mist-ios
-////
-////  Created by Adam Monterey on 8/27/22.
-////
 //
-//import Foundation
-//import ScalingCarousel
+//  PostCarouselCell.swift
+//  mist-ios
 //
-//class ClusterCarouselCell: ScalingCarouselCell {
-//    
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-////
-////        mainView = PostView(frame: contentView.bounds)
-////
-//////        mainView = UIView(frame: contentView.bounds)
-////        contentView.addSubview(mainView)
-////        mainView.translatesAutoresizingMaskIntoConstraints = false
-////        NSLayoutConstraint.activate([
-////            mainView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-////            mainView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-////            mainView.topAnchor.constraint(equalTo: contentView.topAnchor),
-////            mainView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-////            ])
+//  Created by Adam Monterey on 8/27/22.
+//
+
+import Foundation
+
+class ClusterCarouselCell: UICollectionViewCell {
+    
+    let postView = PostView()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        postView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(postView)
+        NSLayoutConstraint.activate([
+            postView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: 0),
+            postView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0),
+            postView.heightAnchor.constraint(lessThanOrEqualTo: contentView.heightAnchor),
+            postView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15)
+        ])
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configureForPost(post: Post, nestedPostViewDelegate: PostDelegate, bubbleTrianglePosition: BubbleTrianglePosition) {
+        postView.configurePost(post: post, delegate: nestedPostViewDelegate, arrowPosition: .bottom) //must come after setting constraints
+    }
+    
+    //todo for later
+//    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+////        if let hitAnnotationView = super.hitTest(point, with: event) {
+////            return hitAnnotationView
+////        }
+//
+//        // If the hit wasn't MKClusterAnnotation, then the hit view must be on the carousel, the the classes's only subview
+////        guard let collectionView = collectionView else { return nil }
+//
+//        let pointInPostView = convert(point, to: postView)
+//        if let postView = postView.hitTest(pointInPostView, with: event) {
+//            return postView
+//        }
+//        return nil
+//
+////        let pointInCollectionView = convert(point, to: collectionView)
+////        return collectionView.hitTest(pointInCollectionView, with: event)
 //    }
-//    
-//    func configureWith(_ postView: PostView) {
-//        mainView = postView
-//        contentView.addSubview(mainView)
-//        mainView.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            mainView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-//            mainView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-//            mainView.topAnchor.constraint(equalTo: contentView.topAnchor),
-//            mainView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-//        ])
-//    }
-//    
-//    required init?(coder aDecoder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-//}
+    
+}

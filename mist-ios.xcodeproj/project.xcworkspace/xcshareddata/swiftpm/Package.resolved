@@ -28,6 +28,15 @@
       }
     },
     {
+      "identity" : "centeredcollectionview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/BenEmdon/CenteredCollectionView",
+      "state" : {
+        "revision" : "f2bf371dae314b46f1bc03c222861c9fc40fff32",
+        "version" : "2.2.2"
+      }
+    },
+    {
       "identity" : "firebase-ios-sdk",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk",
@@ -142,15 +151,6 @@
       "state" : {
         "revision" : "3e4e743631e86c8c70dbc6efdc7beaa6e90fd3bb",
         "version" : "2.1.1"
-      }
-    },
-    {
-      "identity" : "scalingcarousel",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/superpeteblaze/ScalingCarousel",
-      "state" : {
-        "branch" : "master",
-        "revision" : "f2bfde4db386243fd4e0e4687fcfff530c239c20"
       }
     },
     {

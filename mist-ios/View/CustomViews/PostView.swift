@@ -42,12 +42,6 @@ import MapKit
     var emojiButtons: [EmojiButton] {
         get { return [emojiButton1, emojiButton2, emojiButton3] }
     }
-    
-    @IBOutlet weak var fillerButton1: UIButton!
-    @IBOutlet weak var fillerButton2: UIButton!
-    @IBOutlet weak var fillerButton3: UIButton!
-    @IBOutlet weak var fillerButton4: UIButton!
-    @IBOutlet weak var fillerButton5: UIButton!
 
     //Data
     var postId: Int!
@@ -92,7 +86,7 @@ extension PostView {
     
     // Note: the constraints for the PostView should already be set-up when this is called.
     // Otherwise you'll get loads of constraint errors in the console
-    func configurePost(post: Post, delegate: PostDelegate) {
+    func configurePost(post: Post, delegate: PostDelegate, arrowPosition: BubbleTrianglePosition? = nil) {
         self.postId = post.id
         self.postAuthor = post.read_only_author
         self.postDelegate = delegate
@@ -116,39 +110,19 @@ extension PostView {
             dmButton.loadingIndicator(false) // just to be sure
         }
         
-        var arrowPosition: BubbleTrianglePosition!
-        if let _ = superview as? PostAnnotationView {
-            arrowPosition = .bottom
-            if UIScreen.main.bounds.size.width < 350 {
-                postTitleLabel.numberOfLines = 1
-            }
-        } else {
-            arrowPosition = post.author == UserService.singleton.getId() ? .right : .left
-        }
-        backgroundBubbleView.transformIntoPostBubble(arrowPosition: arrowPosition)
+        backgroundBubbleView.transformIntoPostBubble(arrowPosition: arrowPosition ?? (post.author == UserService.singleton.getId() ? .right : .left))
         
         moreButton.transform = CGAffineTransform(rotationAngle: degreesToRadians(degrees: 90))
         
         self.usersVoteBeforePostWasLoaded = post.votes.first {$0.voter == UserService.singleton.getId() }
         self.postEmojiCountTuples = post.emojiCountTuples
-        setupEmojiButtons(topThreeVotes: Array(self.postEmojiCountTuples.prefix(3)))
+        setupEmojiButtons(topThreeVotes: Array(post.emojiCountTuples.prefix(3)))
     }
     
-    func reconfigurePost(updatedPost: Post) {
-        setupEmojiButtons(topThreeVotes: Array(self.postEmojiCountTuples.prefix(3)))
+    func reconfigurePost() {
+        setupEmojiButtons(topThreeVotes: Array(postEmojiCountTuples.prefix(3)))
     }
     
-    // We need to disable the backgroundButton and add a tapGestureRecognizer so that drags can be detected on the tableView. The purpose of the backgroundButton is to prevent taps from dismissing the calloutView when the post is within an annotation on the map
-    func ensureTapsDontPreventScrolling() {
-        backgroundBubbleButton.isUserInteractionEnabled = false
-        fillerButton1.isUserInteractionEnabled = false
-        fillerButton2.isUserInteractionEnabled = false
-        fillerButton3.isUserInteractionEnabled = false
-        fillerButton4.isUserInteractionEnabled = false
-        fillerButton5.isUserInteractionEnabled = false
-
-        backgroundBubbleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(backgroundButtonDidPressed(_:)) ))
-    }
 }
 
 
@@ -290,6 +264,7 @@ extension PostView {
     }
     
     @IBAction func emojiButtonDidPressed(_ sender: EmojiButton) {
+        reactButtonTextField.resignFirstResponder()
         handleEmojiVote(emojiString: sender.emoji)
     }
         

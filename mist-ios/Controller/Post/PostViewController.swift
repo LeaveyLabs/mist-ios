@@ -26,7 +26,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     
     //TableView
     var activityIndicator = UIActivityIndicatorView(style: .medium)
-    @IBOutlet var tableView: UITableView!
+    @IBOutlet var tableView: PostTableView!
     
     //CommentInput
     let keyboardManager = KeyboardManager() //InputBarAccessoryView
@@ -519,7 +519,7 @@ extension PostViewController: PostDelegate {
             try VoteService.singleton.handlePostVoteUpdate(postId: postId, emoji: emoji, action)
         } catch {
 //            post.votecount = originalVoteCount //undo viewController data change
-            (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
+            (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost() //reload data
             CustomSwiftMessages.displayError(error)
         }
     }

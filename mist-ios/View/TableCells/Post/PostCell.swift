@@ -21,7 +21,6 @@ class PostCell: UITableViewCell {
         UIView.performWithoutAnimation { //this is necessary with our current approach to the input accessory view and keyboardlayoutguide. tableview ends up getting animated, but that creates weird animations for the cells, too. so dont allow the cell updates to animate
             postView.configurePost(post: post, delegate: nestedPostViewDelegate) //must come after setting constraints
         }
-        postView.ensureTapsDontPreventScrolling()
     }
     
     //MARK: - Suggestion TableViewCell

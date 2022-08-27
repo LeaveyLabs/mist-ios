@@ -93,7 +93,7 @@ extension ExploreViewController {
             mapView.userLocation.title = "Hey cutie"
         }
         
-        selectedAnnotationView = view
+        selectedAnnotationView = view as? AnnotationViewWithPosts
         mapView.isZoomEnabled = true // AnnotationQuickSelect: 3 of 3, just in case
         switch annotationSelectionType {
         case .swipe:
@@ -147,7 +147,6 @@ extension ExploreViewController {
                           incrementalZoom: false,
                           withDuration: cameraAnimationDuration * 2,
                           completion: { _ in })
-//                mapView.deselectAnnotation(placeAnnotationView.annotation, animated: false)
             }
         }
         annotationSelectionType = .normal // Return to default
@@ -229,7 +228,7 @@ extension ExploreViewController {
                     annotation as? MKClusterAnnotation == clusterAnnotation
                 }
                 guard doesClusterStillExist else { return }
-//            clusterView.loadCarouselView(on: self.mapView, withPostDelegate: self)
+                clusterView.loadCollectionView(on: self.mapView, withPostDelegate: self)
             })
         } else {
             mapView.deselectAnnotation(clusterAnnotation, animated: false)
@@ -249,36 +248,36 @@ extension ExploreViewController {
 extension ExploreViewController: AnnotationViewSwipeDelegate {
 
     func handlePostViewSwipeRight() {
-        guard var index = selectedAnnotationIndex else { return }
-
-        let selectedAnnotationView = selectedAnnotationView as! PostAnnotationView
-        mapView.deselectAnnotation(selectedAnnotationView.annotation, animated: true)
-        index += 1
-        if index == postAnnotations.count {
-            index = 0
-        }
-        let nextAnnotation = postAnnotations[index]
-        annotationSelectionType = .swipe
-        mapView.selectAnnotation(nextAnnotation, animated: true)
+//        guard var index = selectedAnnotationIndex else { return }
+//
+//        let selectedAnnotationView = selectedAnnotationView as! PostAnnotationView
+//        mapView.deselectAnnotation(selectedAnnotationView.annotation, animated: true)
+//        index += 1
+//        if index == postAnnotations.count {
+//            index = 0
+//        }
+//        let nextAnnotation = postAnnotations[index]
+//        annotationSelectionType = .swipe
+//        mapView.selectAnnotation(nextAnnotation, animated: true)
     }
-    
+//    
     func handlePostViewSwipeLeft() {
-        guard var index = selectedAnnotationIndex else { return }
-        
-        //        let postView = pav.postCalloutView!
-        //        postView.animation = "slideLeft"
-        //        postView.duration = 2
-        //        postView.rever
-        
-        let selectedAnnotationView = selectedAnnotationView as! PostAnnotationView
-        mapView.deselectAnnotation(selectedAnnotationView.annotation, animated: true)
-        index -= 1
-        if index == -1 {
-            index = postAnnotations.count-1
-        }
-        let nextAnnotation = postAnnotations[index]
-        annotationSelectionType = .swipe
-        mapView.selectAnnotation(nextAnnotation, animated: true)
+//        guard var index = selectedAnnotationIndex else { return }
+//        
+//        //        let postView = pav.postCalloutView!
+//        //        postView.animation = "slideLeft"
+//        //        postView.duration = 2
+//        //        postView.rever
+//        
+//        let selectedAnnotationView = selectedAnnotationView as! PostAnnotationView
+//        mapView.deselectAnnotation(selectedAnnotationView.annotation, animated: true)
+//        index -= 1
+//        if index == -1 {
+//            index = postAnnotations.count-1
+//        }
+//        let nextAnnotation = postAnnotations[index]
+//        annotationSelectionType = .swipe
+//        mapView.selectAnnotation(nextAnnotation, animated: true)
     }
     
 }

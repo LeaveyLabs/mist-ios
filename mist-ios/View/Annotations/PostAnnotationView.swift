@@ -138,7 +138,7 @@ extension PostAnnotationView {
         ])
         
         let postAnnotation = annotation as! PostAnnotation
-        postCalloutView.configurePost(post: postAnnotation.post, delegate: postDelegate)
+        postCalloutView.configurePost(post: postAnnotation.post, delegate: postDelegate, arrowPosition: .bottom)
 
         //Do i need to call some of these? I dont think so.
 //        mapView.layoutIfNeeded()
@@ -206,16 +206,22 @@ extension PostAnnotationView {
         
         swipeDemoView.fadeIn()
     }
+
+}
+
+//MARK: - AnnotationViewWithPosts
+
+extension PostAnnotationView: AnnotationViewWithPosts {
     
     //The callout is currently presented, and we want to update the postView's UI with the new data
     func rerenderCalloutForUpdatedPostData() {
-        postCalloutView!.reconfigurePost(updatedPost: (annotation as! PostAnnotation).post)
+        postCalloutView!.reconfigurePost()
     }
     
     func movePostUpAfterEmojiKeyboardRaised() {
         layoutIfNeeded()
         UIView.animate(withDuration: 0.25) { [weak self] in
-            self?.constraints.first { $0.firstAnchor == self?.postCalloutView?.bottomAnchor }?.constant = -165
+            self?.constraints.first { $0.firstAnchor == self?.postCalloutView?.bottomAnchor }?.constant = -180
             self?.layoutIfNeeded()
         }
     }
@@ -228,7 +234,6 @@ extension PostAnnotationView {
         }
     }
     
-
 }
 
 //MARK: - PreventAnnotationViewInteractionDelay

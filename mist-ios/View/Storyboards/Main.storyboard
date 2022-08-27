@@ -1131,7 +1131,7 @@ make that cute barista’s day,
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="medium"/>
                                         </state>
                                         <connections>
-                                            <action selector="exploreUserTrackingButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="8Mx-7n-9d5"/>
+                                            <action selector="exploreUserTrackingButtonPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="Xpq-m2-QLa"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -2836,7 +2836,7 @@ make that cute barista’s day,
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="medium"/>
                                         </state>
                                         <connections>
-                                            <action selector="exploreUserTrackingButtonDidPressed:" destination="aeT-Rt-rsD" eventType="touchUpInside" id="7Hk-tp-43o"/>
+                                            <action selector="exploreUserTrackingButtonPressed:" destination="aeT-Rt-rsD" eventType="touchUpInside" id="ynP-Ud-rya"/>
                                         </connections>
                                     </button>
                                 </subviews>

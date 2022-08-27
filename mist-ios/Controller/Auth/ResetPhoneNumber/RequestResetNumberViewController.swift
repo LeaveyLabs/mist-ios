@@ -116,7 +116,7 @@ class RequestResetNumberViewController: KUIViewController, UITextFieldDelegate {
         Task {
             isSubmitting = true
             do {
-                try await AuthAPI.requestResetPassword(email: email)
+                try await PhoneNumberAPI.requestResetEmail(email: email)
                 AuthContext.email = email
                 let vc = ConfirmCodeViewController.create(confirmMethod: .resetPhoneNumberEmail)
                 self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in

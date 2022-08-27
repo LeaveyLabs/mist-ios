@@ -20,7 +20,7 @@ class CommentFlagAPI {
     static let FLAGGER_PARAM = "flagger"
     static let COMMENT_PARAM = "comment"
     
-    static let COMMENT_FLAG_RECOVERY_MESSAGE = "Please try again later"
+    static let COMMENT_FLAG_RECOVERY_MESSAGE = "try again later"
     
     static func filterCommentFlagErrors(data:Data, response:HTTPURLResponse) throws {
         let statusCode = response.statusCode
