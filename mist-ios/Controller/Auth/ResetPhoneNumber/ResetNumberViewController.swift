@@ -133,6 +133,7 @@ class ResetNumberViewController: KUIViewController, UITextFieldDelegate {
         Task {
             do {
                 try await PhoneNumberAPI.requestResetText(email: AuthContext.email, phoneNumber: number, resetToken: AuthContext.resetToken)
+                AuthContext.phoneNumber = number
                 let vc = ConfirmCodeViewController.create(confirmMethod: .resetPhoneNumberText)
                 self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
                     self?.isSubmitting = false
