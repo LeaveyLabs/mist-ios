@@ -1,14 +1,14 @@
 //
-//  CreateProfileViewController.swift
+//  CreateProfileCollectionViewCell.swift
 //  mist-ios
 //
-//  Created by Adam Monterey on 8/25/22.
+//  Created by Adam Monterey on 8/27/22.
 //
 
-import Foundation
 import UIKit
 
-class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
+
+class CreateProfileCollectionViewCell: UICollectionViewCell, UITextFieldDelegate {
     
     @IBOutlet weak var profilePictureButton: UIButton!
     @IBOutlet weak var miniCameraButton: UIButton!
@@ -40,35 +40,19 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
     }
     let defaultPic = UIImage(systemName: "camera.circle")!.withRenderingMode(.alwaysTemplate)
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        shouldNotAnimateKUIAccessoryInputView = true
+    override func awakeFromNib() {
+        super.awakeFromNib()
         profilePic = defaultPic
         setupButtons()
         setupTextFields()
         firstNameTextField.becomeFirstResponder()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func willMove(toSuperview newSuperview: UIView?) {
+        super.willMove(toSuperview: newSuperview)
         setupImagePicker()
         validateInput()
-        disableInteractivePopGesture()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: false)
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        enableInteractivePopGesture()
+//        enableInteractivePopGesture()
     }
     
     //MARK: - Setup
@@ -107,7 +91,7 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func setupImagePicker() {
-        imagePicker = ImagePicker(presentationController: self, delegate: self, pickerSources: [.camera, .photoLibrary])
+//        imagePicker = ImagePicker(presentationController: self, delegate: self, pickerSources: [.camera, .photoLibrary])
     }
     
     //MARK: - TextField Delegate
@@ -155,9 +139,9 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
     
     //MARK: - User Interaction
     
-    @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
-        navigationController?.popViewController(animated: true)
-    }
+//    @IBAction func backButtonDidPressed(_ sender: UIBarButtonItem) {
+//        navigationController?.popViewController(animated: true)
+//    }
     
     @IBAction func didPressedContinueButton(_ sender: UIButton) {
         tryToContinue()
@@ -219,7 +203,7 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
 
 }
 
-extension CreateProfileViewController: ImagePickerDelegate {
+extension CreateProfileCollectionViewCell: ImagePickerDelegate {
 
     func didSelect(image: UIImage?) {
         guard let newImage = image else { return }

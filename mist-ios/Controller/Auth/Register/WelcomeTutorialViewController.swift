@@ -7,32 +7,6 @@
 
 import UIKit
 
-final class CVCell: UICollectionViewCell {
-    let imageView = UIImageView()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        addSubview(imageView)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-                
-        NSLayoutConstraint.activate([
-            imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            imageView.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -60),
-            imageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.8),
-            imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-        ])
-    }
-    
-    func setup(image: UIImage ) {
-        imageView.image = image
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
 class WelcomeTutorialViewController: UIViewController {
     
     let images: [UIImage] = [
@@ -41,47 +15,84 @@ class WelcomeTutorialViewController: UIViewController {
         UIImage(named: "auth-graphic-text-3")!
     ]
     
-  let pageControl = UIPageControl()
+    var hasContinued = false
+    var visibleIndex: Int? = 0
+    
+    let pageControl = UIPageControl()
     var collectionView: UICollectionView!
-
-  override func viewDidLoad() {
-      super.viewDidLoad()
-      let flowLayout = UICollectionViewFlowLayout()
-        let size = UIScreen.main.bounds.size
-      flowLayout.itemSize = CGSize(width: size.width, height: size.height)
-      
-      
-      flowLayout.scrollDirection = .horizontal
-      flowLayout.minimumLineSpacing = 0
-      flowLayout.minimumInteritemSpacing = 0
-      collectionView = UICollectionView(frame: view.frame, collectionViewLayout: flowLayout)
-      collectionView.isPagingEnabled = true
-      
-      view.addSubview(collectionView)
-        view.addSubview(pageControl)
-        pageControl.numberOfPages = images.count
-        pageControl.tintColor = .black
-      collectionView.register(CVCell.self, forCellWithReuseIdentifier: String(describing: CVCell.self))
-        collectionView.reloadData()
-        collectionView.dataSource = self
-      collectionView.bounces = false
-//        collectionView.isAutoscrollEnabled = false
-      collectionView.showsHorizontalScrollIndicator = false
-  }
-
+    
+    //MARK: - Lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupCollectionView()
+        setupPageControl()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        collectionView.frame = view.bounds
-        pageControl.frame.origin.y = view.bounds.maxY - 80 - pageControl.frame.height
-        pageControl.sizeToFit()
-        pageControl.tintColor = Constants.Color.mistLilac
+        navigationController?.setNavigationBarHidden(true, animated: false)
+        collectionView.frame = view.safeAreaLayoutGuide.layoutFrame
+        view.bringSubviewToFront(pageControl)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
+    //MARK: - Setup
+    
+    func setupCollectionView() {
+        let flowLayout = UICollectionViewFlowLayout()
+        let size = UIScreen.main.bounds.size
+        flowLayout.itemSize = CGSize(width: size.width, height: size.height)
+        
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.minimumLineSpacing = 0
+        flowLayout.minimumInteritemSpacing = 0
+        collectionView = UICollectionView(frame: view.frame, collectionViewLayout: flowLayout)
+        collectionView.isPagingEnabled = true
+        
+        view.addSubview(collectionView)
+        view.addSubview(pageControl)
+        collectionView.register(CollectionImageCell.self, forCellWithReuseIdentifier: String(describing: CollectionImageCell.self))
+        
+  //      let nib = UINib(nibName: String(describing: CreateProfileCollectionViewCell.self), bundle: nil)
+  //      collectionView.register(nib, forCellWithReuseIdentifier: String(describing: CreateProfileCollectionViewCell.self))
+        collectionView.reloadData()
+        
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.bounces = true
+        collectionView.showsHorizontalScrollIndicator = false
+    }
+    
+    func setupPageControl() {
+        pageControl.numberOfPages = images.count + 1
+        pageControl.pageIndicatorTintColor = Constants.Color.mistLilac.withAlphaComponent(0.3)
+        pageControl.currentPageIndicatorTintColor = Constants.Color.mistLilac
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            pageControl.widthAnchor.constraint(equalToConstant: 200),
+            pageControl.heightAnchor.constraint(equalToConstant: 100),
+            pageControl.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(window?.safeAreaInsets.bottom ?? 0)),
+        ])
+    }
+    
+    //MARK: - Helpers
+    
+    func tryToContinue() {
+        let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.CreateProfile)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
 extension WelcomeTutorialViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CVCell.self), for: indexPath) as! CVCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CollectionImageCell.self), for: indexPath) as! CollectionImageCell
         cell.setup(image: images[indexPath.section])
         return cell
     }
@@ -93,19 +104,43 @@ extension WelcomeTutorialViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         1
     }
+}
+
+extension WelcomeTutorialViewController: UICollectionViewDelegate {
     
-//    var numberOfItems: Int {
-//        return images.count
-//    }
-//
-//    func carouselCollectionView(_ carouselCollectionView: CarouselCollectionView, cellForItemAt index: Int, fakeIndexPath: IndexPath) -> UICollectionViewCell {
-//    }
-//
-//    func carouselCollectionView(_ carouselCollectionView: CarouselCollectionView, didSelectItemAt index: Int) {
-//        print("Did select item at \(index)")
-//    }
-//
-//    func carouselCollectionView(_ carouselCollectionView: CarouselCollectionView, didDisplayItemAt index: Int) {
-//        pageControl.currentPage = index
-//    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let xvelocity = collectionView.panGestureRecognizer.velocity(in: view).x
+        let xtranslation = collectionView.panGestureRecognizer.translation(in: view).x
+        if let visibleIndex = visibleIndex, visibleIndex == 2, xtranslation < 0 {
+            if !hasContinued {
+                hasContinued = true
+                tryToContinue()
+            }
+        }
+        
+        
+        recalculatePageControlCurrentPage(scrollView)
+    }
+    
+    func recalculatePageControlCurrentPage(_ scrollView: UIScrollView) {
+        let offSet = scrollView.contentOffset.x
+        let width = scrollView.frame.width
+        let horizontalCenter = width / 2
+        pageControl.currentPage = Int(offSet + horizontalCenter) / Int(width)
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        stoppedScrolling()
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if !decelerate {
+            stoppedScrolling()
+        }
+    }
+    
+    func stoppedScrolling() {
+        visibleIndex = collectionView.indexPathsForVisibleItems.first?.section
+    }
+    
 }

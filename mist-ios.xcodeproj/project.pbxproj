@@ -559,6 +559,12 @@
 		5BC2531028BACFAC00D4F49A /* PostTableCollectionViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2530E28BACFAC00D4F49A /* PostTableCollectionViews.swift */; };
 		5BC2531228BB1A6800D4F49A /* CarouselCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531128BB1A6800D4F49A /* CarouselCollectionView.swift */; };
 		5BC2531328BB1A6800D4F49A /* CarouselCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531128BB1A6800D4F49A /* CarouselCollectionView.swift */; };
+		5BC2531628BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531428BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift */; };
+		5BC2531728BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531428BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift */; };
+		5BC2531828BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2531528BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib */; };
+		5BC2531928BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2531528BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib */; };
+		5BC2531B28BC0EC300D4F49A /* CollectionImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531A28BC0EC300D4F49A /* CollectionImageCell.swift */; };
+		5BC2531C28BC0EC300D4F49A /* CollectionImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531A28BC0EC300D4F49A /* CollectionImageCell.swift */; };
 		5BC25A9428990999005AAF69 /* EmojiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9328990999005AAF69 /* EmojiButton.swift */; };
 		5BC25A96289909ED005AAF69 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A95289909ED005AAF69 /* ToggleButton.swift */; };
 		5BC25A9828990BF9005AAF69 /* EmojiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9328990999005AAF69 /* EmojiButton.swift */; };
@@ -923,6 +929,9 @@
 		5BC2530628BA683700D4F49A /* ClusterCarouselCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterCarouselCell.swift; sourceTree = "<group>"; };
 		5BC2530E28BACFAC00D4F49A /* PostTableCollectionViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableCollectionViews.swift; sourceTree = "<group>"; };
 		5BC2531128BB1A6800D4F49A /* CarouselCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselCollectionView.swift; sourceTree = "<group>"; };
+		5BC2531428BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileCollectionViewCell.swift; sourceTree = "<group>"; };
+		5BC2531528BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateProfileCollectionViewCell.xib; sourceTree = "<group>"; };
+		5BC2531A28BC0EC300D4F49A /* CollectionImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionImageCell.swift; sourceTree = "<group>"; };
 		5BC25A9328990999005AAF69 /* EmojiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiButton.swift; sourceTree = "<group>"; };
 		5BC25A95289909ED005AAF69 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		5BC25A9D28991A2B005AAF69 /* Numbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numbers.swift; sourceTree = "<group>"; };
@@ -1746,6 +1755,9 @@
 				5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */,
 				5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */,
 				5BAD62692875500E00DCFE45 /* InformationCollectionCell.xib */,
+				5BC2531428BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift */,
+				5BC2531528BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib */,
+				5BC2531A28BC0EC300D4F49A /* CollectionImageCell.swift */,
 			);
 			path = CollectionCells;
 			sourceTree = "<group>";
@@ -2130,6 +2142,7 @@
 				5BCE5F7F28B467AB002078E1 /* CommentHeaderCell.xib in Resources */,
 				5BB624B428620D5F00DCD45B /* CustomCardView.xib in Resources */,
 				5BC2763E286AE9BD00DA5A3D /* Loading.storyboard in Resources */,
+				5BC2531828BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib in Resources */,
 				5BCD490C287149210002BD02 /* WantToChatView.xib in Resources */,
 				5B739D6E2891F9DF00E4EED0 /* GoogleService-Info.plist in Resources */,
 				470F271D27DE764F00C6DDAF /* UserResultCell.xib in Resources */,
@@ -2177,6 +2190,7 @@
 				5BCE5F8028B467AB002078E1 /* CommentHeaderCell.xib in Resources */,
 				5B739E7F28935B9500E4EED0 /* CustomCardView.xib in Resources */,
 				5B739E8028935B9500E4EED0 /* Loading.storyboard in Resources */,
+				5BC2531928BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib in Resources */,
 				5B739E8128935B9500E4EED0 /* WantToChatView.xib in Resources */,
 				5B739E97289368A800E4EED0 /* GoogleService-Info.plist in Resources */,
 				5B739E8328935B9500E4EED0 /* UserResultCell.xib in Resources */,
@@ -2354,6 +2368,7 @@
 				5BD6F47E2896B3020002A60B /* StringChat+Emoji.swift in Sources */,
 				47F10DC12852CFE100E1A3DC /* UIImage+FromColor.swift in Sources */,
 				4718331228445A7C0061F9F3 /* UIView+PostBubble.swift in Sources */,
+				5BC2531628BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift in Sources */,
 				47F10DC72853DA0600E1A3DC /* UIImage+Blur.swift in Sources */,
 				43529E2B2890BC5900B3A484 /* CommentFlag.swift in Sources */,
 				5B37A36B28784A4B00279B2A /* EnterBiosViewController.swift in Sources */,
@@ -2464,6 +2479,7 @@
 				47061CD228511C750042F04C /* MapSearchResultType.swift in Sources */,
 				5BE14739289EB6EA0096FEBE /* TagAutocompleteCell.swift in Sources */,
 				4700F8C627DE4652006C2E08 /* ExploreViewController.swift in Sources */,
+				5BC2531B28BC0EC300D4F49A /* CollectionImageCell.swift in Sources */,
 				5BE110062876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift in Sources */,
 				475B1F8B27FB86C000ED59CD /* ConversationsViewController.swift in Sources */,
 				5BAD626F2876661500DCFE45 /* UIViewController+MistShareActivity.swift in Sources */,
@@ -2650,6 +2666,7 @@
 				5B739DE328935B9500E4EED0 /* ExploreViewController+Search.swift in Sources */,
 				5B739DE428935B9500E4EED0 /* UITextView+MaxLength.swift in Sources */,
 				5B235B0528ADE43800FD27A9 /* ConfirmNumberViewController.swift in Sources */,
+				5BC2531728BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift in Sources */,
 				5B739DE528935B9500E4EED0 /* UIImage+FromColor.swift in Sources */,
 				5B739DE628935B9500E4EED0 /* UIView+PostBubble.swift in Sources */,
 				5B739DE728935B9500E4EED0 /* UIImage+Blur.swift in Sources */,
@@ -2760,6 +2777,7 @@
 				5B739E4128935B9500E4EED0 /* ConversationsViewController.swift in Sources */,
 				5B739E4228935B9500E4EED0 /* UIViewController+MistShareActivity.swift in Sources */,
 				5B739E4328935B9500E4EED0 /* Conversation.swift in Sources */,
+				5BC2531C28BC0EC300D4F49A /* CollectionImageCell.swift in Sources */,
 				5B739E4428935B9500E4EED0 /* EnterNameViewController.swift in Sources */,
 				5B739E4528935B9500E4EED0 /* AccountSection.swift in Sources */,
 				5B739E4628935B9500E4EED0 /* ButtonConfigs.swift in Sources */,

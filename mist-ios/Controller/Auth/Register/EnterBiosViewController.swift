@@ -224,7 +224,7 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
         }
         AuthContext.dob = dobComponents[2] + "-" + dobComponents[0] + "-" + dobComponents[1]
         AuthContext.sex = sex.databaseName
-        let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.CreateProfile)
+        let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.WelcomeTutorial)
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
