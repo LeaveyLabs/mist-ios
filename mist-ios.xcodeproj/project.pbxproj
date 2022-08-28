@@ -557,6 +557,8 @@
 		5BC2530D28BA8AD300D4F49A /* CenteredCollectionView in Frameworks */ = {isa = PBXBuildFile; productRef = 5BC2530C28BA8AD300D4F49A /* CenteredCollectionView */; };
 		5BC2530F28BACFAC00D4F49A /* PostTableCollectionViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2530E28BACFAC00D4F49A /* PostTableCollectionViews.swift */; };
 		5BC2531028BACFAC00D4F49A /* PostTableCollectionViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2530E28BACFAC00D4F49A /* PostTableCollectionViews.swift */; };
+		5BC2531228BB1A6800D4F49A /* CarouselCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531128BB1A6800D4F49A /* CarouselCollectionView.swift */; };
+		5BC2531328BB1A6800D4F49A /* CarouselCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531128BB1A6800D4F49A /* CarouselCollectionView.swift */; };
 		5BC25A9428990999005AAF69 /* EmojiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9328990999005AAF69 /* EmojiButton.swift */; };
 		5BC25A96289909ED005AAF69 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A95289909ED005AAF69 /* ToggleButton.swift */; };
 		5BC25A9828990BF9005AAF69 /* EmojiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9328990999005AAF69 /* EmojiButton.swift */; };
@@ -920,6 +922,7 @@
 		5BBF5C4F289B9FB6000B2D31 /* InputAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAvatar.swift; sourceTree = "<group>"; };
 		5BC2530628BA683700D4F49A /* ClusterCarouselCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterCarouselCell.swift; sourceTree = "<group>"; };
 		5BC2530E28BACFAC00D4F49A /* PostTableCollectionViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableCollectionViews.swift; sourceTree = "<group>"; };
+		5BC2531128BB1A6800D4F49A /* CarouselCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselCollectionView.swift; sourceTree = "<group>"; };
 		5BC25A9328990999005AAF69 /* EmojiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiButton.swift; sourceTree = "<group>"; };
 		5BC25A95289909ED005AAF69 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		5BC25A9D28991A2B005AAF69 /* Numbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numbers.swift; sourceTree = "<group>"; };
@@ -1043,6 +1046,7 @@
 				5BE110002876CD6C00CB54A6 /* ResetPhoneNumber */,
 				5B1F16CC28791EF700035F93 /* Misc */,
 				5B879E7428B6F3E700D2DFC1 /* Decomissioned */,
+				5BC2531128BB1A6800D4F49A /* CarouselCollectionView.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -2340,6 +2344,7 @@
 				5B879E7A28B804B900D2DFC1 /* ConfirmCodeViewController.swift in Sources */,
 				47CE900A27E058090004B756 /* PinMapViewController.swift in Sources */,
 				47C2834F27DED77500A19128 /* FeedHeaderCell.swift in Sources */,
+				5BC2531228BB1A6800D4F49A /* CarouselCollectionView.swift in Sources */,
 				470F271327DE6F5800C6DDAF /* SearchSuggestionsTableViewController.swift in Sources */,
 				4369DB0C282EC465009215D4 /* Message.swift in Sources */,
 				47C1D49127DF00B200970B3D /* PostMoreViewController.swift in Sources */,
@@ -2635,6 +2640,7 @@
 				5B879E7B28B804B900D2DFC1 /* ConfirmCodeViewController.swift in Sources */,
 				5B739DDB28935B9500E4EED0 /* VoteService.swift in Sources */,
 				5B739DDC28935B9500E4EED0 /* SpringView.swift in Sources */,
+				5BC2531328BB1A6800D4F49A /* CarouselCollectionView.swift in Sources */,
 				5B739DDD28935B9500E4EED0 /* PinMapViewController.swift in Sources */,
 				5B739DDE28935B9500E4EED0 /* FeedHeaderCell.swift in Sources */,
 				5B739DDF28935B9500E4EED0 /* SearchSuggestionsTableViewController.swift in Sources */,

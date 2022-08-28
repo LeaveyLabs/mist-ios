@@ -1474,7 +1474,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2gn-68-2pK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1300" y="2210"/>
+            <point key="canvasLocation" x="594" y="2210"/>
         </scene>
         <!--ChooseUsernameViewController-->
         <scene sceneID="Rds-k8-DSy">
@@ -1961,6 +1961,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SLj-a5-PhC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-3075" y="2747"/>
+        </scene>
+        <!--Welcome Tutorial View Controller-->
+        <scene sceneID="7UF-nl-cIa">
+            <objects>
+                <viewController storyboardIdentifier="WelcomeTutorialViewController" id="pXo-RR-OUG" customClass="WelcomeTutorialViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4X8-tb-CNn">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="fuh-wy-7Sz"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WaF-Eu-lcz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1321.7391304347827" y="2209.8214285714284"/>
         </scene>
         <!--CreateProfileViewController-->
         <scene sceneID="cgm-Pz-lOI">
