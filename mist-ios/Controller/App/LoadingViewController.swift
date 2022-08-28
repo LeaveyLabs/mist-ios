@@ -72,7 +72,7 @@ class LoadingViewController: UIViewController {
     func goToAuth() {
         DispatchQueue.main.asyncAfter(deadline: .now() + Env.TRANSITION_TO_AUTH_DURATION) {
             transitionToStoryboard(storyboardID: Constants.SBID.SB.Auth,
-                                    viewControllerID: Constants.SBID.VC.AuthNavigation,
+                                    viewControllerID: Constants.SBID.VC.CreateProfile,
                                     duration: Env.TRANSITION_TO_HOME_DURATION) { _ in}
         }
     }

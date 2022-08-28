@@ -1992,99 +1992,122 @@
                                         <color key="textColor" name="mist-lilac"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pEA-A4-6g7">
-                                        <rect key="frame" x="152" y="48" width="110" height="110"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Lse-OU-6Jd">
+                                        <rect key="frame" x="25" y="41" width="364" height="673"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iEB-ab-5ti">
+                                                <rect key="frame" x="0.0" y="0.0" width="364" height="217.66666666666666"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U2r-97-GbF">
+                                                <rect key="frame" x="0.0" y="229.66666666666669" width="364" height="110"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pEA-A4-6g7">
+                                                        <rect key="frame" x="127" y="0.0" width="110" height="110"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="110" id="2Vh-hZ-x2z"/>
+                                                            <constraint firstAttribute="height" constant="110" id="ePX-Hn-BBN"/>
+                                                        </constraints>
+                                                        <color key="tintColor" systemColor="systemGray3Color"/>
+                                                        <state key="normal" image="camera.circle" catalog="system">
+                                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="100"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="didPressedChoosePhotoButton:" destination="AOZ-sr-0WT" eventType="touchUpInside" id="01c-5R-axF"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eeI-d3-g4H">
+                                                        <rect key="frame" x="191" y="72" width="40" height="40"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="40" id="Iux-Vm-LVs"/>
+                                                            <constraint firstAttribute="height" constant="40" id="Zsf-nG-Iyg"/>
+                                                        </constraints>
+                                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal">
+                                                            <imageReference key="image" image="camera.circle.fill" catalog="system" symbolScale="default"/>
+                                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="40"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="didPressedChoosePhotoButton:" destination="AOZ-sr-0WT" eventType="touchUpInside" id="gB6-fo-LVS"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstItem="eeI-d3-g4H" firstAttribute="top" secondItem="pEA-A4-6g7" secondAttribute="bottom" constant="-38" id="8iY-Hg-fDD"/>
+                                                    <constraint firstItem="eeI-d3-g4H" firstAttribute="leading" secondItem="pEA-A4-6g7" secondAttribute="trailing" constant="-46" id="H7n-b4-ya5"/>
+                                                    <constraint firstItem="pEA-A4-6g7" firstAttribute="centerX" secondItem="U2r-97-GbF" secondAttribute="centerX" id="S50-HZ-Pru"/>
+                                                    <constraint firstItem="pEA-A4-6g7" firstAttribute="centerY" secondItem="U2r-97-GbF" secondAttribute="centerY" id="cts-SN-YDS"/>
+                                                    <constraint firstAttribute="height" constant="110" id="jFP-WK-8Y7"/>
+                                                </constraints>
+                                            </view>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="6Sc-da-q0J">
+                                                <rect key="frame" x="0.0" y="351.66666666666669" width="364" height="40"/>
+                                                <subviews>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="First name" textAlignment="justified" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e96-7D-RFG">
+                                                        <rect key="frame" x="0.0" y="0.0" width="174.66666666666666" height="40"/>
+                                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                                        <color key="tintColor" name="mist-lilac"/>
+                                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" returnKeyType="next" textContentType="given-name"/>
+                                                        <connections>
+                                                            <action selector="textFieldEditingChanged:" destination="dKQ-xP-oHK" eventType="editingChanged" id="7A5-aW-L4k"/>
+                                                            <action selector="textFieldEditingChanged:" destination="AOZ-sr-0WT" eventType="editingChanged" id="Iq8-Qk-oyv"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="Last name" textAlignment="justified" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5wL-23-2qx">
+                                                        <rect key="frame" x="189.66666666666663" y="0.0" width="174.33333333333337" height="40"/>
+                                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" returnKeyType="continue" textContentType="family-name"/>
+                                                        <connections>
+                                                            <action selector="textFieldEditingChanged:" destination="dKQ-xP-oHK" eventType="editingChanged" id="hM1-qR-gP9"/>
+                                                            <action selector="textFieldEditingChanged:" destination="AOZ-sr-0WT" eventType="editingChanged" id="vP2-Mj-YiO"/>
+                                                        </connections>
+                                                    </textField>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="5wL-23-2qx" firstAttribute="width" secondItem="e96-7D-RFG" secondAttribute="width" id="lOV-Da-7wL"/>
+                                                    <constraint firstAttribute="height" constant="40" id="lhm-4T-ea2"/>
+                                                </constraints>
+                                            </stackView>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="username" textAlignment="justified" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xtl-9u-kDf">
+                                                <rect key="frame" x="0.0" y="403.66666666666663" width="364" height="40"/>
+                                                <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="w62-Hy-UNi"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="continue"/>
+                                                <connections>
+                                                    <action selector="textFieldEditingChanged:" destination="tiY-QX-h2V" eventType="editingChanged" id="LIA-Iz-x3Y"/>
+                                                    <action selector="textFieldEditingChanged:" destination="AOZ-sr-0WT" eventType="editingChanged" id="Pf4-t3-IYE"/>
+                                                </connections>
+                                            </textField>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RkT-Um-LaN">
+                                                <rect key="frame" x="0.0" y="455.66666666666657" width="364" height="217.33333333333331"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            </view>
+                                        </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="110" id="2Vh-hZ-x2z"/>
-                                            <constraint firstAttribute="height" constant="110" id="ePX-Hn-BBN"/>
+                                            <constraint firstItem="RkT-Um-LaN" firstAttribute="height" secondItem="iEB-ab-5ti" secondAttribute="height" id="QZA-it-Tb7"/>
                                         </constraints>
-                                        <color key="tintColor" systemColor="systemGray3Color"/>
-                                        <state key="normal" image="camera.circle" catalog="system">
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="100"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="didPressedChoosePhotoButton:" destination="AOZ-sr-0WT" eventType="touchUpInside" id="01c-5R-axF"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eeI-d3-g4H">
-                                        <rect key="frame" x="216" y="120" width="40" height="40"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="40" id="Iux-Vm-LVs"/>
-                                            <constraint firstAttribute="height" constant="40" id="Zsf-nG-Iyg"/>
-                                        </constraints>
-                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal">
-                                            <imageReference key="image" image="camera.circle.fill" catalog="system" symbolScale="default"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="40"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="didPressedChoosePhotoButton:" destination="AOZ-sr-0WT" eventType="touchUpInside" id="gB6-fo-LVS"/>
-                                        </connections>
-                                    </button>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="First name" textAlignment="justified" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e96-7D-RFG">
-                                        <rect key="frame" x="26" y="173" width="174" height="40"/>
-                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
-                                        <color key="tintColor" name="mist-lilac"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="4Qp-aX-ghn"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" returnKeyType="next" textContentType="given-name"/>
-                                        <connections>
-                                            <action selector="textFieldEditingChanged:" destination="dKQ-xP-oHK" eventType="editingChanged" id="7A5-aW-L4k"/>
-                                            <action selector="textFieldEditingChanged:" destination="AOZ-sr-0WT" eventType="editingChanged" id="Iq8-Qk-oyv"/>
-                                        </connections>
-                                    </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="Last name" textAlignment="justified" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5wL-23-2qx">
-                                        <rect key="frame" x="215" y="173" width="174" height="40"/>
-                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="Hel-9D-gXd"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" returnKeyType="continue" textContentType="family-name"/>
-                                        <connections>
-                                            <action selector="textFieldEditingChanged:" destination="dKQ-xP-oHK" eventType="editingChanged" id="hM1-qR-gP9"/>
-                                            <action selector="textFieldEditingChanged:" destination="AOZ-sr-0WT" eventType="editingChanged" id="vP2-Mj-YiO"/>
-                                        </connections>
-                                    </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="username" textAlignment="justified" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xtl-9u-kDf">
-                                        <rect key="frame" x="25" y="223" width="364" height="40"/>
-                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="w62-Hy-UNi"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="continue"/>
-                                        <connections>
-                                            <action selector="textFieldEditingChanged:" destination="tiY-QX-h2V" eventType="editingChanged" id="LIA-Iz-x3Y"/>
-                                            <action selector="textFieldEditingChanged:" destination="AOZ-sr-0WT" eventType="editingChanged" id="Pf4-t3-IYE"/>
-                                        </connections>
-                                    </textField>
+                                    </stackView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="7vR-Nk-LEZ" firstAttribute="leading" secondItem="tQp-Gl-L1J" secondAttribute="leading" constant="25" id="0Yy-dk-QyM"/>
-                                    <constraint firstAttribute="trailing" secondItem="5wL-23-2qx" secondAttribute="trailing" constant="25" id="0bb-rx-1GF"/>
-                                    <constraint firstAttribute="trailing" secondItem="Xtl-9u-kDf" secondAttribute="trailing" constant="25" id="DD9-U3-Pk3"/>
-                                    <constraint firstItem="5wL-23-2qx" firstAttribute="width" secondItem="e96-7D-RFG" secondAttribute="width" id="Ee8-3m-j5t"/>
-                                    <constraint firstItem="e96-7D-RFG" firstAttribute="top" secondItem="pEA-A4-6g7" secondAttribute="bottom" constant="15" id="G2c-zS-afH"/>
+                                    <constraint firstItem="YRm-De-Mrc" firstAttribute="top" secondItem="Lse-OU-6Jd" secondAttribute="bottom" id="EkC-nV-VBK"/>
                                     <constraint firstAttribute="bottom" secondItem="YRm-De-Mrc" secondAttribute="bottom" constant="15" id="GdU-de-Z7r"/>
-                                    <constraint firstItem="eeI-d3-g4H" firstAttribute="top" secondItem="pEA-A4-6g7" secondAttribute="bottom" constant="-38" id="KCX-YP-fsg"/>
                                     <constraint firstItem="7vR-Nk-LEZ" firstAttribute="top" secondItem="tQp-Gl-L1J" secondAttribute="top" id="LKi-9I-9Fp"/>
-                                    <constraint firstItem="Xtl-9u-kDf" firstAttribute="leading" secondItem="tQp-Gl-L1J" secondAttribute="leading" constant="25" id="N2D-gh-vXh"/>
-                                    <constraint firstItem="5wL-23-2qx" firstAttribute="centerY" secondItem="e96-7D-RFG" secondAttribute="centerY" id="NOp-58-g5L"/>
-                                    <constraint firstItem="5wL-23-2qx" firstAttribute="leading" secondItem="e96-7D-RFG" secondAttribute="trailing" constant="15" id="Owh-7w-KlP"/>
+                                    <constraint firstItem="Lse-OU-6Jd" firstAttribute="leading" secondItem="tQp-Gl-L1J" secondAttribute="leading" constant="25" id="QB3-Vk-Md5"/>
                                     <constraint firstAttribute="trailing" secondItem="YRm-De-Mrc" secondAttribute="trailing" constant="25" id="SDy-xb-sQg"/>
+                                    <constraint firstItem="Lse-OU-6Jd" firstAttribute="top" secondItem="7vR-Nk-LEZ" secondAttribute="bottom" id="STu-5U-MI6"/>
                                     <constraint firstAttribute="trailing" secondItem="7vR-Nk-LEZ" secondAttribute="trailing" constant="25" id="Tc4-Of-hfz"/>
+                                    <constraint firstAttribute="trailing" secondItem="Lse-OU-6Jd" secondAttribute="trailing" constant="25" id="U9N-Zd-751"/>
                                     <constraint firstItem="YRm-De-Mrc" firstAttribute="leading" secondItem="tQp-Gl-L1J" secondAttribute="leading" constant="25" id="bEM-9f-Jq0"/>
-                                    <constraint firstItem="pEA-A4-6g7" firstAttribute="centerX" secondItem="tQp-Gl-L1J" secondAttribute="centerX" id="eP7-IY-FuJ"/>
-                                    <constraint firstItem="Xtl-9u-kDf" firstAttribute="top" secondItem="e96-7D-RFG" secondAttribute="bottom" constant="10" id="jCF-97-0cG"/>
-                                    <constraint firstItem="pEA-A4-6g7" firstAttribute="top" secondItem="7vR-Nk-LEZ" secondAttribute="bottom" constant="7" id="kCA-sG-vWt"/>
-                                    <constraint firstItem="e96-7D-RFG" firstAttribute="leading" secondItem="tQp-Gl-L1J" secondAttribute="leading" constant="26" id="sZv-9B-1LC"/>
-                                    <constraint firstItem="eeI-d3-g4H" firstAttribute="leading" secondItem="pEA-A4-6g7" secondAttribute="trailing" constant="-46" id="vv8-rh-Qeg"/>
                                 </constraints>
                             </view>
                         </subviews>
