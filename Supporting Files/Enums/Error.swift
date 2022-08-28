@@ -23,25 +23,25 @@ enum APIError: Error, Equatable {
     public var errorDescription: String? {
         switch self {
         case .CouldNotConnect:
-            return NSLocalizedString("Poor internet connection", comment: "")
+            return NSLocalizedString("poor internet connection", comment: "")
         case .ServerError:
-            return NSLocalizedString("Our servers are down", comment: "")
+            return NSLocalizedString("our servers are down", comment: "")
         case .ClientError(let errorDescription, _):
-            return NSLocalizedString(errorDescription, comment: "")
+            return NSLocalizedString(errorDescription.lowercased(), comment: "")
         case .Unauthorized:
-            return NSLocalizedString("Something went wrong", comment: "")
+            return NSLocalizedString("something went wrong", comment: "")
         case .Forbidden:
-            return NSLocalizedString("Something went wrong", comment: "")
+            return NSLocalizedString("something went wrong", comment: "")
         case .NotFound:
-            return NSLocalizedString("Something went wrong", comment: "")
+            return NSLocalizedString("something went wrong", comment: "")
         case .Timeout:
-            return NSLocalizedString("Something went wrong", comment: "")
+            return NSLocalizedString("something went wrong", comment: "")
         case .Throttled:
-            return NSLocalizedString("Too many requests", comment: "")
+            return NSLocalizedString("too many requests", comment: "")
         case .NoResponse:
-            return NSLocalizedString("Something went wrong", comment: "")
+            return NSLocalizedString("something went wrong", comment: "")
         case .Unknown:
-            return NSLocalizedString("Something went wrong", comment: "")
+            return NSLocalizedString("something went wrong", comment: "")
         }
     }
     
@@ -50,25 +50,25 @@ enum APIError: Error, Equatable {
     public var recoverySuggestion: String? {
         switch self {
         case .CouldNotConnect:
-            return NSLocalizedString("Try again later", comment: "")
+            return NSLocalizedString("try again later", comment: "")
         case .ServerError:
-            return NSLocalizedString("Try again later", comment: "")
+            return NSLocalizedString("try again later", comment: "")
         case .ClientError(_, let recoverySuggession):
-            return NSLocalizedString(recoverySuggession, comment: "")
+            return NSLocalizedString(recoverySuggession.lowercased(), comment: "")
         case .Unauthorized:
-            return NSLocalizedString("Try again later", comment: "")
+            return NSLocalizedString("try again later", comment: "")
         case .Forbidden:
-            return NSLocalizedString("Try again later", comment: "")
+            return NSLocalizedString("try again later", comment: "")
         case .NotFound:
-            return NSLocalizedString("Try again later", comment: "")
+            return NSLocalizedString("try again later", comment: "")
         case .Timeout:
-            return NSLocalizedString("Try again later", comment: "")
+            return NSLocalizedString("try again later", comment: "")
         case .Throttled:
-            return NSLocalizedString("Yo chill out", comment: "")
+            return NSLocalizedString("yo chill out", comment: "")
         case .NoResponse:
-            return NSLocalizedString("Try again later", comment: "")
+            return NSLocalizedString("try again later", comment: "")
         case .Unknown:
-            return NSLocalizedString("Try again later", comment: "")
+            return NSLocalizedString("try again later", comment: "")
         }
     }
 }
