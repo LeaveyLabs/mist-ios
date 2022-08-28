@@ -265,6 +265,7 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
         case .resetPhoneNumberText:
             try await PhoneNumberAPI.validateResetText(phoneNumber: AuthContext.phoneNumber, code: validationCode, resetToken: AuthContext.resetToken)
         case .loginText:
+            print(AuthContext.phoneNumber, validationCode, validationCode)
             let authToken = try await PhoneNumberAPI.validateLoginCode(phoneNumber: AuthContext.phoneNumber, code: validationCode)
             try await UserService.singleton.logInWith(authToken: authToken)
             try await loadEverything()

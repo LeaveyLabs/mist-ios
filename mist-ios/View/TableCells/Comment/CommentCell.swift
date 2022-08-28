@@ -53,6 +53,9 @@ class CommentCell: UITableViewCell {
             authorProfilePicButton.imageView?.becomeProfilePicImageView(with: author.profilePic)
         }
         setupCommentTextView(text: comment.body, tags: comment.tags, delegate: delegate)
+//        if (comment.id == 249) {
+//            print("votecount", comment.votecount)
+//        }
         setupVoteButton(comment.votecount)
         authorUsernameButton.setImage(nil, for: .normal)
         
@@ -73,8 +76,8 @@ class CommentCell: UITableViewCell {
         voteLabelButton.setTitleColor(.lightGray, for: .normal)
         
         let didLikeThisComment = VoteService.singleton.voteForComment(commentId: comment.id) != nil
-
-        voteLabelButton.setTitle(votecount == 0 ? "" : String(votecount), for: .normal)
+        
+        voteLabelButton.setTitle(votecount == 0 ? "" : String(didLikeThisComment ? votecount - 1 : votecount), for: .normal)
         voteLabelButton.setTitle(votecount == 0 ? "1" : String(didLikeThisComment ? votecount : votecount + 1), for: .selected)
         voteButton.isSelected = didLikeThisComment
         voteLabelButton.isSelected = didLikeThisComment

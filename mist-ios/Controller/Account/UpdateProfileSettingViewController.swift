@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MyProfileSettingViewController: UITableViewController {
+class UpdateProfileSettingViewController: UITableViewController {
 
     //MARK: - Properties
     
@@ -185,10 +185,12 @@ class MyProfileSettingViewController: UITableViewController {
             if indexPath.row == 0 {
                 cell.textField.text = firstName
                 firstNameTextField = cell.textField
+                firstNameTextField.autocapitalizationType = .words
                 cell.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             } else {
                 cell.textField.text = lastName
                 lastNameTextField = cell.textField
+                lastNameTextField.autocapitalizationType = .words
                 cell.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             }
         } else {
@@ -269,7 +271,7 @@ class MyProfileSettingViewController: UITableViewController {
 
 // UITextField Target
 
-extension MyProfileSettingViewController: UITextFieldDelegate {
+extension UpdateProfileSettingViewController: UITextFieldDelegate {
     
     @objc func textFieldDidChange(_ textField: UITextField) {
         guard let newText = textField.text else { return }
@@ -288,7 +290,7 @@ extension MyProfileSettingViewController: UITextFieldDelegate {
     }
 }
 
-extension MyProfileSettingViewController: ImagePickerDelegate {
+extension UpdateProfileSettingViewController: ImagePickerDelegate {
 
     func didSelect(image: UIImage?) {
         guard let newImage = image else { return }

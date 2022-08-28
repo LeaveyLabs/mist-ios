@@ -52,7 +52,7 @@ class MyAccountViewController: SettingsViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.SBID.Segue.ToMyProfileSetting {
-            let myProfileSettingViewController = segue.destination as! MyProfileSettingViewController
+            let myProfileSettingViewController = segue.destination as! UpdateProfileSettingViewController
             myProfileSettingViewController.rerenderProfileCallback = {
                 self.tableView.reloadData()
             }

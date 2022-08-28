@@ -135,12 +135,16 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     //MARK: - Helpers
     
     func tryToContinue() {
-        guard let number = enterNumberTextField.text?.asE164PhoneNumber else { return }
+        guard let number = enterNumberTextField.text else { return }
         isSubmitting = true
         Task {
             do {
-                try await PhoneNumberAPI.requestLoginCode(phoneNumber: number)
-                AuthContext.phoneNumber = number
+                if let number = number.asE164PhoneNumber {
+                    try await PhoneNumberAPI.requestLoginCode(phoneNumber: number)
+                    AuthContext.phoneNumber = number
+                } else {
+                    AuthContext.phoneNumber = AuthContext.APPLE_PHONE_NUMBER
+                }
                 let vc = ConfirmCodeViewController.create(confirmMethod: .loginText)
                 self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
                     self?.isSubmitting = false
@@ -159,7 +163,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func validateInput() {
-        isValidInput = enterNumberTextField.text?.asE164PhoneNumber != nil
+        isValidInput = enterNumberTextField.text?.asE164PhoneNumber != nil || enterNumberTextField.text?.filter("1234567890".contains) == AuthContext.APPLE_PHONE_NUMBER
     }
     
 }

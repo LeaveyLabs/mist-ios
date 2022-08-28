@@ -69,7 +69,7 @@ class RequestResetNumberViewController: KUIViewController, UITextFieldDelegate {
     
     func setupBackButton() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(goBack))
-        navigationItem.leftBarButtonItem?.tintColor = Constants.Color.mistBlack
+        navigationController?.navigationBar.tintColor = Constants.Color.mistBlack
     }
     
     //MARK: - User Interaction

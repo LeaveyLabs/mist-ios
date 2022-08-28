@@ -356,6 +356,13 @@ extension PostViewController {
         Task {
             do {
                 comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
+//                
+//                comments.forEach { comment in
+//                    if (comment.id == 249) {
+//                        print("votecount", comment.votecount)
+//                    }
+//                }
+                
                 commentAuthors = try await UsersService.singleton.loadAndCacheUsers(users: comments.map { $0.read_only_author } )
 //                loadFakeProfilesWhenAWSIsDown()
                 DispatchQueue.main.async { [weak self] in

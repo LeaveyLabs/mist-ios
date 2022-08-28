@@ -171,7 +171,7 @@
 		47A3D72327D5A0D2003DBEA5 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */; };
 		47AC881F28480AE1000150CA /* UIButton+RightSideImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AC881E28480AE1000150CA /* UIButton+RightSideImage.swift */; };
 		47AC882228487EC3000150CA /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 47AC882128487EC3000150CA /* IQKeyboardManagerSwift */; };
-		47AE72AA27F77B0B00A5E94C /* MyProfileSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AE72A927F77B0B00A5E94C /* MyProfileSettingViewController.swift */; };
+		47AE72AA27F77B0B00A5E94C /* UpdateProfileSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AE72A927F77B0B00A5E94C /* UpdateProfileSettingViewController.swift */; };
 		47C1D49127DF00B200970B3D /* PostMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C1D49027DF00B200970B3D /* PostMoreViewController.swift */; };
 		47C2834F27DED77500A19128 /* FeedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C2834D27DED77500A19128 /* FeedHeaderCell.swift */; };
 		47C2835027DED77500A19128 /* FeedHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C2834E27DED77500A19128 /* FeedHeaderCell.xib */; };
@@ -320,7 +320,7 @@
 		5B739DCF28935B9500E4EED0 /* SpringAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A4BE928408BD800FD52B7 /* SpringAnimation.swift */; };
 		5B739DD028935B9500E4EED0 /* WantToChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCD490D28714F920002BD02 /* WantToChatView.swift */; };
 		5B739DD128935B9500E4EED0 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624D72867DD8400DCD45B /* ConversationCell.swift */; };
-		5B739DD228935B9500E4EED0 /* MyProfileSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AE72A927F77B0B00A5E94C /* MyProfileSettingViewController.swift */; };
+		5B739DD228935B9500E4EED0 /* UpdateProfileSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AE72A927F77B0B00A5E94C /* UpdateProfileSettingViewController.swift */; };
 		5B739DD328935B9500E4EED0 /* SimpleInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47527190285584F400DDF84D /* SimpleInputCell.swift */; };
 		5B739DD428935B9500E4EED0 /* PermissionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE28F12840991800C6425C /* PermissionsViewController.swift */; };
 		5B739DD528935B9500E4EED0 /* UIViewController+DismissFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */; };
@@ -802,7 +802,7 @@
 		47A3D71C27D5940D003DBEA5 /* NewPostTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPostTextView.swift; sourceTree = "<group>"; };
 		47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		47AC881E28480AE1000150CA /* UIButton+RightSideImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+RightSideImage.swift"; sourceTree = "<group>"; };
-		47AE72A927F77B0B00A5E94C /* MyProfileSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileSettingViewController.swift; sourceTree = "<group>"; };
+		47AE72A927F77B0B00A5E94C /* UpdateProfileSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileSettingViewController.swift; sourceTree = "<group>"; };
 		47C1D49027DF00B200970B3D /* PostMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMoreViewController.swift; sourceTree = "<group>"; };
 		47C2834D27DED77500A19128 /* FeedHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedHeaderCell.swift; sourceTree = "<group>"; };
 		47C2834E27DED77500A19128 /* FeedHeaderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedHeaderCell.xib; sourceTree = "<group>"; };
@@ -1635,7 +1635,7 @@
 				5BAD62762876812200DCFE45 /* SettingsViewController.swift */,
 				5BAD62782876938900DCFE45 /* SettingsTapDelegate.swift */,
 				47EE95F927F64C00003B351E /* MyAccountViewController.swift */,
-				47AE72A927F77B0B00A5E94C /* MyProfileSettingViewController.swift */,
+				47AE72A927F77B0B00A5E94C /* UpdateProfileSettingViewController.swift */,
 				5B879E8228B8A49C00D2DFC1 /* GetVerifiedViewController.swift */,
 			);
 			path = Account;
@@ -2323,7 +2323,7 @@
 				472A4C0628408BD800FD52B7 /* SpringAnimation.swift in Sources */,
 				5BCD490E28714F920002BD02 /* WantToChatView.swift in Sources */,
 				5BB624D92867DD8400DCD45B /* ConversationCell.swift in Sources */,
-				47AE72AA27F77B0B00A5E94C /* MyProfileSettingViewController.swift in Sources */,
+				47AE72AA27F77B0B00A5E94C /* UpdateProfileSettingViewController.swift in Sources */,
 				47527194285584F400DDF84D /* SimpleInputCell.swift in Sources */,
 				5BC8822928AFF793007E83F8 /* ChatViewController+Keyboard.swift in Sources */,
 				5BCEA50F289A489700602A4D /* PostViewController+Autocomplete.swift in Sources */,
@@ -2621,7 +2621,7 @@
 				5B739DD028935B9500E4EED0 /* WantToChatView.swift in Sources */,
 				5B739DD128935B9500E4EED0 /* ConversationCell.swift in Sources */,
 				5BE14740289F1A7C0096FEBE /* String+Random.swift in Sources */,
-				5B739DD228935B9500E4EED0 /* MyProfileSettingViewController.swift in Sources */,
+				5B739DD228935B9500E4EED0 /* UpdateProfileSettingViewController.swift in Sources */,
 				5B739DD328935B9500E4EED0 /* SimpleInputCell.swift in Sources */,
 				5B739DD428935B9500E4EED0 /* PermissionsViewController.swift in Sources */,
 				5B235B1328AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift in Sources */,
@@ -2985,7 +2985,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.1;
+				MARKETING_VERSION = 0.2.2;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development app.getmist.mist-ios";
@@ -3032,7 +3032,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.1;
+				MARKETING_VERSION = 0.2.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore app.getmist.mist-ios";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -3180,7 +3180,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.1;
+				MARKETING_VERSION = 0.2.2;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "-DDEV";
 				PRODUCT_BUNDLE_IDENTIFIER = "app.getmist.mist-ios-dev";
@@ -3230,7 +3230,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.1;
+				MARKETING_VERSION = 0.2.2;
 				OTHER_SWIFT_FLAGS = "-DDEV";
 				PRODUCT_BUNDLE_IDENTIFIER = "app.getmist.mist-ios-dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";

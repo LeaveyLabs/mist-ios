@@ -2023,7 +2023,7 @@
                                             <action selector="didPressedChoosePhotoButton:" destination="AOZ-sr-0WT" eventType="touchUpInside" id="gB6-fo-LVS"/>
                                         </connections>
                                     </button>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="first name" textAlignment="justified" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e96-7D-RFG">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="First name" textAlignment="justified" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e96-7D-RFG">
                                         <rect key="frame" x="26" y="173" width="174" height="40"/>
                                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                                         <color key="tintColor" name="mist-lilac"/>
@@ -2037,7 +2037,7 @@
                                             <action selector="textFieldEditingChanged:" destination="AOZ-sr-0WT" eventType="editingChanged" id="Iq8-Qk-oyv"/>
                                         </connections>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="last name" textAlignment="justified" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5wL-23-2qx">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="Last name" textAlignment="justified" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5wL-23-2qx">
                                         <rect key="frame" x="215" y="173" width="174" height="40"/>
                                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                                         <constraints>

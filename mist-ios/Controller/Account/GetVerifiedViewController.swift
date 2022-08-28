@@ -76,7 +76,7 @@ class GetVerifiedViewController: UIViewController, UITextViewDelegate {
         Task {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 self.isVerifying = false
-                let verified = false
+                let verified = true
                 if verified {
                     //if verified, set that on the device
                     CustomSwiftMessages.showInfoCentered("successfully verified!", "enjoy your lilac badge", emoji: "✅") {

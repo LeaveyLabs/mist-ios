@@ -76,11 +76,11 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
         guard let memberAnnotations: Int = clusterAnnotation?.memberAnnotations.count else { return }
         let totalNumberOfAnnotationsRendered: Int = mapView?.annotations.count ?? PostService.singleton.getExplorePostCount()
         let density = Double(memberAnnotations) / Double(totalNumberOfAnnotationsRendered)
-        if density < 0.25 {
+        if density < 0.1 {
             markerTintColor = UIColor(hex: "#AE75F7")
-        } else if density < 0.5 {
+        } else if density < 0.2 {
             markerTintColor = Constants.Color.mistPurple
-        } else if density < 0.75 {
+        } else if density < 0.4 {
             markerTintColor = UIColor(hex: "#8D4BE2")
         } else {
             markerTintColor = Constants.Color.mistNight

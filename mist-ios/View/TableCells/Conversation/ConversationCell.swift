@@ -31,7 +31,7 @@ class ConversationCell: UITableViewCell {
     
     func setupTimeLabel(_ conversation: Conversation) {
         guard let lastMessageTime = conversation.messageThread.server_messages.first?.timestamp else { return }
-        let timeSinceString = getFormattedTimeString(timestamp: lastMessageTime)
+        let timeSinceString = getFormattedTimeStringForConvo(timestamp: lastMessageTime)
         timeLabel.text = timeSinceString
     }
     

@@ -8,6 +8,9 @@
 import Foundation
 
 struct AuthContext {
+    static let APPLE_PHONE_NUMBER: String = "1111111111"
+    static let APPLE_CODE: String = "123456"
+    
     static var username: String = ""
     static var email: String = ""
     static var phoneNumber: String = ""
