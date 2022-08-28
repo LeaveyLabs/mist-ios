@@ -2191,9 +2191,6 @@ make that cute barista’s day,
                             <constraint firstItem="qc3-QU-TX3" firstAttribute="width" secondItem="ub5-ZK-AMS" secondAttribute="width" id="sUS-fO-o96"/>
                             <constraint firstItem="0vN-fR-xob" firstAttribute="trailing" secondItem="rnG-hx-2k9" secondAttribute="trailing" id="x9j-mo-8wL"/>
                         </constraints>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="SFU-IG-KiL" appends="YES" id="JCr-fx-PWz"/>
-                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="4Dl-db-Hhc">
                         <barButtonItem key="leftBarButtonItem" systemItem="stop" id="doa-IP-cNb">
@@ -2252,7 +2249,6 @@ make that cute barista’s day,
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DNg-gQ-ofb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="SFU-IG-KiL"/>
             </objects>
             <point key="canvasLocation" x="-1763" y="1874"/>
         </scene>

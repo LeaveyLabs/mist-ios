@@ -69,12 +69,14 @@ class NewPostTextView: UITextView {
         
         let progressCircle = UIBarButtonItem.init(customView: circularProgressView)
         let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)//2
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: target, action: doneSelector)
+        
+        let doneButton = UIBarButtonItem(title: "done", style: .done, target: target, action: doneSelector)
         doneButton.tintColor = .lightGray
-        let customAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 16)!]
+        let customAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 17)!]
         doneButton.setTitleTextAttributes(customAttributes, for: .normal)
         
-        toolBar.setItems([doneButton, flexible, progressCircle], animated: false)//4
+        //not adding done button for now because this messages with the textview keyboard constraints
+        toolBar.setItems([flexible, progressCircle], animated: false)//4
         
         self.inputAccessoryView = toolBar//5
     }

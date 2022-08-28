@@ -6,6 +6,8 @@
 	<true/>
 	<key>FirebaseCrashlyticsCollectionEnabled</key>
 	<true/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>NSUserNotificationsUsageDescription</key>
 	<string>Get notified about DMs and mists which might be about you.</string>
 	<key>UIApplicationSceneManifest</key>
