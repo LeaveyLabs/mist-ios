@@ -76,7 +76,6 @@ func transitionToHomeAndRequestPermissions(completion: @escaping () -> Void) {
     // Though `animations` is optional, the documentation tells us that it must not be nil. ¯\_(ツ)_/¯
     UIView.transition(with: window, duration: duration, options: options, animations: {}) { _ in
         completion()
-        exploreMapVC.handleUserLocationPermissionRequest()
     }
 }
 //}

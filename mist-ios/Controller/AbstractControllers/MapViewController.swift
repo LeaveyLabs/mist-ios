@@ -152,7 +152,7 @@ extension MapViewController: CLLocationManagerDelegate {
     
     // Helper
     
-    func handleUserLocationPermissionRequest() {
+    func requestUserLocationPermissionIfNecessary() {
         if locationManager.authorizationStatus == .denied ||
             locationManager.authorizationStatus == .notDetermined { //this check should also exist here for when the function is called after registering/logging in
             
@@ -189,7 +189,7 @@ extension MapViewController {
         
         if locationManager.authorizationStatus == .denied ||
             locationManager.authorizationStatus == .notDetermined {
-            handleUserLocationPermissionRequest()
+            requestUserLocationPermissionIfNecessary()
         } else {
             slowFlyTo(lat: mapView.userLocation.coordinate.latitude,
                       long: mapView.userLocation.coordinate.longitude,

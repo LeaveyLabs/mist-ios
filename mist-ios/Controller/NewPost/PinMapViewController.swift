@@ -18,6 +18,8 @@ class PinMapViewController: MapViewController {
     
     var pinMapModalVC: PinMapModalViewController?
         
+    //MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         latitudeOffset = -0.0007
@@ -31,6 +33,13 @@ class PinMapViewController: MapViewController {
         mapView.addGestureRecognizer(tapGestureRecognizer)
         mapView.addGestureRecognizer(pinchGestureRecognizer)
         mapView.addGestureRecognizer(panGestureRecognizer)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.requestUserLocationPermissionIfNecessary()
+        }
     }
     
     //MARK: - Setup
@@ -120,6 +129,8 @@ class PinMapViewController: MapViewController {
         }
     }
     
+    //MARK: - MKMapDelegate
+    
     override func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
         super.mapViewDidChangeVisibleRegion(mapView)
         
@@ -151,6 +162,8 @@ class PinMapViewController: MapViewController {
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         
     }
+    
+    //MARK: - ModalView
     
     func presentModal(xsIndentFirst: Bool) {
         if let pinMapModalVC = self.storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.PinMapModal) as? PinMapModalViewController {

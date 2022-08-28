@@ -14,6 +14,7 @@ enum ReloadType {
     case refresh, cancel, newSearch, newPost, firstLoad
 }
 
+var hasRequestedLocationPermissionsDuringAppSession = false
 var shouldFeedBeginVisible = true
 
 class ExploreViewController: MapViewController {
@@ -197,6 +198,13 @@ extension ExploreViewController {
             view.sendSubviewToBack(feed)
             isFeedVisible = false
             view.isUserInteractionEnabled = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                guard !hasRequestedLocationPermissionsDuringAppSession else { return }
+                self.requestUserLocationPermissionIfNecessary()
+                hasRequestedLocationPermissionsDuringAppSession = true
+            }
+
         }
     }
     
@@ -292,8 +300,7 @@ extension ExploreViewController: PostDelegate {
                     scrollFeedToPostRightAboveKeyboard(reactingPostIndex)
                 }
             } else {
-                print("selected:", selectedAnnotationView)
-                if let postAnnotationView = selectedAnnotationView as? AnnotationViewWithPosts, keyboardHeight > 100 { //keyboardHeight of 90 appears with postVC keyboard
+                if let postAnnotationView = selectedAnnotationView, keyboardHeight > 100 { //keyboardHeight of 90 appears with postVC keyboard
                     postAnnotationView.movePostUpAfterEmojiKeyboardRaised()
                 }
             }
@@ -303,7 +310,7 @@ extension ExploreViewController: PostDelegate {
     @objc func keyboardWillDismiss(sender: NSNotification) {
         keyboardHeight = 0
         //DONT DO THE FOLLOWING IF THEY"RE CURRENTLY DRAGGING
-        if let postAnnotationView = selectedAnnotationView as? AnnotationViewWithPosts { //!postAnnotationView.isPanning { this was useful when we allowed swiping between postsAnnotationViews. not needed anymore
+        if let postAnnotationView = selectedAnnotationView { //!postAnnotationView.isPanning { this was useful when we allowed swiping between postsAnnotationViews. not needed anymore
             postAnnotationView.movePostBackDownAfterEmojiKeyboardDismissed()
         }
     }

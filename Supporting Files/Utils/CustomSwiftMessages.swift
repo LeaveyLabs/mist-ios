@@ -151,7 +151,7 @@ extension CustomSwiftMessages {
                 title = "would you like to share your current location?"
                 body = "this makes finding and submitting mists even easier"
                 emoji = "📍"
-                messageView.customConfig(approveText: "sure", dismissText: "no, I'd rather mist out")
+                messageView.customConfig(approveText: "sure", dismissText: "no thanks")
             case .contacts:
                 title = "share your contacts for better tagging"
                 body = "if you tag a friend who doesn't have mist, we'll shoot them a text"
@@ -161,7 +161,7 @@ extension CustomSwiftMessages {
                 title = "would you like to turn on notifications?"
                 body = "get notified about incoming dms and mists which might be about you"
                 emoji = ""
-                messageView.customConfig(approveText: "of course", dismissText: "no thanks")
+                messageView.customConfig(approveText: "of course", dismissText: "no, i'd rather mist out")
             }
             messageView.configureContent(title: title, body: body, iconText: emoji)
             messageView.approveAction = {
