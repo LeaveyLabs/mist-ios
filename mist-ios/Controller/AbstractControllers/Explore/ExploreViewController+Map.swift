@@ -88,6 +88,7 @@ extension ExploreViewController {
 extension ExploreViewController {
         
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        print("DID SELECT")
         if view.annotation is MKUserLocation {
             mapView.deselectAnnotation(view.annotation, animated: false)
             mapView.userLocation.title = "Hey cutie"
