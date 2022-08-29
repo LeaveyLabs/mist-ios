@@ -20,7 +20,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="egL-1u-x0c">
-                    <rect key="frame" x="25" y="10" width="392" height="26"/>
+                    <rect key="frame" x="20" y="10" width="402" height="26"/>
                 </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="IWY-I9-8EK"/>
@@ -29,8 +29,8 @@
             <constraints>
                 <constraint firstItem="egL-1u-x0c" firstAttribute="top" secondItem="MVN-he-SwE" secondAttribute="top" constant="10" id="MAA-Is-XHF"/>
                 <constraint firstItem="IWY-I9-8EK" firstAttribute="bottom" secondItem="egL-1u-x0c" secondAttribute="bottom" constant="10" id="PtI-bn-kSd"/>
-                <constraint firstAttribute="trailing" secondItem="egL-1u-x0c" secondAttribute="trailing" constant="25" id="c78-yo-8JF"/>
-                <constraint firstItem="egL-1u-x0c" firstAttribute="leading" secondItem="MVN-he-SwE" secondAttribute="leading" constant="25" id="rnA-LN-qvb"/>
+                <constraint firstAttribute="trailing" secondItem="egL-1u-x0c" secondAttribute="trailing" constant="20" id="c78-yo-8JF"/>
+                <constraint firstItem="egL-1u-x0c" firstAttribute="leading" secondItem="MVN-he-SwE" secondAttribute="leading" constant="20" id="rnA-LN-qvb"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="102.89855072463769" y="-79.017857142857139"/>

@@ -315,7 +315,7 @@
             <objects>
                 <viewController storyboardIdentifier="RulesViewController" id="dJp-Dv-LgT" customClass="RulesViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="P6h-ky-B0Q">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="mist guidelines" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="VfI-kc-q4b">
@@ -325,7 +325,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w0n-QH-4eX">
-                                <rect key="frame" x="30" y="725" width="330" height="50"/>
+                                <rect key="frame" x="30" y="745" width="330" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="5YU-2r-Icr"/>
                                 </constraints>
@@ -414,7 +414,7 @@ make that cute barista’s day,
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="Jac-xu-4nd">
-                                <rect key="frame" x="30" y="689.33333333333337" width="330" height="20.666666666666629"/>
+                                <rect key="frame" x="30" y="709.33333333333337" width="330" height="20.666666666666629"/>
                                 <attributedString key="attributedText">
                                     <fragment content="learn more about how we moderate content here.">
                                         <attributes>
@@ -426,7 +426,7 @@ make that cute barista’s day,
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mYi-g1-Pco">
-                                <rect key="frame" x="320" y="689.33333333333337" width="40" height="20"/>
+                                <rect key="frame" x="320" y="709.33333333333337" width="40" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="VAM-R5-Z4t"/>
                                     <constraint firstAttribute="height" constant="20" id="gXY-Hx-DsS"/>
@@ -468,6 +468,21 @@ make that cute barista’s day,
                 <exit id="UkW-Qo-P11" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-1763.0769230769231" y="2561.3744075829381"/>
+        </scene>
+        <!--Guidelines View Controller-->
+        <scene sceneID="rZD-yS-ktF">
+            <objects>
+                <viewController storyboardIdentifier="GuidelinesViewController" id="Zq7-6r-vxF" customClass="GuidelinesViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3sc-t3-Vvl">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="qnV-o2-f2J"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Mhp-ql-dJ7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1040" y="2561"/>
         </scene>
         <!--Special Tab Bar Controller-->
         <scene sceneID="PLu-W2-ENU">
@@ -1046,7 +1061,7 @@ make that cute barista’s day,
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="4Ti-Yh-6iG">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="4Ti-Yh-6iG" customClass="MyMapView" customModule="mist_ios" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="101" width="390" height="660"/>
                             </mapView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="dE6-TV-tIh" userLabel="Zoom Stack View">
@@ -1170,7 +1185,7 @@ make that cute barista’s day,
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="mapDimensionButton" destination="R81-a2-tHs" id="h1L-rm-Fqh"/>
-                        <outlet property="mapView" destination="4Ti-Yh-6iG" id="pzL-WR-6YR"/>
+                        <outlet property="mapView" destination="4Ti-Yh-6iG" id="Udo-mW-dpg"/>
                         <outlet property="refreshButton" destination="onH-Fn-vzF" id="Of1-IW-wg4"/>
                         <outlet property="trackingDimensionStackView" destination="XDC-QO-zBy" id="Sb2-TX-4KS"/>
                         <outlet property="userTrackingButton" destination="xse-Ra-6WG" id="FIo-NZ-zG8"/>
@@ -2213,7 +2228,7 @@ make that cute barista’s day,
                                             <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <segue destination="dJp-Dv-LgT" kind="presentation" id="2Bd-uZ-PJV"/>
+                                            <segue destination="Zq7-6r-vxF" kind="presentation" id="pih-x2-Io0"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wMs-lR-jk6">

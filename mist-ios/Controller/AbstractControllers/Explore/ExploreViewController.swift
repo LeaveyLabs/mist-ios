@@ -62,13 +62,13 @@ extension ExploreViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        latitudeOffset = 0.00165
+        latitudeOffset = 0.0009
         setupCustomTapGestureRecognizerOnMap()
         
         if let userLocation = locationManager.location {
             mapView.camera.centerCoordinate = userLocation.coordinate
             mapView.camera.centerCoordinateDistance = 3000
-            mapView.camera.pitch = 40
+            mapView.camera.pitch = MapViewController.MAX_CAMERA_PITCH
         }
     }
     

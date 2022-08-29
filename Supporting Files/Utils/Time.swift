@@ -79,22 +79,24 @@ func getFormattedTimeStringForPost(timestamp: Double) -> String {
             return String(elapsedTimeSincePost.minutes) + "m ago"
         }
     }
-    //if today
-    if getDayOfWeek(currentTimeMillis: timestamp) == getDayOfWeek(currentTimeMillis: currentTimeMillis()) {
-        if (elapsedTimeSincePost.hours == 1) {
-            return String(elapsedTimeSincePost.hours) + "h ago"
-        } else {
-            return String(elapsedTimeSincePost.hours) + "h ago"
+    if elapsedTimeSincePost.days < 3 {
+        //if today
+        if getDayOfWeek(currentTimeMillis: timestamp) == getDayOfWeek(currentTimeMillis: currentTimeMillis()) {
+            if (elapsedTimeSincePost.hours == 1) {
+                return String(elapsedTimeSincePost.hours) + "h ago"
+            } else {
+                return String(elapsedTimeSincePost.hours) + "h ago"
+            }
         }
-    }
-    //if yesterday
-    if getDayOfWeek(currentTimeMillis: timestamp) == getDayOfWeek(currentTimeMillis: Date.yesterday.timeIntervalSince1970) {
-        let myTimeInterval = TimeInterval(timestamp)
-        let thedate = Date(timeIntervalSince1970: myTimeInterval)
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "en_US")
-        dateFormatter.dateFormat = "h:mma"
-        return "yesterday, " + dateFormatter.string(from: thedate).replacingOccurrences(of: "AM", with: "am").replacingOccurrences(of: "PM", with: "pm")
+        //if yesterday
+        if getDayOfWeek(currentTimeMillis: timestamp) == getDayOfWeek(currentTimeMillis: Date.yesterday.timeIntervalSince1970) {
+            let myTimeInterval = TimeInterval(timestamp)
+            let thedate = Date(timeIntervalSince1970: myTimeInterval)
+            let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "en_US")
+            dateFormatter.dateFormat = "h:mma"
+            return "yesterday, " + dateFormatter.string(from: thedate).replacingOccurrences(of: "AM", with: "am").replacingOccurrences(of: "PM", with: "pm")
+        }
     }
     //if within the last week
     else if elapsedTimeSincePost.days < 7 {

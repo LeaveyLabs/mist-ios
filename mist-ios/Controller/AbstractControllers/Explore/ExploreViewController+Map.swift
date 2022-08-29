@@ -13,6 +13,11 @@ import MapKit
 
 //MARK: - Map Interaction
 
+class MyMapView: MKMapView {
+    
+    
+}
+
 extension ExploreViewController {
     
     @IBAction func exploreUserTrackingButtonPressed(_ sender: UIButton) {
@@ -88,12 +93,10 @@ extension ExploreViewController {
 extension ExploreViewController {
         
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        print("DID SELECT")
         if view.annotation is MKUserLocation {
             mapView.deselectAnnotation(view.annotation, animated: false)
             mapView.userLocation.title = "Hey cutie"
         }
-        
         selectedAnnotationView = view as? AnnotationViewWithPosts
         mapView.isZoomEnabled = true // AnnotationQuickSelect: 3 of 3, just in case
         switch annotationSelectionType {
@@ -217,27 +220,26 @@ extension ExploreViewController {
     }
     
     func handleClusterAnnotationSelection(_ clusterAnnotation: MKClusterAnnotation, clusterView: ClusterAnnotationView) {
-        let isPredictedHotspotBeforeFly = mapView.camera.centerCoordinateDistance / MapViewController.INCREMENTAL_ZOOM_FACTOR < MapViewController.MIN_CAMERA_DISTANCE
-        if isPredictedHotspotBeforeFly {
-            slowFlyTo(lat: clusterAnnotation.coordinate.latitude + latitudeOffset,
-                      long: clusterAnnotation.coordinate.longitude,
-                      incrementalZoom: false,
-                      withDuration: cameraAnimationDuration,
-                      completion: { [weak self] completed in
-                guard let self = self else { return }
-                let doesClusterStillExist = self.mapView.selectedAnnotations.contains { annotation in
-                    annotation as? MKClusterAnnotation == clusterAnnotation
-                }
-                guard doesClusterStillExist else { return }
-                clusterView.loadCollectionView(on: self.mapView, withPostDelegate: self)
-            })
-        } else {
+        let shouldZoomIn = mapView.camera.centerCoordinateDistance > MapViewController.CLUSTER_ZOOM_THRESHOLD
+        if shouldZoomIn {
             mapView.deselectAnnotation(clusterAnnotation, animated: false)
             slowFlyTo(lat: clusterAnnotation.coordinate.latitude,
                       long: clusterAnnotation.coordinate.longitude,
                       incrementalZoom: true,
                       withDuration: cameraAnimationDuration,
                       completion: {_ in } )
+        } else {
+            slowFlyWithoutZoomTo(lat: clusterAnnotation.coordinate.latitude,
+                      long: clusterAnnotation.coordinate.longitude,
+                      withDuration: cameraAnimationDuration,
+                      completion: { [weak self] completed in
+                guard let self = self else { return }
+//                let doesClusterStillExist = self.mapView.selectedAnnotations.contains { annotation in
+//                    annotation as? MKClusterAnnotation == clusterAnnotation
+//                }
+//                guard doesClusterStillExist else { return }
+                clusterView.loadCollectionView(on: self.mapView, withPostDelegate: self)
+            })
         }
     }
     

@@ -133,7 +133,7 @@ extension PostAnnotationView {
         NSLayoutConstraint.activate([
             postCalloutView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -90),
             postCalloutView.widthAnchor.constraint(equalTo: mapView.widthAnchor, constant: -50),
-            postCalloutView.heightAnchor.constraint(lessThanOrEqualTo: mapView.heightAnchor, multiplier: 0.70, constant: -97),
+            postCalloutView.heightAnchor.constraint(lessThanOrEqualTo: mapView.heightAnchor, multiplier: 0.70, constant: -90),
             postCalloutView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
         ])
         

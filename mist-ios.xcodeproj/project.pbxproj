@@ -565,6 +565,12 @@
 		5BC2531928BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2531528BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib */; };
 		5BC2531B28BC0EC300D4F49A /* CollectionImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531A28BC0EC300D4F49A /* CollectionImageCell.swift */; };
 		5BC2531C28BC0EC300D4F49A /* CollectionImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531A28BC0EC300D4F49A /* CollectionImageCell.swift */; };
+		5BC2532128BC545C00D4F49A /* CLLocationCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532028BC545C00D4F49A /* CLLocationCoordinate.swift */; };
+		5BC2532228BC545C00D4F49A /* CLLocationCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532028BC545C00D4F49A /* CLLocationCoordinate.swift */; };
+		5BC2532428BC7F1500D4F49A /* GuidelinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532328BC7F1500D4F49A /* GuidelinesViewController.swift */; };
+		5BC2532528BC7F1500D4F49A /* GuidelinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532328BC7F1500D4F49A /* GuidelinesViewController.swift */; };
+		5BC2532828BC83DA00D4F49A /* GuidelinesCollecitonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532728BC83DA00D4F49A /* GuidelinesCollecitonCell.swift */; };
+		5BC2532928BC83DA00D4F49A /* GuidelinesCollecitonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532728BC83DA00D4F49A /* GuidelinesCollecitonCell.swift */; };
 		5BC25A9428990999005AAF69 /* EmojiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9328990999005AAF69 /* EmojiButton.swift */; };
 		5BC25A96289909ED005AAF69 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A95289909ED005AAF69 /* ToggleButton.swift */; };
 		5BC25A9828990BF9005AAF69 /* EmojiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9328990999005AAF69 /* EmojiButton.swift */; };
@@ -932,6 +938,9 @@
 		5BC2531428BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileCollectionViewCell.swift; sourceTree = "<group>"; };
 		5BC2531528BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateProfileCollectionViewCell.xib; sourceTree = "<group>"; };
 		5BC2531A28BC0EC300D4F49A /* CollectionImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionImageCell.swift; sourceTree = "<group>"; };
+		5BC2532028BC545C00D4F49A /* CLLocationCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate.swift; sourceTree = "<group>"; };
+		5BC2532328BC7F1500D4F49A /* GuidelinesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelinesViewController.swift; sourceTree = "<group>"; };
+		5BC2532728BC83DA00D4F49A /* GuidelinesCollecitonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelinesCollecitonCell.swift; sourceTree = "<group>"; };
 		5BC25A9328990999005AAF69 /* EmojiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiButton.swift; sourceTree = "<group>"; };
 		5BC25A95289909ED005AAF69 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		5BC25A9D28991A2B005AAF69 /* Numbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numbers.swift; sourceTree = "<group>"; };
@@ -1317,6 +1326,7 @@
 			children = (
 				478A7898284E708D0058C845 /* CLLocationCoordinate+Distance.swift */,
 				478A789A284E73970058C845 /* CLLocationCoordiante+Midpoint.swift */,
+				5BC2532028BC545C00D4F49A /* CLLocationCoordinate.swift */,
 			);
 			path = CLLocationCoordinate;
 			sourceTree = "<group>";
@@ -1661,6 +1671,7 @@
 				47A3D70127D524F4003DBEA5 /* NewPostViewController.swift */,
 				47CE900927E058090004B756 /* PinMapViewController.swift */,
 				47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */,
+				5BC2532328BC7F1500D4F49A /* GuidelinesViewController.swift */,
 			);
 			path = NewPost;
 			sourceTree = "<group>";
@@ -1758,6 +1769,7 @@
 				5BC2531428BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift */,
 				5BC2531528BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib */,
 				5BC2531A28BC0EC300D4F49A /* CollectionImageCell.swift */,
+				5BC2532728BC83DA00D4F49A /* GuidelinesCollecitonCell.swift */,
 			);
 			path = CollectionCells;
 			sourceTree = "<group>";
@@ -2303,6 +2315,7 @@
 				5B235AF528A97FB800FD27A9 /* TagLink.swift in Sources */,
 				5BE14736289EB68B0096FEBE /* CommentAutocompleteManager.swift in Sources */,
 				4316238C2834F8A600169AA9 /* SpecialTabBarController.swift in Sources */,
+				5BC2532428BC7F1500D4F49A /* GuidelinesViewController.swift in Sources */,
 				47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */,
 				47CEEE9828545207008947FC /* UIBarButtonItem+Image.swift in Sources */,
 				472A4BF028408BD800FD52B7 /* TransitionManager.swift in Sources */,
@@ -2340,6 +2353,7 @@
 				47266AD427FF69C9005DEDB1 /* UIViewController+Loading.swift in Sources */,
 				472A4C0628408BD800FD52B7 /* SpringAnimation.swift in Sources */,
 				5BCD490E28714F920002BD02 /* WantToChatView.swift in Sources */,
+				5BC2532128BC545C00D4F49A /* CLLocationCoordinate.swift in Sources */,
 				5BB624D92867DD8400DCD45B /* ConversationCell.swift in Sources */,
 				47AE72AA27F77B0B00A5E94C /* UpdateProfileSettingViewController.swift in Sources */,
 				47527194285584F400DDF84D /* SimpleInputCell.swift in Sources */,
@@ -2501,6 +2515,7 @@
 				5B6208A628B4B6F7005610A9 /* FeedbackFormCell.swift in Sources */,
 				5BE147C628A0CDAA0096FEBE /* UITextView+PreventPeriod.swift in Sources */,
 				47EE28FE28414AF700C6425C /* CustomCenteredView.swift in Sources */,
+				5BC2532828BC83DA00D4F49A /* GuidelinesCollecitonCell.swift in Sources */,
 				43D9251828526ECA00438C5C /* Block.swift in Sources */,
 				479683F5282817CC00CA23BA /* PostAnnotationView.swift in Sources */,
 				5BF78337285D955F003C3955 /* Map.swift in Sources */,
@@ -2601,6 +2616,7 @@
 				5B739DAA28935B9500E4EED0 /* RulesViewController.swift in Sources */,
 				5B739DAB28935B9500E4EED0 /* Misc.swift in Sources */,
 				5B739DAC28935B9500E4EED0 /* KUIViewController.swift in Sources */,
+				5BC2532528BC7F1500D4F49A /* GuidelinesViewController.swift in Sources */,
 				5B739DAD28935B9500E4EED0 /* SearchResultCell.swift in Sources */,
 				43A25345289BA43A00B1468F /* TagAPI.swift in Sources */,
 				5B739DAE28935B9500E4EED0 /* SpecialTabBarController.swift in Sources */,
@@ -2638,6 +2654,7 @@
 				5B739DCC28935B9500E4EED0 /* CustomExploreViewController.swift in Sources */,
 				5B739DCD28935B9500E4EED0 /* UploadProfilePictureViewController.swift in Sources */,
 				5B739DCE28935B9500E4EED0 /* UIViewController+Loading.swift in Sources */,
+				5BC2532228BC545C00D4F49A /* CLLocationCoordinate.swift in Sources */,
 				5B739DCF28935B9500E4EED0 /* SpringAnimation.swift in Sources */,
 				5B739DD028935B9500E4EED0 /* WantToChatView.swift in Sources */,
 				5B739DD128935B9500E4EED0 /* ConversationCell.swift in Sources */,
@@ -2799,6 +2816,7 @@
 				5B6208A728B4B6F7005610A9 /* FeedbackFormCell.swift in Sources */,
 				5B739E5028935B9500E4EED0 /* PostAnnotationView.swift in Sources */,
 				5B739E5128935B9500E4EED0 /* Map.swift in Sources */,
+				5BC2532928BC83DA00D4F49A /* GuidelinesCollecitonCell.swift in Sources */,
 				43A25349289BA46800B1468F /* Tag.swift in Sources */,
 				5BE1474628A045CF0096FEBE /* UIImageView+Initials.swift in Sources */,
 				5B235B0B28AEB11900FD27A9 /* InputBarAccessoryView+.swift in Sources */,

@@ -25,7 +25,7 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
     lazy var MAP_VIEW_WIDTH: Double = Double(mapView?.bounds.width ?? 350)
     lazy var POST_VIEW_WIDTH: Double = MAP_VIEW_WIDTH * 0.83
     lazy var POST_VIEW_MARGIN: Double = (MAP_VIEW_WIDTH - POST_VIEW_WIDTH) / 2
-    let POST_VIEW_MAX_HEIGHT: Double = 400
+    lazy var POST_VIEW_MAX_HEIGHT: Double = (((mapView?.frame.height ?? 500) * 0.7) - 90.0)
 
     var mapView: MKMapView? {
         var view = superview
@@ -98,15 +98,19 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
             guard let collectionView = collectionView else { return }
             collectionView.removeFromSuperview() // This check shouldn't be needed, but just in case
         } else {
-            print("DESELECTED!")
             glyphTintColor = .white
             setupMarkerTintColor(annotation as? MKClusterAnnotation)
             endEditing(true)
             guard let collectionView = collectionView else { return }
-            collectionView.fadeOut(duration: 0.25, delay: 0, completion: { Bool in
+            if animated {
+                collectionView.fadeOut(duration: 0.25, delay: 0, completion: { Bool in
+                    collectionView.isHidden = true
+                    collectionView.removeFromSuperview()
+                })
+            } else {
                 collectionView.isHidden = true
                 collectionView.removeFromSuperview()
-            })
+            }
         }
     }
     
@@ -156,6 +160,7 @@ extension ClusterAnnotationView {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.clipsToBounds = false
         addSubview(collectionView)
 
         // register collection cells

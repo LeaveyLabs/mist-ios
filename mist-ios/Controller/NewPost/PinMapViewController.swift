@@ -60,7 +60,7 @@ class PinMapViewController: MapViewController {
                 lookingAtCenter: CLLocationCoordinate2D.init(latitude: previousAnnotation.coordinate.latitude + latitudeOffset,
                                                              longitude: previousAnnotation.coordinate.longitude),
                 fromDistance: 500,
-                pitch: 50,
+                pitch: MapViewController.MAX_CAMERA_PITCH,
                 heading: 0)
             presentModal(xsIndentFirst: true)
         }
