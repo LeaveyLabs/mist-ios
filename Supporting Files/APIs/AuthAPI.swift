@@ -37,54 +37,14 @@ struct UsernameValidationError: Codable {
     let detail: String?
 }
 
-struct PasswordValidationError: Codable {
-    let username: [String]?
-    let password: [String]?
-    // Errors
-    let non_field_errors: [String]?
-    let detail: String?
-}
-
 struct UserCreationError: Codable {
     let username: [String]?
     let first_name: [String]?
     let last_name: [String]?
     let picture: [String]?
     let email: [String]?
-    let password: [String]?
     let dob: [String]?
     let sex: [String]?
-    // Errors
-    let non_field_errors: [String]?
-    let detail: String?
-}
-
-struct LoginError: Codable {
-    let email_or_username: [String]?
-    let password: [String]?
-    // Errors
-    let non_field_errors: [String]?
-    let detail: String?
-}
-
-struct RequestResetPasswordError: Codable {
-    let email: [String]?
-    // Errors
-    let non_field_errors: [String]?
-    let detail: String?
-}
-
-struct ValidateResetPasswordError: Codable {
-    let email: [String]?
-    let code: [String]?
-    // Errors
-    let non_field_errors: [String]?
-    let detail: String?
-}
-
-struct FinalizeResetPasswordError: Codable {
-    let email: [String]?
-    let password: [String]?
     // Errors
     let non_field_errors: [String]?
     let detail: String?
@@ -102,17 +62,11 @@ class AuthAPI {
     static let PATH_TO_EMAIL_REGISTRATION = "api-register-email/"
     static let PATH_TO_EMAIL_VALIDATION = "api-validate-email/"
     static let PATH_TO_USERNAME_VALIDATION = "api-validate-username/"
-    static let PATH_TO_PASSWORD_VALIDATION = "api-validate-password/"
-    static let PATH_TO_PASSWORD_RESET_REQUEST = "api-request-reset-password/"
-    static let PATH_TO_PASSWORD_RESET_VALIDATION = "api-validate-reset-password/"
-    static let PATH_TO_PASSWORD_RESET_FINALIZATION = "api-finalize-reset-password/"
-    static let PATH_TO_API_TOKEN = "api-token/"
     // Parameters
     static let AUTH_EMAIL_PARAM = "email"
     static let AUTH_CODE_PARAM = "code"
     static let AUTH_USERNAME_PARAM = "username"
     static let AUTH_EMAIL_OR_USERNAME_PARAM = "email_or_username"
-    static let AUTH_PASSWORD_PARAM = "password"
     // Error Descriptions
     static let LOGIN_ERROR_DESCRIPTION = "Unable to log in"
     // Error Recovery Messages
@@ -122,11 +76,9 @@ class AuthAPI {
     static let FIRST_NAME_RECOVERY_MESSAGE = "Please try again"
     static let LAST_NAME_RECOVERY_MESSAGE = "Please try again"
     static let PICTURE_RECOVERY_MESSAGE = "Please try again"
-    static let PASSWORD_RECOVERY_MESSAGE = "Please try again"
     static let DOB_RECOVERY_MESSAGE = "Please try again"
     static let SEX_RECOVERY_MESSAGE = "Please try again"
     static let EMAIL_OR_USERNAME_RECOVERY_MESSAGE = "Please try again"
-    static let USERNAME_PASSWORD_RECOVERY_MESSAGE = "Please try again"
     
     // Registers email in the database
     // (and database will send verifcation email)
@@ -207,39 +159,6 @@ class AuthAPI {
         throw APIError.Unknown
     }
     
-    // Validates password
-    static func validatePassword(username:String, password:String) async throws {
-        let url = "\(Env.BASE_URL)\(PATH_TO_PASSWORD_VALIDATION)"
-        let params:[String:String] = [
-            AUTH_USERNAME_PARAM: username,
-            AUTH_PASSWORD_PARAM: password,
-        ]
-        let json = try JSONEncoder().encode(params)
-        let (_, _) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
-    }
-    
-    static func filterPasswordValidationErrors(data: Data, response: HTTPURLResponse) throws {
-        let statusCode = response.statusCode
-        
-        if isSuccess(statusCode: statusCode) { return }
-        if isClientError(statusCode: statusCode) {
-            let error = try JSONDecoder().decode(PasswordValidationError.self, from: data)
-            if let usernameErrors = error.username,
-               let usernameError = usernameErrors.first {
-                throw APIError.ClientError(usernameError, USERNAME_RECOVERY_MESSAGE)
-            }
-            if let passwordErrors = error.password,
-               let passwordError = passwordErrors.first {
-                throw APIError.ClientError(passwordError, PASSWORD_RECOVERY_MESSAGE)
-            }
-            if let nonFieldErrors = error.non_field_errors,
-                let nonFieldError = nonFieldErrors.first {
-                throw APIError.ClientError(nonFieldError, USERNAME_PASSWORD_RECOVERY_MESSAGE)
-            }
-        }
-        throw APIError.Unknown
-    }
-    
     // Creates validated user in the database
     static func createUser(username:String,
                            first_name:String,
@@ -312,10 +231,6 @@ class AuthAPI {
                let emailError = emailErrors.first {
                 throw APIError.ClientError(emailError, EMAIL_RECOVERY_MESSAGE)
             }
-            if let passwordErrors = error.password,
-               let passwordError = passwordErrors.first {
-                throw APIError.ClientError(passwordError, PASSWORD_RECOVERY_MESSAGE)
-            }
             if let dobErrors = error.dob,
                let dobError = dobErrors.first {
                 throw APIError.ClientError(dobError, DOB_RECOVERY_MESSAGE)
@@ -323,127 +238,6 @@ class AuthAPI {
             if let sexErrors = error.sex,
                let sexError = sexErrors.first {
                 throw APIError.ClientError(sexError, SEX_RECOVERY_MESSAGE)
-            }
-        }
-        throw APIError.Unknown
-    }
-    
-    static func fetchAuthToken(json: Data) async throws -> String {
-        let url = "\(Env.BASE_URL)\(PATH_TO_API_TOKEN)"
-        let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url:url, jsonData:json, method: HTTPMethods.POST.rawValue)
-        try filterAuthTokenErrors(data: data, response: response)
-        return try JSONDecoder().decode(APIToken.self, from: data).token
-    }
-    
-    static func fetchAuthToken(email_or_username:String, password:String) async throws -> String {
-        let url = "\(Env.BASE_URL)\(PATH_TO_API_TOKEN)"
-        let params:[String:String] = [
-            AUTH_EMAIL_OR_USERNAME_PARAM: email_or_username,
-            AUTH_PASSWORD_PARAM: password,
-        ]
-        let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url:url, jsonData:json, method: HTTPMethods.POST.rawValue)
-        try filterAuthTokenErrors(data: data, response: response)
-        return try JSONDecoder().decode(APIToken.self, from: data).token
-    }
-    
-    static func filterAuthTokenErrors(data: Data, response: HTTPURLResponse) throws {
-        let statusCode = response.statusCode
-        
-        if isSuccess(statusCode: statusCode) { return }
-        if isClientError(statusCode: statusCode) {
-            let error = try JSONDecoder().decode(LoginError.self, from: data)
-            if let emailOrUsernameErrors = error.email_or_username,
-               let emailOrUsernameError = emailOrUsernameErrors.first {
-                throw APIError.ClientError(emailOrUsernameError, EMAIL_OR_USERNAME_RECOVERY_MESSAGE)
-            }
-            if let passwordErrors = error.password,
-               let passwordError = passwordErrors.first {
-                throw APIError.ClientError(passwordError, PASSWORD_RECOVERY_MESSAGE)
-            }
-            if let _ = error.non_field_errors {
-                throw APIError.ClientError(LOGIN_ERROR_DESCRIPTION,
-                                           USERNAME_PASSWORD_RECOVERY_MESSAGE)
-            }
-        }
-        throw APIError.Unknown
-    }
-    
-    static func requestResetPassword(email:String) async throws {
-        let url = "\(Env.BASE_URL)\(PATH_TO_PASSWORD_RESET_REQUEST)"
-        let params:[String:String] = [AUTH_EMAIL_PARAM: email]
-        let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url:url, jsonData:json, method: HTTPMethods.POST.rawValue)
-        try filterPasswordResetRequestErrors(data: data, response: response)
-    }
-    
-    static func filterPasswordResetRequestErrors(data: Data, response: HTTPURLResponse) throws {
-        let statusCode = response.statusCode
-        
-        if isSuccess(statusCode: statusCode) { return }
-        if isClientError(statusCode: statusCode) {
-            let error = try JSONDecoder().decode(RequestResetPasswordError.self, from: data)
-            if let emailErrors = error.email,
-               let emailError = emailErrors.first {
-                throw APIError.ClientError(emailError, EMAIL_RECOVERY_MESSAGE)
-            }
-        }
-        throw APIError.Unknown
-    }
-    
-    static func validateResetPassword(email:String, code:String) async throws {
-        let url = "\(Env.BASE_URL)\(PATH_TO_PASSWORD_RESET_VALIDATION)"
-        let params:[String:String] = [
-            AUTH_EMAIL_PARAM: email,
-            AUTH_CODE_PARAM: code,
-        ]
-        let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url:url, jsonData:json, method: HTTPMethods.POST.rawValue)
-        try filterPasswordResetValidationErrors(data: data, response: response)
-    }
-    
-    static func filterPasswordResetValidationErrors(data: Data, response: HTTPURLResponse) throws {
-        let statusCode = response.statusCode
-        
-        if isSuccess(statusCode: statusCode) { return }
-        if isClientError(statusCode: statusCode) {
-            let error = try JSONDecoder().decode(ValidateResetPasswordError.self, from: data)
-            if let emailErrors = error.email,
-               let emailError = emailErrors.first {
-                throw APIError.ClientError(emailError, EMAIL_RECOVERY_MESSAGE)
-            }
-            if let codeErrors = error.code,
-               let codeError = codeErrors.first {
-                throw APIError.ClientError(codeError, CODE_RECOVERY_MESSAGE)
-            }
-        }
-        throw APIError.Unknown
-    }
-    
-    static func finalizeResetPassword(email:String, password:String) async throws {
-        let url = "\(Env.BASE_URL)\(PATH_TO_PASSWORD_RESET_FINALIZATION)"
-        let params:[String:String] = [
-            AUTH_EMAIL_PARAM: email,
-            AUTH_PASSWORD_PARAM: password,
-        ]
-        let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url:url, jsonData:json, method: HTTPMethods.POST.rawValue)
-        try filterPasswordResetFinalizationErrors(data: data, response: response)
-    }
-    
-    static func filterPasswordResetFinalizationErrors(data: Data, response: HTTPURLResponse) throws {
-        let statusCode = response.statusCode
-        
-        if isSuccess(statusCode: statusCode) { return }
-        if isClientError(statusCode: statusCode) {
-            let error = try JSONDecoder().decode(FinalizeResetPasswordError.self, from: data)
-            if let emailErrors = error.email,
-               let emailError = emailErrors.first {
-                throw APIError.ClientError(emailError, EMAIL_RECOVERY_MESSAGE)
-            }
-            if let passwordErrors = error.password,
-               let passwordError = passwordErrors.first {
-                throw APIError.ClientError(passwordError, PASSWORD_RECOVERY_MESSAGE)
             }
         }
         throw APIError.Unknown

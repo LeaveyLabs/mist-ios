@@ -117,7 +117,7 @@ class CreatePasswordViewController: KUIViewController, UITextFieldDelegate {
                 Task {
                     do {
                         let emailMinusDomain = AuthContext.email.components(separatedBy: "@")[0]
-                        try await AuthAPI.validatePassword(username: emailMinusDomain, password: password)
+//                        try await AuthAPI.validatePassword(username: emailMinusDomain, password: password)
                         AuthContext.password = password
                         let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterBios)
                         self.navigationController?.pushViewController(vc, animated: true)
