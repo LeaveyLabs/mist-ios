@@ -155,7 +155,7 @@ extension CustomSwiftMessages {
             case .contacts:
                 title = "share your contacts for better tagging"
                 body = "if you tag a friend who doesn't have mist, we'll shoot them a text"
-                emoji = "📞"
+                emoji = "＠"
                 messageView.customConfig(approveText: "share", dismissText: "nah")
             case .notifications:
                 title = "would you like to turn on notifications?"

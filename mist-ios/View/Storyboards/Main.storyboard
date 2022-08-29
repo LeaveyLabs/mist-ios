@@ -310,165 +310,6 @@
             </objects>
             <point key="canvasLocation" x="-1040" y="1874"/>
         </scene>
-        <!--Rules View Controller-->
-        <scene sceneID="KH2-3P-Vpl">
-            <objects>
-                <viewController storyboardIdentifier="RulesViewController" id="dJp-Dv-LgT" customClass="RulesViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="P6h-ky-B0Q">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="mist guidelines" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="VfI-kc-q4b">
-                                <rect key="frame" x="40" y="74" width="310" height="54.666666666666657"/>
-                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="40"/>
-                                <color key="textColor" name="mist-lilac"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w0n-QH-4eX">
-                                <rect key="frame" x="30" y="745" width="330" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="5YU-2r-Icr"/>
-                                </constraints>
-                                <color key="tintColor" name="mist-lilac"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="Button">
-                                    <attributedString key="attributedTitle">
-                                        <fragment content="Got it!">
-                                            <attributes>
-                                                <font key="NSFont" size="23" name="Avenir-Medium"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
-                                </state>
-                                <buttonConfiguration key="configuration" style="filled" title="got it">
-                                    <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="understoodButtonDidPressed:" destination="dJp-Dv-LgT" eventType="touchUpInside" id="4aR-AA-VmD"/>
-                                    <action selector="understoodButtonDidPressed:" destination="UkW-Qo-P11" eventType="touchUpInside" id="a5K-VY-kGL"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="help keep mist a wholesome, heart-warming space." textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="RnK-5v-xjh">
-                                <rect key="frame" x="25" y="128.66666666666666" width="340" height="19.333333333333343"/>
-                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
-                                <color key="textColor" name="mist-black"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="hQ6-f1-lGW">
-                                <rect key="frame" x="30" y="182.99999999999997" width="330" height="346.33333333333326"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="17k-UD-kCP">
-                                        <rect key="frame" x="0.0" y="0.0" width="330" height="105.66666666666667"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="pour your heart out." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="hsA-Lj-RFs">
-                                                <rect key="frame" x="0.0" y="0.0" width="330" height="33"/>
-                                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="wfq-v2-azn">
-                                                <rect key="frame" x="0.0" y="40.000000000000007" width="330" height="65.666666666666686"/>
-                                                <string key="text">compliment a stranger’s smile,
-make that cute barista’s day,
-… or shoot your shot at the RA.</string>
-                                                <fontDescription key="fontDescription" name="Avenir-MediumOblique" family="Avenir" pointSize="16"/>
-                                                <color key="textColor" name="mist-black"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="zbC-3x-Hb8">
-                                        <rect key="frame" x="0.0" y="140.66666666666669" width="330" height="86.666666666666686"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="embrace your inner Van Gogh." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="Ge1-Vx-Ggx">
-                                                <rect key="frame" x="0.0" y="0.0" width="330" height="35.666666666666664"/>
-                                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="26"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="eescriptive mists are more likely to turn into matches." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hIH-92-6vW">
-                                                <rect key="frame" x="0.0" y="42.666666666666629" width="330" height="44"/>
-                                                <fontDescription key="fontDescription" name="Avenir-MediumOblique" family="Avenir" pointSize="16"/>
-                                                <color key="textColor" name="mist-black"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="wiz-Bz-G8i">
-                                        <rect key="frame" x="0.0" y="262.33333333333331" width="330" height="84"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="be respectful of others." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8RL-AX-bmv">
-                                                <rect key="frame" x="0.0" y="0.0" width="330" height="33"/>
-                                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="avoid language that’s offensive, embarrassing, or overtly sexual." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lfB-5v-o2j">
-                                                <rect key="frame" x="0.0" y="40" width="330" height="44"/>
-                                                <fontDescription key="fontDescription" name="Avenir-MediumOblique" family="Avenir" pointSize="16"/>
-                                                <color key="textColor" name="mist-black"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                            </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="Jac-xu-4nd">
-                                <rect key="frame" x="30" y="709.33333333333337" width="330" height="20.666666666666629"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="learn more about how we moderate content here.">
-                                        <attributes>
-                                            <font key="NSFont" size="15" name="Avenir-Medium"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mYi-g1-Pco">
-                                <rect key="frame" x="320" y="709.33333333333337" width="40" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="VAM-R5-Z4t"/>
-                                    <constraint firstAttribute="height" constant="20" id="gXY-Hx-DsS"/>
-                                </constraints>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <connections>
-                                    <action selector="learnMoreButtonDidPressed:" destination="dJp-Dv-LgT" eventType="touchUpInside" id="uju-km-Q3u"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="bC3-mt-2uA"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="w0n-QH-4eX" firstAttribute="leading" secondItem="bC3-mt-2uA" secondAttribute="leading" constant="30" id="3V3-mA-qIc"/>
-                            <constraint firstItem="hQ6-f1-lGW" firstAttribute="leading" secondItem="bC3-mt-2uA" secondAttribute="leading" constant="30" id="B3h-9h-qBf"/>
-                            <constraint firstItem="Jac-xu-4nd" firstAttribute="leading" secondItem="bC3-mt-2uA" secondAttribute="leading" constant="30" id="EEu-VE-Bup"/>
-                            <constraint firstItem="mYi-g1-Pco" firstAttribute="top" secondItem="Jac-xu-4nd" secondAttribute="top" id="JXn-TE-hCZ"/>
-                            <constraint firstItem="w0n-QH-4eX" firstAttribute="top" secondItem="Jac-xu-4nd" secondAttribute="bottom" constant="15" id="LXo-6O-9Cp"/>
-                            <constraint firstItem="VfI-kc-q4b" firstAttribute="top" secondItem="bC3-mt-2uA" secondAttribute="top" constant="30" id="O56-qB-jgd"/>
-                            <constraint firstItem="hQ6-f1-lGW" firstAttribute="top" secondItem="RnK-5v-xjh" secondAttribute="bottom" constant="35" id="Oxr-D3-O93"/>
-                            <constraint firstItem="RnK-5v-xjh" firstAttribute="top" secondItem="VfI-kc-q4b" secondAttribute="bottom" id="P6e-WV-2ox"/>
-                            <constraint firstItem="bC3-mt-2uA" firstAttribute="trailing" secondItem="mYi-g1-Pco" secondAttribute="trailing" constant="30" id="VOb-fL-c5P"/>
-                            <constraint firstItem="RnK-5v-xjh" firstAttribute="leading" secondItem="bC3-mt-2uA" secondAttribute="leading" constant="25" id="WQ1-J9-qRv"/>
-                            <constraint firstItem="w0n-QH-4eX" firstAttribute="bottom" secondItem="bC3-mt-2uA" secondAttribute="bottom" constant="-15" id="Z8t-11-BmA"/>
-                            <constraint firstItem="bC3-mt-2uA" firstAttribute="trailing" secondItem="Jac-xu-4nd" secondAttribute="trailing" constant="30" id="ZaS-jv-WCS"/>
-                            <constraint firstItem="bC3-mt-2uA" firstAttribute="trailing" secondItem="VfI-kc-q4b" secondAttribute="trailing" constant="40" id="lnQ-Ar-1Cc"/>
-                            <constraint firstItem="bC3-mt-2uA" firstAttribute="trailing" secondItem="RnK-5v-xjh" secondAttribute="trailing" constant="25" id="oO3-Bl-3jt"/>
-                            <constraint firstItem="bC3-mt-2uA" firstAttribute="trailing" secondItem="w0n-QH-4eX" secondAttribute="trailing" constant="30" id="oYA-EW-Lxm"/>
-                            <constraint firstAttribute="trailing" secondItem="hQ6-f1-lGW" secondAttribute="trailing" constant="30" id="vP3-cT-XwW"/>
-                            <constraint firstItem="VfI-kc-q4b" firstAttribute="leading" secondItem="bC3-mt-2uA" secondAttribute="leading" constant="40" id="zOJ-Jo-Myo"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="h4f-Fv-0Dd"/>
-                    <connections>
-                        <outlet property="learnMoreLabel" destination="Jac-xu-4nd" id="YTT-EQ-tCg"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="pYP-c2-Wso" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="UkW-Qo-P11" userLabel="Exit" sceneMemberID="exit"/>
-            </objects>
-            <point key="canvasLocation" x="-1763.0769230769231" y="2561.3744075829381"/>
-        </scene>
         <!--Guidelines View Controller-->
         <scene sceneID="rZD-yS-ktF">
             <objects>
@@ -482,7 +323,7 @@ make that cute barista’s day,
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mhp-ql-dJ7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1040" y="2561"/>
+            <point key="canvasLocation" x="-1763" y="2544"/>
         </scene>
         <!--Special Tab Bar Controller-->
         <scene sceneID="PLu-W2-ENU">
@@ -1223,7 +1064,7 @@ make that cute barista’s day,
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adam Novak" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="fDh-hd-9ul">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adam Novak" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="fDh-hd-9ul">
                                 <rect key="frame" x="98" y="391" width="194" height="44"/>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="32"/>
                                 <nil key="textColor"/>
@@ -1274,21 +1115,19 @@ make that cute barista’s day,
                                     <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                             </button>
-                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Osc-em-zqX">
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Osc-em-zqX">
                                 <rect key="frame" x="70" y="126" width="250" height="250"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Osc-em-zqX" secondAttribute="height" id="SfA-pM-3mB"/>
                                 </constraints>
                                 <color key="tintColor" name="mist-black"/>
-                                <state key="normal" image="person.crop.circle" catalog="system">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="180"/>
-                                </state>
+                                <state key="normal" image="person.crop.circle" catalog="system"/>
                                 <connections>
                                     <action selector="didPressedChoosePhotoButton:" destination="TJI-kg-NyR" eventType="touchUpInside" id="ZOm-XW-jCQ"/>
                                     <action selector="profilePicDidPressed:" destination="KKi-Sx-eAl" eventType="touchUpInside" id="Mgf-Vj-ObY"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark.seal.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="67x-Io-GLW">
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark.seal.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="67x-Io-GLW">
                                 <rect key="frame" x="300" y="399" width="26.333333333333314" height="28"/>
                                 <color key="tintColor" systemColor="systemBlueColor"/>
                                 <constraints>
@@ -1305,9 +1144,9 @@ make that cute barista’s day,
                             <constraint firstItem="W3a-GG-5aG" firstAttribute="top" secondItem="sJV-Uf-tOy" secondAttribute="top" constant="30" id="Cmr-m7-ypD"/>
                             <constraint firstItem="67x-Io-GLW" firstAttribute="height" secondItem="fDh-hd-9ul" secondAttribute="height" multiplier="0.6" id="Fe9-bg-SRN"/>
                             <constraint firstItem="iaB-dd-3Tv" firstAttribute="centerY" secondItem="W3a-GG-5aG" secondAttribute="centerY" id="IPV-rb-f6a"/>
-                            <constraint firstItem="fDh-hd-9ul" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="sJV-Uf-tOy" secondAttribute="leading" constant="70" id="IVE-bg-RnF"/>
+                            <constraint firstItem="fDh-hd-9ul" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="sJV-Uf-tOy" secondAttribute="leading" constant="30" id="IVE-bg-RnF"/>
                             <constraint firstItem="67x-Io-GLW" firstAttribute="leading" secondItem="fDh-hd-9ul" secondAttribute="trailing" constant="8" symbolic="YES" id="Uen-xU-5aI"/>
-                            <constraint firstItem="sJV-Uf-tOy" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="fDh-hd-9ul" secondAttribute="trailing" constant="70" id="WFA-dX-d4U"/>
+                            <constraint firstItem="sJV-Uf-tOy" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="fDh-hd-9ul" secondAttribute="trailing" constant="30" id="WFA-dX-d4U"/>
                             <constraint firstItem="fDh-hd-9ul" firstAttribute="top" secondItem="Osc-em-zqX" secondAttribute="bottom" constant="15" id="Xio-Yq-3n5"/>
                             <constraint firstItem="Osc-em-zqX" firstAttribute="centerX" secondItem="zDM-BA-NN5" secondAttribute="centerX" id="YuJ-lk-7UG"/>
                             <constraint firstItem="Ytd-X7-2hj" firstAttribute="centerY" secondItem="W3a-GG-5aG" secondAttribute="centerY" id="aIa-B7-tF0"/>
@@ -3019,7 +2858,6 @@ make that cute barista’s day,
                                 <connections>
                                     <action selector="dismissButtonDidPressed:" destination="nbf-2g-8V2" eventType="touchUpInside" id="Zml-2Y-dda"/>
                                     <action selector="understoodButtonDidPressed:" destination="evG-sf-QYx" eventType="touchUpInside" id="XxL-ha-CRC"/>
-                                    <action selector="understoodButtonDidPressed:" destination="UkW-Qo-P11" eventType="touchUpInside" id="be4-vQ-zLs"/>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="ZPp-5m-IsN">
@@ -3126,7 +2964,6 @@ make that cute barista’s day,
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="understoodButtonDidPressed:" destination="evG-sf-QYx" eventType="touchUpInside" id="DN2-Mh-p8n"/>
-                                    <action selector="understoodButtonDidPressed:" destination="UkW-Qo-P11" eventType="touchUpInside" id="dQn-Mc-blW"/>
                                     <action selector="verifyButtonDidPressed:" destination="nbf-2g-8V2" eventType="touchUpInside" id="o5v-LS-4YX"/>
                                 </connections>
                             </button>

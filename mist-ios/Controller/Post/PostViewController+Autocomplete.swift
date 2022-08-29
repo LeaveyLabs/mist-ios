@@ -141,16 +141,6 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
     }
     
     func loadAutocompleteData(query: String) {
-        if !hasPromptedUserForContactsAccess && !areContactsAuthorized() {
-            autocompleteManager.invalidate()
-           requestContactsAccessIfNecessary { approved in
-               DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: { [weak self] in
-                   self?.loadAutocompleteData(query: query)
-               })
-           }
-           return
-       }
-        
         //Check if beginning of tag
         if query.isEmpty {
             DispatchQueue.main.async { [weak self] in

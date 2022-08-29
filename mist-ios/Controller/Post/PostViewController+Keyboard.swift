@@ -138,8 +138,18 @@ extension PostViewController {
         else {
             return
         }
-        tableView.layoutIfNeeded()
-        scrollToBottom()
+        if !hasPromptedUserForContactsAccess && !areContactsAuthorized() {
+           requestContactsAccessIfNecessary { approved in
+               DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [weak self] in
+                   self?.tableView.layoutIfNeeded()
+                   self?.scrollToBottom()
+               })
+           }
+           return
+        } else {
+            tableView.layoutIfNeeded()
+            scrollToBottom()
+        }
     }
 
     /// UIScrollView can automatically add safe area insets to its contentInset,

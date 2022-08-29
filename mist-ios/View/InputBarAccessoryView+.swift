@@ -38,7 +38,7 @@ extension InputBarAccessoryView {
         middleContentViewPadding.right = -45 //extends the inputbar to the right
         
         //Right
-        sendButton.title = "Post"
+        sendButton.title = "post"
         sendButton.setTitleColor(.clear, for: .disabled)
         sendButton.setTitleColor(Constants.Color.mistLilac, for: .normal)
         sendButton.setTitleColor(Constants.Color.mistLilac.withAlphaComponent(0.4), for: .highlighted)
