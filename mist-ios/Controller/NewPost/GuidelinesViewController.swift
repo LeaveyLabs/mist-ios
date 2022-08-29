@@ -91,7 +91,7 @@ class GuidelinesViewController: UIViewController, GuidelinesDelegate {
     func setupGuidelinesLabel() {
         guidelinesLabel.text = "mist guidelines"
         guidelinesLabel.font = UIFont(name: Constants.Font.Heavy, size: 50)
-        guidelinesLabel.textColor = Constants.Color.mistLilac
+        guidelinesLabel.textColor = Constants.Color.mistBlack
         guidelinesLabel.numberOfLines = 1
         guidelinesLabel.minimumScaleFactor = 0.5
         guidelinesLabel.textAlignment = .center

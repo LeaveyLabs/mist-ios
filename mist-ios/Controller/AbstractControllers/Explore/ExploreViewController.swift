@@ -62,7 +62,7 @@ extension ExploreViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        latitudeOffset = 0.0009
+        latitudeOffset = 0.0015
         setupCustomTapGestureRecognizerOnMap()
         
         if let userLocation = locationManager.location {

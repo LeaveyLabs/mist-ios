@@ -182,10 +182,10 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
         let (date, time) = getDateAndTimeForNewPost(selectedDate: datePicker.date)
         if hasUserTappedDateLabel {
-            dateLabel.text = date
+            dateLabel.text = date.lowercased()
         }
         if hasUserTappedTimeLabel {
-            timeLabel.text = time
+            timeLabel.text = time.lowercased()
         }
     }
     

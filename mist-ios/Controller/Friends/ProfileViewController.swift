@@ -72,7 +72,7 @@ class ProfileViewController: UIViewController {
             profilePicButton.imageView?.becomeProfilePicImageView(with: user.profilePic)
             nameLabel.text = user.full_name
             usernameLabel.text = user.username
-            verifiedImageView.image = user.is_verified ? UIImage(systemName: "checkmark.seal.fill") : nil
+            verifiedImageView.isHidden = !user.is_verified
         case .loading:
             profilePicButton.imageView?.image = Constants.defaultProfilePic
             nameLabel.text = "loading..."
@@ -81,13 +81,11 @@ class ProfileViewController: UIViewController {
             guard let handle = userHandleForLoading else { return }
             profilePicButton.imageView?.image = Constants.defaultProfilePic
             nameLabel.text = "this user does not exist"
-            nameLabel.font = UIFont(name: Constants.Font.Medium, size: 18)
             usernameLabel.text = handle.filter({ $0 != "@" })
         case .notclaimed:
             guard let handle = userHandleForLoading else { return }
             profilePicButton.imageView?.image = Constants.defaultProfilePic
             nameLabel.text = "this account has not yet been claimed"
-            nameLabel.font = UIFont(name: Constants.Font.Medium, size: 18)
             usernameLabel.text = handle.filter({ $0 != "@" })
         case .none:
             break

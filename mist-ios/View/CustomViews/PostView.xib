@@ -17,13 +17,13 @@
                 <outlet property="emojiButton1" destination="QC2-Mt-A14" id="j1T-eq-YZU"/>
                 <outlet property="emojiButton2" destination="Ya0-s7-J3U" id="heZ-HR-3AW"/>
                 <outlet property="emojiButton3" destination="i0w-0o-6ZG" id="Qkn-4R-zbH"/>
-                <outlet property="locationLabel" destination="hUc-aP-KHZ" id="gMn-3e-TMB"/>
+                <outlet property="locationLabel" destination="KSk-NV-QiT" id="NnM-4J-fKT"/>
                 <outlet property="messageLabel" destination="n8O-is-nrf" id="fQi-FD-JH8"/>
                 <outlet property="moreButton" destination="9PV-NB-WGv" id="Ib9-j3-DOd"/>
                 <outlet property="postTitleLabel" destination="H2e-sd-bfE" id="KeB-Bk-4yj"/>
                 <outlet property="reactButton" destination="GFd-V9-XW5" id="Zej-OL-5qT"/>
                 <outlet property="reactionsButton" destination="QC2-Mt-A14" id="FIS-xm-Kb2"/>
-                <outlet property="timestampLabel" destination="KSk-NV-QiT" id="R3z-Ec-TwJ"/>
+                <outlet property="timestampLabel" destination="hUc-aP-KHZ" id="sNS-Uk-uyy"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -45,14 +45,14 @@
                         <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YJY-MB-ihA" userLabel="Top Stack">
                             <rect key="frame" x="15" y="14" width="362" height="20"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="2 days ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KSk-NV-QiT">
-                                    <rect key="frame" x="0.0" y="0.0" width="64" height="20"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="doheny library" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KSk-NV-QiT">
+                                    <rect key="frame" x="0.0" y="0.0" width="85" height="20"/>
                                     <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
                                     <color key="textColor" systemColor="systemGrayColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ONX-nQ-yOJ">
-                                    <rect key="frame" x="64" y="0.5" width="15" height="19"/>
+                                    <rect key="frame" x="85" y="0.5" width="15" height="19"/>
                                     <color key="tintColor" systemColor="systemGrayColor"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="15" id="65B-on-fPW"/>
@@ -60,8 +60,8 @@
                                     <imageReference key="image" image="circlebadge.fill" catalog="system" symbolScale="default"/>
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="4" scale="default"/>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Doheny Library" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hUc-aP-KHZ">
-                                    <rect key="frame" x="79" y="0.0" width="283" height="20"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 days ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hUc-aP-KHZ">
+                                    <rect key="frame" x="100" y="0.0" width="262" height="20"/>
                                     <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
                                     <color key="textColor" systemColor="systemGrayColor"/>
                                     <nil key="highlightedColor"/>
