@@ -38,7 +38,7 @@ class MapViewController: UIViewController {
     static let MIN_CAMERA_DISTANCE: Double = 500
     static let MAX_CAMERA_PITCH: Double = 20
 //    static let MIN_CAMERA_PITCH: Double = 0 //not implemented yet
-    static let CLUSTER_ZOOM_THRESHOLD: Double = 2000
+    static let ANNOTATION_ZOOM_THRESHOLD: Double = 2000
     let minSpanDelta = 0.02
     var isCameraFlyingOutAndIn: Bool = false
     var isCameraFlying: Bool = false {
@@ -348,7 +348,7 @@ extension MapViewController {
                    withDuration duration: Double,
                    completion: @escaping (Bool) -> Void) {
         isCameraFlying = true
-        var newCLLDistance: Double = 500
+        var newCLLDistance: Double = 1000
         let destination = CLLocationCoordinate2D(latitude: lat, longitude: long)
         if incrementalZoom {
             newCLLDistance = pow(self.mapView.camera.centerCoordinateDistance, 8/10)
@@ -378,7 +378,7 @@ extension MapViewController {
         //NOTE: unlike the other slowFlyTo functions, in this one, we're calculating the latitude offset dynamically, based on the current map zoom level
         //This is because we are adjusting the camera at the same distance, without zoom in or zoom out
         let currentDistance = mapView.camera.centerCoordinateDistance
-        let dynamicLatOffset = (latitudeOffset / 500) * currentDistance * 0.9
+        let dynamicLatOffset = (latitudeOffset / 1000) * currentDistance
         
         let destination = CLLocationCoordinate2D(latitude: lat + dynamicLatOffset, longitude: long)
         let finalCamera = MKMapCamera(lookingAtCenter: destination,
