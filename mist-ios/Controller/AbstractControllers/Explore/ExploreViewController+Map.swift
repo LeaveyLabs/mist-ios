@@ -13,9 +13,14 @@ import MapKit
 
 //MARK: - Map Interaction
 
+class MyMapView: MKMapView {
+    
+    
+}
+
 extension ExploreViewController {
     
-    @IBAction func exploreUserTrackingButtonDidPressed(_ sender: UIButton) {
+    @IBAction func exploreUserTrackingButtonPressed(_ sender: UIButton) {
         dismissPost()
         userTrackingButtonDidPressed(sender)
     }
@@ -92,14 +97,12 @@ extension ExploreViewController {
             mapView.deselectAnnotation(view.annotation, animated: false)
             mapView.userLocation.title = "Hey cutie"
         }
-        
-        selectedAnnotationView = view
+        selectedAnnotationView = view as? AnnotationViewWithPosts
         mapView.isZoomEnabled = true // AnnotationQuickSelect: 3 of 3, just in case
         switch annotationSelectionType {
         case .swipe:
-            if let clusterAnnotation = view.cluster?.annotation as? MKClusterAnnotation {
-                mapView.deselectAnnotation(view.annotation, animated: false)
-                handleClusterAnnotationSelection(clusterAnnotation)
+            if let clusterView = view as? ClusterAnnotationView {
+                handleClusterAnnotationSelection(clusterView.annotation as! MKClusterAnnotation, clusterView: clusterView)
             } else if let postAnnotationView = view as? PostAnnotationView {
                 // - 100 because that's roughly the offset between the middle of the map and the annotaiton
                 let distanceb = postAnnotationView.annotation!.coordinate.distance(from: mapView.centerCoordinate) - 100
@@ -123,18 +126,16 @@ extension ExploreViewController {
                 }
             }
         case .submission:
-            if let clusterAnnotation = view.cluster?.annotation as? MKClusterAnnotation {
-                mapView.deselectAnnotation(view.annotation, animated: false)
-                handleClusterAnnotationSelection(clusterAnnotation)
+            if let clusterView = view as? ClusterAnnotationView {
+                handleClusterAnnotationSelection(clusterView.annotation as! MKClusterAnnotation, clusterView: clusterView)
             } else if let postAnnotationView = view as? PostAnnotationView {
                 postAnnotationView.loadPostView(on: mapView,
                                                 withDelay: 0,
                                                 withPostDelegate: self)
             }
         default:
-            if let clusterAnnotation = view.annotation as? MKClusterAnnotation {
-                mapView.deselectAnnotation(view.annotation, animated: false)
-                handleClusterAnnotationSelection(clusterAnnotation)
+            if let clusterView = view as? ClusterAnnotationView {
+                handleClusterAnnotationSelection(clusterView.annotation as! MKClusterAnnotation, clusterView: clusterView)
             } else if let postAnnotationView = view as? PostAnnotationView {
                 slowFlyTo(lat: view.annotation!.coordinate.latitude + latitudeOffset,
                           long: view.annotation!.coordinate.longitude,
@@ -144,8 +145,12 @@ extension ExploreViewController {
                 postAnnotationView.loadPostView(on: mapView,
                                                 withDelay: cameraAnimationDuration,
                                                 withPostDelegate: self)
-            } else if let placeAnnotationView = view as? PlaceAnnotationView {
-                mapView.deselectAnnotation(placeAnnotationView.annotation, animated: false)
+            } else if let _ = view as? PlaceAnnotationView {
+                slowFlyTo(lat: view.annotation!.coordinate.latitude,
+                          long: view.annotation!.coordinate.longitude,
+                          incrementalZoom: false,
+                          withDuration: cameraAnimationDuration * 2,
+                          completion: { _ in })
             }
         }
         annotationSelectionType = .normal // Return to default
@@ -214,29 +219,28 @@ extension ExploreViewController {
         }
     }
     
-    func handleClusterAnnotationSelection(_ clusterAnnotation: MKClusterAnnotation) {
-        let wasHotspotBeforeSlowFly = clusterAnnotation.isHotspot
-        slowFlyTo(lat: clusterAnnotation.coordinate.latitude,
-                  long: clusterAnnotation.coordinate.longitude,
-                  incrementalZoom: true,
-                  withDuration: cameraAnimationDuration,
-                  completion: { _ in
-            if wasHotspotBeforeSlowFly {
-                var posts = [Post]()
-                for annotation in clusterAnnotation.memberAnnotations {
-                    if let annotation = annotation as? PostAnnotation {
-                        posts.append(annotation.post)
-                    }
-                }
-                let newVC = SearchResultsTableViewController.resultsFeedViewController(feedType: .hotspot, feedValue: clusterAnnotation.title!)
-                newVC.posts = posts
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    self.navigationController?.pushViewController(newVC, animated: true)
-                }
-            } else {
-
-            }
-        })
+    func handleClusterAnnotationSelection(_ clusterAnnotation: MKClusterAnnotation, clusterView: ClusterAnnotationView) {
+        let shouldZoomIn = mapView.camera.centerCoordinateDistance > MapViewController.CLUSTER_ZOOM_THRESHOLD
+        if shouldZoomIn {
+            mapView.deselectAnnotation(clusterAnnotation, animated: false)
+            slowFlyTo(lat: clusterAnnotation.coordinate.latitude,
+                      long: clusterAnnotation.coordinate.longitude,
+                      incrementalZoom: true,
+                      withDuration: cameraAnimationDuration,
+                      completion: {_ in } )
+        } else {
+            slowFlyWithoutZoomTo(lat: clusterAnnotation.coordinate.latitude,
+                      long: clusterAnnotation.coordinate.longitude,
+                      withDuration: cameraAnimationDuration,
+                      completion: { [weak self] completed in
+                guard let self = self else { return }
+//                let doesClusterStillExist = self.mapView.selectedAnnotations.contains { annotation in
+//                    annotation as? MKClusterAnnotation == clusterAnnotation
+//                }
+//                guard doesClusterStillExist else { return }
+                clusterView.loadCollectionView(on: self.mapView, withPostDelegate: self)
+            })
+        }
     }
     
 }
@@ -247,36 +251,36 @@ extension ExploreViewController {
 extension ExploreViewController: AnnotationViewSwipeDelegate {
 
     func handlePostViewSwipeRight() {
-        guard var index = selectedAnnotationIndex else { return }
-
-        let selectedAnnotationView = selectedAnnotationView as! PostAnnotationView
-        mapView.deselectAnnotation(selectedAnnotationView.annotation, animated: true)
-        index += 1
-        if index == postAnnotations.count {
-            index = 0
-        }
-        let nextAnnotation = postAnnotations[index]
-        annotationSelectionType = .swipe
-        mapView.selectAnnotation(nextAnnotation, animated: true)
+//        guard var index = selectedAnnotationIndex else { return }
+//
+//        let selectedAnnotationView = selectedAnnotationView as! PostAnnotationView
+//        mapView.deselectAnnotation(selectedAnnotationView.annotation, animated: true)
+//        index += 1
+//        if index == postAnnotations.count {
+//            index = 0
+//        }
+//        let nextAnnotation = postAnnotations[index]
+//        annotationSelectionType = .swipe
+//        mapView.selectAnnotation(nextAnnotation, animated: true)
     }
-    
+//    
     func handlePostViewSwipeLeft() {
-        guard var index = selectedAnnotationIndex else { return }
-        
-        //        let postView = pav.postCalloutView!
-        //        postView.animation = "slideLeft"
-        //        postView.duration = 2
-        //        postView.rever
-        
-        let selectedAnnotationView = selectedAnnotationView as! PostAnnotationView
-        mapView.deselectAnnotation(selectedAnnotationView.annotation, animated: true)
-        index -= 1
-        if index == -1 {
-            index = postAnnotations.count-1
-        }
-        let nextAnnotation = postAnnotations[index]
-        annotationSelectionType = .swipe
-        mapView.selectAnnotation(nextAnnotation, animated: true)
+//        guard var index = selectedAnnotationIndex else { return }
+//        
+//        //        let postView = pav.postCalloutView!
+//        //        postView.animation = "slideLeft"
+//        //        postView.duration = 2
+//        //        postView.rever
+//        
+//        let selectedAnnotationView = selectedAnnotationView as! PostAnnotationView
+//        mapView.deselectAnnotation(selectedAnnotationView.annotation, animated: true)
+//        index -= 1
+//        if index == -1 {
+//            index = postAnnotations.count-1
+//        }
+//        let nextAnnotation = postAnnotations[index]
+//        annotationSelectionType = .swipe
+//        mapView.selectAnnotation(nextAnnotation, animated: true)
     }
     
 }

@@ -11,7 +11,7 @@ import MessageKit
 struct MessageKitInfo: MessageType {
     
     static let INFO_MESSAGE_ID = "-10"
-    static let THEY_ARE_HIDDEN_MESSAGE = "The author can see your profile.\nYou can see theirs once they accept your chat request."
+    static let THEY_ARE_HIDDEN_MESSAGE = "the author can see your profile.\nyou can see theirs once they accept your dm."
 
     // MessageType Protocol members
     var messageId: String

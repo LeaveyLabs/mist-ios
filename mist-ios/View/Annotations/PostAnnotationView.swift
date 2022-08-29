@@ -13,7 +13,7 @@ protocol AnnotationViewSwipeDelegate {
     func handlePostViewSwipeRight()
 }
 
-var hasSwipeDemoAnimationRun = false
+var hasSwipeDemoAnimationRun = true //turning this off by default for now
 
 final class PostAnnotationView: MKMarkerAnnotationView {
         
@@ -45,7 +45,7 @@ final class PostAnnotationView: MKMarkerAnnotationView {
             glyphTintColor = .white
             markerTintColor = Constants.Color.mistLilac
             displayPriority = .required
-//            clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
+            clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
         }
     }
     
@@ -133,16 +133,16 @@ extension PostAnnotationView {
         NSLayoutConstraint.activate([
             postCalloutView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -90),
             postCalloutView.widthAnchor.constraint(equalTo: mapView.widthAnchor, constant: -50),
-            postCalloutView.heightAnchor.constraint(lessThanOrEqualTo: mapView.heightAnchor, multiplier: 0.70, constant: -97),
+            postCalloutView.heightAnchor.constraint(lessThanOrEqualTo: mapView.heightAnchor, multiplier: 0.70, constant: -90),
             postCalloutView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
         ])
         
         let postAnnotation = annotation as! PostAnnotation
-        postCalloutView.configurePost(post: postAnnotation.post, delegate: postDelegate)
+        postCalloutView.configurePost(post: postAnnotation.post, delegate: postDelegate, arrowPosition: .bottom)
 
         //Do i need to call some of these? I dont think so.
-        mapView.layoutIfNeeded()
-        postCalloutView.setNeedsLayout()
+//        mapView.layoutIfNeeded()
+//        postCalloutView.setNeedsLayout()
         
         postCalloutView.alpha = 0
         postCalloutView.isHidden = true
@@ -159,7 +159,7 @@ extension PostAnnotationView {
         }
     }
     
-    func runSwipeDemoAnimation() {
+    private func runSwipeDemoAnimation() {
         guard let postCalloutView = postCalloutView, isSelected else { return } //The postCalloutView might have disappeared during that delay
         hasSwipeDemoAnimationRun = true
         displaySwipeDemoInstructions()
@@ -176,8 +176,6 @@ extension PostAnnotationView {
             }
         }
     }
-    
-    //put label within a ui view,
     
     func displaySwipeDemoInstructions() {
         swipeDemoView = UIView(frame: .zero)
@@ -200,7 +198,7 @@ extension PostAnnotationView {
         
         let swipeDemoInstructionsLabel = UILabel(frame: swipeDemoView.frame)
         swipeDemoInstructionsLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        swipeDemoInstructionsLabel.text = "Swipe to see more mists"
+        swipeDemoInstructionsLabel.text = "swipe to see more mists"
         swipeDemoInstructionsLabel.font = UIFont(name: Constants.Font.Medium, size: 15)
         swipeDemoInstructionsLabel.textColor = Constants.Color.mistBlack
         swipeDemoInstructionsLabel.textAlignment = .center
@@ -208,22 +206,26 @@ extension PostAnnotationView {
         
         swipeDemoView.fadeIn()
     }
+
+}
+
+//MARK: - AnnotationViewWithPosts
+
+extension PostAnnotationView: AnnotationViewWithPosts {
     
     //The callout is currently presented, and we want to update the postView's UI with the new data
     func rerenderCalloutForUpdatedPostData() {
-        postCalloutView!.reconfigurePost(updatedPost: (annotation as! PostAnnotation).post)
+        postCalloutView!.reconfigurePost()
     }
     
     func movePostUpAfterEmojiKeyboardRaised() {
         layoutIfNeeded()
         UIView.animate(withDuration: 0.25) { [weak self] in
-            self?.constraints.first { $0.firstAnchor == self?.postCalloutView?.bottomAnchor }?.constant = -165
+            self?.constraints.first { $0.firstAnchor == self?.postCalloutView?.bottomAnchor }?.constant = -180
             self?.layoutIfNeeded()
         }
     }
-    
-    //FUCK sometimes emoji button is just not woriking now...
-    
+        
     func movePostBackDownAfterEmojiKeyboardDismissed() {
         layoutIfNeeded()
         UIView.animate(withDuration: 0.25) { [weak self] in
@@ -232,7 +234,6 @@ extension PostAnnotationView {
         }
     }
     
-
 }
 
 //MARK: - PreventAnnotationViewInteractionDelay
@@ -268,8 +269,10 @@ extension PostAnnotationView {
     
     // Add a pan gesture captures the panning on map and prevents the post from being dismissed
     private func setupPanGesture() {
-        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gestureRecognizer:)))
+//        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gestureRecognizer:)))
+        let pan = UIPanGestureRecognizer(target: self, action: nil) //NOTE: NOT ADDING THE PAN FOR REGUALR POST ANNOTATION VIEWS FOR NOW. simply preventing swipes from doing anything
         addGestureRecognizer(pan)
+        
     }
     
     @objc func handlePan(gestureRecognizer: UIPanGestureRecognizer) {

@@ -7,12 +7,12 @@
 
 import Foundation
 
-protocol SettingsTapDelegate {
+protocol SettingsTapDelegate: MFMailComposeViewControllerDelegate {
     //push new vc
     func handlePosts(setting: Setting)
-    func handleLearnMore()
-    func handleShareFeedback()
-    func handleSettings()
+    func handleLearnMore(setting: Setting)
+    func handleShareFeedback(setting: Setting)
+    func handleSettings(setting: Setting)
     //other
     func handleDeleteAccount()
     func handleLeaveReview()
@@ -29,18 +29,18 @@ extension SettingsTapDelegate where Self: UIViewController {
         navigationController?.pushViewController(customExplore, animated: true)
     }
     
-    func handleSettings() {
-        let settingsVC = SettingsViewController.create(settings: [.email, .phoneNumber, .deleteAccount])
+    func handleSettings(setting: Setting) {
+        let settingsVC = SettingsViewController.create(settings: [.email, .phoneNumber, .deleteAccount], title: setting.displayName)
         navigationController?.pushViewController(settingsVC, animated: true)
     }
     
-    func handleShareFeedback() {
-        let settingsVC = SettingsViewController.create(settings: [.rateMist, .leaveReview, .contactUs])
+    func handleShareFeedback(setting: Setting) {
+        let settingsVC = SettingsViewController.create(settings: [.rateMist, .contactUs, .leaveReview], title: setting.displayName)
         navigationController?.pushViewController(settingsVC, animated: true)
     }
     
-    func handleLearnMore() {
-        let settingsVC = SettingsViewController.create(settings: [.faq, .contentGuidelines, .terms, .privacyPolicy])
+    func handleLearnMore(setting: Setting) {
+        let settingsVC = SettingsViewController.create(settings: [.faq, .contentGuidelines, .terms, .privacyPolicy], title: setting.displayName)
         navigationController?.pushViewController(settingsVC, animated: true)
     }
         
@@ -50,6 +50,7 @@ extension SettingsTapDelegate where Self: UIViewController {
         } else if setting == .terms {
             openURL(URL(string: "https://www.getmist.app/terms-of-use")!)
         } else if setting == .contactUs {
+            
             UIApplication.shared.open(URL(string: "mailto:whatsup@getmist.app")!) //mailto can't use safari
         } else if setting == .contentGuidelines {
             openURL(URL(string: "https://www.getmist.app/content-guidelines")!)
@@ -59,9 +60,9 @@ extension SettingsTapDelegate where Self: UIViewController {
     }
     
     func handleDeleteAccount() {
-        CustomSwiftMessages.showAlert(title: "Are you sure you want to delete your account?",
-                                      body: "All of your data will be erased, and you will not be able to access or recover it again.",
-                                      emoji: "😟", dismissText: "Nevermind", approveText: "Delete",
+        CustomSwiftMessages.showAlert(title: "are you sure you want to delete your account?",
+                                      body: "all of your data will be erased, and you will not be able to access or recover it again",
+                                      emoji: "😟", dismissText: "nevermind", approveText: "delete",
                                       onDismiss: {
         }, onApprove: { [self] in
             view.isUserInteractionEnabled = false
@@ -87,8 +88,9 @@ extension SettingsTapDelegate where Self: UIViewController {
     }
     
     func handlePhoneNumber() {
-        let requestPasswordVC = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.RequestResetPassword)
+        let requestPasswordVC = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.RequestReset)
         let navigationController = UINavigationController(rootViewController: requestPasswordVC)
+        navigationController.navigationBar.tintColor = Constants.Color.mistBlack
         if view.frame.size.width < 350 { //otherwise the content gets clipped
             navigationController.modalPresentationStyle = .fullScreen
         }
@@ -106,4 +108,51 @@ extension SettingsTapDelegate where Self: UIViewController {
     //        navigationController?.pushViewController(passwordSettingVC, animated: true)
     //    }
 
+}
+
+//MARK: - CustomEmailAPpOpener
+
+import MessageUI
+import UIKit
+
+extension SettingsTapDelegate where Self: UIViewController {
+    
+    func sendEmailWithAnyEmailApp(to recipientEmail: String) {
+        
+        // Show default mail composer
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients([recipientEmail])
+            
+            present(mail, animated: true)
+        
+        // Show third party email composer if default Mail app is not present
+        } else if let emailUrl = createEmailUrl(to: recipientEmail, subject: "", body: "") {
+            UIApplication.shared.open(emailUrl)
+        }
+    }
+    
+    private func createEmailUrl(to: String, subject: String, body: String) -> URL? {
+        let subjectEncoded = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        let bodyEncoded = body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        
+        let gmailUrl = URL(string: "googlegmail://co?to=\(to)&subject=\(subjectEncoded)&body=\(bodyEncoded)")
+        let outlookUrl = URL(string: "ms-outlook://compose?to=\(to)&subject=\(subjectEncoded)")
+        let yahooMail = URL(string: "ymail://mail/compose?to=\(to)&subject=\(subjectEncoded)&body=\(bodyEncoded)")
+        let sparkUrl = URL(string: "readdle-spark://compose?recipient=\(to)&subject=\(subjectEncoded)&body=\(bodyEncoded)")
+        let defaultUrl = URL(string: "mailto:\(to)?subject=\(subjectEncoded)&body=\(bodyEncoded)")
+        
+        if let gmailUrl = gmailUrl, UIApplication.shared.canOpenURL(gmailUrl) {
+            return gmailUrl
+        } else if let outlookUrl = outlookUrl, UIApplication.shared.canOpenURL(outlookUrl) {
+            return outlookUrl
+        } else if let yahooMail = yahooMail, UIApplication.shared.canOpenURL(yahooMail) {
+            return yahooMail
+        } else if let sparkUrl = sparkUrl, UIApplication.shared.canOpenURL(sparkUrl) {
+            return sparkUrl
+        }
+        
+        return defaultUrl
+    }
 }

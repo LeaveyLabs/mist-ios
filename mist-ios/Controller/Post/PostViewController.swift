@@ -9,7 +9,7 @@ import UIKit
 import Contacts
 import InputBarAccessoryView //dependency of MessageKit. If we remove MessageKit, we should install this package independently
 
-let COMMENT_PLACEHOLDER_TEXT = "Comment & tag friends"
+let COMMENT_PLACEHOLDER_TEXT = "comment & tag friends"
 typealias UpdatedPostCompletionHandler = ((Post) -> Void)
 var hasPromptedUserForContactsAccess = false
 
@@ -26,7 +26,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     
     //TableView
     var activityIndicator = UIActivityIndicatorView(style: .medium)
-    @IBOutlet var tableView: UITableView!
+    @IBOutlet var tableView: PostTableView!
     
     //CommentInput
     let keyboardManager = KeyboardManager() //InputBarAccessoryView
@@ -237,15 +237,15 @@ extension PostViewController: InputBarAccessoryViewDelegate {
             }
         }
         
-        let alertTitle: String = namesAsString + (firstNamesToText.count == 1 ? "isn't on Mist yet!" : "aren't on Mist yet!")
+        let alertTitle: String = namesAsString + (firstNamesToText.count == 1 ? "isn't on Mist yet" : "aren't on Mist yet")
         let alert = UIAlertController(title: alertTitle,
-                                      message: "We'll send a text to let them know you mentioned them.",
+                                      message: "we'll send a text to let them know you mentioned them",
                                       preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Cancel",
+        alert.addAction(UIAlertAction(title: "cancel",
                                       style: UIAlertAction.Style.default, handler: { alertAction in
             closure(false)
         }))
-        alert.addAction(UIAlertAction(title: "OK",
+        alert.addAction(UIAlertAction(title: "ok",
                                       style: UIAlertAction.Style.default, handler: { alertAction in
             closure(true)
         }))
@@ -283,7 +283,7 @@ extension PostViewController: InputBarAccessoryViewDelegate {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.tableView.reloadData()
-            self.tableView.scrollToRow(at: IndexPath(row: self.comments.count, section: 0), at: .bottom, animated: true)
+            self.scrollToBottom()
         }
     }
         
@@ -356,6 +356,13 @@ extension PostViewController {
         Task {
             do {
                 comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
+//                
+//                comments.forEach { comment in
+//                    if (comment.id == 249) {
+//                        print("votecount", comment.votecount)
+//                    }
+//                }
+                
                 commentAuthors = try await UsersService.singleton.loadAndCacheUsers(users: comments.map { $0.read_only_author } )
 //                loadFakeProfilesWhenAWSIsDown()
                 DispatchQueue.main.async { [weak self] in
@@ -519,7 +526,7 @@ extension PostViewController: PostDelegate {
             try VoteService.singleton.handlePostVoteUpdate(postId: postId, emoji: emoji, action)
         } catch {
 //            post.votecount = originalVoteCount //undo viewController data change
-            (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost(updatedPost: post) //reload data
+            (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost() //reload data
             CustomSwiftMessages.displayError(error)
         }
     }

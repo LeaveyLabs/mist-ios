@@ -28,6 +28,7 @@ protocol CompleteUserBackendProperties: Equatable {
     var date_of_birth: String { get }
     var sex: String? { get }
     var keywords: [String] { get }
+    var phone_number: String? { get }
     //let phone_number: String?
 }
 
@@ -63,6 +64,9 @@ struct FrontendReadOnlyUser: ReadOnlyUserBackendProperties, SenderType, Hashable
     }
     let profilePic: UIImage
     let blurredPic: UIImage
+    var is_verified: Bool {
+        return false
+    }
     
     //MessageKit's SenderType
     var senderId: String { return String(id) }
@@ -98,6 +102,7 @@ struct CompleteUser: Codable, CompleteUserBackendProperties {
     let latitude: Double?
     let longitude: Double?
     let keywords: [String]
+    let phone_number: String?
     
     //Equatable
     static func == (lhs: CompleteUser, rhs: CompleteUser) -> Bool { return lhs.id == rhs.id }
@@ -117,6 +122,7 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
     let latitude: Double?
     let longitude: Double?
     let keywords: [String]
+    let phone_number: String?
     
     var full_name: String {
         return first_name + " " + last_name
@@ -152,6 +158,7 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
         self.latitude = completeUser.latitude
         self.longitude = completeUser.longitude
         self.keywords = completeUser.keywords
+        self.phone_number = completeUser.phone_number
         
         self.profilePicWrapper = profilePic
         self.token = token
@@ -160,5 +167,5 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
     //Equatable
     static func == (lhs: FrontendCompleteUser, rhs: FrontendCompleteUser) -> Bool { return lhs.id == rhs.id }
     
-    static let nilUser = FrontendCompleteUser(completeUser: CompleteUser(id: 0, username: "", first_name: "", last_name: "", picture: "", email: "", date_of_birth: "", sex: "", latitude: 0, longitude: 0, keywords: []), profilePic: ProfilePicWrapper(image: Constants.defaultProfilePic, withCompresssion: false), token: "")
+    static let nilUser = FrontendCompleteUser(completeUser: CompleteUser(id: 0, username: "", first_name: "", last_name: "", picture: "", email: "", date_of_birth: "", sex: "", latitude: 0, longitude: 0, keywords: [], phone_number: ""), profilePic: ProfilePicWrapper(image: Constants.defaultProfilePic, withCompresssion: false), token: "")
 }

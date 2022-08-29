@@ -25,7 +25,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adam Novak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b2J-O4-Iv1">
-                        <rect key="frame" x="110" y="30" width="166" height="31"/>
+                        <rect key="frame" x="110" y="30" width="133.5" height="31"/>
                         <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="22"/>
                         <color key="textColor" name="mist-black"/>
                         <nil key="highlightedColor"/>
@@ -45,13 +45,24 @@
                         </constraints>
                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="25"/>
                     </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark.seal.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="iO6-lN-vg9">
+                        <rect key="frame" x="248.5" y="35" width="20" height="21.5"/>
+                        <color key="tintColor" name="mist-lilac"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="9Nd-Du-fVC"/>
+                            <constraint firstAttribute="height" constant="20" id="Ofz-wO-489"/>
+                        </constraints>
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="24"/>
+                    </imageView>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="iO6-lN-vg9" firstAttribute="centerY" secondItem="b2J-O4-Iv1" secondAttribute="centerY" id="1YJ-el-PJi"/>
                     <constraint firstItem="ShR-VK-XoM" firstAttribute="leading" secondItem="ioR-4h-1Wk" secondAttribute="trailing" constant="10" id="1eT-9V-Yi1"/>
+                    <constraint firstItem="iO6-lN-vg9" firstAttribute="leading" secondItem="b2J-O4-Iv1" secondAttribute="trailing" constant="5" id="5zM-86-DlV"/>
                     <constraint firstItem="ShR-VK-XoM" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Crd-vO-u05"/>
+                    <constraint firstItem="ShR-VK-XoM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="iO6-lN-vg9" secondAttribute="trailing" constant="5" id="K0R-56-Wwo"/>
                     <constraint firstAttribute="trailing" secondItem="ShR-VK-XoM" secondAttribute="trailing" constant="16" id="TY3-4D-QcY"/>
                     <constraint firstItem="530-3v-mdd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Tud-HE-UXN"/>
-                    <constraint firstItem="ShR-VK-XoM" firstAttribute="leading" secondItem="b2J-O4-Iv1" secondAttribute="trailing" constant="10" id="ZmQ-yc-9Pm"/>
                     <constraint firstItem="ioR-4h-1Wk" firstAttribute="top" secondItem="b2J-O4-Iv1" secondAttribute="bottom" constant="2" id="a3J-Qo-60I"/>
                     <constraint firstItem="b2J-O4-Iv1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="30" id="cai-LG-Bal"/>
                     <constraint firstItem="b2J-O4-Iv1" firstAttribute="leading" secondItem="530-3v-mdd" secondAttribute="trailing" constant="15" id="fPn-BB-8qf"/>
@@ -65,15 +76,20 @@
                 <outlet property="nameLabel" destination="b2J-O4-Iv1" id="KBU-2g-g87"/>
                 <outlet property="profileImageView" destination="530-3v-mdd" id="bgt-0t-soR"/>
                 <outlet property="usernameLabel" destination="ioR-4h-1Wk" id="VOO-MT-ZFb"/>
+                <outlet property="verifiedImageView" destination="iO6-lN-vg9" id="yiu-jc-uz4"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="130.58035714285714"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="adam" width="893" height="880"/>
+        <image name="checkmark.seal.fill" catalog="system" width="128" height="128"/>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
         <namedColor name="mist-black">
             <color red="0.066666666666666666" green="0.066666666666666666" blue="0.066666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="mist-lilac">
+            <color red="0.78431372549019607" green="0.62352941176470589" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

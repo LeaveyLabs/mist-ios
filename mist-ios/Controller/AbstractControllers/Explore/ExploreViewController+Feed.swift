@@ -13,16 +13,17 @@ import UIKit
 extension ExploreViewController {
     
     func setupTableView() {
-        feed = UITableView()
+        feed = PostTableView()
         feed.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(feed)
-        view.sendSubviewToBack(feed)
-        view.bringSubviewToFront(customNavigationBar) //important for when re-inserting tableView below view later on
+        if !shouldFeedBeginVisible {
+            view.sendSubviewToBack(feed)
+        }
         NSLayoutConstraint.activate([
             feed.leftAnchor.constraint(equalTo: view.safeLeftAnchor),
             feed.rightAnchor.constraint(equalTo: view.safeRightAnchor),
             feed.bottomAnchor.constraint(equalTo: view.safeBottomAnchor),
-            feed.topAnchor.constraint(equalTo: customNavigationBar.bottomAnchor),
+            feed.topAnchor.constraint(equalTo: mapView.topAnchor),
         ])
         
         feed.delegate = self

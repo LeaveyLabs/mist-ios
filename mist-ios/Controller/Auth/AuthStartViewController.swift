@@ -37,12 +37,12 @@ class AuthStartViewController: UIViewController, UITextViewDelegate {
             let attributedText = NSMutableAttributedString(string: agreementText)
             
             let termsOfUseUrl = URL(string: "https://www.getmist.app/terms-of-use")!
-            if let termsOfUseRange = agreementText.range(of: "Terms of Use") {
+            if let termsOfUseRange = agreementText.range(of: "terms of use") {
                 attributedText.setAttributes([.link: termsOfUseUrl], range: NSRange(termsOfUseRange, in: agreementText))
             }
             
             let privacyPolicyUrl = URL(string: "https://www.getmist.app/privacy-policy")!
-            if let privacyPolicyRange = agreementText.range(of: "Privacy Policy") {
+            if let privacyPolicyRange = agreementText.range(of: "privacy policy") {
                 attributedText.setAttributes([.link: privacyPolicyUrl], range: NSRange(privacyPolicyRange, in: agreementText))
             }
             
@@ -65,6 +65,7 @@ class AuthStartViewController: UIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        AuthContext.reset()
         mistWideLogoView.alpha = 0
         loginButton.alpha = 0
         registerButton.alpha = 0

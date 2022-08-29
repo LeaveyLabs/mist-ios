@@ -47,8 +47,8 @@ class CommentMoreViewController: CustomSheetViewController {
     func setupFlagButton() {
         flagButton.selectedImage = UIImage.init(systemName: "flag.fill")!
         flagButton.notSelectedImage = UIImage.init(systemName: "flag")!
-        flagButton.selectedTitle = "Flagged"
-        flagButton.notSelectedTitle = "Flag"
+        flagButton.selectedTitle = "flagged"
+        flagButton.notSelectedTitle = "flag"
         flagButton.isSelected = FlagService.singleton.hasFlaggedComment(commentId)
     }
     

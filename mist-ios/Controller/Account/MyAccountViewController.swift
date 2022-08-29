@@ -12,7 +12,7 @@ class MyAccountViewController: SettingsViewController {
     @IBOutlet weak var mistFooterView: UIView!
     @IBOutlet weak var appVersionLabel: UILabel!
     
-    var rerenderProfileCallback: (() -> Void)!
+    var rerenderProfileCallback: (() -> Void)?
         
     //MARK: - Life Cycle
     
@@ -23,7 +23,7 @@ class MyAccountViewController: SettingsViewController {
         navigationItem.title = UserService.singleton.getUsername()
         
         tableView.tableFooterView = mistFooterView
-        appVersionLabel.text = "Version " + (Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String)
+        appVersionLabel.text = "version " + (Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String)
     }
     
     override func setupTableView() {
@@ -46,14 +46,13 @@ class MyAccountViewController: SettingsViewController {
         super.registerNibs()
         let myProfileNib = UINib(nibName: String(describing: MyProfileCell.self), bundle: nil)
         tableView.register(myProfileNib, forCellReuseIdentifier: String(describing: MyProfileCell.self))
-
     }
     
     //MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.SBID.Segue.ToMyProfileSetting {
-            let myProfileSettingViewController = segue.destination as! MyProfileSettingViewController
+            let myProfileSettingViewController = segue.destination as! UpdateProfileSettingViewController
             myProfileSettingViewController.rerenderProfileCallback = {
                 self.tableView.reloadData()
             }
@@ -63,7 +62,7 @@ class MyAccountViewController: SettingsViewController {
     //MARK: - User Interaction
      
     @IBAction func cancelButtonDidPressed(_ sender: UIBarButtonItem) {
-        rerenderProfileCallback()
+        rerenderProfileCallback?()
         self.dismiss(animated: true, completion: nil) //bc it's the nav controller's root vc
     }
     

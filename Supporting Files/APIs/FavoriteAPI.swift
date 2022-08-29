@@ -21,7 +21,7 @@ class FavoriteAPI {
     static let POST_PARAM = "post"
     static let USER_PARAM = "favoriting_user"
     
-    static let FAVORITE_RECOVERY_MESSAGE = "Please try again later"
+    static let FAVORITE_RECOVERY_MESSAGE = "try again later"
     
     static func filterFavoriteErrors(data:Data, response:HTTPURLResponse) throws {
         let statusCode = response.statusCode

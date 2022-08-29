@@ -246,15 +246,15 @@ class AuthAPI {
                            last_name:String,
                            picture:UIImage?,
                            email:String,
-                           password:String,
+                           phone_number:String,
                            dob: String,
-                           sex:String?=nil) async throws -> CompleteUser {
+                           sex:String?=nil) async throws -> String {
         var params:[String:String] = [
             UserAPI.USERNAME_PARAM: username,
             UserAPI.FIRST_NAME_PARAM: first_name,
             UserAPI.LAST_NAME_PARAM: last_name,
             UserAPI.EMAIL_PARAM: email,
-            UserAPI.PASSWORD_PARAM: password,
+            UserAPI.PHONE_NUMBER_PARAM: phone_number,
             UserAPI.DATE_OF_BIRTH_PARAM: dob,
         ]
         if let sex = sex {
@@ -282,7 +282,8 @@ class AuthAPI {
             try filterUserCreationErrors(data: httpData, response: httpResponse)
         }
         
-        return try await request.serializingDecodable(CompleteUser.self).value
+        let apiToken = try await request.serializingDecodable(APIToken.self).value
+        return apiToken.token
     }
     
     static func filterUserCreationErrors(data: Data, response: HTTPURLResponse) throws {

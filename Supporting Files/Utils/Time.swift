@@ -65,38 +65,108 @@ func getShortFormattedTimeString(timestamp: Double) -> String {
     return String(elapsedTimeSincePost.years) + "y"
 }
 
-func getFormattedTimeString(timestamp: Double) -> String {
+func getFormattedTimeStringForPost(timestamp: Double) -> String {
     let elapsedTimeSincePost = NSDate().timeIntervalSince1970.getElapsedTime(since: timestamp)
-    
-    //if the post happened today
-    if elapsedTimeSincePost.years == 0 && elapsedTimeSincePost.months == 0 && elapsedTimeSincePost.days == 0 {
-        //if seconds ago
-        if elapsedTimeSincePost.hours == 0 && elapsedTimeSincePost.minutes == 0 {
-            return "Just now"
-        }
-        //if if minutes ago
-        else if elapsedTimeSincePost.hours == 0 {
-            if elapsedTimeSincePost.minutes == 0 {
-                return String(elapsedTimeSincePost.minutes) + " min ago"
-            } else {
-                return String(elapsedTimeSincePost.minutes) + " mins ago"
-            }
-        }
-        //if hours ago
-        else if getDayOfWeek(currentTimeMillis: timestamp) == getDayOfWeek(currentTimeMillis: currentTimeMillis()) {
-            if (elapsedTimeSincePost.hours == 1) {
-                return String(elapsedTimeSincePost.hours) + " hour ago"
-            } else {
-                return String(elapsedTimeSincePost.hours) + " hours ago"
-            }
+    //if seconds ago
+    if elapsedTimeSincePost.hours == 0 && elapsedTimeSincePost.minutes == 0 {
+        return "just now"
+    }
+    //if if minutes ago
+    if elapsedTimeSincePost.hours == 0 {
+        if elapsedTimeSincePost.minutes == 0 {
+            return String(elapsedTimeSincePost.minutes) + "m ago"
+        } else {
+            return String(elapsedTimeSincePost.minutes) + "m ago"
         }
     }
-    //if the post happened within the last week
+    if elapsedTimeSincePost.days < 3 {
+        //if today
+        if getDayOfWeek(currentTimeMillis: timestamp) == getDayOfWeek(currentTimeMillis: currentTimeMillis()) {
+            if (elapsedTimeSincePost.hours == 1) {
+                return String(elapsedTimeSincePost.hours) + "h ago"
+            } else {
+                return String(elapsedTimeSincePost.hours) + "h ago"
+            }
+        }
+        //if yesterday
+        if getDayOfWeek(currentTimeMillis: timestamp) == getDayOfWeek(currentTimeMillis: Date.yesterday.timeIntervalSince1970) {
+            let myTimeInterval = TimeInterval(timestamp)
+            let thedate = Date(timeIntervalSince1970: myTimeInterval)
+            let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "en_US")
+            dateFormatter.dateFormat = "h:mma"
+            return "yesterday, " + dateFormatter.string(from: thedate).replacingOccurrences(of: "AM", with: "am").replacingOccurrences(of: "PM", with: "pm")
+        }
+    }
+    //if within the last week
     else if elapsedTimeSincePost.days < 7 {
         return getRecentFormattedDate(currentTimeMillis: timestamp)
     }
-    //if the post happened longer than a week ago
-    return getFormattedDate(currentTimeMillis: timestamp)
+    //if within the last year
+    if elapsedTimeSincePost.years < 1 {
+        return getFormattedDate(currentTimeMillis: timestamp)
+    }
+    return getDateNumbers(currentTimeMillis: timestamp)
+}
+
+func getFormattedTimeStringForConvo(timestamp: Double) -> String {
+    let elapsedTimeSincePost = NSDate().timeIntervalSince1970.getElapsedTime(since: timestamp)
+    //if seconds ago
+    print(elapsedTimeSincePost)
+    if elapsedTimeSincePost.hours == 0 && elapsedTimeSincePost.minutes == 0 {
+        return "just now"
+    }
+    //if if minutes ago
+    if elapsedTimeSincePost.hours == 0 {
+        if elapsedTimeSincePost.minutes == 0 {
+            return String(elapsedTimeSincePost.minutes) + "m ago"
+        } else {
+            return String(elapsedTimeSincePost.minutes) + "m ago"
+        }
+    }
+    if elapsedTimeSincePost.days < 3 {
+        //if today
+        if getDayOfWeek(currentTimeMillis: timestamp) == getDayOfWeek(currentTimeMillis: currentTimeMillis()) {
+            if (elapsedTimeSincePost.hours == 1) {
+                return String(elapsedTimeSincePost.hours) + "h ago"
+            } else {
+                return String(elapsedTimeSincePost.hours) + "h ago"
+            }
+        }
+        //if yesterday
+        if getDayOfWeek(currentTimeMillis: timestamp) == getDayOfWeek(currentTimeMillis: Date.yesterday.timeIntervalSince1970) {
+            return "yesterday"
+        }
+    }
+    //if within the last week
+    if elapsedTimeSincePost.days < 7 {
+        return getDayOfWeek(currentTimeMillis: timestamp)
+    }
+    //if within the last year
+    if elapsedTimeSincePost.years < 1 {
+        return getDateOnly(currentTimeMillis: timestamp)
+    }
+    return getDateNumbers(currentTimeMillis: timestamp)
+}
+
+func getDateNumbers(currentTimeMillis: Double) -> String {
+    let myTimeInterval = TimeInterval(currentTimeMillis)
+    let thedate = Date(timeIntervalSince1970: myTimeInterval)
+    let dateFormatter = DateFormatter()
+    dateFormatter.locale = Locale(identifier: "en_US")
+    dateFormatter.dateFormat = "MM/dd/yyyy"
+    
+    return dateFormatter.string(from: thedate)
+}
+
+func getDateOnly(currentTimeMillis: Double) -> String {
+    let myTimeInterval = TimeInterval(currentTimeMillis)
+    let thedate = Date(timeIntervalSince1970: myTimeInterval)
+    let dateFormatter = DateFormatter()
+    dateFormatter.locale = Locale(identifier: "en_US")
+    dateFormatter.dateFormat = "MMM d"
+    
+    return dateFormatter.string(from: thedate)
 }
 
 func getDateAndTimeForNewPost(selectedDate: Date) -> (String, String) {
@@ -118,9 +188,9 @@ func getDateAndTimeForNewPost(selectedDate: Date) -> (String, String) {
         let wasYesterday = dayFormatter.string(from: selectedDate) == dayFormatter.string(from: Date.yesterday)
         
         if wasToday {
-            return ("Today", time)
+            return ("today", time)
         } else if wasYesterday {
-            return ("Yesterday", time)
+            return ("yesterday", time)
         } else {
             dateFormatter.dateFormat = "EEEE"
             return (dateFormatter.string(from: selectedDate), time)
@@ -185,10 +255,10 @@ func getDateFromSlider(indexFromZeroToOne index: Float, timescale: FilterTimesca
     var dateString: String
     if timescale == .week {
         if index >= 1 - 1.0/7 {
-            dateString = "Today"
+            dateString = "today"
         }
         else if index >= 1 - 2.0/7 {
-            dateString = "Yesterday"
+            dateString = "yesterday"
         }
         else {
             let millisecondsInADay = 86400000.0
@@ -198,18 +268,18 @@ func getDateFromSlider(indexFromZeroToOne index: Float, timescale: FilterTimesca
     }
     else { // timescale == .month
         if index >= 1 - 1.0/3 {
-            dateString = "This week"
+            dateString = "this week"
         }
         else if index >= 1 - 2.0/3 {
-            dateString = "This month"
+            dateString = "this month"
         }
         else {
-            dateString = "All time"
+            dateString = "all time"
         }
     }
     // If the user wants lowercase, only lowercase month timescales (bc days of week should always be capitalized)
     if lowercase {
-        if timescale == .month || dateString == "Today" || dateString == "Yesterday" {
+        if timescale == .month || dateString == "today" || dateString == "yesterday" {
             return dateString.lowercased()
         }
     }

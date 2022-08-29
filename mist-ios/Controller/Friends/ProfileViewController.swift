@@ -16,6 +16,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var friendStatusView: UIView!
+    @IBOutlet weak var verifiedImageView: UIImageView!
     
     //Data
     var user: FrontendReadOnlyUser?
@@ -71,20 +72,23 @@ class ProfileViewController: UIViewController {
             profilePicButton.imageView?.becomeProfilePicImageView(with: user.profilePic)
             nameLabel.text = user.full_name
             usernameLabel.text = user.username
+            verifiedImageView.image = user.is_verified ? UIImage(systemName: "checkmark.seal.fill") : nil
         case .loading:
             profilePicButton.imageView?.image = Constants.defaultProfilePic
-            nameLabel.text = "Loading..."
+            nameLabel.text = "loading..."
             usernameLabel.text = ""
         case .nonexisting:
             guard let handle = userHandleForLoading else { return }
             profilePicButton.imageView?.image = Constants.defaultProfilePic
-            nameLabel.text = handle
-            usernameLabel.text = "This user does not exist"
+            nameLabel.text = "this user does not exist"
+            nameLabel.font = UIFont(name: Constants.Font.Medium, size: 18)
+            usernameLabel.text = handle.filter({ $0 != "@" })
         case .notclaimed:
             guard let handle = userHandleForLoading else { return }
             profilePicButton.imageView?.image = Constants.defaultProfilePic
-            nameLabel.text = handle
-            usernameLabel.text = "This account has not yet been claimed"
+            nameLabel.text = "this account has not yet been claimed"
+            nameLabel.font = UIFont(name: Constants.Font.Medium, size: 18)
+            usernameLabel.text = handle.filter({ $0 != "@" })
         case .none:
             break
         }

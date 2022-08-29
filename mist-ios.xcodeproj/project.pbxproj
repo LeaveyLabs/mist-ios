@@ -28,7 +28,7 @@
 		4369DB0A282EC436009215D4 /* MessageThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB09282EC436009215D4 /* MessageThread.swift */; };
 		4369DB0C282EC465009215D4 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB0B282EC465009215D4 /* Message.swift */; };
 		436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */; };
-		43770C4B27EE8C0F00F31CCF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */; };
+		43770C4B27EE8C0F00F31CCF /* PasswordLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43770C4A27EE8C0F00F31CCF /* PasswordLoginViewController.swift */; };
 		438D6F222862D1BB00A074FA /* MessageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438D6F212862D1BB00A074FA /* MessageAPI.swift */; };
 		439BE29E287F0247003637E3 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439BE29D287F0247003637E3 /* SnapshotHelper.swift */; };
 		439E44F427DFB71300E244D6 /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44F327DFB71300E244D6 /* UserAPI.swift */; };
@@ -171,7 +171,7 @@
 		47A3D72327D5A0D2003DBEA5 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */; };
 		47AC881F28480AE1000150CA /* UIButton+RightSideImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AC881E28480AE1000150CA /* UIButton+RightSideImage.swift */; };
 		47AC882228487EC3000150CA /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 47AC882128487EC3000150CA /* IQKeyboardManagerSwift */; };
-		47AE72AA27F77B0B00A5E94C /* MyProfileSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AE72A927F77B0B00A5E94C /* MyProfileSettingViewController.swift */; };
+		47AE72AA27F77B0B00A5E94C /* UpdateProfileSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AE72A927F77B0B00A5E94C /* UpdateProfileSettingViewController.swift */; };
 		47C1D49127DF00B200970B3D /* PostMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C1D49027DF00B200970B3D /* PostMoreViewController.swift */; };
 		47C2834F27DED77500A19128 /* FeedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C2834D27DED77500A19128 /* FeedHeaderCell.swift */; };
 		47C2835027DED77500A19128 /* FeedHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C2834E27DED77500A19128 /* FeedHeaderCell.xib */; };
@@ -216,7 +216,7 @@
 		5B18B9802876C5F900F0F80E /* AuthStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B18B97F2876C5F900F0F80E /* AuthStartViewController.swift */; };
 		5B1F16CB28791EDD00035F93 /* FinishProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16CA28791EDD00035F93 /* FinishProfileViewController.swift */; };
 		5B1F16CE287D1ABD00035F93 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16CD287D1ABD00035F93 /* HomeViewController.swift */; };
-		5B1F16D0287D1B0700035F93 /* HomeViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16CF287D1B0700035F93 /* HomeViewController+Search.swift */; };
+		5B1F16D0287D1B0700035F93 /* ExploreViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16CF287D1B0700035F93 /* ExploreViewController+Search.swift */; };
 		5B1F16D2287D1E5000035F93 /* CustomExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16D1287D1E5000035F93 /* CustomExploreViewController.swift */; };
 		5B235AEC28A8857F00FD27A9 /* PostViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235AEB28A8857F00FD27A9 /* PostViewController+Keyboard.swift */; };
 		5B235AED28A8857F00FD27A9 /* PostViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235AEB28A8857F00FD27A9 /* PostViewController+Keyboard.swift */; };
@@ -307,7 +307,6 @@
 		5B739DC128935B9500E4EED0 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF86A027DC712F0076A1CA /* Comment.swift */; };
 		5B739DC228935B9500E4EED0 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3E0127E0151200381218 /* MapViewController.swift */; };
 		5B739DC328935B9500E4EED0 /* ChooseUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB128025179001C7C6A /* ChooseUsernameViewController.swift */; };
-		5B739DC428935B9500E4EED0 /* ResetPasswordContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110072876CE4200CB54A6 /* ResetPasswordContext.swift */; };
 		5B739DC528935B9500E4EED0 /* UIColor+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479683F22826494100CA23BA /* UIColor+Theme.swift */; };
 		5B739DC628935B9500E4EED0 /* SpringTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A4BE028408BD800FD52B7 /* SpringTextField.swift */; };
 		5B739DC728935B9500E4EED0 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479AA1F227DCF2BD00EA0DFC /* PostViewController.swift */; };
@@ -321,7 +320,7 @@
 		5B739DCF28935B9500E4EED0 /* SpringAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A4BE928408BD800FD52B7 /* SpringAnimation.swift */; };
 		5B739DD028935B9500E4EED0 /* WantToChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCD490D28714F920002BD02 /* WantToChatView.swift */; };
 		5B739DD128935B9500E4EED0 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624D72867DD8400DCD45B /* ConversationCell.swift */; };
-		5B739DD228935B9500E4EED0 /* MyProfileSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AE72A927F77B0B00A5E94C /* MyProfileSettingViewController.swift */; };
+		5B739DD228935B9500E4EED0 /* UpdateProfileSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AE72A927F77B0B00A5E94C /* UpdateProfileSettingViewController.swift */; };
 		5B739DD328935B9500E4EED0 /* SimpleInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47527190285584F400DDF84D /* SimpleInputCell.swift */; };
 		5B739DD428935B9500E4EED0 /* PermissionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE28F12840991800C6425C /* PermissionsViewController.swift */; };
 		5B739DD528935B9500E4EED0 /* UIViewController+DismissFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */; };
@@ -338,7 +337,7 @@
 		5B739DE028935B9500E4EED0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB0B282EC465009215D4 /* Message.swift */; };
 		5B739DE128935B9500E4EED0 /* PostMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C1D49027DF00B200970B3D /* PostMoreViewController.swift */; };
 		5B739DE228935B9500E4EED0 /* UnwindSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A4BEA28408BD800FD52B7 /* UnwindSegue.swift */; };
-		5B739DE328935B9500E4EED0 /* HomeViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16CF287D1B0700035F93 /* HomeViewController+Search.swift */; };
+		5B739DE328935B9500E4EED0 /* ExploreViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16CF287D1B0700035F93 /* ExploreViewController+Search.swift */; };
 		5B739DE428935B9500E4EED0 /* UITextView+MaxLength.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474A4AB4284A953200B39A98 /* UITextView+MaxLength.swift */; };
 		5B739DE528935B9500E4EED0 /* UIImage+FromColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F10DC02852CFE100E1A3DC /* UIImage+FromColor.swift */; };
 		5B739DE628935B9500E4EED0 /* UIView+PostBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4718331128445A7C0061F9F3 /* UIView+PostBubble.swift */; };
@@ -413,9 +412,9 @@
 		5B739E2C28935B9500E4EED0 /* CLLocationCoordinate+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A7898284E708D0058C845 /* CLLocationCoordinate+Distance.swift */; };
 		5B739E2D28935B9500E4EED0 /* PostVoteAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B327DD7BB9006C2E08 /* PostVoteAPI.swift */; };
 		5B739E2E28935B9500E4EED0 /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */; };
-		5B739E2F28935B9500E4EED0 /* RequestResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */; };
+		5B739E2F28935B9500E4EED0 /* RequestResetNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110012876CD9D00CB54A6 /* RequestResetNumberViewController.swift */; };
 		5B739E3028935B9500E4EED0 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D70D27D55BB3003DBEA5 /* Time.swift */; };
-		5B739E3128935B9500E4EED0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */; };
+		5B739E3128935B9500E4EED0 /* PasswordLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43770C4A27EE8C0F00F31CCF /* PasswordLoginViewController.swift */; };
 		5B739E3228935B9500E4EED0 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D6FF27D50CF1003DBEA5 /* FeedViewController.swift */; };
 		5B739E3328935B9500E4EED0 /* MistWideLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD627C2876BE8800DCFE45 /* MistWideLogoView.swift */; };
 		5B739E3428935B9500E4EED0 /* CreatePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43483BB32802519C001C7C6A /* CreatePasswordViewController.swift */; };
@@ -505,6 +504,22 @@
 		5B774DFC286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */; };
 		5B774DFF286D570400CCCF28 /* MatchCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */; };
 		5B774E00286D570400CCCF28 /* MatchCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */; };
+		5B879E6F28B6BA5500D2DFC1 /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E6E28B6BA5500D2DFC1 /* InsetLabel.swift */; };
+		5B879E7028B6BA5500D2DFC1 /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E6E28B6BA5500D2DFC1 /* InsetLabel.swift */; };
+		5B879E7628B7E3C000D2DFC1 /* CreateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7528B7E3C000D2DFC1 /* CreateProfileViewController.swift */; };
+		5B879E7728B7E3C000D2DFC1 /* CreateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7528B7E3C000D2DFC1 /* CreateProfileViewController.swift */; };
+		5B879E7A28B804B900D2DFC1 /* ConfirmCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7928B804B900D2DFC1 /* ConfirmCodeViewController.swift */; };
+		5B879E7B28B804B900D2DFC1 /* ConfirmCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7928B804B900D2DFC1 /* ConfirmCodeViewController.swift */; };
+		5B879E7D28B8219100D2DFC1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7C28B8219100D2DFC1 /* LoginViewController.swift */; };
+		5B879E7E28B8219100D2DFC1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7C28B8219100D2DFC1 /* LoginViewController.swift */; };
+		5B879E8028B821B300D2DFC1 /* ResetNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7F28B821B300D2DFC1 /* ResetNumberViewController.swift */; };
+		5B879E8128B821B300D2DFC1 /* ResetNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7F28B821B300D2DFC1 /* ResetNumberViewController.swift */; };
+		5B879E8328B8A49C00D2DFC1 /* GetVerifiedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E8228B8A49C00D2DFC1 /* GetVerifiedViewController.swift */; };
+		5B879E8428B8A49C00D2DFC1 /* GetVerifiedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E8228B8A49C00D2DFC1 /* GetVerifiedViewController.swift */; };
+		5B879E9128B9129100D2DFC1 /* CustomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E8F28B9129100D2DFC1 /* CustomNavBar.swift */; };
+		5B879E9228B9129100D2DFC1 /* CustomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E8F28B9129100D2DFC1 /* CustomNavBar.swift */; };
+		5B879E9328B9129100D2DFC1 /* CustomNavBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B879E9028B9129100D2DFC1 /* CustomNavBar.xib */; };
+		5B879E9428B9129100D2DFC1 /* CustomNavBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B879E9028B9129100D2DFC1 /* CustomNavBar.xib */; };
 		5BA401F72878052B004A556E /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA401F62878052B004A556E /* Env.swift */; };
 		5BA967322872BC5E00724CD9 /* Array+FirstWhere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */; };
 		5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */; };
@@ -536,6 +551,26 @@
 		5BB624DC2867E98500DCD45B /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624DB2867E98500DCD45B /* Conversation.swift */; };
 		5BBF5C50289B9FB6000B2D31 /* InputAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF5C4F289B9FB6000B2D31 /* InputAvatar.swift */; };
 		5BBF5C51289B9FE1000B2D31 /* InputAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF5C4F289B9FB6000B2D31 /* InputAvatar.swift */; };
+		5BC2530728BA683700D4F49A /* ClusterCarouselCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2530628BA683700D4F49A /* ClusterCarouselCell.swift */; };
+		5BC2530828BA683700D4F49A /* ClusterCarouselCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2530628BA683700D4F49A /* ClusterCarouselCell.swift */; };
+		5BC2530B28BA8ABA00D4F49A /* CenteredCollectionView in Frameworks */ = {isa = PBXBuildFile; productRef = 5BC2530A28BA8ABA00D4F49A /* CenteredCollectionView */; };
+		5BC2530D28BA8AD300D4F49A /* CenteredCollectionView in Frameworks */ = {isa = PBXBuildFile; productRef = 5BC2530C28BA8AD300D4F49A /* CenteredCollectionView */; };
+		5BC2530F28BACFAC00D4F49A /* PostTableCollectionViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2530E28BACFAC00D4F49A /* PostTableCollectionViews.swift */; };
+		5BC2531028BACFAC00D4F49A /* PostTableCollectionViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2530E28BACFAC00D4F49A /* PostTableCollectionViews.swift */; };
+		5BC2531228BB1A6800D4F49A /* CarouselCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531128BB1A6800D4F49A /* CarouselCollectionView.swift */; };
+		5BC2531328BB1A6800D4F49A /* CarouselCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531128BB1A6800D4F49A /* CarouselCollectionView.swift */; };
+		5BC2531628BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531428BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift */; };
+		5BC2531728BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531428BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift */; };
+		5BC2531828BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2531528BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib */; };
+		5BC2531928BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2531528BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib */; };
+		5BC2531B28BC0EC300D4F49A /* CollectionImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531A28BC0EC300D4F49A /* CollectionImageCell.swift */; };
+		5BC2531C28BC0EC300D4F49A /* CollectionImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531A28BC0EC300D4F49A /* CollectionImageCell.swift */; };
+		5BC2532128BC545C00D4F49A /* CLLocationCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532028BC545C00D4F49A /* CLLocationCoordinate.swift */; };
+		5BC2532228BC545C00D4F49A /* CLLocationCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532028BC545C00D4F49A /* CLLocationCoordinate.swift */; };
+		5BC2532428BC7F1500D4F49A /* GuidelinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532328BC7F1500D4F49A /* GuidelinesViewController.swift */; };
+		5BC2532528BC7F1500D4F49A /* GuidelinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532328BC7F1500D4F49A /* GuidelinesViewController.swift */; };
+		5BC2532828BC83DA00D4F49A /* GuidelinesCollecitonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532728BC83DA00D4F49A /* GuidelinesCollecitonCell.swift */; };
+		5BC2532928BC83DA00D4F49A /* GuidelinesCollecitonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532728BC83DA00D4F49A /* GuidelinesCollecitonCell.swift */; };
 		5BC25A9428990999005AAF69 /* EmojiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9328990999005AAF69 /* EmojiButton.swift */; };
 		5BC25A96289909ED005AAF69 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A95289909ED005AAF69 /* ToggleButton.swift */; };
 		5BC25A9828990BF9005AAF69 /* EmojiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9328990999005AAF69 /* EmojiButton.swift */; };
@@ -566,10 +601,9 @@
 		5BCEA510289A489700602A4D /* PostViewController+Autocomplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */; };
 		5BD6F47E2896B3020002A60B /* StringChat+Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */; };
 		5BD6F47F2896B3020002A60B /* StringChat+Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */; };
-		5BE110022876CD9D00CB54A6 /* RequestResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */; };
+		5BE110022876CD9D00CB54A6 /* RequestResetNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110012876CD9D00CB54A6 /* RequestResetNumberViewController.swift */; };
 		5BE110042876CDB100CB54A6 /* ValidateResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */; };
 		5BE110062876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */; };
-		5BE110082876CE4200CB54A6 /* ResetPasswordContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110072876CE4200CB54A6 /* ResetPasswordContext.swift */; };
 		5BE14733289D3D990096FEBE /* FeederData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14732289D3D990096FEBE /* FeederData.swift */; };
 		5BE14734289D3D9D0096FEBE /* FeederData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14732289D3D990096FEBE /* FeederData.swift */; };
 		5BE14736289EB68B0096FEBE /* CommentAutocompleteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE14735289EB68B0096FEBE /* CommentAutocompleteManager.swift */; };
@@ -623,10 +657,6 @@
 		431767DE28B025F1000B2E32 /* DeviceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceAPI.swift; sourceTree = "<group>"; };
 		431F380F288B494900A5F48B /* MessageThreadTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageThreadTest.swift; sourceTree = "<group>"; };
 		4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterEmailViewController.swift; sourceTree = "<group>"; };
-		433665C128B6CC5B00152AF7 /* mist-iosDebug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "mist-iosDebug.entitlements"; sourceTree = "<group>"; };
-		433665C228B6CC5B00152AF7 /* mist-ios-dev.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "mist-ios-dev.entitlements"; sourceTree = "<group>"; };
-		433665C328B6CC5B00152AF7 /* mist-ios.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "mist-ios.entitlements"; sourceTree = "<group>"; };
-		433665C428B6CC5B00152AF7 /* mist-ios-devDebug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = "mist-ios-devDebug.entitlements"; path = "../../.Trash/mist-ios-devDebug.entitlements"; sourceTree = "<group>"; };
 		433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeTutorialViewController.swift; sourceTree = "<group>"; };
 		43483BB128025179001C7C6A /* ChooseUsernameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseUsernameViewController.swift; sourceTree = "<group>"; };
 		43483BB32802519C001C7C6A /* CreatePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePasswordViewController.swift; sourceTree = "<group>"; };
@@ -640,7 +670,7 @@
 		4369DB09282EC436009215D4 /* MessageThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageThread.swift; sourceTree = "<group>"; };
 		4369DB0B282EC465009215D4 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewController.swift; sourceTree = "<group>"; };
-		43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		43770C4A27EE8C0F00F31CCF /* PasswordLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordLoginViewController.swift; sourceTree = "<group>"; };
 		438D6F212862D1BB00A074FA /* MessageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageAPI.swift; sourceTree = "<group>"; };
 		439BE29D287F0247003637E3 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		439E44F327DFB71300E244D6 /* UserAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
@@ -786,7 +816,7 @@
 		47A3D71C27D5940D003DBEA5 /* NewPostTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPostTextView.swift; sourceTree = "<group>"; };
 		47A3D72227D5A0D2003DBEA5 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		47AC881E28480AE1000150CA /* UIButton+RightSideImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+RightSideImage.swift"; sourceTree = "<group>"; };
-		47AE72A927F77B0B00A5E94C /* MyProfileSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileSettingViewController.swift; sourceTree = "<group>"; };
+		47AE72A927F77B0B00A5E94C /* UpdateProfileSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileSettingViewController.swift; sourceTree = "<group>"; };
 		47C1D49027DF00B200970B3D /* PostMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMoreViewController.swift; sourceTree = "<group>"; };
 		47C2834D27DED77500A19128 /* FeedHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedHeaderCell.swift; sourceTree = "<group>"; };
 		47C2834E27DED77500A19128 /* FeedHeaderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedHeaderCell.xib; sourceTree = "<group>"; };
@@ -836,7 +866,7 @@
 		5B18B97F2876C5F900F0F80E /* AuthStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStartViewController.swift; sourceTree = "<group>"; };
 		5B1F16CA28791EDD00035F93 /* FinishProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishProfileViewController.swift; sourceTree = "<group>"; };
 		5B1F16CD287D1ABD00035F93 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		5B1F16CF287D1B0700035F93 /* HomeViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeViewController+Search.swift"; sourceTree = "<group>"; };
+		5B1F16CF287D1B0700035F93 /* ExploreViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExploreViewController+Search.swift"; sourceTree = "<group>"; };
 		5B1F16D1287D1E5000035F93 /* CustomExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomExploreViewController.swift; sourceTree = "<group>"; };
 		5B235AEB28A8857F00FD27A9 /* PostViewController+Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+Keyboard.swift"; sourceTree = "<group>"; };
 		5B235AF128A8DD4800FD27A9 /* UsersService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersService.swift; sourceTree = "<group>"; };
@@ -864,6 +894,14 @@
 		5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessagesFlowLayout.swift; sourceTree = "<group>"; };
 		5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCollectionCell.swift; sourceTree = "<group>"; };
 		5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MatchCollectionCell.xib; sourceTree = "<group>"; };
+		5B879E6E28B6BA5500D2DFC1 /* InsetLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetLabel.swift; sourceTree = "<group>"; };
+		5B879E7528B7E3C000D2DFC1 /* CreateProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileViewController.swift; sourceTree = "<group>"; };
+		5B879E7928B804B900D2DFC1 /* ConfirmCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmCodeViewController.swift; sourceTree = "<group>"; };
+		5B879E7C28B8219100D2DFC1 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		5B879E7F28B821B300D2DFC1 /* ResetNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetNumberViewController.swift; sourceTree = "<group>"; };
+		5B879E8228B8A49C00D2DFC1 /* GetVerifiedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVerifiedViewController.swift; sourceTree = "<group>"; };
+		5B879E8F28B9129100D2DFC1 /* CustomNavBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavBar.swift; sourceTree = "<group>"; };
+		5B879E9028B9129100D2DFC1 /* CustomNavBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomNavBar.xib; sourceTree = "<group>"; };
 		5BA401F62878052B004A556E /* Env.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+FirstWhere.swift"; sourceTree = "<group>"; };
 		5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationCollectionCell.swift; sourceTree = "<group>"; };
@@ -894,6 +932,15 @@
 		5BB624D82867DD8400DCD45B /* ConversationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationCell.xib; sourceTree = "<group>"; };
 		5BB624DB2867E98500DCD45B /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		5BBF5C4F289B9FB6000B2D31 /* InputAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAvatar.swift; sourceTree = "<group>"; };
+		5BC2530628BA683700D4F49A /* ClusterCarouselCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterCarouselCell.swift; sourceTree = "<group>"; };
+		5BC2530E28BACFAC00D4F49A /* PostTableCollectionViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableCollectionViews.swift; sourceTree = "<group>"; };
+		5BC2531128BB1A6800D4F49A /* CarouselCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselCollectionView.swift; sourceTree = "<group>"; };
+		5BC2531428BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileCollectionViewCell.swift; sourceTree = "<group>"; };
+		5BC2531528BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateProfileCollectionViewCell.xib; sourceTree = "<group>"; };
+		5BC2531A28BC0EC300D4F49A /* CollectionImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionImageCell.swift; sourceTree = "<group>"; };
+		5BC2532028BC545C00D4F49A /* CLLocationCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate.swift; sourceTree = "<group>"; };
+		5BC2532328BC7F1500D4F49A /* GuidelinesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelinesViewController.swift; sourceTree = "<group>"; };
+		5BC2532728BC83DA00D4F49A /* GuidelinesCollecitonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelinesCollecitonCell.swift; sourceTree = "<group>"; };
 		5BC25A9328990999005AAF69 /* EmojiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiButton.swift; sourceTree = "<group>"; };
 		5BC25A95289909ED005AAF69 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		5BC25A9D28991A2B005AAF69 /* Numbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numbers.swift; sourceTree = "<group>"; };
@@ -910,10 +957,9 @@
 		5BCE5F8128B483D2002078E1 /* CommentMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentMoreViewController.swift; sourceTree = "<group>"; };
 		5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+Autocomplete.swift"; sourceTree = "<group>"; };
 		5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringChat+Emoji.swift"; sourceTree = "<group>"; };
-		5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResetPasswordViewController.swift; sourceTree = "<group>"; };
+		5BE110012876CD9D00CB54A6 /* RequestResetNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResetNumberViewController.swift; sourceTree = "<group>"; };
 		5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateResetPasswordViewController.swift; sourceTree = "<group>"; };
 		5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalizeResetPasswordViewController.swift; sourceTree = "<group>"; };
-		5BE110072876CE4200CB54A6 /* ResetPasswordContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordContext.swift; sourceTree = "<group>"; };
 		5BE14732289D3D990096FEBE /* FeederData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeederData.swift; sourceTree = "<group>"; };
 		5BE14735289EB68B0096FEBE /* CommentAutocompleteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAutocompleteManager.swift; sourceTree = "<group>"; };
 		5BE14738289EB6EA0096FEBE /* TagAutocompleteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagAutocompleteCell.swift; sourceTree = "<group>"; };
@@ -940,6 +986,7 @@
 				5B739D7B2891FD4C00E4EED0 /* FirebaseRemoteConfig in Frameworks */,
 				4316238228341F5F00169AA9 /* MessageKit in Frameworks */,
 				4767E41428584CD70016202E /* Alamofire in Frameworks */,
+				5BC2530B28BA8ABA00D4F49A /* CenteredCollectionView in Frameworks */,
 				5B739D792891FD4C00E4EED0 /* FirebasePerformance in Frameworks */,
 				5B739D712891FD4C00E4EED0 /* FirebaseAnalytics in Frameworks */,
 				47EE28F62840A2F500C6425C /* SwiftMessages in Frameworks */,
@@ -974,6 +1021,7 @@
 				5B739E6428935B9500E4EED0 /* FirebaseRemoteConfig in Frameworks */,
 				5B739E6528935B9500E4EED0 /* MessageKit in Frameworks */,
 				5B739E6628935B9500E4EED0 /* Alamofire in Frameworks */,
+				5BC2530D28BA8AD300D4F49A /* CenteredCollectionView in Frameworks */,
 				5B739E6728935B9500E4EED0 /* FirebasePerformance in Frameworks */,
 				5B739E6828935B9500E4EED0 /* FirebaseAnalytics in Frameworks */,
 				5B739E6928935B9500E4EED0 /* SwiftMessages in Frameworks */,
@@ -1009,18 +1057,14 @@
 		43770C4927EE8BED00F31CCF /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				5B235AFF28ADE39400FD27A9 /* PhoneAuthNew */,
-				5B1F16CC28791EF700035F93 /* Misc */,
-				5BE110002876CD6C00CB54A6 /* ResetPassword */,
 				5B18B97F2876C5F900F0F80E /* AuthStartViewController.swift */,
-				43770C4A27EE8C0F00F31CCF /* LoginViewController.swift */,
-				4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */,
-				436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */,
-				43483BB32802519C001C7C6A /* CreatePasswordViewController.swift */,
-				5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */,
-				43483BB128025179001C7C6A /* ChooseUsernameViewController.swift */,
-				43483BB5280251B1001C7C6A /* EnterNameViewController.swift */,
-				43E30CFD2826355C00DBEB57 /* UploadProfilePictureViewController.swift */,
+				5B879E7928B804B900D2DFC1 /* ConfirmCodeViewController.swift */,
+				5B879E7228B6EFD100D2DFC1 /* Register */,
+				5B879E7328B6EFE700D2DFC1 /* Login */,
+				5BE110002876CD6C00CB54A6 /* ResetPhoneNumber */,
+				5B1F16CC28791EF700035F93 /* Misc */,
+				5B879E7428B6F3E700D2DFC1 /* Decomissioned */,
+				5BC2531128BB1A6800D4F49A /* CarouselCollectionView.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1057,7 +1101,6 @@
 			isa = PBXGroup;
 			children = (
 				5B1F16CD287D1ABD00035F93 /* HomeViewController.swift */,
-				5B1F16CF287D1B0700035F93 /* HomeViewController+Search.swift */,
 				47CBF6F028356A7C00096514 /* FilterSheetViewController.swift */,
 				470F271227DE6F5800C6DDAF /* SearchSuggestionsTableViewController.swift */,
 				5B1F16D1287D1E5000035F93 /* CustomExploreViewController.swift */,
@@ -1283,6 +1326,7 @@
 			children = (
 				478A7898284E708D0058C845 /* CLLocationCoordinate+Distance.swift */,
 				478A789A284E73970058C845 /* CLLocationCoordiante+Midpoint.swift */,
+				5BC2532028BC545C00D4F49A /* CLLocationCoordinate.swift */,
 			);
 			path = CLLocationCoordinate;
 			sourceTree = "<group>";
@@ -1305,6 +1349,7 @@
 				479683F4282817CC00CA23BA /* PostAnnotationView.swift */,
 				479683F928283ED700CA23BA /* MKClusterAnnotation+*.swift */,
 				479683F72828180C00CA23BA /* ClusterAnnotationView.swift */,
+				5BC2530628BA683700D4F49A /* ClusterCarouselCell.swift */,
 				47F10DC22853169200E1A3DC /* PlaceAnnotation.swift */,
 				47F10DC4285316AC00E1A3DC /* PlaceAnnotationView.swift */,
 			);
@@ -1323,6 +1368,10 @@
 				5BCD490B287149210002BD02 /* WantToChatView.xib */,
 				5BC25A9328990999005AAF69 /* EmojiButton.swift */,
 				5BC25A97289909FD005AAF69 /* Decomissioned */,
+				5B879E6E28B6BA5500D2DFC1 /* InsetLabel.swift */,
+				5B879E8F28B9129100D2DFC1 /* CustomNavBar.swift */,
+				5B879E9028B9129100D2DFC1 /* CustomNavBar.xib */,
+				5BC2530E28BACFAC00D4F49A /* PostTableCollectionViews.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -1398,7 +1447,6 @@
 		47D9FD1F28457D83004E4BE3 /* Context */ = {
 			isa = PBXGroup;
 			children = (
-				5BE110072876CE4200CB54A6 /* ResetPasswordContext.swift */,
 				478BA27E283E85F500C35507 /* AuthContext.swift */,
 				47D9FD1D28457D72004E4BE3 /* NewPostContext.swift */,
 			);
@@ -1408,10 +1456,6 @@
 		47E74DFF27CA0FFE00467A0C = {
 			isa = PBXGroup;
 			children = (
-				433665C228B6CC5B00152AF7 /* mist-ios-dev.entitlements */,
-				433665C428B6CC5B00152AF7 /* mist-ios-devDebug.entitlements */,
-				433665C328B6CC5B00152AF7 /* mist-ios.entitlements */,
-				433665C128B6CC5B00152AF7 /* mist-iosDebug.entitlements */,
 				473CAF812832A6EB008D8807 /* mist-ios.xcconfig */,
 				47E74E0A27CA0FFE00467A0C /* mist-ios */,
 				47E74E3E27CA14CE00467A0C /* Supporting Files */,
@@ -1612,10 +1656,10 @@
 			isa = PBXGroup;
 			children = (
 				5BAD62762876812200DCFE45 /* SettingsViewController.swift */,
-				47EE95F927F64C00003B351E /* MyAccountViewController.swift */,
-				47AE72A927F77B0B00A5E94C /* MyProfileSettingViewController.swift */,
-				4752718228557C1300DDF84D /* PasswordSettingViewController.swift */,
 				5BAD62782876938900DCFE45 /* SettingsTapDelegate.swift */,
+				47EE95F927F64C00003B351E /* MyAccountViewController.swift */,
+				47AE72A927F77B0B00A5E94C /* UpdateProfileSettingViewController.swift */,
+				5B879E8228B8A49C00D2DFC1 /* GetVerifiedViewController.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -1627,6 +1671,7 @@
 				47A3D70127D524F4003DBEA5 /* NewPostViewController.swift */,
 				47CE900927E058090004B756 /* PinMapViewController.swift */,
 				47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */,
+				5BC2532328BC7F1500D4F49A /* GuidelinesViewController.swift */,
 			);
 			path = NewPost;
 			sourceTree = "<group>";
@@ -1634,11 +1679,9 @@
 		5B1F16CC28791EF700035F93 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
-				5B1F16CA28791EDD00035F93 /* FinishProfileViewController.swift */,
 				43E30D0128263E1200DBEB57 /* ImagePicker.swift */,
 				47EE28F12840991800C6425C /* PermissionsViewController.swift */,
 				47EE28F72840AE8200C6425C /* TestViewController.swift */,
-				433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */,
 			);
 			path = Misc;
 			sourceTree = "<group>";
@@ -1646,6 +1689,7 @@
 		5B1F16D3287D41ED00035F93 /* Decomissioned */ = {
 			isa = PBXGroup;
 			children = (
+				4752718228557C1300DDF84D /* PasswordSettingViewController.swift */,
 				470F271E27DE9ABE00C6DDAF /* SearchResultsTableViewController.swift */,
 			);
 			path = Decomissioned;
@@ -1657,17 +1701,9 @@
 				4700F8C527DE4652006C2E08 /* ExploreViewController.swift */,
 				4752719C2855A80C00DDF84D /* ExploreViewController+Map.swift */,
 				475271992855A6A700DDF84D /* ExploreViewController+Feed.swift */,
+				5B1F16CF287D1B0700035F93 /* ExploreViewController+Search.swift */,
 			);
 			path = Explore;
-			sourceTree = "<group>";
-		};
-		5B235AFF28ADE39400FD27A9 /* PhoneAuthNew */ = {
-			isa = PBXGroup;
-			children = (
-				5B235B0028ADE3B200FD27A9 /* EnterNumberViewController.swift */,
-				5B235B0328ADE43800FD27A9 /* ConfirmNumberViewController.swift */,
-			);
-			path = PhoneAuthNew;
 			sourceTree = "<group>";
 		};
 		5B235B0C28AEFDEC00FD27A9 /* GestureRecognizer */ = {
@@ -1730,8 +1766,49 @@
 				5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */,
 				5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */,
 				5BAD62692875500E00DCFE45 /* InformationCollectionCell.xib */,
+				5BC2531428BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift */,
+				5BC2531528BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib */,
+				5BC2531A28BC0EC300D4F49A /* CollectionImageCell.swift */,
+				5BC2532728BC83DA00D4F49A /* GuidelinesCollecitonCell.swift */,
 			);
 			path = CollectionCells;
+			sourceTree = "<group>";
+		};
+		5B879E7228B6EFD100D2DFC1 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */,
+				5B235B0028ADE3B200FD27A9 /* EnterNumberViewController.swift */,
+				5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */,
+				433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */,
+				5B879E7528B7E3C000D2DFC1 /* CreateProfileViewController.swift */,
+			);
+			path = Register;
+			sourceTree = "<group>";
+		};
+		5B879E7328B6EFE700D2DFC1 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				5B879E7C28B8219100D2DFC1 /* LoginViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		5B879E7428B6F3E700D2DFC1 /* Decomissioned */ = {
+			isa = PBXGroup;
+			children = (
+				43770C4A27EE8C0F00F31CCF /* PasswordLoginViewController.swift */,
+				5B235B0328ADE43800FD27A9 /* ConfirmNumberViewController.swift */,
+				436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */,
+				43483BB32802519C001C7C6A /* CreatePasswordViewController.swift */,
+				43483BB128025179001C7C6A /* ChooseUsernameViewController.swift */,
+				43483BB5280251B1001C7C6A /* EnterNameViewController.swift */,
+				5B1F16CA28791EDD00035F93 /* FinishProfileViewController.swift */,
+				5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */,
+				5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */,
+				43E30CFD2826355C00DBEB57 /* UploadProfilePictureViewController.swift */,
+			);
+			path = Decomissioned;
 			sourceTree = "<group>";
 		};
 		5BB624B72863CA1300DCD45B /* UINavigation */ = {
@@ -1869,14 +1946,13 @@
 			path = Decomissioned;
 			sourceTree = "<group>";
 		};
-		5BE110002876CD6C00CB54A6 /* ResetPassword */ = {
+		5BE110002876CD6C00CB54A6 /* ResetPhoneNumber */ = {
 			isa = PBXGroup;
 			children = (
-				5BE110012876CD9D00CB54A6 /* RequestResetPasswordViewController.swift */,
-				5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */,
-				5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */,
+				5BE110012876CD9D00CB54A6 /* RequestResetNumberViewController.swift */,
+				5B879E7F28B821B300D2DFC1 /* ResetNumberViewController.swift */,
 			);
-			path = ResetPassword;
+			path = ResetPhoneNumber;
 			sourceTree = "<group>";
 		};
 		5BE4D9BC285C017100197080 /* String */ = {
@@ -1924,6 +2000,7 @@
 				5B739D7A2891FD4C00E4EED0 /* FirebaseRemoteConfig */,
 				5B739D7C2891FD4C00E4EED0 /* FirebaseRemoteConfigSwift */,
 				5B235AFB28AC39D800FD27A9 /* PhoneNumberKit */,
+				5BC2530A28BA8ABA00D4F49A /* CenteredCollectionView */,
 			);
 			productName = "mist-ios";
 			productReference = 47E74E0827CA0FFE00467A0C /* mist-ios.app */;
@@ -1993,6 +2070,7 @@
 				5B739D9028935B9500E4EED0 /* FirebaseRemoteConfig */,
 				5B739D9128935B9500E4EED0 /* FirebaseRemoteConfigSwift */,
 				5B235AFD28AC3A6E00FD27A9 /* PhoneNumberKit */,
+				5BC2530C28BA8AD300D4F49A /* CenteredCollectionView */,
 			);
 			productName = "mist-ios";
 			productReference = 5B739E8D28935B9500E4EED0 /* mist-ios-dev.app */;
@@ -2040,6 +2118,7 @@
 				4767E41528584D110016202E /* XCRemoteSwiftPackageReference "Starscream" */,
 				5B739D6F2891FD4C00E4EED0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				5B235AFA28AC39D800FD27A9 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */,
+				5BC2530928BA8ABA00D4F49A /* XCRemoteSwiftPackageReference "CenteredCollectionView" */,
 			);
 			productRefGroup = 47E74E0927CA0FFE00467A0C /* Products */;
 			projectDirPath = "";
@@ -2070,10 +2149,12 @@
 				47527192285584F400DDF84D /* MyProfileCell.xib in Resources */,
 				475271982855851200DDF84D /* SettingCell.xib in Resources */,
 				47EE290028414B2300C6425C /* CustomCenteredView.xib in Resources */,
+				5B879E9328B9129100D2DFC1 /* CustomNavBar.xib in Resources */,
 				4700F8BF27DD807C006C2E08 /* CommentCell.xib in Resources */,
 				5BCE5F7F28B467AB002078E1 /* CommentHeaderCell.xib in Resources */,
 				5BB624B428620D5F00DCD45B /* CustomCardView.xib in Resources */,
 				5BC2763E286AE9BD00DA5A3D /* Loading.storyboard in Resources */,
+				5BC2531828BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib in Resources */,
 				5BCD490C287149210002BD02 /* WantToChatView.xib in Resources */,
 				5B739D6E2891F9DF00E4EED0 /* GoogleService-Info.plist in Resources */,
 				470F271D27DE764F00C6DDAF /* UserResultCell.xib in Resources */,
@@ -2116,10 +2197,12 @@
 				5B739E7A28935B9500E4EED0 /* MyProfileCell.xib in Resources */,
 				5B739E7B28935B9500E4EED0 /* SettingCell.xib in Resources */,
 				5B739E7C28935B9500E4EED0 /* CustomCenteredView.xib in Resources */,
+				5B879E9428B9129100D2DFC1 /* CustomNavBar.xib in Resources */,
 				5B739E7D28935B9500E4EED0 /* CommentCell.xib in Resources */,
 				5BCE5F8028B467AB002078E1 /* CommentHeaderCell.xib in Resources */,
 				5B739E7F28935B9500E4EED0 /* CustomCardView.xib in Resources */,
 				5B739E8028935B9500E4EED0 /* Loading.storyboard in Resources */,
+				5BC2531928BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib in Resources */,
 				5B739E8128935B9500E4EED0 /* WantToChatView.xib in Resources */,
 				5B739E97289368A800E4EED0 /* GoogleService-Info.plist in Resources */,
 				5B739E8328935B9500E4EED0 /* UserResultCell.xib in Resources */,
@@ -2206,6 +2289,7 @@
 				43E30D0228263E1200DBEB57 /* ImagePicker.swift in Sources */,
 				5B1F16CB28791EDD00035F93 /* FinishProfileViewController.swift in Sources */,
 				43A25348289BA46800B1468F /* Tag.swift in Sources */,
+				5B879E9128B9129100D2DFC1 /* CustomNavBar.swift in Sources */,
 				4752719F2855AF1400DDF84D /* UIView+SafeAreaConstraints.swift in Sources */,
 				47FF869827DB1F470076A1CA /* PostAPI.swift in Sources */,
 				478BA27B283E77C100C35507 /* UINavigationController+Completion.swift in Sources */,
@@ -2214,6 +2298,7 @@
 				5BE1474528A045CF0096FEBE /* UIImageView+Initials.swift in Sources */,
 				5B774DFF286D570400CCCF28 /* MatchCollectionCell.swift in Sources */,
 				47D5B36A28441296004CDE6C /* CustomSwiftMessages.swift in Sources */,
+				5B879E6F28B6BA5500D2DFC1 /* InsetLabel.swift in Sources */,
 				43D925222852802E00438C5C /* MatchRequest.swift in Sources */,
 				439E44FC27E01D4900E244D6 /* AuthAPI.swift in Sources */,
 				475271A12855BCB500DDF84D /* UIView+RoundedIndividualCorners.swift in Sources */,
@@ -2230,6 +2315,7 @@
 				5B235AF528A97FB800FD27A9 /* TagLink.swift in Sources */,
 				5BE14736289EB68B0096FEBE /* CommentAutocompleteManager.swift in Sources */,
 				4316238C2834F8A600169AA9 /* SpecialTabBarController.swift in Sources */,
+				5BC2532428BC7F1500D4F49A /* GuidelinesViewController.swift in Sources */,
 				47E74E0C27CA0FFE00467A0C /* AppDelegate.swift in Sources */,
 				47CEEE9828545207008947FC /* UIBarButtonItem+Image.swift in Sources */,
 				472A4BF028408BD800FD52B7 /* TransitionManager.swift in Sources */,
@@ -2255,7 +2341,6 @@
 				47FF86A127DC712F0076A1CA /* Comment.swift in Sources */,
 				47EA3E0227E0151200381218 /* MapViewController.swift in Sources */,
 				43483BB228025179001C7C6A /* ChooseUsernameViewController.swift in Sources */,
-				5BE110082876CE4200CB54A6 /* ResetPasswordContext.swift in Sources */,
 				479683F32826494100CA23BA /* UIColor+Theme.swift in Sources */,
 				472A4BFE28408BD800FD52B7 /* SpringTextField.swift in Sources */,
 				479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */,
@@ -2268,8 +2353,9 @@
 				47266AD427FF69C9005DEDB1 /* UIViewController+Loading.swift in Sources */,
 				472A4C0628408BD800FD52B7 /* SpringAnimation.swift in Sources */,
 				5BCD490E28714F920002BD02 /* WantToChatView.swift in Sources */,
+				5BC2532128BC545C00D4F49A /* CLLocationCoordinate.swift in Sources */,
 				5BB624D92867DD8400DCD45B /* ConversationCell.swift in Sources */,
-				47AE72AA27F77B0B00A5E94C /* MyProfileSettingViewController.swift in Sources */,
+				47AE72AA27F77B0B00A5E94C /* UpdateProfileSettingViewController.swift in Sources */,
 				47527194285584F400DDF84D /* SimpleInputCell.swift in Sources */,
 				5BC8822928AFF793007E83F8 /* ChatViewController+Keyboard.swift in Sources */,
 				5BCEA50F289A489700602A4D /* PostViewController+Autocomplete.swift in Sources */,
@@ -2283,17 +2369,20 @@
 				47A3D71D27D5940D003DBEA5 /* NewPostTextView.swift in Sources */,
 				5BB624D12867A51500DCD45B /* VoteService.swift in Sources */,
 				472A4BFC28408BD800FD52B7 /* SpringView.swift in Sources */,
+				5B879E7A28B804B900D2DFC1 /* ConfirmCodeViewController.swift in Sources */,
 				47CE900A27E058090004B756 /* PinMapViewController.swift in Sources */,
 				47C2834F27DED77500A19128 /* FeedHeaderCell.swift in Sources */,
+				5BC2531228BB1A6800D4F49A /* CarouselCollectionView.swift in Sources */,
 				470F271327DE6F5800C6DDAF /* SearchSuggestionsTableViewController.swift in Sources */,
 				4369DB0C282EC465009215D4 /* Message.swift in Sources */,
 				47C1D49127DF00B200970B3D /* PostMoreViewController.swift in Sources */,
 				472A4C0728408BD800FD52B7 /* UnwindSegue.swift in Sources */,
-				5B1F16D0287D1B0700035F93 /* HomeViewController+Search.swift in Sources */,
+				5B1F16D0287D1B0700035F93 /* ExploreViewController+Search.swift in Sources */,
 				474A4AB5284A953200B39A98 /* UITextView+MaxLength.swift in Sources */,
 				5BD6F47E2896B3020002A60B /* StringChat+Emoji.swift in Sources */,
 				47F10DC12852CFE100E1A3DC /* UIImage+FromColor.swift in Sources */,
 				4718331228445A7C0061F9F3 /* UIView+PostBubble.swift in Sources */,
+				5BC2531628BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift in Sources */,
 				47F10DC72853DA0600E1A3DC /* UIImage+Blur.swift in Sources */,
 				43529E2B2890BC5900B3A484 /* CommentFlag.swift in Sources */,
 				5B37A36B28784A4B00279B2A /* EnterBiosViewController.swift in Sources */,
@@ -2327,6 +2416,7 @@
 				5BC8822C28B15192007E83F8 /* UIViewController+Logout.swift in Sources */,
 				5BB624B228620D4A00DCD45B /* CustomCardView.swift in Sources */,
 				47EE28F82840AE8200C6425C /* TestViewController.swift in Sources */,
+				5B879E7D28B8219100D2DFC1 /* LoginViewController.swift in Sources */,
 				47061CDA285170CB0042F04C /* FeedType.swift in Sources */,
 				47FB07062858592900BF1789 /* CircularProgressView.swift in Sources */,
 				472A4BFF28408BD800FD52B7 /* DesignableView.swift in Sources */,
@@ -2368,6 +2458,7 @@
 				472A4C0328408BD800FD52B7 /* SpringLabel.swift in Sources */,
 				474A5DAA27F40CB1004215F9 /* UISegmentedControl+Twitter.swift in Sources */,
 				472A4BF428408BD800FD52B7 /* SpringImageView.swift in Sources */,
+				5B879E8328B8A49C00D2DFC1 /* GetVerifiedViewController.swift in Sources */,
 				5B235B0428ADE43800FD27A9 /* ConfirmNumberViewController.swift in Sources */,
 				5B18B9802876C5F900F0F80E /* AuthStartViewController.swift in Sources */,
 				43D925202852802600438C5C /* FriendRequest.swift in Sources */,
@@ -2381,9 +2472,9 @@
 				5BE1473F289F1A7C0096FEBE /* String+Random.swift in Sources */,
 				436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */,
 				43529E2F2890BD3D00B3A484 /* CommentFlagAPI.swift in Sources */,
-				5BE110022876CD9D00CB54A6 /* RequestResetPasswordViewController.swift in Sources */,
+				5BE110022876CD9D00CB54A6 /* RequestResetNumberViewController.swift in Sources */,
 				47A3D70E27D55BB3003DBEA5 /* Time.swift in Sources */,
-				43770C4B27EE8C0F00F31CCF /* LoginViewController.swift in Sources */,
+				43770C4B27EE8C0F00F31CCF /* PasswordLoginViewController.swift in Sources */,
 				47A3D70027D50CF1003DBEA5 /* FeedViewController.swift in Sources */,
 				5BAD627D2876BE8800DCFE45 /* MistWideLogoView.swift in Sources */,
 				43483BB42802519C001C7C6A /* CreatePasswordViewController.swift in Sources */,
@@ -2402,10 +2493,12 @@
 				47061CD228511C750042F04C /* MapSearchResultType.swift in Sources */,
 				5BE14739289EB6EA0096FEBE /* TagAutocompleteCell.swift in Sources */,
 				4700F8C627DE4652006C2E08 /* ExploreViewController.swift in Sources */,
+				5BC2531B28BC0EC300D4F49A /* CollectionImageCell.swift in Sources */,
 				5BE110062876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift in Sources */,
 				475B1F8B27FB86C000ED59CD /* ConversationsViewController.swift in Sources */,
 				5BAD626F2876661500DCFE45 /* UIViewController+MistShareActivity.swift in Sources */,
 				5BB624DC2867E98500DCD45B /* Conversation.swift in Sources */,
+				5BC2530728BA683700D4F49A /* ClusterCarouselCell.swift in Sources */,
 				43483BB6280251B1001C7C6A /* EnterNameViewController.swift in Sources */,
 				43529E292890BBD000B3A484 /* CommentVote.swift in Sources */,
 				5BAD62752876707000DCFE45 /* AccountSection.swift in Sources */,
@@ -2422,10 +2515,12 @@
 				5B6208A628B4B6F7005610A9 /* FeedbackFormCell.swift in Sources */,
 				5BE147C628A0CDAA0096FEBE /* UITextView+PreventPeriod.swift in Sources */,
 				47EE28FE28414AF700C6425C /* CustomCenteredView.swift in Sources */,
+				5BC2532828BC83DA00D4F49A /* GuidelinesCollecitonCell.swift in Sources */,
 				43D9251828526ECA00438C5C /* Block.swift in Sources */,
 				479683F5282817CC00CA23BA /* PostAnnotationView.swift in Sources */,
 				5BF78337285D955F003C3955 /* Map.swift in Sources */,
 				479AA1FD27DD109F00EA0DFC /* Constants.swift in Sources */,
+				5B879E8028B821B300D2DFC1 /* ResetNumberViewController.swift in Sources */,
 				472A4BEE28408BD800FD52B7 /* DesignableImageView.swift in Sources */,
 				5BB624C72867933000DCD45B /* FriendRequestService.swift in Sources */,
 				47EA3E0027E013EB00381218 /* PostAnnotation.swift in Sources */,
@@ -2439,6 +2534,7 @@
 				470F271F27DE9ABE00C6DDAF /* SearchResultsTableViewController.swift in Sources */,
 				47061CD028510E4C0042F04C /* MKPlacemark+Address.swift in Sources */,
 				5BCE5F8228B483D2002078E1 /* CommentMoreViewController.swift in Sources */,
+				5B879E7628B7E3C000D2DFC1 /* CreateProfileViewController.swift in Sources */,
 				5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */,
 				5BE147D128A2A1E80096FEBE /* String+Ranges.swift in Sources */,
 				5BC2EC4228B5B99A0047D5B4 /* PhotoDetailViewController.swift in Sources */,
@@ -2446,6 +2542,7 @@
 				5BB624D52867D1C100DCD45B /* ChatMoreViewController.swift in Sources */,
 				4752719A2855A6A700DDF84D /* ExploreViewController+Feed.swift in Sources */,
 				4369DB0A282EC436009215D4 /* MessageThread.swift in Sources */,
+				5BC2530F28BACFAC00D4F49A /* PostTableCollectionViews.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2493,6 +2590,7 @@
 				5B739D9928935B9500E4EED0 /* ImagePicker.swift in Sources */,
 				5B739D9A28935B9500E4EED0 /* FinishProfileViewController.swift in Sources */,
 				5B235AF628A97FB800FD27A9 /* TagLink.swift in Sources */,
+				5B879E9228B9129100D2DFC1 /* CustomNavBar.swift in Sources */,
 				5B739D9B28935B9500E4EED0 /* UIView+SafeAreaConstraints.swift in Sources */,
 				5B739D9C28935B9500E4EED0 /* PostAPI.swift in Sources */,
 				5B739D9D28935B9500E4EED0 /* UINavigationController+Completion.swift in Sources */,
@@ -2501,6 +2599,7 @@
 				5B235B0828AEAD4300FD27A9 /* UIViewController+Window.swift in Sources */,
 				5B739D9F28935B9500E4EED0 /* TransitionZoom.swift in Sources */,
 				5B235B0228ADE3B200FD27A9 /* EnterNumberViewController.swift in Sources */,
+				5B879E7028B6BA5500D2DFC1 /* InsetLabel.swift in Sources */,
 				5B235B0F28AEFDFC00FD27A9 /* PanGesture+Direction.swift in Sources */,
 				5B739DA128935B9500E4EED0 /* MatchCollectionCell.swift in Sources */,
 				5B739DA228935B9500E4EED0 /* CustomSwiftMessages.swift in Sources */,
@@ -2517,6 +2616,7 @@
 				5B739DAA28935B9500E4EED0 /* RulesViewController.swift in Sources */,
 				5B739DAB28935B9500E4EED0 /* Misc.swift in Sources */,
 				5B739DAC28935B9500E4EED0 /* KUIViewController.swift in Sources */,
+				5BC2532528BC7F1500D4F49A /* GuidelinesViewController.swift in Sources */,
 				5B739DAD28935B9500E4EED0 /* SearchResultCell.swift in Sources */,
 				43A25345289BA43A00B1468F /* TagAPI.swift in Sources */,
 				5B739DAE28935B9500E4EED0 /* SpecialTabBarController.swift in Sources */,
@@ -2544,7 +2644,6 @@
 				5B739DC128935B9500E4EED0 /* Comment.swift in Sources */,
 				5B739DC228935B9500E4EED0 /* MapViewController.swift in Sources */,
 				5B739DC328935B9500E4EED0 /* ChooseUsernameViewController.swift in Sources */,
-				5B739DC428935B9500E4EED0 /* ResetPasswordContext.swift in Sources */,
 				5B739DC528935B9500E4EED0 /* UIColor+Theme.swift in Sources */,
 				5B739DC628935B9500E4EED0 /* SpringTextField.swift in Sources */,
 				5B739DC728935B9500E4EED0 /* PostViewController.swift in Sources */,
@@ -2555,11 +2654,12 @@
 				5B739DCC28935B9500E4EED0 /* CustomExploreViewController.swift in Sources */,
 				5B739DCD28935B9500E4EED0 /* UploadProfilePictureViewController.swift in Sources */,
 				5B739DCE28935B9500E4EED0 /* UIViewController+Loading.swift in Sources */,
+				5BC2532228BC545C00D4F49A /* CLLocationCoordinate.swift in Sources */,
 				5B739DCF28935B9500E4EED0 /* SpringAnimation.swift in Sources */,
 				5B739DD028935B9500E4EED0 /* WantToChatView.swift in Sources */,
 				5B739DD128935B9500E4EED0 /* ConversationCell.swift in Sources */,
 				5BE14740289F1A7C0096FEBE /* String+Random.swift in Sources */,
-				5B739DD228935B9500E4EED0 /* MyProfileSettingViewController.swift in Sources */,
+				5B739DD228935B9500E4EED0 /* UpdateProfileSettingViewController.swift in Sources */,
 				5B739DD328935B9500E4EED0 /* SimpleInputCell.swift in Sources */,
 				5B739DD428935B9500E4EED0 /* PermissionsViewController.swift in Sources */,
 				5B235B1328AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift in Sources */,
@@ -2570,17 +2670,20 @@
 				5B739DD928935B9500E4EED0 /* PostService.swift in Sources */,
 				5BE147D528A4B8FF0096FEBE /* UIButton+LoadingIndicator.swift in Sources */,
 				5B739DDA28935B9500E4EED0 /* NewPostTextView.swift in Sources */,
+				5B879E7B28B804B900D2DFC1 /* ConfirmCodeViewController.swift in Sources */,
 				5B739DDB28935B9500E4EED0 /* VoteService.swift in Sources */,
 				5B739DDC28935B9500E4EED0 /* SpringView.swift in Sources */,
+				5BC2531328BB1A6800D4F49A /* CarouselCollectionView.swift in Sources */,
 				5B739DDD28935B9500E4EED0 /* PinMapViewController.swift in Sources */,
 				5B739DDE28935B9500E4EED0 /* FeedHeaderCell.swift in Sources */,
 				5B739DDF28935B9500E4EED0 /* SearchSuggestionsTableViewController.swift in Sources */,
 				5B739DE028935B9500E4EED0 /* Message.swift in Sources */,
 				5B739DE128935B9500E4EED0 /* PostMoreViewController.swift in Sources */,
 				5B739DE228935B9500E4EED0 /* UnwindSegue.swift in Sources */,
-				5B739DE328935B9500E4EED0 /* HomeViewController+Search.swift in Sources */,
+				5B739DE328935B9500E4EED0 /* ExploreViewController+Search.swift in Sources */,
 				5B739DE428935B9500E4EED0 /* UITextView+MaxLength.swift in Sources */,
 				5B235B0528ADE43800FD27A9 /* ConfirmNumberViewController.swift in Sources */,
+				5BC2531728BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift in Sources */,
 				5B739DE528935B9500E4EED0 /* UIImage+FromColor.swift in Sources */,
 				5B739DE628935B9500E4EED0 /* UIView+PostBubble.swift in Sources */,
 				5B739DE728935B9500E4EED0 /* UIImage+Blur.swift in Sources */,
@@ -2614,6 +2717,7 @@
 				5B739DFD28935B9500E4EED0 /* BasicAPI.swift in Sources */,
 				5B739DFE28935B9500E4EED0 /* UIViewController+OpenURL.swift in Sources */,
 				5B739DFF28935B9500E4EED0 /* SegmentedControlCell.swift in Sources */,
+				5B879E7E28B8219100D2DFC1 /* LoginViewController.swift in Sources */,
 				5B739E0028935B9500E4EED0 /* BlockService.swift in Sources */,
 				5B739E0128935B9500E4EED0 /* CustomCardView.swift in Sources */,
 				5B739E0228935B9500E4EED0 /* TestViewController.swift in Sources */,
@@ -2655,6 +2759,7 @@
 				5B739E2328935B9500E4EED0 /* SpringLabel.swift in Sources */,
 				5BE147CC28A28CEF0096FEBE /* LinkTextView.swift in Sources */,
 				5B739E2428935B9500E4EED0 /* UISegmentedControl+Twitter.swift in Sources */,
+				5B879E8428B8A49C00D2DFC1 /* GetVerifiedViewController.swift in Sources */,
 				5B739E2528935B9500E4EED0 /* SpringImageView.swift in Sources */,
 				5B739E2628935B9500E4EED0 /* AuthStartViewController.swift in Sources */,
 				5B739E2728935B9500E4EED0 /* FriendRequest.swift in Sources */,
@@ -2665,9 +2770,9 @@
 				5B739E2C28935B9500E4EED0 /* CLLocationCoordinate+Distance.swift in Sources */,
 				5B739E2D28935B9500E4EED0 /* PostVoteAPI.swift in Sources */,
 				5B739E2E28935B9500E4EED0 /* ConfirmEmailViewController.swift in Sources */,
-				5B739E2F28935B9500E4EED0 /* RequestResetPasswordViewController.swift in Sources */,
+				5B739E2F28935B9500E4EED0 /* RequestResetNumberViewController.swift in Sources */,
 				5B739E3028935B9500E4EED0 /* Time.swift in Sources */,
-				5B739E3128935B9500E4EED0 /* LoginViewController.swift in Sources */,
+				5B739E3128935B9500E4EED0 /* PasswordLoginViewController.swift in Sources */,
 				5B739E3228935B9500E4EED0 /* FeedViewController.swift in Sources */,
 				5B739E3328935B9500E4EED0 /* MistWideLogoView.swift in Sources */,
 				5BE147D228A2A1E80096FEBE /* String+Ranges.swift in Sources */,
@@ -2689,10 +2794,12 @@
 				5B739E4128935B9500E4EED0 /* ConversationsViewController.swift in Sources */,
 				5B739E4228935B9500E4EED0 /* UIViewController+MistShareActivity.swift in Sources */,
 				5B739E4328935B9500E4EED0 /* Conversation.swift in Sources */,
+				5BC2531C28BC0EC300D4F49A /* CollectionImageCell.swift in Sources */,
 				5B739E4428935B9500E4EED0 /* EnterNameViewController.swift in Sources */,
 				5B739E4528935B9500E4EED0 /* AccountSection.swift in Sources */,
 				5B739E4628935B9500E4EED0 /* ButtonConfigs.swift in Sources */,
 				5B739E4728935B9500E4EED0 /* UISearchBar+CenterText.swift in Sources */,
+				5BC2530828BA683700D4F49A /* ClusterCarouselCell.swift in Sources */,
 				5B739E4828935B9500E4EED0 /* DesignableTabBarController.swift in Sources */,
 				5BE147C728A0CDAA0096FEBE /* UITextView+PreventPeriod.swift in Sources */,
 				5B235AF928AC347C00FD27A9 /* CNContact+Number.swift in Sources */,
@@ -2709,10 +2816,12 @@
 				5B6208A728B4B6F7005610A9 /* FeedbackFormCell.swift in Sources */,
 				5B739E5028935B9500E4EED0 /* PostAnnotationView.swift in Sources */,
 				5B739E5128935B9500E4EED0 /* Map.swift in Sources */,
+				5BC2532928BC83DA00D4F49A /* GuidelinesCollecitonCell.swift in Sources */,
 				43A25349289BA46800B1468F /* Tag.swift in Sources */,
 				5BE1474628A045CF0096FEBE /* UIImageView+Initials.swift in Sources */,
 				5B235B0B28AEB11900FD27A9 /* InputBarAccessoryView+.swift in Sources */,
 				5B739E5228935B9500E4EED0 /* Constants.swift in Sources */,
+				5B879E8128B821B300D2DFC1 /* ResetNumberViewController.swift in Sources */,
 				5B739E5328935B9500E4EED0 /* DesignableImageView.swift in Sources */,
 				5B739E5428935B9500E4EED0 /* FriendRequestService.swift in Sources */,
 				5B739E5528935B9500E4EED0 /* PostAnnotation.swift in Sources */,
@@ -2726,6 +2835,7 @@
 				5B739E5B28935B9500E4EED0 /* UIImageView+ProfilePic.swift in Sources */,
 				5B739E5C28935B9500E4EED0 /* SearchResultsTableViewController.swift in Sources */,
 				5B739E5D28935B9500E4EED0 /* MKPlacemark+Address.swift in Sources */,
+				5B879E7728B7E3C000D2DFC1 /* CreateProfileViewController.swift in Sources */,
 				5B739E5E28935B9500E4EED0 /* InformationCollectionCell.swift in Sources */,
 				5B739E5F28935B9500E4EED0 /* Env.swift in Sources */,
 				5BC2EC4328B5B99A0047D5B4 /* PhotoDetailViewController.swift in Sources */,
@@ -2733,6 +2843,7 @@
 				5BCE5F7E28B467AB002078E1 /* CommentHeaderCell.swift in Sources */,
 				5B739E6128935B9500E4EED0 /* ExploreViewController+Feed.swift in Sources */,
 				5B739E6228935B9500E4EED0 /* MessageThread.swift in Sources */,
+				5BC2531028BACFAC00D4F49A /* PostTableCollectionViews.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2885,9 +2996,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "mist-ios/mist-iosDebug.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 36;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = SHD3A2G97F;
@@ -2899,7 +3009,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mist-ios/Prod.plists/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = mist;
-				INFOPLIST_KEY_NSCameraUsageDescription = Selfieee;
+                INFOPLIST_KEY_NSCameraUsageDescription = "Mist allows you to upload a photo taken from your camera as a profile picture.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Tag your contacts on a mist even if they don't have the app.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = always;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Find nearby mists and pin a location to your submissions.";
@@ -2917,10 +3027,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.1;
+				MARKETING_VERSION = 0.2.2;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development app.getmist.mist-ios";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/Objective-C/mist-ios-Bridging-Header.h";
@@ -2938,16 +3048,15 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "mist-ios/mist-ios.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 36;
 				DEVELOPMENT_TEAM = SHD3A2G97F;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEV=0";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mist-ios/Prod.plists/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = mist;
-				INFOPLIST_KEY_NSCameraUsageDescription = Selfieee;
+                INFOPLIST_KEY_NSCameraUsageDescription = "Mist allows you to upload a photo taken from your camera as a profile picture.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Tag your contacts on a mist even if they don't have the app.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = always;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Find nearby mists and pin a location to your submissions.";
@@ -2965,9 +3074,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.1;
+				MARKETING_VERSION = 0.2.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore app.getmist.mist-ios";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/Objective-C/mist-ios-Bridging-Header.h";
@@ -3082,7 +3191,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "mist-ios-devDebug.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 36;
@@ -3096,7 +3204,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mist-ios/Dev.plists/mist-ios-dev-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "mist beta";
-				INFOPLIST_KEY_NSCameraUsageDescription = Selfieee;
+                INFOPLIST_KEY_NSCameraUsageDescription = "Mist allows you to upload a photo taken from your camera as a profile picture.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Tag your contacts on a mist even if they don't have the app.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = always;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Find nearby mists and drop a pin with your submissions.";
@@ -3114,7 +3222,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.1;
+				MARKETING_VERSION = 0.2.2;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "-DDEV";
 				PRODUCT_BUNDLE_IDENTIFIER = "app.getmist.mist-ios-dev";
@@ -3138,7 +3246,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "mist-ios-dev.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 36;
@@ -3147,7 +3254,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mist-ios/Dev.plists/mist-ios-dev-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "mist beta";
-				INFOPLIST_KEY_NSCameraUsageDescription = Selfieee;
+                INFOPLIST_KEY_NSCameraUsageDescription = "Mist allows you to upload a photo taken from your camera as a profile picture.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Tag your contacts on a mist even if they don't have the app.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = always;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Find nearby mists and drop a pin with your submissions.";
@@ -3165,7 +3272,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.1;
+				MARKETING_VERSION = 0.2.2;
 				OTHER_SWIFT_FLAGS = "-DDEV";
 				PRODUCT_BUNDLE_IDENTIFIER = "app.getmist.mist-ios-dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3334,6 +3441,14 @@
 				minimumVersion = 9.0.0;
 			};
 		};
+		5BC2530928BA8ABA00D4F49A /* XCRemoteSwiftPackageReference "CenteredCollectionView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/BenEmdon/CenteredCollectionView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -3466,6 +3581,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5B739D8B28935B9500E4EED0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseRemoteConfigSwift;
+		};
+		5BC2530A28BA8ABA00D4F49A /* CenteredCollectionView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5BC2530928BA8ABA00D4F49A /* XCRemoteSwiftPackageReference "CenteredCollectionView" */;
+			productName = CenteredCollectionView;
+		};
+		5BC2530C28BA8AD300D4F49A /* CenteredCollectionView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5BC2530928BA8ABA00D4F49A /* XCRemoteSwiftPackageReference "CenteredCollectionView" */;
+			productName = CenteredCollectionView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

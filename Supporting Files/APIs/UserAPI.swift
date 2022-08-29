@@ -51,12 +51,13 @@ class UserAPI {
     static let SEX_PARAM = "sex"
     static let KEYWORDS_PARAM = "keywords"
     static let WORDS_PARAM = "words"
+    static let PHONE_NUMBER_PARAM = "phone_number"
     static let PHONE_NUMBERS_PARAM = "phone_numbers"
     static let TOKEN_PARAM = "token"
     static let LATITUDE_PARAM = "latitude"
     static let LONGITUDE_PARAM = "longitude"
     
-    static let USER_RECOVERY_MESSAGE = "Please try again later"
+    static let USER_RECOVERY_MESSAGE = "try again later"
     
     static func throwAPIError(error: UserError) throws {
         if let emailErrors = error.email,
@@ -242,23 +243,9 @@ class UserAPI {
         return try JSONDecoder().decode(CompleteUser.self, from: data)
     }
     
-    static func patchLatitudeLongitude(latitude:Double, longitude:Double, id:Int) async throws -> CompleteUser {
-        let url =  "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(id)/"
-        let params:[String:Double] = [
-            LATITUDE_PARAM: latitude,
-            LONGITUDE_PARAM: longitude,
-        ]
-        let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
-        try filterUserErrors(data: data, response: response)
-        return try JSONDecoder().decode(CompleteUser.self, from: data)
-    }
-    
     static func patchFirstName(firstName:String, id:Int) async throws -> CompleteUser {
         let url =  "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(id)/"
-        let params:[String:String] = [
-            FIRST_NAME_PARAM: firstName,
-        ]
+        let params:[String:String] = [FIRST_NAME_PARAM: firstName]
         let json = try JSONEncoder().encode(params)
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
         try filterUserErrors(data: data, response: response)
@@ -267,8 +254,18 @@ class UserAPI {
     
     static func patchLastName(lastName:String, id:Int) async throws -> CompleteUser {
         let url =  "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(id)/"
-        let params:[String:String] = [
-            LAST_NAME_PARAM: lastName,
+        let params:[String:String] = [LAST_NAME_PARAM: lastName]
+        let json = try JSONEncoder().encode(params)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
+        try filterUserErrors(data: data, response: response)
+        return try JSONDecoder().decode(CompleteUser.self, from: data)
+    }
+    
+    static func patchLatitudeLongitude(latitude:Double, longitude:Double, id:Int) async throws -> CompleteUser {
+        let url =  "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(id)/"
+        let params:[String:Double] = [
+            LATITUDE_PARAM: latitude,
+            LONGITUDE_PARAM: longitude,
         ]
         let json = try JSONEncoder().encode(params)
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)

@@ -59,7 +59,7 @@ extension SearchSuggestionsTableViewController {
 extension SearchSuggestionsTableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1 //2
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -72,6 +72,7 @@ extension SearchSuggestionsTableViewController {
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else { return }
         header.textLabel?.font = UIFont(name: Constants.Font.Medium, size: 15)
+        header.textLabel?.text = header.textLabel?.text?.lowercased()
     }
             
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -104,7 +105,7 @@ extension SearchSuggestionsTableViewController {
             if !completerResults.isEmpty {
                 if indexPath.row == 0 {
                     cell.textLabel?.text = searchText // + "\""
-                    cell.detailTextLabel?.text = "Nearby search"
+                    cell.detailTextLabel?.text = "nearby search"
                     cell.accessoryType = .disclosureIndicator
                     cell.isUserInteractionEnabled = true
                 } else {
@@ -115,7 +116,7 @@ extension SearchSuggestionsTableViewController {
                     cell.isUserInteractionEnabled = true
                 }
             } else {
-                cell.textLabel?.text = "No results"
+                cell.textLabel?.text = "no results"
                 cell.detailTextLabel?.text = ""
                 cell.accessoryType = .none
                 cell.isUserInteractionEnabled = false
@@ -165,7 +166,7 @@ extension SearchSuggestionsTableViewController: UISearchResultsUpdating {
         
         didOneSearchAlreadyFinish = false
         startNearbySearch(with: searchText)
-        startWordSearch(with: searchText)
+//        startWordSearch(with: searchText)
     }
 }
 
@@ -204,10 +205,10 @@ extension SearchSuggestionsTableViewController {
     }
     
     private func handleFinishedSearch() {
-        if !didOneSearchAlreadyFinish {
-            didOneSearchAlreadyFinish = true
-            return
-        }
+//        if !didOneSearchAlreadyFinish { //necessary when searching for both nearby and words
+//            didOneSearchAlreadyFinish = true
+//            return
+//        }
         
         guard !searchText.isEmpty else { return } //If the user deleted all the searchText before the searchQuery finished, we don't want to display any results
         

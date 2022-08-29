@@ -25,7 +25,7 @@ struct Comment: Codable {
     ]
     static let tagInputAttributes: [NSAttributedString.Key : Any] = [
         .font: UIFont(name: Constants.Font.Roman, size: 16)!,
-        .foregroundColor: Constants.Color.mistBlack,
+        .foregroundColor: UIColor(hex: "6D29C3"),
     ]
     static let normalInputAttributes: [NSAttributedString.Key : Any] = [
         .font: UIFont(name: Constants.Font.Roman, size: 16)!,

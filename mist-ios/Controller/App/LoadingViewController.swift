@@ -72,7 +72,7 @@ class LoadingViewController: UIViewController {
     func goToAuth() {
         DispatchQueue.main.asyncAfter(deadline: .now() + Env.TRANSITION_TO_AUTH_DURATION) {
             transitionToStoryboard(storyboardID: Constants.SBID.SB.Auth,
-                                    viewControllerID: Constants.SBID.VC.AuthNavigation,
+                                   viewControllerID: Constants.SBID.VC.AuthNavigation,
                                     duration: Env.TRANSITION_TO_HOME_DURATION) { _ in}
         }
     }
@@ -104,6 +104,7 @@ class LoadingViewController: UIViewController {
         } catch {
             if let apiError = error as? APIError, apiError == .Unauthorized {
                 logoutAndGoToAuth()
+                return
             }
             if failCount >= 2 {
                 CustomSwiftMessages.displayError(error)

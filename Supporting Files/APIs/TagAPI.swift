@@ -30,7 +30,7 @@ struct TagParams: Codable {
 class TagAPI {
     static let PATH_TO_TAG_MODEL = "api/tags/"
     
-    static let TAG_RECOVERY_MESSAGE = "Please try again later"
+    static let TAG_RECOVERY_MESSAGE = "try again later"
     
     static func filterTagErrors(data:Data, response:HTTPURLResponse) throws {
         let statusCode = response.statusCode

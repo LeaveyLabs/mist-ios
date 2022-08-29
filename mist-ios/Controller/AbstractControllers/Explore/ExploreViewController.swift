@@ -14,26 +14,34 @@ enum ReloadType {
     case refresh, cancel, newSearch, newPost, firstLoad
 }
 
+var hasRequestedLocationPermissionsDuringAppSession = false
+var shouldFeedBeginVisible = true
+
 class ExploreViewController: MapViewController {
     
     // UI
-    @IBOutlet weak var customNavigationBar: UIView!
-    @IBOutlet weak var toggleButton: UIButton!
-    var feed: UITableView!
+    var customNavBar = CustomNavBar()
+    func setupCustomNavigationBar() {
+        fatalError("requires subclass implementation")
+    }
+    
+    var feed: PostTableView!
     
     //Flags
     var reloadTask: Task<Void, Never>?
-    var isFeedVisible = false //we have to use this flag and send tableview to the front/back instead of using isHidden so that when tableviewcells aren't rerendered when tableview reappears and so we can have a scroll to top animation before reloading tableview data
+    var isFeedVisible = shouldFeedBeginVisible //we have to use this flag and send tableview to the front/back instead of using isHidden so that when tableviewcells aren't rerendered when tableview reappears and so we can have a scroll to top animation before reloading tableview data
     var annotationSelectionType: AnnotationSelectionType = .normal
     var keyboardHeight: CGFloat = 0 //emoji keyboard autodismiss flag
     var isKeyboardForEmojiReaction: Bool = false
         
     // Map
-    var selectedAnnotationView: MKAnnotationView?
-    var selectedAnnotationIndex: Int? {
-        guard let selected = selectedAnnotationView else { return nil }
-        return postAnnotations.firstIndex(of: selected.annotation as! PostAnnotation)
-    }
+    var selectedAnnotationView: AnnotationViewWithPosts?
+    
+    // Search
+    var mySearchController: UISearchController!
+    var searchSuggestionsVC: SearchSuggestionsTableViewController!
+    //experimental, for debugging purposes only
+    var appleregion: MKCoordinateRegion = .init()
     
     // Feed
     var reactingPostIndex: Int? //for scrolling to the right index on the feed when react keyboard raises
@@ -42,25 +50,25 @@ class ExploreViewController: MapViewController {
     var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] = [:]
 }
 
-// MARK: - View Life Cycle
+// MARK: - Life Cycle
 
 extension ExploreViewController {
 
     override func loadView() {
         super.loadView()
         setupTableView()
+        setupSearchBar()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        latitudeOffset = 0.00095
-        setupCustomNavigationBar()
+        latitudeOffset = 0.0009
         setupCustomTapGestureRecognizerOnMap()
         
         if let userLocation = locationManager.location {
             mapView.camera.centerCoordinate = userLocation.coordinate
             mapView.camera.centerCoordinateDistance = 3000
-            mapView.camera.pitch = 40
+            mapView.camera.pitch = MapViewController.MAX_CAMERA_PITCH
         }
     }
     
@@ -138,17 +146,19 @@ extension ExploreViewController {
         mapView.addAnnotations(postAnnotations)
     }
     
+    func renderNewPlacesOnMap() {
+        removeExistingPlaceAnnotationsFromMap()
+        mapView.region = getRegionCenteredAround(placeAnnotations) ?? PostService.singleton.getExploreFilter().region
+        mapView.addAnnotations(placeAnnotations)
+    }
+    
 }
 
 // MARK: - Toggle
 
 extension ExploreViewController {
     
-    func setupCustomNavigationBar() {
-        customNavigationBar.applyMediumBottomOnlyShadow()
-    }
-    
-    @IBAction func toggleButtonDidTapped(_ sender: UIButton) {
+    func toggleButtonDidTapped() {
         reloadData()
         if isFeedVisible {
             makeMapVisible()
@@ -161,26 +171,41 @@ extension ExploreViewController {
     
     // Called upon every viewWillAppear and map/feed toggle
     func reloadData() {
-        //Map
-        if let selectedPostAnnotationView = selectedAnnotationView as? PostAnnotationView {
-            selectedPostAnnotationView.rerenderCalloutForUpdatedPostData()
-        }
-        //Feed
-        DispatchQueue.main.async { // somehow, this prevents a strange animation for the reload
+        DispatchQueue.main.async {
+            self.selectedAnnotationView?.rerenderCalloutForUpdatedPostData()
             self.feed.reloadData()
         }
     }
-    
+        
     func makeFeedVisible() {
-        view.insertSubview(feed, belowSubview: customNavigationBar)
-        toggleButton.setImage(UIImage(named: "toggle-map-button"), for: .normal)
-        isFeedVisible = true
+        feed.alpha = 0
+        view.insertSubview(feed, belowSubview: customNavBar)
+        view.isUserInteractionEnabled = false
+        UIView.animate(withDuration: 0.1, delay: 0, options: .curveLinear) {
+            self.feed.alpha = 1
+        } completion: { [self] completed in
+            isFeedVisible = true
+            view.isUserInteractionEnabled = true
+        }
     }
     
     func makeMapVisible() {
-        view.sendSubviewToBack(feed)
-        toggleButton.setImage(UIImage(named: "toggle-list-button"), for: .normal)
-        isFeedVisible = false
+        feed.alpha = 1
+        view.isUserInteractionEnabled = false
+        UIView.animate(withDuration: 0.1, delay: 0, options: .curveLinear) {
+            self.feed.alpha = 0
+        } completion: { [self] completed in
+            view.sendSubviewToBack(feed)
+            isFeedVisible = false
+            view.isUserInteractionEnabled = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                guard !hasRequestedLocationPermissionsDuringAppSession else { return }
+                self.requestUserLocationPermissionIfNecessary()
+                hasRequestedLocationPermissionsDuringAppSession = true
+            }
+
+        }
     }
     
 }
@@ -275,7 +300,7 @@ extension ExploreViewController: PostDelegate {
                     scrollFeedToPostRightAboveKeyboard(reactingPostIndex)
                 }
             } else {
-                if let postAnnotationView = selectedAnnotationView as? PostAnnotationView, keyboardHeight > 100 { //keyboardHeight of 90 appears with postVC keyboard
+                if let postAnnotationView = selectedAnnotationView, keyboardHeight > 100 { //keyboardHeight of 90 appears with postVC keyboard
                     postAnnotationView.movePostUpAfterEmojiKeyboardRaised()
                 }
             }
@@ -285,7 +310,7 @@ extension ExploreViewController: PostDelegate {
     @objc func keyboardWillDismiss(sender: NSNotification) {
         keyboardHeight = 0
         //DONT DO THE FOLLOWING IF THEY"RE CURRENTLY DRAGGING
-        if let postAnnotationView = selectedAnnotationView as? PostAnnotationView, !postAnnotationView.isPanning {
+        if let postAnnotationView = selectedAnnotationView { //!postAnnotationView.isPanning { this was useful when we allowed swiping between postsAnnotationViews. not needed anymore
             postAnnotationView.movePostBackDownAfterEmojiKeyboardDismissed()
         }
     }

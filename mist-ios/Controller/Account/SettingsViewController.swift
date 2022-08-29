@@ -6,26 +6,21 @@
 //
 
 import Foundation
-
-//
-//  SettingsViewController.swift
-//  mist-ios
-//
-//  Created by Adam Novak on 2022/03/31.
-//
-
 import UIKit
+import MessageUI
 
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SettingsTapDelegate {
     
     @IBOutlet weak var tableView: UITableView!
+    var navTitle: String!
     var settings = [Setting]()
     
     //MARK: - Initialization
     
-    class func create(settings: [Setting]) -> SettingsViewController {
+    class func create(settings: [Setting], title: String) -> SettingsViewController {
         let settingVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Settings) as! SettingsViewController
         settingVC.settings = settings
+        settingVC.navTitle = title
         return settingVC
     }
             
@@ -36,11 +31,24 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         setupTableView()
         registerNibs()
         setupBackButton()
+        navigationItem.title = navTitle
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let nav = navigationController, nav.viewControllers.count > 1 {
+            enableInteractivePopGesture()
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        disableInteractivePopGesture()
     }
     
     func setupBackButton() {
@@ -97,11 +105,23 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         let selectedSetting = settings[indexPath.section]
         selectedSetting.tapAction(with: self)
     }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard
+            let header:UITableViewHeaderFooterView = view as? UITableViewHeaderFooterView,
+            let textLabel = header.textLabel
+        else { return }
+        //textLabel.font.pointSize is 13, seems kinda small
+        textLabel.font = UIFont(name: Constants.Font.Roman, size: 15)
+        textLabel.text = textLabel.text?.lowercased()
+    }
 
 }
 
-extension SettingsViewController: UITextViewDelegate {
+extension SettingsViewController {
     
-    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    }
     
 }

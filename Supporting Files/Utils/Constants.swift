@@ -67,7 +67,7 @@ struct Constants {
             static let CommentMore = "CommentMoreViewController"
             //NewPost
             static let NewPost = "NewPostViewController"
-            static let Rules = "RulesViewController"
+            static let Guidelines = "GuidelinesMoreViewController"
             //Account
             static let Profile = "ProfileViewController"
             static let PhotoDetail = "PhotoDetailViewController"
@@ -107,10 +107,14 @@ struct Constants {
             static let FinishProfile = "FinishProfileViewController"
             static let EnterNumber = "EnterNumberViewController"
             static let ConfirmNumber = "ConfirmNumberViewController"
+            static let CreateProfile = "CreateProfileViewController"
+            static let ConfirmCode = "ConfirmCodeViewController"
+            static let RequestReset = "RequestResetNumberViewController"
+            static let ResetNumber = "ResetNumberViewController"
             //Reset password
-            static let RequestResetPassword = "RequestResetPasswordViewController"
-            static let ValidateResetPassword = "ValidateResetPasswordViewController"
-            static let FinalizeResetPassword = "FinalizeResetPasswordViewController"
+//            static let RequestResetPassword = "RequestResetPasswordViewController"
+//            static let ValidateResetPassword = "ValidateResetPasswordViewController"
+//            static let FinalizeResetPassword = "FinalizeResetPasswordViewController"
         }
         struct Segue {
             static let ToMyProfileSetting = "ToMyProfileSetting"

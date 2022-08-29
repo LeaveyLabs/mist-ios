@@ -41,7 +41,7 @@ class ChatViewController: MessagesViewController {
     
     var viewHasAppeared = false
 
-    let INPUTBAR_PLACEHOLDER = "Message"
+    let INPUTBAR_PLACEHOLDER = "message"
     let MAX_MESSAGE_LENGTH = 999
     
     private(set) lazy var refreshControl: UIRefreshControl = {
@@ -66,7 +66,8 @@ class ChatViewController: MessagesViewController {
         
     var isAuthedUserProfileHidden: Bool! {
         didSet {
-            senderProfileNameButton.setTitle("You", for: .normal)
+            senderProfileNameButton.setTitle(UserService.singleton.getFirstName(), for: .normal)
+            senderProfileNameButton.setImage(UserService.singleton.isVerified() ? UIImage(systemName: "checkmark.seal.fill") : nil, for: .normal)
             if isAuthedUserProfileHidden {
                 senderProfilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getBlurredPic())
             } else {
@@ -76,6 +77,7 @@ class ChatViewController: MessagesViewController {
     }
     var isSangdaebangProfileHidden: Bool! {
         didSet {
+            receiverProfileNameButton.setImage(conversation.sangdaebang.is_verified ? UIImage(systemName: "checkmark.seal.fill") : nil, for: .normal)
             if isSangdaebangProfileHidden {
                 receiverProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.blurredPic)
                 receiverProfileNameButton.setTitle("???", for: .normal)
@@ -342,14 +344,14 @@ extension ChatViewController: MessagesDataSource {
 
     func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         if isLastMessageFromSender(message: message, at: indexPath) {
-            return NSAttributedString(string: "Sent", attributes: [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 11)!, NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            return NSAttributedString(string: "sent", attributes: [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 11)!, NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         }
         return nil
     }
 
     func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         if isTimeLabelVisible(at: indexPath) {
-            return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate), attributes: [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 11)!, NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate).lowercased(), attributes: [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 11)!, NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         }
         return nil
     }

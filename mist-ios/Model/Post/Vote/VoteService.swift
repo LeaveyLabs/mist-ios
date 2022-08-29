@@ -30,6 +30,11 @@ class VoteService: NSObject {
         async let loadedPostVotes = PostVoteAPI.fetchVotesByUser(voter: UserService.singleton.getId())
         async let loadedCommentVotes = CommentVoteAPI.fetchVotesByUser(voter: UserService.singleton.getId())
         (postVotes, commentVotes) = try await (loadedPostVotes, loadedCommentVotes)
+        commentVotes.forEach { vote in
+            if (vote.comment == 249) {
+                print("loaded vote exists")
+            }
+        }
     }
     
     //MARK: - Getters
@@ -125,12 +130,15 @@ class VoteService: NSObject {
     
     private func castCommentVote(commentId: Int) throws {
         let addedVote = CommentVote(id: Int.random(in: 0..<Int.max), voter: UserService.singleton.getId(), comment: commentId, timestamp: Date().timeIntervalSince1970, rating: nil)
+        print(commentVotes.filter { $0.comment == commentId })
         commentVotes.append(addedVote)
+        print(commentVotes.filter { $0.comment == commentId })
         
         Task {
             do {
                 let _ = try await CommentVoteAPI.postVote(voter: UserService.singleton.getId(), comment: commentId)
             } catch {
+//                CustomSwiftMessages.displayError(error)
                 commentVotes.removeAll { $0.id == addedVote.id }
                 throw(error)
             }
@@ -142,13 +150,16 @@ class VoteService: NSObject {
     //or delete in a different way
     private func deleteCommentVote(commentId: Int) throws {
         guard let deletedVote = commentVotes.first(where: { $0.comment == commentId } ) else { return }
+        print(commentVotes.filter { $0.comment == commentId })
         commentVotes.removeAll { $0.id == deletedVote.id }
-        
+        print(commentVotes.filter { $0.comment == commentId })
+
         Task {
             do {
                 try await CommentVoteAPI.deleteVote(voter: UserService.singleton.getId(), comment: commentId)
             } catch {
                 commentVotes.append(deletedVote)
+//                CustomSwiftMessages.displayError(error)
                 throw(error)
             }
         }

@@ -34,6 +34,7 @@ extension InputBarAccessoryView {
         inputTextView.layer.cornerRadius = 16.0
         inputTextView.layer.masksToBounds = true
         inputTextView.autocorrectionType = .default
+        inputTextView.autocapitalizationType = .none
         middleContentViewPadding.right = -45 //extends the inputbar to the right
         
         //Right
@@ -65,6 +66,7 @@ extension InputBarAccessoryView {
         inputTextView.layer.cornerRadius = 16.0
         inputTextView.layer.masksToBounds = true
         inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+        inputTextView.autocapitalizationType = .none
         shouldAnimateTextDidChangeLayout = true
         maxTextViewHeight = 144 //max of 6 lines with the given font
         if let middleContentView = middleContentView, middleContentView != inputTextView {

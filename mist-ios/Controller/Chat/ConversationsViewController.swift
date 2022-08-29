@@ -7,19 +7,16 @@
 
 import UIKit
 
-class ConversationsViewController: UIViewController {
+class ConversationsViewController: UIViewController, CustomNavBarDelegate {
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var accountButton: UIButton!
-    @IBOutlet weak var customNavigationBar: UIView!
+    var customNavBar = CustomNavBar()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         registerNibs()
-        setupMyAccountButton()
-        navigationController?.isNavigationBarHidden = true
-        customNavigationBar.applyLightBottomOnlyShadow()
+        setupNavBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,20 +39,12 @@ class ConversationsViewController: UIViewController {
         tableView.register(conversationNib, forCellReuseIdentifier: Constants.SBID.Cell.Conversation)
     }
     
-    private func setupMyAccountButton() {
-        accountButton.addTarget(self, action: #selector(presentMyAccount), for: .touchUpInside)
-        accountButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
+    func setupNavBar() {
+        navigationController?.isNavigationBarHidden = true
+        view.addSubview(customNavBar)
+        customNavBar.configure(title: "dms", leftItems: [.title], rightItems: [.profile], delegate: self)
     }
     
-    @objc func presentMyAccount() {
-        let myAccountNavigation = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation) as! UINavigationController
-        myAccountNavigation.modalPresentationStyle = .fullScreen
-        let myAccountVC = myAccountNavigation.topViewController as! MyAccountViewController
-        myAccountVC.rerenderProfileCallback = {
-            self.accountButton.setImage(UserService.singleton.getProfilePic(), for: .normal)
-        }
-        self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
-    }
 }
 
 extension ConversationsViewController: UITableViewDelegate {

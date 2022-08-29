@@ -33,16 +33,39 @@ class CustomExploreViewController: ExploreViewController {
         NSLayoutConstraint.activate([
             feed.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
-        makeFeedVisible()
         
-        headerTitleLabel.text = setting.displayName
+        setupCustomNavigationBar()
         renderNewPostsOnFeedAndMap(withType: .newSearch, customSetting: setting) //using newSearch in order to force a relocation of the map
+    }
+    
+    //MARK: - Setup
+    
+    override func setupCustomNavigationBar() {
+        navigationController?.isNavigationBarHidden = true
+        view.addSubview(customNavBar)
+        customNavBar.configure(title: setting.displayName.lowercased(), leftItems: [.back, .title], rightItems: [.searchOrFilter, .mapFeedToggle], delegate: self)
     }
     
     //MARK: - User Interaction
 
     @IBAction func backButtonDidTapped(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
+    }
+    
+}
+
+extension CustomExploreViewController: CustomNavBarDelegate {
+    
+    func handleFilterButtonTap() {
+        //nothing for now
+    }
+    
+    func handleMapFeedToggleButtonTap() {
+        toggleButtonDidTapped()
+    }
+    
+    func handleSearchButtonTap() {
+        presentExploreSearchController()
     }
     
 }

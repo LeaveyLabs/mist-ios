@@ -87,9 +87,11 @@ class UserService: NSObject {
     func getLastName() -> String { return authedUser.last_name }
     func getFirstLastName() -> String { return authedUser.first_name + " " + authedUser.last_name }
     func getEmail() -> String { return authedUser.email }
-    func getPhoneNumber() -> String { return "111111111" }
+    func getPhoneNumber() -> String? { return authedUser.phone_number }
+    func getPhoneNumberPretty() -> String? { return authedUser.phone_number?.asNationalPhoneNumber }
     func getProfilePic() -> UIImage { return authedUser.profilePicWrapper.image }
     func getBlurredPic() -> UIImage { return authedUser.profilePicWrapper.blurredImage }
+    func isVerified() -> Bool { return false }
     
     //MARK: - Login and create user
     
@@ -99,19 +101,20 @@ class UserService: NSObject {
                     lastName: String,
                     profilePic: UIImage,
                     email: String,
-                    password: String,
+                    phoneNumber: String,
                     dob: String) async throws {
         let newProfilePicWrapper = ProfilePicWrapper(image: profilePic, withCompresssion: true)
         let compressedProfilePic = newProfilePicWrapper.image
-        let completeUser = try await AuthAPI.createUser(username: username,
+        let token = try await AuthAPI.createUser(username: username,
                                             first_name: firstName,
                                             last_name: lastName,
                                             picture: compressedProfilePic,
                                             email: email,
-                                            password: password,
+                                            phone_number: phoneNumber,
                                             dob: dob)
-        let token = try await AuthAPI.fetchAuthToken(email_or_username: username, password: password)
         setGlobalAuthToken(token: token)
+        let completeUser = try await UserAPI.fetchAuthedUserByToken(token: token)
+        
         Task { try await waitAndRegisterDeviceToken(id: completeUser.id) }
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
                                                     profilePic: newProfilePicWrapper,
@@ -120,10 +123,23 @@ class UserService: NSObject {
         Task { await self.saveUserToFilesystem() }
     }
     
-    func logIn(json: Data) async throws {
-        let token = try await AuthAPI.fetchAuthToken(json: json)
+//    func logIn(json: Data) async throws {
+//        let token = try await AuthAPI.fetchAuthToken(json: json)
+//        setGlobalAuthToken(token: token)
+//        let completeUser = try await UserAPI.fetchAuthedUserByToken(token: token)
+//        Task { try await waitAndRegisterDeviceToken(id: completeUser.id) }
+//        let profilePicUIImage = try await UserAPI.UIImageFromURLString(url: completeUser.picture)
+//        frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
+//                                                    profilePic: ProfilePicWrapper(image: profilePicUIImage,
+//                                                                                  withCompresssion: false),
+//                                                    token: token)
+//        setupFirebaseAnalyticsProperties()
+//        Task { await self.saveUserToFilesystem() }
+//    }
+    
+    func logInWith(authToken token: String) async throws {
         setGlobalAuthToken(token: token)
-        let completeUser = try await UserAPI.fetchAuthedUserByToken(token: token)
+        let completeUser = try await UserAPI.fetchAuthedUserByToken(token: getGlobalAuthToken())
         Task { try await waitAndRegisterDeviceToken(id: completeUser.id) }
         let profilePicUIImage = try await UserAPI.UIImageFromURLString(url: completeUser.picture)
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
@@ -148,6 +164,28 @@ class UserService: NSObject {
         }
     }
     
+    func updateFirstName(to newFirstName: String) async throws {
+        guard let frontendCompleteUser = frontendCompleteUser else { return }
+        
+        let updatedCompleteUser = try await UserAPI.patchFirstName(firstName: newFirstName, id: frontendCompleteUser.id)
+        self.authedUser.first_name = updatedCompleteUser.first_name
+        Task {
+            await self.saveUserToFilesystem()
+            await UsersService.singleton.updateCachedUser(updatedUser: self.getUserAsFrontendReadOnlyUser())
+        }
+    }
+    
+    func updateLastName(to newLastName: String) async throws {
+        guard let frontendCompleteUser = frontendCompleteUser else { return }
+        
+        let updatedCompleteUser = try await UserAPI.patchLastName(lastName: newLastName, id: frontendCompleteUser.id)
+        self.authedUser.last_name = updatedCompleteUser.last_name
+        Task {
+            await self.saveUserToFilesystem()
+            await UsersService.singleton.updateCachedUser(updatedUser: self.getUserAsFrontendReadOnlyUser())
+        }
+    }
+    
     // No need to return new profilePic bc it is updated globally
     func updateProfilePic(to newProfilePic: UIImage) async throws {
         guard let frontendCompleteUser = frontendCompleteUser else { return }
@@ -166,12 +204,12 @@ class UserService: NSObject {
         }
     }
     
-    func updatePassword(to newPassword: String) async throws {
-        guard let frontendCompleteUser = frontendCompleteUser else { return }
-        
-        let _ = try await UserAPI.patchPassword(password: newPassword, id: frontendCompleteUser.id)
-        //no need for a local update, since we don't actually save the password locally
-    }
+//    func updatePassword(to newPassword: String) async throws {
+//        guard let frontendCompleteUser = frontendCompleteUser else { return }
+//
+//        let _ = try await UserAPI.patchPassword(password: newPassword, id: frontendCompleteUser.id)
+//        //no need for a local update, since we don't actually save the password locally
+//    }
     
     //MARK: - Logout and delete user
     
