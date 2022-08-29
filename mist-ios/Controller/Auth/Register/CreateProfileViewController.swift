@@ -17,13 +17,17 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
     
+    @IBOutlet weak var headerTitleView: UIView!
+    @IBOutlet weak var headerSpacingView: UIView!
+    @IBOutlet weak var imageViewWidthConstraint: NSLayoutConstraint!
+    
     var imagePicker: ImagePicker!
     
     var isValidInput: Bool! {
         didSet {
             continueButton.isEnabled = isValidInput
             continueButton.setNeedsUpdateConfiguration()
-            profilePictureButton.setImage(profilePic, for: .normal)
+            profilePictureButton.imageView?.becomeProfilePicImageView(with: profilePic)
             miniCameraButton.isHidden = profilePic == defaultPic
         }
     }
@@ -46,12 +50,14 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
         profilePic = defaultPic
         setupButtons()
         setupTextFields()
+        setupHeaderAndImageBasedOnScreenSize()
         firstNameTextField.becomeFirstResponder()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
+        print(view.bounds.height)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -87,6 +93,8 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
         miniCameraButton.isHidden = true
         miniCameraButton.becomeRound()
         profilePictureButton.imageView?.becomeProfilePicImageView(with: defaultPic)
+        profilePictureButton.contentHorizontalAlignment = .fill //so that the systemimage expands
+        profilePictureButton.contentVerticalAlignment = .fill
     }
     
     func setupTextFields() {
@@ -108,6 +116,22 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
     
     func setupImagePicker() {
         imagePicker = ImagePicker(presentationController: self, delegate: self, pickerSources: [.camera, .photoLibrary])
+    }
+    
+    func setupHeaderAndImageBasedOnScreenSize() {
+        let screenHeight = view.bounds.height
+        if screenHeight < 600 {
+            headerTitleView.isHidden = true
+            headerSpacingView.isHidden = true
+        } else if screenHeight > 900 {
+            imageViewWidthConstraint.constant += 90
+        } else if screenHeight > 850 {
+            imageViewWidthConstraint.constant += 60
+        } else if screenHeight > 700 {
+            imageViewWidthConstraint.constant += 30
+        } else if screenHeight > 600 {
+            imageViewWidthConstraint.constant += 8
+        }
     }
     
     //MARK: - TextField Delegate
