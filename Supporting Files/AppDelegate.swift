@@ -21,42 +21,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let stackViewAppearance = UIStackView.appearance(whenContainedInInstancesOf: [UINavigationBar.self])
         stackViewAppearance.spacing = -10
         
+        MistboxManager.shared.configureMistboxTimes()
+
 //        Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(false)
 //        Performance.sharedInstance().isInstrumentationEnabled = false
 //        Performance.sharedInstance().isDataCollectionEnabled = false
 //        Analytics.setAnalyticsCollectionEnabled(false)
-//        registerForRemoteNotification()
         
         FirebaseApp.configure()
         return true
     }
     
-    func registerForRemoteNotification() {
-        if #available(iOS 10.0, *) {
-            let center  = UNUserNotificationCenter.current()
-            center.delegate = self
-            center.requestAuthorization(options: [.sound, .alert, .badge]) { (granted, error) in
-                print("Authorization executed")
-            }
-            UIApplication.shared.registerForRemoteNotifications()
-        }
-        else {
-            UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.sound, .alert, .badge], categories: nil))
-            UIApplication.shared.registerForRemoteNotifications()
-        }
-    }
-    
-    func application(
-        _ application: UIApplication,
-        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
-    )
-    {
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let tokenParts = deviceToken.map { data -> String in
             return String(format: "%02.2hhx", data)
         }
 
         let token = tokenParts.joined()
-        setGlobalDevicetoken(token: token)
+        setGlobalDeviceToken(token: token)
         print("Device Token: \(token)")
     }
 

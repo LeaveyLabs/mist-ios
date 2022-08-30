@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "tray-fill.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

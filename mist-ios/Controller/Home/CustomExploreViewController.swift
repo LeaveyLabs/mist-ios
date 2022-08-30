@@ -17,7 +17,7 @@ class CustomExploreViewController: ExploreViewController {
     //MARK: - Initialization
     
     class func create(setting: Setting) -> CustomExploreViewController? {
-        if !(setting == .favorites || setting == .submissions || setting == .mentions) { return nil }
+        guard setting == .favorites || setting == .submissions || setting == .mentions || setting == .mistbox else { return nil }
         let vc = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.CustomExplore) as! CustomExploreViewController
         vc.setting = setting
         return vc

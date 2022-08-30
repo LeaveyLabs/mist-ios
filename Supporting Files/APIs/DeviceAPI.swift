@@ -7,10 +7,14 @@
 
 import Foundation
 
-var DEVICETOKEN = ""
+fileprivate var DEVICETOKEN = ""
 
-func setGlobalDevicetoken(token:String) {
+func setGlobalDeviceToken(token:String) {
     DEVICETOKEN = token
+}
+
+func getGlobalDeviceToken() -> String {
+    return DEVICETOKEN
 }
 
 struct DeviceParams: Codable {

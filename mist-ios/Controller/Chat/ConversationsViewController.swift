@@ -17,6 +17,7 @@ class ConversationsViewController: UIViewController, CustomNavBarDelegate {
         setupTableView()
         registerNibs()
         setupNavBar()
+        addFloatingButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {

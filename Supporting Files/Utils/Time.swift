@@ -300,10 +300,10 @@ extension Date {
     static var yesterday: Date { return Date().dayBefore }
     static var tomorrow:  Date { return Date().dayAfter }
     var dayBefore: Date {
-        return Calendar.current.date(byAdding: .day, value: -1, to: noon)!
+        return Calendar.current.date(byAdding: .day, value: -1, to: self)!
     }
     var dayAfter: Date {
-        return Calendar.current.date(byAdding: .day, value: 1, to: noon)!
+        return Calendar.current.date(byAdding: .day, value: 1, to: self)!
     }
     var noon: Date {
         return Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: self)!
@@ -313,5 +313,11 @@ extension Date {
     }
     var isLastDayOfMonth: Bool {
         return dayAfter.month != month
+    }
+    var tenAMToday: Date {
+        return Calendar.current.date(bySettingHour: 10, minute: 0, second: 0, of: self)!
+    }
+    var tenAMTomorrow: Date {
+        return Calendar.current.date(byAdding: .day, value: 1, to: tenAMToday)!
     }
 }

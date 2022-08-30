@@ -237,7 +237,7 @@ extension PostViewController: InputBarAccessoryViewDelegate {
             }
         }
         
-        let alertTitle: String = namesAsString + (firstNamesToText.count == 1 ? "isn't on Mist yet" : "aren't on Mist yet")
+        let alertTitle: String = namesAsString + (firstNamesToText.count == 1 ? "isn't on mist yet" : "aren't on mist yet")
         let alert = UIAlertController(title: alertTitle,
                                       message: "we'll send a text to let them know you mentioned them",
                                       preferredStyle: UIAlertController.Style.alert)

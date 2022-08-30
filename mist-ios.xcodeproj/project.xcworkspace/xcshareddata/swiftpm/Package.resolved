@@ -179,6 +179,15 @@
         "revision" : "b29dd21090b708aa0ae9ecbaf6e2d0487028dc3f",
         "version" : "9.0.6"
       }
+    },
+    {
+      "identity" : "wstagsfield",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/whitesmith/WSTagsField",
+      "state" : {
+        "revision" : "4a3f36d1903554bb6b65df0e7936df9bb95d7525",
+        "version" : "5.4.0"
+      }
     }
   ],
   "version" : 2

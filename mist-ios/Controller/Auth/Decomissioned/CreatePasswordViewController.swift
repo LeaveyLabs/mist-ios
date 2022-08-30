@@ -111,25 +111,25 @@ class CreatePasswordViewController: KUIViewController, UITextFieldDelegate {
     //MARK: - Helpers
     
     func tryToContinue() {
-        if let password = passwordTextField.text, let confirmPassword = confirmPasswordTextField.text {
-            if password == confirmPassword {
-                isSubmitting = true
-                Task {
-                    do {
-                        let emailMinusDomain = AuthContext.email.components(separatedBy: "@")[0]
-//                        try await AuthAPI.validatePassword(username: emailMinusDomain, password: password)
-                        AuthContext.password = password
-                        let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterBios)
-                        self.navigationController?.pushViewController(vc, animated: true)
-                    } catch {
-                        handleFailure("Not strong enough", "Cmon now, that's just too easy")
-                    }
-                    isSubmitting = false
-                }
-            } else {
-                handleFailure("The passwords don't match", "Your worst nightmare")
-            }
-        }
+//        if let password = passwordTextField.text, let confirmPassword = confirmPasswordTextField.text {
+//            if password == confirmPassword {
+//                isSubmitting = true
+//                Task {
+//                    do {
+////                        let emailMinusDomain = AuthContext.email.components(separatedBy: "@")[0]
+////                        try await AuthAPI.validatePassword(username: emailMinusDomain, password: password)
+//                        AuthContext.password = password
+//                        let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterBios)
+//                        self.navigationController?.pushViewController(vc, animated: true)
+//                    } catch {
+//                        handleFailure("Not strong enough", "Cmon now, that's just too easy")
+//                    }
+//                    isSubmitting = false
+//                }
+//            } else {
+//                handleFailure("The passwords don't match", "Your worst nightmare")
+//            }
+//        }
     }
     
     func handleFailure(_ message: String, _ explanation: String) {

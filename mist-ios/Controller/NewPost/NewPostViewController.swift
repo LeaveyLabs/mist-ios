@@ -85,7 +85,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         validateAllFields()
         setupTextViews()
         loadFromNewPostContext() //should come after setting up views
-        shouldKUIViewKeyboardDismissOnBackgroundTouch = true
+//        shouldKUIViewKeyboardDismissOnBackgroundTouch = true
    }
     
     // MARK: - Setup

@@ -10,7 +10,7 @@ import SwiftMessages
 import MapKit
 
 enum PermissionType {
-    case userLocation, notifications, contacts
+    case userLocation, mistboxNotifications, dmNotifications, contacts
 }
 
 //MARK: Errors
@@ -157,11 +157,16 @@ extension CustomSwiftMessages {
                 body = "if you tag a friend who doesn't have mist, we'll shoot them a text"
                 emoji = "＠"
                 messageView.customConfig(approveText: "share", dismissText: "nah")
-            case .notifications:
+            case .dmNotifications:
                 title = "would you like to turn on notifications?"
-                body = "get notified about incoming dms and mists which might be about you"
-                emoji = ""
-                messageView.customConfig(approveText: "of course", dismissText: "no, i'd rather mist out")
+                body = "find out whenever someone dms you"
+                emoji = "📬"
+                messageView.customConfig(approveText: "of course", dismissText: "i'd rather mist out")
+            case .mistboxNotifications:
+                title = "enable notifications"
+                body = "in order to get a daily mistbox, you'll need to turn on notifications"
+                emoji = "📬"
+                messageView.customConfig(approveText: "of course", dismissText: "i'd rather mist out")
             }
             messageView.configureContent(title: title, body: body, iconText: emoji)
             messageView.approveAction = {

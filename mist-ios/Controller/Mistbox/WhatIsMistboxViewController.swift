@@ -1,23 +1,19 @@
 //
-//  GuidelinesViewController.swift
+//  WhatIsMistboxViewController.swift
 //  mist-ios
 //
-//  Created by Adam Monterey on 8/28/22.
+//  Created by Adam Monterey on 8/29/22.
 //
 
 import Foundation
 import UIKit
 
-protocol LargeImageCollectionCellDelegate {
-    func closeButtonPressed()
-}
-
-class GuidelinesViewController: UIViewController, LargeImageCollectionCellDelegate {
+class WhatIsMistboxViewController: UIViewController, LargeImageCollectionCellDelegate {
     
     let images: [UIImage] = [
-        UIImage(named: "guidelines-graphic-1")!,
-        UIImage(named: "guidelines-graphic-2")!,
-        UIImage(named: "guidelines-graphic-3")!
+        UIImage(named: "mistbox-graphic-1")!,
+        UIImage(named: "mistbox-graphic-2")!,
+        UIImage(named: "mistbox-graphic-3")!
     ]
     
     let guidelinesLabel = UILabel()
@@ -89,7 +85,7 @@ class GuidelinesViewController: UIViewController, LargeImageCollectionCellDelega
     }
     
     func setupGuidelinesLabel() {
-        guidelinesLabel.text = "mist guidelines"
+        guidelinesLabel.text = "mistbox"
         guidelinesLabel.font = UIFont(name: Constants.Font.Heavy, size: 50)
         guidelinesLabel.textColor = Constants.Color.mistBlack
         guidelinesLabel.numberOfLines = 1
@@ -113,7 +109,7 @@ class GuidelinesViewController: UIViewController, LargeImageCollectionCellDelega
     }
 }
 
-extension GuidelinesViewController: UICollectionViewDataSource {
+extension WhatIsMistboxViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: LargeImageAndButtonCollectionCell.self), for: indexPath) as! LargeImageAndButtonCollectionCell
@@ -130,7 +126,7 @@ extension GuidelinesViewController: UICollectionViewDataSource {
     }
 }
 
-extension GuidelinesViewController: UICollectionViewDelegate {
+extension WhatIsMistboxViewController: UICollectionViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         recalculatePageControlCurrentPage(scrollView)

@@ -7,10 +7,10 @@
 
 import Foundation
 
-class GuidelinesCollectionCell: UICollectionViewCell {
+class LargeImageAndButtonCollectionCell: UICollectionViewCell {
     
     let imageView = UIImageView()
-    var guidelinesDelegate: GuidelinesDelegate!
+    var guidelinesDelegate: LargeImageCollectionCellDelegate!
     var hasSetupCloseButton = false
 
     override init(frame: CGRect) {
@@ -27,7 +27,7 @@ class GuidelinesCollectionCell: UICollectionViewCell {
         ])
     }
     
-    func setup(image: UIImage, delegate: GuidelinesDelegate, index: Int) {
+    func setup(image: UIImage, delegate: LargeImageCollectionCellDelegate, index: Int) {
         imageView.image = image
         self.guidelinesDelegate = delegate
         if index == 2 && !hasSetupCloseButton {

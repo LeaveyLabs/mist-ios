@@ -121,7 +121,7 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
     let sex: String?
     let latitude: Double?
     let longitude: Double?
-    let keywords: [String]
+    var keywords: [String]
     let phone_number: String?
     
     var full_name: String {

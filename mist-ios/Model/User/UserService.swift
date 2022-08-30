@@ -32,7 +32,7 @@ class UserService: NSObject {
     private let LOCAL_FILE_APPENDING_PATH = "myaccount.json"
     private var localFileLocation: URL!
     
-    private var SLEEP_INTERVAL:UInt32 = 30
+    private var SLEEP_INTERVAL:UInt32 = 120
     
     //MARK: - Initializer
     
@@ -92,6 +92,7 @@ class UserService: NSObject {
     func getProfilePic() -> UIImage { return authedUser.profilePicWrapper.image }
     func getBlurredPic() -> UIImage { return authedUser.profilePicWrapper.blurredImage }
     func isVerified() -> Bool { return false }
+    func getKeywords() -> [String] { return authedUser.keywords }
     
     //MARK: - Login and create user
     
@@ -143,8 +144,7 @@ class UserService: NSObject {
         Task { try await waitAndRegisterDeviceToken(id: completeUser.id) }
         let profilePicUIImage = try await UserAPI.UIImageFromURLString(url: completeUser.picture)
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
-                                                    profilePic: ProfilePicWrapper(image: profilePicUIImage,
-                                                                                  withCompresssion: false),
+                                                    profilePic: ProfilePicWrapper(image: profilePicUIImage,withCompresssion: false),
                                                     token: token)
         setupFirebaseAnalyticsProperties()
         Task { await self.saveUserToFilesystem() }
@@ -169,6 +169,15 @@ class UserService: NSObject {
         
         let updatedCompleteUser = try await UserAPI.patchFirstName(firstName: newFirstName, id: frontendCompleteUser.id)
         self.authedUser.first_name = updatedCompleteUser.first_name
+        Task {
+            await self.saveUserToFilesystem()
+            await UsersService.singleton.updateCachedUser(updatedUser: self.getUserAsFrontendReadOnlyUser())
+        }
+    }
+    
+    func updateKeywords(to newKeywords: [String]) async throws {
+        let updatedCompleteUser = try await UserAPI.patchKeywords(keywords: newKeywords, id: UserService.singleton.getId())
+        self.authedUser.keywords = updatedCompleteUser.keywords
         Task {
             await self.saveUserToFilesystem()
             await UsersService.singleton.updateCachedUser(updatedUser: self.getUserAsFrontendReadOnlyUser())
@@ -294,9 +303,11 @@ class UserService: NSObject {
     // MARK: - Device Notifications
     
     func waitAndRegisterDeviceToken(id:Int) async throws {
-        while AUTHTOKEN == "" || DEVICETOKEN == "" {
+        while true {
             try await Task.sleep(nanoseconds: NSEC_PER_SEC * UInt64(SLEEP_INTERVAL))
+            if getGlobalDeviceToken() != "" && getGlobalAuthToken() != "" {
+                try await DeviceAPI.registerCurrentDeviceWithUser(user: id)
+            }
         }
-        try await DeviceAPI.registerCurrentDeviceWithUser(user: id)
     }
 }

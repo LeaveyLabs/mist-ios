@@ -53,8 +53,8 @@ func transitionToAuth() {
 func transitionToHomeAndRequestPermissions(completion: @escaping () -> Void) {
     let sb = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil)
     let homeVC = sb.instantiateViewController(withIdentifier: Constants.SBID.VC.TabBarController) as! SpecialTabBarController
-    let navVC = homeVC.viewControllers![0] as! UINavigationController
-    let exploreMapVC = navVC.visibleViewController! as! ExploreViewController
+//    let navVC = homeVC.viewControllers![0] as! UINavigationController
+//    let exploreMapVC = navVC.visibleViewController! as! ExploreViewController
     
     guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
     let delegate = windowScene.delegate as? SceneDelegate, let window = delegate.window else {

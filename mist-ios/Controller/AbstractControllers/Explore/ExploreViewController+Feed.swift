@@ -15,6 +15,7 @@ extension ExploreViewController {
     func setupTableView() {
         feed = PostTableView()
         feed.translatesAutoresizingMaskIntoConstraints = false
+        feed.backgroundColor = Constants.Color.offWhite
         view.addSubview(feed)
         if !shouldFeedBeginVisible {
             view.sendSubviewToBack(feed)

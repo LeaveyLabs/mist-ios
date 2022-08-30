@@ -13,7 +13,6 @@ class SpecialTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        delegate = self
         removeLineAndAddShadow()
         tabBar.applyMediumTopOnlyShadow()
     }
@@ -31,26 +30,26 @@ class SpecialTabBarController: UITabBarController {
 
 // MARK: - UITabBarController Delegate
 
-extension SpecialTabBarController: UITabBarControllerDelegate {
-    
-    // Delegation from the tabBar
-    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        if item == tabBar.items![1] {
-            guard tabBar.items![1].badgeColor != nil else { return } //Special flag set by tab bar
-            let newPostNav = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewPostNavigation)
-            newPostNav.modalPresentationStyle = .fullScreen
-            present(newPostNav, animated: true, completion: nil)
-        }
-    }
-    
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        guard let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController) else {
-            return true
-        }
-        if selectedIndex == 1 {
-            return false
-        }
-        return true
-    }
-    
-}
+//extension SpecialTabBarController: UITabBarControllerDelegate {
+//    
+//    // Delegation from the tabBar
+//    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+//        if item == tabBar.items![1] {
+//            guard tabBar.items![1].badgeColor != nil else { return } //Special flag set by tab bar
+//            let newPostNav = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewPostNavigation)
+//            newPostNav.modalPresentationStyle = .fullScreen
+//            present(newPostNav, animated: true, completion: nil)
+//        }
+//    }
+//    
+//    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+//        guard let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController) else {
+//            return true
+//        }
+//        if selectedIndex == 1 {
+//            return false
+//        }
+//        return true
+//    }
+//    
+//}

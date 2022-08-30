@@ -211,6 +211,14 @@
 		47FF869827DB1F470076A1CA /* PostAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF869727DB1F470076A1CA /* PostAPI.swift */; };
 		47FF869D27DB87A70076A1CA /* UIImage+Thumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF869C27DB87A70076A1CA /* UIImage+Thumbnail.swift */; };
 		47FF86A127DC712F0076A1CA /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF86A027DC712F0076A1CA /* Comment.swift */; };
+		5B068CBA28BD675600DFC89F /* UIViewController+FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B068CB928BD675600DFC89F /* UIViewController+FloatingButton.swift */; };
+		5B068CBB28BD675600DFC89F /* UIViewController+FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B068CB928BD675600DFC89F /* UIViewController+FloatingButton.swift */; };
+		5B068CBE28BD69E800DFC89F /* MistboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B068CBD28BD69E800DFC89F /* MistboxViewController.swift */; };
+		5B068CBF28BD69E800DFC89F /* MistboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B068CBD28BD69E800DFC89F /* MistboxViewController.swift */; };
+		5B068CC128BD793300DFC89F /* WhatIsMistboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B068CC028BD793300DFC89F /* WhatIsMistboxViewController.swift */; };
+		5B068CC228BD793300DFC89F /* WhatIsMistboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B068CC028BD793300DFC89F /* WhatIsMistboxViewController.swift */; };
+		5B068CC728BD80DB00DFC89F /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B068CC628BD80DB00DFC89F /* NotificationsManager.swift */; };
+		5B068CC828BD80DB00DFC89F /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B068CC628BD80DB00DFC89F /* NotificationsManager.swift */; };
 		5B13B741285D05B0000ADF5E /* UISearchBar+CenterText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13B740285D05B0000ADF5E /* UISearchBar+CenterText.swift */; };
 		5B13B743285D3877000ADF5E /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13B742285D3877000ADF5E /* Error.swift */; };
 		5B18B9802876C5F900F0F80E /* AuthStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B18B97F2876C5F900F0F80E /* AuthStartViewController.swift */; };
@@ -242,6 +250,14 @@
 		5B235B1328AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B1128AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift */; };
 		5B29262A28974E10008A1F5D /* CommentVote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43529E282890BBD000B3A484 /* CommentVote.swift */; };
 		5B37A36B28784A4B00279B2A /* EnterBiosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */; };
+		5B41529028BDCFBB00592A55 /* MistboxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41528F28BDCFBB00592A55 /* MistboxManager.swift */; };
+		5B41529128BDCFBB00592A55 /* MistboxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41528F28BDCFBB00592A55 /* MistboxManager.swift */; };
+		5B41529328BDE1F000592A55 /* EnterKeywordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41529228BDE1F000592A55 /* EnterKeywordsViewController.swift */; };
+		5B41529428BDE1F000592A55 /* EnterKeywordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41529228BDE1F000592A55 /* EnterKeywordsViewController.swift */; };
+		5B41529828BDE90E00592A55 /* WSTagsField in Frameworks */ = {isa = PBXBuildFile; productRef = 5B41529728BDE90E00592A55 /* WSTagsField */; };
+		5B41529A28BDE92200592A55 /* WSTagsField in Frameworks */ = {isa = PBXBuildFile; productRef = 5B41529928BDE92200592A55 /* WSTagsField */; };
+		5B4152A028BDEA2A00592A55 /* TagsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41529E28BDEA2A00592A55 /* TagsViewCell.swift */; };
+		5B4152A128BDEA2A00592A55 /* TagsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41529E28BDEA2A00592A55 /* TagsViewCell.swift */; };
 		5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D589B28603A46002E2F94 /* PostCell.swift */; };
 		5B4D58A72860D7FB002E2F94 /* UIImageView+ProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */; };
 		5B6208A228B4B367005610A9 /* AppStoreReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6208A128B4B367005610A9 /* AppStoreReviewManager.swift */; };
@@ -569,8 +585,8 @@
 		5BC2532228BC545C00D4F49A /* CLLocationCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532028BC545C00D4F49A /* CLLocationCoordinate.swift */; };
 		5BC2532428BC7F1500D4F49A /* GuidelinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532328BC7F1500D4F49A /* GuidelinesViewController.swift */; };
 		5BC2532528BC7F1500D4F49A /* GuidelinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532328BC7F1500D4F49A /* GuidelinesViewController.swift */; };
-		5BC2532828BC83DA00D4F49A /* GuidelinesCollecitonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532728BC83DA00D4F49A /* GuidelinesCollecitonCell.swift */; };
-		5BC2532928BC83DA00D4F49A /* GuidelinesCollecitonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532728BC83DA00D4F49A /* GuidelinesCollecitonCell.swift */; };
+		5BC2532828BC83DA00D4F49A /* LargeImageAndButtonCollecitonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532728BC83DA00D4F49A /* LargeImageAndButtonCollecitonCell.swift */; };
+		5BC2532928BC83DA00D4F49A /* LargeImageAndButtonCollecitonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532728BC83DA00D4F49A /* LargeImageAndButtonCollecitonCell.swift */; };
 		5BC25A9428990999005AAF69 /* EmojiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9328990999005AAF69 /* EmojiButton.swift */; };
 		5BC25A96289909ED005AAF69 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A95289909ED005AAF69 /* ToggleButton.swift */; };
 		5BC25A9828990BF9005AAF69 /* EmojiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC25A9328990999005AAF69 /* EmojiButton.swift */; };
@@ -861,6 +877,10 @@
 		47FF869727DB1F470076A1CA /* PostAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostAPI.swift; sourceTree = "<group>"; };
 		47FF869C27DB87A70076A1CA /* UIImage+Thumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Thumbnail.swift"; sourceTree = "<group>"; };
 		47FF86A027DC712F0076A1CA /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		5B068CB928BD675600DFC89F /* UIViewController+FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+FloatingButton.swift"; sourceTree = "<group>"; };
+		5B068CBD28BD69E800DFC89F /* MistboxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistboxViewController.swift; sourceTree = "<group>"; };
+		5B068CC028BD793300DFC89F /* WhatIsMistboxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatIsMistboxViewController.swift; sourceTree = "<group>"; };
+		5B068CC628BD80DB00DFC89F /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		5B13B740285D05B0000ADF5E /* UISearchBar+CenterText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+CenterText.swift"; sourceTree = "<group>"; };
 		5B13B742285D3877000ADF5E /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		5B18B97F2876C5F900F0F80E /* AuthStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStartViewController.swift; sourceTree = "<group>"; };
@@ -879,6 +899,9 @@
 		5B235B0D28AEFDFC00FD27A9 /* PanGesture+Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PanGesture+Direction.swift"; sourceTree = "<group>"; };
 		5B235B1128AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationController+FullscreenInteractivePopGesture.swift"; sourceTree = "<group>"; };
 		5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBiosViewController.swift; sourceTree = "<group>"; };
+		5B41528F28BDCFBB00592A55 /* MistboxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistboxManager.swift; sourceTree = "<group>"; };
+		5B41529228BDE1F000592A55 /* EnterKeywordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterKeywordsViewController.swift; sourceTree = "<group>"; };
+		5B41529E28BDEA2A00592A55 /* TagsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsViewCell.swift; sourceTree = "<group>"; };
 		5B4D589B28603A46002E2F94 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ProfilePic.swift"; sourceTree = "<group>"; };
 		5B6208A128B4B367005610A9 /* AppStoreReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreReviewManager.swift; sourceTree = "<group>"; };
@@ -940,7 +963,7 @@
 		5BC2531A28BC0EC300D4F49A /* CollectionImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionImageCell.swift; sourceTree = "<group>"; };
 		5BC2532028BC545C00D4F49A /* CLLocationCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate.swift; sourceTree = "<group>"; };
 		5BC2532328BC7F1500D4F49A /* GuidelinesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelinesViewController.swift; sourceTree = "<group>"; };
-		5BC2532728BC83DA00D4F49A /* GuidelinesCollecitonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelinesCollecitonCell.swift; sourceTree = "<group>"; };
+		5BC2532728BC83DA00D4F49A /* LargeImageAndButtonCollecitonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeImageAndButtonCollecitonCell.swift; sourceTree = "<group>"; };
 		5BC25A9328990999005AAF69 /* EmojiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiButton.swift; sourceTree = "<group>"; };
 		5BC25A95289909ED005AAF69 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		5BC25A9D28991A2B005AAF69 /* Numbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numbers.swift; sourceTree = "<group>"; };
@@ -996,6 +1019,7 @@
 				5B235AFC28AC39D800FD27A9 /* PhoneNumberKit in Frameworks */,
 				5B739D7D2891FD4C00E4EED0 /* FirebaseRemoteConfigSwift in Frameworks */,
 				47AC882228487EC3000150CA /* IQKeyboardManagerSwift in Frameworks */,
+				5B41529828BDE90E00592A55 /* WSTagsField in Frameworks */,
 				4767E41728584D110016202E /* Starscream in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1031,6 +1055,7 @@
 				5B235AFE28AC3A6E00FD27A9 /* PhoneNumberKit in Frameworks */,
 				5B739E6D28935B9500E4EED0 /* FirebaseRemoteConfigSwift in Frameworks */,
 				5B739E6E28935B9500E4EED0 /* IQKeyboardManagerSwift in Frameworks */,
+				5B41529A28BDE92200592A55 /* WSTagsField in Frameworks */,
 				5B739E6F28935B9500E4EED0 /* Starscream in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1139,6 +1164,7 @@
 				4752718128556A6E00DDF84D /* Comment */,
 				4752717F28556A3F00DDF84D /* Search */,
 				47CEEE9928546B49008947FC /* MyAccount */,
+				5B41529E28BDEA2A00592A55 /* TagsViewCell.swift */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
@@ -1153,7 +1179,6 @@
 				5B6AD61428690E1800B1FFA8 /* AnnotationSelectionType.swift */,
 				5BAD62722876706800DCFE45 /* Setting.swift */,
 				5BAD62742876707000DCFE45 /* AccountSection.swift */,
-				5B6208A128B4B367005610A9 /* AppStoreReviewManager.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1546,6 +1571,7 @@
 				43770C4927EE8BED00F31CCF /* Auth */,
 				4700F8C427DE4641006C2E08 /* Home */,
 				47F4EFD127E10C1300861F30 /* Post */,
+				5B068CBC28BD69D700DFC89F /* Mistbox */,
 				47FF86A427DC76000076A1CA /* NewPost */,
 				5B4D58A82860E22B002E2F94 /* Friends */,
 				475B1F8927FB868300ED59CD /* Chat */,
@@ -1558,6 +1584,9 @@
 		47E74E3E27CA14CE00467A0C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5B41528F28BDCFBB00592A55 /* MistboxManager.swift */,
+				5B6208A128B4B367005610A9 /* AppStoreReviewManager.swift */,
+				5B068CC628BD80DB00DFC89F /* NotificationsManager.swift */,
 				47E74E0B27CA0FFE00467A0C /* AppDelegate.swift */,
 				47E74E0D27CA0FFE00467A0C /* SceneDelegate.swift */,
 				472DB0882832190000658DB5 /* Objective-C */,
@@ -1648,6 +1677,7 @@
 				5BAD62702876703000DCFE45 /* UIViewController+OpenURL.swift */,
 				5B235B0628AEAD4300FD27A9 /* UIViewController+Window.swift */,
 				5BC8822B28B15192007E83F8 /* UIViewController+Logout.swift */,
+				5B068CB928BD675600DFC89F /* UIViewController+FloatingButton.swift */,
 			);
 			path = UIViewController;
 			sourceTree = "<group>";
@@ -1674,6 +1704,16 @@
 				5BC2532328BC7F1500D4F49A /* GuidelinesViewController.swift */,
 			);
 			path = NewPost;
+			sourceTree = "<group>";
+		};
+		5B068CBC28BD69D700DFC89F /* Mistbox */ = {
+			isa = PBXGroup;
+			children = (
+				5B068CBD28BD69E800DFC89F /* MistboxViewController.swift */,
+				5B068CC028BD793300DFC89F /* WhatIsMistboxViewController.swift */,
+				5B41529228BDE1F000592A55 /* EnterKeywordsViewController.swift */,
+			);
+			path = Mistbox;
 			sourceTree = "<group>";
 		};
 		5B1F16CC28791EF700035F93 /* Misc */ = {
@@ -1769,7 +1809,7 @@
 				5BC2531428BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift */,
 				5BC2531528BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib */,
 				5BC2531A28BC0EC300D4F49A /* CollectionImageCell.swift */,
-				5BC2532728BC83DA00D4F49A /* GuidelinesCollecitonCell.swift */,
+				5BC2532728BC83DA00D4F49A /* LargeImageAndButtonCollecitonCell.swift */,
 			);
 			path = CollectionCells;
 			sourceTree = "<group>";
@@ -2001,6 +2041,7 @@
 				5B739D7C2891FD4C00E4EED0 /* FirebaseRemoteConfigSwift */,
 				5B235AFB28AC39D800FD27A9 /* PhoneNumberKit */,
 				5BC2530A28BA8ABA00D4F49A /* CenteredCollectionView */,
+				5B41529728BDE90E00592A55 /* WSTagsField */,
 			);
 			productName = "mist-ios";
 			productReference = 47E74E0827CA0FFE00467A0C /* mist-ios.app */;
@@ -2071,6 +2112,7 @@
 				5B739D9128935B9500E4EED0 /* FirebaseRemoteConfigSwift */,
 				5B235AFD28AC3A6E00FD27A9 /* PhoneNumberKit */,
 				5BC2530C28BA8AD300D4F49A /* CenteredCollectionView */,
+				5B41529928BDE92200592A55 /* WSTagsField */,
 			);
 			productName = "mist-ios";
 			productReference = 5B739E8D28935B9500E4EED0 /* mist-ios-dev.app */;
@@ -2119,6 +2161,7 @@
 				5B739D6F2891FD4C00E4EED0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				5B235AFA28AC39D800FD27A9 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */,
 				5BC2530928BA8ABA00D4F49A /* XCRemoteSwiftPackageReference "CenteredCollectionView" */,
+				5B41529628BDE90E00592A55 /* XCRemoteSwiftPackageReference "WSTagsField" */,
 			);
 			productRefGroup = 47E74E0927CA0FFE00467A0C /* Products */;
 			projectDirPath = "";
@@ -2302,6 +2345,7 @@
 				43D925222852802E00438C5C /* MatchRequest.swift in Sources */,
 				439E44FC27E01D4900E244D6 /* AuthAPI.swift in Sources */,
 				475271A12855BCB500DDF84D /* UIView+RoundedIndividualCorners.swift in Sources */,
+				5B41529028BDCFBB00592A55 /* MistboxManager.swift in Sources */,
 				47527191285584F400DDF84D /* MyProfileCell.swift in Sources */,
 				5BE147CE28A2937E0096FEBE /* CommentDelegate.swift in Sources */,
 				470F271C27DE764F00C6DDAF /* UserResultCell.swift in Sources */,
@@ -2344,6 +2388,7 @@
 				479683F32826494100CA23BA /* UIColor+Theme.swift in Sources */,
 				472A4BFE28408BD800FD52B7 /* SpringTextField.swift in Sources */,
 				479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */,
+				5B068CBA28BD675600DFC89F /* UIViewController+FloatingButton.swift in Sources */,
 				43A05BDD2835008B0085A99B /* SpecialTabBar.swift in Sources */,
 				5BB624D32867A56100DCD45B /* CommentService.swift in Sources */,
 				47EE95FA27F64C00003B351E /* MyAccountViewController.swift in Sources */,
@@ -2362,6 +2407,7 @@
 				47EE28F22840991800C6425C /* PermissionsViewController.swift in Sources */,
 				5BE14742289F8E750096FEBE /* String+Pattern.swift in Sources */,
 				5BB624B628622C8500DCD45B /* UIViewController+DismissFlag.swift in Sources */,
+				5B068CBE28BD69E800DFC89F /* MistboxViewController.swift in Sources */,
 				5BAD626D2875522E00DCFE45 /* MessageKitInfo.swift in Sources */,
 				47FF418328403AE700A44968 /* CustomAttributedString.swift in Sources */,
 				472A4BF728408BD800FD52B7 /* BlurView.swift in Sources */,
@@ -2400,6 +2446,7 @@
 				439E44F827DFE11F00E244D6 /* WordAPI.swift in Sources */,
 				47A3D70627D54F3C003DBEA5 /* Post.swift in Sources */,
 				43D9B376285592D700E807C2 /* FavoriteAPI.swift in Sources */,
+				5B41529328BDE1F000592A55 /* EnterKeywordsViewController.swift in Sources */,
 				47FF418128402EC600A44968 /* UIImage+Resize.swift in Sources */,
 				5B774DFC286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift in Sources */,
 				439E44FA27DFE20600E244D6 /* Word.swift in Sources */,
@@ -2412,11 +2459,13 @@
 				5BAD62712876703000DCFE45 /* UIViewController+OpenURL.swift in Sources */,
 				5B235B0728AEAD4300FD27A9 /* UIViewController+Window.swift in Sources */,
 				471F92D1280159430079F8CA /* SegmentedControlCell.swift in Sources */,
+				5B4152A028BDEA2A00592A55 /* TagsViewCell.swift in Sources */,
 				5BB624C5286790D400DCD45B /* BlockService.swift in Sources */,
 				5BC8822C28B15192007E83F8 /* UIViewController+Logout.swift in Sources */,
 				5BB624B228620D4A00DCD45B /* CustomCardView.swift in Sources */,
 				47EE28F82840AE8200C6425C /* TestViewController.swift in Sources */,
 				5B879E7D28B8219100D2DFC1 /* LoginViewController.swift in Sources */,
+				5B068CC128BD793300DFC89F /* WhatIsMistboxViewController.swift in Sources */,
 				47061CDA285170CB0042F04C /* FeedType.swift in Sources */,
 				47FB07062858592900BF1789 /* CircularProgressView.swift in Sources */,
 				472A4BFF28408BD800FD52B7 /* DesignableView.swift in Sources */,
@@ -2495,6 +2544,7 @@
 				4700F8C627DE4652006C2E08 /* ExploreViewController.swift in Sources */,
 				5BC2531B28BC0EC300D4F49A /* CollectionImageCell.swift in Sources */,
 				5BE110062876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift in Sources */,
+				5B068CC728BD80DB00DFC89F /* NotificationsManager.swift in Sources */,
 				475B1F8B27FB86C000ED59CD /* ConversationsViewController.swift in Sources */,
 				5BAD626F2876661500DCFE45 /* UIViewController+MistShareActivity.swift in Sources */,
 				5BB624DC2867E98500DCD45B /* Conversation.swift in Sources */,
@@ -2515,7 +2565,7 @@
 				5B6208A628B4B6F7005610A9 /* FeedbackFormCell.swift in Sources */,
 				5BE147C628A0CDAA0096FEBE /* UITextView+PreventPeriod.swift in Sources */,
 				47EE28FE28414AF700C6425C /* CustomCenteredView.swift in Sources */,
-				5BC2532828BC83DA00D4F49A /* GuidelinesCollecitonCell.swift in Sources */,
+				5BC2532828BC83DA00D4F49A /* LargeImageAndButtonCollecitonCell.swift in Sources */,
 				43D9251828526ECA00438C5C /* Block.swift in Sources */,
 				479683F5282817CC00CA23BA /* PostAnnotationView.swift in Sources */,
 				5BF78337285D955F003C3955 /* Map.swift in Sources */,
@@ -2603,6 +2653,7 @@
 				5B235B0F28AEFDFC00FD27A9 /* PanGesture+Direction.swift in Sources */,
 				5B739DA128935B9500E4EED0 /* MatchCollectionCell.swift in Sources */,
 				5B739DA228935B9500E4EED0 /* CustomSwiftMessages.swift in Sources */,
+				5B41529128BDCFBB00592A55 /* MistboxManager.swift in Sources */,
 				5B739DA328935B9500E4EED0 /* MatchRequest.swift in Sources */,
 				5B739DA428935B9500E4EED0 /* AuthAPI.swift in Sources */,
 				5B739DA528935B9500E4EED0 /* UIView+RoundedIndividualCorners.swift in Sources */,
@@ -2645,6 +2696,7 @@
 				5B739DC228935B9500E4EED0 /* MapViewController.swift in Sources */,
 				5B739DC328935B9500E4EED0 /* ChooseUsernameViewController.swift in Sources */,
 				5B739DC528935B9500E4EED0 /* UIColor+Theme.swift in Sources */,
+				5B068CBB28BD675600DFC89F /* UIViewController+FloatingButton.swift in Sources */,
 				5B739DC628935B9500E4EED0 /* SpringTextField.swift in Sources */,
 				5B739DC728935B9500E4EED0 /* PostViewController.swift in Sources */,
 				5B739DC828935B9500E4EED0 /* SpecialTabBar.swift in Sources */,
@@ -2663,6 +2715,7 @@
 				5B739DD328935B9500E4EED0 /* SimpleInputCell.swift in Sources */,
 				5B739DD428935B9500E4EED0 /* PermissionsViewController.swift in Sources */,
 				5B235B1328AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift in Sources */,
+				5B068CBF28BD69E800DFC89F /* MistboxViewController.swift in Sources */,
 				5B739DD528935B9500E4EED0 /* UIViewController+DismissFlag.swift in Sources */,
 				5B739DD628935B9500E4EED0 /* MessageKitInfo.swift in Sources */,
 				5B739DD728935B9500E4EED0 /* CustomAttributedString.swift in Sources */,
@@ -2701,6 +2754,7 @@
 				5B739DF028935B9500E4EED0 /* SettingsViewController.swift in Sources */,
 				5B739DF128935B9500E4EED0 /* UIView+LoadFromNib.swift in Sources */,
 				5B235AF328A8DD4800FD27A9 /* UsersService.swift in Sources */,
+				5B41529428BDE1F000592A55 /* EnterKeywordsViewController.swift in Sources */,
 				5B739DF228935B9500E4EED0 /* PostFlagAPI.swift in Sources */,
 				5B739DF328935B9500E4EED0 /* WordAPI.swift in Sources */,
 				5B739DF428935B9500E4EED0 /* Post.swift in Sources */,
@@ -2713,11 +2767,13 @@
 				5B739DFA28935B9500E4EED0 /* UIView+ParentVC.swift in Sources */,
 				5BC25A9828990BF9005AAF69 /* EmojiButton.swift in Sources */,
 				5B739DFB28935B9500E4EED0 /* DesignableTextField.swift in Sources */,
+				5B4152A128BDEA2A00592A55 /* TagsViewCell.swift in Sources */,
 				5B739DFC28935B9500E4EED0 /* DesignableButton.swift in Sources */,
 				5B739DFD28935B9500E4EED0 /* BasicAPI.swift in Sources */,
 				5B739DFE28935B9500E4EED0 /* UIViewController+OpenURL.swift in Sources */,
 				5B739DFF28935B9500E4EED0 /* SegmentedControlCell.swift in Sources */,
 				5B879E7E28B8219100D2DFC1 /* LoginViewController.swift in Sources */,
+				5B068CC228BD793300DFC89F /* WhatIsMistboxViewController.swift in Sources */,
 				5B739E0028935B9500E4EED0 /* BlockService.swift in Sources */,
 				5B739E0128935B9500E4EED0 /* CustomCardView.swift in Sources */,
 				5B739E0228935B9500E4EED0 /* TestViewController.swift in Sources */,
@@ -2796,6 +2852,7 @@
 				5B739E4328935B9500E4EED0 /* Conversation.swift in Sources */,
 				5BC2531C28BC0EC300D4F49A /* CollectionImageCell.swift in Sources */,
 				5B739E4428935B9500E4EED0 /* EnterNameViewController.swift in Sources */,
+				5B068CC828BD80DB00DFC89F /* NotificationsManager.swift in Sources */,
 				5B739E4528935B9500E4EED0 /* AccountSection.swift in Sources */,
 				5B739E4628935B9500E4EED0 /* ButtonConfigs.swift in Sources */,
 				5B739E4728935B9500E4EED0 /* UISearchBar+CenterText.swift in Sources */,
@@ -2816,7 +2873,7 @@
 				5B6208A728B4B6F7005610A9 /* FeedbackFormCell.swift in Sources */,
 				5B739E5028935B9500E4EED0 /* PostAnnotationView.swift in Sources */,
 				5B739E5128935B9500E4EED0 /* Map.swift in Sources */,
-				5BC2532928BC83DA00D4F49A /* GuidelinesCollecitonCell.swift in Sources */,
+				5BC2532928BC83DA00D4F49A /* LargeImageAndButtonCollecitonCell.swift in Sources */,
 				43A25349289BA46800B1468F /* Tag.swift in Sources */,
 				5BE1474628A045CF0096FEBE /* UIImageView+Initials.swift in Sources */,
 				5B235B0B28AEB11900FD27A9 /* InputBarAccessoryView+.swift in Sources */,
@@ -3009,7 +3066,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mist-ios/Prod.plists/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = mist;
-                INFOPLIST_KEY_NSCameraUsageDescription = "Mist allows you to upload a photo taken from your camera as a profile picture.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Mist allows you to upload a photo taken from your camera as a profile picture.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Tag your contacts on a mist even if they don't have the app.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = always;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Find nearby mists and pin a location to your submissions.";
@@ -3056,7 +3113,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mist-ios/Prod.plists/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = mist;
-                INFOPLIST_KEY_NSCameraUsageDescription = "Mist allows you to upload a photo taken from your camera as a profile picture.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Mist allows you to upload a photo taken from your camera as a profile picture.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Tag your contacts on a mist even if they don't have the app.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = always;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Find nearby mists and pin a location to your submissions.";
@@ -3204,7 +3261,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mist-ios/Dev.plists/mist-ios-dev-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "mist beta";
-                INFOPLIST_KEY_NSCameraUsageDescription = "Mist allows you to upload a photo taken from your camera as a profile picture.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Mist allows you to upload a photo taken from your camera as a profile picture.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Tag your contacts on a mist even if they don't have the app.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = always;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Find nearby mists and drop a pin with your submissions.";
@@ -3254,7 +3311,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mist-ios/Dev.plists/mist-ios-dev-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "mist beta";
-                INFOPLIST_KEY_NSCameraUsageDescription = "Mist allows you to upload a photo taken from your camera as a profile picture.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Mist allows you to upload a photo taken from your camera as a profile picture.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Tag your contacts on a mist even if they don't have the app.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = always;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Find nearby mists and drop a pin with your submissions.";
@@ -3385,6 +3442,14 @@
 				minimumVersion = 3.4.0;
 			};
 		};
+		5B41529628BDE90E00592A55 /* XCRemoteSwiftPackageReference "WSTagsField" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/whitesmith/WSTagsField";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		5B739D6F2891FD4C00E4EED0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -3486,6 +3551,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5B235AFA28AC39D800FD27A9 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
 			productName = PhoneNumberKit;
+		};
+		5B41529728BDE90E00592A55 /* WSTagsField */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B41529628BDE90E00592A55 /* XCRemoteSwiftPackageReference "WSTagsField" */;
+			productName = WSTagsField;
+		};
+		5B41529928BDE92200592A55 /* WSTagsField */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B41529628BDE90E00592A55 /* XCRemoteSwiftPackageReference "WSTagsField" */;
+			productName = WSTagsField;
 		};
 		5B739D702891FD4C00E4EED0 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;

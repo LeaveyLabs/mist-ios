@@ -32,6 +32,12 @@ class HomeViewController: ExploreViewController {
         renderNewPostsOnFeedAndMap(withType: .firstLoad)
         setupRefreshableFeed()
         setupCustomNavigationBar()
+        addFloatingButton()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.selectedIndex = 1
     }
     
     override func viewDidAppear(_ animated: Bool) {

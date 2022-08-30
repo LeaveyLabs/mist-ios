@@ -24,6 +24,7 @@ struct Constants {
         static let mistPurple = UIColor.init(named: "mist-purple")!
         static let mistNight = UIColor.init(named: "mist-night")!
         static let mistBlack = UIColor.init(named: "mist-black")!
+        static let offWhite = UIColor.init(named: "off-white")!
     }
     
     static let profilePicConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .unspecified)
@@ -95,6 +96,9 @@ struct Constants {
             static let AuthNavigation = "AuthNavigationController"
             //TabBar
             static let TabBarController = "TabBarController"
+            //Mistbox
+            static let Mistbox = "MistboxEmailViewController"
+            static let EnterKeywords = "EnterKeywordsViewController"
             //Auth
             static let ConfirmEmail = "ConfirmEmailViewController"
             static let WelcomeTutorial = "WelcomeTutorialViewController"
