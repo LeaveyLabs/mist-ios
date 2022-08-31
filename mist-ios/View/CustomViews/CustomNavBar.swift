@@ -53,15 +53,17 @@ extension CustomNavBarDelegate where Self: UIViewController {
 class CustomNavBar: UIView {
         
     enum CustomNavBarItem: CaseIterable {
-        case title, profile, searchOrFilter, mapFeedToggle, back, close
+        case title, profile, search, filter, mapFeedToggle, back, close
 
         var image: UIImage {
             switch self {
             case .profile:
                 return UserService.singleton.getProfilePic()
-            case .searchOrFilter:
-                return UIImage()
+            case .search:
+                return UIImage(systemName: "magnifyingglass")!.withConfiguration(UIImage.SymbolConfiguration(pointSize: 30, weight: .medium, scale: .default))
             case .title:
+                return UIImage()
+            case .filter:
                 return UIImage()
             case .mapFeedToggle:
                 return UIImage()
@@ -85,7 +87,6 @@ class CustomNavBar: UIView {
     
     let TOGGLE_MAP_IMAGE = UIImage(named: "toggle-map-button")!
     let TOGGLE_FEED_IMAGE = UIImage(named: "toggle-feed-button")!
-    let SEARCH_IMAGE = UIImage(systemName: "magnifyingglass")!.withConfiguration(UIImage.SymbolConfiguration(pointSize: 30, weight: .medium, scale: .default))
     let FILTER_IMAGE = UIImage() //UIImage(named: "filter-button")
 
     //MARK: - Constructors
@@ -106,7 +107,6 @@ class CustomNavBar: UIView {
         stackView.alignment = .center
         stackView.distribution = .fill
         stackView.spacing = 15
-        
     }
     
     private func nibInit() {
@@ -118,8 +118,10 @@ class CustomNavBar: UIView {
     
     private func setupItem(_ item: CustomNavBarItem, on stackView: UIStackView, withTitle title: String) {
         switch item {
-        case .searchOrFilter:
-            stackView.addArrangedSubview(navBarButton(for: .searchOrFilter))
+        case .search:
+            stackView.addArrangedSubview(navBarButton(for: .search))
+        case .filter:
+            stackView.addArrangedSubview(navBarButton(for: .search))
         case .profile:
             accountButton = navBarButton(for: .profile)
             guard let accountButton = accountButton else { return }
@@ -147,10 +149,6 @@ class CustomNavBar: UIView {
         if item == .mapFeedToggle {
             button.setImage(shouldFeedBeginVisible ? TOGGLE_MAP_IMAGE : TOGGLE_FEED_IMAGE, for: .normal)
         }
-        if item == .searchOrFilter {
-            searchFilterButton = button
-            button.setImage(shouldFeedBeginVisible ? FILTER_IMAGE : SEARCH_IMAGE, for: .normal)
-        }
         button.tintColor = Constants.Color.mistBlack
         
         let buttonWidth: CGFloat
@@ -159,7 +157,7 @@ class CustomNavBar: UIView {
             return button //the title doesnt get a button as of now. it's width is calculated automatically
         case .profile:
             buttonWidth = 35
-        case .searchOrFilter, .mapFeedToggle:
+        case .search, .filter, .mapFeedToggle:
             buttonWidth = 30
         case .back, .close:
             buttonWidth = 20
@@ -173,27 +171,28 @@ class CustomNavBar: UIView {
             button.addAction(.init(handler: { action in
                 self.delegate.handleProfileButtonTap()
             }), for: .touchUpInside)
-        case .searchOrFilter:
+        case .search:
             button.addAction(.init(handler: { [self] action in
-                if button.image(for: .normal) == SEARCH_IMAGE {
-                    delegate.handleSearchButtonTap()
-                } else {
-                    delegate.handleFilterButtonTap()
-                }
+                delegate.handleSearchButtonTap()
+            }), for: .touchUpInside)
+        case .filter:
+            button.addAction(.init(handler: { [self] action in
+                delegate.handleFilterButtonTap()
             }), for: .touchUpInside)
         case .title:
             break
         case .mapFeedToggle:
-            button.addAction(.init(handler: { [self] action in
-                if button.image(for: .normal) == TOGGLE_MAP_IMAGE {
-                    button.setImage(TOGGLE_FEED_IMAGE, for: .normal)
-                    searchFilterButton?.setImage(SEARCH_IMAGE, for: .normal)
-                } else {
-                    button.setImage(TOGGLE_MAP_IMAGE, for: .normal)
-                    searchFilterButton?.setImage(FILTER_IMAGE, for: .normal)
-                }
-                delegate.handleMapFeedToggleButtonTap()
-            }), for: .touchUpInside)
+            break
+//            button.addAction(.init(handler: { [self] action in
+//                if button.image(for: .normal) == TOGGLE_MAP_IMAGE {
+//                    button.setImage(TOGGLE_FEED_IMAGE, for: .normal)
+//                    searchFilterButton?.setImage(SEARCH_IMAGE, for: .normal)
+//                } else {
+//                    button.setImage(TOGGLE_MAP_IMAGE, for: .normal)
+//                    searchFilterButton?.setImage(FILTER_IMAGE, for: .normal)
+//                }
+//                delegate.handleMapFeedToggleButtonTap()
+//            }), for: .touchUpInside)
         case .back:
             button.addAction(.init(handler: { action in
                 self.delegate.handleBackButtonTap()

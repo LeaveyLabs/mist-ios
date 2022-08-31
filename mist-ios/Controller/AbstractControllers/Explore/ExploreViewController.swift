@@ -15,17 +15,19 @@ enum ReloadType {
 }
 
 var hasRequestedLocationPermissionsDuringAppSession = false
-var shouldFeedBeginVisible = true
+var shouldFeedBeginVisible = false
 
 class ExploreViewController: MapViewController {
     
     // UI
     var customNavBar = CustomNavBar()
+    let whiteStatusBar = UIImageView(image: UIImage.imageFromColor(color: .white))
     func setupCustomNavigationBar() {
         fatalError("requires subclass implementation")
     }
     
     var feed: PostTableView!
+    
     
     //Flags
     var reloadTask: Task<Void, Never>?
@@ -35,7 +37,20 @@ class ExploreViewController: MapViewController {
     var isKeyboardForEmojiReaction: Bool = false
         
     // Map
-    var selectedAnnotationView: AnnotationViewWithPosts?
+    var selectedAnnotationView: AnnotationViewWithPosts? {
+        didSet {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in //because we might immediately deselect and select
+                let shouldZoomBeHidden = selectedAnnotationView != nil
+                zoomStackView.isHidden = false
+                UIView.animate(withDuration: 0.2) {
+                    self.zoomStackView.alpha = shouldZoomBeHidden ? 0 : 1
+                } completion: { completed in
+                    self.zoomStackView.isHidden = shouldZoomBeHidden
+                }
+            }
+
+        }
+    }
     
     // Search
     var mySearchController: UISearchController!
@@ -64,7 +79,9 @@ extension ExploreViewController {
         super.viewDidLoad()
         latitudeOffset = 0.0015
         setupCustomTapGestureRecognizerOnMap()
-        
+        setupWhiteStatusBar()
+        setupBlurredStatusBar()
+
         if let userLocation = locationManager.location {
             mapView.camera.centerCoordinate = userLocation.coordinate
             mapView.camera.centerCoordinateDistance = 3000
@@ -250,7 +267,7 @@ extension ExploreViewController: PostDelegate {
 //            let index = postAnnotations.firstIndex { $0.post.id == updatedPost.id }!
 //            postAnnotations[index].post = updatedPost
         }
-        navigationController!.pushViewController(postVC, animated: true)
+            navigationController!.pushViewController(postVC, animated: true)
     }
     
     func handleDeletePost(postId: Int) {

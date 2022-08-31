@@ -21,21 +21,17 @@ class TagsViewCell: UITableViewCell {
     
     var delegate: TagsViewDelegate!
     let tagsField = WSTagsField()
-    var keywords = [String]() {
-        didSet {
-            delegate?.didUpdateTags(tags: self.keywords) //must use delegate? because it might be optional
-            updateTagsCount()
-            tagsField.placeholder = self.keywords.count < TagsViewCell.MaxTagCount ? TagsViewCell.RandomPlacehodler : ""
-        }
-    }
+    var keywords = [String]()
     let tagsCountLabel = UILabel()
     
     func configure(existingKeywords: [String], delegate: TagsViewDelegate) {
-        keywords = existingKeywords
-        keywords.forEach { word in
-            tagsField.addTag(word)
-        }
+//        keywords = existingKeywords
+        tagsField.addTags(existingKeywords)
+//        keywords.forEach { word in
+//            tagsField.addTag(word)
+//        }
         updateTagsCount()
+        
         self.delegate = delegate
     }
     
@@ -63,7 +59,7 @@ class TagsViewCell: UITableViewCell {
             tagsCountLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 18),
             tagsCountLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             tagsCountLabel.heightAnchor.constraint(equalToConstant: 30),
-            tagsCountLabel.widthAnchor.constraint(equalToConstant: 40)
+            tagsCountLabel.widthAnchor.constraint(equalToConstant: 70)
         ])
     }
     
@@ -78,11 +74,11 @@ class TagsViewCell: UITableViewCell {
         tagsField.layer.cornerCurve = .continuous
         tagsField.layer.cornerRadius = 10
         tagsField.contentInset = UIEdgeInsets(top: 20, left: 15, bottom: 15, right: 15)
-        tagsField.layoutMargins = UIEdgeInsets(top: 2, left: 6, bottom: 2, right: 6)
-        tagsField.font = UIFont(name: Constants.Font.Medium, size: 25)
+        tagsField.layoutMargins = UIEdgeInsets(top: 4, left: 12, bottom: 2, right: 10) //the size of the color behind the tag
+        tagsField.font = UIFont(name: Constants.Font.Medium, size: 22) //when the font is larger than this, the bottoms of g/j/q get cut off...
         tagsField.placeholderFont = UIFont(name: Constants.Font.Medium, size: 25)
         tagsField.placeholder = TagsViewCell.RandomPlacehodler
-        tagsField.spaceBetweenLines = 20
+        tagsField.spaceBetweenLines = 25
         tagsField.spaceBetweenTags = 10
         
         tagsField.tintColor = Constants.Color.mistLilac
@@ -100,10 +96,12 @@ class TagsViewCell: UITableViewCell {
         // Events
         tagsField.onDidAddTag = { field, tag in
             self.keywords.append(tag.text)
+            self.didUpdateTag()
         }
 
         tagsField.onDidRemoveTag = { field, tag in
             self.keywords.removeFirstAppearanceOf(object: tag.text)
+            self.didUpdateTag()
         }
 
         tagsField.onDidChangeText = { _, text in
@@ -131,9 +129,15 @@ class TagsViewCell: UITableViewCell {
             tagsField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             tagsField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             contentView.bottomAnchor.constraint(equalTo: tagsField.bottomAnchor, constant: 15),
-            tagsField.heightAnchor.constraint(greaterThanOrEqualToConstant: 200)
+            tagsField.heightAnchor.constraint(greaterThanOrEqualToConstant: 150)
         ])
         
+    }
+    
+    func didUpdateTag() {
+        delegate?.didUpdateTags(tags: self.keywords) //must use delegate? because it might be optional
+        updateTagsCount()
+        tagsField.placeholder = self.keywords.count < TagsViewCell.MaxTagCount ? TagsViewCell.RandomPlacehodler : ""
     }
 
     required init?(coder aDecoder: NSCoder) {

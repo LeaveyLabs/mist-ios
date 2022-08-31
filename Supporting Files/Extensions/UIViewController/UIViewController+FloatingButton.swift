@@ -17,10 +17,10 @@ extension UIViewController {
         floatingButton.setImage(UIImage(named: "submitbutton")!, for: .normal)
         floatingButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            floatingButton.heightAnchor.constraint(equalToConstant: 80),
-            floatingButton.widthAnchor.constraint(equalToConstant: 80),
-            floatingButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
-            floatingButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            floatingButton.heightAnchor.constraint(equalToConstant: 75),
+            floatingButton.widthAnchor.constraint(equalToConstant: 75),
+            floatingButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15),
+            floatingButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
         ])
         floatingButton.imageView?.contentMode = .scaleAspectFit
         floatingButton.contentHorizontalAlignment = .fill

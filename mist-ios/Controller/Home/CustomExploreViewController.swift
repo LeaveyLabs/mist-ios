@@ -43,7 +43,7 @@ class CustomExploreViewController: ExploreViewController {
     override func setupCustomNavigationBar() {
         navigationController?.isNavigationBarHidden = true
         view.addSubview(customNavBar)
-        customNavBar.configure(title: setting.displayName.lowercased(), leftItems: [.back, .title], rightItems: [.searchOrFilter, .mapFeedToggle], delegate: self)
+        customNavBar.configure(title: setting.displayName.lowercased(), leftItems: [.back, .title], rightItems: [.search], delegate: self)
     }
     
     //MARK: - User Interaction

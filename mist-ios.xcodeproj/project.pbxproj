@@ -258,6 +258,14 @@
 		5B41529A28BDE92200592A55 /* WSTagsField in Frameworks */ = {isa = PBXBuildFile; productRef = 5B41529928BDE92200592A55 /* WSTagsField */; };
 		5B4152A028BDEA2A00592A55 /* TagsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41529E28BDEA2A00592A55 /* TagsViewCell.swift */; };
 		5B4152A128BDEA2A00592A55 /* TagsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41529E28BDEA2A00592A55 /* TagsViewCell.swift */; };
+		5B4152AA28BE88BE00592A55 /* OverlayContainer in Frameworks */ = {isa = PBXBuildFile; productRef = 5B4152A928BE88BE00592A55 /* OverlayContainer */; };
+		5B4152AC28BE88D900592A55 /* OverlayContainer in Frameworks */ = {isa = PBXBuildFile; productRef = 5B4152AB28BE88D900592A55 /* OverlayContainer */; };
+		5B4152AE28BE891400592A55 /* ExploreOverlayedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4152AD28BE891400592A55 /* ExploreOverlayedViewController.swift */; };
+		5B4152AF28BE891400592A55 /* ExploreOverlayedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4152AD28BE891400592A55 /* ExploreOverlayedViewController.swift */; };
+		5B4152B228BEBC7D00592A55 /* FeedOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4152B128BEBC7D00592A55 /* FeedOverlayViewController.swift */; };
+		5B4152B328BEBC7D00592A55 /* FeedOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4152B128BEBC7D00592A55 /* FeedOverlayViewController.swift */; };
+		5B4152B528BF1F2000592A55 /* ExploreViewController+OverlayDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4152B428BF1F2000592A55 /* ExploreViewController+OverlayDelegate.swift */; };
+		5B4152B628BF1F2000592A55 /* ExploreViewController+OverlayDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4152B428BF1F2000592A55 /* ExploreViewController+OverlayDelegate.swift */; };
 		5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D589B28603A46002E2F94 /* PostCell.swift */; };
 		5B4D58A72860D7FB002E2F94 /* UIImageView+ProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */; };
 		5B6208A228B4B367005610A9 /* AppStoreReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6208A128B4B367005610A9 /* AppStoreReviewManager.swift */; };
@@ -902,6 +910,9 @@
 		5B41528F28BDCFBB00592A55 /* MistboxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistboxManager.swift; sourceTree = "<group>"; };
 		5B41529228BDE1F000592A55 /* EnterKeywordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterKeywordsViewController.swift; sourceTree = "<group>"; };
 		5B41529E28BDEA2A00592A55 /* TagsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsViewCell.swift; sourceTree = "<group>"; };
+		5B4152AD28BE891400592A55 /* ExploreOverlayedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreOverlayedViewController.swift; sourceTree = "<group>"; };
+		5B4152B128BEBC7D00592A55 /* FeedOverlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedOverlayViewController.swift; sourceTree = "<group>"; };
+		5B4152B428BF1F2000592A55 /* ExploreViewController+OverlayDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExploreViewController+OverlayDelegate.swift"; sourceTree = "<group>"; };
 		5B4D589B28603A46002E2F94 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ProfilePic.swift"; sourceTree = "<group>"; };
 		5B6208A128B4B367005610A9 /* AppStoreReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreReviewManager.swift; sourceTree = "<group>"; };
@@ -1011,6 +1022,7 @@
 				4767E41428584CD70016202E /* Alamofire in Frameworks */,
 				5BC2530B28BA8ABA00D4F49A /* CenteredCollectionView in Frameworks */,
 				5B739D792891FD4C00E4EED0 /* FirebasePerformance in Frameworks */,
+				5B4152AA28BE88BE00592A55 /* OverlayContainer in Frameworks */,
 				5B739D712891FD4C00E4EED0 /* FirebaseAnalytics in Frameworks */,
 				47EE28F62840A2F500C6425C /* SwiftMessages in Frameworks */,
 				5B739D732891FD4C00E4EED0 /* FirebaseAnalyticsSwift in Frameworks */,
@@ -1047,6 +1059,7 @@
 				5B739E6628935B9500E4EED0 /* Alamofire in Frameworks */,
 				5BC2530D28BA8AD300D4F49A /* CenteredCollectionView in Frameworks */,
 				5B739E6728935B9500E4EED0 /* FirebasePerformance in Frameworks */,
+				5B4152AC28BE88D900592A55 /* OverlayContainer in Frameworks */,
 				5B739E6828935B9500E4EED0 /* FirebaseAnalytics in Frameworks */,
 				5B739E6928935B9500E4EED0 /* SwiftMessages in Frameworks */,
 				5B739E6A28935B9500E4EED0 /* FirebaseAnalyticsSwift in Frameworks */,
@@ -1738,6 +1751,9 @@
 		5B1F16D4287D41FD00035F93 /* Explore */ = {
 			isa = PBXGroup;
 			children = (
+				5B4152AD28BE891400592A55 /* ExploreOverlayedViewController.swift */,
+				5B4152B128BEBC7D00592A55 /* FeedOverlayViewController.swift */,
+				5B4152B428BF1F2000592A55 /* ExploreViewController+OverlayDelegate.swift */,
 				4700F8C527DE4652006C2E08 /* ExploreViewController.swift */,
 				4752719C2855A80C00DDF84D /* ExploreViewController+Map.swift */,
 				475271992855A6A700DDF84D /* ExploreViewController+Feed.swift */,
@@ -2042,6 +2058,7 @@
 				5B235AFB28AC39D800FD27A9 /* PhoneNumberKit */,
 				5BC2530A28BA8ABA00D4F49A /* CenteredCollectionView */,
 				5B41529728BDE90E00592A55 /* WSTagsField */,
+				5B4152A928BE88BE00592A55 /* OverlayContainer */,
 			);
 			productName = "mist-ios";
 			productReference = 47E74E0827CA0FFE00467A0C /* mist-ios.app */;
@@ -2113,6 +2130,7 @@
 				5B235AFD28AC3A6E00FD27A9 /* PhoneNumberKit */,
 				5BC2530C28BA8AD300D4F49A /* CenteredCollectionView */,
 				5B41529928BDE92200592A55 /* WSTagsField */,
+				5B4152AB28BE88D900592A55 /* OverlayContainer */,
 			);
 			productName = "mist-ios";
 			productReference = 5B739E8D28935B9500E4EED0 /* mist-ios-dev.app */;
@@ -2162,6 +2180,7 @@
 				5B235AFA28AC39D800FD27A9 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */,
 				5BC2530928BA8ABA00D4F49A /* XCRemoteSwiftPackageReference "CenteredCollectionView" */,
 				5B41529628BDE90E00592A55 /* XCRemoteSwiftPackageReference "WSTagsField" */,
+				5B4152A828BE88BE00592A55 /* XCRemoteSwiftPackageReference "OverlayContainer" */,
 			);
 			productRefGroup = 47E74E0927CA0FFE00467A0C /* Products */;
 			projectDirPath = "";
@@ -2516,6 +2535,7 @@
 				431767DF28B025F1000B2E32 /* DeviceAPI.swift in Sources */,
 				5B774DFA286D4F9B00CCCF28 /* MessageKitMatchRequest.swift in Sources */,
 				472F8D1A28505F4600DB69C4 /* PostDelegate.swift in Sources */,
+				5B4152B528BF1F2000592A55 /* ExploreViewController+OverlayDelegate.swift in Sources */,
 				478A7899284E708D0058C845 /* CLLocationCoordinate+Distance.swift in Sources */,
 				4700F8B727DD7BBA006C2E08 /* PostVoteAPI.swift in Sources */,
 				5BE1473F289F1A7C0096FEBE /* String+Random.swift in Sources */,
@@ -2530,6 +2550,7 @@
 				47E295D6284BB79600A680CC /* PostView.swift in Sources */,
 				43A25344289BA43A00B1468F /* TagAPI.swift in Sources */,
 				4329571C27F4008300FA48A9 /* EnterEmailViewController.swift in Sources */,
+				5B4152B228BEBC7D00592A55 /* FeedOverlayViewController.swift in Sources */,
 				5B235AF228A8DD4800FD27A9 /* UsersService.swift in Sources */,
 				43D92526285280DB00438C5C /* MatchRequestAPI.swift in Sources */,
 				47A3D70827D54F6F003DBEA5 /* User.swift in Sources */,
@@ -2550,6 +2571,7 @@
 				5BB624DC2867E98500DCD45B /* Conversation.swift in Sources */,
 				5BC2530728BA683700D4F49A /* ClusterCarouselCell.swift in Sources */,
 				43483BB6280251B1001C7C6A /* EnterNameViewController.swift in Sources */,
+				5B4152AE28BE891400592A55 /* ExploreOverlayedViewController.swift in Sources */,
 				43529E292890BBD000B3A484 /* CommentVote.swift in Sources */,
 				5BAD62752876707000DCFE45 /* AccountSection.swift in Sources */,
 				478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */,
@@ -2824,6 +2846,7 @@
 				5B739E2A28935B9500E4EED0 /* MessageKitMatchRequest.swift in Sources */,
 				5B739E2B28935B9500E4EED0 /* PostDelegate.swift in Sources */,
 				5B739E2C28935B9500E4EED0 /* CLLocationCoordinate+Distance.swift in Sources */,
+				5B4152B628BF1F2000592A55 /* ExploreViewController+OverlayDelegate.swift in Sources */,
 				5B739E2D28935B9500E4EED0 /* PostVoteAPI.swift in Sources */,
 				5B739E2E28935B9500E4EED0 /* ConfirmEmailViewController.swift in Sources */,
 				5B739E2F28935B9500E4EED0 /* RequestResetNumberViewController.swift in Sources */,
@@ -2838,6 +2861,7 @@
 				5B739E3628935B9500E4EED0 /* EnterEmailViewController.swift in Sources */,
 				5B739E3728935B9500E4EED0 /* MatchRequestAPI.swift in Sources */,
 				5B739E3828935B9500E4EED0 /* User.swift in Sources */,
+				5B4152B328BEBC7D00592A55 /* FeedOverlayViewController.swift in Sources */,
 				5B739E3928935B9500E4EED0 /* AutoTextView.swift in Sources */,
 				5B739E3A28935B9500E4EED0 /* SoundPlayer.swift in Sources */,
 				4365279F28A84E16006BE4A9 /* PhoneNumberAPI.swift in Sources */,
@@ -2858,6 +2882,7 @@
 				5B739E4728935B9500E4EED0 /* UISearchBar+CenterText.swift in Sources */,
 				5BC2530828BA683700D4F49A /* ClusterCarouselCell.swift in Sources */,
 				5B739E4828935B9500E4EED0 /* DesignableTabBarController.swift in Sources */,
+				5B4152AF28BE891400592A55 /* ExploreOverlayedViewController.swift in Sources */,
 				5BE147C728A0CDAA0096FEBE /* UITextView+PreventPeriod.swift in Sources */,
 				5B235AF928AC347C00FD27A9 /* CNContact+Number.swift in Sources */,
 				5B739E4928935B9500E4EED0 /* SettingCell.swift in Sources */,
@@ -3450,6 +3475,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		5B4152A828BE88BE00592A55 /* XCRemoteSwiftPackageReference "OverlayContainer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/applidium/OverlayContainer";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		5B739D6F2891FD4C00E4EED0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -3561,6 +3594,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5B41529628BDE90E00592A55 /* XCRemoteSwiftPackageReference "WSTagsField" */;
 			productName = WSTagsField;
+		};
+		5B4152A928BE88BE00592A55 /* OverlayContainer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B4152A828BE88BE00592A55 /* XCRemoteSwiftPackageReference "OverlayContainer" */;
+			productName = OverlayContainer;
+		};
+		5B4152AB28BE88D900592A55 /* OverlayContainer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B4152A828BE88BE00592A55 /* XCRemoteSwiftPackageReference "OverlayContainer" */;
+			productName = OverlayContainer;
 		};
 		5B739D702891FD4C00E4EED0 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;

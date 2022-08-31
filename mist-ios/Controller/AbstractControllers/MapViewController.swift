@@ -127,11 +127,11 @@ class MapViewController: UIViewController {
         applyShadowOnView(trackingDimensionStackView)
     }
     
-    func blurStatusBar() {
-//        let blurryEffect = UIBlurEffect(style: .regular)
-//        let blurredStatusBar = UIVisualEffectView(effect: blurryEffect)
-        let blurredStatusBar = UIImageView(image: UIImage.imageFromColor(color: .white))
-        blurredStatusBar.applyMediumShadow()
+    func setupBlurredStatusBar() {
+        let blurryEffect = UIBlurEffect(style: .regular)
+        let blurredStatusBar = UIVisualEffectView(effect: blurryEffect)
+//        let blurredStatusBar = UIImageView(image: UIImage.imageFromColor(color: .white))
+//        blurredStatusBar.applyMediumShadow()
         blurredStatusBar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(blurredStatusBar)
         blurredStatusBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -215,7 +215,7 @@ extension MapViewController {
           AnalyticsParameterItemName: analyticsTitle,
         ])
         
-        zoomByAFactorOf(0.2) {
+        zoomByAFactorOf(0.25) {
             self.view.isUserInteractionEnabled = true //in case the user scrolled map before pressing
         }
     }
@@ -227,7 +227,7 @@ extension MapViewController {
           AnalyticsParameterItemName: analyticsTitle,
         ])
         
-        zoomByAFactorOf(5) {
+        zoomByAFactorOf(4) {
             self.view.isUserInteractionEnabled = true //in case the user scrolled map before pressing
         }
     }
@@ -479,7 +479,7 @@ extension MapViewController {
                                          fromDistance: newAdjustedDistance,
                                          pitch: newPitch,
                                          heading: mapView.camera.heading)
-        UIView.animate(withDuration: 0.3,
+        UIView.animate(withDuration: 0.2,
                        delay: 0,
                        options: .curveEaseInOut,
                        animations: {

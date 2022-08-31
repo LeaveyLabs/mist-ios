@@ -14,7 +14,7 @@ class SpecialTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         removeLineAndAddShadow()
-        tabBar.applyMediumTopOnlyShadow()
+        tabBar.applyLightMediumShadow()
     }
     
     func removeLineAndAddShadow() {

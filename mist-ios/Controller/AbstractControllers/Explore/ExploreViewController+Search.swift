@@ -84,9 +84,15 @@ extension ExploreViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        mySearchController.searchBar.resignFirstResponder()
+        if searchSuggestionsVC.completerResults.count > 0 {
+            tableView(searchSuggestionsVC.tableView, didSelectRowAt: IndexPath(row: 0, section: 0)) //cals the tableviewdelegate function just down below, as if they searched for that word
+        } else {
+            CustomSwiftMessages.showInfoCard("no results found", "please try again", emoji: "🙄")
+            mySearchController.isActive = false
+        }
+//        mySearchController.searchBar.resignFirstResponder() //DONT RESIGN bc otherwise the modal will be visible below
     }
-    
+        
 }
 
 // MARK: - UITableViewDelegate

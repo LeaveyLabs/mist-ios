@@ -68,7 +68,7 @@ struct Constants {
             static let CommentMore = "CommentMoreViewController"
             //NewPost
             static let NewPost = "NewPostViewController"
-            static let Guidelines = "GuidelinesMoreViewController"
+            static let Guidelines = "GuidelinesViewController"
             //Account
             static let Profile = "ProfileViewController"
             static let PhotoDetail = "PhotoDetailViewController"
@@ -78,6 +78,7 @@ struct Constants {
             static let Settings = "SettingsViewController"
             static let PasswordSetting = "PasswordSettingViewController"
             //Explore
+            static let ExploreOverlayed = "ExploreOverlayedViewController"
             static let Explore = "ExploreViewController"
             static let SearchSuggestions = "SearchSuggestionsTableViewController"
             static let ResultsFeed = "SearchResultsTableViewController"

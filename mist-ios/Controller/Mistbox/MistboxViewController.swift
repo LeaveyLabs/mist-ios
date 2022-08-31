@@ -36,6 +36,15 @@ class MistboxViewController: UIViewController {
         commonSetup()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
     //MARK: - Initial setup
     
     func commonSetup() {

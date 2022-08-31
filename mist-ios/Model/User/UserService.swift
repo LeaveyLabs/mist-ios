@@ -176,11 +176,17 @@ class UserService: NSObject {
     }
     
     func updateKeywords(to newKeywords: [String]) async throws {
-        let updatedCompleteUser = try await UserAPI.patchKeywords(keywords: newKeywords, id: UserService.singleton.getId())
-        self.authedUser.keywords = updatedCompleteUser.keywords
+        let oldKeywords = self.authedUser.keywords
+        authedUser.keywords = newKeywords
         Task {
-            await self.saveUserToFilesystem()
-            await UsersService.singleton.updateCachedUser(updatedUser: self.getUserAsFrontendReadOnlyUser())
+            do {
+                let _ = try await UserAPI.patchKeywords(keywords: newKeywords, id: UserService.singleton.getId())
+                await saveUserToFilesystem()
+                await UsersService.singleton.updateCachedUser(updatedUser: self.getUserAsFrontendReadOnlyUser())
+            } catch {
+                authedUser.keywords = oldKeywords
+                throw(error)
+            }
         }
     }
     

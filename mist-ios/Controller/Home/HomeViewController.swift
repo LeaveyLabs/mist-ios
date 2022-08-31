@@ -24,19 +24,14 @@ class HomeViewController: ExploreViewController {
         }
     }
     
+    var hasViewAppearedOnce = false
+    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupRefreshButton()
-        renderNewPostsOnFeedAndMap(withType: .firstLoad)
         setupRefreshableFeed()
-        setupCustomNavigationBar()
-        addFloatingButton()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         tabBarController?.selectedIndex = 1
     }
     
@@ -50,6 +45,12 @@ class HomeViewController: ExploreViewController {
             // Controller is being shown as result of pop/dismiss/unwind.
             mySearchController.searchBar.becomeFirstResponder()
         }
+        if !hasViewAppearedOnce {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.renderNewPostsOnFeedAndMap(withType: .firstLoad)
+            }
+        }
+        hasViewAppearedOnce = true
         // Dependent on map dimensions
 //        searchBarButton.centerText()
     }
@@ -59,7 +60,7 @@ class HomeViewController: ExploreViewController {
     override func setupCustomNavigationBar() {
         navigationController?.isNavigationBarHidden = true
         view.addSubview(customNavBar)
-        customNavBar.configure(title: "explore", leftItems: [.title], rightItems: [.searchOrFilter, .mapFeedToggle], delegate: self)
+        customNavBar.configure(title: "explore", leftItems: [.title], rightItems: [.search], delegate: self)
     }
     
 }

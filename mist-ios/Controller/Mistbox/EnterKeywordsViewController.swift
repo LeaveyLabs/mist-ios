@@ -25,14 +25,16 @@ class EnterKeywordsViewController: UIViewController, UITableViewDataSource, UITa
         tableView.register(TagsViewCell.self, forCellReuseIdentifier: String(describing: TagsViewCell.self))
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         tableView.reloadData()
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        didPressSaveButton()
+        didPressSaveButton() //could move this to a save button instead... oh well
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
