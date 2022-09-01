@@ -10,20 +10,26 @@ import UIKit
 
 //MARK: - Table View Setup
 
-class FeedOverlayViewController: UIViewController {
-    
-    var posts = PostService.singleton.getExplorePosts()
+class ExploreFeedViewController: UIViewController {
+        
+    //Delegate
     var postDelegate: PostDelegate!
+    var exploreDelegate: ExploreChildDelegate!
     
+    //UI
     @IBOutlet weak var feed: PostTableView!
     @IBOutlet weak var notchHandleView: UIView!
     @IBOutlet weak var notchView: UIView!
-    @IBOutlet weak var profilePicButton: UIButton!
     @IBOutlet weak var notchViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var filterButton: UIButton!
+    @IBOutlet weak var refreshButton: UIButton!
+    @IBOutlet weak var notchTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var navStackView: UIStackView!
     
-    class func create(postDelegate: PostDelegate) -> FeedOverlayViewController {
-        let feedOverlay = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: "FeedOverlayViewController") as! FeedOverlayViewController
+    class func create(postDelegate: PostDelegate, exploreDelegate: ExploreChildDelegate) -> ExploreFeedViewController {
+        let feedOverlay = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ExploreFeed) as! ExploreFeedViewController
         feedOverlay.postDelegate = postDelegate
+        feedOverlay.exploreDelegate = exploreDelegate
         return feedOverlay
     }
     
@@ -32,9 +38,8 @@ class FeedOverlayViewController: UIViewController {
         setupNotchView()
         setupTableView()
         view.backgroundColor = .clear
-        profilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
     }
-    
+
     func setupNotchView() {
         notchView.layer.cornerCurve = .continuous
         notchView.layer.cornerRadius = 20
@@ -59,30 +64,34 @@ class FeedOverlayViewController: UIViewController {
     
     //MARK: - UserInteraction
     
-    @IBAction func onProfilePicPress() {
-        guard
-            let myAccountNavigation = storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation) as? UINavigationController,
-            let myAccountVC = myAccountNavigation.topViewController as? MyAccountViewController
-        else { return }
-        myAccountNavigation.modalPresentationStyle = .fullScreen
-        myAccountVC.rerenderProfileCallback = { } //no longer needed, since we update the accountButton on moveToSuperview
-        self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
+    @IBAction func onFilterButtonPress() {
+//        on
     }
-    
+
 }
                                            
 
-//OverlayDelegate
+//MARK: - ParentOverlayDelegate
 
-extension FeedOverlayViewController {
+extension ExploreFeedViewController {
     
     func handleFeedWentUp(duration: Double) {
-        self.profilePicButton.isHidden = false
+//        refreshButton.layer.removeAllAnimations()
+//        filterButton.layer.removeAllAnimations()
+        notchView.layer.removeAllAnimations()
+//        self.refreshButton.isHidden = false
+//        self.filterButton.isHidden = false
         UIView.animate(withDuration: duration, delay: 0, options: .curveLinear) {
             self.notchViewHeightConstraint.constant = 55
             self.notchView.applyLightBottomOnlyShadow()
-            self.profilePicButton.alpha = 1
+//            self.refreshButton.alpha = 1
+//            self.filterButton.alpha = 1
             self.notchView.layer.cornerRadius = 0
+            
+            if let _ = self.exploreDelegate as? HomeExploreParentViewController { //otherwise it cuts off the title
+                self.notchTopConstraint.constant = 12
+            }
+            self.view.layoutIfNeeded()
         } completion: { completed in
         }
     }
@@ -91,26 +100,30 @@ extension FeedOverlayViewController {
         UIView.animate(withDuration: duration, delay: 0, options: .curveLinear) {
             self.notchViewHeightConstraint.constant = 65
             self.notchView.applyMediumTopOnlyShadow()
-            self.profilePicButton.alpha = 0
+//            self.refreshButton.alpha = 0
+//            self.filterButton.alpha = 0
             self.notchView.layer.cornerRadius = 20
+            self.notchTopConstraint.constant = 5
+            self.view.layoutIfNeeded()
         } completion: { completed in
-            self.profilePicButton.isHidden = true
+//            self.filterButton.isHidden = true
+//            self.refreshButton.isHidden = true
         }
     }
 }
 
 //MARK: - TableViewDataSource
 
-extension FeedOverlayViewController: UITableViewDataSource {
+extension ExploreFeedViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
+        return exploreDelegate.posts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.feed.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
         //in the feed, we don't need a reference to the postView like we do in
-        let _ = cell.configurePostCell(post: posts[indexPath.row],
+        let _ = cell.configurePostCell(post: exploreDelegate.posts[indexPath.row],
                                nestedPostViewDelegate: postDelegate,
                                bubbleTrianglePosition: .left,
                                isWithinPostVC: false)
@@ -120,7 +133,7 @@ extension FeedOverlayViewController: UITableViewDataSource {
     
 }
 
-extension FeedOverlayViewController: UITableViewDelegate {
+extension ExploreFeedViewController: UITableViewDelegate {
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         view.endEditing(true)
@@ -128,16 +141,19 @@ extension FeedOverlayViewController: UITableViewDelegate {
     
 }
 
-//MARK: - Helper
+//MARK: - Keyboard
 
-extension FeedOverlayViewController {
+extension ExploreFeedViewController {
     
-//    func scrollFeedToPostRightAboveKeyboard(_ postIndex: Int) {
-//        let postBottomYWithinFeed = feed.rectForRow(at: IndexPath(row: postIndex, section: 0))
-//        let postBottomY = feed.convert(postBottomYWithinFeed, to: view).maxY
-//        let keyboardTopY = view.bounds.height - keyboardHeight
-//        let desiredOffset = postBottomY - keyboardTopY
-//        if postIndex == 0 && desiredOffset < 0 { return } //dont scroll up for the very first post
-//        feed.setContentOffset(feed.contentOffset.applying(.init(translationX: 0, y: desiredOffset)), animated: true)
-//    }
+    func scrollFeedToPostRightAboveKeyboard(postIndex: Int, keyboardHeight: Double) {
+        let postBottomYWithinFeed = feed.rectForRow(at: IndexPath(row: postIndex, section: 0))
+        let postBottomY = feed.convert(postBottomYWithinFeed, to: view).maxY
+        
+        let keyboardTopY = view.bounds.height - keyboardHeight
+        var desiredOffset = postBottomY - keyboardTopY
+        if postIndex == 0 && desiredOffset < 0 { return } //dont scroll up for the very first post
+        desiredOffset -= 100 //for some reason i need to add 50 to my new implementation of this with the feed
+        feed.setContentOffset(feed.contentOffset.applying(.init(translationX: 0, y: desiredOffset)), animated: true)
+    }
+    
 }

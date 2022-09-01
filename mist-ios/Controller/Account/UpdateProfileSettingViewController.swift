@@ -57,6 +57,7 @@ class UpdateProfileSettingViewController: UITableViewController {
         setupTableView()
         registerNibs()
         setupButtons()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default)), style: .plain, target: self, action: #selector(cancelButtonDidPressed(_:)))
     }
     
     override func viewWillAppear(_ animated: Bool) {

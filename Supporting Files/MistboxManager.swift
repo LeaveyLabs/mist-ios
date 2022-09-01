@@ -17,6 +17,14 @@ class MistboxManager: NSObject {
     private var CURRENT_MISTBOX_RELEASE_DATE: Date!
     private var LAST_MISTBOX_OPEN_DATE: Date? = nil
     
+    var currentMistboxDate: String? {
+        guard let date = CURRENT_MISTBOX_RELEASE_DATE else { return nil }
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US")
+        dateFormatter.dateFormat = "EEEE, MMMM d"
+        return dateFormatter.string(from: date).lowercased() + daySuffix(from: date)
+    }
+    
     var hasUserActivatedMistbox: Bool {
         return !UserService.singleton.getKeywords().isEmpty
     }
@@ -27,7 +35,7 @@ class MistboxManager: NSObject {
     
     var percentUntilNextMistbox: Float {
         let secondsIn24Hours = 86400.0
-        return Float(NEXT_MISTBOX_RELEASE_DATE.timeIntervalSinceNow * secondsIn24Hours / 24)
+        return 1 - Float(NEXT_MISTBOX_RELEASE_DATE.timeIntervalSinceNow / secondsIn24Hours)
     }
     
     var hasUnopenedMistbox: Bool {

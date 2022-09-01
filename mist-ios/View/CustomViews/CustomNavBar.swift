@@ -146,9 +146,6 @@ class CustomNavBar: UIView {
     private func navBarButton(for item: CustomNavBarItem) -> UIButton {
         let button = UIButton(type: .custom)
         button.setImage(item.image, for: .normal)
-        if item == .mapFeedToggle {
-            button.setImage(shouldFeedBeginVisible ? TOGGLE_MAP_IMAGE : TOGGLE_FEED_IMAGE, for: .normal)
-        }
         button.tintColor = Constants.Color.mistBlack
         
         let buttonWidth: CGFloat

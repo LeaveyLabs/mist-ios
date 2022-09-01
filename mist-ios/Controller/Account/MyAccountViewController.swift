@@ -24,6 +24,7 @@ class MyAccountViewController: SettingsViewController {
         
         tableView.tableFooterView = mistFooterView
         appVersionLabel.text = "version " + (Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default)), style: .plain, target: self, action: #selector(cancelButtonDidPressed(_:)))
     }
     
     override func setupTableView() {
@@ -39,7 +40,6 @@ class MyAccountViewController: SettingsViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(cancelButtonDidPressed(_:)))
     }
     
     override func registerNibs() {

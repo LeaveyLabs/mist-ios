@@ -29,7 +29,6 @@ class MistboxViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         MistboxManager.shared.configureMistboxTimes()
-        addFloatingButton()
         setupNavBar()
         reconfigureLayout()
         setupCountdownTimer()
@@ -49,7 +48,9 @@ class MistboxViewController: UIViewController {
     
     func commonSetup() {
         mistboxCountLabel.minimumScaleFactor = 0.5
-        circularProgressView.applyMediumShadow()
+        circularProgressView.applyLightMediumShadow()
+        countdownWordLabel.layer.shadowOpacity = 0
+        countdownNumberLabel.layer.shadowOpacity = 0
         seeMistsView.applyLightMediumShadow()
         updateKeywordsView.applyLightMediumShadow()
         seeMistsView.layer.cornerRadius = 10
@@ -129,6 +130,9 @@ class MistboxViewController: UIViewController {
     
     func updateCircularProgressViewAndLabels() {
         MistboxManager.shared.configureMistboxTimes()
+        mistboxHeaderLabel.text = MistboxManager.shared.currentMistboxDate
+        mistboxCountLabel.text = String(PostService.singleton.getMistboxPosts().count) + " mists"
+        
         if MistboxManager.shared.hasUnopenedMistbox {
             setupForReadyMistbox()
         } else {
@@ -162,7 +166,7 @@ class MistboxViewController: UIViewController {
             didPressKeywordsButton()
             return
         }
-        guard let mistboxExplore = CustomExploreViewController.create(setting: .mistbox) else { return }
+        guard let mistboxExplore = CustomExploreParentViewController.create(setting: .mistbox) else { return }
         navigationController?.pushViewController(mistboxExplore, animated: true)
         MistboxManager.shared.handleOpenMistbox()
     }

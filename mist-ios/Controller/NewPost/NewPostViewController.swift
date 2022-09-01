@@ -86,6 +86,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         setupTextViews()
         loadFromNewPostContext() //should come after setting up views
 //        shouldKUIViewKeyboardDismissOnBackgroundTouch = true
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default)), style: .plain, target: self, action: #selector(cancelButtonDidPressed(_:)))
    }
     
     // MARK: - Setup
@@ -242,14 +243,15 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         let tbc = presentingViewController as! UITabBarController
         tbc.selectedIndex = 0
         let homeNav = tbc.selectedViewController as! UINavigationController
-        let homeExplore = homeNav.topViewController as! ExploreViewController
+        let homeParent = homeNav.topViewController as! HomeExploreParentViewController
         
         finishAnimationProgress() {
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
-                homeExplore.makeMapVisible()
-                self.dismiss(animated: true) {
-                    homeExplore.handleNewlySubmittedPost()
-               }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                homeParent.overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: true) {
+                    self.dismiss(animated: true) {
+                        homeParent.handleNewlySubmittedPost()
+                   }
+                }
             })
         }
     }

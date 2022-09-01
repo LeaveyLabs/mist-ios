@@ -94,6 +94,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         loadComments()
         navigationController?.fullscreenInteractivePopGestureRecognizer(delegate: self)
         addKeyboardObservers()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default)), style: .plain, target: self, action: #selector(backButtonDidPressed(_:)))
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -111,12 +112,22 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        if shouldStartWithRaisedKeyboard {
-          self.inputBar.inputTextView.becomeFirstResponder()
-        }
         enableInteractivePopGesture()
         inputBar.inputTextView.canBecomeFirstResponder = true // to offset viewWillDisappear
+        
+        if !hasPromptedUserForContactsAccess && !areContactsAuthorized() {
+           requestContactsAccessIfNecessary { approved in
+               DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [self] in
+                   if shouldStartWithRaisedKeyboard {
+                       inputBar.inputTextView.becomeFirstResponder()
+                   }
+               })
+           }
+        } else {
+            if shouldStartWithRaisedKeyboard {
+                inputBar.inputTextView.becomeFirstResponder()
+            }
+        }
     }
     
     //MARK: - Setup

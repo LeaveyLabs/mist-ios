@@ -70,6 +70,8 @@ class MapViewController: UIViewController {
     var placeAnnotations = [PlaceAnnotation]()
     var postAnnotations = [PostAnnotation]()
     
+    var mapViewLegalLabelYOffset: Double = 90
+    
     
     //MARK: - View Lifecycle
         
@@ -78,16 +80,27 @@ class MapViewController: UIViewController {
         // Initialize variables
         prevZoomWidth = mapView.visibleMapRect.size.width
         prevZoom = mapView.camera.centerCoordinateDistance
-        
         setupMapButtons()
         setupMapView()
         setupLocationManager()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        moveMapLegalLabel()
+    }
+    
     // MARK: - Setup
+    
+    func moveMapLegalLabel() {
+        mapView.subviews.first { "\(type(of: $0))" == "MKAttributionLabel" }?.frame.origin.y = mapView.frame.maxY + 4.0 - mapViewLegalLabelYOffset
+        mapView.subviews.first { "\(type(of: $0))" == "MKAttributionLabel" }?.frame.origin.x = 66.0
+        mapView.subviews.first { "\(type(of: $0))" == "MKAppleLogoImageView" }?.frame.origin.y = mapView.frame.maxY - mapViewLegalLabelYOffset - 1
+    }
     
     func setupMapView() {
         // GENERAL SETTINGS
+        mapView.tintColor = Constants.Color.mistLilac
         mapView.cameraZoomRange = MKMapView.CameraZoomRange(minCenterCoordinateDistance: MapViewController.MIN_CAMERA_DISTANCE) // Note: this creates an effect where, when the camera is pretty zoomed in, if you try to increase the pitch past a certian point, it automatically zooms in more. Not totally sure why. This is slightly undesirable but not that deep
         //310 is range from which you view a post, that way you cant zoom in more afterwards
         mapView.showsUserLocation = true
@@ -122,8 +135,8 @@ class MapViewController: UIViewController {
         zoomOutButton.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 10)
         applyShadowOnView(zoomStackView)
         
-        mapDimensionButton.roundCorners(corners: [.topLeft, .topRight], radius: 10)
-        userTrackingButton.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 10)
+        mapDimensionButton.roundCorners(corners: [.topLeft, .bottomLeft], radius: 10)
+        userTrackingButton.roundCorners(corners: [.topRight, .bottomRight], radius: 10)
         applyShadowOnView(trackingDimensionStackView)
     }
     
@@ -156,7 +169,6 @@ extension MapViewController: CLLocationManagerDelegate {
     func requestUserLocationPermissionIfNecessary() {
         if locationManager.authorizationStatus == .denied ||
             locationManager.authorizationStatus == .notDetermined { //this check should also exist here for when the function is called after registering/logging in
-            
             CustomSwiftMessages.showPermissionRequest(permissionType: .userLocation) { approved in
                 if approved {
                     if self.locationManager.authorizationStatus == .notDetermined {
@@ -240,6 +252,7 @@ extension MapViewController: MKMapViewDelegate {
     
     // Updates after each view change is completed
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        moveMapLegalLabel()
         // When the camera flies out and in, it pauses between animations and this function is called. we need to wait to have it
         if isCameraFlying && !isCameraFlyingOutAndIn {
             isCameraFlying = false
@@ -252,7 +265,7 @@ extension MapViewController: MKMapViewDelegate {
     
     //This could be useful, i'm not using this function at all up until now
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
-        
+        moveMapLegalLabel()
     }
 
     //updates continuously throughout user drag
@@ -323,6 +336,9 @@ extension MapViewController: MKMapViewDelegate {
             return PlaceAnnotationView(annotation: annotation, reuseIdentifier: PlaceAnnotationView.ReuseID)
         }
         
+        if let _ = annotation as? MKUserLocation {
+            
+        }
         return nil // handles views for default annotations like user location
     }
 }

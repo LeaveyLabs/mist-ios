@@ -13,7 +13,7 @@ import MapKit
 
 let cornerButtonGrey = UIColor.black.withAlphaComponent(0.7)
 
-extension ExploreViewController {
+extension ExploreMapViewController {
     
     //Not using searchbarbutton implementation anymore
 //    func setupSearchBarButton() {
@@ -52,7 +52,7 @@ extension ExploreViewController {
 
 // MARK: - SearchController Delegate
 
-extension ExploreViewController: UISearchControllerDelegate {
+extension ExploreMapViewController: UISearchControllerDelegate {
     
     func willDismissSearchController(_ searchController: UISearchController) {
 //        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
@@ -63,7 +63,7 @@ extension ExploreViewController: UISearchControllerDelegate {
 
     // MARK: - UISearchBarDelegate
 
-extension ExploreViewController: UISearchBarDelegate {
+extension ExploreMapViewController: UISearchBarDelegate {
     
     //not using a searchbarbutton anymore
 //    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
@@ -97,10 +97,9 @@ extension ExploreViewController: UISearchBarDelegate {
 
 // MARK: - UITableViewDelegate
 
-extension ExploreViewController {
+extension ExploreMapViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView == feed { return }
         tableView.deselectRow(at: indexPath, animated: false)
         let resultType = MapSearchResultType.init(rawValue: indexPath.section)!
         
@@ -142,7 +141,7 @@ extension ExploreViewController {
 
 // MARK: - Map Search
 
-extension ExploreViewController {
+extension ExploreMapViewController {
     
     
     /// - Parameter suggestedCompletion: A search completion provided by `MKLocalSearchCompleter` when tapping on a search completion table row

@@ -18,7 +18,21 @@ class MyMapView: MKMapView {
     
 }
 
-extension ExploreViewController {
+extension ExploreMapViewController {
+    
+    //MARK: - Setup
+    
+    func setupExploreMapButtons() {
+        searchButton.roundCorners(corners: [.topLeft, .bottomLeft, .topRight, .bottomRight], radius: 10)
+        filterButton.roundCorners(corners: [.topRight, .bottomRight], radius: 10)
+        applyShadowOnView(exploreButtonStackView)
+    }
+    
+    //MARK: - User Interaction
+    
+    @IBAction func searchButtonPressed(_ sender: UIButton) {
+        presentExploreSearchController()
+    }
     
     @IBAction func exploreUserTrackingButtonPressed(_ sender: UIButton) {
         dismissPost()
@@ -75,7 +89,7 @@ extension ExploreViewController {
 
 // MARK: - CLLocationManagerDelegate
 
-extension ExploreViewController {
+extension ExploreMapViewController {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
@@ -90,7 +104,7 @@ extension ExploreViewController {
 
 //MARK: - MapDelegate
 
-extension ExploreViewController {
+extension ExploreMapViewController {
         
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if view.annotation is MKUserLocation {
@@ -132,7 +146,7 @@ extension ExploreViewController {
             } else if let postAnnotationView = view as? PostAnnotationView {
                 postAnnotationView.loadPostView(on: mapView,
                                                 withDelay: 0,
-                                                withPostDelegate: self)
+                                                withPostDelegate: postDelegate)
             }
         default:
             if let clusterView = view as? ClusterAnnotationView {
@@ -147,7 +161,7 @@ extension ExploreViewController {
                               completion: { _ in })
                     postAnnotationView.loadPostView(on: mapView,
                                                     withDelay: cameraAnimationDuration,
-                                                    withPostDelegate: self)
+                                                    withPostDelegate: postDelegate)
                 } else {
                     slowFlyWithoutZoomTo(lat: view.annotation!.coordinate.latitude,
                                          long: view.annotation!.coordinate.longitude,
@@ -155,7 +169,7 @@ extension ExploreViewController {
                               completion: { _ in })
                     postAnnotationView.loadPostView(on: mapView,
                                                     withDelay: cameraAnimationDuration,
-                                                    withPostDelegate: self)
+                                                    withPostDelegate: postDelegate)
                 }
             } else if let _ = view as? PlaceAnnotationView {
                 slowFlyTo(lat: view.annotation!.coordinate.latitude,
@@ -207,28 +221,10 @@ extension ExploreViewController {
         deselectOneAnnotationIfItExists()
     }
     
-    // To make the map fly directly to the middle of cluster locations...
-    // After loading the annotations for the map, immediately center the camera around the annotation
-    // (as if it had flown there), check if it's an annotation, then set the camera back to USC
-    func handleNewlySubmittedPost() {
-        annotationSelectionType = .submission
-        renderNewPostsOnFeedAndMap(withType: .newPost)
-        if let newPostAnnotation = postAnnotations.first {
-            feed.reloadData() //need to reload data after rearranging posts
-            feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
-//            slowFlyOutAndIn(lat: newPostAnnotation.coordinate.latitude + latitudeOffset,
-//                            long: newPostAnnotation.coordinate.longitude,
-//                            withDuration: cameraAnimationDuration+2) { finished in
-//                self.mapView.selectAnnotation(newPostAnnotation, animated: true)
-//            }
-            slowFlyTo(lat: newPostAnnotation.coordinate.latitude + latitudeOffset,
-                      long: newPostAnnotation.coordinate.longitude,
-                      incrementalZoom: false,
-                      withDuration: cameraAnimationDuration+2,
-                      completion: { [self] _ in
-                mapView.selectAnnotation(newPostAnnotation, animated: true)
-            })
-        }
+    func renderNewPlacesOnMap() {
+        removeExistingPlaceAnnotationsFromMap()
+        mapView.region = getRegionCenteredAround(placeAnnotations) ?? PostService.singleton.getExploreFilter().region
+        mapView.addAnnotations(placeAnnotations)
     }
     
     func handleClusterAnnotationSelection(_ clusterAnnotation: MKClusterAnnotation, clusterView: ClusterAnnotationView) {
@@ -250,7 +246,7 @@ extension ExploreViewController {
 //                    annotation as? MKClusterAnnotation == clusterAnnotation
 //                }
 //                guard doesClusterStillExist else { return }
-                clusterView.loadCollectionView(on: self.mapView, withPostDelegate: self)
+                clusterView.loadCollectionView(on: self.mapView, withPostDelegate: self.postDelegate)
             })
         }
     }
@@ -260,7 +256,7 @@ extension ExploreViewController {
 
 //MARK: Post swiping
 
-extension ExploreViewController: AnnotationViewSwipeDelegate {
+extension ExploreMapViewController: AnnotationViewSwipeDelegate {
 
     func handlePostViewSwipeRight() {
 //        guard var index = selectedAnnotationIndex else { return }

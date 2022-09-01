@@ -25,7 +25,7 @@ extension SettingsTapDelegate where Self: UIViewController {
     //MARK: - Push VC
     
     func handlePosts(setting: Setting) {
-        guard let customExplore = CustomExploreViewController.create(setting: setting) else { return }
+        guard let customExplore = CustomExploreParentViewController.create(setting: setting) else { return }
         navigationController?.pushViewController(customExplore, animated: true)
     }
     

@@ -69,6 +69,7 @@ struct Constants {
             //NewPost
             static let NewPost = "NewPostViewController"
             static let Guidelines = "GuidelinesViewController"
+            static let PinMapModal = "PinMapModalViewController"
             //Account
             static let Profile = "ProfileViewController"
             static let PhotoDetail = "PhotoDetailViewController"
@@ -78,16 +79,13 @@ struct Constants {
             static let Settings = "SettingsViewController"
             static let PasswordSetting = "PasswordSettingViewController"
             //Explore
-            static let ExploreOverlayed = "ExploreOverlayedViewController"
-            static let Explore = "ExploreViewController"
+            static let CustomExploreParent = "CustomExploreParentViewController"
+            static let HomeExploreParent = "HomeExploreParentViewController"
+            static let ExploreMap = "ExploreMapViewController"
+            static let ExploreFeed = "ExploreFeedViewController"
             static let SearchSuggestions = "SearchSuggestionsTableViewController"
-            static let ResultsFeed = "SearchResultsTableViewController"
-            static let PinMapModal = "PinMapModalViewController"
             static let Filter = "FilterSheetViewController"
             static let NewFilter = "NewFilterSheetViewController"
-            static let MapSearch = "MapSearchViewController"
-            static let CustomExplore = "CustomExploreViewController"
-            static let Home = "HomeViewController"
             //Messages
             static let Chat = "ChatViewController"
             static let ChatMore = "ChatMoreViewController"

@@ -151,7 +151,7 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
 
 extension ClusterAnnotationView {
     
-    func loadCollectionView(on mapView: MKMapView, withPostDelegate postDelegate: ExploreViewController) {
+    func loadCollectionView(on mapView: MKMapView, withPostDelegate postDelegate: PostDelegate) {
         collectionView = PostCollectionView(centeredCollectionViewFlowLayout: centeredCollectionViewFlowLayout)
         guard let collectionView = collectionView else { return }
         self.postDelegate = postDelegate
@@ -204,7 +204,7 @@ extension ClusterAnnotationView: AnnotationViewWithPosts {
     func movePostUpAfterEmojiKeyboardRaised() {
         layoutIfNeeded()
         UIView.animate(withDuration: 0.25) { [weak self] in
-            self?.constraints.first { $0.firstAnchor == self?.collectionView?.bottomAnchor }?.constant = -160
+            self?.constraints.first { $0.firstAnchor == self?.collectionView?.bottomAnchor }?.constant = -152
             self?.layoutIfNeeded()
         }
     }

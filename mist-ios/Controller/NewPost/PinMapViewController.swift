@@ -25,7 +25,8 @@ class PinMapViewController: MapViewController {
         latitudeOffset = -0.0007
         applyShadowOnView(topBannerView)
         handleExistingPin()
-        setMapCameraToExploreCamera()
+        setMapCamera()
+        mapView.tintColor = Constants.Color.mistLilac
         
         let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(userInteractedWithMap))
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(userInteractedWithMap))
@@ -44,11 +45,16 @@ class PinMapViewController: MapViewController {
     
     //MARK: - Setup
     
-    func setMapCameraToExploreCamera() {
-        let tbc = presentingViewController as! SpecialTabBarController
-        let homeNav =  tbc.viewControllers![0] as! UINavigationController
-        let homeExplore = homeNav.topViewController as! ExploreViewController
-        mapView.camera = homeExplore.mapView.camera
+    func setMapCamera() {
+        switch locationManager.authorizationStatus {
+        case .authorizedWhenInUse, .authorizedAlways:
+            mapView.camera.centerCoordinate = mapView.userLocation.coordinate
+        default:
+            let tbc = presentingViewController as! SpecialTabBarController
+            let homeNav =  tbc.viewControllers![0] as! UINavigationController
+            let homeExplore = homeNav.topViewController as! ExploreParentViewController
+            mapView.camera = homeExplore.exploreMapVC.mapView.camera
+        }
     }
     
     func handleExistingPin() {

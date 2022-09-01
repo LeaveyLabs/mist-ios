@@ -7,11 +7,12 @@
 
 import Foundation
 
-extension ExploreViewController {
+extension ExploreMapViewController {
 
     func setupWhiteStatusBar() {
         whiteStatusBar.applyMediumShadow()
         whiteStatusBar.translatesAutoresizingMaskIntoConstraints = false
+        whiteStatusBar.isHidden = true
         view.addSubview(whiteStatusBar)
         whiteStatusBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         whiteStatusBar.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
@@ -20,6 +21,7 @@ extension ExploreViewController {
     }
     
     func handleFeedWentUp(duration: Double) {
+        whiteStatusBar.layer.removeAllAnimations()
         self.whiteStatusBar.isHidden = false
         UIView.animate(withDuration: duration, delay: 0, options: .curveLinear) {
             self.whiteStatusBar.alpha = 1

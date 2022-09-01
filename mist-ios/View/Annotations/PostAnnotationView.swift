@@ -121,8 +121,8 @@ extension PostAnnotationView {
     // Called by the viewController, because the delay differs based on if the post was just uploaded or if it was jut clicked on
     func loadPostView(on mapView: MKMapView,
                       withDelay delay: Double,
-                      withPostDelegate postDelegate: ExploreViewController) {
-        swipeDelegate = postDelegate
+                      withPostDelegate postDelegate: PostDelegate) {
+//        swipeDelegate = postDelegate //no longer using swipe delegate for now
 
         postCalloutView = PostView()
         guard let postCalloutView = postCalloutView else {return}
@@ -221,7 +221,7 @@ extension PostAnnotationView: AnnotationViewWithPosts {
     func movePostUpAfterEmojiKeyboardRaised() {
         layoutIfNeeded()
         UIView.animate(withDuration: 0.25) { [weak self] in
-            self?.constraints.first { $0.firstAnchor == self?.postCalloutView?.bottomAnchor }?.constant = -180
+            self?.constraints.first { $0.firstAnchor == self?.postCalloutView?.bottomAnchor }?.constant = -172
             self?.layoutIfNeeded()
         }
     }
