@@ -72,7 +72,7 @@ open class CircularProgressView: UIView {
         let trackRectWithInset = centerSquareGuideBounds.insetBy(dx: trackRectInset, dy: trackRectInset)
         return UIBezierPath(ovalIn: trackRectWithInset)
     }
-    private let progressLayer = CAShapeLayer()
+    let progressLayer = CAShapeLayer()
     private var progressLayerPath: UIBezierPath {
         let path = UIBezierPath()
         let trackRectInset = trackLineWidth / 2

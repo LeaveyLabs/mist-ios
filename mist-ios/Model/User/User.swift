@@ -63,7 +63,9 @@ struct FrontendReadOnlyUser: ReadOnlyUserBackendProperties, SenderType, Hashable
         return first_name + " " + last_name
     }
     let profilePic: UIImage
-    let blurredPic: UIImage
+    var blurredPic: UIImage {
+        return UIImage(named: "silhouette" + String([1,2,3,4,5,6][id % 6]))!
+    }
     var is_verified: Bool {
         return false
     }
@@ -80,7 +82,7 @@ struct FrontendReadOnlyUser: ReadOnlyUserBackendProperties, SenderType, Hashable
         self.picture = readOnlyUser.picture
         
         self.profilePic = profilePic
-        self.blurredPic = blurredPic == nil ? profilePic.blur() : blurredPic!
+//        self.blurredPic = blurredPic == nil ? profilePic.blur() : blurredPic!
     }
     
     //Equatable

@@ -65,7 +65,7 @@ class MistboxManager: NSObject {
     //this configures the: next, current, and last variables
     func configureMistboxTimes() {
         let hour = Calendar.current.component(.hour, from: Date())
-        if hour < 10 {
+        if hour < 20 {
             NEXT_MISTBOX_RELEASE_DATE = Date().tenAMToday
         } else {
             NEXT_MISTBOX_RELEASE_DATE = Date().tenAMTomorrow

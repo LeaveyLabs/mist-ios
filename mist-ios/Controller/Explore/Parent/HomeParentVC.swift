@@ -26,7 +26,7 @@ class HomeExploreParentViewController: ExploreParentViewController {
     func setupActiveLabel() {
         exploreMapVC.trojansActiveView.isHidden = false
         applyShadowOnView(exploreMapVC.trojansActiveView)
-        exploreMapVC.trojansActiveLabel.text = String(1) + " trojans"
+        exploreMapVC.trojansActiveLabel.text = String(1) + " active"
         exploreMapVC.trojansActiveView.layer.cornerRadius = 10
         exploreMapVC.trojansActiveView.layer.cornerCurve = .continuous
     }

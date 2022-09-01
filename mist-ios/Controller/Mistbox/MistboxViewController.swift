@@ -10,19 +10,29 @@ import UIKit
 
 class MistboxViewController: UIViewController {
     
-    @IBOutlet weak var customNavBar: CustomNavBar!
+    enum MistboxLayout: String, CaseIterable {
+        case countdown, welcome, unopened
+    }
     
+    //UI
+    @IBOutlet weak var customNavBar: CustomNavBar!
     @IBOutlet weak var seeMistsView: UIView!
     @IBOutlet weak var mistboxHeaderLabel: UILabel!
     @IBOutlet weak var mistboxCountLabel: UILabel!
     @IBOutlet weak var updateKeywordsView: UIView!
-    
+    @IBOutlet weak var keywordsLabel: UILabel!
     @IBOutlet weak var circularProgressView: CircularProgressView!
     @IBOutlet weak var countdownNumberLabel: UILabel!
     @IBOutlet weak var countdownWordLabel: UILabel!
     @IBOutlet weak var learnMoreButton: UIButton!
+    @IBOutlet weak var graphicImageView: UIImageView!
+    @IBOutlet weak var stackView: UIStackView!
+    @IBOutlet weak var openIcon: UIImageView!
     
-    let graphicImageView = UIImageView(image: UIImage(named: "mistbox-graphic-nowords-1")!)
+    //Other
+    var currentLayout: MistboxLayout = .welcome
+    var isFirstLoad = true
+    var isProgressViewAnimating = true
     
     //MARK: - Lifecycle
 
@@ -30,18 +40,61 @@ class MistboxViewController: UIViewController {
         super.viewDidLoad()
         MistboxManager.shared.configureMistboxTimes()
         setupNavBar()
-        reconfigureLayout()
         setupCountdownTimer()
         commonSetup()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        setupGestureRecognizers()
+        configureCircleLayer()
+        circularProgressView.progressLayer.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
+        updateUI()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        guard isFirstLoad else { return }
+        isFirstLoad = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.startCircleAnimation()
+        }
+    }
+    
+//    private var circleLayer = circularProgressView.progressLayer
+
+    private func configureCircleLayer() {
+//        let radius = min(circularProgressView.bounds.width, circularProgressView.bounds.height) / 2
+//
+//
+//        circularProgressView.progressLayer.
+//        circleLayer.strokeColor = Constants.Color.mistPurple.withAlphaComponent(0.1).cgColor
+//        circleLayer.fillColor = UIColor.clear.cgColor
+//        circleLayer.lineWidth = circularProgressView.trackLineWidth
+//        circularProgressView.layer.addSublayer(circleLayer)
+//
+//        let center = CGPoint(x: circularProgressView.bounds.width/2, y: circularProgressView.bounds.height/2)
+//        let startAngle: CGFloat = -0.25 * 2 * .pi
+//        let endAngle: CGFloat = startAngle + 2 * .pi
+//        circleLayer.path = UIBezierPath(arcCenter: center, radius: radius / 2, startAngle: startAngle, endAngle: endAngle, clockwise: true).cgPath
+//
+//        circleLayer.strokeEnd = 0
+    }
+
+    private func startCircleAnimation() {
+        circularProgressView.progress = MistboxManager.shared.percentUntilNextMistbox //you have to set the final ending value of progress before you start the animation
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        animation.fromValue = 0
+        animation.toValue = MistboxManager.shared.percentUntilNextMistbox
+        animation.duration = 1.5
+        circularProgressView.progressLayer.isHidden = false
+        circularProgressView.progressLayer.add(animation, forKey: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.isProgressViewAnimating = false
+        }
     }
     
     //MARK: - Initial setup
@@ -63,20 +116,14 @@ class MistboxViewController: UIViewController {
         updateKeywordsView.subviews.forEach { view in
             view.layer.shadowOpacity = 0
         }
-        
+        updateKeywordCount(to: UserService.singleton.getKeywords().count)
+    }
+    
+    func setupGestureRecognizers() {
         let keywordsTap = UITapGestureRecognizer(target: self, action: #selector(didPressKeywordsButton))
         updateKeywordsView.addGestureRecognizer(keywordsTap)
         let mistsTap = UITapGestureRecognizer(target: self, action: #selector(didPressMistboxButton))
         seeMistsView.addGestureRecognizer(mistsTap)
-    }
-    
-    @MainActor
-    func reconfigureLayout() {
-        if MistboxManager.shared.hasUserActivatedMistbox {
-            setupMistboxLayout()
-        } else {
-            setupWelcomeLayout()
-        }
     }
     
     func setupNavBar() {
@@ -85,66 +132,51 @@ class MistboxViewController: UIViewController {
         customNavBar.configure(title: "mistbox", leftItems: [.title], rightItems: [.profile], delegate: self)
     }
     
-    func setupWelcomeLayout() {
-        circularProgressView.isHidden = true
-        updateKeywordsView.isHidden = true
-        mistboxHeaderLabel.isHidden = true
-        mistboxCountLabel.text = "setup your keywords to start receiving a daily mistbox"
-        learnMoreButton.setTitle("what's a mistbox?", for: .normal)
-        setupGraphicImageView()
-    }
-    
-    func setupGraphicImageView() {
-        view.addSubview(graphicImageView)
-        graphicImageView.translatesAutoresizingMaskIntoConstraints = false
-        graphicImageView.contentMode = .scaleAspectFit
-        NSLayoutConstraint.activate([
-            graphicImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            graphicImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
-            graphicImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
-            graphicImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
-        ])
-    }
-    
-    func setupMistboxLayout() {
-        circularProgressView.isHidden = false
-        updateKeywordsView.isHidden = false
-        mistboxHeaderLabel.isHidden = false
-        updateCircularProgressViewAndLabels()
-        learnMoreButton.setTitle("until your new mistbox", for: .normal)
-        graphicImageView.isHidden = true
-    }
-    
-    //MARK: - Countdown updates
+    //MARK: - Countdown
     
     func setupCountdownTimer() {
         Task {
             while true {
                 DispatchQueue.main.async {
-                    self.updateCircularProgressViewAndLabels()
+                    self.updateUI()
                 }
                 try await Task.sleep(nanoseconds: NSEC_PER_SEC * 1)
             }
         }
     }
     
-    func updateCircularProgressViewAndLabels() {
-        MistboxManager.shared.configureMistboxTimes()
-        mistboxHeaderLabel.text = MistboxManager.shared.currentMistboxDate
-        mistboxCountLabel.text = String(PostService.singleton.getMistboxPosts().count) + " mists"
+    @MainActor
+    func updateUI() {
+        MistboxManager.shared.configureMistboxTimes() //just to make sure we have the right time precisely before updating the UI
+        setupCountdownLayout()
+        updateProgressBarAndCountdownLabel()
+//        switch currentLayout {
+//        case .countdown:
+//            if !MistboxManager.shared.hasUserActivatedMistbox {
+//                setupWelcomeLayout()
+//            } else if MistboxManager.shared.hasUnopenedMistbox {
+//                setupUnopenedLayout()
+//            } else {
+//                updateProgressBarAndCountdownLabel()
+//            }
+//        case .welcome:
+//            if MistboxManager.shared.hasUserActivatedMistbox {
+//                setupCountdownLayout()
+//                updateProgressBarAndCountdownLabel()
+//            }
+//        case .unopened:
+//            if !MistboxManager.shared.hasUnopenedMistbox {
+//                setupCountdownLayout()
+//                updateProgressBarAndCountdownLabel()
+//            }
+//        }
+    }
+    
+    func updateProgressBarAndCountdownLabel() {
         
-        if MistboxManager.shared.hasUnopenedMistbox {
-            setupForReadyMistbox()
-        } else {
-            setupForCountdown()
-        }
-    }
-    
-    func setupForReadyMistbox() {
-        //TODO: "full bar with OMG YOUR MISTBOX IS READYYYY"
-    }
-    
-    func setupForCountdown() {
+        //TODO: make sure that in MistboxManager, we handle using the previous vs the current mistbox right at 10am
+            //both in "timeunitlnextmistbox", "percent", "currentdate" and "getmistboxcount"
+        
         let timeUntilMistbox = MistboxManager.shared.timeUntilNextMistbox
         if timeUntilMistbox.hours > 0 {
             countdownWordLabel.text = "hours"
@@ -156,26 +188,102 @@ class MistboxViewController: UIViewController {
             countdownWordLabel.text = "seconds"
             countdownNumberLabel.text = String(timeUntilMistbox.seconds)
         }
-        circularProgressView.progress = MistboxManager.shared.percentUntilNextMistbox
+        
+        if !isProgressViewAnimating {
+            circularProgressView.progress = MistboxManager.shared.percentUntilNextMistbox
+        }
+    }
+    
+    func updateKeywordCount(to newKeywordCount: Int) {
+        keywordsLabel.text = "keywords: " + String(newKeywordCount) + "/5"
+    }
+    
+    //MARK: - Layouts
+        
+    func setupWelcomeLayout() {
+        currentLayout = .welcome
+        
+        circularProgressView.isHidden = true
+        updateKeywordsView.isHidden = true
+        mistboxHeaderLabel.isHidden = true
+        learnMoreButton.isHidden = false
+        learnMoreButton.setTitle("what's a mistbox?", for: .normal)
+        graphicImageView.isHidden = true
+        graphicImageView.isHidden = false
+        graphicImageView.image = UIImage(named: "mistbox-graphic-nowords-1")!
+        seeMistsView.backgroundColor = .white
+        openIcon.tintColor = .lightGray
+        mistboxCountLabel.textColor = Constants.Color.mistBlack
+        mistboxHeaderLabel.textColor =  Constants.Color.mistBlack
+        
+        mistboxCountLabel.text = "setup your keywords to start receiving a daily mistbox"
+    }
+    
+    func setupCountdownLayout() {
+        currentLayout = .countdown
+        
+        circularProgressView.isHidden = false
+        updateKeywordsView.isHidden = false
+        mistboxHeaderLabel.isHidden = false
+        learnMoreButton.isHidden = false
+        learnMoreButton.setTitle("until your new mistbox", for: .normal)
+        graphicImageView.isHidden = true
+        seeMistsView.backgroundColor = .white
+        openIcon.tintColor = .lightGray
+        mistboxCountLabel.textColor = Constants.Color.mistBlack
+        mistboxHeaderLabel.textColor =  Constants.Color.mistBlack
+        
+        mistboxHeaderLabel.text = MistboxManager.shared.currentMistboxDate
+        mistboxCountLabel.text = String(PostService.singleton.getMistboxPosts().count) + " mists"
+    }
+    
+    func setupUnopenedLayout() {
+        currentLayout = .unopened
+        
+        circularProgressView.isHidden = true
+        updateKeywordsView.isHidden = true
+        mistboxHeaderLabel.isHidden = false
+        learnMoreButton.isHidden = true
+        graphicImageView.isHidden = false
+        graphicImageView.image = UIImage(named: "auth-graphic-text-3")!
+        seeMistsView.backgroundColor = .white
+        openIcon.tintColor = .lightGray
+        mistboxCountLabel.textColor = Constants.Color.mistBlack
+        mistboxHeaderLabel.textColor =  Constants.Color.mistBlack
+//        seeMistsView.backgroundColor = Constants.Color.mistLilac
+//        openIcon.tintColor = .white
+//        mistboxCountLabel.textColor = .white
+//        mistboxHeaderLabel.textColor = .white
+        
+        mistboxHeaderLabel.text = MistboxManager.shared.currentMistboxDate
+        mistboxCountLabel.text = String(PostService.singleton.getMistboxPosts().count) + " unopened mists"
     }
     
     //MARK: - UserInteraction
     
     @objc func didPressMistboxButton() {
-        guard MistboxManager.shared.hasUserActivatedMistbox else {
-            didPressKeywordsButton()
-            return
+        switch currentLayout {
+        case .countdown, .unopened:
+            guard let mistboxExplore = CustomExploreParentViewController.create(setting: .mistbox) else { return }
+            navigationController?.pushViewController(mistboxExplore, animated: true)
+            MistboxManager.shared.handleOpenMistbox()
+        case .welcome:
+            didPressKeywordsButton() //because the MistboxButton acts as the KeywordsButton
         }
-        guard let mistboxExplore = CustomExploreParentViewController.create(setting: .mistbox) else { return }
-        navigationController?.pushViewController(mistboxExplore, animated: true)
-        MistboxManager.shared.handleOpenMistbox()
     }
     
     @objc func didPressKeywordsButton() {
-        if MistboxManager.shared.hasUserActivatedMistbox {
+        switch currentLayout {
+        case .countdown:
             sendToKeywordsVC()
-            return
+        case .welcome:
+            askForPermissionsAndSendToKeywordsVC()
+        case .unopened:
+            break //keywords button should be hidden while in .unopened
         }
+    }
+    
+    func askForPermissionsAndSendToKeywordsVC() {
         let center  = UNUserNotificationCenter.current()
 //        center.delegate = self
         center.getNotificationSettings(completionHandler: { [self] (settings) in
@@ -202,17 +310,11 @@ class MistboxViewController: UIViewController {
     }
     
     func sendToKeywordsVC() {
-//        DispatchQueue.main.async {
-//            let asdf = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.NewPost)
-//                self.navigationController?.pushViewController(asdf, animated: true)
-//        }
         DispatchQueue.main.async {
-            let keywordsVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterKeywords)
-            self.navigationController?.pushViewController(keywordsVC, animated: true, completion: {
-                DispatchQueue.main.async {
-                    self.reconfigureLayout()
-                }
-            })
+            let keywordsVC = EnterKeywordsViewController.create { newKeywordCount in
+                self.updateKeywordCount(to: newKeywordCount)
+            }
+            self.navigationController?.pushViewController(keywordsVC, animated: true)
         }
     }
 

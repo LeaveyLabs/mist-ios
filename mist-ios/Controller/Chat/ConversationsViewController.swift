@@ -11,6 +11,7 @@ class ConversationsViewController: UIViewController, CustomNavBarDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     var customNavBar = CustomNavBar()
+    @IBOutlet weak var noConvosStackView: UIStackView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +23,8 @@ class ConversationsViewController: UIViewController, CustomNavBarDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        tableView.bounces = ConversationService.singleton.getCount() > 0 ? true : false
+        noConvosStackView.isHidden = ConversationService.singleton.getCount() > 0
     }
     
     //MARK: - Setup
@@ -63,15 +66,6 @@ extension ConversationsViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         1
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if ConversationService.singleton.getCount() == 0 {
-            return tableView.frame.height / 4
-        } else {
-            tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
-            return 0 //for some reason, tableViews cant have a default header shorter than like 20 pixels. so if you return 10, it gets minned to 20
-        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

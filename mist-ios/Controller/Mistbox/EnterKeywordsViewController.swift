@@ -9,9 +9,19 @@ import Foundation
 
 class EnterKeywordsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate {
     
+    typealias EnterKeywordsCallback = (Int) -> Void
+    
     @IBOutlet weak var customNavBar: CustomNavBar!
     @IBOutlet weak var tableView: UITableView!
     var localTags: [String] = UserService.singleton.getKeywords()
+    
+    var callback: EnterKeywordsCallback!
+    
+    class func create(callback: @escaping EnterKeywordsCallback) -> EnterKeywordsViewController {
+        let keywordsVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterKeywords) as! EnterKeywordsViewController
+        keywordsVC.callback = callback
+        return keywordsVC
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +30,8 @@ class EnterKeywordsViewController: UIViewController, UITableViewDataSource, UITa
         tableView.allowsSelection = false
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
-        
+        navigationController?.fullscreenInteractivePopGestureRecognizer(delegate: self)
+
         customNavBar.configure(title: "keywords", leftItems: [.back, .title], rightItems: [], delegate: self)
         tableView.register(TagsViewCell.self, forCellReuseIdentifier: String(describing: TagsViewCell.self))
     }
@@ -33,8 +44,13 @@ class EnterKeywordsViewController: UIViewController, UITableViewDataSource, UITa
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        didPressSaveButton() //could move this to a save button instead... oh well
         navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        didPressSaveButton() //could move this to a save button instead... oh well
+        callback(localTags.count)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

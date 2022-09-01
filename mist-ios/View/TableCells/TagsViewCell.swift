@@ -15,8 +15,10 @@ protocol TagsViewDelegate {
 class TagsViewCell: UITableViewCell {
     
     static var RandomPlacehodler: String {
-        return ["tall", "puppy", "dulce", "jansport", "tennis"].randomElement()!
+        return ["tall", "puppy", "starbucks", "jansport", "tennis", "brunette", "blonde", "carhartt", "mccarthy", "dulce", "doheny", "pardee", "csci103", "writ150", "gold", "cat", "sunglasses", "beanie", "football", "basketball", ].randomElement()!
     }
+    //we should have a "suggestions" area
+
     static var MaxTagCount = 5
     
     var delegate: TagsViewDelegate!
@@ -76,14 +78,16 @@ class TagsViewCell: UITableViewCell {
         tagsField.contentInset = UIEdgeInsets(top: 20, left: 15, bottom: 15, right: 15)
         tagsField.layoutMargins = UIEdgeInsets(top: 4, left: 12, bottom: 2, right: 10) //the size of the color behind the tag
         tagsField.font = UIFont(name: Constants.Font.Medium, size: 22) //when the font is larger than this, the bottoms of g/j/q get cut off...
-        tagsField.placeholderFont = UIFont(name: Constants.Font.Medium, size: 25)
+        tagsField.placeholderFont = UIFont(name: Constants.Font.Medium, size: 22)
         tagsField.placeholder = TagsViewCell.RandomPlacehodler
         tagsField.spaceBetweenLines = 25
         tagsField.spaceBetweenTags = 10
         
-        tagsField.tintColor = Constants.Color.mistLilac
-        tagsField.textColor = .white
-        tagsField.selectedColor = Constants.Color.mistPurple
+        tagsField.tintColor = Constants.Color.mistPink
+        tagsField.textField.tintColor = Constants.Color.mistLilac
+        tagsField.textColor = Constants.Color.mistBlack
+        //YOOO Shadow behind the tag?
+        tagsField.selectedColor = Constants.Color.mistLilac
         tagsField.selectedTextColor = .white
         
         tagsField.isDelimiterVisible = false
@@ -125,11 +129,11 @@ class TagsViewCell: UITableViewCell {
         tagsField.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(tagsField)
         NSLayoutConstraint.activate([
-            tagsField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
-            tagsField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            tagsField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
-            contentView.bottomAnchor.constraint(equalTo: tagsField.bottomAnchor, constant: 15),
-            tagsField.heightAnchor.constraint(greaterThanOrEqualToConstant: 150)
+            tagsField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 17),
+            tagsField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 17),
+            tagsField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -17),
+            contentView.bottomAnchor.constraint(equalTo: tagsField.bottomAnchor, constant: 17),
+            tagsField.heightAnchor.constraint(greaterThanOrEqualToConstant: 200)
         ])
         
     }
@@ -138,6 +142,10 @@ class TagsViewCell: UITableViewCell {
         delegate?.didUpdateTags(tags: self.keywords) //must use delegate? because it might be optional
         updateTagsCount()
         tagsField.placeholder = self.keywords.count < TagsViewCell.MaxTagCount ? TagsViewCell.RandomPlacehodler : ""
+        tagsField.tagViews.forEach { view in
+            view.applyLightMediumShadow()
+            view.cornerRadius = 8
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
