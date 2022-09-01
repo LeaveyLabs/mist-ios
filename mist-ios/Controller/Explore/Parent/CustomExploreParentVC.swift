@@ -29,6 +29,7 @@ class CustomExploreParentViewController: ExploreParentViewController {
         super.viewDidLoad()
         setupTitleLabel()
         setupBackButton()
+        navigationController?.fullscreenInteractivePopGestureRecognizer(delegate: self)
         renderNewPostsOnFeedAndMap(withType: .newSearch, customSetting: setting) //using newSearch in order to force a relocation of the map
     }
     

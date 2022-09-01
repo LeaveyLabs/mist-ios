@@ -109,7 +109,11 @@ extension ExploreMapViewController {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if view.annotation is MKUserLocation {
             mapView.deselectAnnotation(view.annotation, animated: false)
-            mapView.userLocation.title = "Hey cutie"
+            slowFlyTo(lat: view.annotation!.coordinate.latitude,
+                      long: view.annotation!.coordinate.longitude,
+                      incrementalZoom: false,
+                      withDuration: cameraAnimationDuration,
+                      completion: { _ in })
         }
         selectedAnnotationView = view as? AnnotationViewWithPosts
         mapView.isZoomEnabled = true // AnnotationQuickSelect: 3 of 3, just in case
