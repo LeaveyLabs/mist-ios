@@ -141,6 +141,13 @@ class UserAPI {
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
     }
     
+    static func fetchUsers() async throws -> [ReadOnlyUser] {
+        let url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)"
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterUserErrors(data: data, response: response)
+        return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
+    }
+    
     static func fetchUsersByUserId(userId:Int) async throws -> ReadOnlyUser {
         let url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(userId)/"
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
