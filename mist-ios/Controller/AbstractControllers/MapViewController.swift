@@ -35,10 +35,11 @@ class MapViewController: UIViewController {
     let locationManager = CLLocationManager()
     
     // Camera
+    static let STARTING_ZOOM_DISTANCE: Double = 3000
     static let MIN_CAMERA_DISTANCE: Double = 500
     static let MAX_CAMERA_PITCH: Double = 20
 //    static let MIN_CAMERA_PITCH: Double = 0 //not implemented yet
-    static let ANNOTATION_ZOOM_THRESHOLD: Double = 2000
+    static let ANNOTATION_ZOOM_THRESHOLD: Double = STARTING_ZOOM_DISTANCE + 200
     let minSpanDelta = 0.02
     var isCameraFlyingOutAndIn: Bool = false
     var isCameraFlying: Bool = false {
@@ -119,7 +120,7 @@ class MapViewController: UIViewController {
         registerMapAnnotationViews()
         centerMapOnUSC()
         mapView.camera = MKMapCamera(lookingAtCenter: mapView.centerCoordinate,
-                                     fromDistance: 4000,
+                                     fromDistance: MapViewController.STARTING_ZOOM_DISTANCE,
                                      pitch: MapViewController.MAX_CAMERA_PITCH,
                                      heading: mapView.camera.heading)
         isCameraFlying = false

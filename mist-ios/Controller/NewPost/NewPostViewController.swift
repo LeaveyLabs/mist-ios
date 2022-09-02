@@ -247,10 +247,11 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         
         finishAnimationProgress() {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                homeParent.overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: true) {
-                    self.dismiss(animated: true) {
-                        homeParent.handleNewlySubmittedPost()
-                   }
+                homeParent.isHandlingNewPost = true
+//                homeParent.exploreMapVC.annotationSelectionType = .submission
+//                homeParent.renderNewPostsOnFeedAndMap(withType: .newPost)
+                self.dismiss(animated: true) {
+                    homeParent.handleNewlySubmittedPost()
                 }
             })
         }

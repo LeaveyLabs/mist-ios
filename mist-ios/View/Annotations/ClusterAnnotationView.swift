@@ -23,9 +23,9 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
     var collectionView: PostCollectionView?
     var postDelegate: PostDelegate?
     lazy var MAP_VIEW_WIDTH: Double = Double(mapView?.bounds.width ?? 350)
-    lazy var POST_VIEW_WIDTH: Double = MAP_VIEW_WIDTH * 0.83
+    lazy var POST_VIEW_WIDTH: Double = MAP_VIEW_WIDTH * 0.5 + 100
     lazy var POST_VIEW_MARGIN: Double = (MAP_VIEW_WIDTH - POST_VIEW_WIDTH) / 2
-    lazy var POST_VIEW_MAX_HEIGHT: Double = (((mapView?.frame.height ?? 500) * 0.7) - 90.0)
+    lazy var POST_VIEW_MAX_HEIGHT: Double = (((mapView?.frame.height ?? 500) * 0.75) - 110.0)
 
     var mapView: MKMapView? {
         var view = superview
@@ -40,6 +40,22 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
         return (annotation as? MKClusterAnnotation)?.memberAnnotations.count
     }
     
+    var currentlyVisiblePostIndex: Int?
+    
+    var sortedMemberPosts: [Post] = []
+    func sortMemberPosts(from memberAnnotations: [MKAnnotation]) -> [Post] {
+        var posts = [Post]()
+        for explorePost in PostService.singleton.getExplorePosts() {
+            for annotation in memberAnnotations {
+                guard let annotationPost = (annotation as? PostAnnotation)?.post else { continue }
+                if annotationPost == explorePost {
+                    posts.append(annotationPost)
+                }
+            }
+        }
+        return posts
+    }
+    
     override var annotation: MKAnnotation? {
         willSet {
             guard let newCluster = newValue as? MKClusterAnnotation else {
@@ -48,6 +64,10 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
             canShowCallout = false
             setupMarkerTintColor(newCluster)
             displayPriority = .required
+            currentlyVisiblePostIndex = nil
+            Task {
+                sortedMemberPosts = sortMemberPosts(from: newCluster.memberAnnotations)
+            }
         }
     }
     
@@ -169,19 +189,29 @@ extension ClusterAnnotationView {
         // configure layout
         centeredCollectionViewFlowLayout.itemSize = CGSize(
             width: POST_VIEW_WIDTH,
-            height: POST_VIEW_MAX_HEIGHT
+            height: POST_VIEW_MAX_HEIGHT - 20
         )
-        centeredCollectionViewFlowLayout.minimumLineSpacing = 20
+        centeredCollectionViewFlowLayout.minimumLineSpacing = 16
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
-                
+        
+        //SHOOOOTTTT: okay i got an error for constraining collectionView's width to the mapview because collection view (and its parent) werent a part of the mapview yet. so the annotation was clicked on too soon before it was even properly added to the map view
         NSLayoutConstraint.activate([
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -70),
-            collectionView.widthAnchor.constraint(equalTo: mapView.widthAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -60),
+            collectionView.widthAnchor.constraint(equalToConstant: MAP_VIEW_WIDTH),
             collectionView.heightAnchor.constraint(equalToConstant: POST_VIEW_MAX_HEIGHT + 15), //15 for the bottom arrow
             collectionView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
         ])
         
+        if let previouslyVisiblePostIndex = currentlyVisiblePostIndex {
+            print(previouslyVisiblePostIndex)
+            collectionView.setNeedsLayout()
+            collectionView.layoutIfNeeded()
+            let index = IndexPath(item: previouslyVisiblePostIndex, section: 0)
+            collectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
+        } else {
+            currentlyVisiblePostIndex = 0
+        }
         collectionView.alpha = 0
         collectionView.isHidden = true
         collectionView.fadeIn(duration: 0.1, delay: 0)
@@ -203,17 +233,27 @@ extension ClusterAnnotationView: AnnotationViewWithPosts {
     
     func movePostUpAfterEmojiKeyboardRaised() {
         layoutIfNeeded()
-        UIView.animate(withDuration: 0.25) { [weak self] in
-            self?.constraints.first { $0.firstAnchor == self?.collectionView?.bottomAnchor }?.constant = -152
-            self?.layoutIfNeeded()
+        UIView.animate(withDuration: 0.25) { [self] in
+            guard let index = currentlyVisiblePostIndex else { return }
+            let currentlyVisiblePostView = collectionView?.cellForItem(at: IndexPath(item: index, section: 0)) as! ClusterCarouselCell
+            currentlyVisiblePostView.bottomConstraint.constant = -80
+            layoutIfNeeded()
+//                constraints.first { $0.firstAnchor == collectionView?.bottomAnchor }?.constant = -152
+//                layoutIfNeeded()
         }
     }
         
     func movePostBackDownAfterEmojiKeyboardDismissed() {
         layoutIfNeeded()
-        UIView.animate(withDuration: 0.25) { [weak self] in
-            self?.constraints.first { $0.firstAnchor == self?.collectionView?.bottomAnchor }?.constant = -70
-            self?.layoutIfNeeded()
+        UIView.animate(withDuration: 0.25) { [self] in
+            guard let index = currentlyVisiblePostIndex else { return }
+            let currentlyVisiblePostView = collectionView?.cellForItem(at: IndexPath(item: index, section: 0)) as! ClusterCarouselCell
+            currentlyVisiblePostView.bottomConstraint.constant = -15
+            layoutIfNeeded()
+            
+            //old method
+//            self?.constraints.first { $0.firstAnchor == self?.collectionView?.bottomAnchor }?.constant = -70
+//            self?.layoutIfNeeded()
         }
     }
     
@@ -251,6 +291,7 @@ extension ClusterAnnotationView { //: UIGestureRecognizerDelegate {
     
 }
 
+//MARK: - CollectionViewDelegate
 
 //These are not being called for some reason
 extension ClusterAnnotationView: UICollectionViewDelegate {
@@ -274,23 +315,27 @@ extension ClusterAnnotationView: UICollectionViewDelegate {
         
 }
 
+//MARK: - CollectionViewDataSource
+
 extension ClusterAnnotationView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let clusterAnnotation = annotation as? MKClusterAnnotation else { return 0 }
-        return clusterAnnotation.memberAnnotations.count
+//        guard let clusterAnnotation = annotation as? MKClusterAnnotation else { return 0 }
+//        return clusterAnnotation.memberAnnotations.count
+        return sortedMemberPosts.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ClusterCarouselCell.self), for: indexPath) as! ClusterCarouselCell
         
         guard
-            let clusterAnnotation = annotation as? MKClusterAnnotation,
-            let postAnnotation = clusterAnnotation.memberAnnotations[indexPath.row] as? PostAnnotation,
+//            let clusterAnnotation = annotation as? MKClusterAnnotation,
+//            let postAnnotation = clusterAnnotation.memberAnnotations[indexPath.row] as? PostAnnotation,
             let postDelegate = postDelegate
         else { return cell }
         
-        cell.configureForPost(post: postAnnotation.post, nestedPostViewDelegate: postDelegate, bubbleTrianglePosition: .bottom)
+//        cell.configureForPost(post: postAnnotation.post, nestedPostViewDelegate: postDelegate, bubbleTrianglePosition: .bottom)
+        cell.configureForPost(post: sortedMemberPosts[indexPath.item], nestedPostViewDelegate: postDelegate, bubbleTrianglePosition: .bottom)
         
         //when the post is tapped, we want to FIRST make sure it's the currently centered one
         
@@ -299,9 +344,11 @@ extension ClusterAnnotationView: UICollectionViewDataSource {
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         print("Did end decelerating. Current centered index: \(String(describing: centeredCollectionViewFlowLayout.currentCenteredPage ?? nil))")
+        currentlyVisiblePostIndex = centeredCollectionViewFlowLayout.currentCenteredPage
     }
 
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         print("Did end animation. Current centered index: \(String(describing: centeredCollectionViewFlowLayout.currentCenteredPage ?? nil))")
+        currentlyVisiblePostIndex = centeredCollectionViewFlowLayout.currentCenteredPage
     }
 }

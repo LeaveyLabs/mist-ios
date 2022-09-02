@@ -13,6 +13,7 @@ class HomeExploreParentViewController: ExploreParentViewController {
     //MARK: - Properties
     
     var firstAppearance = true
+    var isHandlingNewPost = true
     
     //MARK: - Lifecycle
     
@@ -46,12 +47,22 @@ class HomeExploreParentViewController: ExploreParentViewController {
             }
         }
         
-        UIView.animate(withDuration: 1, delay: 7, options: .curveLinear) {
-            self.exploreMapVC.trojansActiveView.alpha = 0
-        } completion: { completed in
-            self.exploreMapVC.trojansActiveView.isHidden = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 7) {
+            UIView.animate(withDuration: 1, delay: 0, options: .curveLinear) {
+                self.exploreMapVC.trojansActiveView.alpha = 0
+            } completion: { completed in
+                self.exploreMapVC.trojansActiveView.isHidden = true
+            }
         }
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if isHandlingNewPost {
+            isHandlingNewPost = false
+            overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: false)
+        }
     }
     
 }
@@ -98,19 +109,27 @@ extension HomeExploreParentViewController {
         exploreFeedVC.feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         
         //Map
-        exploreMapVC.slowFlyTo(lat: newPostAnnotation.coordinate.latitude + exploreMapVC.latitudeOffset,
-                  long: newPostAnnotation.coordinate.longitude,
-                  incrementalZoom: false,
-                               withDuration: exploreMapVC.cameraAnimationDuration+2,
-                  completion: { [self] _ in
-            let newPostClusteredAnnotation = exploreMapVC.mapView.annotations.first(where: { annotation in
-                guard let cluster = annotation as? MKClusterAnnotation,
-                      cluster.memberAnnotations.contains(where: { $0.title == newPostAnnotation.title })
-                else { return false }
-                return true
-            })
-            exploreMapVC.mapView.selectAnnotation(newPostClusteredAnnotation ?? newPostAnnotation, animated: true)
-        })
+        exploreMapVC.slowFlyWithoutZoomTo(lat: newPostAnnotation.coordinate.latitude, long: newPostAnnotation.coordinate.longitude, withDuration: exploreMapVC.cameraAnimationDuration + 2) { completed in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [self] in //adding a delay because once when i flew really far away to add a cluster, i got the error "annotation has not been added to the map yet. to solve this: zoom the map out far enough before loading exploreMapVC so that you don't have to ZIPPP across the map
+                
+                let greatestCluster = greatestClusterContaining(newPostAnnotation)
+                exploreMapVC.mapView.selectAnnotation(greatestCluster ?? newPostAnnotation, animated: true)
+            }
+        }
+    }
+    
+    func greatestClusterContaining(_ postAnnotation: PostAnnotation) -> MKClusterAnnotation? {
+        var candidateClusters = [MKClusterAnnotation]()
+        for annotation in exploreMapVC.mapView.annotations {
+            guard let cluster = annotation as? MKClusterAnnotation,
+                  cluster.memberAnnotations.contains(where: {
+                      ($0 as? PostAnnotation)?.post == postAnnotation.post })
+            else {
+                continue
+            }
+            candidateClusters.append(cluster)
+        }
+        return candidateClusters.sorted(by: { $0.memberAnnotations.count > $1.memberAnnotations.count }).first
     }
     
 }

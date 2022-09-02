@@ -10,16 +10,18 @@ import Foundation
 class ClusterCarouselCell: UICollectionViewCell {
     
     let postView = PostView()
+    var bottomConstraint: NSLayoutConstraint!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         postView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(postView)
+        bottomConstraint = postView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15)
         NSLayoutConstraint.activate([
             postView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: 0),
             postView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0),
             postView.heightAnchor.constraint(lessThanOrEqualTo: contentView.heightAnchor),
-            postView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15)
+            bottomConstraint
         ])
     }
 

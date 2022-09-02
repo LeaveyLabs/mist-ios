@@ -107,6 +107,7 @@ extension ExploreMapViewController {
 extension ExploreMapViewController {
         
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        print("DID SELECT")
         if view.annotation is MKUserLocation {
             mapView.deselectAnnotation(view.annotation, animated: false)
             slowFlyTo(lat: view.annotation!.coordinate.latitude,
@@ -146,7 +147,7 @@ extension ExploreMapViewController {
 //            }
         case .submission:
             if let clusterView = view as? ClusterAnnotationView {
-                handleClusterAnnotationSelection(clusterView.annotation as! MKClusterAnnotation, clusterView: clusterView)
+                clusterView.loadCollectionView(on: self.mapView, withPostDelegate: self.postDelegate)
             } else if let postAnnotationView = view as? PostAnnotationView {
                 postAnnotationView.loadPostView(on: mapView,
                                                 withDelay: 0,

@@ -40,10 +40,16 @@ class ExploreMapViewController: MapViewController {
                     self.zoomStackView.alpha = shouldZoomBeHidden ? 0 : 1
                     self.exploreButtonStackView.alpha = shouldZoomBeHidden ? 0 : 1
                     self.trackingDimensionStackView.alpha = shouldZoomBeHidden ? 0 : 1
+                    if shouldZoomBeHidden {
+                        self.trojansActiveView.alpha = 0
+                    }
                 } completion: { completed in
                     self.zoomStackView.isHidden = shouldZoomBeHidden
                     self.exploreButtonStackView.isHidden = shouldZoomBeHidden
                     self.trackingDimensionStackView.isHidden = shouldZoomBeHidden
+                    if shouldZoomBeHidden {
+                        self.trojansActiveView.isHidden = true
+                    }
                 }
             }
 
@@ -81,7 +87,7 @@ extension ExploreMapViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        latitudeOffset = 0.0015
+        latitudeOffset = 0.00133
         setupCustomTapGestureRecognizerOnMap()
         setupWhiteStatusBar()
         setupBlurredStatusBar()
@@ -91,7 +97,7 @@ extension ExploreMapViewController {
 
         if let userLocation = locationManager.location {
             mapView.camera.centerCoordinate = userLocation.coordinate
-            mapView.camera.centerCoordinateDistance = 3000
+            mapView.camera.centerCoordinateDistance = MapViewController.STARTING_ZOOM_DISTANCE
             mapView.camera.pitch = MapViewController.MAX_CAMERA_PITCH
         }
     }
