@@ -18,6 +18,7 @@ class Env {
     static let TRANSITION_TO_AUTH_DURATION: Double = 1
     static let TRANSITION_TO_HOME_DURATION: Double = 1.5
     static let BASE_URL: String = "https://mist-backend-test.herokuapp.com/"
+    static let AI_URL: String = "https://mist-ai-test.herokuapp.com/"
     static let CHAT_URL: String = "wss://mist-chat-test.herokuapp.com/"
     static let Timeout_Duration: Double = 50
     #elseif DEBUG
@@ -25,6 +26,7 @@ class Env {
     static let TRANSITION_TO_AUTH_DURATION: Double = 1
     static let TRANSITION_TO_HOME_DURATION: Double = 1.5
     static let BASE_URL: String = "https://mist-backend-test.herokuapp.com/"
+    static let AI_URL: String = "https://mist-ai-test.herokuapp.com/"
     static let CHAT_URL: String = "wss://mist-chat-test.herokuapp.com/"
     static let Timeout_Duration: Double = 50
 //    #if DEBUG
@@ -34,6 +36,7 @@ class Env {
     static let TRANSITION_TO_AUTH_DURATION: Double = 1
     static let TRANSITION_TO_HOME_DURATION: Double = 1.5
     static let BASE_URL: String = "https://mist-backend.herokuapp.com/"
+    static let AI_URL: String = "https://mist-ai-production.herokuapp.com/"
     static let CHAT_URL: String = "wss://mist-chat.herokuapp.com/"
     static let Timeout_Duration: Double = 10
     #endif

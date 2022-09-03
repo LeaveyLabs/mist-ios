@@ -15,6 +15,11 @@ struct PostError: Codable {
     let detail: [String]?
 }
 
+struct Mistbox: Codable {
+    let posts: [Post]
+    let timestamp: Double
+}
+
 class PostAPI {
     static let PATH_TO_POST_MODEL = "api/posts/"
     static let PATH_TO_FEATURED_POSTS = "api/featured-posts/"
@@ -23,6 +28,7 @@ class PostAPI {
     static let PATH_TO_FAVORITED_POSTS = "api/favorited-posts/"
     static let PATH_TO_SUBMITTED_POSTS = "api/submitted-posts/"
     static let PATH_TO_KEYWORD_POSTS = "api/keyword-posts/"
+    static let PATH_TO_MISTBOX_POSTS = "api/mistbox-posts/"
     static let PATH_TO_TAGGED_POSTS = "api/tagged-posts/"
     static let IDS_PARAM = "ids"
     static let WORDS_PARAM = "words"
@@ -134,6 +140,18 @@ class PostAPI {
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
+    static func fetchMistboxPosts() async throws -> [Post] {
+        let url = "\(Env.BASE_URL)\(PATH_TO_MISTBOX_POSTS)"
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterPostErrors(data: data, response: response)
+        let mistboxes = try JSONDecoder().decode([Mistbox].self, from: data)
+        let mistbox = mistboxes.first
+        if let posts = mistbox?.posts {
+            return posts
+        }
+        return []
     }
     
     static func fetchTaggedPosts() async throws -> [Post] {

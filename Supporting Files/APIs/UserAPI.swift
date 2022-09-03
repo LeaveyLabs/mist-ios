@@ -226,7 +226,7 @@ class UserAPI {
                         multipartFormData.append(profilePictureData, withName: "picture", fileName: "picture.png", mimeType: "image/png");
                         multipartFormData.append(confirmPictureData, withName: "confirm_picture", fileName: "confirm_picture.png", mimeType: "image/png")
                     },
-                to: "\(Env.BASE_URL)\(PATH_TO_VERIFY_PROFILE_PICTURE)",
+                to: "\(Env.AI_URL)\(PATH_TO_VERIFY_PROFILE_PICTURE)",
                 method: .patch,
                 headers: AUTH_HEADERS
             )
