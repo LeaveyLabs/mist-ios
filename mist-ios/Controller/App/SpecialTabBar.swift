@@ -8,8 +8,8 @@
 import UIKit
 
 class SpecialTabBar: UITabBar {
-
-    public lazy var middleButton: UIButton! = {
+    
+    public lazy var middleButton: SpringButton! = {
         let middleButton = SpringButton(configuration: UIButton.Configuration.plain())
         middleButton.setImage(UIImage(named: "submitbutton")!, for: .normal)
         middleButton.translatesAutoresizingMaskIntoConstraints = false
@@ -20,19 +20,23 @@ class SpecialTabBar: UITabBar {
 //        middleButton.imageView?.contentMode = .scaleAspectFit
         middleButton.addTarget(self, action: #selector(middleButtonAction), for: .touchUpInside)
         addSubview(middleButton)
-                
-        middleButton.animation = "swing"
-        middleButton.duration = 7
-        middleButton.repeatCount = 30
-        middleButton.animate()
         return middleButton
-        
     }()
+    
+    func buttonRock() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 20) { [self] in
+            middleButton.animation = "swing"
+            middleButton.duration = 7
+            middleButton.animate()
+            self.buttonRock()
+        }
+    }
     
     // MARK: - View Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
         addMiddleButton()
+        buttonRock()
     }
 
     func addMiddleButton() {
