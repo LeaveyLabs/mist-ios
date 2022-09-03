@@ -31,6 +31,8 @@ struct UserError: Codable {
     let sex: [String]?
     let latitude: [String]?
     let longitude: [String]?
+    let picture: [String]?
+    let confirm_picture: [String]?
     
     let non_field_errors: [String]?
     let detail: String?
@@ -42,6 +44,7 @@ class UserAPI {
     static let PATH_TO_MATCHES = "api/matches/"
     static let PATH_TO_FRIENDSHIPS = "api/friendships/"
     static let PATH_TO_NEARBY_USERS = "api/nearby-users/"
+    static let PATH_TO_VERIFY_PROFILE_PICTURE = "api-verify-profile-picture/"
     static let EMAIL_PARAM = "email"
     static let USERNAME_PARAM = "username"
     static let PASSWORD_PARAM = "password"
@@ -96,6 +99,14 @@ class UserAPI {
            let longitudeError = longitudeErrors.first{
             throw APIError.ClientError(longitudeError, USER_RECOVERY_MESSAGE)
         }
+        if let pictureErrors = error.picture,
+           let pictureError = pictureErrors.first{
+            throw APIError.ClientError(pictureError, USER_RECOVERY_MESSAGE)
+        }
+        if let confirmPictureErrors = error.confirm_picture,
+           let confirmPictureError = confirmPictureErrors.first{
+            throw APIError.ClientError(confirmPictureError, USER_RECOVERY_MESSAGE)
+        }
     }
     
     static func filterUserErrors(data:Data, response:HTTPURLResponse) throws {
@@ -125,6 +136,13 @@ class UserAPI {
     
     static func fetchMatches() async throws -> [ReadOnlyUser] {
         let url = "\(Env.BASE_URL)\(PATH_TO_MATCHES)"
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterUserErrors(data: data, response: response)
+        return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
+    }
+    
+    static func fetchUsers() async throws -> [ReadOnlyUser] {
+        let url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)"
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterUserErrors(data: data, response: response)
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
@@ -194,6 +212,37 @@ class UserAPI {
         return tokenUser
     }
     
+    static func verifyProfilePic(profilePicture:UIImage, confirmPicture: UIImage) async throws {
+        if let profilePictureData = profilePicture.pngData(),
+           let confirmPictureData = confirmPicture.pngData() {
+            
+            let AUTH_HEADERS:HTTPHeaders = [
+                "Authorization": "Token \(getGlobalAuthToken())"
+            ]
+            
+            let request = AF.upload(
+                multipartFormData:
+                    { multipartFormData in
+                        multipartFormData.append(profilePictureData, withName: "picture", fileName: "picture.png", mimeType: "image/png");
+                        multipartFormData.append(confirmPictureData, withName: "confirm_picture", fileName: "confirm_picture.png", mimeType: "image/png")
+                    },
+                to: "\(Env.AI_URL)\(PATH_TO_VERIFY_PROFILE_PICTURE)",
+                method: .patch,
+                headers: AUTH_HEADERS
+            )
+            
+            let response = await request.serializingDecodable(UserError.self).response
+            
+            if let httpData = response.data, let httpResponse = response.response {
+                try BasicAPI.filterBasicErrors(data: httpData, response: httpResponse)
+                try filterUserErrors(data: httpData, response: httpResponse)
+            } else {
+                throw APIError.NoResponse
+            }
+            
+        }
+    }
+    
     static func patchProfilePic(image:UIImage, id:Int, username:String) async throws -> CompleteUser {
         let imgData = image.pngData()
         
@@ -205,6 +254,35 @@ class UserAPI {
             multipartFormData:
                 { multipartFormData in
                     multipartFormData.append(imgData!, withName: "picture", fileName: "\(username).png", mimeType: "image/png")
+                },
+            to: "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(id)/",
+            method: .patch,
+            headers: AUTH_HEADERS
+        )
+        
+        let response = await request.serializingDecodable(UserError.self).response
+        
+        if let httpData = response.data, let httpResponse = response.response {
+            try BasicAPI.filterBasicErrors(data: httpData, response: httpResponse)
+            try filterUserErrors(data: httpData, response: httpResponse)
+        } else {
+            throw APIError.NoResponse
+        }
+        
+        let authedUser = try await request.serializingDecodable(CompleteUser.self).value
+        return authedUser
+    }
+    
+    static func patchConfirmProfilePic(image:UIImage, id:Int, username:String) async throws -> CompleteUser {
+        let imgData = image.pngData()
+        
+        let AUTH_HEADERS:HTTPHeaders = [
+            "Authorization": "Token \(getGlobalAuthToken())"
+        ]
+        
+        let request = AF.upload(
+            multipartFormData:
+                { multipartFormData in
                     multipartFormData.append(imgData!, withName: "confirm_picture", fileName: "\(username).png", mimeType: "image/png")
                 },
             to: "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(id)/",
