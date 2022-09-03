@@ -37,7 +37,9 @@ class NotificationsManager {
                             closure(false)
                             return
                         }
-                        UIApplication.shared.registerForRemoteNotifications()
+                        DispatchQueue.main.async {
+                            UIApplication.shared.registerForRemoteNotifications()
+                        }
                         closure(true)
                     }
                 }

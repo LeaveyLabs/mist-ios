@@ -21,7 +21,7 @@ class HomeExploreParentViewController: ExploreParentViewController {
         super.viewDidLoad()
         setupRefreshableFeed()
         setupActiveLabel()
-        tabBarController?.selectedIndex = 1
+//        tabBarController?.selectedIndex = 1
     }
     
     func setupActiveLabel() {
@@ -38,9 +38,9 @@ class HomeExploreParentViewController: ExploreParentViewController {
         guard firstAppearance else { return }
         firstAppearance = false
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.renderNewPostsOnFeedAndMap(withType: .firstLoad)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 guard !hasRequestedLocationPermissionsDuringAppSession else { return }
                 self.exploreMapVC.requestUserLocationPermissionIfNecessary()
                 hasRequestedLocationPermissionsDuringAppSession = true
@@ -113,7 +113,7 @@ extension HomeExploreParentViewController {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [self] in //adding a delay because otherwise we get "annotation is not added to map" sometimes??
                 let greatestCluster = greatestClusterContaining(newPostAnnotation)
                 exploreMapVC.mapView.selectAnnotation(greatestCluster ?? newPostAnnotation, animated: true)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .dmNotificationsAfterNewPost, onVC: self)
                 }
             }

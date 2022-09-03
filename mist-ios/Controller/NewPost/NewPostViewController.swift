@@ -11,45 +11,68 @@ import MapKit
 
 let BODY_PLACEHOLDER_TEXT = "pour your heart out"
 let TITLE_PLACEHOLDER_TEXT = "a cute title"
-let LOCATION_PLACEHOLDER_TEXT = "current location"
+let LOCATION_PLACEHOLDER_TEXT = "location name"
 let TEXT_LENGTH_BEYOND_MAX_PERMITTED = 5
 
 let TITLE_CHARACTER_LIMIT = 40
+let LOCATION_NAME_CHARACTER_LIMIT = 25
 let BODY_CHARACTER_LIMIT = 999
 
 let PROGRESS_DEFAULT_DURATION: Double = 6 // Seconds
 let PROGRESS_DEFAULT_MAX: Float = 0.8 // 80%
 
-class NewPostViewController: KUIViewController, UITextViewDelegate {
+class NewPostViewController: KUIViewController {
     
     @IBOutlet weak var scrollView: UIScrollView!
-    
     @IBOutlet weak var postBubbleView: UIView!
-    @IBOutlet weak var locationButton: UIButton!
-    @IBOutlet weak var datePicker: UIDatePicker!
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var dateLabelWrapperView: UIView! // To add padding around dateLabel to shrink its size
-    @IBOutlet weak var timeLabelWrapperView: UIView!
-    @IBOutlet weak var timeLabel: UILabel!
+    
+    //Top
+    @IBOutlet weak var pinButton: UIButton!
+    @IBOutlet weak var dateTimeTextField: UITextField!
+    @IBOutlet var locationNameTextField: NewPostTextField!
+    
+    var datePicker: UIDatePicker = {
+        let datePicker = UIDatePicker(frame: .zero)
+        datePicker.datePickerMode = .dateAndTime
+        datePicker.locale = Locale(identifier: "en_US")
+        if #available(iOS 14, *) {
+            datePicker.preferredDatePickerStyle = .wheels
+        }
+        datePicker.maximumDate = .now
+        datePicker.minimumDate = Calendar.current.date(byAdding: .month,
+                                                       value: -1,
+                                                       to: Date())
+        return datePicker
+    }()
+    
+    //Lower section
     @IBOutlet var titleTextView: NewPostTextView!
     @IBOutlet var bodyTextView: NewPostTextView!
     var titlePlaceholderLabel: UILabel!
     var bodyPlaceholderLabel: UILabel!
-        
-    //TODO: add a "current location" option in search
     
-    var currentlyPinnedPlacemark: MKPlacemark? {
+    //Indicator views
+    @IBOutlet weak var pinLilacIndicator: UIView!
+    @IBOutlet weak var locationNameLilacIndicator: UIView!
+    @IBOutlet weak var titleLilacIndicator: UIView!
+    @IBOutlet weak var bodyLilacIndicator: UIView!
+    
+    var currentPin: CLLocationCoordinate2D? {
         didSet {
-            if let newPlacemark = currentlyPinnedPlacemark {
-                locationButton.setTitle(newPlacemark.name?.lowercased(), for: .normal)
-                locationButton.setImage(UIImage(systemName: "mappin.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .medium)), for: .normal)
+            if let _ = currentPin {
+                pinButton.setImage(UIImage(systemName: "mappin.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .medium)), for: .normal)
             } else {
-                locationButton.setTitle(LOCATION_PLACEHOLDER_TEXT, for: .normal)
-                locationButton.setImage(UIImage(systemName: "location", withConfiguration: UIImage.SymbolConfiguration(scale: .small)), for: .normal)
+                switch LocationManager.Shared.authorizationStatus {
+                case .authorizedAlways, .authorizedWhenInUse:
+                    pinButton.setImage(UIImage(systemName: "location", withConfiguration: UIImage.SymbolConfiguration(scale: .small)), for: .normal)
+                default:
+                    pinButton.setImage(UIImage(systemName: "mappin.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .medium)), for: .normal)
+                }
             }
             validateAllFields()
         }
     }
+    
     var postStartTime: DispatchTime?
     
     //Progress
@@ -64,30 +87,35 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         super.viewDidLoad()
         setupLocationButton()
         postBubbleView.transformIntoPostBubble(arrowPosition: .right)
-        setupDatePicker()
-        setupDatePicker()
+        setupDateTimeTextField()
         setupProgressView()
-        validateAllFields()
         setupTextViews()
         setupSearchBar()
+        setupIndicatorViews()
         loadFromNewPostContext() //should come after setting up views
+        validateAllFields()
 //        shouldKUIViewKeyboardDismissOnBackgroundTouch = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default)), style: .plain, target: self, action: #selector(cancelButtonDidPressed(_:)))
         titleTextView.becomeFirstResponder()
    }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     // MARK: - Setup
     
     func loadFromNewPostContext() {
         datePicker.date = Date(timeIntervalSince1970: NewPostContext.timestamp ?? Date().timeIntervalSince1970)
-        currentlyPinnedPlacemark = NewPostContext.placemark
+        currentPin = NewPostContext.pin
         titleTextView.text = NewPostContext.title
         bodyTextView.text = NewPostContext.body
+        locationNameTextField.text = NewPostContext.locationName
         
         //Extra checks necessary after updating the textView's text
         bodyPlaceholderLabel.isHidden = !bodyTextView.text.isEmpty
         titlePlaceholderLabel.isHidden = !titleTextView.text.isEmpty
-        
+
         NewPostContext.clear()
     }
     
@@ -95,7 +123,8 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         NewPostContext.title = titleTextView.text
         NewPostContext.body = bodyTextView.text
         NewPostContext.timestamp = datePicker.date.timeIntervalSince1970
-        NewPostContext.placemark = currentlyPinnedPlacemark
+        NewPostContext.pin = currentPin
+        NewPostContext.locationName = locationNameTextField.text ?? ""
     }
     
     func setupTextViews() {
@@ -110,39 +139,36 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         bodyTextView.textContainer.lineFragmentPadding = 0 //fixes textview strange leading offset
         bodyPlaceholderLabel = bodyTextView.addAndReturnPlaceholderLabelTwo(withText: BODY_PLACEHOLDER_TEXT)
         bodyTextView.maxLength = BODY_CHARACTER_LIMIT
+        
+        locationNameTextField.delegate = self
+        locationNameTextField.initializerToolbar(target: self, doneSelector: #selector(dismissKeyboard))
+        locationNameTextField.maxLength = LOCATION_NAME_CHARACTER_LIMIT
+        locationNameTextField.placeholder = LOCATION_PLACEHOLDER_TEXT
+        locationNameTextField.applyLightShadow()
+        locationNameTextField.layer.cornerRadius = 10
+        locationNameTextField.layer.cornerCurve = .continuous
     }
     
-    // Can't use new button with buttonConfiguration because you can't limit the number of lines
-    // https://developer.apple.com/forums/thread/699622?login=true#reply-to-this-question
+    func setupIndicatorViews() {
+        locationNameLilacIndicator.roundCorners(corners: .allCorners, radius: 4)
+        pinLilacIndicator.roundCorners(corners: .allCorners, radius: 4)
+        bodyLilacIndicator.roundCorners(corners: .allCorners, radius: 4)
+        titleLilacIndicator.roundCorners(corners: .allCorners, radius: 4)
+    }
+
     func setupLocationButton() {
-        locationButton.layer.cornerRadius = 10
-        locationButton.layer.cornerCurve = .continuous
-//        locationButton.setImageToRightSide()
-        locationButton.applyLightShadow()
-//        locationButton.contentHorizontalAlignment = .center
+        pinButton.layer.cornerRadius = 10
+        pinButton.layer.cornerCurve = .continuous
+        pinButton.applyLightShadow()
     }
     
-    func setupDatePicker() {
-        // Max date: today. Min date: 1 month ago
-        datePicker.maximumDate = .now
-        datePicker.minimumDate = Calendar.current.date(byAdding: .month,
-                                                       value: -1,
-                                                       to: Date())
-        dateLabelWrapperView.layer.cornerRadius = 10
-        dateLabelWrapperView.layer.cornerCurve = .continuous
-        dateLabelWrapperView.layer.masksToBounds = true //necessary for curving edges
-        timeLabelWrapperView.layer.cornerRadius = 10
-        timeLabelWrapperView.layer.cornerCurve = .continuous
-        timeLabelWrapperView.layer.masksToBounds = true //necessary for curving edge
-        
-        //shadow button
-        dateLabelWrapperView.applyLightShadow()
-        timeLabelWrapperView.applyLightShadow()
-        dateLabelWrapperView.backgroundColor = Constants.Color.mistPink
-        timeLabelWrapperView.backgroundColor = Constants.Color.mistPink
-        
-        updateDateTimeLabels(with: Date())
-        datePicker.locale = Locale(identifier: "en_US") //this makes the underlying date picker button actually better fit the overlaying views
+    func setupDateTimeTextField() {
+        datePicker.addTarget(self, action: #selector(updateDateTime), for: .valueChanged)
+        dateTimeTextField.inputView = datePicker
+        dateTimeTextField.applyLightShadow()
+        dateTimeTextField.text = "just now"
+        dateTimeTextField.layer.cornerRadius = 10
+        dateTimeTextField.layer.cornerCurve = .continuous
     }
     
     func setupProgressView() {
@@ -159,18 +185,8 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         view.endEditing(true)
     }
     
-    @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
-        updateDateTimeLabels(with: datePicker.date)
-    }
-    
-    func updateDateTimeLabels(with newDate: Date) {
-        let (date, time) = getDateAndTimeForNewPost(selectedDate: newDate)
-        dateLabel.text = date.lowercased()
-        timeLabel.text = time.lowercased()
-    }
-    
     @IBAction func cancelButtonDidPressed(_ sender: UIBarButtonItem) {
-        let hasMadeEdits = !bodyTextView.text.isEmpty || !titleTextView.text.isEmpty || currentlyPinnedPlacemark != nil
+        let hasMadeEdits = !bodyTextView.text.isEmpty || !titleTextView.text.isEmpty || currentPin != nil
         if hasMadeEdits {
             CustomSwiftMessages.showAlert(title: "would you like to save this post as a draft?", body: "", emoji: "🗑", dismissText: "no thanks", approveText: "save", onDismiss: {
                 NewPostContext.clear()
@@ -186,21 +202,17 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         
     func tryToPost() {
         var postLocationCoordinate: CLLocationCoordinate2D?
-        var postLocationText: String?
-        if let userSetPlacemark = currentlyPinnedPlacemark {
-            postLocationCoordinate = userSetPlacemark.coordinate
-            postLocationText = userSetPlacemark.name
+        if let userSetPin = currentPin {
+            postLocationCoordinate = userSetPin
         } else {
             switch LocationManager.Shared.authorizationStatus {
             case .authorizedAlways, .authorizedWhenInUse:
-                guard let coordinate = LocationManager.Shared.currentLocation?.coordinate,
-                      let text = LocationManager.Shared.currentLocationTitle
+                guard let coordinate = LocationManager.Shared.currentLocation?.coordinate
                 else {
                     CustomSwiftMessages.showInfoCard("still updating your location", "try again in just a second", emoji: " 🫠 ")
                     return
                 }
                 postLocationCoordinate = coordinate
-                postLocationText = text
             default:
                 CustomSwiftMessages.showPermissionRequest(permissionType: .newpostUserLocation) { granted in
                     if LocationManager.Shared.authorizationStatus == .notDetermined {
@@ -216,8 +228,8 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         guard
             let trimmedTitleText = titleTextView?.text.trimmingCharacters(in: .whitespaces),
             let trimmedBodyText = bodyTextView?.text.trimmingCharacters(in: .whitespaces),
-            let postLocationCoordinate = postLocationCoordinate,
-            let postLocationText = postLocationText
+            let postLocationText = locationNameTextField?.text?.trimmingCharacters(in: .whitespaces).lowercased(),
+            let postLocationCoordinate = postLocationCoordinate
         else {
             CustomSwiftMessages.displayError("incorrect formatting", "please try again")
             return
@@ -262,15 +274,58 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         }
     }
     
-    @IBAction func userDidTappedLocationButton(_ sender: UIButton) {
+    @IBAction func userDidTappedPinButton(_ sender: UIButton) {
 //        presentExploreSearchController()
         let pinMapVC = storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.PinMap) as! PinMapViewController
-        
-//        pinMapVC.pinnedAnnotation = currentlyPinnedAnnotation // Load the currently pinned annotation, if one exists
-//        pinMapVC.completionHandler = { [self] (newAnnotation) in
-//            currentlyPinnedAnnotation = newAnnotation
-//        }
+        pinMapVC.pinnedAnnotation = currentlyPinnedAnnotation // Load the currently pinned annotation, if one exists
+        pinMapVC.completionHandler = { [self] (newAnnotation) in
+            currentlyPinnedAnnotation = newAnnotation
+        }
     }
+}
+
+//MARK: - UITextFieldDelegate
+
+extension NewPostViewController: UITextFieldDelegate {
+    
+    //IMPLMENET MAX LENGTH
+    
+    @IBAction func textFieldEditingChanged(_ sender: UITextField) {
+        if sender == locationNameTextField {
+            locationNameTextField.updateProgress()
+            if sender.text!.count > LOCATION_NAME_CHARACTER_LIMIT {
+                sender.deleteBackward()
+            }
+        }
+        validateAllFields()
+    }
+    
+    @objc func updateDateTime() {
+        let (date, time) = getDateAndTimeForNewPost(selectedDate: datePicker.date)
+        dateTimeTextField.text = date.lowercased() + ", " +  time.lowercased()
+//        if date.contains(" ") { //"aug 31"
+//            dateTimeTextField.text = date.lowercased()
+//        }
+        validateAllFields()
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == locationNameTextField {
+            textField.placeholder = ""
+        }
+        return true
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if textField == locationNameTextField {
+            textField.placeholder = LOCATION_PLACEHOLDER_TEXT
+        }
+        return true
+    }
+
+}
+
+extension NewPostViewController: UITextViewDelegate {
     
     //MARK: - TextView
         
@@ -369,13 +424,13 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         titlePlaceholderLabel.isHidden = false
         progressView.isHidden = true
         progressView.progress = 0.01
-        locationButton.titleLabel?.text = LOCATION_PLACEHOLDER_TEXT
+        pinButton.titleLabel?.text = LOCATION_PLACEHOLDER_TEXT
         datePicker.date = Date()
     }
     
     func setAllInteractionTo(_ shouldBeEnabled: Bool) {
         postButton.isEnabled = shouldBeEnabled
-        locationButton.isEnabled = shouldBeEnabled
+        pinButton.isEnabled = shouldBeEnabled
         datePicker.isEnabled = shouldBeEnabled
         titleTextView.isEditable = shouldBeEnabled
         bodyTextView.isEditable = shouldBeEnabled
@@ -383,6 +438,10 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     
     //my guess is it had something to do with this validate all fields
     func validateAllFields() {
-        postButton.isEnabled = bodyTextView.text.count != 0 && bodyTextView.text.count <= bodyTextView.maxLength && titleTextView.text.count != 0 && titleTextView.text.count <= titleTextView.maxLength
+        locationNameLilacIndicator.isHidden = !locationNameTextField.text!.isEmpty
+        pinLilacIndicator.isHidden = currentPin != nil || LocationManager.Shared.authorizationStatus == .authorizedWhenInUse || LocationManager.Shared.authorizationStatus == .authorizedAlways
+        titleLilacIndicator.isHidden = titleTextView.text.count != 0 && titleTextView.text.count <= titleTextView.maxLength
+        bodyLilacIndicator.isHidden = bodyTextView.text.count != 0 && bodyTextView.text.count <= bodyTextView.maxLength
+        postButton.isEnabled = locationNameLilacIndicator.isHidden && pinLilacIndicator.isHidden && titleLilacIndicator.isHidden && bodyLilacIndicator.isHidden
     }
 }

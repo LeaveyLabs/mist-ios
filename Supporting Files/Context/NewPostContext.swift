@@ -9,15 +9,17 @@ import Foundation
 import MapKit
 
 struct NewPostContext {
-    static var placemark: MKPlacemark?
+    static var pin: CLLocationCoordinate2D?
     static var timestamp: Double?
     static var title: String = ""
     static var body: String = ""
+    static var locationName: String = ""
     
     static func clear() {
-        placemark = nil
+        pin = nil
         timestamp = nil
         title = ""
         body = ""
+        locationName = ""
     }
 }

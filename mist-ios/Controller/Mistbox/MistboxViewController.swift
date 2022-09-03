@@ -150,7 +150,7 @@ class MistboxViewController: UIViewController {
     @MainActor
     func updateUI() {
         MistboxManager.shared.updateMistboxReleaseDates() //just to make sure we have the right time precisely before updating the UI
-        print("1")
+//        print("1")
         switch currentLayout {
         case .countdown:
             print("2")
@@ -165,7 +165,7 @@ class MistboxViewController: UIViewController {
                 updateProgressBarAndCountdownLabel()
             }
         case .welcome:
-            print("6")
+//            print("6")
             if MistboxManager.shared.hasUserActivatedMistbox {
                 print("7")
                 setupCountdownLayout()

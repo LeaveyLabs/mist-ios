@@ -140,3 +140,103 @@ class NewPostTextView: UITextView {
         }
     }
 }
+
+class NewPostTextField: UITextField {
+    
+    var circularProgressView = CircularProgressView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+    var progressLabel: UILabel = UILabel()
+    var maxLength: Int!
+        
+    //placeholder insets
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.insetBy(dx: 10, dy: 10)
+    }
+    //text insets
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.insetBy(dx: 10, dy: 10)
+    }
+    
+    //MARK: - Constructor
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        commonInit()
+    }
+
+    private func commonInit() {
+        setupCircularProgressViewAndLabel()
+    }
+    
+    // Called by parentVC
+    func initializerToolbar(target: Any, doneSelector: Selector) {
+        //Initialize with explicit frame to prevent autolayout warnings
+        let toolBar = UIToolbar(frame: CGRect(x: 0.0,
+                                              y: 0.0,
+                                              width: UIScreen.main.bounds.size.width,
+                                              height: 44.0))//1
+        toolBar.barTintColor = .white
+        
+        let progressCircle = UIBarButtonItem.init(customView: circularProgressView)
+        let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)//2
+        
+        let doneButton = UIBarButtonItem(title: "done", style: .done, target: target, action: doneSelector)
+        doneButton.tintColor = .lightGray
+        let customAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 17)!]
+        doneButton.setTitleTextAttributes(customAttributes, for: .normal)
+        
+        //not adding done button for now because this messages with the textview keyboard constraints
+        toolBar.setItems([flexible, progressCircle], animated: false)//4
+        
+        self.inputAccessoryView = toolBar//5
+    }
+    
+    // MARK: - Setup
+    
+    func setupCircularProgressViewAndLabel() {
+        circularProgressView.progress = 0.0
+        circularProgressView.trackLineWidth = 3.0
+        circularProgressView.trackTintColor = .lightGray.withAlphaComponent(0.2)
+        circularProgressView.progressTintColor = Constants.Color.mistLilac
+        circularProgressView.roundedProgressLineCap = true
+        
+        // Constraints
+        circularProgressView.translatesAutoresizingMaskIntoConstraints = false
+        circularProgressView.widthAnchor.constraint(equalToConstant: circularProgressView.frame.width).isActive = true
+        circularProgressView.heightAnchor.constraint(equalToConstant: circularProgressView.frame.height).isActive = true
+        
+        progressLabel.textAlignment = .center
+        progressLabel.font = UIFont(name: Constants.Font.Medium, size: 16)
+        progressLabel.textColor = Constants.Color.mistLilac
+        
+        // Constraints
+        circularProgressView.addSubview(progressLabel)
+        progressLabel.translatesAutoresizingMaskIntoConstraints = false //when false, setting .center does nothing
+        progressLabel.centerXAnchor.constraint(equalTo: circularProgressView.centerXAnchor).isActive = true
+        progressLabel.centerYAnchor.constraint(equalTo: circularProgressView.centerYAnchor).isActive = true
+    }
+    
+    //MARK: - User Interaction
+    
+    // Called by parentVC
+    func updateProgress() {
+        let textCount = text?.count ?? 0
+        circularProgressView.progress = Float(textCount) / Float(maxLength)
+        let charactersRemaining = Int(maxLength) - textCount
+        if charactersRemaining < 10 {
+            progressLabel.text = String(charactersRemaining)
+            if charactersRemaining < 0 {
+                circularProgressView.progressTintColor = .red
+                progressLabel.textColor = .red
+            } else {
+                circularProgressView.progressTintColor = Constants.Color.mistLilac
+                progressLabel.textColor = Constants.Color.mistLilac
+            }
+        } else {
+            progressLabel.text = ""
+        }
+    }
+}

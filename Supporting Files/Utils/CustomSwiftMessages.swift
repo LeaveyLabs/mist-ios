@@ -174,9 +174,9 @@ extension CustomSwiftMessages {
                 messageView.customConfig(approveText: "of course", dismissText: "i'd rather mist out")
             case .newpostUserLocation:
                 title = "mists require a location"
-                body = "share your current location or search for one yourself"
+                body = "share your current location or drop a pin on the map"
                 emoji = "📍"
-                messageView.customConfig(approveText: "share location", dismissText: "search myself")
+                messageView.customConfig(approveText: "share location", dismissText: "drop a pin")
             }
             
             messageView.configureContent(title: title, body: body, iconText: emoji)
