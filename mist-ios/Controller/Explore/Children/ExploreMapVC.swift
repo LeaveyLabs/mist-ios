@@ -92,7 +92,6 @@ extension ExploreMapViewController {
         setupWhiteStatusBar()
         setupBlurredStatusBar()
         setupExploreMapButtons()
-        mapView.tintColor = Constants.Color.mistLilac
         trojansActiveView.isHidden = true
 
         if let userLocation = locationManager.location {

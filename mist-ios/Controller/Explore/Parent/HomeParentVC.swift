@@ -110,8 +110,7 @@ extension HomeExploreParentViewController {
         
         //Map
         exploreMapVC.slowFlyWithoutZoomTo(lat: newPostAnnotation.coordinate.latitude, long: newPostAnnotation.coordinate.longitude, withDuration: exploreMapVC.cameraAnimationDuration + 2) { completed in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [self] in //adding a delay because once when i flew really far away to add a cluster, i got the error "annotation has not been added to the map yet. to solve this: zoom the map out far enough before loading exploreMapVC so that you don't have to ZIPPP across the map
-                
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [self] in //adding a delay because otherwise we get "annotation is not added to map" sometimes??
                 let greatestCluster = greatestClusterContaining(newPostAnnotation)
                 exploreMapVC.mapView.selectAnnotation(greatestCluster ?? newPostAnnotation, animated: true)
             }

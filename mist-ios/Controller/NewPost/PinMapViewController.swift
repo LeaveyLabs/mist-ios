@@ -26,7 +26,6 @@ class PinMapViewController: MapViewController {
         applyShadowOnView(topBannerView)
         handleExistingPin()
         setMapCamera()
-        mapView.tintColor = Constants.Color.mistLilac
         
         let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(userInteractedWithMap))
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(userInteractedWithMap))
@@ -38,8 +37,11 @@ class PinMapViewController: MapViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            guard !hasRequestedLocationPermissionsDuringAppSession else { return }
             self.requestUserLocationPermissionIfNecessary()
+            hasRequestedLocationPermissionsDuringAppSession = true
         }
     }
     

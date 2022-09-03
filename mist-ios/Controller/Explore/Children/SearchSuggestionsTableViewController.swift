@@ -23,6 +23,8 @@ class SearchSuggestionsTableViewController: UITableViewController {
     private var searchCompleter = MKLocalSearchCompleter()
     var completerResults = [MKLocalSearchCompletion]()
     
+    var isFragmentSearchEnabled = false
+    
     
     //MARK: - Life Cycle
     
@@ -82,7 +84,7 @@ extension SearchSuggestionsTableViewController {
         case .containing:
             return max(wordResults.count, 1) //return 1 "no results" cell
         case .nearby:
-            return max(completerResults.count + 1, 1) //return 1 "no results" cell. +1 is for the current search string
+            return max(completerResults.count + (isFragmentSearchEnabled ? 1 : 0), 1)
         }
     }
     
@@ -103,15 +105,15 @@ extension SearchSuggestionsTableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: SuggestedCompletionTableViewCell.reuseID, for: indexPath)
             cell.imageView?.image = UIImage(systemName: "mappin.circle")
             if !completerResults.isEmpty {
-                if indexPath.row == 0 {
+                if isFragmentSearchEnabled && indexPath.row == 0 {
                     cell.textLabel?.text = searchText // + "\""
                     cell.detailTextLabel?.text = "nearby search"
                     cell.accessoryType = .disclosureIndicator
                     cell.isUserInteractionEnabled = true
                 } else {
-                    let suggestion = completerResults[indexPath.row-1]
-                    cell.textLabel?.text = suggestion.title
-                    cell.detailTextLabel?.text = suggestion.subtitle
+                    let suggestion = completerResults[isFragmentSearchEnabled ? indexPath.row-1 : indexPath.row]
+                    cell.textLabel?.text = suggestion.title.lowercased()
+                    cell.detailTextLabel?.text = suggestion.subtitle.lowercased()
                     cell.accessoryType = .disclosureIndicator
                     cell.isUserInteractionEnabled = true
                 }
@@ -219,15 +221,36 @@ extension SearchSuggestionsTableViewController {
 
 //MARK: - Suggestion TableViewCell
 
-private class SuggestedCompletionTableViewCell: UITableViewCell {
+class SuggestedCompletionTableViewCell: UITableViewCell {
     
     static let reuseID = "SuggestedCompletionTableViewCellReuseID"
+    let loadingIndicator = UIActivityIndicatorView(style: .medium)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+        textLabel?.font = UIFont(name: Constants.Font.Roman, size: 15) //originally 17
+        detailTextLabel?.font = UIFont(name: Constants.Font.Book, size: 11) //originally 12
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        loadingIndicator.isHidden = true
+        imageView?.isHidden = false
+    }
+    
+    func startLoadingAnimation() {
+        loadingIndicator.color = Constants.Color.mistBlack
+        loadingIndicator.frame = imageView!.frame
+        loadingIndicator.startAnimating()
+        contentView.addSubview(loadingIndicator)
+        contentView.bringSubviewToFront(loadingIndicator)
+        
+        imageView?.isHidden = true
+        loadingIndicator.isHidden = false
+        loadingIndicator.startAnimating()
     }
 }

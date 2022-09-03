@@ -57,10 +57,10 @@ class MistboxViewController: UIViewController {
         super.viewDidAppear(animated)
         
         guard isFirstLoad else { return }
-        isFirstLoad = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + (isFirstLoad ? 0.8 : 0.5)) {
             self.startCircleAnimation()
         }
+        isFirstLoad = false
     }
     
 //    private var circleLayer = circularProgressView.progressLayer
@@ -140,16 +140,28 @@ class MistboxViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.updateUI()
                 }
-                try await Task.sleep(nanoseconds: NSEC_PER_SEC * 1)
+                try await Task.sleep(nanoseconds: NSEC_PER_SEC * 3)
             }
         }
     }
     
+    var asdf = 1
+    
     @MainActor
     func updateUI() {
         MistboxManager.shared.configureMistboxTimes() //just to make sure we have the right time precisely before updating the UI
-        setupCountdownLayout()
-        updateProgressBarAndCountdownLabel()
+        if asdf == 1 {
+            setupUnopenedLayout()
+        } else if asdf == 2 {
+            setupWelcomeLayout()
+        } else if asdf == 3 {
+            setupCountdownLayout()
+        }
+        asdf += 1
+        if asdf == 4 {
+            asdf = 1
+        }
+//        setupUnopenedLayout()
 //        switch currentLayout {
 //        case .countdown:
 //            if !MistboxManager.shared.hasUserActivatedMistbox {
@@ -206,8 +218,8 @@ class MistboxViewController: UIViewController {
         circularProgressView.isHidden = true
         updateKeywordsView.isHidden = true
         mistboxHeaderLabel.isHidden = true
-        learnMoreButton.isHidden = false
         learnMoreButton.setTitle("what's a mistbox?", for: .normal)
+        learnMoreButton.setImage(UIImage(systemName: "questionmark.circle"), for: .normal)
         graphicImageView.isHidden = true
         graphicImageView.isHidden = false
         graphicImageView.image = UIImage(named: "mistbox-graphic-nowords-1")!
@@ -223,10 +235,11 @@ class MistboxViewController: UIViewController {
         currentLayout = .countdown
         
         circularProgressView.isHidden = false
+        seeMistsView.isHidden = false
         updateKeywordsView.isHidden = false
         mistboxHeaderLabel.isHidden = false
-        learnMoreButton.isHidden = false
         learnMoreButton.setTitle("until your new mistbox", for: .normal)
+        learnMoreButton.setImage(UIImage(systemName: "questionmark.circle"), for: .normal)
         graphicImageView.isHidden = true
         seeMistsView.backgroundColor = .white
         openIcon.tintColor = .lightGray
@@ -241,19 +254,14 @@ class MistboxViewController: UIViewController {
         currentLayout = .unopened
         
         circularProgressView.isHidden = true
+        seeMistsView.isHidden = true
         updateKeywordsView.isHidden = true
         mistboxHeaderLabel.isHidden = false
-        learnMoreButton.isHidden = true
         graphicImageView.isHidden = false
-        graphicImageView.image = UIImage(named: "auth-graphic-text-3")!
-        seeMistsView.backgroundColor = .white
-        openIcon.tintColor = .lightGray
-        mistboxCountLabel.textColor = Constants.Color.mistBlack
-        mistboxHeaderLabel.textColor =  Constants.Color.mistBlack
-//        seeMistsView.backgroundColor = Constants.Color.mistLilac
-//        openIcon.tintColor = .white
-//        mistboxCountLabel.textColor = .white
-//        mistboxHeaderLabel.textColor = .white
+        graphicImageView.image = UIImage(named: "mistbox")!
+        learnMoreButton.setTitle("tap to open", for: .normal)
+        learnMoreButton.setImage(nil, for: .normal)
+        updateKeywordsView.isHidden = true
         
         mistboxHeaderLabel.text = MistboxManager.shared.currentMistboxDate
         mistboxCountLabel.text = String(PostService.singleton.getMistboxPosts().count) + " unopened mists"
@@ -269,6 +277,16 @@ class MistboxViewController: UIViewController {
             MistboxManager.shared.handleOpenMistbox()
         case .welcome:
             didPressKeywordsButton() //because the MistboxButton acts as the KeywordsButton
+        }
+    }
+    
+    @IBAction func didPressLearnMoreButton(_ sender: UIButton) {
+        switch currentLayout {
+        case .countdown, .welcome:
+            let learnMoreVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.WhatIsMistbox)
+            present(learnMoreVC, animated: true)
+        case .unopened:
+            break
         }
     }
     

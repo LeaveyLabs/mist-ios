@@ -101,13 +101,12 @@ class MapViewController: UIViewController {
     
     func setupMapView() {
         // GENERAL SETTINGS
-        mapView.tintColor = Constants.Color.mistLilac
+        mapView.tintColor = Constants.Color.mistPurple
         mapView.cameraZoomRange = MKMapView.CameraZoomRange(minCenterCoordinateDistance: MapViewController.MIN_CAMERA_DISTANCE) // Note: this creates an effect where, when the camera is pretty zoomed in, if you try to increase the pitch past a certian point, it automatically zooms in more. Not totally sure why. This is slightly undesirable but not that deep
         //310 is range from which you view a post, that way you cant zoom in more afterwards
         mapView.showsUserLocation = true
         mapView.showsCompass = false
         mapView.delegate = self
-        mapView.tintColor = .systemBlue //sets user puck color
         mapView.showsTraffic = false
         
         // POINTS OF INTEREST

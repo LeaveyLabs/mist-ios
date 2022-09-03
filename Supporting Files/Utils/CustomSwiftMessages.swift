@@ -10,7 +10,7 @@ import SwiftMessages
 import MapKit
 
 enum PermissionType {
-    case userLocation, mistboxNotifications, dmNotifications, contacts
+    case userLocation, newpostUserLocation, mistboxNotifications, dmNotifications, contacts
 }
 
 //MARK: Errors
@@ -167,7 +167,13 @@ extension CustomSwiftMessages {
                 body = "in order to get a daily mistbox, you'll need to turn on notifications"
                 emoji = "📬"
                 messageView.customConfig(approveText: "of course", dismissText: "i'd rather mist out")
+            case .newpostUserLocation:
+                title = "mists require a location"
+                body = "share your current location or search for one yourself"
+                emoji = "📍"
+                messageView.customConfig(approveText: "share location", dismissText: "search myself")
             }
+            
             messageView.configureContent(title: title, body: body, iconText: emoji)
             messageView.approveAction = {
                 SwiftMessages.hide()

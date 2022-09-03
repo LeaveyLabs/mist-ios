@@ -11,7 +11,7 @@ import MapKit
 
 let BODY_PLACEHOLDER_TEXT = "pour your heart out"
 let TITLE_PLACEHOLDER_TEXT = "a cute title"
-let LOCATION_PLACEHOLDER_TEXT = "drop a pin"
+let LOCATION_PLACEHOLDER_TEXT = "current location"
 let TEXT_LENGTH_BEYOND_MAX_PERMITTED = 5
 
 let TITLE_CHARACTER_LIMIT = 40
@@ -35,45 +35,30 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     @IBOutlet var bodyTextView: NewPostTextView!
     var titlePlaceholderLabel: UILabel!
     var bodyPlaceholderLabel: UILabel!
+        
+    //TODO: add a "current location" option in search
     
-    var currentlyPinnedAnnotation: PostAnnotation? {
+    var currentlyPinnedPlacemark: MKPlacemark? {
         didSet {
-            if let newAnnotation = currentlyPinnedAnnotation {
-                locationButton.setTitle(newAnnotation.title, for: .normal)
-                locationButton.setTitleColor(Constants.Color.mistBlack, for: .normal)
-                locationButton.tintColor = Constants.Color.mistBlack
+            if let newPlacemark = currentlyPinnedPlacemark {
+                locationButton.setTitle(newPlacemark.name?.lowercased(), for: .normal)
+                locationButton.setImage(UIImage(systemName: "mappin.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .medium)), for: .normal)
             } else {
                 locationButton.setTitle(LOCATION_PLACEHOLDER_TEXT, for: .normal)
-                locationButton.setTitleColor(.placeholderText, for: .normal)
-                locationButton.tintColor = .placeholderText
-            }
-            validateAllFields()
-        }
-    }
-    var hasUserTappedDateLabel: Bool = false {
-        didSet {
-            if hasUserTappedDateLabel {
-                let (date, _) = getDateAndTimeForNewPost(selectedDate: datePicker.date)
-                dateLabel.text = date
-                dateLabel.textColor = Constants.Color.mistBlack
-            }
-            validateAllFields()
-        }
-    }
-    var hasUserTappedTimeLabel: Bool = false {
-        didSet {
-            if hasUserTappedTimeLabel {
-                let (_, time) = getDateAndTimeForNewPost(selectedDate: datePicker.date)
-                timeLabel.text = time
-                timeLabel.textColor = Constants.Color.mistBlack
+                locationButton.setImage(UIImage(systemName: "location", withConfiguration: UIImage.SymbolConfiguration(scale: .small)), for: .normal)
             }
             validateAllFields()
         }
     }
     var postStartTime: DispatchTime?
     
+    //Progress
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var postButton: UIButton!
+    
+    // Search
+    var mySearchController: UISearchController!
+    var searchSuggestionsVC: SearchSuggestionsTableViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,33 +69,33 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         setupProgressView()
         validateAllFields()
         setupTextViews()
+        setupSearchBar()
         loadFromNewPostContext() //should come after setting up views
 //        shouldKUIViewKeyboardDismissOnBackgroundTouch = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default)), style: .plain, target: self, action: #selector(cancelButtonDidPressed(_:)))
+        titleTextView.becomeFirstResponder()
    }
     
     // MARK: - Setup
     
     func loadFromNewPostContext() {
         datePicker.date = Date(timeIntervalSince1970: NewPostContext.timestamp ?? Date().timeIntervalSince1970)
-        currentlyPinnedAnnotation = NewPostContext.annotation
+        currentlyPinnedPlacemark = NewPostContext.placemark
         titleTextView.text = NewPostContext.title
         bodyTextView.text = NewPostContext.body
-        hasUserTappedTimeLabel = NewPostContext.hasUserTappedTimeLabel
-        hasUserTappedDateLabel = NewPostContext.hasUserTappedDateLabel
         
         //Extra checks necessary after updating the textView's text
         bodyPlaceholderLabel.isHidden = !bodyTextView.text.isEmpty
         titlePlaceholderLabel.isHidden = !titleTextView.text.isEmpty
+        
+        NewPostContext.clear()
     }
     
     func saveToNewPostContext() {
         NewPostContext.title = titleTextView.text
         NewPostContext.body = bodyTextView.text
         NewPostContext.timestamp = datePicker.date.timeIntervalSince1970
-        NewPostContext.annotation = currentlyPinnedAnnotation
-        NewPostContext.hasUserTappedDateLabel = hasUserTappedDateLabel
-        NewPostContext.hasUserTappedTimeLabel = hasUserTappedTimeLabel
+        NewPostContext.placemark = currentlyPinnedPlacemark
     }
     
     func setupTextViews() {
@@ -119,7 +104,6 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         titleTextView.textContainer.lineFragmentPadding = 0 //fixes textview strange leading offset
         titlePlaceholderLabel = titleTextView.addAndReturnPlaceholderLabelTwo(withText: TITLE_PLACEHOLDER_TEXT)
         titleTextView.maxLength = TITLE_CHARACTER_LIMIT
-        titleTextView.becomeFirstResponder()
         
         bodyTextView.delegate = self
         bodyTextView.initializerToolbar(target: self, doneSelector: #selector(dismissKeyboard))
@@ -133,12 +117,9 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     func setupLocationButton() {
         locationButton.layer.cornerRadius = 10
         locationButton.layer.cornerCurve = .continuous
-        locationButton.setImageToRightSide()
-        
-        //shadow button
+//        locationButton.setImageToRightSide()
         locationButton.applyLightShadow()
-        locationButton.tintColor = .placeholderText
-        locationButton.setTitleColor(.placeholderText, for: .normal)
+//        locationButton.contentHorizontalAlignment = .center
     }
     
     func setupDatePicker() {
@@ -154,16 +135,14 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         timeLabelWrapperView.layer.cornerCurve = .continuous
         timeLabelWrapperView.layer.masksToBounds = true //necessary for curving edge
         
-        dateLabel.text = "day"
-        timeLabel.text = "time"
-        
         //shadow button
         dateLabelWrapperView.applyLightShadow()
         timeLabelWrapperView.applyLightShadow()
         dateLabelWrapperView.backgroundColor = Constants.Color.mistPink
         timeLabelWrapperView.backgroundColor = Constants.Color.mistPink
-        dateLabel.textColor = .placeholderText
-        timeLabel.textColor = .placeholderText
+        
+        updateDateTimeLabels(with: Date())
+        datePicker.locale = Locale(identifier: "en_US") //this makes the underlying date picker button actually better fit the overlaying views
     }
     
     func setupProgressView() {
@@ -181,27 +160,17 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     }
     
     @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
-        let (date, time) = getDateAndTimeForNewPost(selectedDate: datePicker.date)
-        if hasUserTappedDateLabel {
-            dateLabel.text = date.lowercased()
-        }
-        if hasUserTappedTimeLabel {
-            timeLabel.text = time.lowercased()
-        }
+        updateDateTimeLabels(with: datePicker.date)
     }
     
-    @IBAction func datePickerEditingBegin(_ sender: Any, forEvent event: UIEvent) {
-        let isTapWithinDateLabel = true
-        let isTapWithinTimeLabel = true
-        hasUserTappedDateLabel = isTapWithinDateLabel || hasUserTappedDateLabel
-        hasUserTappedTimeLabel = isTapWithinTimeLabel || hasUserTappedTimeLabel
-        // Could add code to determine which label was pressed aka which label to highlight
-        // To do this, set user interaction of labels/uiview to yes, and then manually pass the touch event through
-        //https://stackoverflow.com/questions/2793242/detect-if-certain-uiview-was-touched-amongst-other-uiviews
+    func updateDateTimeLabels(with newDate: Date) {
+        let (date, time) = getDateAndTimeForNewPost(selectedDate: newDate)
+        dateLabel.text = date.lowercased()
+        timeLabel.text = time.lowercased()
     }
     
     @IBAction func cancelButtonDidPressed(_ sender: UIBarButtonItem) {
-        let hasMadeEdits = !bodyTextView.text.isEmpty || !titleTextView.text.isEmpty || currentlyPinnedAnnotation != nil || hasUserTappedDateLabel == true || hasUserTappedTimeLabel == true
+        let hasMadeEdits = !bodyTextView.text.isEmpty || !titleTextView.text.isEmpty || currentlyPinnedPlacemark != nil
         if hasMadeEdits {
             CustomSwiftMessages.showAlert(title: "would you like to save this post as a draft?", body: "", emoji: "🗑", dismissText: "no thanks", approveText: "save", onDismiss: {
                 NewPostContext.clear()
@@ -214,12 +183,46 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
             self.dismiss(animated: true)
         }
     }
-    
-    @IBAction func userDidTappedPostButton(_ sender: UIButton) {
-        guard let trimmedTitleText = titleTextView?.text.trimmingCharacters(in: .whitespaces) else { return }
-        guard let trimmedBodyText = bodyTextView?.text.trimmingCharacters(in: .whitespaces) else { return }
-        guard let locationText = locationButton.titleLabel?.text else { return }
-        guard let annotation = currentlyPinnedAnnotation else { return }
+        
+    func tryToPost() {
+        var postLocationCoordinate: CLLocationCoordinate2D?
+        var postLocationText: String?
+        if let userSetPlacemark = currentlyPinnedPlacemark {
+            postLocationCoordinate = userSetPlacemark.coordinate
+            postLocationText = userSetPlacemark.name
+        } else {
+            switch LocationManager.Shared.authorizationStatus {
+            case .authorizedAlways, .authorizedWhenInUse:
+                guard let coordinate = LocationManager.Shared.currentLocation?.coordinate,
+                      let text = LocationManager.Shared.currentLocationTitle
+                else {
+                    CustomSwiftMessages.showInfoCard("still updating your location", "try again in just a second", emoji: " 🫠 ")
+                    return
+                }
+                postLocationCoordinate = coordinate
+                postLocationText = text
+            default:
+                CustomSwiftMessages.showPermissionRequest(permissionType: .newpostUserLocation) { granted in
+                    if LocationManager.Shared.authorizationStatus == .notDetermined {
+                        LocationManager.Shared.requestLocation()
+                    } else {
+                        CustomSwiftMessages.showSettingsAlertController(title: "turn on location services for mist in settings", message: "", on: self)
+                    }
+                    return
+                }
+            }
+        }
+        
+        guard
+            let trimmedTitleText = titleTextView?.text.trimmingCharacters(in: .whitespaces),
+            let trimmedBodyText = bodyTextView?.text.trimmingCharacters(in: .whitespaces),
+            let postLocationCoordinate = postLocationCoordinate,
+            let postLocationText = postLocationText
+        else {
+            CustomSwiftMessages.displayError("incorrect formatting", "please try again")
+            return
+        }
+
         setAllInteractionTo(false)
         scrollView.scrollToTop()
         view.endEditing(true)
@@ -229,7 +232,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
                 //We need to reset the filter and reload posts before uploading because uploading the post will immediately insert it at index 0 of explorePosts
                 PostService.singleton.resetFilter()
                 try await PostService.singleton.loadExplorePosts()
-                try await PostService.singleton.uploadPost(title: trimmedTitleText, text: trimmedBodyText, locationDescription: locationText, latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude, timestamp: datePicker.date.timeIntervalSince1970)
+                try await PostService.singleton.uploadPost(title: trimmedTitleText, text: trimmedBodyText, locationDescription: postLocationText, latitude: postLocationCoordinate.latitude, longitude: postLocationCoordinate.longitude, timestamp: datePicker.date.timeIntervalSince1970)
                 handleSuccessfulNewPost()
             } catch {
                 progressView.progress = 0
@@ -237,6 +240,10 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
                 CustomSwiftMessages.displayError(error)
             }
         }
+    }
+
+    @IBAction func userDidTappedPostButton(_ sender: UIButton) {
+        tryToPost()
     }
     
     func handleSuccessfulNewPost() {
@@ -248,8 +255,6 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         finishAnimationProgress() {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                 homeParent.isHandlingNewPost = true
-//                homeParent.exploreMapVC.annotationSelectionType = .submission
-//                homeParent.renderNewPostsOnFeedAndMap(withType: .newPost)
                 self.dismiss(animated: true) {
                     homeParent.handleNewlySubmittedPost()
                 }
@@ -257,14 +262,14 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Prepare for PinMapVC Segue
-        if let pinMapVC = segue.destination as? PinMapViewController {
-            pinMapVC.pinnedAnnotation = currentlyPinnedAnnotation // Load the currently pinned annotation, if one exists
-            pinMapVC.completionHandler = { [self] (newAnnotation) in
-                currentlyPinnedAnnotation = newAnnotation
-            }
-        }
+    @IBAction func userDidTappedLocationButton(_ sender: UIButton) {
+//        presentExploreSearchController()
+        let pinMapVC = storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.PinMap) as! PinMapViewController
+        
+//        pinMapVC.pinnedAnnotation = currentlyPinnedAnnotation // Load the currently pinned annotation, if one exists
+//        pinMapVC.completionHandler = { [self] (newAnnotation) in
+//            currentlyPinnedAnnotation = newAnnotation
+//        }
     }
     
     //MARK: - TextView
@@ -315,7 +320,7 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
         return textView.shouldChangeTextGivenMaxLengthOf(newPostTextView.maxLength + TEXT_LENGTH_BEYOND_MAX_PERMITTED, range, text)
     }
     
-    //MARK: - Util
+    //MARK: - ProgressBar
     
     func animateProgressBar() {
         progressView.isHidden = false
@@ -354,6 +359,8 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
 
     }
     
+    //MARK: - Util
+    
     func clearAllFields() {
         progressView.progress = 0
         bodyTextView.text = ""
@@ -376,6 +383,6 @@ class NewPostViewController: KUIViewController, UITextViewDelegate {
     
     //my guess is it had something to do with this validate all fields
     func validateAllFields() {
-        postButton.isEnabled = bodyTextView.text.count != 0 && bodyTextView.text.count <= bodyTextView.maxLength && titleTextView.text.count != 0 && titleTextView.text.count <= titleTextView.maxLength && currentlyPinnedAnnotation != nil && hasUserTappedDateLabel && hasUserTappedTimeLabel
+        postButton.isEnabled = bodyTextView.text.count != 0 && bodyTextView.text.count <= bodyTextView.maxLength && titleTextView.text.count != 0 && titleTextView.text.count <= titleTextView.maxLength
     }
 }

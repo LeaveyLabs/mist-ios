@@ -631,6 +631,10 @@
 		5BCEA510289A489700602A4D /* PostViewController+Autocomplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */; };
 		5BD6F47E2896B3020002A60B /* StringChat+Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */; };
 		5BD6F47F2896B3020002A60B /* StringChat+Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */; };
+		5BD7481F28C1EB68005C7820 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD7481E28C1EB68005C7820 /* LocationManager.swift */; };
+		5BD7482028C1EB68005C7820 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD7481E28C1EB68005C7820 /* LocationManager.swift */; };
+		5BD8E07E28C1FB1C00E722D4 /* NewPostViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8E07D28C1FB1C00E722D4 /* NewPostViewController+Search.swift */; };
+		5BD8E07F28C1FB1C00E722D4 /* NewPostViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8E07D28C1FB1C00E722D4 /* NewPostViewController+Search.swift */; };
 		5BE110022876CD9D00CB54A6 /* RequestResetNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110012876CD9D00CB54A6 /* RequestResetNumberViewController.swift */; };
 		5BE110042876CDB100CB54A6 /* ValidateResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */; };
 		5BE110062876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */; };
@@ -1000,6 +1004,8 @@
 		5BCE5F8128B483D2002078E1 /* CommentMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentMoreViewController.swift; sourceTree = "<group>"; };
 		5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+Autocomplete.swift"; sourceTree = "<group>"; };
 		5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringChat+Emoji.swift"; sourceTree = "<group>"; };
+		5BD7481E28C1EB68005C7820 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		5BD8E07D28C1FB1C00E722D4 /* NewPostViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewPostViewController+Search.swift"; sourceTree = "<group>"; };
 		5BE110012876CD9D00CB54A6 /* RequestResetNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResetNumberViewController.swift; sourceTree = "<group>"; };
 		5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateResetPasswordViewController.swift; sourceTree = "<group>"; };
 		5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalizeResetPasswordViewController.swift; sourceTree = "<group>"; };
@@ -1593,6 +1599,7 @@
 		47E74E3E27CA14CE00467A0C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5BD7481E28C1EB68005C7820 /* LocationManager.swift */,
 				5B41528F28BDCFBB00592A55 /* MistboxManager.swift */,
 				5B6208A128B4B367005610A9 /* AppStoreReviewManager.swift */,
 				5B068CC628BD80DB00DFC89F /* NotificationsManager.swift */,
@@ -1709,6 +1716,7 @@
 			children = (
 				4746508627D8735B0014217C /* RulesViewController.swift */,
 				47A3D70127D524F4003DBEA5 /* NewPostViewController.swift */,
+				5BD8E07D28C1FB1C00E722D4 /* NewPostViewController+Search.swift */,
 				47CE900927E058090004B756 /* PinMapViewController.swift */,
 				47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */,
 				5BC2532328BC7F1500D4F49A /* GuidelinesViewController.swift */,
@@ -2423,6 +2431,7 @@
 				478BA27F283E85F500C35507 /* AuthContext.swift in Sources */,
 				478A789B284E73970058C845 /* CLLocationCoordiante+Midpoint.swift in Sources */,
 				47FF86A127DC712F0076A1CA /* Comment.swift in Sources */,
+				5BD8E07E28C1FB1C00E722D4 /* NewPostViewController+Search.swift in Sources */,
 				47EA3E0227E0151200381218 /* MapViewController.swift in Sources */,
 				43483BB228025179001C7C6A /* ChooseUsernameViewController.swift in Sources */,
 				479683F32826494100CA23BA /* UIColor+Theme.swift in Sources */,
@@ -2538,6 +2547,7 @@
 				43D92524285280D200438C5C /* FriendRequestAPI.swift in Sources */,
 				5B235B1228AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift in Sources */,
 				5BE1473C289F0FCE0096FEBE /* Validate.swift in Sources */,
+				5BD7481F28C1EB68005C7820 /* LocationManager.swift in Sources */,
 				472A4BF328408BD800FD52B7 /* Spring.swift in Sources */,
 				5B1F16CE287D1ABD00035F93 /* HomeViewController.swift in Sources */,
 				472A4BF528408BD800FD52B7 /* DesignableLabel.swift in Sources */,
@@ -2737,6 +2747,7 @@
 				5BBF5C51289B9FE1000B2D31 /* InputAvatar.swift in Sources */,
 				5B739DBE28935B9500E4EED0 /* MKClusterAnnotation+*.swift in Sources */,
 				5B739DBF28935B9500E4EED0 /* AuthContext.swift in Sources */,
+				5BD8E07F28C1FB1C00E722D4 /* NewPostViewController+Search.swift in Sources */,
 				5B739DC028935B9500E4EED0 /* CLLocationCoordiante+Midpoint.swift in Sources */,
 				5B739DC128935B9500E4EED0 /* Comment.swift in Sources */,
 				5B739DC228935B9500E4EED0 /* MapViewController.swift in Sources */,
@@ -2852,6 +2863,7 @@
 				5B739E1928935B9500E4EED0 /* LoadingView.swift in Sources */,
 				5B739E1A28935B9500E4EED0 /* PasswordSettingViewController.swift in Sources */,
 				5B739E1B28935B9500E4EED0 /* FriendRequestAPI.swift in Sources */,
+				5BD7482028C1EB68005C7820 /* LocationManager.swift in Sources */,
 				5B739E1C28935B9500E4EED0 /* Spring.swift in Sources */,
 				5B739E1D28935B9500E4EED0 /* HomeViewController.swift in Sources */,
 				5B739E1E28935B9500E4EED0 /* DesignableLabel.swift in Sources */,
@@ -3024,7 +3036,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -3083,7 +3095,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -3135,7 +3147,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.2;
+				MARKETING_VERSION = 0.3.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3182,7 +3194,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.2;
+				MARKETING_VERSION = 0.3.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -3330,7 +3342,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.2;
+				MARKETING_VERSION = 0.3.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "-DDEV";
 				PRODUCT_BUNDLE_IDENTIFIER = "app.getmist.mist-ios-dev";
@@ -3380,7 +3392,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.2;
+				MARKETING_VERSION = 0.3.1;
 				OTHER_SWIFT_FLAGS = "-DDEV";
 				PRODUCT_BUNDLE_IDENTIFIER = "app.getmist.mist-ios-dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";

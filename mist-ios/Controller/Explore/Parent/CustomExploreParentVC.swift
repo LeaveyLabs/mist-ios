@@ -41,7 +41,8 @@ class CustomExploreParentViewController: ExploreParentViewController {
     func setupBackButton() {
         let backButton = UIButton()
         let backImage = UIImage(systemName: "chevron.backward", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default))!
-        backButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        backButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         backButton.addTarget(self, action: #selector(backButtonDidTapped(_:)), for: .touchUpInside)
         backButton.setImage(backImage, for: .normal)
         exploreFeedVC.navStackView.insertArrangedSubview(backButton, at: 0)

@@ -201,22 +201,14 @@ func getDateAndTimeForNewPost(selectedDate: Date) -> (String, String) {
         if wasToday {
             return ("today", time)
         } else if wasYesterday {
-            return ("yesterday", time)
+            return ("yest", time)
         } else {
-            dateFormatter.dateFormat = "EEEE"
+            dateFormatter.dateFormat = "E"
             return (dateFormatter.string(from: selectedDate), time)
         }
     } else {
-        let yearFormatter = DateFormatter()
-        yearFormatter.dateFormat = "YYYY"
-        let wasThisyear = yearFormatter.string(from: selectedDate) == yearFormatter.string(from: Date())
-        if wasThisyear {
-            dateFormatter.dateFormat = "MMM d"
-            return (dateFormatter.string(from: selectedDate), time)
-        } else {
-            dateFormatter.dateFormat = "MM/dd/yy"
-            return (dateFormatter.string(from: selectedDate), time)
-        }
+        dateFormatter.dateFormat = "MMM d"
+        return (dateFormatter.string(from: selectedDate), time)
     }
 }
 

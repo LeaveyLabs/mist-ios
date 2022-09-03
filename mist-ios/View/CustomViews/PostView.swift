@@ -35,6 +35,7 @@ import MapKit
         self.addSubview(emojiTextField)
         return emojiTextField
     }()
+    @IBOutlet weak var commentButton: UIButton!
     @IBOutlet weak var reactionsButton: UIButton!
     @IBOutlet weak var emojiButton1: EmojiButton!
     @IBOutlet weak var emojiButton2: EmojiButton!
@@ -100,7 +101,7 @@ extension PostView {
         locationLabel.text = post.location_description?.lowercased()
         messageLabel.text = post.body
         postTitleLabel.text = post.title
-        
+        commentButton.setTitle(post.commentcount >= 3 ? String(post.commentcount) : "comment", for: .normal)
         if post.author == UserService.singleton.getId() {
             dmButton.setTitleColor(.lightGray.withAlphaComponent(0.5), for: .normal)
             dmButton.imageView?.tintColor = .lightGray.withAlphaComponent(0.5)

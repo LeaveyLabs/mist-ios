@@ -14,9 +14,9 @@ enum MapSearchResultType: Int, CaseIterable {
     var sectionName : String {
         switch self {
         case .containing:
-            return "mists containing:"
+            return "" //"mists containing:"
         case .nearby:
-            return "mists nearby:"
+            return "nearby locations:"
         }
     }
     
@@ -26,8 +26,21 @@ enum MapSearchResultType: Int, CaseIterable {
                 "dulce",
                 "leavey library",
                 "old annenberg",
-                "doheny lawn",
+                "doheny library",
                 "the 9-0",
+                "cava",
+                "mccarthy quad",
+                "pardee tower",
+                "tutor campus center",
+                "iovine and young academy",
+                "seeley g. mudd",
+                "lyon center",
+                "village fitness center",
+                "trader joe's",
+                "spudnuts",
+                "trousdale pkwy",
+                "sunlife",
+                "insomnia cookies"
 //                "green eyes",
 //                "kinda tall",
                 ].randomElement()!

@@ -15,6 +15,7 @@ struct Constants {
         static let Roman: String = "Avenir-Roman"
         static let Medium: String = "Avenir-Medium"
         static let Heavy: String = "Avenir-Heavy"
+        static let Book: String = "Avenir-Book"
         static let Size: CGFloat = 20
     }
     
@@ -70,6 +71,7 @@ struct Constants {
             static let NewPost = "NewPostViewController"
             static let Guidelines = "GuidelinesViewController"
             static let PinMapModal = "PinMapModalViewController"
+            static let PinMap = "PinMapViewController"
             //Account
             static let Profile = "ProfileViewController"
             static let PhotoDetail = "PhotoDetailViewController"
@@ -98,6 +100,7 @@ struct Constants {
             //Mistbox
             static let Mistbox = "MistboxEmailViewController"
             static let EnterKeywords = "EnterKeywordsViewController"
+            static let WhatIsMistbox = "WhatIsMistboxViewController"
             //Auth
             static let ConfirmEmail = "ConfirmEmailViewController"
             static let WelcomeTutorial = "WelcomeTutorialViewController"

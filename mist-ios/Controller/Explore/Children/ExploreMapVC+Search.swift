@@ -32,7 +32,8 @@ extension ExploreMapViewController {
         searchSuggestionsVC = self.storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.SearchSuggestions) as? SearchSuggestionsTableViewController
         searchSuggestionsVC.tableView.delegate = self
         searchSuggestionsVC.tableView.setupTableViewSectionShadows(behindView: view)
-
+        searchSuggestionsVC.isFragmentSearchEnabled = true
+        
         //searchController
         mySearchController = UISearchController(searchResultsController: searchSuggestionsVC)
         mySearchController.delegate = self
@@ -40,12 +41,13 @@ extension ExploreMapViewController {
         mySearchController.showsSearchResultsController = true //so white background is always visible
         
         //searchBar
+        mySearchController.searchBar.setValue("cancel", forKey: "cancelButtonText")
         mySearchController.searchBar.delegate = self // Monitor when the search button is tapped.
         mySearchController.searchBar.tintColor = cornerButtonGrey
         mySearchController.searchBar.searchTextField.tintColor = Constants.Color.mistLilac
         mySearchController.searchBar.autocapitalizationType = .none
         mySearchController.searchBar.searchBarStyle = .prominent //when setting to .minimal, the background disappears and you can see nav bar underneath. if using .minimal, add a background color to searchBar to fix this.
-        mySearchController.searchBar.searchTextField.font = UIFont(name: Constants.Font.Medium, size: 18)
+        mySearchController.searchBar.searchTextField.font = UIFont(name: Constants.Font.Roman, size: 18)
     }
     
 }
@@ -79,6 +81,7 @@ extension ExploreMapViewController: UISearchBarDelegate {
         mySearchController.searchBar.placeholder = MapSearchResultType.randomPlaceholder()
         present(mySearchController, animated: true) { [self] in
             searchSuggestionsVC.startProvidingCompletions(for: MKCoordinateRegion(center: mapView.region.center, latitudinalMeters: 100, longitudinalMeters: 100))
+            mySearchController.searchBar.becomeFirstResponder() //needed bc after dismissing the newpost vc and then presenting mysearchcontroller, the keyboard doenst go up. not perfect, but it works
 //            resetCurrentFilter() //TODO: change this. if they press search and then cancel, we dont want to relocate them to a new part of the world
         }
     }

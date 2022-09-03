@@ -14,10 +14,18 @@ class SearchResultCell: UITableViewCell {
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var accessoryLabel: UILabel!
     @IBOutlet weak var iconImageView: UIImageView!
-    
+    let loadingIndicator = UIActivityIndicatorView(style: .medium)
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        commonInit()
+    }
+    
+    func commonInit() {
+        loadingIndicator.frame = imageView!.frame
+        loadingIndicator.isHidden = true
+        imageView?.addSubview(loadingIndicator)
+        loadingIndicator.color = Constants.Color.mistBlack
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -61,4 +69,17 @@ class SearchResultCell: UITableViewCell {
         accessoryType = .none
         isUserInteractionEnabled = false
     }
+    
+    func startLoadingIcon() {
+        imageView?.image = nil
+        loadingIndicator.isHidden = false
+        loadingIndicator.startAnimating()
+    }
+    
+    func stopLoadingIcon() {
+        imageView?.image = UIImage(systemName: "mappin.circle")
+        loadingIndicator.isHidden = true
+        loadingIndicator.stopAnimating()
+    }
+    
 }

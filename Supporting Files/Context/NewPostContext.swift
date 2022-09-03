@@ -6,21 +6,18 @@
 //
 
 import Foundation
+import MapKit
 
 struct NewPostContext {
-    static var annotation: PostAnnotation?
+    static var placemark: MKPlacemark?
     static var timestamp: Double?
     static var title: String = ""
     static var body: String = ""
-    static var hasUserTappedDateLabel: Bool = false
-    static var hasUserTappedTimeLabel: Bool = false
     
     static func clear() {
-        annotation = nil
+        placemark = nil
         timestamp = nil
         title = ""
         body = ""
-        hasUserTappedTimeLabel = false
-        hasUserTappedDateLabel = false
     }
 }

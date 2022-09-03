@@ -14,11 +14,8 @@ extension MKClusterAnnotation {
     @IBInspectable var isHotspot : Bool {
         set {
             if newValue {
-                if let postAnnotation = memberAnnotations[0] as? PostAnnotation {
-                    title = postAnnotation.post!.location_description!
-                }
+                title = getMostCommonAnnotationLocation(among: memberAnnotations)
                 subtitle = String(memberAnnotations.count) + " mists"
-                
             } else {
                 title = memberAnnotations[0].title!
                 subtitle = "+" + String(memberAnnotations.count-1) + " more"
@@ -40,5 +37,12 @@ extension MKClusterAnnotation {
                 isHotspot = false
             }
         }
+    }
+    
+    //well, this should be O(n) time
+    //what if there's 50 annotations?
+    //for now, since we don't let them use custom, we'll just choose the top location
+    func getMostCommonAnnotationLocation(among memberAnnotations: [MKAnnotation]) -> String? {
+        return (memberAnnotations.first { $0 .isKind(of: PostAnnotation.self) } as? PostAnnotation)?.post.location_description
     }
 }

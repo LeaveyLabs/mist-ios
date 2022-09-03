@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="backgroundBubbleButton" destination="uno-sj-oMK" id="Kwh-fh-Lsj"/>
                 <outlet property="backgroundBubbleView" destination="bob-45-2Dc" id="bsg-88-iIX"/>
+                <outlet property="commentButton" destination="FyY-pe-aBi" id="err-mn-BUW"/>
                 <outlet property="dmButton" destination="iFI-h5-d6P" id="Yt8-5a-7v7"/>
                 <outlet property="emojiButton1" destination="QC2-Mt-A14" id="j1T-eq-YZU"/>
                 <outlet property="emojiButton2" destination="Ya0-s7-J3U" id="heZ-HR-3AW"/>

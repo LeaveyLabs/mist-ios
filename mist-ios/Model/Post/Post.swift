@@ -25,7 +25,7 @@ struct Post: Codable, Equatable {
     let votes: [PostVote];
     
     //commentCount is not supported right now. we're trying to avoid ever updating the Post on the frontend, so it's easier just to not think about this right now
-//    let commentcount: Int
+    let commentcount: Int
     
     //votecount has been removed bc it's no longer needed
 //    var votecount: Int
@@ -59,7 +59,7 @@ struct Post: Codable, Equatable {
         self.timestamp = timestamp
         self.author = author
         self.read_only_author = UserService.singleton.getUserAsReadOnlyUser()
-//        self.commentcount = commentcount
+        self.commentcount = commentcount
 //        self.votecount = votecount
         self.votes = []
         self.emojiCountTuples = []
@@ -80,7 +80,7 @@ struct Post: Codable, Equatable {
         self.timestamp = try container.decode(Double.self, forKey: .timestamp)
         self.author = try container.decode(Int.self, forKey: .author)
         self.read_only_author = try container.decode(ReadOnlyUser.self, forKey: .read_only_author)
-//        self.commentcount = try container.decode(Int.self, forKey: .commentcount)
+        self.commentcount = try container.decode(Int.self, forKey: .commentcount)
 //        self.votecount = try container.decode(Int.self, forKey: .votecount)
         self.votes = try container.decode([PostVote].self, forKey: .votes)
         self.emojiCountTuples = Post.setupPostTuples(from: votes, title)
@@ -124,6 +124,6 @@ struct Post: Codable, Equatable {
     }
     
     enum CodingKeys: CodingKey {
-        case id, title, body, location_description, latitude, longitude, timestamp, author, read_only_author, votes
+        case id, title, body, location_description, latitude, longitude, timestamp, author, read_only_author, votes, commentcount
     }
 }

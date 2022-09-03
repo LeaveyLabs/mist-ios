@@ -106,8 +106,14 @@ extension ExploreMapViewController {
 
 extension ExploreMapViewController {
         
+    func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
+        if memberAnnotations.contains(where: { $0.coordinate == (selectedAnnotationView as? MKAnnotation)?.coordinate }) {
+            deselectOneAnnotationIfItExists()
+        }
+        return MKClusterAnnotation(memberAnnotations: memberAnnotations)
+    }
+    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        print("DID SELECT")
         if view.annotation is MKUserLocation {
             mapView.deselectAnnotation(view.annotation, animated: false)
             slowFlyTo(lat: view.annotation!.coordinate.latitude,
@@ -119,32 +125,6 @@ extension ExploreMapViewController {
         selectedAnnotationView = view as? AnnotationViewWithPosts
         mapView.isZoomEnabled = true // AnnotationQuickSelect: 3 of 3, just in case
         switch annotationSelectionType {
-        case .swipe:
-            break
-//            if let clusterView = view as? ClusterAnnotationView {
-//                handleClusterAnnotationSelection(clusterView.annotation as! MKClusterAnnotation, clusterView: clusterView)
-//            } else if let postAnnotationView = view as? PostAnnotationView {
-//                // - 100 because that's roughly the offset between the middle of the map and the annotaiton
-//                let distanceb = postAnnotationView.annotation!.coordinate.distance(from: mapView.centerCoordinate) - 100
-//                if distanceb > 400 {
-//                    slowFlyOutAndIn(lat: view.annotation!.coordinate.latitude + latitudeOffset,
-//                              long: view.annotation!.coordinate.longitude,
-//                              withDuration: cameraAnimationDuration,
-//                              completion: { _ in })
-//                    postAnnotationView.loadPostView(on: mapView,
-//                                                    withDelay: cameraAnimationDuration * 4,
-//                                                    withPostDelegate: self)
-//                } else {
-//                    slowFlyTo(lat: view.annotation!.coordinate.latitude + latitudeOffset,
-//                              long: view.annotation!.coordinate.longitude,
-//                              incrementalZoom: false,
-//                              withDuration: cameraAnimationDuration,
-//                              completion: { _ in })
-//                    postAnnotationView.loadPostView(on: mapView,
-//                                                    withDelay: cameraAnimationDuration,
-//                                                    withPostDelegate: self)
-//                }
-//            }
         case .submission:
             if let clusterView = view as? ClusterAnnotationView {
                 clusterView.loadCollectionView(on: self.mapView, withPostDelegate: self.postDelegate)
