@@ -20,12 +20,11 @@ class SpecialTabBar: UITabBar {
 //        middleButton.imageView?.contentMode = .scaleAspectFit
         middleButton.addTarget(self, action: #selector(middleButtonAction), for: .touchUpInside)
         addSubview(middleButton)
-        
-//        middleButton.animation = "rotate"
-//        middleButton.rotate = 2
-//        middleButton.duration = 10
-//        middleButton.repeatCount = 30
-//        middleButton.animate()
+                
+        middleButton.animation = "swing"
+        middleButton.duration = 7
+        middleButton.repeatCount = 30
+        middleButton.animate()
         return middleButton
         
     }()

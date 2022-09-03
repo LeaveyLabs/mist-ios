@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MapKit
 
 //MARK: - ExploreChildDelegate
 
@@ -40,7 +41,7 @@ extension ExploreParentViewController: ExploreChildDelegate {
             } else if setting == .mentions {
                 posts = PostService.singleton.getMentions()
             } else if setting == .mistbox {
-                posts = PostService.singleton.getMistboxPosts()
+                posts = MistboxManager.shared.getMostRecentMistboxPosts()
             }
         } else {
             posts = PostService.singleton.getExplorePosts()
@@ -52,7 +53,7 @@ extension ExploreParentViewController: ExploreChildDelegate {
         //the reason we don't need to rn is because the feed is not dependent on place data, just post data, and we should scroll to top of feed before refreshing the data
 
         if reloadType == .newSearch {
-            exploreMapVC.mapView.region = exploreMapVC.getRegionCenteredAround(exploreMapVC.postAnnotations + exploreMapVC.placeAnnotations) ?? PostService.singleton.getExploreFilter().region
+            exploreMapVC.mapView.region = exploreMapVC.getRegionCenteredAround(exploreMapVC.postAnnotations + exploreMapVC.placeAnnotations) ?? MKCoordinateRegion.init(center: Constants.Coordinates.USC, latitudinalMeters: 2000, longitudinalMeters: 2000)
         }
 
         //Feed visual update

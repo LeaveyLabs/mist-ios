@@ -113,6 +113,9 @@ extension HomeExploreParentViewController {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [self] in //adding a delay because otherwise we get "annotation is not added to map" sometimes??
                 let greatestCluster = greatestClusterContaining(newPostAnnotation)
                 exploreMapVC.mapView.selectAnnotation(greatestCluster ?? newPostAnnotation, animated: true)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .dmNotificationsAfterNewPost, onVC: self)
+                }
             }
         }
     }

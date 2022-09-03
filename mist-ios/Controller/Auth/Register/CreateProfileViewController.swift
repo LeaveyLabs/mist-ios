@@ -12,6 +12,7 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var profilePictureButton: UIButton!
     @IBOutlet weak var miniCameraButton: UIButton!
+    @IBOutlet weak var profilePicTextLabel: UILabel!
     @IBOutlet weak var continueButton: UIButton!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var firstNameTextField: UITextField!
@@ -28,6 +29,7 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
             continueButton.isEnabled = isValidInput
             continueButton.setNeedsUpdateConfiguration()
             profilePictureButton.imageView?.becomeProfilePicImageView(with: profilePic)
+            profilePicTextLabel.isHidden = profilePic != defaultPic
             miniCameraButton.isHidden = profilePic == defaultPic
         }
     }
@@ -42,7 +44,7 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
             validateInput()
         }
     }
-    let defaultPic = UIImage(systemName: "camera.circle")!.withRenderingMode(.alwaysTemplate)
+    let defaultPic = UIImage(systemName: "circle.fill")!.withRenderingMode(.alwaysTemplate)
 
     override func viewDidLoad() {
         super.viewDidLoad()

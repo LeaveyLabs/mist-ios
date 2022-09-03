@@ -230,6 +230,7 @@ class UserService: NSObject {
     
     func logOut()  {
         eraseUserFromFilesystem()
+        MistboxManager.shared.eraseData()
         frontendCompleteUser = nil
         setGlobalAuthToken(token: "")
     }

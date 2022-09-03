@@ -12,7 +12,7 @@ func loadEverything() async throws {
         group.addTask { try await loadPostStuff() }
         group.addTask { try await ConversationService.singleton.loadMessageThreads() }
         group.addTask { try await FriendRequestService.singleton.loadFriendRequests() }
-        
+        group.addTask { try await MistboxManager.shared.fetchMistboxes() }
         try await group.waitForAll()
     }
 }
@@ -20,7 +20,6 @@ func loadEverything() async throws {
 func loadPostStuff() async throws {
     try await withThrowingTaskGroup(of: Void.self) { group in
         group.addTask { try await PostService.singleton.loadExplorePosts() }
-        group.addTask { try await PostService.singleton.loadMistbox() }
         group.addTask { try await PostService.singleton.loadSubmissions() }
         group.addTask { try await FavoriteService.singleton.loadFavorites() }
         group.addTask { try await VoteService.singleton.loadVotes() }
@@ -61,18 +60,17 @@ class LoadingViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        goToAuth()
-//        if !UserService.singleton.isLoggedIn() {
-//            goToAuth()
-//        } else {
-//            goToHome()
-//        }
+        if !UserService.singleton.isLoggedIn() {
+            goToAuth()
+        } else {
+            goToHome()
+        }
     }
     
     func goToAuth() {
         DispatchQueue.main.asyncAfter(deadline: .now() + Env.TRANSITION_TO_AUTH_DURATION) {
-            transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
-                                   viewControllerID: Constants.SBID.VC.TabBarController,
+            transitionToStoryboard(storyboardID: Constants.SBID.SB.Auth,
+                                   viewControllerID: Constants.SBID.VC.AuthNavigation,
                                     duration: Env.TRANSITION_TO_HOME_DURATION) { _ in}
         }
     }

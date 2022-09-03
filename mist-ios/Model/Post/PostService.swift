@@ -23,7 +23,6 @@ class PostService: NSObject {
     private var submissionPostIds = [Int]()
     private var favoritePostIds = [Int]()
     private var mentionPostIds = [Int]()
-    private var mistboxPostIds = [Int]()
     
     private var explorePostFilter = PostFilter()
     
@@ -59,10 +58,6 @@ class PostService: NSObject {
     
     func loadMentions() async throws {
         mentionPostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchTaggedPosts())
-    }
-    
-    func loadMistbox() async throws {
-        mistboxPostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchKeywordPosts())
     }
     
     //Called by FavoriteService after favorites are loaded in
@@ -134,10 +129,6 @@ class PostService: NSObject {
     
     func getMentions() -> [Post] {
         return getLoadedPostsFor(postIds: mentionPostIds)
-    }
-    
-    func getMistboxPosts() -> [Post] {
-        return getLoadedPostsFor(postIds: mistboxPostIds)
     }
     
     func getExploreFilter() -> PostFilter {

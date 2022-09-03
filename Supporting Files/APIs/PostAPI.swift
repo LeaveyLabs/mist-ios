@@ -17,7 +17,7 @@ struct PostError: Codable {
 
 struct Mistbox: Codable {
     let posts: [Post]
-    let timestamp: Double
+    let creation_time: Double
 }
 
 class PostAPI {
@@ -142,16 +142,11 @@ class PostAPI {
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
-    static func fetchMistboxPosts() async throws -> [Post] {
+    static func fetchMistboxes() async throws -> [Mistbox] {
         let url = "\(Env.BASE_URL)\(PATH_TO_MISTBOX_POSTS)"
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
-        let mistboxes = try JSONDecoder().decode([Mistbox].self, from: data)
-        let mistbox = mistboxes.first
-        if let posts = mistbox?.posts {
-            return posts
-        }
-        return []
+        return try JSONDecoder().decode([Mistbox].self, from: data)
     }
     
     static func fetchTaggedPosts() async throws -> [Post] {

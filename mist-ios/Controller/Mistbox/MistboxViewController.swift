@@ -25,7 +25,7 @@ class MistboxViewController: UIViewController {
     @IBOutlet weak var countdownNumberLabel: UILabel!
     @IBOutlet weak var countdownWordLabel: UILabel!
     @IBOutlet weak var learnMoreButton: UIButton!
-    @IBOutlet weak var graphicImageView: UIImageView!
+    @IBOutlet weak var graphicImageView: SpringImageView!
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var openIcon: UIImageView!
     
@@ -38,7 +38,7 @@ class MistboxViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        MistboxManager.shared.configureMistboxTimes()
+        MistboxManager.shared.updateMistboxReleaseDates()
         setupNavBar()
         setupCountdownTimer()
         commonSetup()
@@ -124,6 +124,8 @@ class MistboxViewController: UIViewController {
         updateKeywordsView.addGestureRecognizer(keywordsTap)
         let mistsTap = UITapGestureRecognizer(target: self, action: #selector(didPressMistboxButton))
         seeMistsView.addGestureRecognizer(mistsTap)
+        let graphicTap = UITapGestureRecognizer(target: self, action: #selector(didPressUnopenedMistbox))
+        graphicImageView.addGestureRecognizer(graphicTap)
     }
     
     func setupNavBar() {
@@ -140,55 +142,46 @@ class MistboxViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.updateUI()
                 }
-                try await Task.sleep(nanoseconds: NSEC_PER_SEC * 3)
+                try await Task.sleep(nanoseconds: NSEC_PER_SEC * 1)
+            }
+        }
+    }
+        
+    @MainActor
+    func updateUI() {
+        MistboxManager.shared.updateMistboxReleaseDates() //just to make sure we have the right time precisely before updating the UI
+        print("1")
+        switch currentLayout {
+        case .countdown:
+            print("2")
+            if !MistboxManager.shared.hasUserActivatedMistbox {
+                print("3")
+                setupWelcomeLayout()
+            } else if MistboxManager.shared.hasUnopenedMistbox {
+                print("4")
+                setupUnopenedLayout()
+            } else {
+                print("5")
+                updateProgressBarAndCountdownLabel()
+            }
+        case .welcome:
+            print("6")
+            if MistboxManager.shared.hasUserActivatedMistbox {
+                print("7")
+                setupCountdownLayout()
+                updateProgressBarAndCountdownLabel()
+            }
+        case .unopened:
+            print("8")
+            if !MistboxManager.shared.hasUnopenedMistbox {
+                print("9")
+                setupCountdownLayout()
+                updateProgressBarAndCountdownLabel()
             }
         }
     }
     
-    var asdf = 1
-    
-    @MainActor
-    func updateUI() {
-        MistboxManager.shared.configureMistboxTimes() //just to make sure we have the right time precisely before updating the UI
-        if asdf == 1 {
-            setupUnopenedLayout()
-        } else if asdf == 2 {
-            setupWelcomeLayout()
-        } else if asdf == 3 {
-            setupCountdownLayout()
-        }
-        asdf += 1
-        if asdf == 4 {
-            asdf = 1
-        }
-//        setupUnopenedLayout()
-//        switch currentLayout {
-//        case .countdown:
-//            if !MistboxManager.shared.hasUserActivatedMistbox {
-//                setupWelcomeLayout()
-//            } else if MistboxManager.shared.hasUnopenedMistbox {
-//                setupUnopenedLayout()
-//            } else {
-//                updateProgressBarAndCountdownLabel()
-//            }
-//        case .welcome:
-//            if MistboxManager.shared.hasUserActivatedMistbox {
-//                setupCountdownLayout()
-//                updateProgressBarAndCountdownLabel()
-//            }
-//        case .unopened:
-//            if !MistboxManager.shared.hasUnopenedMistbox {
-//                setupCountdownLayout()
-//                updateProgressBarAndCountdownLabel()
-//            }
-//        }
-    }
-    
     func updateProgressBarAndCountdownLabel() {
-        
-        //TODO: make sure that in MistboxManager, we handle using the previous vs the current mistbox right at 10am
-            //both in "timeunitlnextmistbox", "percent", "currentdate" and "getmistboxcount"
-        
         let timeUntilMistbox = MistboxManager.shared.timeUntilNextMistbox
         if timeUntilMistbox.hours > 0 {
             countdownWordLabel.text = "hours"
@@ -220,9 +213,10 @@ class MistboxViewController: UIViewController {
         mistboxHeaderLabel.isHidden = true
         learnMoreButton.setTitle("what's a mistbox?", for: .normal)
         learnMoreButton.setImage(UIImage(systemName: "questionmark.circle"), for: .normal)
-        graphicImageView.isHidden = true
+        graphicImageView.isUserInteractionEnabled = false
         graphicImageView.isHidden = false
         graphicImageView.image = UIImage(named: "mistbox-graphic-nowords-1")!
+        seeMistsView.isHidden = false
         seeMistsView.backgroundColor = .white
         openIcon.tintColor = .lightGray
         mistboxCountLabel.textColor = Constants.Color.mistBlack
@@ -241,13 +235,14 @@ class MistboxViewController: UIViewController {
         learnMoreButton.setTitle("until your new mistbox", for: .normal)
         learnMoreButton.setImage(UIImage(systemName: "questionmark.circle"), for: .normal)
         graphicImageView.isHidden = true
+        graphicImageView.isUserInteractionEnabled = false
         seeMistsView.backgroundColor = .white
         openIcon.tintColor = .lightGray
         mistboxCountLabel.textColor = Constants.Color.mistBlack
         mistboxHeaderLabel.textColor =  Constants.Color.mistBlack
         
-        mistboxHeaderLabel.text = MistboxManager.shared.currentMistboxDate
-        mistboxCountLabel.text = String(PostService.singleton.getMistboxPosts().count) + " mists"
+        mistboxHeaderLabel.text = MistboxManager.shared.currentMistboxDateFormatted
+        mistboxCountLabel.text = String(MistboxManager.shared.getMostRecentMistboxPosts().count) + " mists"
     }
     
     func setupUnopenedLayout() {
@@ -258,25 +253,42 @@ class MistboxViewController: UIViewController {
         updateKeywordsView.isHidden = true
         mistboxHeaderLabel.isHidden = false
         graphicImageView.isHidden = false
+        graphicImageView.isUserInteractionEnabled = true
         graphicImageView.image = UIImage(named: "mistbox")!
         learnMoreButton.setTitle("tap to open", for: .normal)
         learnMoreButton.setImage(nil, for: .normal)
         updateKeywordsView.isHidden = true
         
-        mistboxHeaderLabel.text = MistboxManager.shared.currentMistboxDate
-        mistboxCountLabel.text = String(PostService.singleton.getMistboxPosts().count) + " unopened mists"
+        mistboxHeaderLabel.text = MistboxManager.shared.currentMistboxDateFormatted
+        mistboxCountLabel.text = String(MistboxManager.shared.getMostRecentMistboxPosts().count) + " unopened mists"
+        
+        shakeMistbox()
+    }
+    
+    func shakeMistbox() {
+        let duration = Double.random(in: 1.7..<3)
+        graphicImageView.animation = "shake"
+        graphicImageView.duration = duration
+        graphicImageView.curve = "spring"
+        graphicImageView.animate()
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+            self.shakeMistbox()
+        }
+
     }
     
     //MARK: - UserInteraction
     
     @objc func didPressMistboxButton() {
         switch currentLayout {
-        case .countdown, .unopened:
+        case .countdown:
             guard let mistboxExplore = CustomExploreParentViewController.create(setting: .mistbox) else { return }
             navigationController?.pushViewController(mistboxExplore, animated: true)
-            MistboxManager.shared.handleOpenMistbox()
+            MistboxManager.shared.openMistbox()
         case .welcome:
             didPressKeywordsButton() //because the MistboxButton acts as the KeywordsButton
+        case .unopened:
+            break //this wont be reached
         }
     }
     
@@ -287,6 +299,35 @@ class MistboxViewController: UIViewController {
             present(learnMoreVC, animated: true)
         case .unopened:
             break
+        }
+    }
+    
+    @objc func didPressUnopenedMistbox() {
+        guard let mistboxExplore = CustomExploreParentViewController.create(setting: .mistbox) else { return }
+
+        customNavBar.isHidden = true
+        learnMoreButton.alpha = 0
+        tabBarController?.tabBar.isHidden = true
+        
+        graphicImageView.animation = "zoomOut"
+        graphicImageView.duration = 4
+        graphicImageView.curve = "linear"
+        graphicImageView.scaleX = 5
+        graphicImageView.scaleY = 5
+        graphicImageView.animate()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in //so that the navbar turns hidden before the animation is added, otherwise navbar disappear also is aniamted
+            let transition: CATransition = CATransition()
+            transition.duration = 4
+            transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+            transition.type = CATransitionType.fade
+            navigationController!.view.layer.add(transition, forKey: nil)
+            navigationController?.pushViewController(mistboxExplore, animated: false) {
+                self.customNavBar.isHidden = false
+                self.learnMoreButton.alpha = 1
+                //settings tabbar.ishidden = true sets it visible too early
+                MistboxManager.shared.openMistbox()
+            }
         }
     }
     
