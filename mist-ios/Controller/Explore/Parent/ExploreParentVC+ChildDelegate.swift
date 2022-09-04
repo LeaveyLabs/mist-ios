@@ -53,7 +53,7 @@ extension ExploreParentViewController: ExploreChildDelegate {
         //the reason we don't need to rn is because the feed is not dependent on place data, just post data, and we should scroll to top of feed before refreshing the data
 
         if reloadType == .newSearch {
-            exploreMapVC.mapView.region = exploreMapVC.getRegionCenteredAround(exploreMapVC.postAnnotations + exploreMapVC.placeAnnotations) ?? MKCoordinateRegion.init(center: Constants.Coordinates.USC, latitudinalMeters: 2000, longitudinalMeters: 2000)
+            exploreMapVC.mapView.setRegion(exploreMapVC.getRegionCenteredAround(exploreMapVC.postAnnotations + exploreMapVC.placeAnnotations) ?? MKCoordinateRegion.init(center: Constants.Coordinates.USC, latitudinalMeters: 2000, longitudinalMeters: 2000), animated: true)
         }
 
         //Feed visual update

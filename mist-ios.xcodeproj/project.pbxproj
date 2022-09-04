@@ -175,7 +175,7 @@
 		47C2834F27DED77500A19128 /* FeedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C2834D27DED77500A19128 /* FeedHeaderCell.swift */; };
 		47C2835027DED77500A19128 /* FeedHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C2834E27DED77500A19128 /* FeedHeaderCell.xib */; };
 		47CBF6F128356A7C00096514 /* FilterSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CBF6F028356A7C00096514 /* FilterSheetViewController.swift */; };
-		47CE900A27E058090004B756 /* PinMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900927E058090004B756 /* PinMapViewController.swift */; };
+		47CE900A27E058090004B756 /* PinMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900927E058090004B756 /* PinMapVC.swift */; };
 		47CE900C27E059DC0004B756 /* PinMapModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */; };
 		47CEEE9828545207008947FC /* UIBarButtonItem+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CEEE9728545207008947FC /* UIBarButtonItem+Image.swift */; };
 		47D5B3672844116A004CDE6C /* UIView+AddBorders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D5B3662844116A004CDE6C /* UIView+AddBorders.swift */; };
@@ -281,6 +281,8 @@
 		5B6208A728B4B6F7005610A9 /* FeedbackFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6208A428B4B6F7005610A9 /* FeedbackFormCell.swift */; };
 		5B6208A828B4B6F7005610A9 /* FeedbackFormCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B6208A528B4B6F7005610A9 /* FeedbackFormCell.xib */; };
 		5B6208A928B4B6F7005610A9 /* FeedbackFormCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B6208A528B4B6F7005610A9 /* FeedbackFormCell.xib */; };
+		5B62F59528C3F93D002931E5 /* PinParentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B62F59428C3F93D002931E5 /* PinParentVC.swift */; };
+		5B62F59628C3F93D002931E5 /* PinParentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B62F59428C3F93D002931E5 /* PinParentVC.swift */; };
 		5B6AD61528690E1800B1FFA8 /* AnnotationSelectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6AD61428690E1800B1FFA8 /* AnnotationSelectionType.swift */; };
 		5B739D6E2891F9DF00E4EED0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5B739D6D2891F9DF00E4EED0 /* GoogleService-Info.plist */; };
 		5B739D712891FD4C00E4EED0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 5B739D702891FD4C00E4EED0 /* FirebaseAnalytics */; };
@@ -362,7 +364,7 @@
 		5B739DDA28935B9500E4EED0 /* NewPostTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A3D71C27D5940D003DBEA5 /* NewPostTextView.swift */; };
 		5B739DDB28935B9500E4EED0 /* VoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624D02867A51500DCD45B /* VoteService.swift */; };
 		5B739DDC28935B9500E4EED0 /* SpringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A4BDE28408BD800FD52B7 /* SpringView.swift */; };
-		5B739DDD28935B9500E4EED0 /* PinMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900927E058090004B756 /* PinMapViewController.swift */; };
+		5B739DDD28935B9500E4EED0 /* PinMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900927E058090004B756 /* PinMapVC.swift */; };
 		5B739DDE28935B9500E4EED0 /* FeedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C2834D27DED77500A19128 /* FeedHeaderCell.swift */; };
 		5B739DDF28935B9500E4EED0 /* SearchSuggestionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271227DE6F5800C6DDAF /* SearchSuggestionsTableViewController.swift */; };
 		5B739DE028935B9500E4EED0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369DB0B282EC465009215D4 /* Message.swift */; };
@@ -633,8 +635,8 @@
 		5BD6F47F2896B3020002A60B /* StringChat+Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */; };
 		5BD7481F28C1EB68005C7820 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD7481E28C1EB68005C7820 /* LocationManager.swift */; };
 		5BD7482028C1EB68005C7820 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD7481E28C1EB68005C7820 /* LocationManager.swift */; };
-		5BD8E07E28C1FB1C00E722D4 /* NewPostViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8E07D28C1FB1C00E722D4 /* NewPostViewController+Search.swift */; };
-		5BD8E07F28C1FB1C00E722D4 /* NewPostViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8E07D28C1FB1C00E722D4 /* NewPostViewController+Search.swift */; };
+		5BD8E07E28C1FB1C00E722D4 /* PinSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8E07D28C1FB1C00E722D4 /* PinSearchVC.swift */; };
+		5BD8E07F28C1FB1C00E722D4 /* PinSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8E07D28C1FB1C00E722D4 /* PinSearchVC.swift */; };
 		5BE110022876CD9D00CB54A6 /* RequestResetNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110012876CD9D00CB54A6 /* RequestResetNumberViewController.swift */; };
 		5BE110042876CDB100CB54A6 /* ValidateResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */; };
 		5BE110062876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */; };
@@ -855,7 +857,7 @@
 		47C2834E27DED77500A19128 /* FeedHeaderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedHeaderCell.xib; sourceTree = "<group>"; };
 		47CBF6ED283556E600096514 /* SwiftyAttributes.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SwiftyAttributes.xcframework; path = Carthage/Build/SwiftyAttributes.xcframework; sourceTree = "<group>"; };
 		47CBF6F028356A7C00096514 /* FilterSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSheetViewController.swift; sourceTree = "<group>"; };
-		47CE900927E058090004B756 /* PinMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinMapViewController.swift; sourceTree = "<group>"; };
+		47CE900927E058090004B756 /* PinMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinMapVC.swift; sourceTree = "<group>"; };
 		47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinMapModalViewController.swift; sourceTree = "<group>"; };
 		47CEEE9728545207008947FC /* UIBarButtonItem+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Image.swift"; sourceTree = "<group>"; };
 		47D5B3662844116A004CDE6C /* UIView+AddBorders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AddBorders.swift"; sourceTree = "<group>"; };
@@ -931,6 +933,7 @@
 		5B6208A128B4B367005610A9 /* AppStoreReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreReviewManager.swift; sourceTree = "<group>"; };
 		5B6208A428B4B6F7005610A9 /* FeedbackFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackFormCell.swift; sourceTree = "<group>"; };
 		5B6208A528B4B6F7005610A9 /* FeedbackFormCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedbackFormCell.xib; sourceTree = "<group>"; };
+		5B62F59428C3F93D002931E5 /* PinParentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinParentVC.swift; sourceTree = "<group>"; };
 		5B6AD61428690E1800B1FFA8 /* AnnotationSelectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationSelectionType.swift; sourceTree = "<group>"; };
 		5B739D6D2891F9DF00E4EED0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5B739E8D28935B9500E4EED0 /* mist-ios-dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mist-ios-dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1005,7 +1008,7 @@
 		5BCEA50E289A489700602A4D /* PostViewController+Autocomplete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+Autocomplete.swift"; sourceTree = "<group>"; };
 		5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringChat+Emoji.swift"; sourceTree = "<group>"; };
 		5BD7481E28C1EB68005C7820 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
-		5BD8E07D28C1FB1C00E722D4 /* NewPostViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewPostViewController+Search.swift"; sourceTree = "<group>"; };
+		5BD8E07D28C1FB1C00E722D4 /* PinSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinSearchVC.swift; sourceTree = "<group>"; };
 		5BE110012876CD9D00CB54A6 /* RequestResetNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResetNumberViewController.swift; sourceTree = "<group>"; };
 		5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateResetPasswordViewController.swift; sourceTree = "<group>"; };
 		5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalizeResetPasswordViewController.swift; sourceTree = "<group>"; };
@@ -1714,12 +1717,9 @@
 		47FF86A427DC76000076A1CA /* NewPost */ = {
 			isa = PBXGroup;
 			children = (
-				4746508627D8735B0014217C /* RulesViewController.swift */,
 				47A3D70127D524F4003DBEA5 /* NewPostViewController.swift */,
-				5BD8E07D28C1FB1C00E722D4 /* NewPostViewController+Search.swift */,
-				47CE900927E058090004B756 /* PinMapViewController.swift */,
-				47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */,
 				5BC2532328BC7F1500D4F49A /* GuidelinesViewController.swift */,
+				5B62F59728C3F992002931E5 /* Pin */,
 			);
 			path = NewPost;
 			sourceTree = "<group>";
@@ -1747,6 +1747,8 @@
 		5B1F16D3287D41ED00035F93 /* Decomissioned */ = {
 			isa = PBXGroup;
 			children = (
+				4746508627D8735B0014217C /* RulesViewController.swift */,
+				47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */,
 				5B1F16D1287D1E5000035F93 /* CustomExploreViewController.swift */,
 				47A3D6FF27D50CF1003DBEA5 /* FeedViewController.swift */,
 				5B1F16CD287D1ABD00035F93 /* HomeViewController.swift */,
@@ -1798,6 +1800,16 @@
 				5BC2EC4128B5B99A0047D5B4 /* PhotoDetailViewController.swift */,
 			);
 			path = Friends;
+			sourceTree = "<group>";
+		};
+		5B62F59728C3F992002931E5 /* Pin */ = {
+			isa = PBXGroup;
+			children = (
+				5B62F59428C3F93D002931E5 /* PinParentVC.swift */,
+				47CE900927E058090004B756 /* PinMapVC.swift */,
+				5BD8E07D28C1FB1C00E722D4 /* PinSearchVC.swift */,
+			);
+			path = Pin;
 			sourceTree = "<group>";
 		};
 		5B739E942893684400E4EED0 /* Dev.plists */ = {
@@ -2431,7 +2443,7 @@
 				478BA27F283E85F500C35507 /* AuthContext.swift in Sources */,
 				478A789B284E73970058C845 /* CLLocationCoordiante+Midpoint.swift in Sources */,
 				47FF86A127DC712F0076A1CA /* Comment.swift in Sources */,
-				5BD8E07E28C1FB1C00E722D4 /* NewPostViewController+Search.swift in Sources */,
+				5BD8E07E28C1FB1C00E722D4 /* PinSearchVC.swift in Sources */,
 				47EA3E0227E0151200381218 /* MapViewController.swift in Sources */,
 				43483BB228025179001C7C6A /* ChooseUsernameViewController.swift in Sources */,
 				479683F32826494100CA23BA /* UIColor+Theme.swift in Sources */,
@@ -2466,7 +2478,7 @@
 				5BB624D12867A51500DCD45B /* VoteService.swift in Sources */,
 				472A4BFC28408BD800FD52B7 /* SpringView.swift in Sources */,
 				5B879E7A28B804B900D2DFC1 /* ConfirmCodeViewController.swift in Sources */,
-				47CE900A27E058090004B756 /* PinMapViewController.swift in Sources */,
+				47CE900A27E058090004B756 /* PinMapVC.swift in Sources */,
 				47C2834F27DED77500A19128 /* FeedHeaderCell.swift in Sources */,
 				5BC2531228BB1A6800D4F49A /* CarouselCollectionView.swift in Sources */,
 				470F271327DE6F5800C6DDAF /* SearchSuggestionsTableViewController.swift in Sources */,
@@ -2642,6 +2654,7 @@
 				5BCE5F8228B483D2002078E1 /* CommentMoreViewController.swift in Sources */,
 				5B879E7628B7E3C000D2DFC1 /* CreateProfileViewController.swift in Sources */,
 				5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */,
+				5B62F59528C3F93D002931E5 /* PinParentVC.swift in Sources */,
 				5BE147D128A2A1E80096FEBE /* String+Ranges.swift in Sources */,
 				5BC2EC4228B5B99A0047D5B4 /* PhotoDetailViewController.swift in Sources */,
 				5BA401F72878052B004A556E /* Env.swift in Sources */,
@@ -2747,7 +2760,7 @@
 				5BBF5C51289B9FE1000B2D31 /* InputAvatar.swift in Sources */,
 				5B739DBE28935B9500E4EED0 /* MKClusterAnnotation+*.swift in Sources */,
 				5B739DBF28935B9500E4EED0 /* AuthContext.swift in Sources */,
-				5BD8E07F28C1FB1C00E722D4 /* NewPostViewController+Search.swift in Sources */,
+				5BD8E07F28C1FB1C00E722D4 /* PinSearchVC.swift in Sources */,
 				5B739DC028935B9500E4EED0 /* CLLocationCoordiante+Midpoint.swift in Sources */,
 				5B739DC128935B9500E4EED0 /* Comment.swift in Sources */,
 				5B739DC228935B9500E4EED0 /* MapViewController.swift in Sources */,
@@ -2785,7 +2798,7 @@
 				5B739DDB28935B9500E4EED0 /* VoteService.swift in Sources */,
 				5B739DDC28935B9500E4EED0 /* SpringView.swift in Sources */,
 				5BC2531328BB1A6800D4F49A /* CarouselCollectionView.swift in Sources */,
-				5B739DDD28935B9500E4EED0 /* PinMapViewController.swift in Sources */,
+				5B739DDD28935B9500E4EED0 /* PinMapVC.swift in Sources */,
 				5B739DDE28935B9500E4EED0 /* FeedHeaderCell.swift in Sources */,
 				5B739DDF28935B9500E4EED0 /* SearchSuggestionsTableViewController.swift in Sources */,
 				5B739DE028935B9500E4EED0 /* Message.swift in Sources */,
@@ -2958,6 +2971,7 @@
 				5B739E5D28935B9500E4EED0 /* MKPlacemark+Address.swift in Sources */,
 				5B879E7728B7E3C000D2DFC1 /* CreateProfileViewController.swift in Sources */,
 				5B739E5E28935B9500E4EED0 /* InformationCollectionCell.swift in Sources */,
+				5B62F59628C3F93D002931E5 /* PinParentVC.swift in Sources */,
 				5B739E5F28935B9500E4EED0 /* Env.swift in Sources */,
 				5BC2EC4328B5B99A0047D5B4 /* PhotoDetailViewController.swift in Sources */,
 				5B739E6028935B9500E4EED0 /* ChatMoreViewController.swift in Sources */,

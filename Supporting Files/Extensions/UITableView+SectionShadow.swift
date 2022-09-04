@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension UITableView {
     
@@ -16,7 +17,7 @@ extension UITableView {
     //but for tableviews that could be very long, a new way of calculating the bacgkroundview's height is necessary
     
     //have to use exploreVC's view and not superview for this to work in explore search controller
-    func setupTableViewSectionShadows(behindView: UIView) {
+    func setupTableViewSectionShadows(behindView: UIView, withBGColor bgColor: UIColor) {
         backgroundColor = .clear
         subviews.forEach { subview in
             subview.applyMediumShadow()
@@ -28,7 +29,7 @@ extension UITableView {
                                                      y: behindView.frame.minY - 500,
                                                      width: behindView.frame.width,
                                                      height: behindView.frame.height + 1000))
-        tableViewExtraBackgroundView.backgroundColor = .systemGroupedBackground
+        tableViewExtraBackgroundView.backgroundColor = bgColor
         addSubview(tableViewExtraBackgroundView)
         sendSubviewToBack(tableViewExtraBackgroundView)
         

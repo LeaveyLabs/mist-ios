@@ -70,8 +70,9 @@ struct Constants {
             //NewPost
             static let NewPost = "NewPostViewController"
             static let Guidelines = "GuidelinesViewController"
-            static let PinMapModal = "PinMapModalViewController"
+            static let PinParent = "PinParentViewController"
             static let PinMap = "PinMapViewController"
+            static let PinSearch = "PinSearchViewController"
             //Account
             static let Profile = "ProfileViewController"
             static let PhotoDetail = "PhotoDetailViewController"

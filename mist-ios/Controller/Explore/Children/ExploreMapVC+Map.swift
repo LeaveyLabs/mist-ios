@@ -127,7 +127,14 @@ extension ExploreMapViewController {
         switch annotationSelectionType {
         case .submission:
             if let clusterView = view as? ClusterAnnotationView {
-                clusterView.loadCollectionView(on: self.mapView, withPostDelegate: self.postDelegate)
+                //slow fly again after slow flying originally, because the clusterView could be offset from the post within the cluster, adn we want the cluster to be centered
+                slowFlyWithoutZoomTo(lat: clusterView.annotation!.coordinate.latitude,
+                                     long: clusterView.annotation!.coordinate.longitude,
+                                      withDuration: cameraAnimationDuration,
+                                      completion: { [weak self] completed in
+                    guard let self = self else { return }
+                    clusterView.loadCollectionView(on: self.mapView, withPostDelegate: self.postDelegate)
+                })
             } else if let postAnnotationView = view as? PostAnnotationView {
                 postAnnotationView.loadPostView(on: mapView,
                                                 withDelay: 0,
@@ -208,7 +215,8 @@ extension ExploreMapViewController {
     
     func renderNewPlacesOnMap() {
         removeExistingPlaceAnnotationsFromMap()
-        mapView.region = getRegionCenteredAround(placeAnnotations) ?? PostService.singleton.getExploreFilter().region
+//        mapView.region = getRegionCenteredAround(placeAnnotations) ?? PostService.singleton.getExploreFilter().region
+        mapView.setRegion(getRegionCenteredAround(placeAnnotations) ?? PostService.singleton.getExploreFilter().region, animated: true)
         mapView.addAnnotations(placeAnnotations)
     }
     

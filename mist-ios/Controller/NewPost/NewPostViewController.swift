@@ -60,7 +60,7 @@ class NewPostViewController: KUIViewController {
     var currentPin: CLLocationCoordinate2D? {
         didSet {
             if let _ = currentPin {
-                pinButton.setImage(UIImage(systemName: "mappin.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .medium)), for: .normal)
+                pinButton.setImage(UIImage(systemName: "mappin.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .small)), for: .normal)
             } else {
                 switch LocationManager.Shared.authorizationStatus {
                 case .authorizedAlways, .authorizedWhenInUse:
@@ -90,7 +90,6 @@ class NewPostViewController: KUIViewController {
         setupDateTimeTextField()
         setupProgressView()
         setupTextViews()
-        setupSearchBar()
         setupIndicatorViews()
         loadFromNewPostContext() //should come after setting up views
         validateAllFields()
@@ -275,12 +274,10 @@ class NewPostViewController: KUIViewController {
     }
     
     @IBAction func userDidTappedPinButton(_ sender: UIButton) {
-//        presentExploreSearchController()
-        let pinMapVC = storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.PinMap) as! PinMapViewController
-        pinMapVC.pinnedAnnotation = currentlyPinnedAnnotation // Load the currently pinned annotation, if one exists
-        pinMapVC.completionHandler = { [self] (newAnnotation) in
-            currentlyPinnedAnnotation = newAnnotation
-        }
+        let pinParentVC = PinParentViewController.create(currentPin: currentPin, completionHandler: { [self] newPin in
+            currentPin = newPin
+        })
+        navigationController?.pushViewController(pinParentVC, animated: true)
     }
 }
 

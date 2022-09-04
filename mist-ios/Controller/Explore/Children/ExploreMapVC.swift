@@ -97,7 +97,7 @@ extension ExploreMapViewController {
         if let userLocation = locationManager.location {
             mapView.camera.centerCoordinate = userLocation.coordinate
             mapView.camera.centerCoordinateDistance = MapViewController.STARTING_ZOOM_DISTANCE
-            mapView.camera.pitch = MapViewController.MAX_CAMERA_PITCH
+            mapView.camera.pitch = maxCameraPitch
         }
     }
     

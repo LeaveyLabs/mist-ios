@@ -31,7 +31,7 @@ extension ExploreMapViewController {
         //resultsTableViewController
         searchSuggestionsVC = self.storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.SearchSuggestions) as? SearchSuggestionsTableViewController
         searchSuggestionsVC.tableView.delegate = self
-        searchSuggestionsVC.tableView.setupTableViewSectionShadows(behindView: view)
+        searchSuggestionsVC.tableView.setupTableViewSectionShadows(behindView: view, withBGColor: Constants.Color.offWhite)
         searchSuggestionsVC.isFragmentSearchEnabled = true
         
         //searchController

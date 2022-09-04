@@ -37,7 +37,7 @@ class MapViewController: UIViewController {
     // Camera
     static let STARTING_ZOOM_DISTANCE: Double = 3000
     static let MIN_CAMERA_DISTANCE: Double = 500
-    static let MAX_CAMERA_PITCH: Double = 20
+    var maxCameraPitch: Double = 20
 //    static let MIN_CAMERA_PITCH: Double = 0 //not implemented yet
     static let ANNOTATION_ZOOM_THRESHOLD: Double = STARTING_ZOOM_DISTANCE + 200
     let minSpanDelta = 0.02
@@ -47,6 +47,8 @@ class MapViewController: UIViewController {
             mapView.isUserInteractionEnabled = !isCameraFlying
         }
     }
+    
+    var isCameraZooming: Bool = false
     var modifyingMap: Bool = false
     var latitudeOffset: Double!
     //remove one of these three
@@ -120,7 +122,7 @@ class MapViewController: UIViewController {
         centerMapOnUSC()
         mapView.camera = MKMapCamera(lookingAtCenter: mapView.centerCoordinate,
                                      fromDistance: MapViewController.STARTING_ZOOM_DISTANCE,
-                                     pitch: MapViewController.MAX_CAMERA_PITCH,
+                                     pitch: maxCameraPitch,
                                      heading: mapView.camera.heading)
         isCameraFlying = false
     }
@@ -276,9 +278,9 @@ extension MapViewController: MKMapViewDelegate {
         
         // Limit minimum pitch. Doing this because of weird behavior with clicking on posts from a pitch less than 50
         
-        if mapView.camera.pitch > MapViewController.MAX_CAMERA_PITCH && !modifyingMap {
+        if mapView.camera.pitch > maxCameraPitch && !modifyingMap {
             modifyingMap = true
-            mapView.camera.pitch = MapViewController.MAX_CAMERA_PITCH
+            mapView.camera.pitch = maxCameraPitch
             modifyingMap = false
         }
         
@@ -353,7 +355,7 @@ extension MapViewController {
     }
     
     func centerMapOn(lat: Double, long: Double) {
-        let newCamera = MKMapCamera(lookingAtCenter: CLLocationCoordinate2D.init(latitude: lat, longitude: long), fromDistance: mapView.camera.centerCoordinateDistance, pitch: MapViewController.MAX_CAMERA_PITCH, heading: 0)
+        let newCamera = MKMapCamera(lookingAtCenter: CLLocationCoordinate2D.init(latitude: lat, longitude: long), fromDistance: mapView.camera.centerCoordinateDistance, pitch: maxCameraPitch, heading: 0)
         mapView.camera = newCamera
     }
     
@@ -371,7 +373,7 @@ extension MapViewController {
         }
         let finalCamera = MKMapCamera(lookingAtCenter: destination,
                                          fromDistance: newCLLDistance,
-                                      pitch: MapViewController.MAX_CAMERA_PITCH,
+                                      pitch: maxCameraPitch,
                                          heading: 0)
         UIView.animate(withDuration: duration,
                        delay: 0,
@@ -399,7 +401,7 @@ extension MapViewController {
         let destination = CLLocationCoordinate2D(latitude: lat + dynamicLatOffset, longitude: long)
         let finalCamera = MKMapCamera(lookingAtCenter: destination,
                                       fromDistance: currentDistance,
-                                      pitch: MapViewController.MAX_CAMERA_PITCH,
+                                      pitch: maxCameraPitch,
                                          heading: 0)
         UIView.animate(withDuration: duration,
                        delay: 0,
@@ -420,7 +422,7 @@ extension MapViewController {
         let destination = CLLocationCoordinate2D(latitude: lat, longitude: long)
         let finalCamera = MKMapCamera(lookingAtCenter: destination,
                                          fromDistance: finalDistance,
-                                      pitch: MapViewController.MAX_CAMERA_PITCH,
+                                      pitch: maxCameraPitch,
                                          heading: 0)
         let currentLocation = mapView.camera.centerCoordinate
         let midwayPoint = currentLocation.geographicMidpoint(betweenCoordinates: [destination])
@@ -428,7 +430,7 @@ extension MapViewController {
         let midwayDistance = mapView.camera.centerCoordinateDistance +  distanceBetween * 2
         let preRotationCamera = MKMapCamera(lookingAtCenter: midwayPoint,
                                             fromDistance: midwayDistance,
-                                         pitch: MapViewController.MAX_CAMERA_PITCH,
+                                         pitch: maxCameraPitch,
                                          heading: 0)
         isCameraFlying = true
         isCameraFlyingOutAndIn = true
@@ -486,10 +488,12 @@ extension MapViewController {
     
     // Zoomin / zoomout button
     func zoomByAFactorOf(_ factor: Double, _ completion: @escaping () -> Void) {
+        isCameraZooming = true
         isCameraFlying = true
         let newDistance = mapView.camera.centerCoordinateDistance * factor
         let newAdjustedDistance = max(newDistance, MapViewController.MIN_CAMERA_DISTANCE)
-        let newPitch = min(mapView.camera.pitch, MapViewController.MAX_CAMERA_PITCH) //I use 30 instead of 50 just to add the extra pitch transition to make it more dnamic when zooming out
+        let newPitch = mapView.camera.pitch //min(mapView.camera.pitch, MapViewController.MAX_CAMERA_PITCH)  //using pitch with zoom was cuasing issues for drop a pin
+        //I use 30 instead of 50 just to add the extra pitch transition to make it more dnamic when zooming out
         //Note: you have to actually set a newPitch value like above. It seems that if you use the old pitch value for rotationCamera, sometimes the camera won't actually be changed for some reason
         let rotationCamera = MKMapCamera(lookingAtCenter: mapView.camera.centerCoordinate,
                                          fromDistance: newAdjustedDistance,
@@ -500,8 +504,9 @@ extension MapViewController {
                        options: .curveEaseInOut,
                        animations: {
             self.mapView.camera = rotationCamera
-        }) { finished in
+        }) { [weak self] finished in
             completion()
+            self?.isCameraZooming = false
         }
     }
     
@@ -512,7 +517,7 @@ extension MapViewController {
         // Prepare the new pitch based on the new value of isThreeDimensional
         var newPitch: Double
         if isThreeDimensional {
-            newPitch = MapViewController.MAX_CAMERA_PITCH
+            newPitch = maxCameraPitch
         } else {
             newPitch = 0.0
         }

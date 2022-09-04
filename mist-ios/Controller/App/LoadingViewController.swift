@@ -95,7 +95,7 @@ class LoadingViewController: UIViewController {
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + Env.TRANSITION_TO_AUTH_DURATION) {
                 transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
-                                        viewControllerID: Constants.SBID.VC.NewPostNavigation,
+                                        viewControllerID: Constants.SBID.VC.TabBarController,
                                         duration: Env.TRANSITION_TO_HOME_DURATION) { _ in
                 }
             }
