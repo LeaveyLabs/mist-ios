@@ -38,12 +38,24 @@ class HomeExploreParentViewController: ExploreParentViewController {
         guard firstAppearance else { return }
         firstAppearance = false
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.15) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.15) { [self] in
             self.renderNewPostsOnFeedAndMap(withType: .firstLoad)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                guard !hasRequestedLocationPermissionsDuringAppSession else { return }
-                self.exploreMapVC.requestUserLocationPermissionIfNecessary()
+            if !hasRequestedLocationPermissionsDuringAppSession && (exploreMapVC.locationManager.authorizationStatus == .denied ||
+                exploreMapVC.locationManager.authorizationStatus == .notDetermined) {
                 hasRequestedLocationPermissionsDuringAppSession = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    exploreMapVC.requestUserLocationPermissionIfNecessary()
+                }
+                
+            } else {
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [self] in
+//                    if let cluster = exploreMapVC.mapView?.greatestClusterAnnotation {
+//                        exploreMapVC.mapView.
+//                        exploreMapVC.mapView.selectAnnotation(cluster, animated: true)
+//                    } else if let annotation = exploreMapVC.postAnnotations.first {
+//                        exploreMapVC.mapView.selectAnnotation(annotation, animated: true)
+//                    }
+//                }
             }
         }
         
@@ -132,6 +144,20 @@ extension HomeExploreParentViewController {
             candidateClusters.append(cluster)
         }
         return candidateClusters.sorted(by: { $0.memberAnnotations.count > $1.memberAnnotations.count }).first
+    }
+    
+}
+
+extension MKMapView {
+    
+    var greatestClusterAnnotation: MKClusterAnnotation? {
+        var greatestClusterAnnotation: MKClusterAnnotation? = nil
+        annotations.forEach { annotation in
+            if let cluster = annotation as? MKClusterAnnotation, cluster.memberAnnotations.count > greatestClusterAnnotation?.memberAnnotations.count ?? 0 {
+                greatestClusterAnnotation = cluster
+            }
+        }
+        return greatestClusterAnnotation
     }
     
 }

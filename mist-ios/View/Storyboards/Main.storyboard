@@ -201,6 +201,21 @@
             </objects>
             <point key="canvasLocation" x="-1012.3076923076923" y="4012.3222748815165"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="kTg-GM-boA">
+            <objects>
+                <viewController id="iJ4-If-dQH" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9ia-j5-IXc">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="B6N-5T-prn"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WTd-x4-fhL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1032" y="3321"/>
+        </scene>
         <!--Guidelines View Controller-->
         <scene sceneID="rZD-yS-ktF">
             <objects>
@@ -214,7 +229,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mhp-ql-dJ7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1043" y="3323"/>
+            <point key="canvasLocation" x="-315" y="3323"/>
         </scene>
         <!--Special Tab Bar Controller-->
         <scene sceneID="PLu-W2-ENU">
@@ -2178,7 +2193,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" name="off-white"/>
                                 <constraints>
                                     <constraint firstItem="gFc-Md-ncF" firstAttribute="leading" secondItem="soa-AW-aO4" secondAttribute="leading" constant="10" id="JSW-vN-OHE"/>
                                     <constraint firstItem="gFc-Md-ncF" firstAttribute="centerY" secondItem="soa-AW-aO4" secondAttribute="centerY" id="Nxr-jQ-2VE"/>
@@ -2189,20 +2204,20 @@
                                     <constraint firstAttribute="trailing" secondItem="wMs-lR-jk6" secondAttribute="trailing" constant="20" id="xyv-c3-ewe"/>
                                 </constraints>
                             </view>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0vN-fR-xob">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0vN-fR-xob">
                                 <rect key="frame" x="0.0" y="94" width="390" height="716"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qc3-QU-TX3" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="265"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="269"/>
                                         <subviews>
                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.0099999997764825821" translatesAutoresizingMaskIntoConstraints="NO" id="JSX-W4-xgB">
                                                 <rect key="frame" x="0.0" y="0.0" width="390" height="2.666666666666667"/>
                                             </progressView>
                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x2W-5m-lTz" userLabel="PostBubbleView">
-                                                <rect key="frame" x="10" y="11.666666666666671" width="365" height="243.33333333333331"/>
+                                                <rect key="frame" x="12" y="13.666666666666671" width="363" height="243.33333333333331"/>
                                                 <subviews>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="pour your heart out" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="OVP-oT-mo6" customClass="NewPostTextView" customModule="mist_ios" customModuleProvider="target">
-                                                        <rect key="frame" x="15" y="108.33333333333331" width="335" height="120"/>
+                                                        <rect key="frame" x="15" y="108.33333333333331" width="333" height="120"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="120" id="VRm-Oa-ncq"/>
                                                         </constraints>
@@ -2211,7 +2226,7 @@
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textView>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="a cute title" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Iic-TR-uAk" customClass="NewPostTextView" customModule="mist_ios" customModuleProvider="target">
-                                                        <rect key="frame" x="15" y="57.999999999999986" width="335" height="54.333333333333329"/>
+                                                        <rect key="frame" x="15" y="57.999999999999986" width="333" height="54.333333333333329"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="49" id="TyY-Qg-LLG"/>
                                                         </constraints>
@@ -2220,7 +2235,7 @@
                                                         <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                     </textView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="d76-Ur-nhi">
-                                                        <rect key="frame" x="11" y="13" width="343" height="35"/>
+                                                        <rect key="frame" x="11" y="13" width="341" height="35"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Scd-dZ-nEi" userLabel="Pin Button">
                                                                 <rect key="frame" x="0.0" y="0.0" width="48" height="35"/>
@@ -2241,7 +2256,7 @@
                                                                 </connections>
                                                             </button>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="location name" textAlignment="center" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="qaR-57-CDg" customClass="NewPostTextField" customModule="mist_ios" customModuleProvider="target">
-                                                                <rect key="frame" x="58" y="0.0" width="165" height="35"/>
+                                                                <rect key="frame" x="58" y="0.0" width="163" height="35"/>
                                                                 <color key="backgroundColor" name="mist-pink"/>
                                                                 <color key="tintColor" name="mist-lilac"/>
                                                                 <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
@@ -2251,7 +2266,7 @@
                                                                 </connections>
                                                             </textField>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="just now" textAlignment="center" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="nCN-3L-vbD" customClass="NewPostTextField" customModule="mist_ios" customModuleProvider="target">
-                                                                <rect key="frame" x="233" y="0.0" width="110" height="35"/>
+                                                                <rect key="frame" x="231" y="0.0" width="110" height="35"/>
                                                                 <color key="backgroundColor" name="mist-pink"/>
                                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <constraints>
@@ -2279,7 +2294,7 @@
                                                         </connections>
                                                     </button>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CUc-2u-pl4">
-                                                        <rect key="frame" x="228" y="11" width="8" height="8"/>
+                                                        <rect key="frame" x="226" y="11" width="8" height="8"/>
                                                         <color key="backgroundColor" name="mist-lilac"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="8" id="ABT-Al-aSc"/>
@@ -2331,14 +2346,15 @@
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="JSX-W4-xgB" secondAttribute="trailing" id="8KV-Mv-bLJ"/>
                                             <constraint firstAttribute="trailing" secondItem="x2W-5m-lTz" secondAttribute="trailing" constant="15" id="Mxh-Tf-xGu"/>
-                                            <constraint firstAttribute="bottom" secondItem="x2W-5m-lTz" secondAttribute="bottom" constant="10" id="Ndo-0C-cYc"/>
+                                            <constraint firstAttribute="bottom" secondItem="x2W-5m-lTz" secondAttribute="bottom" constant="12" id="Ndo-0C-cYc"/>
                                             <constraint firstItem="JSX-W4-xgB" firstAttribute="top" secondItem="qc3-QU-TX3" secondAttribute="top" id="UNb-n4-uX9"/>
-                                            <constraint firstItem="x2W-5m-lTz" firstAttribute="top" secondItem="JSX-W4-xgB" secondAttribute="bottom" constant="10" id="eYu-oi-yZ9"/>
+                                            <constraint firstItem="x2W-5m-lTz" firstAttribute="top" secondItem="JSX-W4-xgB" secondAttribute="bottom" constant="12" id="eYu-oi-yZ9"/>
                                             <constraint firstItem="JSX-W4-xgB" firstAttribute="leading" secondItem="qc3-QU-TX3" secondAttribute="leading" id="hMs-4L-RKq"/>
-                                            <constraint firstItem="x2W-5m-lTz" firstAttribute="leading" secondItem="qc3-QU-TX3" secondAttribute="leading" constant="10" id="qec-9c-CaJ"/>
+                                            <constraint firstItem="x2W-5m-lTz" firstAttribute="leading" secondItem="qc3-QU-TX3" secondAttribute="leading" constant="12" id="qec-9c-CaJ"/>
                                         </constraints>
                                     </view>
                                 </subviews>
+                                <color key="backgroundColor" name="off-white"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="qc3-QU-TX3" secondAttribute="trailing" id="3Nh-tp-n81"/>
                                     <constraint firstAttribute="bottom" secondItem="qc3-QU-TX3" secondAttribute="bottom" id="FnX-ap-uvf"/>
@@ -2349,7 +2365,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rnG-hx-2k9"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="tintColor" name="mist-lilac"/>
+                        <color key="tintColor" name="off-white"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="rnG-hx-2k9" firstAttribute="trailing" secondItem="soa-AW-aO4" secondAttribute="trailing" id="Cx2-NF-MLc"/>
@@ -2370,7 +2386,6 @@
                     <connections>
                         <outlet property="bodyLilacIndicator" destination="qoP-vE-2go" id="k4J-f8-Qp1"/>
                         <outlet property="bodyTextView" destination="OVP-oT-mo6" id="YZB-BM-lFV"/>
-                        <outlet property="bottomConstraintForKeyboard" destination="UJf-92-glb" id="e5B-yZ-qXx"/>
                         <outlet property="dateTimeTextField" destination="nCN-3L-vbD" id="l17-hs-56j"/>
                         <outlet property="locationNameLilacIndicator" destination="CUc-2u-pl4" id="6ND-rI-jzH"/>
                         <outlet property="locationNameTextField" destination="qaR-57-CDg" id="KCg-AR-PNl"/>

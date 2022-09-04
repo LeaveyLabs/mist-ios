@@ -25,7 +25,7 @@ class EnterKeywordsViewController: UIViewController, UITableViewDataSource, UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.bounces = false
+        tableView.bounces = true
         tableView.dataSource = self
         tableView.allowsSelection = false
         tableView.rowHeight = UITableView.automaticDimension

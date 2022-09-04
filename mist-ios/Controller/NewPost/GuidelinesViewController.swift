@@ -50,8 +50,12 @@ class GuidelinesViewController: UIViewController, LargeImageCollectionCellDelega
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        callback?()
         navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        callback?()
     }
     
     //MARK: - Setup

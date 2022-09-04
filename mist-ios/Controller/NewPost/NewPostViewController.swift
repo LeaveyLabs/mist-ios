@@ -8,6 +8,7 @@
 import UIKit
 import CoreLocation
 import MapKit
+import InputBarAccessoryView
 
 let BODY_PLACEHOLDER_TEXT = "pour your heart out"
 let TITLE_PLACEHOLDER_TEXT = "a cute title"
@@ -21,10 +22,11 @@ let BODY_CHARACTER_LIMIT = 999
 let PROGRESS_DEFAULT_DURATION: Double = 6 // Seconds
 let PROGRESS_DEFAULT_MAX: Float = 0.8 // 80%
 
-class NewPostViewController: KUIViewController {
+class NewPostViewController: UIViewController {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var postBubbleView: UIView!
+    let keyboardManager = KeyboardManager() //InputBarAccessoryView
     
     //Top
     @IBOutlet weak var pinButton: UIButton!
@@ -99,7 +101,6 @@ class NewPostViewController: KUIViewController {
         setupIndicatorViews()
         loadFromNewPostContext() //should come after setting up views
         validateAllFields()
-        shouldKUIViewKeyboardDismissOnBackgroundTouch = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default)), style: .plain, target: self, action: #selector(cancelButtonDidPressed(_:)))
 
         if !DeviceService.shared.hasBeenShowedGuidelines() {
@@ -107,7 +108,8 @@ class NewPostViewController: KUIViewController {
         } else {
             titleTextView.becomeFirstResponder()
         }
-   }
+        addKeyboardObservers()
+    }
     
     // MARK: - Setup
     
@@ -243,8 +245,8 @@ class NewPostViewController: KUIViewController {
         }
         
         guard
-            let trimmedTitleText = titleTextView?.text.trimmingCharacters(in: .whitespaces),
-            let trimmedBodyText = bodyTextView?.text.trimmingCharacters(in: .whitespaces),
+            let trimmedTitleText = titleTextView?.text.trimmingCharacters(in: .whitespacesAndNewlines),
+            let trimmedBodyText = bodyTextView?.text.trimmingCharacters(in: .whitespacesAndNewlines),
             let postLocationText = locationNameTextField?.text?.trimmingCharacters(in: .whitespaces).lowercased(),
             let postLocationCoordinate = postLocationCoordinate
         else {
@@ -330,7 +332,7 @@ extension NewPostViewController: UITextFieldDelegate {
 extension NewPostViewController: UITextViewDelegate {
     
     //MARK: - TextView
-        
+            
     func textViewDidChange(_ textView: UITextView) {
         // UITextView has a quirk when last char is a newline...
         //  its size is not updated until another char is entered
@@ -339,10 +341,19 @@ extension NewPostViewController: UITextViewDelegate {
            let txt = textView.text,
            !txt.isEmpty,
            txt.last == "\n" {
+            print("WILL DO THIS NOW")
             let cursorPosition = textView.offset(from: textView.beginningOfDocument, to: selectedRange.start)
+            print(cursorPosition, txt.count)
             if cursorPosition == txt.count {
+                //the two methods below were not working on newline. the above works better
+                var visibleRect = bodyTextView.frame
+                visibleRect.size.height += 65 - view.safeAreaInsets.bottom
+                scrollView.scrollRectToVisible(visibleRect, animated: true)
                 
-                scrollView.scrollToBottom(animated: false)
+//                if !scrollView.isAtTop { //scrollToBottom does not work when pressing "return" key
+//                    scrollView.contentOffset.y += 25
+//                }
+//                scrollView.scrollToBottom(animated: false)
             }
         }
         
@@ -368,7 +379,8 @@ extension NewPostViewController: UITextViewDelegate {
                 bodyTextView.becomeFirstResponder()
                 return false
             } else {
-                return textView.shouldAllowNewline(in: textView.text, at: range.location)
+                return true
+//                return textView.shouldAllowNewline(in: textView.text, at: range.location)
             }
         }
         

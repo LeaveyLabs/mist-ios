@@ -410,6 +410,12 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
             
         }
         messagesCollectionView.scrollToLastItem(animated: true)
+        if !DeviceService.shared.hasBeenOfferedNotificationsAfterDM() {
+            DeviceService.shared.showedNotificationRequestAfterDM()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .dmNotificationsAfterDm, onVC: self)
+            }
+        }
     }
     
 }

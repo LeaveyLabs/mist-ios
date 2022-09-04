@@ -159,7 +159,7 @@ extension CustomSwiftMessages {
                 messageView.customConfig(approveText: "share", dismissText: "nah")
             case .dmNotificationsAfterDm:
                 title = "would you like to turn on notifications?"
-                body = "find out when they get back with"
+                body = "find out when they get back with you"
                 emoji = "📬"
                 messageView.customConfig(approveText: "of course", dismissText: "nah")
             case .dmNotificationsAfterNewPost:

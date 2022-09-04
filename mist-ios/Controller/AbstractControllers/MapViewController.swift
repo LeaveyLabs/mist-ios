@@ -179,6 +179,7 @@ extension MapViewController: CLLocationManagerDelegate {
             locationManager.authorizationStatus == .notDetermined { //this check should also exist here for when the function is called after registering/logging in
             CustomSwiftMessages.showPermissionRequest(permissionType: .userLocation) { approved in
                 if approved {
+//                    callback(approved)
                     if self.locationManager.authorizationStatus == .notDetermined {
                         self.locationManager.requestWhenInUseAuthorization()
                     } else {

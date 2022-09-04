@@ -66,6 +66,7 @@ class PinMapViewController: MapViewController {
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
+        mapViewLegalLabelYOffset = 105
         super.viewDidLoad()
         maxCameraPitch = 0
         setupBlurredStatusBar()

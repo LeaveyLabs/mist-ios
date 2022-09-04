@@ -556,6 +556,10 @@
 		5B99D3B428C445F2009E63CD /* DeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99D3B228C445F2009E63CD /* DeviceService.swift */; };
 		5B99D3B628C44635009E63CD /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99D3B528C44635009E63CD /* Device.swift */; };
 		5B99D3B728C44635009E63CD /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99D3B528C44635009E63CD /* Device.swift */; };
+		5B99D3B928C4698A009E63CD /* NewPostViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99D3B828C4698A009E63CD /* NewPostViewController+Keyboard.swift */; };
+		5B99D3BA28C4698A009E63CD /* NewPostViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99D3B828C4698A009E63CD /* NewPostViewController+Keyboard.swift */; };
+		5B99D3BD28C4733C009E63CD /* UIScrollView+IsAt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99D3BC28C4733C009E63CD /* UIScrollView+IsAt.swift */; };
+		5B99D3BE28C4733C009E63CD /* UIScrollView+IsAt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99D3BC28C4733C009E63CD /* UIScrollView+IsAt.swift */; };
 		5BA401F72878052B004A556E /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA401F62878052B004A556E /* Env.swift */; };
 		5BA967322872BC5E00724CD9 /* Array+FirstWhere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */; };
 		5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */; };
@@ -958,6 +962,8 @@
 		5B879E9028B9129100D2DFC1 /* CustomNavBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomNavBar.xib; sourceTree = "<group>"; };
 		5B99D3B228C445F2009E63CD /* DeviceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceService.swift; sourceTree = "<group>"; };
 		5B99D3B528C44635009E63CD /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		5B99D3B828C4698A009E63CD /* NewPostViewController+Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewPostViewController+Keyboard.swift"; sourceTree = "<group>"; };
+		5B99D3BC28C4733C009E63CD /* UIScrollView+IsAt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+IsAt.swift"; sourceTree = "<group>"; };
 		5BA401F62878052B004A556E /* Env.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+FirstWhere.swift"; sourceTree = "<group>"; };
 		5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationCollectionCell.swift; sourceTree = "<group>"; };
@@ -1428,6 +1434,7 @@
 		47A3D71B27D593F0003DBEA5 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				5B99D3BB28C4732A009E63CD /* UIScrollView */,
 				5B235B1028AEFE1E00FD27A9 /* NavigationController */,
 				5B235B0C28AEFDEC00FD27A9 /* GestureRecognizer */,
 				5BB624B72863CA1300DCD45B /* UINavigation */,
@@ -1442,7 +1449,6 @@
 				47D5B36828441180004CDE6C /* UIView */,
 				474A5DA927F40CB1004215F9 /* UISegmentedControl+Twitter.swift */,
 				479683F22826494100CA23BA /* UIColor+Theme.swift */,
-				474A4AAF284A922100B39A98 /* UIScrollView+ToTop.swift */,
 				5B13B740285D05B0000ADF5E /* UISearchBar+CenterText.swift */,
 				5BF78338285E4477003C3955 /* UITableView+SectionShadow.swift */,
 				5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */,
@@ -1726,6 +1732,7 @@
 			isa = PBXGroup;
 			children = (
 				47A3D70127D524F4003DBEA5 /* NewPostViewController.swift */,
+				5B99D3B828C4698A009E63CD /* NewPostViewController+Keyboard.swift */,
 				5BC2532328BC7F1500D4F49A /* GuidelinesViewController.swift */,
 				5B62F59728C3F992002931E5 /* Pin */,
 			);
@@ -1888,6 +1895,15 @@
 				43E30CFD2826355C00DBEB57 /* UploadProfilePictureViewController.swift */,
 			);
 			path = Decomissioned;
+			sourceTree = "<group>";
+		};
+		5B99D3BB28C4732A009E63CD /* UIScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				474A4AAF284A922100B39A98 /* UIScrollView+ToTop.swift */,
+				5B99D3BC28C4733C009E63CD /* UIScrollView+IsAt.swift */,
+			);
+			path = UIScrollView;
 			sourceTree = "<group>";
 		};
 		5BB624B72863CA1300DCD45B /* UINavigation */ = {
@@ -2632,6 +2648,7 @@
 				5BAD62752876707000DCFE45 /* AccountSection.swift in Sources */,
 				478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */,
 				5B13B741285D05B0000ADF5E /* UISearchBar+CenterText.swift in Sources */,
+				5B99D3BD28C4733C009E63CD /* UIScrollView+IsAt.swift in Sources */,
 				5BC25A9E28991A2B005AAF69 /* Numbers.swift in Sources */,
 				472A4C0028408BD800FD52B7 /* DesignableTabBarController.swift in Sources */,
 				475271972855851200DDF84D /* SettingCell.swift in Sources */,
@@ -2640,6 +2657,7 @@
 				43D9251628526DF300438C5C /* BlockAPI.swift in Sources */,
 				5B235B0128ADE3B200FD27A9 /* EnterNumberViewController.swift in Sources */,
 				476971DC2847C3F200123F72 /* UITextField+MaxLength.swift in Sources */,
+				5B99D3B928C4698A009E63CD /* NewPostViewController+Keyboard.swift in Sources */,
 				5B6208A628B4B6F7005610A9 /* FeedbackFormCell.swift in Sources */,
 				5BE147C628A0CDAA0096FEBE /* UITextView+PreventPeriod.swift in Sources */,
 				47EE28FE28414AF700C6425C /* CustomCenteredView.swift in Sources */,
@@ -2951,6 +2969,7 @@
 				5B235AF928AC347C00FD27A9 /* CNContact+Number.swift in Sources */,
 				5B739E4928935B9500E4EED0 /* SettingCell.swift in Sources */,
 				5B739E4A28935B9500E4EED0 /* String+Indexing.swift in Sources */,
+				5B99D3BE28C4733C009E63CD /* UIScrollView+IsAt.swift in Sources */,
 				5B739E4B28935B9500E4EED0 /* ClusterAnnotationView.swift in Sources */,
 				5B739E4C28935B9500E4EED0 /* BlockAPI.swift in Sources */,
 				5BD6F47F2896B3020002A60B /* StringChat+Emoji.swift in Sources */,
@@ -2959,6 +2978,7 @@
 				5B739E4F28935B9500E4EED0 /* Block.swift in Sources */,
 				5BCEA510289A489700602A4D /* PostViewController+Autocomplete.swift in Sources */,
 				5BE1473D289F0FCE0096FEBE /* Validate.swift in Sources */,
+				5B99D3BA28C4698A009E63CD /* NewPostViewController+Keyboard.swift in Sources */,
 				5B6208A728B4B6F7005610A9 /* FeedbackFormCell.swift in Sources */,
 				5B739E5028935B9500E4EED0 /* PostAnnotationView.swift in Sources */,
 				5B739E5128935B9500E4EED0 /* Map.swift in Sources */,

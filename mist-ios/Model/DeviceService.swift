@@ -31,14 +31,22 @@ class DeviceService: NSObject {
     
     //MARK: - Getters
     
-    func hasBeenShowedGuidelines() -> Bool {
-        return device.hasBeenShownGuidelines
-    }
+    func hasBeenShowedGuidelines() -> Bool { return device?.hasBeenShownGuidelines ?? true } //if they load in the app and start it up too quickly, the app was crashing here for invalida access bc still nil...
+    func hasBeenOfferedNotificationsAfterPost() -> Bool { return device.hasBeenOfferedNotificationsAfterPost }
+    func hasBeenOfferedNotificationsAfterDM() -> Bool { return device.hasBeenOfferedNotificationsAfterDM }
     
     //MARK: - Doers
     
     func showGuidelinesForFirstTime() {
         device.hasBeenShownGuidelines = true
+        Task { await saveToFilesystem() }
+    }
+    func showedNotificationRequestAfterPost() {
+        device.hasBeenOfferedNotificationsAfterPost = true
+        Task { await saveToFilesystem() }
+    }
+    func showedNotificationRequestAfterDM() {
+        device.hasBeenOfferedNotificationsAfterDM = true
         Task { await saveToFilesystem() }
     }
     
