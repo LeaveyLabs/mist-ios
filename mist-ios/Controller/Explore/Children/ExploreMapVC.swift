@@ -87,7 +87,7 @@ extension ExploreMapViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        latitudeOffset = 0.00133
+        latitudeOffsetForOneKMDistance = 0.00133
         setupCustomTapGestureRecognizerOnMap()
         setupWhiteStatusBar()
         setupBlurredStatusBar()

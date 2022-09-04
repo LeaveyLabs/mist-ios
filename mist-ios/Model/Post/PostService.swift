@@ -195,7 +195,6 @@ class PostService: NSObject {
     
     func deletePost(postId: Int) async throws {
         try await PostAPI.deletePost(post_id: postId)
-        
         allLoadedPosts.removeValue(forKey: postId)
         
         explorePostIds.removeFirstAppearanceOf(object: postId)

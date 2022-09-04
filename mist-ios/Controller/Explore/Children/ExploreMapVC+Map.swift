@@ -146,7 +146,7 @@ extension ExploreMapViewController {
             } else if let postAnnotationView = view as? PostAnnotationView {
                 let shouldZoomIn = mapView.camera.centerCoordinateDistance > MapViewController.ANNOTATION_ZOOM_THRESHOLD
                 if shouldZoomIn {
-                    slowFlyTo(lat: view.annotation!.coordinate.latitude + latitudeOffset,
+                    slowFlyTo(lat: view.annotation!.coordinate.latitude,
                               long: view.annotation!.coordinate.longitude,
                               incrementalZoom: false,
                               withDuration: cameraAnimationDuration,

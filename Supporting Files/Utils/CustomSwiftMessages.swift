@@ -164,7 +164,7 @@ extension CustomSwiftMessages {
                 messageView.customConfig(approveText: "of course", dismissText: "nah")
             case .dmNotificationsAfterNewPost:
                 title = "would you like to turn on notifications?"
-                body = "find out if someone replies to your mist"
+                body = "find out when someone replies to your mist 😯👀"
                 emoji = "📬"
                 messageView.customConfig(approveText: "of course", dismissText: "i'd rather mist out")
             case .mistboxNotifications:

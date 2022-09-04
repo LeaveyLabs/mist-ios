@@ -28,6 +28,7 @@ class NewPostViewController: KUIViewController {
     
     //Top
     @IBOutlet weak var pinButton: UIButton!
+    @IBOutlet weak var pinArrowButton: UIButton!
     @IBOutlet weak var dateTimeTextField: NewPostTextView!
     @IBOutlet var locationNameTextField: NewPostTextField!
     
@@ -60,12 +61,18 @@ class NewPostViewController: KUIViewController {
     var currentPin: CLLocationCoordinate2D? {
         didSet {
             if let _ = currentPin {
+                pinButton.tintColor = Constants.Color.mistBlack
+                pinArrowButton.tintColor = Constants.Color.mistBlack
                 pinButton.setImage(UIImage(systemName: "mappin.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .small)), for: .normal)
             } else {
                 switch LocationManager.Shared.authorizationStatus {
                 case .authorizedAlways, .authorizedWhenInUse:
+                    pinButton.tintColor = Constants.Color.mistBlack
+                    pinArrowButton.tintColor = Constants.Color.mistBlack
                     pinButton.setImage(UIImage(systemName: "location", withConfiguration: UIImage.SymbolConfiguration(scale: .small)), for: .normal)
                 default:
+                    pinButton.tintColor = .lightGray
+                    pinArrowButton.tintColor = .lightGray
                     pinButton.setImage(UIImage(systemName: "mappin.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .small)), for: .normal)
                 }
             }

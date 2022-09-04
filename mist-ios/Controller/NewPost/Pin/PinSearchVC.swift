@@ -56,10 +56,10 @@ class PinSearchViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        tableView.contentInset.top -= self.view.safeAreaInsets.top - 20 //needed bc auto content inset adjustment behavior isn't reflecing safeareainsets for some reason
+        tableView.contentInset.top -= self.view.safeAreaInsets.top //needed bc auto content inset adjustment behavior isn't reflecing safeareainsets for some reason
         tableView.contentInset.bottom = 280 //estimate of keyboard height
         tableView.verticalScrollIndicatorInsets.bottom = 250
-        tableView.verticalScrollIndicatorInsets.top -= self.view.safeAreaInsets.top - 20
+        tableView.verticalScrollIndicatorInsets.top -= self.view.safeAreaInsets.top
     }
     
     func setupTableView() {
@@ -71,7 +71,6 @@ class PinSearchViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.showsVerticalScrollIndicator = false
         tableView.separatorStyle = .none
         tableView.register(SuggestedCompletionTableViewCell.self, forCellReuseIdentifier: SuggestedCompletionTableViewCell.reuseID)
         let nib = UINib(nibName: Constants.SBID.Cell.SearchResult, bundle: nil)
@@ -143,6 +142,14 @@ extension PinSearchViewController: UISearchBarDelegate {
         }
         
         startNearbySearch(with: searchString)
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
     }
 
 }
@@ -291,12 +298,17 @@ extension PinSearchViewController {
     
     func handleFoundSearchLocation(mapItems: [MKMapItem]) {
         searchBar.resignFirstResponder()
-        searchBar.text = ""
-        searchString = ""
-        tableView.reloadData()
+        resetSearch()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.pinSearchChildDelegate.searchResultsUpdated(newResults: mapItems)
         }
+    }
+    
+    func resetSearch() {
+        searchBar.text = ""
+        searchString = ""
+        tableView.reloadData()
+        searchBar.setShowsCancelButton(false, animated: true)
     }
 
 }

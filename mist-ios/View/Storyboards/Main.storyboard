@@ -128,11 +128,11 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XGG-A8-5Tc">
-                                <rect key="frame" x="278" y="685" width="100" height="45"/>
+                                <rect key="frame" x="278" y="668" width="100" height="50"/>
                                 <color key="backgroundColor" name="mist-lilac"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="7h2-k2-3DP"/>
-                                    <constraint firstAttribute="height" constant="45" id="Ljq-BE-9CC"/>
+                                    <constraint firstAttribute="height" constant="50" id="Ljq-BE-9CC"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -171,7 +171,7 @@
                             <constraint firstItem="u8t-JX-tsJ" firstAttribute="trailing" secondItem="mPR-ya-nEr" secondAttribute="trailing" constant="12" id="aHi-gA-XDo"/>
                             <constraint firstAttribute="top" secondItem="98q-0K-ZRg" secondAttribute="top" id="b90-Yy-liU"/>
                             <constraint firstItem="lH1-jp-8cP" firstAttribute="top" secondItem="0y8-aH-3KK" secondAttribute="bottom" id="iZk-yI-4TH"/>
-                            <constraint firstItem="u8t-JX-tsJ" firstAttribute="bottom" secondItem="XGG-A8-5Tc" secondAttribute="bottom" constant="80" id="pKx-TT-wDR"/>
+                            <constraint firstItem="u8t-JX-tsJ" firstAttribute="bottom" secondItem="XGG-A8-5Tc" secondAttribute="bottom" constant="92" id="pKx-TT-wDR"/>
                             <constraint firstItem="mPR-ya-nEr" firstAttribute="top" secondItem="u8t-JX-tsJ" secondAttribute="top" constant="7" id="qhq-E8-Z0f"/>
                             <constraint firstItem="84C-3H-hTc" firstAttribute="top" secondItem="u8t-JX-tsJ" secondAttribute="top" constant="7" id="r3E-Xv-4CJ"/>
                             <constraint firstAttribute="bottom" secondItem="98q-0K-ZRg" secondAttribute="bottom" id="tmj-Uw-IP5"/>
@@ -2374,6 +2374,7 @@
                         <outlet property="dateTimeTextField" destination="nCN-3L-vbD" id="l17-hs-56j"/>
                         <outlet property="locationNameLilacIndicator" destination="CUc-2u-pl4" id="6ND-rI-jzH"/>
                         <outlet property="locationNameTextField" destination="qaR-57-CDg" id="KCg-AR-PNl"/>
+                        <outlet property="pinArrowButton" destination="QFY-T2-i4P" id="9wg-nD-Ngc"/>
                         <outlet property="pinButton" destination="Scd-dZ-nEi" id="5YQ-N2-Szg"/>
                         <outlet property="pinLilacIndicator" destination="7Vf-n4-Nfw" id="eU3-kI-jor"/>
                         <outlet property="postBubbleView" destination="x2W-5m-lTz" id="hLM-jx-p1p"/>
@@ -3620,11 +3621,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="VhH-Qw-dwo" customClass="PostTableView" customModule="mist_ios" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="99" width="390" height="711"/>
+                                <rect key="frame" x="0.0" y="114" width="390" height="696"/>
                                 <color key="backgroundColor" name="off-white"/>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CkT-OY-dB1" userLabel="Notch View">
-                                <rect key="frame" x="0.0" y="44" width="390" height="65"/>
+                                <rect key="frame" x="0.0" y="44" width="390" height="70"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nIw-uQ-ZM3">
                                         <rect key="frame" x="165" y="5" width="60" height="4"/>
@@ -3634,10 +3635,10 @@
                                             <constraint firstAttribute="width" constant="60" id="Exh-sa-k5d"/>
                                         </constraints>
                                     </view>
-                                    <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="search a place or address" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g2B-2v-Kc4">
-                                        <rect key="frame" x="5" y="16" width="380" height="44"/>
+                                    <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="search a place or address" translatesAutoresizingMaskIntoConstraints="NO" id="g2B-2v-Kc4">
+                                        <rect key="frame" x="5" y="16" width="380" height="45"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="44" id="gto-qn-xvL"/>
+                                            <constraint firstAttribute="height" constant="45" id="gto-qn-xvL"/>
                                         </constraints>
                                         <color key="tintColor" name="mist-lilac"/>
                                         <color key="barTintColor" name="mist-lilac"/>
@@ -3651,23 +3652,23 @@
                                 <color key="backgroundColor" name="off-white"/>
                                 <constraints>
                                     <constraint firstItem="nIw-uQ-ZM3" firstAttribute="centerX" secondItem="CkT-OY-dB1" secondAttribute="centerX" id="3o4-Yy-Q4N"/>
-                                    <constraint firstAttribute="bottom" secondItem="g2B-2v-Kc4" secondAttribute="bottom" constant="5" id="4v9-e6-MEd"/>
                                     <constraint firstItem="nIw-uQ-ZM3" firstAttribute="top" secondItem="CkT-OY-dB1" secondAttribute="top" constant="5" id="Cal-tR-yXQ"/>
                                     <constraint firstAttribute="trailing" secondItem="g2B-2v-Kc4" secondAttribute="trailing" constant="5" id="LdI-wN-Ih6"/>
                                     <constraint firstItem="g2B-2v-Kc4" firstAttribute="leading" secondItem="CkT-OY-dB1" secondAttribute="leading" constant="5" id="ZIj-ms-7Ec"/>
-                                    <constraint firstAttribute="height" constant="65" id="pkn-FM-nb5"/>
+                                    <constraint firstAttribute="height" constant="70" id="pkn-FM-nb5"/>
+                                    <constraint firstItem="g2B-2v-Kc4" firstAttribute="top" secondItem="nIw-uQ-ZM3" secondAttribute="bottom" constant="7" id="wug-mj-rT8"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="cuv-Sj-PRN"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="CkT-OY-dB1" firstAttribute="top" secondItem="cuv-Sj-PRN" secondAttribute="top" id="39z-E2-qkm"/>
                             <constraint firstItem="cuv-Sj-PRN" firstAttribute="trailing" secondItem="VhH-Qw-dwo" secondAttribute="trailing" id="HeO-yy-h0m"/>
                             <constraint firstItem="CkT-OY-dB1" firstAttribute="leading" secondItem="cuv-Sj-PRN" secondAttribute="leading" id="fjI-uQ-Kjd"/>
                             <constraint firstItem="CkT-OY-dB1" firstAttribute="trailing" secondItem="cuv-Sj-PRN" secondAttribute="trailing" id="kWi-SO-pxP"/>
                             <constraint firstItem="VhH-Qw-dwo" firstAttribute="leading" secondItem="cuv-Sj-PRN" secondAttribute="leading" id="nKD-g8-etb"/>
-                            <constraint firstItem="VhH-Qw-dwo" firstAttribute="top" secondItem="CkT-OY-dB1" secondAttribute="bottom" constant="-10" id="p4z-JB-tnh"/>
+                            <constraint firstItem="VhH-Qw-dwo" firstAttribute="top" secondItem="CkT-OY-dB1" secondAttribute="bottom" id="p4z-JB-tnh"/>
                             <constraint firstItem="cuv-Sj-PRN" firstAttribute="bottom" secondItem="VhH-Qw-dwo" secondAttribute="bottom" id="p9u-mu-9Au"/>
                         </constraints>
                     </view>

@@ -164,8 +164,12 @@ class PinMapViewController: MapViewController {
 //            CustomSwiftMessages.displayError("something went wrong", "")
             return
         }
-//        mapView.region = newRegion
-        mapView.setRegion(newRegion, animated: true)
+        if places.count == 1 {
+            let moreZoomedRegion = MKCoordinateRegion(center: newRegion.center, span: MKCoordinateSpan(latitudeDelta: newRegion.span.latitudeDelta / 4, longitudeDelta: newRegion.span.longitudeDelta / 4))
+            mapView.setRegion(moreZoomedRegion, animated: true)
+        } else {
+            mapView.setRegion(newRegion, animated: true)
+        }
     }
     
 }

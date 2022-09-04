@@ -96,7 +96,7 @@ extension PinParentViewController: OverlayContainerViewControllerDelegate {
         case .maximum:
             return availableSpace * 0.99
         case .minimum:
-            return 65
+            return 80
         }
     }
         
@@ -129,15 +129,21 @@ extension PinParentViewController: OverlayContainerViewControllerDelegate {
         switch notch {
         case .maximum:
             pinSearchVC.searchBar.becomeFirstResponder()
+            UIView.animate(withDuration: 0.25, delay: 0) {
+                self.pinMapVC.removeBlurredStatusBar()
+            }
         case .minimum:
             pinSearchVC.searchBar.resignFirstResponder()
+            UIView.animate(withDuration: 0.25, delay: 0) {
+                self.pinMapVC.setupBlurredStatusBar()
+            }
         }
     }
     
     func overlayContainerViewController(_ containerViewController: OverlayContainerViewController, didMoveOverlay overlayViewController: UIViewController, toNotchAt index: Int) {
         guard let notch = OverlayNotch.init(rawValue: index) else { return }
         currentNotch = notch
-        if notch == .maximum {
+        if notch == .minimum {
             
         }
     }
