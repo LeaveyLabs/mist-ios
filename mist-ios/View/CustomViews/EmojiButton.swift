@@ -82,6 +82,10 @@ class EmojiTextField: UITextField {
         return nil
     }
     
+    var isEmojiKeyboardEnabled: Bool {
+        return textInputMode != nil
+    }
+    
     weak var postDelegate: PostDelegate?
 
     override func deleteBackward() {

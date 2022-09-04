@@ -240,6 +240,10 @@ extension PostView {
         if reactButtonTextField.isFirstResponder {
             reactButtonTextField.resignFirstResponder()
         } else {
+            guard reactButtonTextField.isEmojiKeyboardEnabled else {
+                CustomSwiftMessages.showInfoCentered("enable emoji keyboard", "turn on apple's default emoji keyboard in settings for custom reactions", emoji: "🫠")
+                return
+            }
             if let postVC = postDelegate as? PostViewController, postVC.inputBar.inputTextView.isFirstResponder {
                 postVC.inputBar.inputTextView.resignFirstResponder()
                 postDelegate.handleReactTap(postId: postId) //must come first to set flags
@@ -253,8 +257,8 @@ extension PostView {
         }
     }
     
+    //not in use as of now
     @objc func postWasDoubleTapped() {
-        print("WAS DOUBLE TAPPED")
         guard
             let random = Array(0x1F300...0x1F3F0).randomElement(),
             let randomEmojiScalar = UnicodeScalar(random)
