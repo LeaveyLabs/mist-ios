@@ -22,7 +22,6 @@ class PostAPI {
     static let PATH_TO_FRIEND_POSTS = "api/friend-posts/"
     static let PATH_TO_FAVORITED_POSTS = "api/favorited-posts/"
     static let PATH_TO_SUBMITTED_POSTS = "api/submitted-posts/"
-    static let PATH_TO_KEYWORD_POSTS = "api/keyword-posts/"
     static let PATH_TO_TAGGED_POSTS = "api/tagged-posts/"
     static let IDS_PARAM = "ids"
     static let WORDS_PARAM = "words"
@@ -124,13 +123,6 @@ class PostAPI {
     
     static func fetchSubmittedPosts() async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_SUBMITTED_POSTS)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
-        try filterPostErrors(data: data, response: response)
-        return try JSONDecoder().decode([Post].self, from: data)
-    }
-    
-    static func fetchKeywordPosts() async throws -> [Post] {
-        let url = "\(Env.BASE_URL)\(PATH_TO_KEYWORD_POSTS)"
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
