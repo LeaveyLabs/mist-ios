@@ -86,7 +86,7 @@ extension ConversationsViewController: UITableViewDataSource {
 
 extension ConversationsViewController: CustomNavBarDelegate {
     
-    @objc func handleProfileButtonTap(sender: UIButton) {
+    @objc func handleProfileButtonTap() {
         guard
             let myAccountNavigation = storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation) as? UINavigationController,
             let myAccountVC = myAccountNavigation.topViewController as? MyAccountViewController
@@ -96,23 +96,23 @@ extension ConversationsViewController: CustomNavBarDelegate {
         self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
     }
 
-    @objc func handleFilterButtonTap(sender: UIButton) {
+    @objc func handleFilterButtonTap() {
         fatalError("not used")
     }
 
-    @objc func handleMapFeedToggleButtonTap(sender: UIButton) {
+    @objc func handleMapFeedToggleButtonTap() {
         fatalError("not used")
     }
 
-    @objc func handleSearchButtonTap(sender: UIButton) {
+    @objc func handleSearchButtonTap() {
         fatalError("not used")
     }
 
-    @objc func handleCloseButtonTap(sender: UIButton) {
+    @objc func handleCloseButtonTap() {
         fatalError("not used")
     }
 
-    @objc func handleBackButtonTap(sender: UIButton) {
+    @objc func handleBackButtonTap() {
         fatalError("not used")
     }
     

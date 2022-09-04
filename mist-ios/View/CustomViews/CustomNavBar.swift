@@ -7,15 +7,45 @@
 
 import Foundation
 
-@objc protocol CustomNavBarDelegate {
-    func handleProfileButtonTap(sender: UIButton)
+protocol CustomNavBarDelegate {
+    func handleProfileButtonTap()
     
-    func handleFilterButtonTap(sender: UIButton)
-    func handleMapFeedToggleButtonTap(sender: UIButton)
-    func handleSearchButtonTap(sender: UIButton)
+    func handleFilterButtonTap()
+    func handleMapFeedToggleButtonTap()
+    func handleSearchButtonTap()
     
-    func handleCloseButtonTap(sender: UIButton)
-    func handleBackButtonTap(sender: UIButton)
+    func handleCloseButtonTap()
+    func handleBackButtonTap()
+}
+
+extension CustomNavBar {
+    
+    //MARK: - User Interaction layer between delegate... because objective c probs...
+    
+    @objc func handleProfileButtonTap() {
+        delegate.handleProfileButtonTap()
+    }
+    
+    @objc func handleFilterButtonTap() {
+        delegate.handleFilterButtonTap()
+    }
+    
+    @objc func handleMapFeedToggleButtonTap() {
+        delegate.handleMapFeedToggleButtonTap()
+    }
+    
+    @objc func handleSearchButtonTap() {
+        delegate.handleSearchButtonTap()
+    }
+    
+    @objc func handleBackButtonTap() {
+        delegate.handleBackButtonTap()
+    }
+    
+    @objc func handleCloseButtonTap() {
+        delegate.handleCloseButtonTap()
+    }
+    
 }
 
 class CustomNavBar: UIView {
@@ -133,11 +163,11 @@ class CustomNavBar: UIView {
 
         switch item {
         case .profile:
-            button.addTarget(self, action: #selector(self.delegate.handleProfileButtonTap(sender:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(handleProfileButtonTap), for: .touchUpInside)
         case .search:
-            button.addTarget(self, action: #selector(self.delegate.handleSearchButtonTap(sender:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(handleSearchButtonTap), for: .touchUpInside)
         case .filter:
-            button.addTarget(self, action: #selector(self.delegate.handleFilterButtonTap(sender:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(handleFilterButtonTap), for: .touchUpInside)
         case .title:
             break
         case .mapFeedToggle:
@@ -153,9 +183,9 @@ class CustomNavBar: UIView {
 //                delegate.handleMapFeedToggleButtonTap()
 //            }), for: .touchUpInside)
         case .back:
-            button.addTarget(self, action: #selector(self.delegate.handleBackButtonTap(sender:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(handleBackButtonTap), for: .touchUpInside)
         case .close:
-            button.addTarget(self, action: #selector(self.delegate.handleCloseButtonTap(sender:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(handleCloseButtonTap), for: .touchUpInside)
         }
         return button
     }

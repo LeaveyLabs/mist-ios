@@ -51,7 +51,7 @@ class CustomExploreParentViewController: ExploreParentViewController {
     //MARK: - User Interaction
 
     @objc func backButtonDidTapped(_ sender: UIButton) {
-        handleBackButtonTap(sender: sender)
+        handleBackButtonTap()
     }
     
 }
