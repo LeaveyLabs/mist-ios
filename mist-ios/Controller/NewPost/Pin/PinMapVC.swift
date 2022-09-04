@@ -80,10 +80,8 @@ class PinMapViewController: MapViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            guard !hasRequestedLocationPermissionsDuringAppSession else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.requestUserLocationPermissionIfNecessary()
-            hasRequestedLocationPermissionsDuringAppSession = true
         }
     }
     
@@ -92,19 +90,18 @@ class PinMapViewController: MapViewController {
     func setupMapCamera() {
         var mapCenter: CLLocationCoordinate2D
         if let previousPin = previousPin {
-            mapCenter = previousPin
+            mapView.camera = MKMapCamera(lookingAtCenter: previousPin, fromDistance: 800, pitch: 0, heading: 0)
         } else if let currentLocation = LocationManager.Shared.currentLocation {
             mapCenter = currentLocation.coordinate
             mapCenter.latitude += 0.0001
+            mapView.camera = MKMapCamera(lookingAtCenter: mapCenter, fromDistance: 800, pitch: 0, heading: 0)
         } else {
-            mapCenter = Constants.Coordinates.USC
+            mapView.camera = MKMapCamera(lookingAtCenter: Constants.Coordinates.USC, fromDistance: 3500, pitch: 0, heading: 0)
 //            let tbc = presentingViewController as! SpecialTabBarController
 //            let homeNav =  tbc.viewControllers![0] as! UINavigationController
 //            let homeExplore = homeNav.topViewController as! ExploreParentViewController
 //            mapCenter = homeExplore.exploreMapVC.mapView.camera.centerCoordinate
         }
-        
-        mapView.camera = MKMapCamera(lookingAtCenter: mapCenter, fromDistance: 800, pitch: 0, heading: 0)
     }
     
     func updatePinToMapCenterCoordinate() {

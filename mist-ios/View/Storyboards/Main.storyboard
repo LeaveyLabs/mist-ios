@@ -2174,7 +2174,7 @@
                                             <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <segue destination="Zq7-6r-vxF" kind="presentation" id="pih-x2-Io0"/>
+                                            <segue destination="Zq7-6r-vxF" kind="presentation" identifier="ToExplain" id="pih-x2-Io0"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -2250,7 +2250,7 @@
                                                                     <action selector="textFieldEditingChanged:" destination="MOo-nm-fo2" eventType="editingChanged" id="OMJ-gP-l0R"/>
                                                                 </connections>
                                                             </textField>
-                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="just now" textAlignment="center" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="nCN-3L-vbD">
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="just now" textAlignment="center" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="nCN-3L-vbD" customClass="NewPostTextField" customModule="mist_ios" customModuleProvider="target">
                                                                 <rect key="frame" x="233" y="0.0" width="110" height="35"/>
                                                                 <color key="backgroundColor" name="mist-pink"/>
                                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

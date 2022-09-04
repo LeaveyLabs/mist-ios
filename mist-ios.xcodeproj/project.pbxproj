@@ -552,6 +552,10 @@
 		5B879E9228B9129100D2DFC1 /* CustomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E8F28B9129100D2DFC1 /* CustomNavBar.swift */; };
 		5B879E9328B9129100D2DFC1 /* CustomNavBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B879E9028B9129100D2DFC1 /* CustomNavBar.xib */; };
 		5B879E9428B9129100D2DFC1 /* CustomNavBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B879E9028B9129100D2DFC1 /* CustomNavBar.xib */; };
+		5B99D3B328C445F2009E63CD /* DeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99D3B228C445F2009E63CD /* DeviceService.swift */; };
+		5B99D3B428C445F2009E63CD /* DeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99D3B228C445F2009E63CD /* DeviceService.swift */; };
+		5B99D3B628C44635009E63CD /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99D3B528C44635009E63CD /* Device.swift */; };
+		5B99D3B728C44635009E63CD /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99D3B528C44635009E63CD /* Device.swift */; };
 		5BA401F72878052B004A556E /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA401F62878052B004A556E /* Env.swift */; };
 		5BA967322872BC5E00724CD9 /* Array+FirstWhere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */; };
 		5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */; };
@@ -952,6 +956,8 @@
 		5B879E8228B8A49C00D2DFC1 /* GetVerifiedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVerifiedViewController.swift; sourceTree = "<group>"; };
 		5B879E8F28B9129100D2DFC1 /* CustomNavBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavBar.swift; sourceTree = "<group>"; };
 		5B879E9028B9129100D2DFC1 /* CustomNavBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomNavBar.xib; sourceTree = "<group>"; };
+		5B99D3B228C445F2009E63CD /* DeviceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceService.swift; sourceTree = "<group>"; };
+		5B99D3B528C44635009E63CD /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		5BA401F62878052B004A556E /* Env.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+FirstWhere.swift"; sourceTree = "<group>"; };
 		5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationCollectionCell.swift; sourceTree = "<group>"; };
@@ -1562,6 +1568,8 @@
 				5BB624BB28641A3100DCD45B /* User */,
 				5BB624BA28641A0D00DCD45B /* Post */,
 				5BE14732289D3D990096FEBE /* FeederData.swift */,
+				5B99D3B228C445F2009E63CD /* DeviceService.swift */,
+				5B99D3B528C44635009E63CD /* Device.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2541,9 +2549,11 @@
 				5BBF5C50289B9FB6000B2D31 /* InputAvatar.swift in Sources */,
 				472A4BFA28408BD800FD52B7 /* SpringTextView.swift in Sources */,
 				5BC25A96289909ED005AAF69 /* ToggleButton.swift in Sources */,
+				5B99D3B328C445F2009E63CD /* DeviceService.swift in Sources */,
 				47A3D71227D57A6D003DBEA5 /* UserService.swift in Sources */,
 				475B1F8F27FBC2D400ED59CD /* UIView+Shadow.swift in Sources */,
 				47F10DC32853169200E1A3DC /* PlaceAnnotation.swift in Sources */,
+				5B99D3B628C44635009E63CD /* Device.swift in Sources */,
 				475B1F8D27FBAB2F00ED59CD /* UIView+Animations.swift in Sources */,
 				47CE900C27E059DC0004B756 /* PinMapModalViewController.swift in Sources */,
 				474A4AB0284A922100B39A98 /* UIScrollView+ToTop.swift in Sources */,
@@ -2858,9 +2868,11 @@
 				5B739E0A28935B9500E4EED0 /* SafeAreaInputAccessoryViewWrapperView.swift in Sources */,
 				5BE1473A289EB6EA0096FEBE /* TagAutocompleteCell.swift in Sources */,
 				5B739E0B28935B9500E4EED0 /* DesignableTextView.swift in Sources */,
+				5B99D3B428C445F2009E63CD /* DeviceService.swift in Sources */,
 				5B739E0C28935B9500E4EED0 /* Setting.swift in Sources */,
 				5B739E0D28935B9500E4EED0 /* SpringTextView.swift in Sources */,
 				5B739E0E28935B9500E4EED0 /* UserService.swift in Sources */,
+				5B99D3B728C44635009E63CD /* Device.swift in Sources */,
 				5BE14743289F8E750096FEBE /* String+Pattern.swift in Sources */,
 				5B739E0F28935B9500E4EED0 /* UIView+Shadow.swift in Sources */,
 				5BE14734289D3D9D0096FEBE /* FeederData.swift in Sources */,

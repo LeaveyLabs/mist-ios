@@ -14,6 +14,8 @@ protocol LargeImageCollectionCellDelegate {
 
 class GuidelinesViewController: UIViewController, LargeImageCollectionCellDelegate {
     
+    var callback : (() -> Void)?
+    
     let images: [UIImage] = [
         UIImage(named: "guidelines-graphic-1")!,
         UIImage(named: "guidelines-graphic-2")!,
@@ -48,6 +50,7 @@ class GuidelinesViewController: UIViewController, LargeImageCollectionCellDelega
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        callback?()
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     

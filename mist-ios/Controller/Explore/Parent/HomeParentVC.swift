@@ -38,7 +38,7 @@ class HomeExploreParentViewController: ExploreParentViewController {
         guard firstAppearance else { return }
         firstAppearance = false
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.15) {
             self.renderNewPostsOnFeedAndMap(withType: .firstLoad)
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 guard !hasRequestedLocationPermissionsDuringAppSession else { return }

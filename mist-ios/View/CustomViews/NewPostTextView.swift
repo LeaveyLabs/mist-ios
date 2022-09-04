@@ -59,7 +59,7 @@ class NewPostTextView: UITextView {
     }
     
     // Called by parentVC
-    func initializerToolbar(target: Any, doneSelector: Selector) {
+    func initializerToolbar(target: Any, doneSelector: Selector, withProgressBar: Bool) {
         //Initialize with explicit frame to prevent autolayout warnings
         let toolBar = UIToolbar(frame: CGRect(x: 0.0,
                                               y: 0.0,
@@ -74,9 +74,9 @@ class NewPostTextView: UITextView {
         doneButton.tintColor = .lightGray
         let customAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 17)!]
         doneButton.setTitleTextAttributes(customAttributes, for: .normal)
-        
-        //not adding done button for now because this messages with the textview keyboard constraints
-        toolBar.setItems([flexible, progressCircle], animated: false)//4
+                
+        let items = withProgressBar ? [doneButton, flexible, progressCircle] : [doneButton, flexible]
+        toolBar.setItems(items, animated: false)//4
         
         self.inputAccessoryView = toolBar//5
     }
@@ -172,7 +172,7 @@ class NewPostTextField: UITextField {
     }
     
     // Called by parentVC
-    func initializerToolbar(target: Any, doneSelector: Selector) {
+    func initializerToolbar(target: Any, doneSelector: Selector, withProgressBar: Bool) {
         //Initialize with explicit frame to prevent autolayout warnings
         let toolBar = UIToolbar(frame: CGRect(x: 0.0,
                                               y: 0.0,
@@ -189,7 +189,8 @@ class NewPostTextField: UITextField {
         doneButton.setTitleTextAttributes(customAttributes, for: .normal)
         
         //not adding done button for now because this messages with the textview keyboard constraints
-        toolBar.setItems([flexible, progressCircle], animated: false)//4
+        var items = withProgressBar ? [doneButton, flexible, progressCircle] : [doneButton, flexible]
+        toolBar.setItems(items, animated: false)//4
         
         self.inputAccessoryView = toolBar//5
     }

@@ -28,7 +28,7 @@ class NewPostViewController: KUIViewController {
     
     //Top
     @IBOutlet weak var pinButton: UIButton!
-    @IBOutlet weak var dateTimeTextField: UITextField!
+    @IBOutlet weak var dateTimeTextField: NewPostTextView!
     @IBOutlet var locationNameTextField: NewPostTextField!
     
     var datePicker: UIDatePicker = {
@@ -66,7 +66,7 @@ class NewPostViewController: KUIViewController {
                 case .authorizedAlways, .authorizedWhenInUse:
                     pinButton.setImage(UIImage(systemName: "location", withConfiguration: UIImage.SymbolConfiguration(scale: .small)), for: .normal)
                 default:
-                    pinButton.setImage(UIImage(systemName: "mappin.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .medium)), for: .normal)
+                    pinButton.setImage(UIImage(systemName: "mappin.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .small)), for: .normal)
                 }
             }
             validateAllFields()
@@ -87,20 +87,20 @@ class NewPostViewController: KUIViewController {
         super.viewDidLoad()
         setupLocationButton()
         postBubbleView.transformIntoPostBubble(arrowPosition: .right)
-        setupDateTimeTextField()
         setupProgressView()
         setupTextViews()
         setupIndicatorViews()
         loadFromNewPostContext() //should come after setting up views
         validateAllFields()
-//        shouldKUIViewKeyboardDismissOnBackgroundTouch = true
+        shouldKUIViewKeyboardDismissOnBackgroundTouch = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default)), style: .plain, target: self, action: #selector(cancelButtonDidPressed(_:)))
-        titleTextView.becomeFirstResponder()
+
+        if !DeviceService.shared.hasBeenShowedGuidelines() {
+            presentExplanationVC()
+        } else {
+            titleTextView.becomeFirstResponder()
+        }
    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
     
     // MARK: - Setup
     
@@ -128,24 +128,32 @@ class NewPostViewController: KUIViewController {
     
     func setupTextViews() {
         titleTextView.delegate = self
-        titleTextView.initializerToolbar(target: self, doneSelector: #selector(dismissKeyboard))
+        titleTextView.initializerToolbar(target: self, doneSelector: #selector(dismissKeyboard), withProgressBar: true)
         titleTextView.textContainer.lineFragmentPadding = 0 //fixes textview strange leading offset
         titlePlaceholderLabel = titleTextView.addAndReturnPlaceholderLabelTwo(withText: TITLE_PLACEHOLDER_TEXT)
         titleTextView.maxLength = TITLE_CHARACTER_LIMIT
         
         bodyTextView.delegate = self
-        bodyTextView.initializerToolbar(target: self, doneSelector: #selector(dismissKeyboard))
+        bodyTextView.initializerToolbar(target: self, doneSelector: #selector(dismissKeyboard), withProgressBar: true)
         bodyTextView.textContainer.lineFragmentPadding = 0 //fixes textview strange leading offset
         bodyPlaceholderLabel = bodyTextView.addAndReturnPlaceholderLabelTwo(withText: BODY_PLACEHOLDER_TEXT)
         bodyTextView.maxLength = BODY_CHARACTER_LIMIT
         
         locationNameTextField.delegate = self
-        locationNameTextField.initializerToolbar(target: self, doneSelector: #selector(dismissKeyboard))
+        locationNameTextField.initializerToolbar(target: self, doneSelector: #selector(dismissKeyboard), withProgressBar: true)
         locationNameTextField.maxLength = LOCATION_NAME_CHARACTER_LIMIT
         locationNameTextField.placeholder = LOCATION_PLACEHOLDER_TEXT
         locationNameTextField.applyLightShadow()
         locationNameTextField.layer.cornerRadius = 10
         locationNameTextField.layer.cornerCurve = .continuous
+        
+        dateTimeTextField.inputView = datePicker
+        datePicker.addTarget(self, action: #selector(updateDateTime), for: .valueChanged)
+        dateTimeTextField.applyLightShadow()
+        dateTimeTextField.text = "just now"
+        dateTimeTextField.layer.cornerRadius = 10
+        dateTimeTextField.layer.cornerCurve = .continuous
+        dateTimeTextField.initializerToolbar(target: self, doneSelector: #selector(dismissKeyboard), withProgressBar: false)
     }
     
     func setupIndicatorViews() {
@@ -161,20 +169,23 @@ class NewPostViewController: KUIViewController {
         pinButton.applyLightShadow()
     }
     
-    func setupDateTimeTextField() {
-        datePicker.addTarget(self, action: #selector(updateDateTime), for: .valueChanged)
-        dateTimeTextField.inputView = datePicker
-        dateTimeTextField.applyLightShadow()
-        dateTimeTextField.text = "just now"
-        dateTimeTextField.layer.cornerRadius = 10
-        dateTimeTextField.layer.cornerCurve = .continuous
-    }
-    
     func setupProgressView() {
         progressView.isHidden = true
     }
 
     // MARK: - User Interaction
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if !DeviceService.shared.hasBeenShowedGuidelines() {
+            DeviceService.shared.showGuidelinesForFirstTime()
+            
+            guard segue.identifier == Constants.SBID.Segue.ToExplain else { return }
+            let destination = segue.destination as! GuidelinesViewController // change that to the real class
+            destination.callback = {
+                self.titleTextView.becomeFirstResponder()
+            }
+        }
+    }
     
     @objc func presentExplanationVC() {
         performSegue(withIdentifier: Constants.SBID.Segue.ToExplain, sender: self)
@@ -277,7 +288,9 @@ class NewPostViewController: KUIViewController {
         let pinParentVC = PinParentViewController.create(currentPin: currentPin, completionHandler: { [self] newPin in
             currentPin = newPin
         })
-        navigationController?.pushViewController(pinParentVC, animated: true)
+        navigationController?.pushViewController(pinParentVC, animated: true) {
+            self.locationNameTextField.becomeFirstResponder()
+        }
     }
 }
 
@@ -305,21 +318,6 @@ extension NewPostViewController: UITextFieldDelegate {
 //        }
         validateAllFields()
     }
-    
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField == locationNameTextField {
-            textField.placeholder = ""
-        }
-        return true
-    }
-    
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        if textField == locationNameTextField {
-            textField.placeholder = LOCATION_PLACEHOLDER_TEXT
-        }
-        return true
-    }
-
 }
 
 extension NewPostViewController: UITextViewDelegate {
