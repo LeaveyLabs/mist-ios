@@ -44,7 +44,7 @@ class HomeExploreParentViewController: ExploreParentViewController {
                 exploreMapVC.locationManager.authorizationStatus == .notDetermined) {
                 hasRequestedLocationPermissionsDuringAppSession = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    exploreMapVC.requestUserLocationPermissionIfNecessary()
+                    self.exploreMapVC.requestUserLocationPermissionIfNecessary()
                 }
                 
             } else {
@@ -170,12 +170,12 @@ extension HomeExploreParentViewController: FilterDelegate {
     //User Interaction
     
     @IBAction func filterButtonDidTapped(_ sender: UIButton) {
-        exploreMapVC.dismissPost()
-        let filterVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Filter) as! FilterSheetViewController
-        filterVC.selectedFilter = PostService.singleton.getExploreFilter() //TODO: just use the singleton directly, don't need to pass it intermediately
-        filterVC.delegate = self
-        filterVC.loadViewIfNeeded() //doesnt work without this function call
-        present(filterVC, animated: true)
+//        exploreMapVC.dismissPost()
+//        let filterVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Filter) as! FilterSheetViewController
+//        filterVC.selectedFilter = PostService.singleton.getExploreFilter() //TODO: just use the singleton directly, don't need to pass it intermediately
+//        filterVC.delegate = self
+//        filterVC.loadViewIfNeeded() //doesnt work without this function call
+//        present(filterVC, animated: true)
     }
     
     // Helpers

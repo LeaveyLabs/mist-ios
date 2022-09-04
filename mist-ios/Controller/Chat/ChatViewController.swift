@@ -290,7 +290,6 @@ class ChatViewController: MessagesViewController {
     
     @IBAction func moreButtonDidTapped(_ sender: UIButton) {
         let moreVC = ChatMoreViewController.create(sangdaebangId: conversation.sangdaebang.id, delegate: self)
-//        inputBar.inputTextView.resignFirstResponder() //we need a "resign first responder and keep offset" function
         present(moreVC, animated: true)
     }
     

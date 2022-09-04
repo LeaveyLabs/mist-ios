@@ -7,13 +7,14 @@
 
 import UIKit
 
-class PostMoreViewController: CustomSheetViewController {
+class PostMoreViewController: UIViewController {
         
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var favoriteButton: ToggleButton!
     @IBOutlet weak var flagButton: ToggleButton!
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var deleteButtonGrayLine: UIView!
+    @IBOutlet weak var backgroundView: UIView!
 
     var postDelegate: PostDelegate!
     var postId: Int!
@@ -30,18 +31,13 @@ class PostMoreViewController: CustomSheetViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        var sheetHeight: CGFloat = 370
-        print(postAuthor != UserService.singleton.getId())
+        setupBackgroundView()
+        
         if postAuthor != UserService.singleton.getId() {
             deleteButton.isHidden = true
-            deleteButtonGrayLine.isHidden = true
-            sheetHeight -= 70
+        } else {
+            flagButton.isHidden = true
         }
-        setupSheet(prefersGrabberVisible: false,
-                   detents: [._detent(withIdentifier: "s", constant: sheetHeight)],
-                   largestUndimmedDetentIdentifier: nil)
-        
-        closeButton.layer.cornerRadius = 5
         
         flagButton.selectedImage = UIImage.init(systemName: "flag.fill")!
         flagButton.notSelectedImage = UIImage.init(systemName: "flag")!
@@ -54,7 +50,12 @@ class PostMoreViewController: CustomSheetViewController {
         
         flagButton.isSelected = FlagService.singleton.hasFlaggedPost(postId)
         favoriteButton.isSelected = FavoriteService.singleton.hasFavoritedPost(postId)
-        
+    }
+    
+    func setupBackgroundView() {
+        let dismissTap = UITapGestureRecognizer(target: self, action: #selector(closeButtonDidPressed(_:)))
+        view.addGestureRecognizer(dismissTap)
+        backgroundView.layer.cornerRadius = 10
     }
     
     @IBAction func closeButtonDidPressed(_ sender: UIButton) {

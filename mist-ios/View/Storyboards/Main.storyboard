@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rpu-Fr-VCm">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
@@ -204,7 +205,7 @@
         <!--View Controller-->
         <scene sceneID="kTg-GM-boA">
             <objects>
-                <viewController id="iJ4-If-dQH" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="asdfff" id="iJ4-If-dQH" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9ia-j5-IXc">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1269,13 +1270,13 @@
         <!--MistboxVIewController-->
         <scene sceneID="sMQ-dh-kZ2">
             <objects>
-                <viewController storyboardIdentifier="MistboxViewController" title="MistboxVIewController" id="1eH-mW-MUl" customClass="MistboxViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OldMistboxViewController" title="MistboxVIewController" id="1eH-mW-MUl" customClass="OldMistboxViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ApP-Pw-kdk">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Sb6-LL-Tt6">
-                                <rect key="frame" x="0.0" y="114" width="390" height="647"/>
+                                <rect key="frame" x="0.0" y="114" width="390" height="696"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="leX-qA-nLT">
                                         <rect key="frame" x="20" y="0.0" width="350" height="120"/>
@@ -1358,14 +1359,14 @@
                                         </constraints>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zO1-Ld-SaE">
-                                        <rect key="frame" x="20" y="130" width="350" height="51.666666666666657"/>
+                                        <rect key="frame" x="20" y="130" width="350" height="76"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UcS-pT-gSc" customClass="CircularProgressView" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="78" y="191.66666666666669" width="234" height="234"/>
+                                        <rect key="frame" x="78" y="216" width="234" height="234"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="-15" translatesAutoresizingMaskIntoConstraints="NO" id="fEV-Vl-DdS">
-                                                <rect key="frame" x="74.666666666666657" y="56.666666666666622" width="85" height="112.33333333333331"/>
+                                                <rect key="frame" x="74.666666666666657" y="56.999999999999993" width="85" height="112.33333333333331"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pJg-a9-1qf">
                                                         <rect key="frame" x="0.0" y="0.0" width="85" height="95.666666666666671"/>
@@ -1404,13 +1405,13 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lO0-OY-det" customClass="SpringImageView" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="78" y="430.66666666666663" width="234" height="234"/>
+                                        <rect key="frame" x="78" y="455" width="234" height="234"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="lO0-OY-det" secondAttribute="height" id="62w-mL-MI5"/>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K80-Yy-Yvu">
-                                        <rect key="frame" x="114.66666666666667" y="435.66666666666663" width="160.66666666666663" height="20"/>
+                                        <rect key="frame" x="114.66666666666667" y="460" width="160.66666666666663" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="3Xc-ow-egp"/>
                                         </constraints>
@@ -1426,11 +1427,11 @@
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k6X-zR-0ZN">
-                                        <rect key="frame" x="75" y="465.66666666666663" width="240" height="51.333333333333371"/>
+                                        <rect key="frame" x="75" y="490" width="240" height="76"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yfk-Rg-YfK">
-                                        <rect key="frame" x="20" y="527" width="350" height="120"/>
+                                        <rect key="frame" x="20" y="576" width="350" height="120"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </view>
                                 </subviews>
@@ -1481,7 +1482,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MSZ-qm-kNZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1686.1538461538462" y="1873.9336492890995"/>
+            <point key="canvasLocation" x="-5869" y="1306"/>
         </scene>
         <!--What Is Mistbox View Controller-->
         <scene sceneID="gIR-oQ-x23">
@@ -1577,154 +1578,156 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Z1f-UG-0Ah">
-                                <rect key="frame" x="15" y="449" width="360" height="284"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eWl-wB-JB7">
+                                <rect key="frame" x="0.0" y="461" width="390" height="383"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zn7-nt-cZ6" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="360" height="70"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="vFs-N0-f8S"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
-                                        <color key="tintColor" name="mist-black"/>
-                                        <inset key="titleEdgeInsets" minX="31" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="share" image="square.and.arrow.up" catalog="system">
-                                            <color key="titleColor" name="mist-black"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
-                                        </state>
-                                        <state key="selected" title="Best" image="cup.and.saucer.fill" catalog="system">
-                                            <color key="titleColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="shareButton:" destination="T5e-wC-mjN" eventType="touchUpInside" id="dvx-xH-sH2"/>
-                                        </connections>
-                                    </button>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="McU-nK-3Db">
-                                        <rect key="frame" x="0.0" y="70" width="360" height="1"/>
-                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="1" id="cri-dF-C50"/>
-                                        </constraints>
-                                    </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOI-fF-YuU" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="71" width="360" height="70"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="CUM-D1-gel"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
-                                        <color key="tintColor" name="mist-black"/>
-                                        <inset key="titleEdgeInsets" minX="33" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="favorite" image="bookmark" catalog="system">
-                                            <color key="titleColor" name="mist-black"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="favoriteButtonDidpressed:" destination="T5e-wC-mjN" eventType="touchUpInside" id="1lO-WK-eVr"/>
-                                        </connections>
-                                    </button>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v8Q-ab-gKw">
-                                        <rect key="frame" x="0.0" y="141" width="360" height="1"/>
-                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="1" id="anv-Jq-4X1"/>
-                                        </constraints>
-                                    </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="77k-qe-emv" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="142" width="360" height="70"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="LQe-Tg-J9e"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
-                                        <color key="tintColor" name="mist-black"/>
-                                        <inset key="titleEdgeInsets" minX="30" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="report" image="flag" catalog="system">
-                                            <color key="titleColor" name="mist-black"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="reportButton:" destination="T5e-wC-mjN" eventType="touchUpInside" id="qBG-Je-h3m"/>
-                                        </connections>
-                                    </button>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8VC-31-MpF">
-                                        <rect key="frame" x="0.0" y="212" width="360" height="1"/>
-                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="1" id="Dof-t8-dUb"/>
-                                        </constraints>
-                                    </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cdv-h6-88r" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="213" width="360" height="70"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="d1w-uO-sSq"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
-                                        <color key="tintColor" name="mist-black"/>
-                                        <inset key="titleEdgeInsets" minX="31" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="delete" image="trash" catalog="system">
-                                            <color key="titleColor" name="mist-black"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
-                                        </state>
-                                        <state key="selected" title="Best" image="cup.and.saucer.fill" catalog="system">
-                                            <color key="titleColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="deleteButtonDidPressed:" destination="T5e-wC-mjN" eventType="touchUpInside" id="67L-fJ-WeD"/>
-                                        </connections>
-                                    </button>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fnb-ap-Flc">
-                                        <rect key="frame" x="0.0" y="283" width="360" height="1"/>
-                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="1" id="89E-Zf-vDh"/>
-                                        </constraints>
-                                    </view>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Z1f-UG-0Ah">
+                                        <rect key="frame" x="10" y="10" width="370" height="353"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zn7-nt-cZ6" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="370" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="vFs-N0-f8S"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                                <color key="tintColor" name="mist-black"/>
+                                                <inset key="titleEdgeInsets" minX="31" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="share" image="square.and.arrow.up" catalog="system">
+                                                    <color key="titleColor" name="mist-black"/>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
+                                                </state>
+                                                <state key="selected" title="Best" image="cup.and.saucer.fill" catalog="system">
+                                                    <color key="titleColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="shareButton:" destination="T5e-wC-mjN" eventType="touchUpInside" id="dvx-xH-sH2"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="McU-nK-3Db">
+                                                <rect key="frame" x="0.0" y="70" width="370" height="1"/>
+                                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="cri-dF-C50"/>
+                                                </constraints>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOI-fF-YuU" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="71" width="370" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="CUM-D1-gel"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                                <color key="tintColor" name="mist-black"/>
+                                                <inset key="titleEdgeInsets" minX="33" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="favorite" image="bookmark" catalog="system">
+                                                    <color key="titleColor" name="mist-black"/>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="favoriteButtonDidpressed:" destination="T5e-wC-mjN" eventType="touchUpInside" id="1lO-WK-eVr"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v8Q-ab-gKw">
+                                                <rect key="frame" x="0.0" y="141" width="370" height="1"/>
+                                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="anv-Jq-4X1"/>
+                                                </constraints>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="77k-qe-emv" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="142" width="370" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="LQe-Tg-J9e"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                                <color key="tintColor" name="mist-black"/>
+                                                <inset key="titleEdgeInsets" minX="30" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="report" image="flag" catalog="system">
+                                                    <color key="titleColor" name="mist-black"/>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="reportButton:" destination="T5e-wC-mjN" eventType="touchUpInside" id="qBG-Je-h3m"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8VC-31-MpF">
+                                                <rect key="frame" x="0.0" y="212" width="370" height="1"/>
+                                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="Dof-t8-dUb"/>
+                                                </constraints>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cdv-h6-88r" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="213" width="370" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="d1w-uO-sSq"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                                <color key="tintColor" name="mist-black"/>
+                                                <inset key="titleEdgeInsets" minX="31" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="delete" image="trash" catalog="system">
+                                                    <color key="titleColor" name="mist-black"/>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
+                                                </state>
+                                                <state key="selected" title="Best" image="cup.and.saucer.fill" catalog="system">
+                                                    <color key="titleColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="deleteButtonDidPressed:" destination="T5e-wC-mjN" eventType="touchUpInside" id="67L-fJ-WeD"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hzi-0y-WHM">
+                                                <rect key="frame" x="0.0" y="283" width="370" height="70"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="kPy-VH-usB"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <color key="tintColor" name="mist-black"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Close"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="close">
+                                                    <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="closeButtonDidPressed:" destination="T5e-wC-mjN" eventType="touchUpInside" id="H57-0t-WdV"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </stackView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hzi-0y-WHM">
-                                <rect key="frame" x="10" y="743" width="370" height="60"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="kPy-VH-usB"/>
+                                    <constraint firstItem="Z1f-UG-0Ah" firstAttribute="top" secondItem="eWl-wB-JB7" secondAttribute="top" constant="10" id="1X3-IF-SNK"/>
+                                    <constraint firstAttribute="bottom" secondItem="Z1f-UG-0Ah" secondAttribute="bottom" constant="20" symbolic="YES" id="PWk-A1-tak"/>
+                                    <constraint firstItem="Z1f-UG-0Ah" firstAttribute="leading" secondItem="eWl-wB-JB7" secondAttribute="leading" constant="10" id="gqM-ym-7qx"/>
+                                    <constraint firstAttribute="trailing" secondItem="Z1f-UG-0Ah" secondAttribute="trailing" constant="10" id="k6f-N9-GC9"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="tintColor" name="mist-black"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="Close"/>
-                                <buttonConfiguration key="configuration" style="plain" title="close">
-                                    <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="closeButtonDidPressed:" destination="T5e-wC-mjN" eventType="touchUpInside" id="H57-0t-WdV"/>
-                                </connections>
-                            </button>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="mNJ-HO-8cJ"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="mNJ-HO-8cJ" firstAttribute="trailing" secondItem="Hzi-0y-WHM" secondAttribute="trailing" constant="10" id="858-92-R4d"/>
-                            <constraint firstItem="Hzi-0y-WHM" firstAttribute="leading" secondItem="mNJ-HO-8cJ" secondAttribute="leading" constant="10" id="CyT-pB-ZR4"/>
-                            <constraint firstItem="mNJ-HO-8cJ" firstAttribute="bottom" secondItem="Hzi-0y-WHM" secondAttribute="bottom" constant="7" id="J6z-7f-MI3"/>
-                            <constraint firstItem="Z1f-UG-0Ah" firstAttribute="leading" secondItem="mNJ-HO-8cJ" secondAttribute="leading" constant="15" id="aB8-ZY-kDz"/>
-                            <constraint firstItem="Hzi-0y-WHM" firstAttribute="top" secondItem="Z1f-UG-0Ah" secondAttribute="bottom" constant="10" id="axX-DO-VZG"/>
-                            <constraint firstItem="mNJ-HO-8cJ" firstAttribute="trailing" secondItem="Z1f-UG-0Ah" secondAttribute="trailing" constant="15" id="j2W-LZ-D2D"/>
+                            <constraint firstAttribute="trailing" secondItem="eWl-wB-JB7" secondAttribute="trailing" id="Bou-7D-uGH"/>
+                            <constraint firstAttribute="bottom" secondItem="eWl-wB-JB7" secondAttribute="bottom" id="kZM-ZP-SvU"/>
+                            <constraint firstItem="eWl-wB-JB7" firstAttribute="leading" secondItem="TcX-2i-rxX" secondAttribute="leading" id="ow9-gs-M9i"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backgroundView" destination="eWl-wB-JB7" id="ZIz-gA-ZBI"/>
                         <outlet property="closeButton" destination="Hzi-0y-WHM" id="hzX-RQ-UOK"/>
                         <outlet property="deleteButton" destination="cdv-h6-88r" id="2US-WC-qYI"/>
-                        <outlet property="deleteButtonGrayLine" destination="fnb-ap-Flc" id="Q5B-Rq-n5U"/>
                         <outlet property="favoriteButton" destination="dOI-fF-YuU" id="AYX-gU-amv"/>
                         <outlet property="flagButton" destination="77k-qe-emv" id="Hb3-wb-6pz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q8w-RR-S7I" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2866" y="975"/>
+            <point key="canvasLocation" x="1462" y="2314"/>
         </scene>
         <!--Conversations-->
         <scene sceneID="O7n-5E-GfR">
@@ -2033,43 +2036,34 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="88c-4b-4TK">
-                                <rect key="frame" x="10" y="191" width="158" height="47"/>
-                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
+                                <rect key="frame" x="10" y="191" width="122" height="33"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="24"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="12" maxY="0.0"/>
-                                <state key="normal" title=" Featured" image="FeaturedIcon">
+                                <state key="normal" title="Featured" image="SpotifyIcon">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                 </state>
-                                <buttonConfiguration key="configuration" style="plain" image="SpotifyIcon" title="Featured" imagePadding="12">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="default"/>
-                                    <fontDescription key="titleFontDescription" name="Avenir-Book" family="Avenir" pointSize="24"/>
-                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
                                 <connections>
                                     <action selector="featuredButtonDidPressed:" destination="Igm-CS-KZm" eventType="touchUpInside" id="jIb-WY-POX"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZLL-RH-iFO">
-                                <rect key="frame" x="10" y="248" width="141" height="47"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZLL-RH-iFO">
+                                <rect key="frame" x="10" y="234" width="136" height="33"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="24"/>
                                 <color key="tintColor" systemColor="labelColor"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
-                                <state key="normal" title="New" image="sparkles" catalog="system"/>
-                                <buttonConfiguration key="configuration" style="plain" title="👀  Friends">
-                                    <fontDescription key="titleFontDescription" name="Avenir-Book" family="Avenir" pointSize="24"/>
-                                </buttonConfiguration>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="👀  Friends" image="sparkles" catalog="system"/>
                                 <connections>
                                     <action selector="friendsButtonDidPressed:" destination="Igm-CS-KZm" eventType="touchUpInside" id="HU8-AL-cGP"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fb8-PI-7Bc">
-                                <rect key="frame" x="10" y="305" width="153" height="47"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fb8-PI-7Bc">
+                                <rect key="frame" x="10" y="277" width="148" height="33"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="24"/>
                                 <color key="tintColor" systemColor="labelColor"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
-                                <state key="normal" title="New" image="sparkles" catalog="system"/>
-                                <buttonConfiguration key="configuration" style="plain" title="💞  Matches">
-                                    <fontDescription key="titleFontDescription" name="Avenir-Book" family="Avenir" pointSize="24"/>
-                                </buttonConfiguration>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="💞  Matches" image="sparkles" catalog="system"/>
                                 <connections>
                                     <action selector="matchesButtonDidPressed:" destination="Igm-CS-KZm" eventType="touchUpInside" id="emj-ti-vTD"/>
                                 </connections>
@@ -2086,7 +2080,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exl-fP-bh0">
-                                <rect key="frame" x="15" y="362" width="360" height="41.666666666666686"/>
+                                <rect key="frame" x="15" y="320" width="360" height="41.666666666666686"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2638,59 +2632,48 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I6S-dh-X2z">
-                                <rect key="frame" x="10" y="134" width="93.666666666666671" height="47"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I6S-dh-X2z">
+                                <rect key="frame" x="10" y="134" width="89" height="33"/>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
                                 <color key="tintColor" systemColor="labelColor"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
-                                <state key="normal" title="Share" image="square.and.arrow.up" catalog="system"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="⭐️  All" image="square.and.arrow.up" catalog="system"/>
                                 <state key="selected" title="Best" image="cup.and.saucer.fill" catalog="system">
                                     <color key="titleColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <buttonConfiguration key="configuration" style="plain" title="⭐️  All">
-                                    <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
-                                </buttonConfiguration>
                                 <connections>
                                     <action selector="allButtonDidPressed:" destination="dbg-Ef-LPw" eventType="touchUpInside" id="qpG-g0-6Wr"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ad0-gU-leh">
-                                <rect key="frame" x="10" y="191" width="158" height="47"/>
-                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
+                                <rect key="frame" x="10" y="177" width="122" height="33"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="24"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="12" maxY="0.0"/>
-                                <state key="normal" title=" Featured" image="FeaturedIcon">
+                                <state key="normal" title="Featured" image="SpotifyIcon">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                 </state>
-                                <buttonConfiguration key="configuration" style="plain" image="SpotifyIcon" title="Featured" imagePadding="12">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="default"/>
-                                    <fontDescription key="titleFontDescription" name="Avenir-Book" family="Avenir" pointSize="24"/>
-                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
                                 <connections>
                                     <action selector="featuredButtonDidPressed:" destination="dbg-Ef-LPw" eventType="touchUpInside" id="TEw-t8-bfY"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tRy-ZT-Pt8">
-                                <rect key="frame" x="10" y="248" width="141" height="47"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tRy-ZT-Pt8">
+                                <rect key="frame" x="10" y="220" width="136" height="33"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="24"/>
                                 <color key="tintColor" systemColor="labelColor"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
-                                <state key="normal" title="New" image="sparkles" catalog="system"/>
-                                <buttonConfiguration key="configuration" style="plain" title="👀  Friends">
-                                    <fontDescription key="titleFontDescription" name="Avenir-Book" family="Avenir" pointSize="24"/>
-                                </buttonConfiguration>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="👀  Friends" image="sparkles" catalog="system"/>
                                 <connections>
                                     <action selector="friendsButtonDidPressed:" destination="dbg-Ef-LPw" eventType="touchUpInside" id="xbx-6T-y7R"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rDJ-a9-OjL">
-                                <rect key="frame" x="10" y="305" width="153" height="47"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rDJ-a9-OjL">
+                                <rect key="frame" x="10" y="263" width="148" height="33"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="24"/>
                                 <color key="tintColor" systemColor="labelColor"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
-                                <state key="normal" title="New" image="sparkles" catalog="system"/>
-                                <buttonConfiguration key="configuration" style="plain" title="💞  Matches">
-                                    <fontDescription key="titleFontDescription" name="Avenir-Book" family="Avenir" pointSize="24"/>
-                                </buttonConfiguration>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="💞  Matches" image="sparkles" catalog="system"/>
                                 <connections>
                                     <action selector="matchesButtonDidPressed:" destination="dbg-Ef-LPw" eventType="touchUpInside" id="IZa-oL-7b1"/>
                                 </connections>
@@ -2707,7 +2690,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qfs-Wx-5z3">
-                                <rect key="frame" x="15" y="362" width="360" height="41.666666666666686"/>
+                                <rect key="frame" x="15" y="306" width="360" height="41.666666666666686"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2755,82 +2738,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hYc-6L-Xze" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2174" y="975"/>
-        </scene>
-        <!--Chat More View Controller-->
-        <scene sceneID="ica-1n-8eE">
-            <objects>
-                <viewController storyboardIdentifier="ChatMoreViewController" id="N5k-ch-ZKw" customClass="ChatMoreViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ySC-KK-6NF">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lp7-D4-ObY">
-                                <rect key="frame" x="15" y="662" width="360" height="71"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZEF-ba-1Lk" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="360" height="70"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="ne1-cf-XYt"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
-                                        <color key="tintColor" name="mist-black"/>
-                                        <inset key="titleEdgeInsets" minX="32" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="block" image="hand.raised" catalog="system">
-                                            <color key="titleColor" name="mist-black"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="blockButton:" destination="N5k-ch-ZKw" eventType="touchUpInside" id="c3S-5O-Nji"/>
-                                        </connections>
-                                    </button>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EEL-il-KFA">
-                                        <rect key="frame" x="0.0" y="70" width="360" height="1"/>
-                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="1" id="KPf-Hd-aEX"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="il1-GW-GHl">
-                                <rect key="frame" x="10" y="743" width="370" height="60"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="bAd-ul-EUT"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="tintColor" name="mist-black"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="Close"/>
-                                <buttonConfiguration key="configuration" style="plain" title="close">
-                                    <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="closeButtonDidPressed:" destination="N5k-ch-ZKw" eventType="touchUpInside" id="r4W-jj-EiG"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="Z0L-un-hwS"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="il1-GW-GHl" firstAttribute="top" secondItem="lp7-D4-ObY" secondAttribute="bottom" constant="10" id="4F0-yk-63r"/>
-                            <constraint firstItem="il1-GW-GHl" firstAttribute="leading" secondItem="Z0L-un-hwS" secondAttribute="leading" constant="10" id="JOk-oI-Whu"/>
-                            <constraint firstItem="Z0L-un-hwS" firstAttribute="trailing" secondItem="lp7-D4-ObY" secondAttribute="trailing" constant="15" id="Luo-4g-gVC"/>
-                            <constraint firstItem="Z0L-un-hwS" firstAttribute="bottom" secondItem="il1-GW-GHl" secondAttribute="bottom" constant="7" id="SXI-2s-LJZ"/>
-                            <constraint firstItem="Z0L-un-hwS" firstAttribute="trailing" secondItem="il1-GW-GHl" secondAttribute="trailing" constant="10" id="Vlj-Wv-Lu5"/>
-                            <constraint firstItem="lp7-D4-ObY" firstAttribute="leading" secondItem="Z0L-un-hwS" secondAttribute="leading" constant="15" id="VyS-R0-M1x"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="blockButton" destination="ZEF-ba-1Lk" id="tmM-dk-Igr"/>
-                        <outlet property="closeButton" destination="il1-GW-GHl" id="Bhh-w0-357"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Lpd-zf-jmT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-286" y="2598"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="c3o-KR-NnV">
@@ -3018,104 +2925,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0kp-1U-8G2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-5103" y="-41"/>
-        </scene>
-        <!--Comment More View Controller-->
-        <scene sceneID="bLc-kq-9NN">
-            <objects>
-                <viewController storyboardIdentifier="CommentMoreViewController" id="FI4-9c-sSi" customClass="CommentMoreViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="3RA-Xy-ZOq">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Pv1-2k-btd">
-                                <rect key="frame" x="15" y="592" width="360" height="141"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tsQ-zW-igQ" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="360" height="70"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="sUd-lC-0Ll"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
-                                        <color key="tintColor" name="mist-black"/>
-                                        <inset key="titleEdgeInsets" minX="30" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="report" image="flag" catalog="system">
-                                            <color key="titleColor" name="mist-black"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="reportButton:" destination="FI4-9c-sSi" eventType="touchUpInside" id="Om8-yg-zFF"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UWg-zB-04b" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="70" width="360" height="70"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="Oma-20-MCr"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
-                                        <color key="tintColor" name="mist-black"/>
-                                        <inset key="titleEdgeInsets" minX="31" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="delete" image="trash" catalog="system">
-                                            <color key="titleColor" name="mist-black"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
-                                        </state>
-                                        <state key="selected" title="Best" image="cup.and.saucer.fill" catalog="system">
-                                            <color key="titleColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="deleteButtonDidPressed:" destination="FI4-9c-sSi" eventType="touchUpInside" id="Ajc-Pl-ZaS"/>
-                                        </connections>
-                                    </button>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OHr-ZC-fsX">
-                                        <rect key="frame" x="0.0" y="140" width="360" height="1"/>
-                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="1" id="1V9-ny-tN0"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R8b-eJ-bAZ">
-                                <rect key="frame" x="10" y="743" width="370" height="60"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="Exo-A2-J1L"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="tintColor" name="mist-black"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="Close"/>
-                                <buttonConfiguration key="configuration" style="plain" title="close">
-                                    <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="closeButtonDidPressed:" destination="FI4-9c-sSi" eventType="touchUpInside" id="N3Z-lr-VzT"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="0ds-yj-MRp"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="0ds-yj-MRp" firstAttribute="bottom" secondItem="R8b-eJ-bAZ" secondAttribute="bottom" constant="7" id="1LC-zR-QRt"/>
-                            <constraint firstItem="R8b-eJ-bAZ" firstAttribute="leading" secondItem="0ds-yj-MRp" secondAttribute="leading" constant="10" id="HXq-6D-H1w"/>
-                            <constraint firstItem="Pv1-2k-btd" firstAttribute="leading" secondItem="0ds-yj-MRp" secondAttribute="leading" constant="15" id="cEg-oW-F6L"/>
-                            <constraint firstItem="0ds-yj-MRp" firstAttribute="trailing" secondItem="Pv1-2k-btd" secondAttribute="trailing" constant="15" id="hjd-cm-JaH"/>
-                            <constraint firstItem="0ds-yj-MRp" firstAttribute="trailing" secondItem="R8b-eJ-bAZ" secondAttribute="trailing" constant="10" id="tRG-kd-Bnt"/>
-                            <constraint firstItem="R8b-eJ-bAZ" firstAttribute="top" secondItem="Pv1-2k-btd" secondAttribute="bottom" constant="10" id="yPu-Wy-v3c"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="closeButton" destination="R8b-eJ-bAZ" id="Py7-OC-7zO"/>
-                        <outlet property="deleteButton" destination="UWg-zB-04b" id="YhB-5s-Bmy"/>
-                        <outlet property="deleteButtonGrayLine" destination="OHr-ZC-fsX" id="EcW-yD-fep"/>
-                        <outlet property="flagButton" destination="tsQ-zW-igQ" id="zPA-DU-74G"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NPY-zB-vzC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3562" y="975"/>
         </scene>
         <!--Get Verified View Controller-->
         <scene sceneID="Q5h-i6-fx9">
@@ -3519,7 +3328,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="1eH-mW-MUl" kind="relationship" relationship="rootViewController" id="MvA-ed-NZI"/>
+                        <segue destination="I2k-JH-Jf0" kind="relationship" relationship="rootViewController" id="xvG-eu-Mhg"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tps-Jc-sEC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -3698,10 +3507,219 @@
             </objects>
             <point key="canvasLocation" x="-315" y="4012"/>
         </scene>
+        <!--MistboxVIewController-->
+        <scene sceneID="TVh-D3-kv8">
+            <objects>
+                <viewController storyboardIdentifier="MistboxViewController" title="MistboxVIewController" id="I2k-JH-Jf0" customClass="MistboxViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="n3u-lG-dv3">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="3jn-9H-2Yp"/>
+                        <color key="backgroundColor" name="off-white"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ggH-1s-6hf"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="whY-G5-v2U" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1763.0769230769231" y="1873.9336492890995"/>
+        </scene>
+        <!--Chat More View Controller-->
+        <scene sceneID="vLr-sc-V21">
+            <objects>
+                <viewController storyboardIdentifier="ChatMoreViewController" id="WTu-91-B4s" customClass="ChatMoreViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="r9U-vI-i1Y">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SEf-uJ-LLc">
+                                <rect key="frame" x="0.0" y="659" width="390" height="185"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ac8-v6-wWj">
+                                        <rect key="frame" x="10" y="10" width="370" height="141"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MQx-H4-qS8" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="370" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="7B7-lY-ZLY"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                                <color key="tintColor" name="mist-black"/>
+                                                <inset key="titleEdgeInsets" minX="32" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="block" image="hand.raised" catalog="system">
+                                                    <color key="titleColor" name="mist-black"/>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="blockButton:" destination="WTu-91-B4s" eventType="touchUpInside" id="aQC-cN-iqi"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jBO-pO-BlA">
+                                                <rect key="frame" x="0.0" y="70" width="370" height="1"/>
+                                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="fIg-Ys-XgL"/>
+                                                </constraints>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="one-ny-6mr">
+                                                <rect key="frame" x="0.0" y="71" width="370" height="70"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="5Eo-VW-Un0"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <color key="tintColor" name="mist-black"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Close"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="close">
+                                                    <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="closeButtonDidPressed:" destination="WTu-91-B4s" eventType="touchUpInside" id="4mC-Cx-fQh"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="ac8-v6-wWj" firstAttribute="top" secondItem="SEf-uJ-LLc" secondAttribute="top" constant="10" id="2BM-bX-ieW"/>
+                                    <constraint firstItem="ac8-v6-wWj" firstAttribute="leading" secondItem="SEf-uJ-LLc" secondAttribute="leading" constant="10" id="Iy8-IV-2Uc"/>
+                                    <constraint firstAttribute="trailing" secondItem="ac8-v6-wWj" secondAttribute="trailing" constant="10" id="gCw-7f-vKe"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="aBK-Rq-3tT"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="SEf-uJ-LLc" secondAttribute="bottom" id="6Fv-ul-CYL"/>
+                            <constraint firstItem="ac8-v6-wWj" firstAttribute="bottom" secondItem="aBK-Rq-3tT" secondAttribute="bottom" id="Nfc-7V-uBI"/>
+                            <constraint firstAttribute="trailing" secondItem="SEf-uJ-LLc" secondAttribute="trailing" id="o8Y-Oc-53K"/>
+                            <constraint firstItem="SEf-uJ-LLc" firstAttribute="leading" secondItem="r9U-vI-i1Y" secondAttribute="leading" id="pUI-qL-pCh"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="backgroundView" destination="SEf-uJ-LLc" id="0lU-XJ-JF4"/>
+                        <outlet property="blockButton" destination="MQx-H4-qS8" id="dWn-dB-AhW"/>
+                        <outlet property="closeButton" destination="one-ny-6mr" id="bfa-3m-HOi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5pv-9t-ptz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2911" y="2314"/>
+        </scene>
+        <!--Comment More View Controller-->
+        <scene sceneID="nj5-IK-bt7">
+            <objects>
+                <viewController storyboardIdentifier="CommentMoreViewController" id="7Z1-g7-Ntd" customClass="CommentMoreViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="CK7-Cc-hRK">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LZL-QL-YAZ">
+                                <rect key="frame" x="0.0" y="623" width="390" height="221"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Fjx-ac-F9P">
+                                        <rect key="frame" x="10" y="10" width="370" height="211"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ke6-Uy-MIX" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="370" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="swS-IL-oAJ"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                                <color key="tintColor" name="mist-black"/>
+                                                <inset key="titleEdgeInsets" minX="30" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="report" image="flag" catalog="system">
+                                                    <color key="titleColor" name="mist-black"/>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="reportButton:" destination="7Z1-g7-Ntd" eventType="touchUpInside" id="rwT-ft-6gS"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VeW-Ed-fTK" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="70" width="370" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="Q8L-8n-kia"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                                <color key="tintColor" name="mist-black"/>
+                                                <inset key="titleEdgeInsets" minX="31" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="delete" image="trash" catalog="system">
+                                                    <color key="titleColor" name="mist-black"/>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
+                                                </state>
+                                                <state key="selected" title="Best" image="cup.and.saucer.fill" catalog="system">
+                                                    <color key="titleColor" red="0.80230695009999997" green="0.66940164570000005" blue="0.88427478079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="deleteButtonDidPressed:" destination="7Z1-g7-Ntd" eventType="touchUpInside" id="1Yl-PM-mRT"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OKj-6m-Tix">
+                                                <rect key="frame" x="0.0" y="140" width="370" height="1"/>
+                                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="PLb-TY-2qB"/>
+                                                </constraints>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JO5-Uu-RmU">
+                                                <rect key="frame" x="0.0" y="141" width="370" height="70"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="jRQ-vs-9oc"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <color key="tintColor" name="mist-black"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Close"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="close">
+                                                    <fontDescription key="titleFontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="closeButtonDidPressed:" destination="7Z1-g7-Ntd" eventType="touchUpInside" id="4kw-SS-kDz"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="Fjx-ac-F9P" firstAttribute="leading" secondItem="LZL-QL-YAZ" secondAttribute="leading" constant="10" id="AaK-w4-KTs"/>
+                                    <constraint firstItem="Fjx-ac-F9P" firstAttribute="top" secondItem="LZL-QL-YAZ" secondAttribute="top" constant="10" id="FWw-ws-hkW"/>
+                                    <constraint firstAttribute="bottom" secondItem="Fjx-ac-F9P" secondAttribute="bottom" id="gLB-O6-c8N"/>
+                                    <constraint firstAttribute="trailing" secondItem="Fjx-ac-F9P" secondAttribute="trailing" constant="10" id="iVv-nq-nxP"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="k87-Iq-izW"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="LZL-QL-YAZ" firstAttribute="leading" secondItem="CK7-Cc-hRK" secondAttribute="leading" id="KdN-uR-4O6"/>
+                            <constraint firstAttribute="bottom" secondItem="LZL-QL-YAZ" secondAttribute="bottom" id="gp4-ub-i4x"/>
+                            <constraint firstAttribute="trailing" secondItem="LZL-QL-YAZ" secondAttribute="trailing" id="rjs-rj-l0I"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="backgroundView" destination="LZL-QL-YAZ" id="AFe-4c-sLp"/>
+                        <outlet property="closeButton" destination="JO5-Uu-RmU" id="Wfd-yx-9qg"/>
+                        <outlet property="deleteButton" destination="VeW-Ed-fTK" id="LMd-RL-adR"/>
+                        <outlet property="deleteButtonGrayLine" destination="OKj-6m-Tix" id="GUk-fE-lbO"/>
+                        <outlet property="flagButton" destination="Ke6-Uy-MIX" id="F1M-Mb-Lsg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="osB-Kr-J2W" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2174" y="2314"/>
+        </scene>
     </scenes>
     <color key="tintColor" name="mist-black"/>
     <resources>
-        <image name="FeaturedIcon" width="28" height="18"/>
         <image name="SpotifyIcon" width="26" height="26"/>
         <image name="adam" width="893" height="880"/>
         <image name="arrow.clockwise" catalog="system" width="115" height="128"/>

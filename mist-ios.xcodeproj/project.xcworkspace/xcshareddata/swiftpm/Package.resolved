@@ -163,6 +163,15 @@
       }
     },
     {
+      "identity" : "scalingcarousel",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/superpeteblaze/ScalingCarousel",
+      "state" : {
+        "branch" : "master",
+        "revision" : "f2bfde4db386243fd4e0e4687fcfff530c239c20"
+      }
+    },
+    {
       "identity" : "starscream",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/daltoniam/Starscream",

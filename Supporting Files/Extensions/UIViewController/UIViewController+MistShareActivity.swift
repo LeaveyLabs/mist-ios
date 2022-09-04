@@ -7,6 +7,10 @@
 
 import Foundation
 
+protocol ShareActivityDelegate {
+    func presentShareActivityVC()
+}
+
 extension UIViewController {
     
     func presentMistShareActivity() {

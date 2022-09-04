@@ -30,18 +30,32 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
     var isValidInput: Bool! {
         didSet {
             continueButton.isEnabled = isValidInput
-            continueButton.setNeedsUpdateConfiguration()
         }
     }
     var isSubmitting: Bool = false {
         didSet {
-            continueButton.isEnabled = !isSubmitting
-            continueButton.setNeedsUpdateConfiguration()
+            continueButton.setTitle(isSubmitting ? "" : "continue", for: .normal)
+            continueButton.loadingIndicator(isSubmitting)
         }
     }
+    
+    let resendAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 12)!]
     var resendState: ResendState = .notsent {
         didSet {
-            resendButton.setNeedsUpdateConfiguration()
+            switch resendState {
+            case .notsent:
+                resendButton.loadingIndicator(false)
+                resendButton.isEnabled = true
+                resendButton.setTitle("resend", for: .normal)
+            case .sending:
+                resendButton.isEnabled = false
+                resendButton.loadingIndicator(true)
+                resendButton.setTitle("", for: .normal)
+            case .sent:
+                resendButton.isEnabled = false
+                resendButton.loadingIndicator(false)
+                resendButton.setTitle("resent", for: .normal)
+            }
         }
     }
     
@@ -95,44 +109,18 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func setupResendButton() {
-        resendButton.configuration?.imagePadding = 5
-        let resendAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 12)!]
-
-        resendButton.configurationUpdateHandler = { [weak self] button in
-            switch self?.resendState {
-            case .notsent:
-                button.isEnabled = true
-                button.configuration?.showsActivityIndicator = false
-                button.configuration?.image = nil
-                button.configuration?.attributedTitle = AttributedString("resend", attributes: AttributeContainer(resendAttributes))
-            case .sending:
-                button.isEnabled = false
-                button.configuration?.showsActivityIndicator = true
-                button.configuration?.attributedTitle = AttributedString("resending", attributes: AttributeContainer(resendAttributes))
-            case .sent:
-                button.isEnabled = false
-                button.configuration?.showsActivityIndicator = false
-                button.configuration?.image = UIImage(systemName: "checkmark")
-                button.configuration?.attributedTitle = AttributedString("resent", attributes: AttributeContainer(resendAttributes))
-            case .none:
-                break
-            }
-        }
+        resendButton.isEnabled = false
     }
     
     func setupContinueButton() {
-        let buttonTitle: String = confirmMethod == .loginText ? "login" : "continue"
-        continueButton.configurationUpdateHandler = { [weak self] button in
-            if button.isEnabled {
-                button.configuration = ButtonConfigs.enabledConfig(title: buttonTitle)
-            }
-            else {
-                if !(self?.isSubmitting ?? false) {
-                    button.configuration = ButtonConfigs.disabledConfig(title: buttonTitle)
-                }
-            }
-            button.configuration?.showsActivityIndicator = self?.isSubmitting ?? false
-        }
+        continueButton.roundCornersViaCornerRadius(radius: 10)
+        continueButton.clipsToBounds = true
+        continueButton.isEnabled = false
+        continueButton.setBackgroundImage(UIImage.imageFromColor(color: Constants.Color.mistLilac), for: .normal)
+        continueButton.setBackgroundImage(UIImage.imageFromColor(color: Constants.Color.mistLilac.withAlphaComponent(0.2)), for: .disabled)
+        continueButton.setTitleColor(.white, for: .normal)
+        continueButton.setTitleColor(Constants.Color.mistLilac, for: .disabled)
+        continueButton.setTitle("continue", for: .normal)
     }
     
     func setupLabel() {

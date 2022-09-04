@@ -8,12 +8,13 @@
 import Foundation
 import UIKit
 
-class CommentMoreViewController: CustomSheetViewController {
+class CommentMoreViewController: UIViewController {
         
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var flagButton: ToggleButton!
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var deleteButtonGrayLine: UIView!
+    @IBOutlet weak var backgroundView: UIView!
 
     var commentDelegate: CommentDelegate!
     var commentId: Int!
@@ -30,18 +31,19 @@ class CommentMoreViewController: CustomSheetViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let sheetHeight: CGFloat = 160
+        setupBackgroundView()
         if commentAuthor != UserService.singleton.getId() {
             deleteButton.isHidden = true
             setupFlagButton()
         } else {
             flagButton.isHidden = true
         }
-        setupSheet(prefersGrabberVisible: false,
-                   detents: [._detent(withIdentifier: "s", constant: sheetHeight)],
-                   largestUndimmedDetentIdentifier: nil)
-        
-        closeButton.layer.cornerRadius = 5
+    }
+    
+    func setupBackgroundView() {
+        let dismissTap = UITapGestureRecognizer(target: self, action: #selector(closeButtonDidPressed(_:)))
+        view.addGestureRecognizer(dismissTap)
+        backgroundView.layer.cornerRadius = 10
     }
     
     func setupFlagButton() {

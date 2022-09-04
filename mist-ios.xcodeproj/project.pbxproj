@@ -560,6 +560,10 @@
 		5B99D3BA28C4698A009E63CD /* NewPostViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99D3B828C4698A009E63CD /* NewPostViewController+Keyboard.swift */; };
 		5B99D3BD28C4733C009E63CD /* UIScrollView+IsAt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99D3BC28C4733C009E63CD /* UIScrollView+IsAt.swift */; };
 		5B99D3BE28C4733C009E63CD /* UIScrollView+IsAt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99D3BC28C4733C009E63CD /* UIScrollView+IsAt.swift */; };
+		5B99D3C028C487F4009E63CD /* OldMistbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99D3BF28C487F4009E63CD /* OldMistbox.swift */; };
+		5B99D3C128C487F4009E63CD /* OldMistbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99D3BF28C487F4009E63CD /* OldMistbox.swift */; };
+		5B99D3C428C48ADC009E63CD /* ScalingCarousel in Frameworks */ = {isa = PBXBuildFile; productRef = 5B99D3C328C48ADC009E63CD /* ScalingCarousel */; };
+		5B99D3C628C48AF3009E63CD /* ScalingCarousel in Frameworks */ = {isa = PBXBuildFile; productRef = 5B99D3C528C48AF3009E63CD /* ScalingCarousel */; };
 		5BA401F72878052B004A556E /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA401F62878052B004A556E /* Env.swift */; };
 		5BA967322872BC5E00724CD9 /* Array+FirstWhere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */; };
 		5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */; };
@@ -573,6 +577,8 @@
 		5BAD62792876938900DCFE45 /* SettingsTapDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62782876938900DCFE45 /* SettingsTapDelegate.swift */; };
 		5BAD627B2876BD7600DCFE45 /* MistWideLogoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BAD627A2876BD7600DCFE45 /* MistWideLogoView.xib */; };
 		5BAD627D2876BE8800DCFE45 /* MistWideLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD627C2876BE8800DCFE45 /* MistWideLogoView.swift */; };
+		5BB10B2C28C506FA004296F3 /* UIVC+InteractivePop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB10B2B28C506FA004296F3 /* UIVC+InteractivePop.swift */; };
+		5BB10B2D28C506FA004296F3 /* UIVC+InteractivePop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB10B2B28C506FA004296F3 /* UIVC+InteractivePop.swift */; };
 		5BB624B228620D4A00DCD45B /* CustomCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B128620D4A00DCD45B /* CustomCardView.swift */; };
 		5BB624B428620D5F00DCD45B /* CustomCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BB624B328620D5F00DCD45B /* CustomCardView.xib */; };
 		5BB624B628622C8500DCD45B /* UIViewController+DismissFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */; };
@@ -964,6 +970,7 @@
 		5B99D3B528C44635009E63CD /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		5B99D3B828C4698A009E63CD /* NewPostViewController+Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewPostViewController+Keyboard.swift"; sourceTree = "<group>"; };
 		5B99D3BC28C4733C009E63CD /* UIScrollView+IsAt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+IsAt.swift"; sourceTree = "<group>"; };
+		5B99D3BF28C487F4009E63CD /* OldMistbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldMistbox.swift; sourceTree = "<group>"; };
 		5BA401F62878052B004A556E /* Env.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+FirstWhere.swift"; sourceTree = "<group>"; };
 		5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationCollectionCell.swift; sourceTree = "<group>"; };
@@ -977,6 +984,7 @@
 		5BAD62782876938900DCFE45 /* SettingsTapDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTapDelegate.swift; sourceTree = "<group>"; };
 		5BAD627A2876BD7600DCFE45 /* MistWideLogoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MistWideLogoView.xib; sourceTree = "<group>"; };
 		5BAD627C2876BE8800DCFE45 /* MistWideLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistWideLogoView.swift; sourceTree = "<group>"; };
+		5BB10B2B28C506FA004296F3 /* UIVC+InteractivePop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIVC+InteractivePop.swift"; sourceTree = "<group>"; };
 		5BB624B128620D4A00DCD45B /* CustomCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCardView.swift; sourceTree = "<group>"; };
 		5BB624B328620D5F00DCD45B /* CustomCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCardView.xib; sourceTree = "<group>"; };
 		5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+DismissFlag.swift"; sourceTree = "<group>"; };
@@ -1047,6 +1055,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B99D3C428C48ADC009E63CD /* ScalingCarousel in Frameworks */,
 				5B739D7B2891FD4C00E4EED0 /* FirebaseRemoteConfig in Frameworks */,
 				4316238228341F5F00169AA9 /* MessageKit in Frameworks */,
 				4767E41428584CD70016202E /* Alamofire in Frameworks */,
@@ -1084,6 +1093,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B99D3C628C48AF3009E63CD /* ScalingCarousel in Frameworks */,
 				5B739E6428935B9500E4EED0 /* FirebaseRemoteConfig in Frameworks */,
 				5B739E6528935B9500E4EED0 /* MessageKit in Frameworks */,
 				5B739E6628935B9500E4EED0 /* Alamofire in Frameworks */,
@@ -1712,6 +1722,7 @@
 				5BC8822B28B15192007E83F8 /* UIViewController+Logout.swift */,
 				5B068CB928BD675600DFC89F /* UIViewController+FloatingButton.swift */,
 				5B4152B728BF691D00592A55 /* UIViewController+Child.swift */,
+				5BB10B2B28C506FA004296F3 /* UIVC+InteractivePop.swift */,
 			);
 			path = UIViewController;
 			sourceTree = "<group>";
@@ -1769,6 +1780,7 @@
 				5B1F16CD287D1ABD00035F93 /* HomeViewController.swift */,
 				4752718228557C1300DDF84D /* PasswordSettingViewController.swift */,
 				470F271E27DE9ABE00C6DDAF /* SearchResultsTableViewController.swift */,
+				5B99D3BF28C487F4009E63CD /* OldMistbox.swift */,
 			);
 			path = Decomissioned;
 			sourceTree = "<group>";
@@ -2123,6 +2135,7 @@
 				5BC2530A28BA8ABA00D4F49A /* CenteredCollectionView */,
 				5B41529728BDE90E00592A55 /* WSTagsField */,
 				5B4152A928BE88BE00592A55 /* OverlayContainer */,
+				5B99D3C328C48ADC009E63CD /* ScalingCarousel */,
 			);
 			productName = "mist-ios";
 			productReference = 47E74E0827CA0FFE00467A0C /* mist-ios.app */;
@@ -2195,6 +2208,7 @@
 				5BC2530C28BA8AD300D4F49A /* CenteredCollectionView */,
 				5B41529928BDE92200592A55 /* WSTagsField */,
 				5B4152AB28BE88D900592A55 /* OverlayContainer */,
+				5B99D3C528C48AF3009E63CD /* ScalingCarousel */,
 			);
 			productName = "mist-ios";
 			productReference = 5B739E8D28935B9500E4EED0 /* mist-ios-dev.app */;
@@ -2245,6 +2259,7 @@
 				5BC2530928BA8ABA00D4F49A /* XCRemoteSwiftPackageReference "CenteredCollectionView" */,
 				5B41529628BDE90E00592A55 /* XCRemoteSwiftPackageReference "WSTagsField" */,
 				5B4152A828BE88BE00592A55 /* XCRemoteSwiftPackageReference "OverlayContainer" */,
+				5B99D3C228C48ADC009E63CD /* XCRemoteSwiftPackageReference "ScalingCarousel" */,
 			);
 			productRefGroup = 47E74E0927CA0FFE00467A0C /* Products */;
 			projectDirPath = "";
@@ -2478,6 +2493,7 @@
 				5BB624D32867A56100DCD45B /* CommentService.swift in Sources */,
 				47EE95FA27F64C00003B351E /* MyAccountViewController.swift in Sources */,
 				5BB624B92863CA2600DCD45B /* UINavigationItem+UIButton.swift in Sources */,
+				5B99D3C028C487F4009E63CD /* OldMistbox.swift in Sources */,
 				5B1F16D2287D1E5000035F93 /* CustomExploreViewController.swift in Sources */,
 				43E30CFE2826355C00DBEB57 /* UploadProfilePictureViewController.swift in Sources */,
 				47266AD427FF69C9005DEDB1 /* UIViewController+Loading.swift in Sources */,
@@ -2585,6 +2601,7 @@
 				43D92524285280D200438C5C /* FriendRequestAPI.swift in Sources */,
 				5B235B1228AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift in Sources */,
 				5BE1473C289F0FCE0096FEBE /* Validate.swift in Sources */,
+				5BB10B2C28C506FA004296F3 /* UIVC+InteractivePop.swift in Sources */,
 				5BD7481F28C1EB68005C7820 /* LocationManager.swift in Sources */,
 				472A4BF328408BD800FD52B7 /* Spring.swift in Sources */,
 				5B1F16CE287D1ABD00035F93 /* HomeViewController.swift in Sources */,
@@ -2799,6 +2816,7 @@
 				5B739DC728935B9500E4EED0 /* PostViewController.swift in Sources */,
 				5B739DC828935B9500E4EED0 /* SpecialTabBar.swift in Sources */,
 				5B739DC928935B9500E4EED0 /* CommentService.swift in Sources */,
+				5B99D3C128C487F4009E63CD /* OldMistbox.swift in Sources */,
 				5B739DCA28935B9500E4EED0 /* MyAccountViewController.swift in Sources */,
 				5B739DCB28935B9500E4EED0 /* UINavigationItem+UIButton.swift in Sources */,
 				5B739DCC28935B9500E4EED0 /* CustomExploreViewController.swift in Sources */,
@@ -2906,6 +2924,7 @@
 				5B739E1928935B9500E4EED0 /* LoadingView.swift in Sources */,
 				5B739E1A28935B9500E4EED0 /* PasswordSettingViewController.swift in Sources */,
 				5B739E1B28935B9500E4EED0 /* FriendRequestAPI.swift in Sources */,
+				5BB10B2D28C506FA004296F3 /* UIVC+InteractivePop.swift in Sources */,
 				5BD7482028C1EB68005C7820 /* LocationManager.swift in Sources */,
 				5B739E1C28935B9500E4EED0 /* Spring.swift in Sources */,
 				5B739E1D28935B9500E4EED0 /* HomeViewController.swift in Sources */,
@@ -3188,7 +3207,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3235,7 +3254,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3383,7 +3402,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3433,7 +3452,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3623,6 +3642,14 @@
 				minimumVersion = 9.0.0;
 			};
 		};
+		5B99D3C228C48ADC009E63CD /* XCRemoteSwiftPackageReference "ScalingCarousel" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/superpeteblaze/ScalingCarousel";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		5BC2530928BA8ABA00D4F49A /* XCRemoteSwiftPackageReference "CenteredCollectionView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/BenEmdon/CenteredCollectionView";
@@ -3783,6 +3810,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5B739D8B28935B9500E4EED0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseRemoteConfigSwift;
+		};
+		5B99D3C328C48ADC009E63CD /* ScalingCarousel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B99D3C228C48ADC009E63CD /* XCRemoteSwiftPackageReference "ScalingCarousel" */;
+			productName = ScalingCarousel;
+		};
+		5B99D3C528C48AF3009E63CD /* ScalingCarousel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B99D3C228C48ADC009E63CD /* XCRemoteSwiftPackageReference "ScalingCarousel" */;
+			productName = ScalingCarousel;
 		};
 		5BC2530A28BA8ABA00D4F49A /* CenteredCollectionView */ = {
 			isa = XCSwiftPackageProductDependency;

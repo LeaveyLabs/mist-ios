@@ -6,14 +6,16 @@
 //
 
 import Foundation
+import ScalingCarousel
 
-class ClusterCarouselCell: UICollectionViewCell {
+class ClusterCarouselCell: ScalingCarouselCell {
     
     let postView = PostView()
     var bottomConstraint: NSLayoutConstraint!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        mainView = postView
         postView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(postView)
         bottomConstraint = postView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15)

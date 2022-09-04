@@ -41,7 +41,7 @@ class NewPostViewController: UIViewController {
         if #available(iOS 14, *) {
             datePicker.preferredDatePickerStyle = .wheels
         }
-        datePicker.maximumDate = .now
+        datePicker.maximumDate = Date()
         datePicker.minimumDate = Calendar.current.date(byAdding: .month,
                                                        value: -1,
                                                        to: Date())

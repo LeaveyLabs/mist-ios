@@ -18,13 +18,12 @@ class EnterNumberViewController: KUIViewController, UITextFieldDelegate {
     var isValidInput: Bool! {
         didSet {
             continueButton.isEnabled = isValidInput
-            continueButton.setNeedsUpdateConfiguration()
         }
     }
     var isSubmitting: Bool = false {
         didSet {
-            continueButton.isEnabled = !isSubmitting
-            continueButton.setNeedsUpdateConfiguration()
+            continueButton.setTitle(isSubmitting ? "" : "continue", for: .normal)
+            continueButton.loadingIndicator(isSubmitting)
         }
     }
         
@@ -67,21 +66,14 @@ class EnterNumberViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func setupContinueButton() {
-        //Three states:
-        // 1. enabled
-        // 2. disabled (faded white text)
-        // 3. disabled and submitting (dark grey foreground) bc i dont think you can change the activityIndicator color
-        continueButton.configurationUpdateHandler = { [weak self] button in
-            if button.isEnabled {
-                button.configuration = ButtonConfigs.enabledConfig(title: "continue")
-            }
-            else {
-                if !(self?.isSubmitting ?? false) {
-                    button.configuration = ButtonConfigs.disabledConfig(title: "continue")
-                }
-            }
-            button.configuration?.showsActivityIndicator = self?.isSubmitting ?? false
-        }
+        continueButton.roundCornersViaCornerRadius(radius: 10)
+        continueButton.clipsToBounds = true
+        continueButton.isEnabled = false
+        continueButton.setBackgroundImage(UIImage.imageFromColor(color: Constants.Color.mistLilac), for: .normal)
+        continueButton.setBackgroundImage(UIImage.imageFromColor(color: Constants.Color.mistLilac.withAlphaComponent(0.2)), for: .disabled)
+        continueButton.setTitleColor(.white, for: .normal)
+        continueButton.setTitleColor(Constants.Color.mistLilac, for: .disabled)
+        continueButton.setTitle("continue", for: .normal)
     }
     
     func setupBackButton() {

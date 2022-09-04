@@ -19,6 +19,7 @@ class AuthStartViewController: UIViewController, UITextViewDelegate {
         super.loadView()
         loadMistLogo()
         setupAgreementTextView()
+        setupButtons()
     }
     
     func loadMistLogo() {
@@ -30,6 +31,19 @@ class AuthStartViewController: UIViewController, UITextViewDelegate {
 //            mistWideLogoView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
 //            mistWideLogoView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
 //        ])
+    }
+    
+    func setupButtons() {
+        registerButton.roundCornersViaCornerRadius(radius: 10)
+        registerButton.clipsToBounds = true
+        registerButton.setBackgroundImage(UIImage.imageFromColor(color: Constants.Color.mistLilac), for: .normal)
+        registerButton.setTitleColor(.white, for: .normal)
+        
+        loginButton.roundCornersViaCornerRadius(radius: 10)
+        loginButton.clipsToBounds = true
+        loginButton.setBackgroundImage(UIImage.imageFromColor(color: Constants.Color.mistLilac.withAlphaComponent(0.2)), for: .normal)
+        loginButton.setTitleColor(Constants.Color.mistLilac, for: .normal)
+        
     }
     
     func setupAgreementTextView() {

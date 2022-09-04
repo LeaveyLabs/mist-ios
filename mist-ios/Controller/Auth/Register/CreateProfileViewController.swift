@@ -27,7 +27,6 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
     var isValidInput: Bool! {
         didSet {
             continueButton.isEnabled = isValidInput
-            continueButton.setNeedsUpdateConfiguration()
             profilePictureButton.imageView?.becomeProfilePicImageView(with: profilePic)
             profilePicTextLabel.isHidden = profilePic != defaultPic
             miniCameraButton.isHidden = profilePic == defaultPic
@@ -35,10 +34,11 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
     }
     var isSubmitting: Bool = false {
         didSet {
-            continueButton.isEnabled = !isSubmitting
-            continueButton.setNeedsUpdateConfiguration()
+            continueButton.setTitle(isSubmitting ? "" : "continue", for: .normal)
+            continueButton.loadingIndicator(isSubmitting)
         }
     }
+    
     var profilePic: UIImage? {
         didSet {
             validateInput()
@@ -82,15 +82,14 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
     //MARK: - Setup
     
     func setupButtons() {
-        continueButton.configurationUpdateHandler = { button in
-            if button.isEnabled {
-                button.configuration = ButtonConfigs.enabledConfig(title: "start")
-            }
-            else {
-                button.configuration = ButtonConfigs.disabledConfig(title: "start")
-            }
-            button.configuration?.showsActivityIndicator = self.isSubmitting
-        }
+        continueButton.roundCornersViaCornerRadius(radius: 10)
+        continueButton.clipsToBounds = true
+        continueButton.isEnabled = false
+        continueButton.setBackgroundImage(UIImage.imageFromColor(color: Constants.Color.mistLilac), for: .normal)
+        continueButton.setBackgroundImage(UIImage.imageFromColor(color: Constants.Color.mistLilac.withAlphaComponent(0.2)), for: .disabled)
+        continueButton.setTitleColor(.white, for: .normal)
+        continueButton.setTitleColor(Constants.Color.mistLilac, for: .disabled)
+        continueButton.setTitle("start", for: .normal)
         // Setup miniCameraButton
         miniCameraButton.isHidden = true
         miniCameraButton.becomeRound()

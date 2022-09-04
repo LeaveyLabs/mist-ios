@@ -189,7 +189,7 @@ class NewPostTextField: UITextField {
         doneButton.setTitleTextAttributes(customAttributes, for: .normal)
         
         //not adding done button for now because this messages with the textview keyboard constraints
-        var items = withProgressBar ? [doneButton, flexible, progressCircle] : [doneButton, flexible]
+        let items = withProgressBar ? [doneButton, flexible, progressCircle] : [doneButton, flexible]
         toolBar.setItems(items, animated: false)//4
         
         self.inputAccessoryView = toolBar//5

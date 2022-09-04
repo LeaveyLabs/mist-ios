@@ -20,7 +20,7 @@ class GetVerifiedViewController: UIViewController, UITextViewDelegate {
     var isVerifying: Bool = false {
         didSet {
             verifyButton.isEnabled = !isVerifying
-            verifyButton.setNeedsUpdateConfiguration()
+            verifyButton.loadingIndicator(isVerifying)
         }
     }
     
@@ -48,17 +48,14 @@ class GetVerifiedViewController: UIViewController, UITextViewDelegate {
     }
     
     func setupVerifyButton() {
-        verifyButton.configurationUpdateHandler = { [self] button in
-            if button.isEnabled {
-                button.configuration = ButtonConfigs.enabledConfig(title: VERIFY_BUTTON_TEXT)
-            }
-            else {
-                if !isVerifying {
-                    button.configuration = ButtonConfigs.disabledConfig(title: VERIFY_BUTTON_TEXT)
-                }
-            }
-            button.configuration?.showsActivityIndicator = isVerifying
-        }
+        verifyButton.roundCornersViaCornerRadius(radius: 10)
+        verifyButton.clipsToBounds = true
+        verifyButton.isEnabled = false
+        verifyButton.setBackgroundImage(UIImage.imageFromColor(color: Constants.Color.mistLilac), for: .normal)
+        verifyButton.setBackgroundImage(UIImage.imageFromColor(color: Constants.Color.mistLilac.withAlphaComponent(0.2)), for: .disabled)
+        verifyButton.setTitleColor(.white, for: .normal)
+        verifyButton.setTitleColor(Constants.Color.mistLilac, for: .disabled)
+        verifyButton.setTitle(VERIFY_BUTTON_TEXT, for: .normal)
     }
     
     //MARK: - User Interaction

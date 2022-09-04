@@ -118,6 +118,26 @@ extension PostView {
         self.usersVoteBeforePostWasLoaded = post.votes.first {$0.voter == UserService.singleton.getId() }
         self.postEmojiCountTuples = post.emojiCountTuples
         setupEmojiButtons(topThreeVotes: Array(post.emojiCountTuples.prefix(3)))
+        
+        
+        
+        
+//        let blurEffect = UIBlurEffect(style: .dark)
+//        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+//        //always fill the view
+//        blurEffectView.frame = backgroundBubbleView.bounds
+//        blurEffectView.frame.origin.x += 100
+//        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        blurEffectView.alpha = 0.5
+//
+//        backgroundBubbleView.addSubview(blurEffectView)
+//        backgroundBubbleView.sendSubviewToBack(blurEffectView)
+        
+//        let badQualityRatio: CGFloat = 6
+//        postTitleLabel.layer.shouldRasterize = true
+//        messageLabel.layer.shouldRasterize = true
+//        messageLabel.layer.rasterizationScale = UIScreen.main.scale/badQualityRatio
+//        postTitleLabel.layer.rasterizationScale = UIScreen.main.scale/badQualityRatio
     }
     
     func reconfigurePost() {

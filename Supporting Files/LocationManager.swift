@@ -21,7 +21,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     var currentLocation : CLLocation?
     
     var authorizationStatus: CLAuthorizationStatus {
-        return locationManager.authorizationStatus
+        if #available(iOS 14.0, *) {
+            return locationManager.authorizationStatus
+        } else {
+            return CLLocationManager.authorizationStatus()
+        }
     }
     
     var currentLocationTitle: String?
@@ -57,7 +61,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let newLocation = locations.last else { return }
         currentLocation = newLocation
-        let userInfo : NSDictionary = ["location" : currentLocation!]
+//        let userInfo : NSDictionary = ["location" : currentLocation!]
 
         DispatchQueue.main.async {
 //            NotificationCenter.default.post(name: kLocationDidChangeNotification, object: self, userInfo: userInfo as [NSObject : AnyObject])
@@ -65,8 +69,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                 
         geocoder.reverseGeocodeLocation(newLocation, preferredLocale: Locale(identifier: "en_US")) { (placemarks, error) in
             guard error == nil else { return }
-            print("REVERSE GEOCODED PLACEMARKS:", placemarks)
-            self.currentLocationTitle = placemarks?.first?.name
+//            self.currentLocationTitle = placemarks?.first?.name
         }
     }
     

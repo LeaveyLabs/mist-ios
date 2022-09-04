@@ -11,12 +11,13 @@ protocol ChatMoreDelegate {
     func handleSuccessfulBlock()
 }
 
-class ChatMoreViewController: CustomSheetViewController {
+class ChatMoreViewController: UIViewController {
     
     override var canBecomeFirstResponder: Bool {
         get { return true }
     }
         
+    @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var blockButton: UIButton!
     
@@ -25,7 +26,6 @@ class ChatMoreViewController: CustomSheetViewController {
     
     class func create(sangdaebangId: Int, delegate: ChatMoreDelegate) -> ChatMoreViewController {
         let moreVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ChatMore) as! ChatMoreViewController
-        moreVC.loadViewIfNeeded() //doesnt work without this function call
         moreVC.sangdaebangId = sangdaebangId
         moreVC.delegate = delegate
         return moreVC
@@ -33,10 +33,13 @@ class ChatMoreViewController: CustomSheetViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        closeButton.layer.cornerRadius = 5
-        setupSheet(prefersGrabberVisible: false,
-                   detents: [._detent(withIdentifier: "s", constant: 160)],
-                   largestUndimmedDetentIdentifier: nil)
+        setupBackgroundView()
+    }
+    
+    func setupBackgroundView() {
+        let dismissTap = UITapGestureRecognizer(target: self, action: #selector(closeButtonDidPressed(_:)))
+        view.addGestureRecognizer(dismissTap)
+        backgroundView.layer.cornerRadius = 10
     }
     
     @IBAction func closeButtonDidPressed(_ sender: UIButton) {

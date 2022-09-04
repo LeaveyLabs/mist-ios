@@ -79,10 +79,10 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
     @IBOutlet weak var dobTextField: UITextField!
 
     @IBOutlet weak var continueButton: UIButton!
+    
     var isValidInput: Bool! {
         didSet {
             continueButton.isEnabled = isValidInput
-            continueButton.setNeedsUpdateConfiguration()
         }
     }
     
@@ -129,16 +129,16 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
 //        datePicker.addTarget(self, action: #selector(handleDatePicker(sender:)), for: .valueChanged)
         dobTextField.becomeFirstResponder()
     }
-
+    
     func setupContinueButton() {
-        continueButton.configurationUpdateHandler = { button in
-            if button.isEnabled {
-                button.configuration = ButtonConfigs.enabledConfig(title: "continue")
-            }
-            else {
-                button.configuration = ButtonConfigs.disabledConfig(title: "continue")
-            }
-        }
+        continueButton.roundCornersViaCornerRadius(radius: 10)
+        continueButton.clipsToBounds = true
+        continueButton.isEnabled = false
+        continueButton.setBackgroundImage(UIImage.imageFromColor(color: Constants.Color.mistLilac), for: .normal)
+        continueButton.setBackgroundImage(UIImage.imageFromColor(color: Constants.Color.mistLilac.withAlphaComponent(0.2)), for: .disabled)
+        continueButton.setTitleColor(.white, for: .normal)
+        continueButton.setTitleColor(Constants.Color.mistLilac, for: .disabled)
+        continueButton.setTitle("continue", for: .normal)
     }
 
     //MARK: - User Interaction
