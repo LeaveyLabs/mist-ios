@@ -20,6 +20,7 @@ class WantToChatView: SpringView {
     //UI
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var acceptButton: UIButton!
+    @IBOutlet weak var ignoreButton: UIButton!
     
     var delegate: WantToChatDelegate!
     
@@ -40,8 +41,15 @@ class WantToChatView: SpringView {
         contentView.frame = self.bounds
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(contentView)
+        setupButtons()
+    }
+    
+    func setupButtons() {
+        acceptButton.roundCornersViaCornerRadius(radius: 10)
+        acceptButton.clipsToBounds = true
+        ignoreButton.roundCornersViaCornerRadius(radius: 10)
+        ignoreButton.clipsToBounds = true
         
-        acceptButton.configuration?.imagePadding = 10
     }
         
     //MARK: - User Interaction

@@ -156,7 +156,7 @@ extension PinParentViewController: OverlayContainerViewControllerDelegate {
 
     func overlayContainerViewController(_ containerViewController: OverlayContainerViewController,
                                         scrollViewDrivingOverlay overlayViewController: UIViewController) -> UIScrollView? {
-        return nil //don't allow driving overlay
+        return (overlayViewController as? PinSearchViewController)?.tableView
     }
     
     func overlayContainerViewController(_ containerViewController: OverlayContainerViewController,

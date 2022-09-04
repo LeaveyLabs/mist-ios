@@ -57,9 +57,6 @@ class WelcomeTutorialViewController: UIViewController {
         view.addSubview(collectionView)
         view.addSubview(pageControl)
         collectionView.register(CollectionImageCell.self, forCellWithReuseIdentifier: String(describing: CollectionImageCell.self))
-        
-  //      let nib = UINib(nibName: String(describing: CreateProfileCollectionViewCell.self), bundle: nil)
-  //      collectionView.register(nib, forCellWithReuseIdentifier: String(describing: CreateProfileCollectionViewCell.self))
         collectionView.reloadData()
         
         collectionView.dataSource = self

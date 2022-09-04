@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ConversationsViewController: UIViewController, CustomNavBarDelegate {
+class ConversationsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     var customNavBar = CustomNavBar()
@@ -80,6 +80,40 @@ extension ConversationsViewController: UITableViewDataSource {
             cell.configureWith(conversation: ConversationService.singleton.getConversationAt(index: indexPath.row)!)
             return cell
         }
+    }
+    
+}
+
+extension ConversationsViewController: CustomNavBarDelegate {
+    
+    @objc func handleProfileButtonTap(sender: UIButton) {
+        guard
+            let myAccountNavigation = storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation) as? UINavigationController,
+            let myAccountVC = myAccountNavigation.topViewController as? MyAccountViewController
+        else { return }
+        myAccountNavigation.modalPresentationStyle = .fullScreen
+        myAccountVC.rerenderProfileCallback = { } //no longer needed, since we update the accountButton on moveToSuperview
+        self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
+    }
+
+    @objc func handleFilterButtonTap(sender: UIButton) {
+        fatalError("not used")
+    }
+
+    @objc func handleMapFeedToggleButtonTap(sender: UIButton) {
+        fatalError("not used")
+    }
+
+    @objc func handleSearchButtonTap(sender: UIButton) {
+        fatalError("not used")
+    }
+
+    @objc func handleCloseButtonTap(sender: UIButton) {
+        fatalError("not used")
+    }
+
+    @objc func handleBackButtonTap(sender: UIButton) {
+        fatalError("not used")
     }
     
 }

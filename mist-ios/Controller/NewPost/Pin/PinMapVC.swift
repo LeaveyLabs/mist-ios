@@ -36,7 +36,7 @@ class PinMapViewController: MapViewController {
     
     func setupUI() {
         pinDotView.layer.cornerCurve = .continuous
-        pinDotView.layer.cornerRadius = 3
+        pinDotView.layer.cornerRadius = 5
         
         userTrackingButton.roundCorners(corners: .allCorners, radius: 10)
         pinImageView.roundCornersViaCornerRadius(radius: 10)

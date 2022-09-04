@@ -78,9 +78,6 @@ extension EnterKeywordsViewController: TagsViewDelegate {
 //        didPressSaveButton()
 //        customNavBar.saveButton.isEnabled = localTags != UserService.singleton.getKeywords()
     }
-}
-
-extension EnterKeywordsViewController: CustomNavBarDelegate {
     
     func didPressSaveButton() {
         Task {
@@ -91,6 +88,33 @@ extension EnterKeywordsViewController: CustomNavBarDelegate {
                 CustomSwiftMessages.displayError(error)
             }
         }
+    }
+}
+
+extension EnterKeywordsViewController: CustomNavBarDelegate {
+    
+    @objc func handleProfileButtonTap(sender: UIButton) {
+        
+    }
+
+    @objc func handleFilterButtonTap(sender: UIButton) {
+        fatalError("not used")
+    }
+
+    @objc func handleMapFeedToggleButtonTap(sender: UIButton) {
+        fatalError("not used")
+    }
+
+    @objc func handleSearchButtonTap(sender: UIButton) {
+        fatalError("not used")
+    }
+
+    @objc func handleCloseButtonTap(sender: UIButton) {
+        dismiss(animated: true)
+    }
+
+    @objc func handleBackButtonTap(sender: UIButton) {
+        navigationController?.popViewController(animated: true)
     }
     
 }

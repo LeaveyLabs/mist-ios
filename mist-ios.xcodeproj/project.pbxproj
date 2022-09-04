@@ -605,10 +605,6 @@
 		5BC2531028BACFAC00D4F49A /* PostTableCollectionViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2530E28BACFAC00D4F49A /* PostTableCollectionViews.swift */; };
 		5BC2531228BB1A6800D4F49A /* CarouselCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531128BB1A6800D4F49A /* CarouselCollectionView.swift */; };
 		5BC2531328BB1A6800D4F49A /* CarouselCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531128BB1A6800D4F49A /* CarouselCollectionView.swift */; };
-		5BC2531628BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531428BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift */; };
-		5BC2531728BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531428BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift */; };
-		5BC2531828BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2531528BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib */; };
-		5BC2531928BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BC2531528BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib */; };
 		5BC2531B28BC0EC300D4F49A /* CollectionImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531A28BC0EC300D4F49A /* CollectionImageCell.swift */; };
 		5BC2531C28BC0EC300D4F49A /* CollectionImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2531A28BC0EC300D4F49A /* CollectionImageCell.swift */; };
 		5BC2532128BC545C00D4F49A /* CLLocationCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC2532028BC545C00D4F49A /* CLLocationCoordinate.swift */; };
@@ -1005,8 +1001,6 @@
 		5BC2530628BA683700D4F49A /* ClusterCarouselCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterCarouselCell.swift; sourceTree = "<group>"; };
 		5BC2530E28BACFAC00D4F49A /* PostTableCollectionViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableCollectionViews.swift; sourceTree = "<group>"; };
 		5BC2531128BB1A6800D4F49A /* CarouselCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselCollectionView.swift; sourceTree = "<group>"; };
-		5BC2531428BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileCollectionViewCell.swift; sourceTree = "<group>"; };
-		5BC2531528BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateProfileCollectionViewCell.xib; sourceTree = "<group>"; };
 		5BC2531A28BC0EC300D4F49A /* CollectionImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionImageCell.swift; sourceTree = "<group>"; };
 		5BC2532028BC545C00D4F49A /* CLLocationCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate.swift; sourceTree = "<group>"; };
 		5BC2532328BC7F1500D4F49A /* GuidelinesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelinesViewController.swift; sourceTree = "<group>"; };
@@ -1580,12 +1574,12 @@
 		47E74E3B27CA14B800467A0C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5B99D3B228C445F2009E63CD /* DeviceService.swift */,
+				5B99D3B528C44635009E63CD /* Device.swift */,
 				5BB624BC28641A5600DCD45B /* Chat */,
 				5BB624BB28641A3100DCD45B /* User */,
 				5BB624BA28641A0D00DCD45B /* Post */,
 				5BE14732289D3D990096FEBE /* FeederData.swift */,
-				5B99D3B228C445F2009E63CD /* DeviceService.swift */,
-				5B99D3B528C44635009E63CD /* Device.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1864,8 +1858,6 @@
 				5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */,
 				5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */,
 				5BAD62692875500E00DCFE45 /* InformationCollectionCell.xib */,
-				5BC2531428BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift */,
-				5BC2531528BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib */,
 				5BC2531A28BC0EC300D4F49A /* CollectionImageCell.swift */,
 				5BC2532728BC83DA00D4F49A /* LargeImageAndButtonCollecitonCell.swift */,
 			);
@@ -2295,7 +2287,6 @@
 				5BCE5F7F28B467AB002078E1 /* CommentHeaderCell.xib in Resources */,
 				5BB624B428620D5F00DCD45B /* CustomCardView.xib in Resources */,
 				5BC2763E286AE9BD00DA5A3D /* Loading.storyboard in Resources */,
-				5BC2531828BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib in Resources */,
 				5BCD490C287149210002BD02 /* WantToChatView.xib in Resources */,
 				5B739D6E2891F9DF00E4EED0 /* GoogleService-Info.plist in Resources */,
 				470F271D27DE764F00C6DDAF /* UserResultCell.xib in Resources */,
@@ -2343,7 +2334,6 @@
 				5BCE5F8028B467AB002078E1 /* CommentHeaderCell.xib in Resources */,
 				5B739E7F28935B9500E4EED0 /* CustomCardView.xib in Resources */,
 				5B739E8028935B9500E4EED0 /* Loading.storyboard in Resources */,
-				5BC2531928BB3F1000D4F49A /* CreateProfileCollectionViewCell.xib in Resources */,
 				5B739E8128935B9500E4EED0 /* WantToChatView.xib in Resources */,
 				5B739E97289368A800E4EED0 /* GoogleService-Info.plist in Resources */,
 				5B739E8328935B9500E4EED0 /* UserResultCell.xib in Resources */,
@@ -2530,7 +2520,6 @@
 				5BD6F47E2896B3020002A60B /* StringChat+Emoji.swift in Sources */,
 				47F10DC12852CFE100E1A3DC /* UIImage+FromColor.swift in Sources */,
 				4718331228445A7C0061F9F3 /* UIView+PostBubble.swift in Sources */,
-				5BC2531628BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift in Sources */,
 				47F10DC72853DA0600E1A3DC /* UIImage+Blur.swift in Sources */,
 				43529E2B2890BC5900B3A484 /* CommentFlag.swift in Sources */,
 				5B37A36B28784A4B00279B2A /* EnterBiosViewController.swift in Sources */,
@@ -2853,7 +2842,6 @@
 				5B739DE328935B9500E4EED0 /* ExploreMapVC+Search.swift in Sources */,
 				5B739DE428935B9500E4EED0 /* UITextView+MaxLength.swift in Sources */,
 				5B235B0528ADE43800FD27A9 /* ConfirmNumberViewController.swift in Sources */,
-				5BC2531728BB3F1000D4F49A /* CreateProfileCollectionViewCell.swift in Sources */,
 				5B739DE528935B9500E4EED0 /* UIImage+FromColor.swift in Sources */,
 				5B739DE628935B9500E4EED0 /* UIView+PostBubble.swift in Sources */,
 				5B739DE728935B9500E4EED0 /* UIImage+Blur.swift in Sources */,
@@ -3053,6 +3041,7 @@
 			baseConfigurationReference = 473CAF812832A6EB008D8807 /* mist-ios.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -3118,6 +3107,7 @@
 			baseConfigurationReference = 473CAF812832A6EB008D8807 /* mist-ios.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -3374,6 +3364,7 @@
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-beta";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -3429,6 +3420,7 @@
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-beta";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";

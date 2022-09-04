@@ -16,7 +16,7 @@ class PostService: NSObject {
     
     static var singleton = PostService()
     
-    private var allLoadedPosts = [Int: Post]() //[postId: post]
+    private var cachedPosts = [Int: Post]() //[postId: post]
     
     private var explorePostIds = [Int]()
     private var conversationPostIds = [Int]()
@@ -26,6 +26,12 @@ class PostService: NSObject {
     
     private var explorePostFilter = PostFilter()
     
+    //NOTE: i considered making PostService an actor, but that requires us to await any access to the cachedPosts throughout the app
+    //This is probably the way to go down the road (if someone clicks on a post, the screen should immediately open up, and there could be a loading screen for half a second or so until the cache is able to be accessed
+    //For now, we'll just use this single cacheQueue so that after loading in posts, cachedPosts is only written to one at a time
+    private let cacheQueue = DispatchQueue(label: "cache", qos: .userInitiated)
+
+    
     //MARK: - Initialization
     
     private override init(){
@@ -34,12 +40,12 @@ class PostService: NSObject {
     
     //MARK: - Load and setup
     
-    func loadFeederPosts() {
-        explorePostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: FeederData.posts)
+    func loadFeederPosts() async {
+        explorePostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: FeederData.posts)
     }
         
     func loadExplorePosts() async throws {
-        var loadedPosts = [Post]()
+        let loadedPosts: [Post]
         switch explorePostFilter.searchBy {
         case .all:
             loadedPosts = try await PostAPI.fetchPosts()
@@ -49,47 +55,53 @@ class PostService: NSObject {
             let searchWords = explorePostFilter.text?.components(separatedBy: .whitespaces)
             loadedPosts = try await PostAPI.fetchPostsByWords(words: searchWords ?? [""])
         }
-        explorePostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts)
+        explorePostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts)
     }
     
     func loadSubmissions() async throws {
-        submissionPostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchPostsByAuthor(userId: UserService.singleton.getId()))
+        let submissions = try await PostAPI.fetchPostsByAuthor(userId: UserService.singleton.getId())
+        await submissionPostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: submissions)
     }
     
     func loadMentions() async throws {
-        mentionPostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchTaggedPosts())
+        let posts = try await PostAPI.fetchTaggedPosts()
+        await mentionPostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: posts)
     }
     
     //Called by FavoriteService after favorites are loaded in
     func loadFavorites(favoritedPostIds: [Int]) async throws {
         //TODO: we should remove this bottom check if kevin updates the backend accordingly
         if !favoritedPostIds.isEmpty {
-            favoritePostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchPostsByIds(ids: favoritedPostIds))
+            favoritePostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchPostsByIds(ids: favoritedPostIds))
         }
     }
     
     //Called by ConversationService after conversations are loaded in
-    func initializeConversationPosts(with posts: [Post]) {
-        conversationPostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: posts)
+    func initializeConversationPosts(with posts: [Post]) async {
+        conversationPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: posts)
     }
     
     //MARK: - Helpers
     
-    func cachePostsAndGetArrayOfPostIdsFrom(posts: [Post]) -> [Int] {
-        var postIds = [Int]()
-        for post in posts {
-            allLoadedPosts[post.id] = post
-            postIds.append(post.id)
-        }
-        return postIds
+    func cachePostsAndGetArrayOfPostIdsFrom(posts: [Post]) async -> [Int] {
+        return await withCheckedContinuation({ continuation in
+            cacheQueue.async { [self] in
+                var postIds = [Int]()
+                for post in posts {
+                    cachedPosts[post.id] = post
+                    postIds.append(post.id)
+                }
+                continuation.resume(returning: postIds)
+            }
+        })
     }
     
     func getLoadedPostsFor(postIds: [Int]) -> [Post] {
-        return postIds.compactMap { postId in allLoadedPosts[postId] }
+        return postIds.compactMap { postId in cachedPosts[postId] }
     }
         
     func updateAllPostsWithDataFrom(updatedPost: Post) {
-        allLoadedPosts[updatedPost.id] = updatedPost
+        cachedPosts[updatedPost.id] = updatedPost
         rerenderAnyVisiblePosts()
     }
     
@@ -139,7 +151,7 @@ class PostService: NSObject {
     
     //Returns Post? because even though the convesation around a post exists, the post might have been deleted at any point in time by the user
     func getPost(withPostId postId: Int) -> Post? {
-        return allLoadedPosts[postId]
+        return cachedPosts[postId]
     }
     
     //MARK: - Explore Filter
@@ -187,7 +199,7 @@ class PostService: NSObject {
                                                    longitude: longitude,
                                                    timestamp: timestamp,
                                                    author: UserService.singleton.getId())
-        allLoadedPosts[newPost.id] = newPost
+        cachedPosts[newPost.id] = newPost
         
         submissionPostIds.insert(newPost.id, at: 0)
         explorePostIds.insert(newPost.id, at: 0)
@@ -195,7 +207,7 @@ class PostService: NSObject {
     
     func deletePost(postId: Int) async throws {
         try await PostAPI.deletePost(post_id: postId)
-        allLoadedPosts.removeValue(forKey: postId)
+        cachedPosts.removeValue(forKey: postId)
         
         explorePostIds.removeFirstAppearanceOf(object: postId)
         conversationPostIds.removeAll { $0 == postId }

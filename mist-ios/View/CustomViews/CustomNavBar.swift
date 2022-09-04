@@ -7,47 +7,15 @@
 
 import Foundation
 
-protocol CustomNavBarDelegate {
-    func handleProfileButtonTap()
+@objc protocol CustomNavBarDelegate {
+    func handleProfileButtonTap(sender: UIButton)
     
-    func handleFilterButtonTap()
-    func handleMapFeedToggleButtonTap()
-    func handleSearchButtonTap()
+    func handleFilterButtonTap(sender: UIButton)
+    func handleMapFeedToggleButtonTap(sender: UIButton)
+    func handleSearchButtonTap(sender: UIButton)
     
-    func handleCloseButtonTap()
-    func handleBackButtonTap()
-}
-
-extension CustomNavBarDelegate where Self: UIViewController {
-    func handleProfileButtonTap() {
-        guard
-            let myAccountNavigation = storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation) as? UINavigationController,
-            let myAccountVC = myAccountNavigation.topViewController as? MyAccountViewController
-        else { return }
-        myAccountNavigation.modalPresentationStyle = .fullScreen
-        myAccountVC.rerenderProfileCallback = { } //no longer needed, since we update the accountButton on moveToSuperview
-        self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
-    }
-    
-    func handleFilterButtonTap() {
-        fatalError("requires subclass implementation")
-    }
-    
-    func handleMapFeedToggleButtonTap() {
-        fatalError("requires subclass implementation")
-    }
-    
-    func handleSearchButtonTap() {
-        fatalError("requires subclass implementation")
-    }
-    
-    func handleCloseButtonTap() {
-        dismiss(animated: true)
-    }
-    
-    func handleBackButtonTap() {
-        navigationController?.popViewController(animated: true)
-    }
+    func handleCloseButtonTap(sender: UIButton)
+    func handleBackButtonTap(sender: UIButton)
 }
 
 class CustomNavBar: UIView {
@@ -165,17 +133,11 @@ class CustomNavBar: UIView {
 
         switch item {
         case .profile:
-            button.addAction(.init(handler: { action in
-                self.delegate.handleProfileButtonTap()
-            }), for: .touchUpInside)
+            button.addTarget(self, action: #selector(self.delegate.handleProfileButtonTap(sender:)), for: .touchUpInside)
         case .search:
-            button.addAction(.init(handler: { [self] action in
-                delegate.handleSearchButtonTap()
-            }), for: .touchUpInside)
+            button.addTarget(self, action: #selector(self.delegate.handleSearchButtonTap(sender:)), for: .touchUpInside)
         case .filter:
-            button.addAction(.init(handler: { [self] action in
-                delegate.handleFilterButtonTap()
-            }), for: .touchUpInside)
+            button.addTarget(self, action: #selector(self.delegate.handleFilterButtonTap(sender:)), for: .touchUpInside)
         case .title:
             break
         case .mapFeedToggle:
@@ -191,13 +153,9 @@ class CustomNavBar: UIView {
 //                delegate.handleMapFeedToggleButtonTap()
 //            }), for: .touchUpInside)
         case .back:
-            button.addAction(.init(handler: { action in
-                self.delegate.handleBackButtonTap()
-            }), for: .touchUpInside)
+            button.addTarget(self, action: #selector(self.delegate.handleBackButtonTap(sender:)), for: .touchUpInside)
         case .close:
-            button.addAction(.init(handler: { action in
-                self.delegate.handleCloseButtonTap()
-            }), for: .touchUpInside)
+            button.addTarget(self, action: #selector(self.delegate.handleCloseButtonTap(sender:)), for: .touchUpInside)
         }
         return button
     }

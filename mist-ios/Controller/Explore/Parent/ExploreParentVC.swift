@@ -186,16 +186,27 @@ extension ExploreParentViewController: OverlayContainerViewControllerDelegate {
 
 extension ExploreParentViewController: CustomNavBarDelegate {
     
-    func handleFilterButtonTap() {
-        //do nothing for now
+    @objc func handleProfileButtonTap(sender: UIButton) {
+        
     }
-    
-    func handleSearchButtonTap() {
+
+    @objc func handleFilterButtonTap(sender: UIButton) {
+        fatalError("not used")
+    }
+
+    @objc func handleMapFeedToggleButtonTap(sender: UIButton) {
+        fatalError("not used")
+    }
+
+    @objc func handleSearchButtonTap(sender: UIButton) {
         exploreMapVC.presentExploreSearchController()
     }
-    
-    //Only for CustomExplore
-    func handleBackButtonTap() {
+
+    @objc func handleCloseButtonTap(sender: UIButton) {
+        fatalError("not used")
+    }
+
+    @objc func handleBackButtonTap(sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
     

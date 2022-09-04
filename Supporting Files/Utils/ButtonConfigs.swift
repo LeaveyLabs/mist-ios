@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+@available(iOS 15.0, *)
 struct ButtonConfigs {
     static let enabledTitleAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Heavy, size: 24)!]
     static let disabledTitleAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Heavy, size: 24)!]

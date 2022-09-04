@@ -64,23 +64,38 @@ class BasicAPI {
     }
     
     static func runRequest(request:URLRequest) async throws -> (Data, HTTPURLResponse) {
-        guard let (data, response) = try? await URLSession.shared.data(for: request) else {
-            throw APIError.CouldNotConnect
-        }
-        if let httpResponse = (response as? HTTPURLResponse) {
-            try filterBasicErrors(data: data, response: httpResponse)
-            return (data, httpResponse)
-        } else {
-            throw APIError.NoResponse
-        }
+        return try await withCheckedThrowingContinuation({ continuation in
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard error == nil else {
+                    continuation.resume(throwing: APIError.CouldNotConnect)
+                    return
+                }
+                guard let response = response as? HTTPURLResponse, let data = data else {
+                    continuation.resume(throwing: APIError.NoResponse)
+                    return
+                }
+                continuation.resume(returning: (data, response))
+            }.resume()
+        })
+        //ios15+:
+//        guard let (data, response) = try? await URLSession.shared.data(for: request) else {
+//            throw APIError.CouldNotConnect
+//        }
+//        if let httpResponse = (response as? HTTPURLResponse) {
+//            try filterBasicErrors(data: data, response: httpResponse)
+//            return (data, httpResponse)
+//        } else {
+//            throw APIError.NoResponse
+//        }
     }
+        
     
     static func formatURLRequest(url:String, method:String, body:Data, headers:[String:String]) throws -> URLRequest {
         guard let serviceUrl = URL(string: url) else {
             print("ERROR FORMATTING URL IN BASIC API:", url)
             throw APIError.CouldNotConnect
         }
-            
+
         var request = URLRequest(url: serviceUrl)
         request.httpMethod = method
         request.httpBody = body

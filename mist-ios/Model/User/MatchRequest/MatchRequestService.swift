@@ -33,7 +33,7 @@ class MatchRequestService: NSObject {
         async let loadedSentMatchRequests = MatchRequestAPI.fetchMatchRequestsBySender(senderUserId: UserService.singleton.getId())
         (receivedMatchRequests, sentMatchRequests) = try await (loadedReceivedMatchRequests, loadedSentMatchRequests)
         //For each initiating match request, if the post hasn't been deleted, add it to the PostService matchRequests posts
-        PostService.singleton.initializeConversationPosts(with: getAllPostUniqueMatchRequests().compactMap { $0.read_only_post })
+        await PostService.singleton.initializeConversationPosts(with: getAllPostUniqueMatchRequests().compactMap { $0.read_only_post })
     }
     
     

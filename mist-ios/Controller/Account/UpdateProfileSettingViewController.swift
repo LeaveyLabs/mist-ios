@@ -39,6 +39,8 @@ class UpdateProfileSettingViewController: UITableViewController {
 
     var isSaving: Bool = false {
         didSet {
+            saveButton.setTitle(isSaving ? "" : "save", for: .normal)
+            saveButton.loadingIndicator(isSaving)
             saveButton.isEnabled = !isSaving //this state change forces an update for UIButtonConfiguration
             view.isUserInteractionEnabled = !isSaving
         }
@@ -57,6 +59,7 @@ class UpdateProfileSettingViewController: UITableViewController {
         setupTableView()
         registerNibs()
         setupButtons()
+        validateInput()
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default)), style: .plain, target: self, action: #selector(cancelButtonDidPressed(_:)))
     }
     
@@ -85,7 +88,11 @@ class UpdateProfileSettingViewController: UITableViewController {
     
     func setupTableView() {
         tableView.keyboardDismissMode = .interactive
-        tableView.sectionHeaderTopPadding = 10
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = 10
+        } else {
+            // Fallback on earlier versions
+        }
         tableView.sectionFooterHeight = 10
     }
     
@@ -118,21 +125,16 @@ class UpdateProfileSettingViewController: UITableViewController {
     }
     
     func setupSaveButton() {
-        saveButton = UIButton(configuration: .plain())
+        saveButton = UIButton()
+        saveButton.roundCornersViaCornerRadius(radius: 10)
         saveButton.addTarget(self, action: #selector(tryToUpdateProfile), for: .touchUpInside)
-        saveButton.configurationUpdateHandler = { button in
-            if self.isSaving {
-                button.configuration?.showsActivityIndicator = true
-                button.configuration?.title = ""
-            } else {
-                button.configuration?.showsActivityIndicator = false
-                button.configuration?.title = "save"
-            }
-        }
-        saveButton.configuration?.contentInsets = .zero //important step when using a UIButton with configuration in UIBarButtonItem
+        saveButton.clipsToBounds = true
+        saveButton.isEnabled = false
         saveButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        saveButton.setTitleColor(Constants.Color.mistBlack, for: .normal)
+        saveButton.setTitleColor(.lightGray, for: .disabled)
+        saveButton.setTitle("save", for: .normal)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
-        saveButton.isEnabled = false //this must come after setting the UIBarButtonItem
     }
     
     func setupImagePicker() {

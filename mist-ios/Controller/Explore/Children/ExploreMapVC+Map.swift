@@ -131,6 +131,7 @@ extension ExploreMapViewController {
                 slowFlyWithoutZoomTo(lat: clusterView.annotation!.coordinate.latitude,
                                      long: clusterView.annotation!.coordinate.longitude,
                                       withDuration: cameraAnimationDuration,
+                                     withLatitudeOffset: true,
                                       completion: { [weak self] completed in
                     guard let self = self else { return }
                     clusterView.loadCollectionView(on: self.mapView, withPostDelegate: self.postDelegate)
@@ -150,6 +151,7 @@ extension ExploreMapViewController {
                               long: view.annotation!.coordinate.longitude,
                               incrementalZoom: false,
                               withDuration: cameraAnimationDuration,
+                              withLatitudeOffset: true,
                               completion: { _ in })
                     postAnnotationView.loadPostView(on: mapView,
                                                     withDelay: cameraAnimationDuration,
@@ -157,7 +159,7 @@ extension ExploreMapViewController {
                 } else {
                     slowFlyWithoutZoomTo(lat: view.annotation!.coordinate.latitude,
                                          long: view.annotation!.coordinate.longitude,
-                              withDuration: cameraAnimationDuration,
+                              withDuration: cameraAnimationDuration, withLatitudeOffset: true,
                               completion: { _ in })
                     postAnnotationView.loadPostView(on: mapView,
                                                     withDelay: cameraAnimationDuration,
@@ -232,7 +234,7 @@ extension ExploreMapViewController {
         } else {
             slowFlyWithoutZoomTo(lat: clusterAnnotation.coordinate.latitude,
                       long: clusterAnnotation.coordinate.longitude,
-                      withDuration: cameraAnimationDuration,
+                      withDuration: cameraAnimationDuration, withLatitudeOffset: true,
                       completion: { [weak self] completed in
                 guard let self = self else { return }
 //                let doesClusterStillExist = self.mapView.selectedAnnotations.contains { annotation in

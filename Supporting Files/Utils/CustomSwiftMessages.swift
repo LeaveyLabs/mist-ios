@@ -266,10 +266,10 @@ extension CustomSwiftMessages {
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
             messageView.configureContent(title: title, body: body, iconText: emoji)
             
-            let approveString = AttributedString(CustomAttributedString.createFor(text: approveText, fontName: Constants.Font.Heavy, size: 20))
-            let dismissStirng = AttributedString(CustomAttributedString.createFor(text: dismissText, fontName: Constants.Font.Medium, size: 19))
-            messageView.approveButton.configuration!.attributedTitle = approveString
-            messageView.dismissButton.configuration!.attributedTitle = dismissStirng
+            let approveString = CustomAttributedString.createFor(text: approveText, fontName: Constants.Font.Heavy, size: 20)
+            let dismissString = CustomAttributedString.createFor(text: dismissText, fontName: Constants.Font.Medium, size: 19)
+            messageView.approveButton.setAttributedTitle(approveString, for: .normal)
+            messageView.dismissButton.setAttributedTitle(dismissString, for: .normal)
             messageView.approveAction = {
                 SwiftMessages.hide()
                 onApprove()

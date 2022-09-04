@@ -33,7 +33,7 @@ class NewPostViewController: UIViewController {
     @IBOutlet weak var pinArrowButton: UIButton!
     @IBOutlet weak var dateTimeTextField: NewPostTextView!
     @IBOutlet var locationNameTextField: NewPostTextField!
-    
+        
     var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker(frame: .zero)
         datePicker.datePickerMode = .dateAndTime
@@ -87,6 +87,7 @@ class NewPostViewController: UIViewController {
     //Progress
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var postButton: UIButton!
+    @IBOutlet weak var guidelinesButton: UIButton!
     
     // Search
     var mySearchController: UISearchController!
@@ -94,7 +95,7 @@ class NewPostViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupLocationButton()
+        setupButtons()
         postBubbleView.transformIntoPostBubble(arrowPosition: .right)
         setupProgressView()
         setupTextViews()
@@ -172,10 +173,20 @@ class NewPostViewController: UIViewController {
         titleLilacIndicator.roundCorners(corners: .allCorners, radius: 4)
     }
 
-    func setupLocationButton() {
+    func setupButtons() {
         pinButton.layer.cornerRadius = 10
         pinButton.layer.cornerCurve = .continuous
         pinButton.applyLightShadow()
+        postButton.roundCornersViaCornerRadius(radius: 5)
+        postButton.clipsToBounds = true
+        postButton.setBackgroundImage(UIImage.imageFromColor(color: Constants.Color.mistLilac), for: .normal)
+        postButton.setTitleColor(.white, for: .normal)
+        postButton.setTitleColor(.lightGray, for: .disabled)
+        postButton.setBackgroundImage(UIImage.imageFromColor(color: .systemGray5.withAlphaComponent(0.5)), for: .disabled)
+        postButton.isEnabled = false
+        postButton.adjustsImageWhenDisabled = true
+        postButton.adjustsImageWhenHighlighted = true
+        postButton.backgroundColor = .clear
     }
     
     func setupProgressView() {
@@ -254,9 +265,9 @@ class NewPostViewController: UIViewController {
             return
         }
 
-        setAllInteractionTo(false)
+        view.isUserInteractionEnabled = false
         scrollView.scrollToTop()
-        view.endEditing(true)
+        setAllInteractionTo(false)
         animateProgressBar()
         Task {
             do {
@@ -264,11 +275,15 @@ class NewPostViewController: UIViewController {
                 PostService.singleton.resetFilter()
                 try await PostService.singleton.loadExplorePosts()
                 try await PostService.singleton.uploadPost(title: trimmedTitleText, text: trimmedBodyText, locationDescription: postLocationText, latitude: postLocationCoordinate.latitude, longitude: postLocationCoordinate.longitude, timestamp: datePicker.date.timeIntervalSince1970)
-                handleSuccessfulNewPost()
+                await MainActor.run {
+                    handleSuccessfulNewPost()
+                }
             } catch {
-                progressView.progress = 0
-                setAllInteractionTo(true)
-                CustomSwiftMessages.displayError(error)
+                DispatchQueue.main.async { [weak self] in
+                    self?.progressView.progress = 0
+                    self?.setAllInteractionTo(true)
+                    CustomSwiftMessages.displayError(error)
+                }
             }
         }
     }
@@ -277,6 +292,7 @@ class NewPostViewController: UIViewController {
         tryToPost()
     }
     
+    @MainActor
     func handleSuccessfulNewPost() {
         let tbc = presentingViewController as! UITabBarController
         tbc.selectedIndex = 0
@@ -284,22 +300,19 @@ class NewPostViewController: UIViewController {
         let homeParent = homeNav.topViewController as! HomeExploreParentViewController
         
         finishAnimationProgress() {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                homeParent.isHandlingNewPost = true
-                self.dismiss(animated: true) {
-                    homeParent.handleNewlySubmittedPost()
-                }
-            })
+            homeParent.isHandlingNewPost = true
+            self.dismiss(animated: true) {
+                homeParent.handleNewlySubmittedPost()
+            }
         }
     }
     
     @IBAction func userDidTappedPinButton(_ sender: UIButton) {
         let pinParentVC = PinParentViewController.create(currentPin: currentPin, completionHandler: { [self] newPin in
             currentPin = newPin
+            locationNameTextField.becomeFirstResponder() //they updated their pin, so they probably want to update the location name too
         })
-        navigationController?.pushViewController(pinParentVC, animated: true) {
-            self.locationNameTextField.becomeFirstResponder()
-        }
+        navigationController?.pushViewController(pinParentVC, animated: true)
     }
 }
 
@@ -326,6 +339,17 @@ extension NewPostViewController: UITextFieldDelegate {
 //            dateTimeTextField.text = date.lowercased()
 //        }
         validateAllFields()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if titleTextView.text.isEmpty {
+            titleTextView.becomeFirstResponder()
+        } else if bodyTextView.text.isEmpty {
+            bodyTextView.becomeFirstResponder()
+        } else {
+            resignFirstResponder()
+        }
+        return true
     }
 }
 
@@ -445,6 +469,8 @@ extension NewPostViewController: UITextViewDelegate {
     func setAllInteractionTo(_ shouldBeEnabled: Bool) {
         postButton.isEnabled = shouldBeEnabled
         pinButton.isEnabled = shouldBeEnabled
+        guidelinesButton.isEnabled = shouldBeEnabled
+        locationNameTextField.isEnabled = shouldBeEnabled
         datePicker.isEnabled = shouldBeEnabled
         titleTextView.isEditable = shouldBeEnabled
         bodyTextView.isEditable = shouldBeEnabled

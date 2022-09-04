@@ -37,16 +37,13 @@ class LargeImageAndButtonCollectionCell: UICollectionViewCell {
     }
     
     func setupCloseButton() {
-        
-        
         let attributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Heavy, size: 20)!]
-        var config = UIButton.Configuration.filled()
-        config.attributedTitle = AttributedString("got it", attributes: AttributeContainer(attributes))
-        config.background.backgroundColor = Constants.Color.mistLilac
-
-        let closeButton = UIButton(configuration: config)
-        closeButton.titleLabel?.textColor = .white
-        closeButton.tintColor = Constants.Color.mistLilac
+        let closeButton = UIButton()
+        closeButton.roundCornersViaCornerRadius(radius: 10)
+        closeButton.clipsToBounds = true
+        closeButton.setAttributedTitle(NSAttributedString(string: "got it", attributes: attributes), for: .normal)
+        closeButton.setTitleColor(.white, for: .normal)
+        closeButton.backgroundColor = Constants.Color.mistLilac
         closeButton.addTarget(self, action: #selector(closeButtonDidPressed), for: .touchUpInside)
         addSubview(closeButton)
         closeButton.translatesAutoresizingMaskIntoConstraints = false

@@ -446,9 +446,11 @@ extension ChatViewController: MatchRequestCellDelegate {
 extension ChatViewController: WantToChatDelegate {
     
     func handleAccept(_ acceptButton: UIButton) {
+        acceptButton.loadingIndicator(true)
+        acceptButton.isEnabled = false
+        acceptButton.setTitle("", for: .disabled)
         Task {
             do {
-                acceptButton.configuration?.showsActivityIndicator = true
                 try await conversation.sendAcceptingMatchRequest()
                 DispatchQueue.main.async { [weak self] in
                     self?.setupMessageInputBarForChatting()
@@ -461,7 +463,10 @@ extension ChatViewController: WantToChatDelegate {
             } catch {
                 CustomSwiftMessages.displayError(error)
             }
-            acceptButton.configuration?.showsActivityIndicator = false
+            DispatchQueue.main.async {
+                acceptButton.loadingIndicator(false)
+                acceptButton.isEnabled = true
+            }
         }
     }
     
@@ -472,16 +477,23 @@ extension ChatViewController: WantToChatDelegate {
     func handleBlock(_ blockButton: UIButton) {
         CustomSwiftMessages.showBlockPrompt { [self] didBlock in
             if didBlock {
+                DispatchQueue.main.async {
+                    blockButton.loadingIndicator(true)
+                    blockButton.isEnabled = false
+                    blockButton.setTitle("", for: .disabled)
+                }
                 Task {
                     do {
-                        blockButton.configuration?.showsActivityIndicator = true
                         try await BlockService.singleton.blockUser(conversation.sangdaebang.id)
-                        blockButton.configuration?.showsActivityIndicator = false
                         DispatchQueue.main.async {
                             self.customDismiss()
                         }
                     } catch {
                         CustomSwiftMessages.displayError(error)
+                    }
+                    DispatchQueue.main.async {
+                        blockButton.loadingIndicator(false)
+                        blockButton.isEnabled = true
                     }
                 }
             }

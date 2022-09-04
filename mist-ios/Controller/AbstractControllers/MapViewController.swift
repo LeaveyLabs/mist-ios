@@ -50,7 +50,7 @@ class MapViewController: UIViewController {
     
     var isCameraZooming: Bool = false
     var modifyingMap: Bool = false
-    var latitudeOffsetForOneKMDistance: Double!
+    var latitudeOffsetForOneKMDistance: Double = 0.00133
     //remove one of these three
     var prevZoomFactor: Int = 4
     var prevZoomWidth: Double! //when the pitch increases, zoomWidth's value increases
@@ -175,12 +175,12 @@ extension MapViewController: CLLocationManagerDelegate {
     // Helper
     
     func requestUserLocationPermissionIfNecessary() {
-        if locationManager.authorizationStatus == .denied ||
-            locationManager.authorizationStatus == .notDetermined { //this check should also exist here for when the function is called after registering/logging in
+        if CLLocationManager.authorizationStatus() == .denied ||
+            CLLocationManager.authorizationStatus() == .notDetermined { //this check should also exist here for when the function is called after registering/logging in
             CustomSwiftMessages.showPermissionRequest(permissionType: .userLocation) { approved in
                 if approved {
 //                    callback(approved)
-                    if self.locationManager.authorizationStatus == .notDetermined {
+                    if CLLocationManager.authorizationStatus() == .notDetermined {
                         self.locationManager.requestWhenInUseAuthorization()
                     } else {
                         CustomSwiftMessages.showSettingsAlertController(title: "turn on location services for mist in settings", message: "", on: self)
@@ -209,8 +209,8 @@ extension MapViewController {
     @IBAction func userTrackingButtonDidPressed(_ sender: UIButton) {
         // Ideally: stop the camera. Otherwise, the camera might keep moving after moving to userlocation. But not sure how to do that
         
-        if locationManager.authorizationStatus == .denied ||
-            locationManager.authorizationStatus == .notDetermined {
+        if CLLocationManager.authorizationStatus() == .denied ||
+            CLLocationManager.authorizationStatus() == .notDetermined {
             requestUserLocationPermissionIfNecessary()
         } else {
             slowFlyTo(lat: mapView.userLocation.coordinate.latitude,
@@ -371,13 +371,14 @@ extension MapViewController {
                    long: Double,
                    incrementalZoom: Bool,
                    withDuration duration: Double,
+                   withLatitudeOffset: Bool = false,
                    completion: @escaping (Bool) -> Void) {
         isCameraFlying = true
         var newCLLDistance: Double = 2000
         let dynamicLatOffset = (latitudeOffsetForOneKMDistance / 1000) * newCLLDistance
         
-        
-        let destination = CLLocationCoordinate2D(latitude: lat + dynamicLatOffset, longitude: long)
+        let newLat = withLatitudeOffset ? lat + dynamicLatOffset : lat
+        let destination = CLLocationCoordinate2D(latitude: newLat, longitude: long)
         if incrementalZoom {
             newCLLDistance = pow(self.mapView.camera.centerCoordinateDistance, 8/10)
         }
@@ -398,9 +399,10 @@ extension MapViewController {
     //This function is used when selecting a cluster within the clusterThresholdDistance
     //We don't want to zoom in because that makes it likely the cluster will disperse and the postCalloutView won't be selected
     func slowFlyWithoutZoomTo(lat: Double,
-                   long: Double,
-                   withDuration duration: Double,
-                   completion: @escaping (Bool) -> Void) {
+                              long: Double,
+                              withDuration duration: Double,
+                              withLatitudeOffset: Bool = false,
+                              completion: @escaping (Bool) -> Void) {
         isCameraFlying = true
         
         //NOTE: unlike the other slowFlyTo functions, in this one, we're calculating the latitude offset dynamically, based on the current map zoom level
@@ -408,7 +410,8 @@ extension MapViewController {
         let currentDistance = mapView.camera.centerCoordinateDistance
         let dynamicLatOffset = (latitudeOffsetForOneKMDistance / 1000) * currentDistance
         
-        let destination = CLLocationCoordinate2D(latitude: lat + dynamicLatOffset, longitude: long)
+        let newLat = withLatitudeOffset ? lat + dynamicLatOffset : lat
+        let destination = CLLocationCoordinate2D(latitude: newLat, longitude: long)
         let finalCamera = MKMapCamera(lookingAtCenter: destination,
                                       fromDistance: currentDistance,
                                       pitch: maxCameraPitch,

@@ -8,12 +8,13 @@
 import Foundation
 import UIKit
 
-extension UIImage {
-    var thumbnail: UIImage? {
-        //only read-only properties can be async. could also be "throws"
-        get async {
-            let size = CGSize(width: 40, height: 40)
-            return await self.byPreparingThumbnail(ofSize: size);
-        }
-    }
-}
+//ios15 only
+//extension UIImage {
+//    var thumbnail: UIImage? {
+//        //only read-only properties can be async. could also be "throws"
+//        get async {
+//            let size = CGSize(width: 40, height: 40)
+//            return await self.byPreparingThumbnail(ofSize: size);
+//        }
+//    }
+//}

@@ -40,8 +40,8 @@ class HomeExploreParentViewController: ExploreParentViewController {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.15) { [self] in
             self.renderNewPostsOnFeedAndMap(withType: .firstLoad)
-            if !hasRequestedLocationPermissionsDuringAppSession && (exploreMapVC.locationManager.authorizationStatus == .denied ||
-                exploreMapVC.locationManager.authorizationStatus == .notDetermined) {
+            if !hasRequestedLocationPermissionsDuringAppSession && (CLLocationManager.authorizationStatus() == .denied ||
+                CLLocationManager.authorizationStatus() == .notDetermined) {
                 hasRequestedLocationPermissionsDuringAppSession = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.exploreMapVC.requestUserLocationPermissionIfNecessary()

@@ -149,11 +149,11 @@ class NewPostTextField: UITextField {
         
     //placeholder insets
     override func textRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.insetBy(dx: 10, dy: 10)
+        return bounds.insetBy(dx: 7, dy: 7)
     }
     //text insets
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.insetBy(dx: 10, dy: 10)
+        return bounds.insetBy(dx: 7, dy: 7)
     }
     
     //MARK: - Constructor

@@ -10,7 +10,9 @@ import UIKit
 class SpecialTabBar: UITabBar {
     
     public lazy var middleButton: SpringButton! = {
-        let middleButton = SpringButton(configuration: UIButton.Configuration.plain())
+        let middleButton = SpringButton()
+        middleButton.adjustsImageWhenDisabled = false
+        middleButton.adjustsImageWhenHighlighted = false
         middleButton.setImage(UIImage(named: "submitbutton")!, for: .normal)
         middleButton.translatesAutoresizingMaskIntoConstraints = false
         middleButton.isUserInteractionEnabled = true
