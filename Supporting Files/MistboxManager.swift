@@ -13,7 +13,7 @@ class MistboxManager: NSObject {
     private let LOCAL_FILE_APPENDING_PATH = "mistbox.json"
     private var localFileLocation: URL!
     
-    private var mistboxes = [Mistbox]()
+    private var mistbox:Mistbox?;
     
     private var NEXT_MISTBOX_RELEASE_DATE: Date! //for coutndown
     private var CURRENT_MISTBOX_RELEASE_DATE: Date! //for displaying the current date at the top, and for determining which mistbox to dsiplay
@@ -36,7 +36,7 @@ class MistboxManager: NSObject {
     }
     
     var hasUserActivatedMistbox: Bool {
-        return !mistboxes.isEmpty
+        return mistbox != nil
     }
     
     var hasUnopenedMistbox: Bool {
@@ -68,7 +68,7 @@ class MistboxManager: NSObject {
     //MARK: - Fetchers
     
     func fetchMistboxes() async throws {
-        mistboxes = try await PostAPI.fetchMistbox()
+        mistbox = try await PostAPI.fetchMistbox()
     }
     
     //MARK: - Public API
@@ -79,10 +79,12 @@ class MistboxManager: NSObject {
     }
     
     func getMostRecentMistboxPosts() -> [Post] {
-        updateMistboxReleaseDates()
-        return mistboxes.first { mistbox in
-            Calendar.current.component(.day, from: Date(timeIntervalSince1970: mistbox.creation_time)) == Calendar.current.component(.day, from: CURRENT_MISTBOX_RELEASE_DATE)
-        }?.posts ?? []
+        guard let mistbox = mistbox else { return [] }
+        return mistbox.posts
+//        updateMistboxReleaseDates()
+//        return mistbox.first { mistbox in
+//            Calendar.current.component(.day, from: Date(timeIntervalSince1970: mistbox.creation_time)) == Calendar.current.component(.day, from: CURRENT_MISTBOX_RELEASE_DATE)
+//        }?.posts ?? []
     }
     
     func updateMistboxReleaseDates() {

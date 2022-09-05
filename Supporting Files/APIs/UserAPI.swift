@@ -38,6 +38,10 @@ struct UserError: Codable {
     let detail: String?
 }
 
+struct UserPopulation: Codable {
+    let population: Int;
+}
+
 class UserAPI {
     static let PATH_TO_USER_MODEL = "api/users/"
     static let PATH_TO_MATCHING_PHONE_NUMBERS = "api/matching-phone-numbers/"
@@ -45,6 +49,7 @@ class UserAPI {
     static let PATH_TO_FRIENDSHIPS = "api/friendships/"
     static let PATH_TO_NEARBY_USERS = "api/nearby-users/"
     static let PATH_TO_VERIFY_PROFILE_PICTURE = "api-verify-profile-picture/"
+    static let PATH_TO_USER_POPULATION = "api/user-population/"
     static let EMAIL_PARAM = "email"
     static let USERNAME_PARAM = "username"
     static let PASSWORD_PARAM = "password"
@@ -210,6 +215,13 @@ class UserAPI {
         let queriedUsers = try JSONDecoder().decode([CompleteUser].self, from: data)
         let tokenUser = queriedUsers[0]
         return tokenUser
+    }
+    
+    static func fetchUserCount() async throws -> Int {
+        let url = "\(Env.BASE_URL)\(PATH_TO_USER_POPULATION)"
+        let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let userPopulation = try JSONDecoder().decode(UserPopulation.self, from: data)
+        return userPopulation.population
     }
     
     static func verifyProfilePic(profilePicture:UIImage, confirmPicture: UIImage) async throws {
