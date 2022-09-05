@@ -115,7 +115,10 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
         
         let fixedRange = NSRange(location: session.range.lowerBound, length: session.range.upperBound) //for some reason. upperBound is actually the length of the session's range? bc of that, we fix the range
         
-        if fixedRange.upperBound > fullInputText.count { return } //TODO: Fix this hack later. for some reason, without this line of code, the session.range does not get updated properly and is out of bounds.
+        if fixedRange.upperBound > fullInputText.count {
+            autocompleteManager.invalidate()
+            return
+        } //TODO: Fix this hack later. for some reason, without this line of code, the session.range does not get updated properly and is out of bounds.
 //
         let currentSessionText = fullInputText.substring(with: fixedRange.lowerBound..<fixedRange.upperBound)
         mostRecentAutocompleteQuery = currentSessionText.substring(from: 1) //strip the "@"
