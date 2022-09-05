@@ -34,7 +34,7 @@ class ChatViewController: MessagesViewController {
     override var canBecomeFirstResponder: Bool { return false }
     
     override var inputAccessoryView: UIView?{
-        return nil //this should be "messageInputBar" according to the docs, but then i was dealing with other problems. Instead, i just increased the bottom tableview inset by 43 points. The problem: when dismissing the chat view, the bottom message scrolls behind the keyboard. That's a downside im willing to take right now
+        return nil //this should be "messageInputBar" according to the docs, but then i was dealing with other problems. Instead, i just set the additionalBottomInset as necessary when they toggle keyboard up and down
     }
     let inputBar = InputBarAccessoryView()
     let keyboardManager = KeyboardManager()
@@ -108,11 +108,13 @@ class ChatViewController: MessagesViewController {
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
+        updateAdditionalBottomInsetForDismissedKeyboard()
         messagesCollectionView = MessagesCollectionView(frame: .zero, collectionViewLayout: CustomMessagesFlowLayout()) //for registering custom MessageSizeCalculator for MessageKitMatch
         super.viewDidLoad()
         setupMessagesCollectionView()
         setupCustomNavigationBar()
         setupHiddenProfiles() //must come after setting up the data
+        setupKeyboard()
         if isAuthedUserProfileHidden {
             setupMessageInputBarForChatPrompt()
         } else {
@@ -122,38 +124,47 @@ class ChatViewController: MessagesViewController {
             setupWhenPresentedFromPost()
         }
         
-//        view.addSubview(inputBar)
-    
-        messageInputBar = inputBar
-        view.addSubview(messageInputBar)
-        inputBar.delegate = self
-        inputBar.inputTextView.delegate = self
-        
-        
-        // Take into account the height of the bottom input bar
-        additionalBottomInset = 5
-        keyboardManager.bind(to: messagesCollectionView)
-        keyboardManager.bind(inputAccessoryView: messageInputBar)
-        
-        //Keyboard manager from InputBarAccessoryView
-//        addKeyboardObservers()
-//        view.addSubview(messageInputBar)
-//        keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
-//        keyboardManager.bind(inputAccessoryView: messageInputBar) //properly positions inputAccessoryView
-//        keyboardManager.bind(to: messagesCollectionView) //enables interactive dismissal
-////        messagesCollectionView.insetsLayoutMarginsFromSafeArea
-//        messagesCollectionView.contentInset.bottom = 80
-//        keyboardManager.on(event: .willShow) { [self] notification in
-//        }
-//        keyboardManager.on(event: .willHide) { [self] notification in
-//            messagesCollectionView.insets = 55 + (window?.safeAreaInsets.bottom ?? 0)
-//        }
-        
         DispatchQueue.main.async { //scroll on the next cycle so that collectionView's data is loaded in beforehand
             self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
         }
         
         navigationController?.fullscreenInteractivePopGestureRecognizer(delegate: self)
+    }
+    
+    func setupKeyboard() {
+        messagesCollectionView.contentInsetAdjustmentBehavior = .never //dont think this does anything
+        messageInputBar = inputBar
+        inputBar.delegate = self
+        inputBar.inputTextView.delegate = self
+        
+        //Keyboard manager from InputBarAccessoryView
+        view.addSubview(messageInputBar)
+        keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
+        keyboardManager.bind(inputAccessoryView: messageInputBar) //properly positions inputAccessoryView
+        keyboardManager.bind(to: messagesCollectionView) //enables interactive dismissal
+                
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
+    }
+    
+    @objc func keyboardWillShow() {
+        additionalBottomInset = 55
+    }
+    
+    @objc func keyboardWillHide() {
+        updateAdditionalBottomInsetForDismissedKeyboard()
+    }
+    
+    func updateAdditionalBottomInsetForDismissedKeyboard() {
+        //can't use view's safe area insets because they're 0 on viewdidload
+        additionalBottomInset = 55 + (window?.safeAreaInsets.bottom ?? 0)
     }
     
     //i had to add this code because scrollstolastitemonkeyboardbeginsediting doesnt work
@@ -233,6 +244,9 @@ class ChatViewController: MessagesViewController {
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
         showMessageTimestampOnSwipeLeft = true // default false
 //        additionalBottomInset = 55 + (window?.safeAreaInsets.bottom ?? 0)
+        
+        let backgroundTapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        messagesCollectionView.addGestureRecognizer(backgroundTapGesture)
     }
     
     func setupCustomNavigationBar() {
@@ -626,10 +640,15 @@ extension ChatViewController: MessageCellDelegate {
     }
     
     func didTapBackground(in cell: MessageCollectionViewCell) {
-        inputBar.inputTextView.resignFirstResponder()
+        dismissKeyboard()
     }
     
     func didTapMessage(in cell: MessageCollectionViewCell) {
+        dismissKeyboard()
+    }
+    
+    @objc func dismissKeyboard() {
+        updateAdditionalBottomInsetForDismissedKeyboard()
         inputBar.inputTextView.resignFirstResponder()
     }
     

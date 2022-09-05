@@ -34,7 +34,8 @@ class DeviceService: NSObject {
     func hasBeenShowedGuidelines() -> Bool { return device?.hasBeenShownGuidelines ?? true } //if they load in the app and start it up too quickly, the app was crashing here for invalida access bc still nil...
     func hasBeenOfferedNotificationsAfterPost() -> Bool { return device.hasBeenOfferedNotificationsAfterPost }
     func hasBeenOfferedNotificationsAfterDM() -> Bool { return device.hasBeenOfferedNotificationsAfterDM }
-    
+    func hasBeenRequestedARating() -> Bool { return device.hasBeenRequestedARating }
+
     //MARK: - Doers
     
     func showGuidelinesForFirstTime() {
@@ -47,6 +48,10 @@ class DeviceService: NSObject {
     }
     func showedNotificationRequestAfterDM() {
         device.hasBeenOfferedNotificationsAfterDM = true
+        Task { await saveToFilesystem() }
+    }
+    func showRatingRequest() {
+        device.hasBeenRequestedARating = true
         Task { await saveToFilesystem() }
     }
     

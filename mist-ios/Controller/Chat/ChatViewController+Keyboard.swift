@@ -1,10 +1,10 @@
 //
-//  ChatViewController+Keyboard.swift
-//  mist-ios
+////  ChatViewController+Keyboard.swift
+////  mist-ios
+////
+////  Created by Adam Monterey on 8/13/22.
 //
-//  Created by Adam Monterey on 8/13/22.
 //
-
 //import Foundation
 //import UIKit
 //import Combine
@@ -13,9 +13,10 @@
 //
 //extension ChatViewController {
 //
-////    var overriddenAdditionalBottomInset: CGFloat {
-////        return 60 + (window?.safeAreaInsets.bottom ?? 0)
-////    }
+//    var overriddenAdditionalBottomInset: CGFloat {
+//        return 60 + (window?.safeAreaInsets.bottom ?? 0)
+//    }
+//    
 ////    override var additionalBottomInset: CGFloat {
 ////        get {
 ////            return 60 + (window?.safeAreaInsets.bottom ?? 0)
@@ -37,62 +38,90 @@
 //        keyboardManager.bind(to: messagesCollectionView) //enables interactive dismissal
 //        keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
 ////        additionalBottomInset = 54
+//        
+//        
+//        
+//        // Take into account the height of the bottom input bar
+//        additionalBottomInset = 100
+////        keyboardManager.bind(inputAccessoryView: messageInputBar)
+//        
+//        keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
+//        messagesCollectionView.insetsLayoutMarginsFromSafeArea = true
+////        messagesCollectionView.contentInset.bottom = 80
+////        messagesCollectionView.contentOffset.y  = 100
+////        messagesCollectionView.setContentOffset(.init(x: 0, y: 500), animated: false)
+//        
+////        messagesCollectionView.contentInset.bottom = 500
+//        
+//        keyboardManager.on(event: .willShow) { [self] keyboardNotif in
+//            messagesCollectionView.insets = 55 + keyboardNotif.endFrame.height
+////            updateMessageCollectionViewBottomInset(keyboardHeight: keyboardNotif.endFrame.height)
+//            
+//        }
+//        keyboardManager.on(event: .willHide) { [self] keyboardNotif in
+////            updateMessageCollectionViewBottomInset(keyboardHeight: keyboardNotif.endFrame.height)
+//            messagesCollectionView.contenIN = 55 + (window?.safeAreaInsets.bottom ?? 0)
+//        }
+//        
 //
 //        /// Observe didBeginEditing to scroll down the content
-//        NotificationCenter.default
-//            .publisher(for: UITextView.textDidBeginEditingNotification)
-//            .subscribe(on: DispatchQueue.global())
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] notification in
-//                self?.handleTextViewDidBeginEditing(notification)
-//            }
-////            .store(in: &disposeBag)
-//
-//        NotificationCenter.default
-//            .publisher(for: UITextView.textDidChangeNotification)
-//            .subscribe(on: DispatchQueue.global())
-//            .receive(on: DispatchQueue.main)
-//            .compactMap { $0.object as? InputTextView }
-//            .filter { [weak self] textView in
-//                return textView == self?.inputBar.inputTextView
-//            }
-//            .map(\.text)
-//            .removeDuplicates()
-//            .delay(for: .milliseconds(50), scheduler: DispatchQueue.main) /// Wait for next runloop to lay out inputView properly
-//            .sink { [weak self] _ in
-//                self?.updateMessageCollectionViewBottomInset()
-//                if !(self?.maintainPositionOnKeyboardFrameChanged ?? false) {
-//                    self?.messagesCollectionView.scrollToLastItem()
-//                }
-//            }
-////            .store(in: &disposeBag)
-//
-//        Publishers.MergeMany(
-//            NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification),
-//            NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
-//        )
-//        .subscribe(on: DispatchQueue.global())
-//        .receive(on: DispatchQueue.main)
-//        .sink(receiveValue: { [weak self] _ in
-//            self?.updateMessageCollectionViewBottomInset()
-//        })
+////        NotificationCenter.default
+////            .publisher(for: UITextView.textDidBeginEditingNotification)
+////            .subscribe(on: DispatchQueue.global())
+////            .receive(on: DispatchQueue.main)
+////            .sink { [weak self] notification in
+////                self?.handleTextViewDidBeginEditing(notification)
+////            }
+//////            .store(in: &disposeBag)
+////
+////        NotificationCenter.default
+////            .publisher(for: UITextView.textDidChangeNotification)
+////            .subscribe(on: DispatchQueue.global())
+////            .receive(on: DispatchQueue.main)
+////            .compactMap { $0.object as? InputTextView }
+////            .filter { [weak self] textView in
+////                return textView == self?.inputBar.inputTextView
+////            }
+////            .map(\.text)
+////            .removeDuplicates()
+////            .delay(for: .milliseconds(50), scheduler: DispatchQueue.main) /// Wait for next runloop to lay out inputView properly
+////            .sink { [weak self] _ in
+////                self?.updateMessageCollectionViewBottomInset()
+////                if !(self?.maintainPositionOnKeyboardFrameChanged ?? false) {
+////                    self?.messagesCollectionView.scrollToLastItem()
+////                }
+////            }
+//////            .store(in: &disposeBag)
+////
+////        Publishers.MergeMany(
+////            NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification),
+////            NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
+////        )
+////        .subscribe(on: DispatchQueue.global())
+////        .receive(on: DispatchQueue.main)
+////        .sink(receiveValue: { [weak self] _ in
+////            self?.updateMessageCollectionViewBottomInset()
+////        })
 ////        .store(in: &disposeBag)
 //    }
 //
 //    // MARK: - Updating insets
 //
 //    /// Updates bottom messagesCollectionView inset based on the position of inputContainerView
-//    func updateMessageCollectionViewBottomInset() {
+//    func updateMessageCollectionViewBottomInset(keyboardHeight: Double) {
 //        /// This is important to skip notifications from child modal controllers in iOS >= 13.0
 //        guard self.presentedViewController == nil else { return }
-//        let collectionViewHeight = messagesCollectionView.frame.height
+////        let collectionViewHeight = messagesCollectionView.frame.height
 ////        print(inputBar.frame.minY, additionalBottomInset)
 ////        let newBottomInset = 0.0
 ////        let newBottomInset = collectionViewHeight - (inputBar.frame.minY - (additionalBottomInset + (window?.safeAreaInsets.bottom ?? 0))) - automaticallyAddedBottomInset
-//        let newBottomInset = collectionViewHeight - (inputBar.frame.minY - additionalBottomInset) - automaticallyAddedBottomInset
-//        print(collectionViewHeight, inputBar.frame.minY)
+////        let keyboardHeight: CGFloat = 500
+//        let newBottomInset = keyboardHeight + 55
+//        
+////        let newBottomInset = collectionViewHeight - (inputBar.frame.minY - additionalBottomInset) - automaticallyAddedBottomInset
+////        print(collectionViewHeight, inputBar.frame.minY)
 //
-//        print(newBottomInset)
+////        print(newBottomInset)
 //        let normalizedNewBottomInset = max(0, newBottomInset)
 //        let differenceOfBottomInset = newBottomInset - messageCollectionViewBottomInset
 //

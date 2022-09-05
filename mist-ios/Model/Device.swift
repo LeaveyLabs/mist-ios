@@ -11,4 +11,5 @@ struct Device: Codable {
     var hasBeenShownGuidelines: Bool = false
     var hasBeenOfferedNotificationsAfterDM: Bool = false
     var hasBeenOfferedNotificationsAfterPost: Bool = false
+    var hasBeenRequestedARating: Bool = false
 }
