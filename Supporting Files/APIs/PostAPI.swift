@@ -157,17 +157,15 @@ class PostAPI {
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
-    static func fetchMistbox() async throws -> [Mistbox] {
+    static func fetchMistbox() async throws -> Mistbox? {
         let url = "\(Env.BASE_URL)\(PATH_TO_MISTBOX)"
         do {
             let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
             try filterMistboxErrors(data: data, response: response)
-            print("okay this is executing")
-            let mistbox =  try JSONDecoder().decode(Mistbox.self, from: data)
-            return [mistbox]
+            return try JSONDecoder().decode(Mistbox.self, from: data)
         }
         catch APIError.NotFound {
-            return []
+            return nil
         }
     }
     

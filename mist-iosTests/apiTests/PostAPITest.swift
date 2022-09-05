@@ -65,10 +65,14 @@ class PostAPITest: XCTestCase {
         XCTAssertTrue(posts[0].title == "hey")
     }
     
-    func testKeywordPosts() async throws {
-        let posts = try await PostAPI.fetchKeywordPosts()
-        XCTAssertTrue(posts == [])
+    func testFetchMistbox() async throws {
+        let _ = try await PostAPI.fetchMistbox()
     }
+    
+    func testPatchKeywords() async throws {
+        let _ = try await PostAPI.patchKeywords(keywords: ["hi", "hi"])
+    }
+    
     
     // DELETE
     func testDeletePost() async throws {
