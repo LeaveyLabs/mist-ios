@@ -86,34 +86,6 @@ extension ConversationsViewController: UITableViewDataSource {
 
 extension ConversationsViewController: CustomNavBarDelegate {
     
-    @objc func handleProfileButtonTap() {
-        guard
-            let myAccountNavigation = storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation) as? UINavigationController,
-            let myAccountVC = myAccountNavigation.topViewController as? MyAccountViewController
-        else { return }
-        myAccountNavigation.modalPresentationStyle = .fullScreen
-        myAccountVC.rerenderProfileCallback = { } //no longer needed, since we update the accountButton on moveToSuperview
-        self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
-    }
-
-    @objc func handleFilterButtonTap() {
-        fatalError("not used")
-    }
-
-    @objc func handleMapFeedToggleButtonTap() {
-        fatalError("not used")
-    }
-
-    @objc func handleSearchButtonTap() {
-        fatalError("not used")
-    }
-
-    @objc func handleCloseButtonTap() {
-        fatalError("not used")
-    }
-
-    @objc func handleBackButtonTap() {
-        fatalError("not used")
-    }
+    //no special config needed
     
 }

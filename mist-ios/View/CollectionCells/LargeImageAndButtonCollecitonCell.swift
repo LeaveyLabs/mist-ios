@@ -30,7 +30,7 @@ class LargeImageAndButtonCollectionCell: UICollectionViewCell {
     func setup(image: UIImage, delegate: LargeImageCollectionCellDelegate, index: Int) {
         imageView.image = image
         self.guidelinesDelegate = delegate
-        if index == 2 && !hasSetupCloseButton {
+        if index == 3 && !hasSetupCloseButton {
             setupCloseButton()
             hasSetupCloseButton = true
         }

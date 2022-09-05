@@ -647,6 +647,8 @@
 		5BD7482028C1EB68005C7820 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD7481E28C1EB68005C7820 /* LocationManager.swift */; };
 		5BD8E07E28C1FB1C00E722D4 /* PinSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8E07D28C1FB1C00E722D4 /* PinSearchVC.swift */; };
 		5BD8E07F28C1FB1C00E722D4 /* PinSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8E07D28C1FB1C00E722D4 /* PinSearchVC.swift */; };
+		5BDE1F6A28C5B2B400B8B108 /* BadgeHub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDE1F6928C5B2B400B8B108 /* BadgeHub.swift */; };
+		5BDE1F6B28C5B2B400B8B108 /* BadgeHub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDE1F6928C5B2B400B8B108 /* BadgeHub.swift */; };
 		5BE110022876CD9D00CB54A6 /* RequestResetNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110012876CD9D00CB54A6 /* RequestResetNumberViewController.swift */; };
 		5BE110042876CDB100CB54A6 /* ValidateResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */; };
 		5BE110062876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */; };
@@ -1023,6 +1025,7 @@
 		5BD6F47D2896B3020002A60B /* StringChat+Emoji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringChat+Emoji.swift"; sourceTree = "<group>"; };
 		5BD7481E28C1EB68005C7820 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		5BD8E07D28C1FB1C00E722D4 /* PinSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinSearchVC.swift; sourceTree = "<group>"; };
+		5BDE1F6928C5B2B400B8B108 /* BadgeHub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeHub.swift; sourceTree = "<group>"; };
 		5BE110012876CD9D00CB54A6 /* RequestResetNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResetNumberViewController.swift; sourceTree = "<group>"; };
 		5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateResetPasswordViewController.swift; sourceTree = "<group>"; };
 		5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalizeResetPasswordViewController.swift; sourceTree = "<group>"; };
@@ -1523,6 +1526,7 @@
 				47E74E0927CA0FFE00467A0C /* Products */,
 				473B5A202831C8B200BD1168 /* Frameworks */,
 				4767E41828584D610016202E /* CircularProgressView */,
+				5BDE1F6928C5B2B400B8B108 /* BadgeHub.swift */,
 				472A4BCF28408BD800FD52B7 /* Spring */,
 			);
 			sourceTree = "<group>";
@@ -2614,6 +2618,7 @@
 				5B4152B528BF1F2000592A55 /* ExploreMapVC+OverlayDelegate.swift in Sources */,
 				478A7899284E708D0058C845 /* CLLocationCoordinate+Distance.swift in Sources */,
 				4700F8B727DD7BBA006C2E08 /* PostVoteAPI.swift in Sources */,
+				5BDE1F6A28C5B2B400B8B108 /* BadgeHub.swift in Sources */,
 				5BE1473F289F1A7C0096FEBE /* String+Random.swift in Sources */,
 				436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */,
 				43529E2F2890BD3D00B3A484 /* CommentFlagAPI.swift in Sources */,
@@ -2936,6 +2941,7 @@
 				5B4152B628BF1F2000592A55 /* ExploreMapVC+OverlayDelegate.swift in Sources */,
 				5B739E2D28935B9500E4EED0 /* PostVoteAPI.swift in Sources */,
 				5B739E2E28935B9500E4EED0 /* ConfirmEmailViewController.swift in Sources */,
+				5BDE1F6B28C5B2B400B8B108 /* BadgeHub.swift in Sources */,
 				5B739E2F28935B9500E4EED0 /* RequestResetNumberViewController.swift in Sources */,
 				5B739E3028935B9500E4EED0 /* Time.swift in Sources */,
 				5B739E3128935B9500E4EED0 /* PasswordLoginViewController.swift in Sources */,

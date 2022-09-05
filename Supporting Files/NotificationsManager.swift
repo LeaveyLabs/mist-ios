@@ -7,10 +7,33 @@
 
 import Foundation
 
+extension Notification.Name {
+    static let newMistboxMist = Notification.Name("newMistboxMist")
+    static let newDM = Notification.Name("newDM")
+    static let newMentionedMist = Notification.Name("newDM")
+}
+
+extension Notification {
+    enum Key: String {
+        case key0
+        case key1
+    }
+}
+
 class NotificationsManager {
     
     private let center  = UNUserNotificationCenter.current()
     static let shared = NotificationsManager()
+    
+    //MARK: - Posting
+    
+    func post() {
+        NotificationCenter.default.post(name: .newDM,
+                                        object: nil,
+                                        userInfo:[Notification.Key.key0: "value", "key1": 1234])
+    }
+    
+    //MARK: - Permission and Status
     
     internal func getNotificationStatus(closure: @escaping (UNAuthorizationStatus) -> Void) {
         center.getNotificationSettings { setting in

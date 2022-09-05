@@ -13,7 +13,8 @@ class WhatIsMistboxViewController: UIViewController, LargeImageCollectionCellDel
     let images: [UIImage] = [
         UIImage(named: "mistbox-graphic-1")!,
         UIImage(named: "mistbox-graphic-2")!,
-        UIImage(named: "mistbox-graphic-3")!
+        UIImage(named: "mistbox-graphic-3")!,
+        UIImage(named: "mistbox-graphic-4")!
     ]
     
     let guidelinesLabel = UILabel()
@@ -118,7 +119,7 @@ extension WhatIsMistboxViewController: UICollectionViewDataSource {
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        3
+        images.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

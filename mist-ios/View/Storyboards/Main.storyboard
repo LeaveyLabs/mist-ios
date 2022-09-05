@@ -3277,10 +3277,27 @@
                     <view key="view" contentMode="scaleToFill" id="n3u-lG-dv3">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uX6-Gb-idv" customClass="CustomNavBar" customModule="mist_ios" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44" width="390" height="55"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="K7b-6U-UZW"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="3jn-9H-2Yp"/>
                         <color key="backgroundColor" name="off-white"/>
+                        <constraints>
+                            <constraint firstItem="uX6-Gb-idv" firstAttribute="top" secondItem="3jn-9H-2Yp" secondAttribute="top" id="3o1-S5-8Em"/>
+                            <constraint firstItem="uX6-Gb-idv" firstAttribute="trailing" secondItem="3jn-9H-2Yp" secondAttribute="trailing" id="9oP-Xg-0uG"/>
+                            <constraint firstItem="uX6-Gb-idv" firstAttribute="leading" secondItem="3jn-9H-2Yp" secondAttribute="leading" id="Xe3-bg-Nm8"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ggH-1s-6hf"/>
+                    <connections>
+                        <outlet property="navBar" destination="uX6-Gb-idv" id="vxR-Xs-IOC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="whY-G5-v2U" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -92,22 +92,6 @@ extension EnterKeywordsViewController: TagsViewDelegate {
 }
 
 extension EnterKeywordsViewController: CustomNavBarDelegate {
-    
-    @objc func handleProfileButtonTap() {
-        fatalError("not used")
-    }
-
-    @objc func handleFilterButtonTap() {
-        fatalError("not used")
-    }
-
-    @objc func handleMapFeedToggleButtonTap() {
-        fatalError("not used")
-    }
-
-    @objc func handleSearchButtonTap() {
-        fatalError("not used")
-    }
 
     @objc func handleCloseButtonTap() {
         dismiss(animated: true)

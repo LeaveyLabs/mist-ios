@@ -18,6 +18,40 @@ protocol CustomNavBarDelegate {
     func handleBackButtonTap()
 }
 
+extension CustomNavBarDelegate where Self: UIViewController {
+    
+    func handleProfileButtonTap() {
+        guard
+            let myAccountNavigation = storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation) as? UINavigationController,
+            let myAccountVC = myAccountNavigation.topViewController as? MyAccountViewController
+        else { return }
+        myAccountNavigation.modalPresentationStyle = .fullScreen
+        myAccountVC.rerenderProfileCallback = { } //no longer needed, since we update the accountButton on moveToSuperview
+        self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
+    }
+    
+    func handleFilterButtonTap() {
+        fatalError("subclass must implement this")
+    }
+    
+    func handleMapFeedToggleButtonTap() {
+        fatalError("subclass must implement this")
+    }
+    
+    func handleSearchButtonTap() {
+        fatalError("subclass must implement this")
+    }
+    
+    func handleCloseButtonTap() {
+        dismiss(animated: true)
+    }
+    
+    func handleBackButtonTap() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+}
+
 extension CustomNavBar {
     
     //MARK: - User Interaction layer between delegate... because objective c probs...

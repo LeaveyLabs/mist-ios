@@ -45,6 +45,7 @@ class MistboxViewController: UIViewController {
     var mistCountLabel: UILabel!
     var learnMoreButton: UIButton!
     var titleLabel: UILabel!
+    @IBOutlet weak var navBar: CustomNavBar!
 
     // MARK: - Lifecycle
     
@@ -52,9 +53,20 @@ class MistboxViewController: UIViewController {
         super.viewDidLoad()
 
         addCarousel()
+        setupNavBar()
     }
     
     // MARK: - Configuration
+    
+    func setupNavBar() {
+        navigationController?.isNavigationBarHidden = true
+        navBar.configure(title: "mistbox", leftItems: [.title], rightItems: [.profile], delegate: self)
+        let profilePicBadgeHub = BadgeHub(view: navBar)
+    }
+    
+    @objc func updateProfilePicBadgeHub() {
+        
+    }
     
     private func addCarousel() {
         
@@ -136,6 +148,16 @@ extension MistboxViewController: UICollectionViewDelegate {
     }
     
 }
+
+//MARK: - CustomNavBarDelegate
+
+extension MistboxViewController: CustomNavBarDelegate {
+    
+    //default imnplementation is god
+    
+}
+
+//MARK: - PostDelegate
 
 extension MistboxViewController: PostDelegate {
     

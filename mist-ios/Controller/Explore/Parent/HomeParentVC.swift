@@ -21,7 +21,13 @@ class HomeExploreParentViewController: ExploreParentViewController {
         super.viewDidLoad()
         setupRefreshableFeed()
         setupActiveLabel()
-//        tabBarController?.selectedIndex = 1
+        setupTabBar()
+    }
+    
+    func setupTabBar() {
+        guard let tabBarController = tabBarController as? SpecialTabBarController else { return }
+        tabBarController?.selectedIndex = 1
+        tabBarController.setupBadges()
     }
     
     func setupActiveLabel() {

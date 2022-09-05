@@ -11,7 +11,10 @@ import StoreKit
 enum AppStoreReviewManager {
     
   static func requestReviewIfAppropriate() {
-      SKStoreReviewController.requestReviewInCurrentScene()
+      if !DeviceService.shared.hasBeenRequestedARating() {
+          DeviceService.shared.showRatingRequest()
+          SKStoreReviewController.requestReviewInCurrentScene()
+      }
   }
     
 }
