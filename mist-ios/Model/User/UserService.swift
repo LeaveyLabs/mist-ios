@@ -91,8 +91,10 @@ class UserService: NSObject {
     func getPhoneNumberPretty() -> String? { return authedUser.phone_number?.asNationalPhoneNumber }
     func getProfilePic() -> UIImage { return authedUser.profilePicWrapper.image }
     func getBlurredPic() -> UIImage { return authedUser.profilePicWrapper.blurredImage }
+    func getKeywords() -> [String] {
+        return []
+    }
     func isVerified() -> Bool { return false }
-    func getKeywords() -> [String] { return authedUser.keywords }
     
     //MARK: - Login and create user
     
@@ -176,15 +178,12 @@ class UserService: NSObject {
     }
     
     func updateKeywords(to newKeywords: [String]) async throws {
-        let oldKeywords = self.authedUser.keywords
-        authedUser.keywords = newKeywords
         Task {
             do {
-                let _ = try await UserAPI.patchKeywords(keywords: newKeywords, id: UserService.singleton.getId())
+                let _ = try await PostAPI.patchKeywords(keywords: newKeywords)
                 await saveUserToFilesystem()
                 await UsersService.singleton.updateCachedUser(updatedUser: self.getUserAsFrontendReadOnlyUser())
             } catch {
-                authedUser.keywords = oldKeywords
                 throw(error)
             }
         }

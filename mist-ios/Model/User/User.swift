@@ -27,7 +27,6 @@ protocol CompleteUserBackendProperties: Equatable {
     var email: String { get }
     var date_of_birth: String { get }
     var sex: String? { get }
-    var keywords: [String] { get }
     var phone_number: String? { get }
     //let phone_number: String?
 }
@@ -103,7 +102,6 @@ struct CompleteUser: Codable, CompleteUserBackendProperties {
     let sex: String?
     let latitude: Double?
     let longitude: Double?
-    let keywords: [String]
     let phone_number: String?
     
     //Equatable
@@ -123,7 +121,6 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
     let sex: String?
     let latitude: Double?
     let longitude: Double?
-    var keywords: [String]
     let phone_number: String?
     
     var full_name: String {
@@ -159,7 +156,6 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
         self.sex = completeUser.sex
         self.latitude = completeUser.latitude
         self.longitude = completeUser.longitude
-        self.keywords = completeUser.keywords
         self.phone_number = completeUser.phone_number
         
         self.profilePicWrapper = profilePic
@@ -169,5 +165,5 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
     //Equatable
     static func == (lhs: FrontendCompleteUser, rhs: FrontendCompleteUser) -> Bool { return lhs.id == rhs.id }
     
-    static let nilUser = FrontendCompleteUser(completeUser: CompleteUser(id: 0, username: "", first_name: "", last_name: "", picture: "", email: "", date_of_birth: "", sex: "", latitude: 0, longitude: 0, keywords: [], phone_number: ""), profilePic: ProfilePicWrapper(image: Constants.defaultProfilePic, withCompresssion: false), token: "")
+    static let nilUser = FrontendCompleteUser(completeUser: CompleteUser(id: 0, username: "", first_name: "", last_name: "", picture: "", email: "", date_of_birth: "", sex: "", latitude: 0, longitude: 0, phone_number: ""), profilePic: ProfilePicWrapper(image: Constants.defaultProfilePic, withCompresssion: false), token: "")
 }

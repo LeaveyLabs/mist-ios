@@ -68,7 +68,7 @@ class MistboxManager: NSObject {
     //MARK: - Fetchers
     
     func fetchMistboxes() async throws {
-        mistboxes = try await PostAPI.fetchMistboxes()
+        mistboxes = try await PostAPI.fetchMistbox()
     }
     
     //MARK: - Public API

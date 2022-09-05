@@ -111,7 +111,9 @@ class BasicAPI {
                                        method: method,
                                        body: jsonData,
                                        headers: ["Content-Type": "application/json"])
-        return try await runRequest(request: request)
+        let (data, response) = try await runRequest(request: request)
+        try filterBasicErrors(data: data, response: response)
+        return (data, response)
     }
     
     static func baiscHTTPCallWithToken(url:String, jsonData:Data, method:String) async throws -> (Data, HTTPURLResponse) {
@@ -122,6 +124,8 @@ class BasicAPI {
                                         "Content-Type": "application/json",
                                         "Authorization": "Token \(getGlobalAuthToken())",
                                        ])
-        return try await runRequest(request: request)
+        let (data, response) = try await runRequest(request: request)
+        try filterBasicErrors(data: data, response: response)
+        return (data, response)
     }
 }

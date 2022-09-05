@@ -12,12 +12,24 @@ struct PostError: Codable {
     let author: [String]?
     
     let non_field_errors: [String]?
-    let detail: [String]?
+    let detail: String?
 }
 
 struct Mistbox: Codable {
     let posts: [Post]
+    let keywords: [String]
     let creation_time: Double
+    let swipecount: Int
+}
+
+struct MistboxError: Codable {
+    let posts: [String]?
+    let keywords: [String]?
+    let creation_time: [String]?
+    let swipecount: [String]?
+    
+    let non_field_errors: [String]?
+    let detail: String?
 }
 
 class PostAPI {
@@ -27,9 +39,10 @@ class PostAPI {
     static let PATH_TO_FRIEND_POSTS = "api/friend-posts/"
     static let PATH_TO_FAVORITED_POSTS = "api/favorited-posts/"
     static let PATH_TO_SUBMITTED_POSTS = "api/submitted-posts/"
-    static let PATH_TO_KEYWORD_POSTS = "api/keyword-posts/"
-    static let PATH_TO_MISTBOX_POSTS = "api/mistbox-posts/"
+    static let PATH_TO_MISTBOX = "api/mistbox/"
     static let PATH_TO_TAGGED_POSTS = "api/tagged-posts/"
+    static let PATH_TO_DELETE_MISTBOX_POST = "api/delete-mistbox-post/"
+    
     static let IDS_PARAM = "ids"
     static let WORDS_PARAM = "words"
     static let LATITUDE_PARAM = "latitude"
@@ -37,6 +50,8 @@ class PostAPI {
     static let RADIUS_PARAM = "radius"
     static let LOC_DESCRIPTION_PARAM = "location_description"
     static let AUTHOR_PARAM = "author"
+    
+    static let KEYWORDS_PARAM = "keywords"
     
     static let POST_RECOVERY_MESSAGE = "Please try again"
     
@@ -76,6 +91,13 @@ class PostAPI {
                 throw APIError.ClientError(authorError, POST_RECOVERY_MESSAGE)
             }
         }
+        throw APIError.Unknown
+    }
+    
+    static func filterMistboxErrors(data:Data, response:HTTPURLResponse) throws {
+        let statusCode = response.statusCode
+        if isSuccess(statusCode: statusCode) { return }
+        if isClientError(statusCode: statusCode) {}
         throw APIError.Unknown
     }
     
@@ -135,18 +157,18 @@ class PostAPI {
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
-    static func fetchKeywordPosts() async throws -> [Post] {
-        let url = "\(Env.BASE_URL)\(PATH_TO_KEYWORD_POSTS)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
-        try filterPostErrors(data: data, response: response)
-        return try JSONDecoder().decode([Post].self, from: data)
-    }
-    
-    static func fetchMistboxes() async throws -> [Mistbox] {
-        let url = "\(Env.BASE_URL)\(PATH_TO_MISTBOX_POSTS)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
-        try filterPostErrors(data: data, response: response)
-        return try JSONDecoder().decode([Mistbox].self, from: data)
+    static func fetchMistbox() async throws -> [Mistbox] {
+        let url = "\(Env.BASE_URL)\(PATH_TO_MISTBOX)"
+        do {
+            let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+            try filterMistboxErrors(data: data, response: response)
+            print("okay this is executing")
+            let mistbox =  try JSONDecoder().decode(Mistbox.self, from: data)
+            return [mistbox]
+        }
+        catch APIError.NotFound {
+            return []
+        }
     }
     
     static func fetchTaggedPosts() async throws -> [Post] {
@@ -234,6 +256,22 @@ class PostAPI {
     // Deletes post from the database
     static func deletePost(post_id:Int) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)\(post_id)/"
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        try filterPostErrors(data: data, response: response)
+    }
+    
+    static func patchKeywords(keywords:[String]) async throws {
+        let url = "\(Env.BASE_URL)\(PATH_TO_MISTBOX)"
+        let params:[String:[String]] = [
+            KEYWORDS_PARAM: keywords,
+        ]
+        let json = try JSONEncoder().encode(params)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
+        try filterPostErrors(data: data, response: response)
+    }
+    
+    static func deleteMistboxPost(post:Int) async throws {
+        let url = "\(Env.BASE_URL)\(PATH_TO_DELETE_MISTBOX_POST)post?=\(post)/"
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
         try filterPostErrors(data: data, response: response)
     }
