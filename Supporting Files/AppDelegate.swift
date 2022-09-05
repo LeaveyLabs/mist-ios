@@ -21,8 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let stackViewAppearance = UIStackView.appearance(whenContainedInInstancesOf: [UINavigationBar.self])
         stackViewAppearance.spacing = -10
         
-        MistboxManager.shared.updateMistboxReleaseDates()
-
 //        Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(false)
 //        Performance.sharedInstance().isInstrumentationEnabled = false
 //        Performance.sharedInstance().isDataCollectionEnabled = false

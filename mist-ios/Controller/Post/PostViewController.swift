@@ -10,7 +10,7 @@ import Contacts
 import InputBarAccessoryView //dependency of MessageKit. If we remove MessageKit, we should install this package independently
 
 let COMMENT_PLACEHOLDER_TEXT = "comment & tag friends"
-typealias UpdatedPostCompletionHandler = ((Post) -> Void)
+typealias PostCompletionHandler = (() -> Void)
 var hasPromptedUserForContactsAccess = false
 
 
@@ -27,6 +27,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     //TableView
     var activityIndicator = UIActivityIndicatorView(style: .medium)
     @IBOutlet var tableView: PostTableView!
+    @IBOutlet weak var navBar: CustomNavBar!
     
     //CommentInput
     let keyboardManager = KeyboardManager() //InputBarAccessoryView
@@ -36,6 +37,9 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     //EmojiInput
     var emojiTextField: EmojiTextField?
     var postView: PostView?
+    
+    //Flags
+    var fromMistbox: Bool!
         
     //Keyboard
     var shouldStartWithRaisedKeyboard: Bool!
@@ -71,17 +75,17 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
 //    var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] = [:]
 //    var loadTaggedProfileTasks: [Int : Task<FrontendReadOnlyUser?, Error>] = [:] //Error, not Never, because we're doing 2 layers of DoTry calls
 
-    //Abandoned
-//    var prepareForDismiss: UpdatedPostCompletionHandler? //no longer needed
+    var didDismiss: PostCompletionHandler?
 
     //MARK: - Initialization
     
-    class func createPostVC(with post: Post, shouldStartWithRaisedKeyboard: Bool, completionHandler: UpdatedPostCompletionHandler?) -> PostViewController {
+    class func createPostVC(with post: Post, shouldStartWithRaisedKeyboard: Bool, fromMistbox: Bool = false, completionHandler: PostCompletionHandler?) -> PostViewController {
         let postVC =
         UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
         postVC.post = post
         postVC.shouldStartWithRaisedKeyboard = shouldStartWithRaisedKeyboard
-//        postVC.prepareForDismiss = completionHandler no longer used
+        postVC.didDismiss = completionHandler
+        postVC.fromMistbox = fromMistbox
         return postVC
     }
     
@@ -92,22 +96,14 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         setupTableView()
         setupCommentInputBar()
         loadComments()
+        setupNavBar()
         navigationController?.fullscreenInteractivePopGestureRecognizer(delegate: self)
         addKeyboardObservers()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default)), style: .plain, target: self, action: #selector(backButtonDidPressed(_:)))
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        inputBar.inputTextView.resignFirstResponder()
-        inputBar.inputTextView.canBecomeFirstResponder = false //so it doesnt become first responder again if the swipe back gesture is cancelled halfway through
-        //no longer using the postVC's willDismiss completion handler here: we could delete that
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        disableInteractivePopGesture()
-        removeKeyboardObservers()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -130,8 +126,35 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        inputBar.inputTextView.resignFirstResponder()
+        inputBar.inputTextView.canBecomeFirstResponder = false //so it doesnt become first responder again if the swipe back gesture is cancelled halfway through
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        disableInteractivePopGesture()
+        removeKeyboardObservers()
+        didDismiss?()
+    }
+    
     //MARK: - Setup
     
+    func setupNavBar() {
+        if fromMistbox {
+            navBar.configure(title: "", leftItems: [.back], rightItems: [.favorite])
+            navBar.favoriteButton.isSelected = FavoriteService.singleton.hasFavoritedPost(post.id)
+            navBar.favoriteButton.addTarget(self, action: #selector(handleFavoriteButtonTap), for: .touchUpInside)
+        } else {
+            navBar.configure(title: "", leftItems: [.back], rightItems: [])
+        }
+        navBar.backButton.addTarget(self, action: #selector(didPressBack), for: .touchUpInside)
+        navBar.applyVeryLightBottomOnlyShadow()
+        //        navBar.layer.shadowOpacity = 0
+        tableView.tableHeaderView = UIView(frame: .init(x: 0, y: 0, width: view.bounds.width, height: 10))
+    }
+        
     func setupTableView() {
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
@@ -158,6 +181,21 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         inputBar.configureForCommenting()
     }
     
+}
+
+//MARK: - Nav Bar Actions
+
+extension PostViewController {
+    
+    @objc func handleFavoriteButtonTap() {
+        print("HANDLE FAV TAP")
+        navBar.favoriteButton.isSelected = !navBar.favoriteButton.isSelected
+        handleFavorite(postId: post.id, isAdding: navBar.favoriteButton.isSelected) //this is implmeneted in PostDelegate file
+    }
+    
+    @objc func didPressBack() {
+        navigationController?.popViewController(animated: true)
+    }
 }
 
 extension PostViewController: InputBarAccessoryViewDelegate {
@@ -402,10 +440,18 @@ extension PostViewController {
     
 }
 
+//MARK: - TableViewDelegate
+
+//extension PostViewController: UITableViewDelegate {
+//    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+//        <#code#>
+//    }
+//}
+
 // MARK: - TableViewDataSource
 
 extension PostViewController: UITableViewDataSource {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return activityIndicator.isAnimating ? 1 : comments.count + 2 //1 for post, 1 for comment header
     }

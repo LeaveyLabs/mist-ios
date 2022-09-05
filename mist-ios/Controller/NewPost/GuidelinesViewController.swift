@@ -124,7 +124,7 @@ extension GuidelinesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: LargeImageAndButtonCollectionCell.self), for: indexPath) as! LargeImageAndButtonCollectionCell
-        cell.setup(image: images[indexPath.section], delegate: self, index: indexPath.section)
+        cell.setup(image: images[indexPath.section], delegate: self, index: indexPath.section, isLastIndex: indexPath.section == 2, continueButtonTitle: "got it")
         return cell
     }
     

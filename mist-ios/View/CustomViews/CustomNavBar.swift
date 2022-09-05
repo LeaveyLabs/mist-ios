@@ -7,20 +7,9 @@
 
 import Foundation
 
-protocol CustomNavBarDelegate {
-    func handleProfileButtonTap()
+extension UIViewController {
     
-    func handleFilterButtonTap()
-    func handleMapFeedToggleButtonTap()
-    func handleSearchButtonTap()
-    
-    func handleCloseButtonTap()
-    func handleBackButtonTap()
-}
-
-extension CustomNavBarDelegate where Self: UIViewController {
-    
-    func handleProfileButtonTap() {
+    @objc func handleProfileButtonTap() {
         guard
             let myAccountNavigation = storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation) as? UINavigationController,
             let myAccountVC = myAccountNavigation.topViewController as? MyAccountViewController
@@ -30,62 +19,12 @@ extension CustomNavBarDelegate where Self: UIViewController {
         self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
     }
     
-    func handleFilterButtonTap() {
-        fatalError("subclass must implement this")
-    }
-    
-    func handleMapFeedToggleButtonTap() {
-        fatalError("subclass must implement this")
-    }
-    
-    func handleSearchButtonTap() {
-        fatalError("subclass must implement this")
-    }
-    
-    func handleCloseButtonTap() {
-        dismiss(animated: true)
-    }
-    
-    func handleBackButtonTap() {
-        navigationController?.popViewController(animated: true)
-    }
-    
-}
-
-extension CustomNavBar {
-    
-    //MARK: - User Interaction layer between delegate... because objective c probs...
-    
-    @objc func handleProfileButtonTap() {
-        delegate.handleProfileButtonTap()
-    }
-    
-    @objc func handleFilterButtonTap() {
-        delegate.handleFilterButtonTap()
-    }
-    
-    @objc func handleMapFeedToggleButtonTap() {
-        delegate.handleMapFeedToggleButtonTap()
-    }
-    
-    @objc func handleSearchButtonTap() {
-        delegate.handleSearchButtonTap()
-    }
-    
-    @objc func handleBackButtonTap() {
-        delegate.handleBackButtonTap()
-    }
-    
-    @objc func handleCloseButtonTap() {
-        delegate.handleCloseButtonTap()
-    }
-    
 }
 
 class CustomNavBar: UIView {
-        
+
     enum CustomNavBarItem: CaseIterable {
-        case title, profile, search, filter, mapFeedToggle, back, close
+        case title, profile, search, filter, mapFeedToggle, back, close, favorite, save
 
         var image: UIImage {
             switch self {
@@ -103,6 +42,33 @@ class CustomNavBar: UIView {
                 return UIImage(systemName: "chevron.backward", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default))!
             case .close:
                 return UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .medium, scale: .default))!
+            case .favorite:
+                return UIImage(systemName: "bookmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .default))!
+            case .save:
+                return UIImage()
+            }
+        }
+        
+        var selectedImage: UIImage {
+            switch self {
+            case .title:
+                return UIImage()
+            case .profile:
+                return UIImage()
+            case .search:
+                return UIImage()
+            case .filter:
+                return UIImage()
+            case .mapFeedToggle:
+                return UIImage()
+            case .back:
+                return UIImage()
+            case .close:
+                return UIImage()
+            case .favorite:
+                return UIImage(systemName: "bookmark.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .default))!
+            case .save:
+                return UIImage()
             }
         }
     }
@@ -111,11 +77,16 @@ class CustomNavBar: UIView {
         
     //UI
     @IBOutlet weak var stackView: UIStackView!
-    
-    var delegate: CustomNavBarDelegate!
-    
-    var accountButton: UIButton?
-    var searchFilterButton: UIButton?
+        
+    var accountButton = CustomNavBar.navBarButton(for: .profile)
+    var searchButton = CustomNavBar.navBarButton(for: .search)
+    var titleLabel = UILabel()
+    var filterButton = CustomNavBar.navBarButton(for: .filter)
+    var mapFeedToggleButton = CustomNavBar.navBarButton(for: .mapFeedToggle)
+    var backButton = CustomNavBar.navBarButton(for: .back)
+    var closeButton = CustomNavBar.navBarButton(for: .close)
+    var favoriteButton = CustomNavBar.navBarButton(for: .favorite)
+    var saveButton = CustomNavBar.navBarButton(for: .save)
     
     let TOGGLE_MAP_IMAGE = UIImage(named: "toggle-map-button")!
     let TOGGLE_FEED_IMAGE = UIImage(named: "toggle-feed-button")!
@@ -135,6 +106,11 @@ class CustomNavBar: UIView {
     
     private func customInit() {
         nibInit()
+        setupStackView()
+        setupSpecialItems()
+    }
+    
+    func setupStackView() {
         applyLightBottomOnlyShadow()
         stackView.alignment = .center
         stackView.distribution = .fill
@@ -148,36 +124,26 @@ class CustomNavBar: UIView {
         addSubview(contentView)
     }
     
-    private func setupItem(_ item: CustomNavBarItem, on stackView: UIStackView, withTitle title: String) {
-        switch item {
-        case .search:
-            stackView.addArrangedSubview(navBarButton(for: .search))
-        case .filter:
-            stackView.addArrangedSubview(navBarButton(for: .search))
-        case .profile:
-            accountButton = navBarButton(for: .profile)
-            guard let accountButton = accountButton else { return }
-            accountButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
-            stackView.addArrangedSubview(accountButton)
-        case .title:
-            let titleLabel = UILabel()
-            titleLabel.text = title
-            titleLabel.font = UIFont(name: Constants.Font.Heavy, size: 28)
-            titleLabel.textColor = Constants.Color.mistBlack
-            titleLabel.sizeToFit()
-            stackView.addArrangedSubview(titleLabel)
-        case .mapFeedToggle:
-            stackView.addArrangedSubview(navBarButton(for: .mapFeedToggle))
-        case .back:
-            stackView.addArrangedSubview(navBarButton(for: .back))
-        case .close:
-            stackView.addArrangedSubview(navBarButton(for: .close))
-        }
+    func setupSpecialItems() {
+        accountButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
+        titleLabel.font = UIFont(name: Constants.Font.Heavy, size: 28)
+        titleLabel.textColor = Constants.Color.mistBlack
+        titleLabel.sizeToFit()
     }
-    
-    private func navBarButton(for item: CustomNavBarItem) -> UIButton {
+        
+    static private func navBarButton(for item: CustomNavBarItem) -> UIButton {
         let button = UIButton(type: .custom)
         button.setImage(item.image, for: .normal)
+        if item == .favorite {
+            button.setImage(item.selectedImage, for: .selected)
+        }
+        if item == .save {
+            button.setTitle("save", for: .normal)
+            button.setTitle("save", for: .disabled)
+            button.setTitleColor(Constants.Color.mistBlack, for: .normal)
+            button.setTitleColor(.lightGray, for: .disabled)
+            button.titleLabel?.font = UIFont(name: Constants.Font.Roman, size: 18)!
+        }
         button.tintColor = Constants.Color.mistBlack
         
         let buttonWidth: CGFloat
@@ -190,38 +156,72 @@ class CustomNavBar: UIView {
             buttonWidth = 30
         case .back, .close:
             buttonWidth = 20
+        case .favorite:
+            buttonWidth = 25
+        case .save:
+            buttonWidth = 50
         }
         button.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: buttonWidth)
         button.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
         button.heightAnchor.constraint(equalToConstant: buttonWidth).isActive = true
-
-        switch item {
-        case .profile:
-            button.addTarget(self, action: #selector(handleProfileButtonTap), for: .touchUpInside)
-        case .search:
-            button.addTarget(self, action: #selector(handleSearchButtonTap), for: .touchUpInside)
-        case .filter:
-            button.addTarget(self, action: #selector(handleFilterButtonTap), for: .touchUpInside)
-        case .title:
-            break
-        case .mapFeedToggle:
-            break
-//            button.addAction(.init(handler: { [self] action in
-//                if button.image(for: .normal) == TOGGLE_MAP_IMAGE {
-//                    button.setImage(TOGGLE_FEED_IMAGE, for: .normal)
-//                    searchFilterButton?.setImage(SEARCH_IMAGE, for: .normal)
-//                } else {
-//                    button.setImage(TOGGLE_MAP_IMAGE, for: .normal)
-//                    searchFilterButton?.setImage(FILTER_IMAGE, for: .normal)
-//                }
-//                delegate.handleMapFeedToggleButtonTap()
-//            }), for: .touchUpInside)
-        case .back:
-            button.addTarget(self, action: #selector(handleBackButtonTap), for: .touchUpInside)
-        case .close:
-            button.addTarget(self, action: #selector(handleCloseButtonTap), for: .touchUpInside)
-        }
         return button
+    }
+    
+    //MARK: - Lifecycle
+    
+    override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        accountButton.setImage(UserService.singleton.getProfilePic(), for: .normal)
+        
+        //TODO: update badge count , unread notifications here
+    }
+    
+}
+
+//MARK: - Public Interface
+
+extension CustomNavBar {
+    
+    // Note: the constraints for the PostView should already be set-up when this is called.
+    // Otherwise you'll get loads of constraint errors in the console
+    func configure(title: String, leftItems: [CustomNavBarItem], rightItems: [CustomNavBarItem], height: CGFloat = 55.0) {
+        guard let superview = superview else {
+            print("custom nav bar must be added to superview before being configured")
+            return
+        }
+        setupConstraints(with: superview, height: height)
+        
+        leftItems.forEach { item in
+            configureItem(item, withTitle: title)
+        }
+        stackView.addArrangedSubview(UIView())
+        rightItems.forEach { item in
+            configureItem(item, withTitle: title)
+        }
+    }
+    
+    private func configureItem(_ item: CustomNavBarItem, withTitle title: String) {
+        switch item {
+        case .title:
+            titleLabel.text = title
+            stackView.addArrangedSubview(titleLabel)
+        case .profile:
+            stackView.addArrangedSubview(accountButton)
+        case .search:
+            stackView.addArrangedSubview(searchButton)
+        case .filter:
+            stackView.addArrangedSubview(filterButton)
+        case .mapFeedToggle:
+            stackView.addArrangedSubview(mapFeedToggleButton)
+        case .back:
+            stackView.addArrangedSubview(backButton)
+        case .close:
+            stackView.addArrangedSubview(closeButton)
+        case .favorite:
+            stackView.addArrangedSubview(favoriteButton)
+        case .save:
+            stackView.addArrangedSubview(saveButton)
+        }
     }
     
     private func setupConstraints(with superview: UIView, height: CGFloat) {
@@ -233,38 +233,6 @@ class CustomNavBar: UIView {
             self.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
         ])
         superview.bringSubviewToFront(self)
-    }
-    
-    //MARK: - Lifecycle
-    
-    override func willMove(toWindow newWindow: UIWindow?) {
-        super.willMove(toWindow: newWindow)
-        accountButton?.setImage(UserService.singleton.getProfilePic(), for: .normal)
-    }
-    
-}
-
-//MARK: - Public Interface
-
-extension CustomNavBar {
-    
-    // Note: the constraints for the PostView should already be set-up when this is called.
-    // Otherwise you'll get loads of constraint errors in the console
-    func configure(title: String, leftItems: [CustomNavBarItem], rightItems: [CustomNavBarItem], delegate: CustomNavBarDelegate, height: CGFloat = 55.0) {
-        guard let superview = superview else {
-            print("custom nav bar must be added to superview before being configured")
-            return
-        }
-        setupConstraints(with: superview, height: height)
-        self.delegate = delegate
-        
-        leftItems.forEach { item in
-            setupItem(item, on: stackView, withTitle: title)
-        }
-        stackView.addArrangedSubview(UIView())
-        rightItems.forEach { item in
-            setupItem(item, on: stackView, withTitle: title)
-        }
     }
     
 }

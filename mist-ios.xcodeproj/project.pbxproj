@@ -649,6 +649,14 @@
 		5BD8E07F28C1FB1C00E722D4 /* PinSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8E07D28C1FB1C00E722D4 /* PinSearchVC.swift */; };
 		5BDE1F6A28C5B2B400B8B108 /* BadgeHub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDE1F6928C5B2B400B8B108 /* BadgeHub.swift */; };
 		5BDE1F6B28C5B2B400B8B108 /* BadgeHub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDE1F6928C5B2B400B8B108 /* BadgeHub.swift */; };
+		5BDE1F6D28C5BF3900B8B108 /* Mistbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDE1F6C28C5BF3900B8B108 /* Mistbox.swift */; };
+		5BDE1F6E28C5BF3900B8B108 /* Mistbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDE1F6C28C5BF3900B8B108 /* Mistbox.swift */; };
+		5BDE1F7028C5C92800B8B108 /* MistboxCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDE1F6F28C5C92800B8B108 /* MistboxCollectionCell.swift */; };
+		5BDE1F7128C5C92800B8B108 /* MistboxCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDE1F6F28C5C92800B8B108 /* MistboxCollectionCell.swift */; };
+		5BDE1F7328C5CD5A00B8B108 /* EnvelopeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDE1F7228C5CD5A00B8B108 /* EnvelopeView.swift */; };
+		5BDE1F7428C5CD5A00B8B108 /* EnvelopeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDE1F7228C5CD5A00B8B108 /* EnvelopeView.swift */; };
+		5BDE1F7628C5CD8800B8B108 /* EnvelopeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BDE1F7528C5CD8800B8B108 /* EnvelopeView.xib */; };
+		5BDE1F7728C5CD8800B8B108 /* EnvelopeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BDE1F7528C5CD8800B8B108 /* EnvelopeView.xib */; };
 		5BE110022876CD9D00CB54A6 /* RequestResetNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110012876CD9D00CB54A6 /* RequestResetNumberViewController.swift */; };
 		5BE110042876CDB100CB54A6 /* ValidateResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */; };
 		5BE110062876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */; };
@@ -1026,6 +1034,10 @@
 		5BD7481E28C1EB68005C7820 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		5BD8E07D28C1FB1C00E722D4 /* PinSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinSearchVC.swift; sourceTree = "<group>"; };
 		5BDE1F6928C5B2B400B8B108 /* BadgeHub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeHub.swift; sourceTree = "<group>"; };
+		5BDE1F6C28C5BF3900B8B108 /* Mistbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mistbox.swift; sourceTree = "<group>"; };
+		5BDE1F6F28C5C92800B8B108 /* MistboxCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistboxCollectionCell.swift; sourceTree = "<group>"; };
+		5BDE1F7228C5CD5A00B8B108 /* EnvelopeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvelopeView.swift; sourceTree = "<group>"; };
+		5BDE1F7528C5CD8800B8B108 /* EnvelopeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EnvelopeView.xib; sourceTree = "<group>"; };
 		5BE110012876CD9D00CB54A6 /* RequestResetNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResetNumberViewController.swift; sourceTree = "<group>"; };
 		5BE110032876CDB100CB54A6 /* ValidateResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateResetPasswordViewController.swift; sourceTree = "<group>"; };
 		5BE110052876CDBA00CB54A6 /* FinalizeResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalizeResetPasswordViewController.swift; sourceTree = "<group>"; };
@@ -1434,6 +1446,8 @@
 				5B879E8F28B9129100D2DFC1 /* CustomNavBar.swift */,
 				5B879E9028B9129100D2DFC1 /* CustomNavBar.xib */,
 				5BC2530E28BACFAC00D4F49A /* PostTableCollectionViews.swift */,
+				5BDE1F7228C5CD5A00B8B108 /* EnvelopeView.swift */,
+				5BDE1F7528C5CD8800B8B108 /* EnvelopeView.xib */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -1584,6 +1598,7 @@
 				5BB624BB28641A3100DCD45B /* User */,
 				5BB624BA28641A0D00DCD45B /* Post */,
 				5BE14732289D3D990096FEBE /* FeederData.swift */,
+				5BDE1F6C28C5BF3900B8B108 /* Mistbox.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1754,6 +1769,7 @@
 				5B068CBD28BD69E800DFC89F /* MistboxViewController.swift */,
 				5B068CC028BD793300DFC89F /* WhatIsMistboxViewController.swift */,
 				5B41529228BDE1F000592A55 /* EnterKeywordsViewController.swift */,
+				5BDE1F6F28C5C92800B8B108 /* MistboxCollectionCell.swift */,
 			);
 			path = Mistbox;
 			sourceTree = "<group>";
@@ -2295,6 +2311,7 @@
 				5B739D6E2891F9DF00E4EED0 /* GoogleService-Info.plist in Resources */,
 				470F271D27DE764F00C6DDAF /* UserResultCell.xib in Resources */,
 				5BAD626B2875500E00DCFE45 /* InformationCollectionCell.xib in Resources */,
+				5BDE1F7628C5CD8800B8B108 /* EnvelopeView.xib in Resources */,
 				5BC2763F286AE9BD00DA5A3D /* Main.storyboard in Resources */,
 				5B6208A828B4B6F7005610A9 /* FeedbackFormCell.xib in Resources */,
 				478A78A1284EBF180058C845 /* Launch.storyboard in Resources */,
@@ -2342,6 +2359,7 @@
 				5B739E97289368A800E4EED0 /* GoogleService-Info.plist in Resources */,
 				5B739E8328935B9500E4EED0 /* UserResultCell.xib in Resources */,
 				5B739E8428935B9500E4EED0 /* InformationCollectionCell.xib in Resources */,
+				5BDE1F7728C5CD8800B8B108 /* EnvelopeView.xib in Resources */,
 				5B739E8528935B9500E4EED0 /* Main.storyboard in Resources */,
 				5B6208A928B4B6F7005610A9 /* FeedbackFormCell.xib in Resources */,
 				5B739E8628935B9500E4EED0 /* Launch.storyboard in Resources */,
@@ -2471,6 +2489,7 @@
 				4752717E28555DC800DDF84D /* UIImage+Compress.swift in Sources */,
 				5B6208A228B4B367005610A9 /* AppStoreReviewManager.swift in Sources */,
 				47E2B1BF2800C1CD00131B8D /* UITextView+Placeholder.swift in Sources */,
+				5BDE1F6D28C5BF3900B8B108 /* Mistbox.swift in Sources */,
 				5BB624CD2867A50600DCD45B /* FlagService.swift in Sources */,
 				479683FA28283ED700CA23BA /* MKClusterAnnotation+*.swift in Sources */,
 				478BA27F283E85F500C35507 /* AuthContext.swift in Sources */,
@@ -2478,6 +2497,7 @@
 				47FF86A127DC712F0076A1CA /* Comment.swift in Sources */,
 				5BD8E07E28C1FB1C00E722D4 /* PinSearchVC.swift in Sources */,
 				47EA3E0227E0151200381218 /* MapViewController.swift in Sources */,
+				5BDE1F7028C5C92800B8B108 /* MistboxCollectionCell.swift in Sources */,
 				43483BB228025179001C7C6A /* ChooseUsernameViewController.swift in Sources */,
 				479683F32826494100CA23BA /* UIColor+Theme.swift in Sources */,
 				472A4BFE28408BD800FD52B7 /* SpringTextField.swift in Sources */,
@@ -2675,6 +2695,7 @@
 				5BC2532828BC83DA00D4F49A /* LargeImageAndButtonCollecitonCell.swift in Sources */,
 				43D9251828526ECA00438C5C /* Block.swift in Sources */,
 				479683F5282817CC00CA23BA /* PostAnnotationView.swift in Sources */,
+				5BDE1F7328C5CD5A00B8B108 /* EnvelopeView.swift in Sources */,
 				5BF78337285D955F003C3955 /* Map.swift in Sources */,
 				479AA1FD27DD109F00EA0DFC /* Constants.swift in Sources */,
 				5B879E8028B821B300D2DFC1 /* ResetNumberViewController.swift in Sources */,
@@ -2794,6 +2815,7 @@
 				5B739DBA28935B9500E4EED0 /* SceneDelegate.swift in Sources */,
 				5B6208A328B4B367005610A9 /* AppStoreReviewManager.swift in Sources */,
 				5B739DBB28935B9500E4EED0 /* UIImage+Compress.swift in Sources */,
+				5BDE1F6E28C5BF3900B8B108 /* Mistbox.swift in Sources */,
 				5B739DBC28935B9500E4EED0 /* UITextView+Placeholder.swift in Sources */,
 				5B739DBD28935B9500E4EED0 /* FlagService.swift in Sources */,
 				5BBF5C51289B9FE1000B2D31 /* InputAvatar.swift in Sources */,
@@ -2801,6 +2823,7 @@
 				5B739DBF28935B9500E4EED0 /* AuthContext.swift in Sources */,
 				5BD8E07F28C1FB1C00E722D4 /* PinSearchVC.swift in Sources */,
 				5B739DC028935B9500E4EED0 /* CLLocationCoordiante+Midpoint.swift in Sources */,
+				5BDE1F7128C5C92800B8B108 /* MistboxCollectionCell.swift in Sources */,
 				5B739DC128935B9500E4EED0 /* Comment.swift in Sources */,
 				5B739DC228935B9500E4EED0 /* MapViewController.swift in Sources */,
 				5B739DC328935B9500E4EED0 /* ChooseUsernameViewController.swift in Sources */,
@@ -2998,6 +3021,7 @@
 				5BC2532928BC83DA00D4F49A /* LargeImageAndButtonCollecitonCell.swift in Sources */,
 				43A25349289BA46800B1468F /* Tag.swift in Sources */,
 				5BE1474628A045CF0096FEBE /* UIImageView+Initials.swift in Sources */,
+				5BDE1F7428C5CD5A00B8B108 /* EnvelopeView.swift in Sources */,
 				5B235B0B28AEB11900FD27A9 /* InputBarAccessoryView+.swift in Sources */,
 				5B739E5228935B9500E4EED0 /* Constants.swift in Sources */,
 				5B879E8128B821B300D2DFC1 /* ResetNumberViewController.swift in Sources */,

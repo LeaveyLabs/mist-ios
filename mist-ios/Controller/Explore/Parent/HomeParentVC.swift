@@ -26,8 +26,8 @@ class HomeExploreParentViewController: ExploreParentViewController {
     
     func setupTabBar() {
         guard let tabBarController = tabBarController as? SpecialTabBarController else { return }
-        tabBarController?.selectedIndex = 1
-        tabBarController.setupBadges()
+        tabBarController.selectedIndex = 1
+        tabBarController.refreshBadges()
     }
     
     func setupActiveLabel() {
@@ -44,12 +44,12 @@ class HomeExploreParentViewController: ExploreParentViewController {
         guard firstAppearance else { return }
         firstAppearance = false
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.15) { [self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
             self.renderNewPostsOnFeedAndMap(withType: .firstLoad)
             if !hasRequestedLocationPermissionsDuringAppSession && (CLLocationManager.authorizationStatus() == .denied ||
                 CLLocationManager.authorizationStatus() == .notDetermined) {
                 hasRequestedLocationPermissionsDuringAppSession = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     self.exploreMapVC.requestUserLocationPermissionIfNecessary()
                 }
                 
@@ -127,7 +127,7 @@ extension HomeExploreParentViewController {
         exploreFeedVC.feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         
         //Map
-        exploreMapVC.slowFlyWithoutZoomTo(lat: newPostAnnotation.coordinate.latitude, long: newPostAnnotation.coordinate.longitude, withDuration: exploreMapVC.cameraAnimationDuration + 2) { completed in
+        exploreMapVC.slowFlyWithoutZoomTo(lat: newPostAnnotation.coordinate.latitude, long: newPostAnnotation.coordinate.longitude, withDuration: exploreMapVC.cameraAnimationDuration + 2, withLatitudeOffset: true) { completed in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [self] in //adding a delay because otherwise we get "annotation is not added to map" sometimes??
                 let greatestCluster = greatestClusterContaining(newPostAnnotation)
                 exploreMapVC.mapView.selectAnnotation(greatestCluster ?? newPostAnnotation, animated: true)

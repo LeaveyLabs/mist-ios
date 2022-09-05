@@ -7,119 +7,125 @@
 
 import Foundation
 
+enum MistboxManagerError: Error, Equatable {
+    
+    case NoMistbox
+}
+
 class MistboxManager: NSObject {
     
+    //MARK: - Properties
+    
     static var shared = MistboxManager()
-    private let LOCAL_FILE_APPENDING_PATH = "mistbox.json"
-    private var localFileLocation: URL!
+    static let DAILY_SWIPES = 5
+    static let MAX_KEYWORDS = 10
     
-    private var mistbox:Mistbox?;
-    
-    private var NEXT_MISTBOX_RELEASE_DATE: Date! //for coutndown
-    private var CURRENT_MISTBOX_RELEASE_DATE: Date! //for displaying the current date at the top, and for determining which mistbox to dsiplay
-    private var LAST_MISTBOX_OPEN_DATE: Date? = nil //for checking if user has opened current mistbox
-    
-    private let MISTBOX_RELEASE_HOUR = 21
-    private var tenAMToday: Date {
-        return Calendar.current.date(bySettingHour: MISTBOX_RELEASE_HOUR, minute: 0, second: 0, of: Date())!
-    }
-    private var tenAMTomorrow: Date {
-        return Calendar.current.date(byAdding: .day, value: 1, to: tenAMToday)!
-    }
-
-    var currentMistboxDateFormatted: String? {
-        guard let date = CURRENT_MISTBOX_RELEASE_DATE else { return nil }
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "en_US")
-        dateFormatter.dateFormat = "EEEE, MMMM d"
-        return dateFormatter.string(from: date).lowercased() + daySuffix(from: date)
-    }
+    private var mistbox: Mistbox?
     
     var hasUserActivatedMistbox: Bool {
         return mistbox != nil
     }
     
-    var hasUnopenedMistbox: Bool {
-        return LAST_MISTBOX_OPEN_DATE ?? Date.distantFuture < CURRENT_MISTBOX_RELEASE_DATE
-    }
-    
-    var timeUntilNextMistbox: ElapsedTime {
-        return NEXT_MISTBOX_RELEASE_DATE.timeIntervalSince1970.getElapsedTime(since: Date().timeIntervalSince1970)
-    }
-    
-    var percentUntilNextMistbox: Float {
-        let secondsIn24Hours = 86400.0
-        return 1 - Float(NEXT_MISTBOX_RELEASE_DATE.timeIntervalSinceNow / secondsIn24Hours)
-    }
-    
     //MARK: - Initializer
     
-    //private initializer because there will only ever be one instance of UserService, the singleton
     private override init() {
         super.init()
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        localFileLocation = documentsDirectory.appendingPathComponent(LOCAL_FILE_APPENDING_PATH)
-        if FileManager.default.fileExists(atPath: localFileLocation.path) {
-            loadFromFilesystem()
+        startTimerToTenAM()
+    }
+    
+    func createMistox(withKeywords keywords: [String]) {
+        mistbox = Mistbox(posts: [], keywords: keywords, creation_time: Date().timeIntervalSince1970, opens_used_today: 0)
+    }
+    
+    //MARK: - Setup
+    
+    var previousHour = Calendar.current.component(.hour, from: Date())
+    
+    func startTimerToTenAM() {
+        Task {
+            while true {
+                let hasTheClockStruckTen = Calendar.current.component(.hour, from: Date()) == 10 && previousHour == 9
+                if hasTheClockStruckTen {
+                    try await fetchSyncedMistbox()
+                }
+                previousHour = Calendar.current.component(.hour, from: Date())
+                try await Task.sleep(nanoseconds: NSEC_PER_SEC * 5)
+            }
         }
-        updateMistboxReleaseDates()
     }
     
     //MARK: - Fetchers
     
-    func fetchMistboxes() async throws {
+    func fetchSyncedMistbox() async throws {
         mistbox = try await PostAPI.fetchMistbox()
+        if let mistbox = mistbox {
+            let _ = await PostService.singleton.cachePostsAndGetArrayOfPostIdsFrom(posts: mistbox.posts)
+        }
     }
     
-    //MARK: - Public API
+    //MARK: - Getters
     
-    func openMistbox() {
-        LAST_MISTBOX_OPEN_DATE = Date()
-        Task { await self.saveToFilesystem() }
+    func getRemainingOpens() -> Int? {
+        guard let mistbox = mistbox else { return nil }
+        return MistboxManager.DAILY_SWIPES - mistbox.opens_used_today
     }
     
-    func getMostRecentMistboxPosts() -> [Post] {
+    func getCurrentKeywords() -> [String] {
+        return mistbox?.keywords ?? []
+    }
+    
+    func getMistboxMists() -> [Post] {
         guard let mistbox = mistbox else { return [] }
         return mistbox.posts
-//        updateMistboxReleaseDates()
-//        return mistbox.first { mistbox in
-//            Calendar.current.component(.day, from: Date(timeIntervalSince1970: mistbox.creation_time)) == Calendar.current.component(.day, from: CURRENT_MISTBOX_RELEASE_DATE)
-//        }?.posts ?? []
     }
     
-    func updateMistboxReleaseDates() {
-        let hour = Calendar.current.component(.hour, from: Date())
-        NEXT_MISTBOX_RELEASE_DATE = hour < MISTBOX_RELEASE_HOUR ? tenAMToday : tenAMTomorrow
-        CURRENT_MISTBOX_RELEASE_DATE = NEXT_MISTBOX_RELEASE_DATE.dayBefore
-    }
+    //MARK: - Doeres
     
-    //MARK: - Filesystem
-    
-    func saveToFilesystem() async {
-        do {
-            let encoder = JSONEncoder()
-            let data: Data = try encoder.encode(LAST_MISTBOX_OPEN_DATE)
-            let jsonString = String(data: data, encoding: .utf8)!
-            try jsonString.write(to: self.localFileLocation, atomically: true, encoding: .utf8)
-        } catch {
-            print("COULD NOT SAVE: \(error)")
-        }
-    }
-
-    func loadFromFilesystem() {
-        do {
-            let data = try Data(contentsOf: self.localFileLocation)
-            LAST_MISTBOX_OPEN_DATE = try JSONDecoder().decode(Date.self, from: data)
-        } catch {
-            print("COULD NOT LOAD: \(error)")
+    func openMist(index: Int, postId: Int) throws {
+        guard mistbox != nil else { throw MistboxManagerError.NoMistbox }
+        mistbox?.posts.remove(at: index)
+        
+        Task {
+            do {
+                try await PostAPI.deleteMistboxPost(post: postId)
+                mistbox!.opens_used_today += 1
+            } catch {
+                print(error)
+                throw error
+            }
         }
     }
     
-    func eraseData() {
-        do {
-            try FileManager.default.removeItem(at: self.localFileLocation)
-        } catch {
-            print("\(error)")
+    func skipMist(index: Int, postId: Int) throws {
+        guard mistbox != nil else { throw MistboxManagerError.NoMistbox }
+        mistbox?.posts.remove(at: index)
+        
+        Task {
+            do {
+                try await PostAPI.deleteMistboxPost(post: postId)
+            } catch {
+                print(error)
+                throw error
+            }
         }
     }
+    
+    func updateKeywords(to newKeywords: [String]) {
+        if mistbox == nil {
+            guard newKeywords.count > 0 else {
+                return
+            }
+            createMistox(withKeywords: newKeywords)
+        }
+        
+        mistbox?.keywords = newKeywords
+        Task {
+            do {
+                try await UserService.singleton.updateKeywords(to: newKeywords)
+            } catch {
+                CustomSwiftMessages.displayError(error)
+            }
+        }
+    }
+    
 }

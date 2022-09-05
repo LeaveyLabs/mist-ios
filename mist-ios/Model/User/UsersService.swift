@@ -13,6 +13,7 @@ actor UsersService: NSObject {
     static var singleton = UsersService()
     private var cachedUsers: [Int: FrontendReadOnlyUser] = [:]
     private var usersInContacts: [PhoneNumber: ReadOnlyUser] = [:]
+    private var totalNumberOfUsers: Int?
     
     //ALTERNATIVELY: cachedUsers -> cachedUserTasks as [Int: Task<>]
     //slightly more optimal, because maybe a usertask was almost finished loading when you checked and saw it was empty
@@ -27,6 +28,10 @@ actor UsersService: NSObject {
     }
         
     //MARK: - Fetch one
+    
+    func loadTotalUserCount() async throws {
+        totalNumberOfUsers = try await UserAPI.fetchUserCount()
+    }
     
     func loadAndCacheUser(userId: Int) async throws -> FrontendReadOnlyUser? {
         if let cachedUser = cachedUsers[userId] {
@@ -164,6 +169,10 @@ actor UsersService: NSObject {
     
     func getPotentiallyCachedUser(userId: Int) -> FrontendReadOnlyUser? {
         return cachedUsers[userId]
+    }
+    
+    func getTotalUsersCount() -> Int? {
+        return totalNumberOfUsers
     }
     
     //MARK: - Updaters

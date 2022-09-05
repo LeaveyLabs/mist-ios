@@ -117,7 +117,7 @@
 //        }
 //        updateKeywordCount(to: UserService.singleton.getKeywords().count)
 //    }
-//    
+//
 //    func setupGestureRecognizers() {
 //        let keywordsTap = UITapGestureRecognizer(target: self, action: #selector(didPressKeywordsButton))
 //        updateKeywordsView.addGestureRecognizer(keywordsTap)

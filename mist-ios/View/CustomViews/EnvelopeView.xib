@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EnvelopeView" customModule="mist_ios" customModuleProvider="target">
+            <connections>
+                <outlet property="envelopeImageView" destination="i6z-rH-Bjf" id="mgg-dC-xDN"/>
+                <outlet property="openButton" destination="ZcQ-Yz-faN" id="xDR-9R-Pjk"/>
+                <outlet property="openButtonShadowSuperView" destination="AY3-1S-3mf" id="ewi-Qr-BFe"/>
+                <outlet property="skipButton" destination="ypy-qB-hhC" id="Hbv-bd-UxG"/>
+                <outlet property="titleLabel" destination="G9D-vV-252" id="AQp-kz-AB3"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="KYc-1U-yNK">
+            <rect key="frame" x="0.0" y="0.0" width="270" height="313"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="envelope-graphic" translatesAutoresizingMaskIntoConstraints="NO" id="i6z-rH-Bjf">
+                    <rect key="frame" x="0.0" y="0.0" width="270" height="313"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="korean boy and sljd jdlksjd dkj skj dkj skj dkj d" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="G9D-vV-252">
+                    <rect key="frame" x="14" y="23" width="241.5" height="81.5"/>
+                    <color key="backgroundColor" name="mist-pink"/>
+                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
+                    <color key="textColor" name="mist-black"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ypy-qB-hhC">
+                    <rect key="frame" x="222.5" y="265.5" width="37.5" height="37.5"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="ypy-qB-hhC" secondAttribute="height" id="QRL-F2-EQU"/>
+                    </constraints>
+                    <color key="tintColor" name="mist-black"/>
+                    <inset key="imageEdgeInsets" minX="6" minY="7" maxX="6" maxY="7"/>
+                    <state key="normal" image="bin.xmark" catalog="system">
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default" weight="medium"/>
+                    </state>
+                    <connections>
+                        <action selector="skipButtonDidtapped:" destination="-1" eventType="touchUpInside" id="Tip-ue-gp5"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AY3-1S-3mf">
+                    <rect key="frame" x="67" y="177.5" width="136" height="52"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZcQ-Yz-faN">
+                            <rect key="frame" x="0.0" y="0.0" width="136" height="52"/>
+                            <color key="backgroundColor" name="mist-purple"/>
+                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="open (5)">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="openButtonDidTapped:" destination="-1" eventType="touchUpInside" id="MpJ-pq-nGr"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="ZcQ-Yz-faN" secondAttribute="bottom" id="LyY-s6-zj9"/>
+                        <constraint firstItem="ZcQ-Yz-faN" firstAttribute="leading" secondItem="AY3-1S-3mf" secondAttribute="leading" id="S7a-ZB-c1b"/>
+                        <constraint firstItem="ZcQ-Yz-faN" firstAttribute="top" secondItem="AY3-1S-3mf" secondAttribute="top" id="XiS-XC-AJy"/>
+                        <constraint firstAttribute="trailing" secondItem="ZcQ-Yz-faN" secondAttribute="trailing" id="eaW-pt-rax"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="uho-0Y-sJF"/>
+            <color key="tintColor" name="mist-lilac"/>
+            <constraints>
+                <constraint firstItem="AY3-1S-3mf" firstAttribute="width" secondItem="i6z-rH-Bjf" secondAttribute="width" multiplier="0.503704" id="7tJ-9R-Q0O"/>
+                <constraint firstItem="i6z-rH-Bjf" firstAttribute="top" secondItem="KYc-1U-yNK" secondAttribute="top" id="MaO-7l-k3W"/>
+                <constraint firstItem="AY3-1S-3mf" firstAttribute="centerX" secondItem="KYc-1U-yNK" secondAttribute="centerX" id="TD1-m3-VKB"/>
+                <constraint firstItem="G9D-vV-252" firstAttribute="height" secondItem="i6z-rH-Bjf" secondAttribute="height" multiplier="0.26" id="Wsp-Y3-bnv"/>
+                <constraint firstItem="G9D-vV-252" firstAttribute="centerX" secondItem="KYc-1U-yNK" secondAttribute="centerX" constant="-0.25" id="aBF-ph-Zdb"/>
+                <constraint firstItem="G9D-vV-252" firstAttribute="width" secondItem="i6z-rH-Bjf" secondAttribute="width" multiplier="0.896" id="aC7-0H-bfd"/>
+                <constraint firstItem="i6z-rH-Bjf" firstAttribute="trailing" secondItem="uho-0Y-sJF" secondAttribute="trailing" id="bii-vT-Dm3"/>
+                <constraint firstItem="G9D-vV-252" firstAttribute="centerY" secondItem="i6z-rH-Bjf" secondAttribute="centerY" multiplier="0.6" constant="-30" id="bu4-Xr-dkh"/>
+                <constraint firstItem="i6z-rH-Bjf" firstAttribute="leading" secondItem="uho-0Y-sJF" secondAttribute="leading" id="cT1-LE-XZL"/>
+                <constraint firstItem="AY3-1S-3mf" firstAttribute="centerY" secondItem="i6z-rH-Bjf" secondAttribute="centerY" multiplier="1.3" id="cWX-6c-ZId"/>
+                <constraint firstItem="ypy-qB-hhC" firstAttribute="height" secondItem="i6z-rH-Bjf" secondAttribute="height" multiplier="0.12" id="cen-i1-QCe"/>
+                <constraint firstItem="uho-0Y-sJF" firstAttribute="bottom" secondItem="ypy-qB-hhC" secondAttribute="bottom" constant="10" id="d6m-oC-c8U"/>
+                <constraint firstItem="AY3-1S-3mf" firstAttribute="height" secondItem="i6z-rH-Bjf" secondAttribute="height" multiplier="0.166134" id="jU9-s3-WbD"/>
+                <constraint firstItem="uho-0Y-sJF" firstAttribute="trailing" secondItem="ypy-qB-hhC" secondAttribute="trailing" constant="10" id="p1y-e8-cep"/>
+                <constraint firstItem="i6z-rH-Bjf" firstAttribute="bottom" secondItem="uho-0Y-sJF" secondAttribute="bottom" id="qTC-WS-gBB"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-21.739130434782609" y="-7.03125"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bin.xmark" catalog="system" width="128" height="93"/>
+        <image name="envelope-graphic" width="1308" height="1528"/>
+        <namedColor name="mist-black">
+            <color red="0.066666666666666666" green="0.066666666666666666" blue="0.066666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="mist-lilac">
+            <color red="0.78431372549019607" green="0.62352941176470589" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="mist-pink">
+            <color red="0.97647058823529409" green="0.96078431372549022" blue="0.99607843137254903" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="mist-purple">
+            <color red="0.55294117647058827" green="0.29411764705882354" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

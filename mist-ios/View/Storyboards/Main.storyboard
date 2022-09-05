@@ -614,8 +614,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7oe-zu-Eds" customClass="CustomNavBar" customModule="mist_ios" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44" width="390" height="55"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="dzk-yp-DKi"/>
+                                </constraints>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="qCS-CF-xHF">
-                                <rect key="frame" x="0.0" y="44" width="390" height="766"/>
+                                <rect key="frame" x="0.0" y="99" width="390" height="711"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </tableView>
@@ -624,20 +631,18 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="qCS-CF-xHF" firstAttribute="top" secondItem="2Wi-ND-8KG" secondAttribute="top" id="7yy-jr-WTh"/>
+                            <constraint firstItem="7oe-zu-Eds" firstAttribute="leading" secondItem="2Wi-ND-8KG" secondAttribute="leading" id="Rc8-ZN-YXa"/>
+                            <constraint firstItem="7oe-zu-Eds" firstAttribute="top" secondItem="2Wi-ND-8KG" secondAttribute="top" id="Y9A-fy-cCp"/>
                             <constraint firstItem="qCS-CF-xHF" firstAttribute="trailing" secondItem="2Wi-ND-8KG" secondAttribute="trailing" id="aFx-qs-jzu"/>
+                            <constraint firstItem="2Wi-ND-8KG" firstAttribute="trailing" secondItem="7oe-zu-Eds" secondAttribute="trailing" id="bAe-8k-sYv"/>
                             <constraint firstItem="qCS-CF-xHF" firstAttribute="leading" secondItem="2Wi-ND-8KG" secondAttribute="leading" id="dSE-Ra-ZPU"/>
                             <constraint firstItem="qCS-CF-xHF" firstAttribute="bottom" secondItem="2Wi-ND-8KG" secondAttribute="bottom" priority="250" id="dqA-Uy-qRo"/>
+                            <constraint firstItem="qCS-CF-xHF" firstAttribute="top" secondItem="7oe-zu-Eds" secondAttribute="bottom" id="kC8-Qj-gu8"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="TKg-Ef-Yxd">
-                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="feH-Dn-bHc">
-                            <connections>
-                                <action selector="backButtonDidPressed:" destination="xtL-jg-0Sy" id="hbY-2f-OYA"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="navBar" destination="7oe-zu-Eds" id="9iZ-B0-NDA"/>
                         <outlet property="tableView" destination="qCS-CF-xHF" id="QWJ-Fr-Sje"/>
                     </connections>
                 </viewController>
@@ -691,7 +696,7 @@
                     </constraints>
                 </view>
             </objects>
-            <point key="canvasLocation" x="726" y="976"/>
+            <point key="canvasLocation" x="724.61538461538464" y="975.35545023696682"/>
         </scene>
         <!--Explore Feed View Controller-->
         <scene sceneID="A8F-Pn-Oco">
@@ -812,7 +817,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="leW-rD-P0C" userLabel="Overlay View" customClass="PassThroughView" customModule="OverlayContainer">
-                                <rect key="frame" x="0.0" y="88" width="390" height="673"/>
+                                <rect key="frame" x="0.0" y="44" width="390" height="717"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -1747,7 +1752,7 @@
                                 </prototypes>
                             </tableView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="oJh-Sm-MKi">
-                                <rect key="frame" x="66" y="280" width="258" height="324"/>
+                                <rect key="frame" x="66" y="260" width="258" height="324"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nodms-graphic" translatesAutoresizingMaskIntoConstraints="NO" id="QPs-JF-kR4">
                                         <rect key="frame" x="12" y="0.0" width="234" height="234"/>
@@ -1761,7 +1766,7 @@
                                             <constraint firstAttribute="height" constant="30" id="7cj-Xh-rmS"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" name="mist-black"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="when you reply to someone’s mist or they reply to yours, you can chat here" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uh5-EF-10m">
@@ -1776,6 +1781,10 @@
                                     </label>
                                 </subviews>
                             </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W3r-a5-5qQ">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="44"/>
+                                <color key="backgroundColor" name="off-white"/>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="RjK-TR-yFD"/>
                         <color key="backgroundColor" name="off-white"/>
@@ -1783,10 +1792,14 @@
                             <constraint firstItem="WSE-Y6-pMB" firstAttribute="leading" secondItem="RjK-TR-yFD" secondAttribute="leading" id="1g2-zK-4Cu"/>
                             <constraint firstItem="WSE-Y6-pMB" firstAttribute="trailing" secondItem="RjK-TR-yFD" secondAttribute="trailing" id="P3T-x8-oQa"/>
                             <constraint firstItem="RjK-TR-yFD" firstAttribute="bottom" secondItem="WSE-Y6-pMB" secondAttribute="bottom" id="RIJ-yX-Mxl"/>
+                            <constraint firstAttribute="trailing" secondItem="W3r-a5-5qQ" secondAttribute="trailing" id="Xkm-Dh-kea"/>
                             <constraint firstItem="oJh-Sm-MKi" firstAttribute="centerX" secondItem="bLZ-Bn-cjl" secondAttribute="centerX" id="ZUt-HJ-VFX"/>
+                            <constraint firstItem="RjK-TR-yFD" firstAttribute="top" secondItem="W3r-a5-5qQ" secondAttribute="bottom" id="fd9-Yc-Rav"/>
+                            <constraint firstItem="W3r-a5-5qQ" firstAttribute="leading" secondItem="bLZ-Bn-cjl" secondAttribute="leading" id="ive-md-B8L"/>
                             <constraint firstItem="QPs-JF-kR4" firstAttribute="width" secondItem="bLZ-Bn-cjl" secondAttribute="width" multiplier="0.6" id="kzE-mE-wjB"/>
-                            <constraint firstItem="oJh-Sm-MKi" firstAttribute="centerY" secondItem="bLZ-Bn-cjl" secondAttribute="centerY" constant="20" id="urm-mV-8pd"/>
+                            <constraint firstItem="oJh-Sm-MKi" firstAttribute="centerY" secondItem="bLZ-Bn-cjl" secondAttribute="centerY" id="urm-mV-8pd"/>
                             <constraint firstItem="WSE-Y6-pMB" firstAttribute="top" secondItem="RjK-TR-yFD" secondAttribute="top" constant="55" id="vr0-ky-IIt"/>
+                            <constraint firstItem="W3r-a5-5qQ" firstAttribute="top" secondItem="bLZ-Bn-cjl" secondAttribute="top" id="wn1-kv-uI6"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Conversations" largeTitleDisplayMode="always" id="gdG-aN-X7P"/>
@@ -3101,13 +3114,12 @@
         <!--Navigation Controller-->
         <scene sceneID="W18-af-6uz">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="76h-DH-iGW" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="76h-DH-iGW" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="compass-outlined" selectedImage="compass-filled" id="q53-cw-Qok">
                         <inset key="imageInsets" minX="-2" minY="-3" maxX="-3" maxY="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="UMG-zr-feC">
-                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -3285,18 +3297,140 @@
                                     <constraint firstAttribute="height" constant="55" id="K7b-6U-UZW"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lM2-Bt-kiu" userLabel="KeywordButtonShadowView">
+                                <rect key="frame" x="15" y="701" width="150" height="45"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2/10 keywords" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tu5-VX-tiH">
+                                        <rect key="frame" x="13.666666666666671" y="0.0" width="107" height="45"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
+                                        <color key="textColor" name="mist-black"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HL9-lF-bXE">
+                                        <rect key="frame" x="125.33333333333336" y="16.000000000000036" width="18.666666666666671" height="13.666666666666664"/>
+                                        <imageReference key="image" image="chevron.right" catalog="system" symbolScale="small"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="HL9-lF-bXE" firstAttribute="leading" secondItem="Tu5-VX-tiH" secondAttribute="trailing" constant="4.6699999999999999" id="KVp-hj-XIq"/>
+                                    <constraint firstItem="Tu5-VX-tiH" firstAttribute="centerX" secondItem="lM2-Bt-kiu" secondAttribute="centerX" constant="-8" id="cn9-x4-vWt"/>
+                                    <constraint firstAttribute="width" constant="150" id="dsW-V9-iL5"/>
+                                    <constraint firstItem="HL9-lF-bXE" firstAttribute="centerY" secondItem="lM2-Bt-kiu" secondAttribute="centerY" id="ijH-vN-NGz"/>
+                                    <constraint firstItem="Tu5-VX-tiH" firstAttribute="top" secondItem="lM2-Bt-kiu" secondAttribute="top" id="lK4-B4-Fn2"/>
+                                    <constraint firstAttribute="bottom" secondItem="Tu5-VX-tiH" secondAttribute="bottom" id="mzj-SL-rZU"/>
+                                    <constraint firstAttribute="trailing" secondItem="HL9-lF-bXE" secondAttribute="trailing" constant="6" id="nVA-dg-aq4"/>
+                                    <constraint firstAttribute="height" constant="45" id="xSH-bt-3Fq"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WNZ-hk-iwF">
+                                <rect key="frame" x="20" y="124" width="350" height="25"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="10" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="a special delivery of 12 mists" image="questionmark.circle" catalog="system">
+                                    <color key="titleColor" name="mist-black"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="small"/>
+                                </state>
+                                <connections>
+                                    <action selector="didPressLearnMoreButton:" destination="I2k-JH-Jf0" eventType="touchUpInside" id="fI6-EN-si7"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vzn-MI-2Mg">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="44"/>
+                                <color key="backgroundColor" name="off-white"/>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="d6X-25-JVq">
+                                <rect key="frame" x="0.0" y="229" width="390" height="386"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="empty-mistbox-graphic" translatesAutoresizingMaskIntoConstraints="NO" id="pxt-cu-9Pk">
+                                        <rect key="frame" x="78" y="0.0" width="234" height="234"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="pxt-cu-9Pk" secondAttribute="height" id="fDK-EJ-2an"/>
+                                        </constraints>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8ha-u5-L6E" userLabel="KeywordButtonShadowView">
+                                        <rect key="frame" x="70" y="244" width="250" height="50"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="setup your mistbox" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O0k-lG-Nws">
+                                                <rect key="frame" x="-70" y="0.0" width="390" height="50"/>
+                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="24"/>
+                                                <color key="textColor" name="mist-black"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="1qh-Nb-xX4"/>
+                                            <constraint firstAttribute="bottom" secondItem="O0k-lG-Nws" secondAttribute="bottom" id="7ig-sp-BQM"/>
+                                            <constraint firstAttribute="width" constant="250" id="VQQ-2q-CF2"/>
+                                            <constraint firstItem="O0k-lG-Nws" firstAttribute="top" secondItem="8ha-u5-L6E" secondAttribute="top" id="iI6-Da-lmv"/>
+                                            <constraint firstItem="O0k-lG-Nws" firstAttribute="centerX" secondItem="8ha-u5-L6E" secondAttribute="centerX" id="iy7-4N-p2Z"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RrT-Qv-2dy">
+                                        <rect key="frame" x="67.333333333333329" y="304" width="255.66666666666669" height="32"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="23"/>
+                                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="titleEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="your mistbox is empty">
+                                            <color key="titleColor" name="mist-black"/>
+                                            <imageReference key="image" image="questionmark.circle" catalog="system" symbolScale="small"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didPressLearnMoreButton:" destination="I2k-JH-Jf0" eventType="touchUpInside" id="ATu-p7-iHw"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="when someone drops a mist containing one of your keywords, it'll appear here" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TVH-vN-RAJ">
+                                        <rect key="frame" x="66" y="346" width="258" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="G0h-PA-HfE"/>
+                                            <constraint firstAttribute="width" constant="258" id="U2P-o6-I7y"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
+                                        <color key="textColor" name="mist-black"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="O0k-lG-Nws" firstAttribute="width" secondItem="d6X-25-JVq" secondAttribute="width" id="BTP-42-SGC"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="3jn-9H-2Yp"/>
                         <color key="backgroundColor" name="off-white"/>
                         <constraints>
                             <constraint firstItem="uX6-Gb-idv" firstAttribute="top" secondItem="3jn-9H-2Yp" secondAttribute="top" id="3o1-S5-8Em"/>
+                            <constraint firstAttribute="trailing" secondItem="d6X-25-JVq" secondAttribute="trailing" id="7du-jR-go4"/>
+                            <constraint firstItem="Vzn-MI-2Mg" firstAttribute="top" secondItem="n3u-lG-dv3" secondAttribute="top" id="9Os-gB-d3h"/>
                             <constraint firstItem="uX6-Gb-idv" firstAttribute="trailing" secondItem="3jn-9H-2Yp" secondAttribute="trailing" id="9oP-Xg-0uG"/>
+                            <constraint firstItem="WNZ-hk-iwF" firstAttribute="leading" secondItem="3jn-9H-2Yp" secondAttribute="leading" constant="20" id="CUZ-6o-QxS"/>
+                            <constraint firstItem="d6X-25-JVq" firstAttribute="centerY" secondItem="n3u-lG-dv3" secondAttribute="centerY" id="DDS-An-Px5"/>
+                            <constraint firstItem="pxt-cu-9Pk" firstAttribute="width" secondItem="n3u-lG-dv3" secondAttribute="width" multiplier="0.6" id="Hqx-4R-roW"/>
+                            <constraint firstAttribute="trailing" secondItem="Vzn-MI-2Mg" secondAttribute="trailing" id="NzC-hZ-N2B"/>
+                            <constraint firstItem="Vzn-MI-2Mg" firstAttribute="leading" secondItem="n3u-lG-dv3" secondAttribute="leading" id="PAJ-cP-q3d"/>
+                            <constraint firstItem="lM2-Bt-kiu" firstAttribute="leading" secondItem="3jn-9H-2Yp" secondAttribute="leading" constant="15" id="RnC-ez-yXU"/>
+                            <constraint firstItem="d6X-25-JVq" firstAttribute="centerX" secondItem="n3u-lG-dv3" secondAttribute="centerX" id="VEe-LV-KkE"/>
+                            <constraint firstItem="WNZ-hk-iwF" firstAttribute="top" secondItem="uX6-Gb-idv" secondAttribute="bottom" constant="25" id="WxF-Sx-NCc"/>
                             <constraint firstItem="uX6-Gb-idv" firstAttribute="leading" secondItem="3jn-9H-2Yp" secondAttribute="leading" id="Xe3-bg-Nm8"/>
+                            <constraint firstItem="3jn-9H-2Yp" firstAttribute="bottom" secondItem="lM2-Bt-kiu" secondAttribute="bottom" constant="15" id="cmS-HK-09c"/>
+                            <constraint firstItem="3jn-9H-2Yp" firstAttribute="trailing" secondItem="WNZ-hk-iwF" secondAttribute="trailing" constant="20" id="mcN-1d-f5j"/>
+                            <constraint firstItem="d6X-25-JVq" firstAttribute="leading" secondItem="n3u-lG-dv3" secondAttribute="leading" id="mkd-5s-a7e"/>
+                            <constraint firstItem="uX6-Gb-idv" firstAttribute="top" secondItem="Vzn-MI-2Mg" secondAttribute="bottom" id="v8k-eV-9ke"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ggH-1s-6hf"/>
                     <connections>
+                        <outlet property="centerButton" destination="RrT-Qv-2dy" id="I8h-be-1SZ"/>
+                        <outlet property="centerDescriptionLabel" destination="TVH-vN-RAJ" id="HZ1-0j-X7W"/>
+                        <outlet property="centerImageView" destination="pxt-cu-9Pk" id="gyw-jV-VnE"/>
+                        <outlet property="centerStackView" destination="d6X-25-JVq" id="mOV-39-3pE"/>
+                        <outlet property="keywordsBackgroundView" destination="lM2-Bt-kiu" id="lvq-VO-d9z"/>
+                        <outlet property="keywordsLabel" destination="Tu5-VX-tiH" id="0j3-Xj-f63"/>
                         <outlet property="navBar" destination="uX6-Gb-idv" id="vxR-Xs-IOC"/>
+                        <outlet property="setupMistboxBackgroundView" destination="8ha-u5-L6E" id="Ouy-dM-eT6"/>
+                        <outlet property="titleButton" destination="WNZ-hk-iwF" id="iJn-3F-kZ7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="whY-G5-v2U" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -3510,6 +3644,7 @@
         <image name="compass-outlined" width="30" height="30"/>
         <image name="drop-a-pin" width="112" height="126"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
+        <image name="empty-mistbox-graphic" width="816" height="868"/>
         <image name="exclamationmark.circle.fill" catalog="system" width="128" height="121"/>
         <image name="filter-button" width="96" height="96"/>
         <image name="flag" catalog="system" width="128" height="121"/>

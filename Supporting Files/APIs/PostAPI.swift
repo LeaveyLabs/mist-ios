@@ -15,13 +15,6 @@ struct PostError: Codable {
     let detail: String?
 }
 
-struct Mistbox: Codable {
-    let posts: [Post]
-    let keywords: [String]
-    let creation_time: Double
-    let swipecount: Int
-}
-
 struct MistboxError: Codable {
     let posts: [String]?
     let keywords: [String]?
@@ -269,7 +262,7 @@ class PostAPI {
     }
     
     static func deleteMistboxPost(post:Int) async throws {
-        let url = "\(Env.BASE_URL)\(PATH_TO_DELETE_MISTBOX_POST)post?=\(post)/"
+        let url = "\(Env.BASE_URL)\(PATH_TO_DELETE_MISTBOX_POST)?post=\(post)"
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
         try filterPostErrors(data: data, response: response)
     }

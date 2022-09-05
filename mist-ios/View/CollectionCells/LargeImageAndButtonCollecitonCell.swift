@@ -27,21 +27,21 @@ class LargeImageAndButtonCollectionCell: UICollectionViewCell {
         ])
     }
     
-    func setup(image: UIImage, delegate: LargeImageCollectionCellDelegate, index: Int) {
+    func setup(image: UIImage, delegate: LargeImageCollectionCellDelegate, index: Int, isLastIndex: Bool, continueButtonTitle: String) {
         imageView.image = image
         self.guidelinesDelegate = delegate
-        if index == 3 && !hasSetupCloseButton {
-            setupCloseButton()
+        if isLastIndex && !hasSetupCloseButton {
+            setupCloseButton(continueButtonTitle: continueButtonTitle)
             hasSetupCloseButton = true
         }
     }
     
-    func setupCloseButton() {
+    func setupCloseButton(continueButtonTitle: String) {
         let attributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Heavy, size: 20)!]
         let closeButton = UIButton()
         closeButton.roundCornersViaCornerRadius(radius: 10)
         closeButton.clipsToBounds = true
-        closeButton.setAttributedTitle(NSAttributedString(string: "got it", attributes: attributes), for: .normal)
+        closeButton.setAttributedTitle(NSAttributedString(string: continueButtonTitle, attributes: attributes), for: .normal)
         closeButton.setTitleColor(.white, for: .normal)
         closeButton.backgroundColor = Constants.Color.mistLilac
         closeButton.addTarget(self, action: #selector(closeButtonDidPressed), for: .touchUpInside)

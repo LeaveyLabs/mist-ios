@@ -40,8 +40,6 @@ extension ExploreParentViewController: ExploreChildDelegate {
                 posts = PostService.singleton.getFavorites()
             } else if setting == .mentions {
                 posts = PostService.singleton.getMentions()
-            } else if setting == .mistbox {
-                posts = MistboxManager.shared.getMostRecentMistboxPosts()
             }
         } else {
             posts = PostService.singleton.getExplorePosts()

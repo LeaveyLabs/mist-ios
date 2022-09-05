@@ -180,34 +180,3 @@ extension ExploreParentViewController: OverlayContainerViewControllerDelegate {
         return header.bounds.contains(convertedPoint)
     }
 }
-
-
-//MARK: - NavBarDelegate
-
-extension ExploreParentViewController: CustomNavBarDelegate {
-    
-    @objc func handleProfileButtonTap() {
-        
-    }
-
-    @objc func handleFilterButtonTap() {
-        fatalError("not used")
-    }
-
-    @objc func handleMapFeedToggleButtonTap() {
-        fatalError("not used")
-    }
-
-    @objc func handleSearchButtonTap() {
-        exploreMapVC.presentExploreSearchController()
-    }
-
-    @objc func handleCloseButtonTap() {
-        fatalError("not used")
-    }
-
-    @objc func handleBackButtonTap() {
-        navigationController?.popViewController(animated: true)
-    }
-    
-}

@@ -11,7 +11,7 @@ enum Setting {
     //friends
     case friends
     //mists
-    case mentions, submissions, favorites, mistbox
+    case mentions, submissions, favorites
     //other
     case settings, shareFeedback, learnMore
         case email, phoneNumber, deleteAccount
@@ -54,8 +54,6 @@ enum Setting {
             return "Learn more".lowercased()
         case .leaveReview:
             return "Leave a review".lowercased()
-        case .mistbox:
-            return "mistbox"
         }
     }
     
@@ -99,8 +97,6 @@ enum Setting {
             return UIImage(systemName: "gearshape")!
         case .rateMist:
             return UIImage(systemName: "star")!
-        case .mistbox:
-            return UIImage()
         }
     }
     
@@ -144,8 +140,6 @@ enum Setting {
             AppStoreReviewManager.requestReviewIfAppropriate()
         case .leaveReview:
             settingsTapDelegate.handleLeaveReview()
-        case .mistbox:
-            break
         }
     }
 }

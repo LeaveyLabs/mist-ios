@@ -67,8 +67,6 @@ class SettingCell: UITableViewCell {
             break
         case .rateMist:
             break
-        case .mistbox:
-            break
         }
     }
 }

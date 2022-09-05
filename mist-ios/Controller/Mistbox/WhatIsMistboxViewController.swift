@@ -36,6 +36,7 @@ class WhatIsMistboxViewController: UIViewController, LargeImageCollectionCellDel
         if !didAppear {
             collectionView.frame = view.safeAreaLayoutGuide.layoutFrame
         }
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -58,7 +59,7 @@ class WhatIsMistboxViewController: UIViewController, LargeImageCollectionCellDel
         flowLayout.scrollDirection = .horizontal
         flowLayout.minimumLineSpacing = 0
         flowLayout.minimumInteritemSpacing = 0
-        collectionView = UICollectionView(frame: view.frame, collectionViewLayout: flowLayout)
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: flowLayout)
         collectionView.isPagingEnabled = true
         
         view.addSubview(collectionView)
@@ -95,18 +96,25 @@ class WhatIsMistboxViewController: UIViewController, LargeImageCollectionCellDel
         guidelinesLabel.adjustsFontSizeToFitWidth = true
         guidelinesLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(guidelinesLabel)
+        
+        //TODO: determine if we're presented modally or not
         NSLayoutConstraint.activate([
             guidelinesLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             guidelinesLabel.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -60),
             guidelinesLabel.heightAnchor.constraint(equalToConstant: 70),
-            guidelinesLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 20 + (window?.safeAreaInsets.bottom ?? 0) / 2),
+            guidelinesLabel.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 30)
         ])
     }
     
-    //MARK: - Helpers
+    //MARK: - Guidelines delegate
     
     func closeButtonPressed() {
-        dismiss(animated: true)
+        if MistboxManager.shared.hasUserActivatedMistbox {
+            dismiss(animated: true)
+        } else {
+            let keywordsVC = EnterKeywordsViewController.create()
+            navigationController?.pushViewController(keywordsVC, animated: true)
+        }
     }
 }
 
@@ -114,7 +122,7 @@ extension WhatIsMistboxViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: LargeImageAndButtonCollectionCell.self), for: indexPath) as! LargeImageAndButtonCollectionCell
-        cell.setup(image: images[indexPath.section], delegate: self, index: indexPath.section)
+        cell.setup(image: images[indexPath.section], delegate: self, index: indexPath.section, isLastIndex: indexPath.section == 3, continueButtonTitle: MistboxManager.shared.hasUserActivatedMistbox ? "got it" : "get started")
         return cell
     }
     

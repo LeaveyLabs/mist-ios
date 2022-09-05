@@ -169,7 +169,7 @@ extension CustomSwiftMessages {
                 messageView.customConfig(approveText: "of course", dismissText: "i'd rather mist out")
             case .mistboxNotifications:
                 title = "enable notifications"
-                body = "in order to get a daily mistbox, you'll need to turn on notifications"
+                body = "now that you've set up your keywords, find out whenever someone drops a mist with them"
                 emoji = "📬"
                 messageView.customConfig(approveText: "of course", dismissText: "i'd rather mist out")
             case .newpostUserLocation:

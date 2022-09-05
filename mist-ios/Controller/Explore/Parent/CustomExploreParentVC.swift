@@ -17,7 +17,7 @@ class CustomExploreParentViewController: ExploreParentViewController {
     //MARK: - Initialization
     
     class func create(setting: Setting) -> CustomExploreParentViewController? {
-        guard setting == .favorites || setting == .submissions || setting == .mentions || setting == .mistbox else { return nil }
+        guard setting == .favorites || setting == .submissions || setting == .mentions else { return nil }
         let vc = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.CustomExploreParent) as! CustomExploreParentViewController
         vc.setting = setting
         return vc
@@ -51,7 +51,7 @@ class CustomExploreParentViewController: ExploreParentViewController {
     //MARK: - User Interaction
 
     @objc func backButtonDidTapped(_ sender: UIButton) {
-        handleBackButtonTap()
+        navigationController?.popViewController(animated: true)
     }
     
 }

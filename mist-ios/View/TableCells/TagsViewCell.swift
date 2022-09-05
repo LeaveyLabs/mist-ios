@@ -15,11 +15,15 @@ protocol TagsViewDelegate {
 class TagsViewCell: UITableViewCell {
     
     static var RandomPlacehodler: String {
-        return ["tall", "puppy", "starbucks", "jansport", "tennis", "brunette", "blonde", "carhartt", "mccarthy", "dulce", "doheny", "pardee", "csci103", "writ150", "gold", "cat", "sunglasses", "beanie", "football", "basketball", ].randomElement()!
+        return ["tall", "puppy", "jansport", "brunette", "blonde", "sigchi", "ucla", "ellendale",
+                "mccarthy", "village", "parkside", "starbucks", "dulce", "doheny", "pardee", "carhartt",
+                "af1s", "birks", "crocs",
+                "skateboard", "beanie", "football", "basketball", "airpods", "tennis", "gold", "cat", "sunglasses", "northface", 
+                "csci103", "writ150", "hist264", "chem105a", ""].randomElement()!
     }
     //we should have a "suggestions" area
 
-    static var MaxTagCount = 5
+    static var MaxTagCount = MistboxManager.MAX_KEYWORDS
     
     var delegate: TagsViewDelegate!
     let tagsField = WSTagsField()
@@ -58,8 +62,8 @@ class TagsViewCell: UITableViewCell {
         tagsCountLabel.font = UIFont(name: Constants.Font.Roman, size: 20)
         contentView.addSubview(tagsCountLabel)
         NSLayoutConstraint.activate([
-            tagsCountLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 18),
-            tagsCountLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            tagsCountLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -26),
+            tagsCountLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -28),
             tagsCountLabel.heightAnchor.constraint(equalToConstant: 30),
             tagsCountLabel.widthAnchor.constraint(equalToConstant: 70)
         ])
@@ -75,7 +79,7 @@ class TagsViewCell: UITableViewCell {
         tagsField.backgroundColor = .white
         tagsField.layer.cornerCurve = .continuous
         tagsField.layer.cornerRadius = 10
-        tagsField.contentInset = UIEdgeInsets(top: 20, left: 15, bottom: 15, right: 15)
+        tagsField.contentInset = UIEdgeInsets(top: 20, left: 15, bottom: 40, right: 15)
         tagsField.layoutMargins = UIEdgeInsets(top: 4, left: 12, bottom: 2, right: 10) //the size of the color behind the tag
         tagsField.font = UIFont(name: Constants.Font.Medium, size: 22) //when the font is larger than this, the bottoms of g/j/q get cut off...
         tagsField.placeholderFont = UIFont(name: Constants.Font.Medium, size: 22)

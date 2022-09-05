@@ -91,12 +91,23 @@ extension ExploreMapViewController {
         setupWhiteStatusBar()
         setupBlurredStatusBar()
         setupExploreMapButtons()
-        trojansActiveView.isHidden = true
+        setupTrojansActiveView()
 
         if let userLocation = locationManager.location {
             mapView.camera.centerCoordinate = userLocation.coordinate
             mapView.camera.centerCoordinateDistance = MapViewController.STARTING_ZOOM_DISTANCE
             mapView.camera.pitch = maxCameraPitch
+        }
+    }
+    
+    func setupTrojansActiveView() {
+        trojansActiveView.isHidden = true //default. it's only unhidden for the home version
+        Task {
+            let usersCount = await UsersService.singleton.getTotalUsersCount() ?? 50
+            let varied = usersCount * 4 - Calendar.current.component(.hour, from: Date())
+            await MainActor.run {
+                trojansActiveLabel.text = formattedVoteCount(Double(varied)) + " active"
+            }
         }
     }
     

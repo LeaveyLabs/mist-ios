@@ -45,7 +45,8 @@ class ConversationsViewController: UIViewController {
     func setupNavBar() {
         navigationController?.isNavigationBarHidden = true
         view.addSubview(customNavBar)
-        customNavBar.configure(title: "dms", leftItems: [.title], rightItems: [.profile], delegate: self)
+        customNavBar.configure(title: "dms", leftItems: [.title], rightItems: [.profile])
+        customNavBar.accountButton.addTarget(self, action: #selector(handleProfileButtonTap), for: .touchUpInside)
     }
     
 }
@@ -81,11 +82,5 @@ extension ConversationsViewController: UITableViewDataSource {
             return cell
         }
     }
-    
-}
-
-extension ConversationsViewController: CustomNavBarDelegate {
-    
-    //no special config needed
     
 }
