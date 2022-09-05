@@ -40,6 +40,7 @@ class ChatMoreViewController: UIViewController {
         let dismissTap = UITapGestureRecognizer(target: self, action: #selector(closeButtonDidPressed(_:)))
         view.addGestureRecognizer(dismissTap)
         backgroundView.layer.cornerRadius = 10
+        backgroundView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
     }
     
     @IBAction func closeButtonDidPressed(_ sender: UIButton) {

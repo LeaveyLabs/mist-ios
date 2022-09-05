@@ -1355,9 +1355,9 @@
 			children = (
 				475B1F8A27FB86C000ED59CD /* ConversationsViewController.swift */,
 				4780E5B32832F0560012B741 /* ChatViewController.swift */,
+				5BC8822828AFF793007E83F8 /* ChatViewController+Keyboard.swift */,
 				5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */,
 				5BB624D42867D1C100DCD45B /* ChatMoreViewController.swift */,
-				5BC8822828AFF793007E83F8 /* ChatViewController+Keyboard.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";

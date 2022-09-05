@@ -122,8 +122,21 @@ class ChatViewController: MessagesViewController {
             setupWhenPresentedFromPost()
         }
         
+//        view.addSubview(inputBar)
+    
+        messageInputBar = inputBar
+        view.addSubview(messageInputBar)
+        inputBar.delegate = self
+        inputBar.inputTextView.delegate = self
+        
+        
+        // Take into account the height of the bottom input bar
+        additionalBottomInset = 5
+        keyboardManager.bind(to: messagesCollectionView)
+        keyboardManager.bind(inputAccessoryView: messageInputBar)
+        
         //Keyboard manager from InputBarAccessoryView
-        addKeyboardObservers()
+//        addKeyboardObservers()
 //        view.addSubview(messageInputBar)
 //        keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
 //        keyboardManager.bind(inputAccessoryView: messageInputBar) //properly positions inputAccessoryView
@@ -141,6 +154,14 @@ class ChatViewController: MessagesViewController {
         }
         
         navigationController?.fullscreenInteractivePopGestureRecognizer(delegate: self)
+    }
+    
+    //i had to add this code because scrollstolastitemonkeyboardbeginsediting doesnt work
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        print("DID BEGIN EDITING")
+        DispatchQueue.main.async {
+            self.messagesCollectionView.scrollToLastItem(animated: true)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -323,6 +344,13 @@ class ChatViewController: MessagesViewController {
         return super.collectionView(collectionView, cellForItemAt: indexPath)
     }
     
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let cell = cell as? TextMessageCell {
+            //default is 7/14/7/18
+            cell.messageLabel.textInsets = .init(top: 8, left: 15, bottom: 8, right: 15)
+        }
+    }
+    
 }
 
 //MARK: - MessagesDataSource
@@ -405,6 +433,7 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
                 if numberOfSections(in: messagesCollectionView) >= 2 {
                     messagesCollectionView.reloadSections([numberOfSections(in: messagesCollectionView) - 2])
                 }
+//                messagesCollectionView.reloadDataAndKeepOffset()
             })
             
         }
@@ -532,36 +561,7 @@ extension ChatViewController: MessagesDisplayDelegate {
     }
     
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
-        //The default message content view has uneven padding which can't be set by the open interface 😒
-        //Fix it here
-        
-        ///if the message is not positioned correctly, then make the following edits
-        ///options:
-        ///only do this on the very first load of the VC
-        ///only do this on the very first render of the view ooooh i like this
-        /// if the view's cornerRadius is not 16.1
-        
-//        print("MESSAGE STYLE FUNCTION")
-        
-        return .custom { view in
-            guard let messageLabel = view.subviews[0] as? MessageLabel else { return }
-            if self.isFromCurrentSender(message: message) {
-                view.layer.borderColor = UIColor.clear.cgColor
-                view.layer.borderWidth = 0
-                messageLabel.center = CGPoint(x: messageLabel.center.x, y: messageLabel.center.y)
-            } else {
-                view.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
-                view.layer.borderWidth = 1
-                messageLabel.center = CGPoint(x: messageLabel.center.x - 3, y: messageLabel.center.y)
-            }
-            
-            //Only perform these positioning updates again if they were not already performed once
-//            if view.layer.cornerRadius == 16.1 {
-                view.layer.cornerCurve = .continuous
-                view.layer.cornerRadius = 16.1
-                view.frame.size.width -= 4
-//            }
-        }
+        return .bubble
     }
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
