@@ -229,7 +229,12 @@ class UserService: NSObject {
     
     func logOut()  {
         eraseUserFromFilesystem()
-        DeviceService.shared.eraseData()
+        if getGlobalDeviceToken() != "" {
+            Task {
+                DeviceService.shared.eraseData()
+                try await DeviceAPI.disableCurrentDeviceNotificationsForUser(user: authedUser.id)
+            }
+        }
         frontendCompleteUser = nil
         setGlobalAuthToken(token: "")
     }
@@ -243,8 +248,9 @@ class UserService: NSObject {
     
     func deleteMyAccount() async throws {
         guard let frontendCompleteUser = frontendCompleteUser else { return }
-        try await UserAPI.deleteUser(user_id: frontendCompleteUser.id)
+        let id = frontendCompleteUser.id
         logOut()
+        try await UserAPI.deleteUser(user_id: id)
     }
     
     //MARK: - Firebase

@@ -20,6 +20,7 @@ func getGlobalDeviceToken() -> String {
 struct DeviceParams: Codable {
     let user: Int
     let registration_id: String
+    let active: Bool
 }
 
 struct DeviceErrors: Codable {
@@ -58,7 +59,15 @@ class DeviceAPI {
     
     static func registerCurrentDeviceWithUser(user:Int) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_DEVICES)"
-        let params = DeviceParams(user: user, registration_id: DEVICETOKEN)
+        let params = DeviceParams(user: user, registration_id: DEVICETOKEN, active: true)
+        let json = try JSONEncoder().encode(params)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        try filterDeviceErrors(data: data, response: response)
+    }
+    
+    static func disableCurrentDeviceNotificationsForUser(user:Int) async throws {
+        let url = "\(Env.BASE_URL)\(PATH_TO_DEVICES)"
+        let params = DeviceParams(user: user, registration_id: DEVICETOKEN, active: false)
         let json = try JSONEncoder().encode(params)
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterDeviceErrors(data: data, response: response)
