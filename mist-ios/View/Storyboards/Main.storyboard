@@ -3096,7 +3096,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="L3R-Wv-k2S" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="tray" selectedImage="tray-fill" id="e0l-3A-dlF">
-                        <inset key="imageInsets" minX="-9" minY="-5" maxX="-12" maxY="-5"/>
+                        <inset key="imageInsets" minX="-9" minY="-5" maxX="-12" maxY="-4"/>
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-40"/>
                     </tabBarItem>
                     <toolbarItems/>

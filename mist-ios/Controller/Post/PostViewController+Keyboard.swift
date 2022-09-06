@@ -15,7 +15,7 @@ extension PostViewController {
     
     var additionalBottomInset: CGFloat {
         get {
-            return 60 + (window?.safeAreaInsets.bottom ?? 0)
+            return 75 + (window?.safeAreaInsets.bottom ?? 0)
         }
     }
     

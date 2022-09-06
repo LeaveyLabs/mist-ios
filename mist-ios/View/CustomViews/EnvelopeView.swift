@@ -31,9 +31,14 @@ class EnvelopeView: UIView {
     @IBOutlet weak var openButtonShadowSuperView: UIView!
     @IBOutlet weak var skipButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var titleLabelMaskingView: UIView!
+    @IBOutlet weak var titleLabelHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var extraShadowView: UIView!
     
     var postId: Int!
     var delegate: MistboxCellDelegate!
+    
+    var rect: CGRect!
     
     static let boldAttributes: [NSAttributedString.Key : Any] = [
         .font: UIFont(name: Constants.Font.Heavy, size: 18)!,
@@ -63,8 +68,11 @@ class EnvelopeView: UIView {
         addSubview(contentView)
         setupButtons()
         envelopeImageView.applyMediumShadow()
-        titleLabel.applyLightTopOnlyShadow()
+        titleLabel.applyMediumShadow()
+        extraShadowView.applyMediumShadow() //so that when the label animates up, the shadow is still remaining underneath
+        titleLabelMaskingView.clipsToBounds = true
     }
+    
     
     func setupButtons() {
         openButton.roundCornersViaCornerRadius(radius: 8)
@@ -126,10 +134,30 @@ extension EnvelopeView {
         self.delegate = delegate
         self.titleLabel.text = post.title
         rerenderOpenCount()
-        self.titleLabel.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by:0)
+        self.titleLabelMaskingView.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by:0)
 //        panGesture.addTarget(self, action: #selector(handlePan(gestureRecognizer:)))
+//        mask(titleLabel, maskRect: CGRect(x: titleLabel.center.x, y: titleLabel.center.y, width: titleLabel.frame.width + 10, height: titleLabel.frame.height + 50))
+        // Cuts 20pt borders around the view, keeping part inside rect intact
     }
     
+}
+
+extension UIView {
+    
+    func mask(withRect rect: CGRect, inverse: Bool = false) {
+        let path = UIBezierPath(rect: rect)
+        let maskLayer = CAShapeLayer()
+
+        if inverse {
+            path.append(UIBezierPath(rect: self.bounds))
+            maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
+        }
+
+        maskLayer.path = path.cgPath
+
+        self.layer.mask = maskLayer
+    }
+
 }
 
 // MARK: - PanGesture
@@ -184,7 +212,9 @@ extension EnvelopeView {
         switch direction {
         case .up:
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut) {
-                self.titleLabel.transform = CGAffineTransform(translationX: 0, y: -30)
+//                self.titleLabelHeightConstraint.constant += 30
+//                self.layoutIfNeeded()
+                self.titleLabelMaskingView.transform = CGAffineTransform(translationX: 0, y: -30)
             } completion: { finished in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                     self.delegate.didOpenMist(postId: self.postId)
@@ -194,7 +224,7 @@ extension EnvelopeView {
             UIView.animate(withDuration: 0.2,
                            delay: 0,
                            options: .curveEaseOut) {
-                self.titleLabel.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by:0)
+                self.titleLabelMaskingView.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by:0)
             } completion: { finished in
                 
             }

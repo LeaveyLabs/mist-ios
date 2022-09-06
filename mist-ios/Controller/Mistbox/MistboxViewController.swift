@@ -59,7 +59,6 @@ class MistboxViewController: UIViewController {
         setupNavBar()
         setupLabelsAndButtons()
         setupTabBar()
-        reloadVisibleIndexLabel()
     }
     
     func setupTabBar() {
@@ -74,6 +73,8 @@ class MistboxViewController: UIViewController {
         updateUI()
         if hasAppearedOnce && !isPostPushed {
             collectionView.reloadData()
+            rerenderTitleText()
+            reloadVisibleIndexLabel()
         }
         if let tabVC = UIApplication.shared.windows.first?.rootViewController as? SpecialTabBarController {
             tabVC.refreshBadgeCount()
@@ -152,6 +153,8 @@ class MistboxViewController: UIViewController {
         
         //title button
         rerenderTitleText()
+        
+        reloadVisibleIndexLabel()
         
         //keywordsButton
         keywordsBackgroundView.applyLightMediumShadow()

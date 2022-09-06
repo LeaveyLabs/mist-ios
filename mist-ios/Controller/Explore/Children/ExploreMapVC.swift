@@ -104,7 +104,7 @@ extension ExploreMapViewController {
         trojansActiveView.isHidden = true //default. it's only unhidden for the home version
         Task {
             let usersCount = await UsersService.singleton.getTotalUsersCount() ?? 50
-            let varied = usersCount * 4 - Calendar.current.component(.hour, from: Date())
+            let varied = usersCount * 4 - (Int(Calendar.current.component(.hour, from: Date()) % 12) * 4)
             await MainActor.run {
                 trojansActiveLabel.text = formattedVoteCount(Double(varied)) + " active"
             }
