@@ -13,7 +13,7 @@ class HomeExploreParentViewController: ExploreParentViewController {
     //MARK: - Properties
     
     var firstAppearance = true
-    var isHandlingNewPost = true
+    var isHandlingNewPost = false
     
     //MARK: - Lifecycle
     
@@ -28,6 +28,19 @@ class HomeExploreParentViewController: ExploreParentViewController {
         guard let tabBarController = tabBarController as? SpecialTabBarController else { return }
         tabBarController.selectedIndex = 1
         tabBarController.refreshBadgeCount()
+        repositionBadges(tab: 0)
+    }
+    
+//    the tab integer is NOT zero-indexed, so the first tab will be number 1, the 2nd number 2, etc.
+    func repositionBadges(tab: Int) {
+        tabBarController?.tabBar.subviews.forEach({ tab in
+            tab.subviews.forEach { badgeView in
+                if NSStringFromClass(badgeView.classForCoder) == "_UIBadgeView" {
+                   badgeView.layer.transform = CATransform3DIdentity
+                    badgeView.layer.transform = CATransform3DMakeTranslation(-13.0, -1.0, 1.0)
+                 }
+            }
+        })
     }
     
     func setupActiveLabel() {
@@ -49,10 +62,9 @@ class HomeExploreParentViewController: ExploreParentViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-//        if firstAppearance
-        
         guard firstAppearance else { return }
         firstAppearance = false
+        guard !isHandlingNewPost else { return }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
             self.renderNewPostsOnFeedAndMap(withType: .firstLoad)
@@ -119,6 +131,7 @@ extension HomeExploreParentViewController {
         }
     }
     
+    @MainActor
     func handleNewlySubmittedPost() {
         exploreMapVC.annotationSelectionType = .submission
         renderNewPostsOnFeedAndMap(withType: .newPost)
@@ -129,14 +142,22 @@ extension HomeExploreParentViewController {
         exploreFeedVC.feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         
         //Map
-        exploreMapVC.slowFlyWithoutZoomTo(lat: newPostAnnotation.coordinate.latitude, long: newPostAnnotation.coordinate.longitude, withDuration: exploreMapVC.cameraAnimationDuration + 2, withLatitudeOffset: true) { completed in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [self] in //adding a delay because otherwise we get "annotation is not added to map" sometimes??
-                let greatestCluster = greatestClusterContaining(newPostAnnotation)
-                exploreMapVC.mapView.selectAnnotation(greatestCluster ?? newPostAnnotation, animated: true)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        exploreMapVC.slowFlyWithoutZoomTo(lat: newPostAnnotation.coordinate.latitude, long: newPostAnnotation.coordinate.longitude, withDuration: exploreMapVC.cameraAnimationDuration + 2, withLatitudeOffset: true) { [self] completed in
+            DispatchQueue.main.asyncAfter(deadline: .now()) { [self] in //otherwise, for far away annotations, the annotation just wont be selected
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .dmNotificationsAfterNewPost, onVC: self)
                 }
+                if let greatestCluster = greatestClusterContaining(newPostAnnotation) {
+                    exploreMapVC.mapView.selectAnnotation(greatestCluster, animated: true)
+                } else {
+                    if let rerenderedAnnotation = exploreMapVC.mapView.annotations.first(where: {
+                        ($0 as? PostAnnotation)?.post.id == newPostAnnotation.post.id
+                    }) {
+                        exploreMapVC.mapView.selectAnnotation(rerenderedAnnotation, animated: true)
+                    }
+                }
             }
+            
         }
     }
     

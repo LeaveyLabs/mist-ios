@@ -1819,7 +1819,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sgT-Cj-JbC" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="chat" selectedImage="chat-filled" id="Nyq-Td-DCa">
-                        <inset key="imageInsets" minX="-7" minY="-9" maxX="-11" maxY="-11"/>
+                        <inset key="imageInsets" minX="-7" minY="-7" maxX="-18" maxY="-5"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mRG-4Y-hFV">
@@ -3096,7 +3096,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="L3R-Wv-k2S" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="tray" selectedImage="tray-fill" id="e0l-3A-dlF">
-                        <inset key="imageInsets" minX="-5" minY="-8" maxX="-6" maxY="-9"/>
+                        <inset key="imageInsets" minX="-9" minY="-5" maxX="-12" maxY="-5"/>
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-40"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="e8S-ph-Lw2">
@@ -3116,7 +3117,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="76h-DH-iGW" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="compass-outlined" selectedImage="compass-filled" id="q53-cw-Qok">
-                        <inset key="imageInsets" minX="-10" minY="-8" maxX="-10" maxY="-9"/>
+                        <inset key="imageInsets" minX="-12" minY="-9" maxX="-16" maxY="-6"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="UMG-zr-feC">

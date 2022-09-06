@@ -163,7 +163,7 @@ class CustomNavBar: UIView {
         }
         button.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: buttonWidth)
         button.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
-        button.heightAnchor.constraint(equalToConstant: buttonWidth).isActive = true
+        button.heightAnchor.constraint(equalToConstant: item == .save ? 30 : buttonWidth).isActive = true
         return button
     }
     

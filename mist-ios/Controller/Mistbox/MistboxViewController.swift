@@ -48,7 +48,7 @@ class MistboxViewController: UIViewController {
     
     //Other
     var currentLayout: MistboxLayout = .normal
-//    var isFirstLoad = true
+    var hasAppearedOnce = false
 
     // MARK: - Lifecycle
     
@@ -63,6 +63,14 @@ class MistboxViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateUI()
+        if hasAppearedOnce {
+            collectionView.reloadData()
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        hasAppearedOnce = true
     }
     
     
