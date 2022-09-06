@@ -69,8 +69,22 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
     func handleNotificationWhileInApp(userInfo: [String: AnyObject]) async {
         let tabVC = UIApplication.shared.windows.first!.rootViewController as! SpecialTabBarController
+        guard let type = userInfo[Notification.extra.type.rawValue] as? String else { return }
         
-//        if let newDm = userInfo[Notification.Name.newDM.rawValue] {
+        do {
+            let json = userInfo[Notification.extra.data.rawValue]
+            let data = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
+            if type == NotificationTypes.tag.rawValue {
+                let tag = try JSONDecoder().decode(Tag.self, from: data)
+                print(tag)
+            } else if type == NotificationTypes.message.rawValue {
+                let message = try JSONDecoder().decode(Message.self, from: data)
+                print(message)
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        //        if let newDm = userInfo[Notification.Name.newDM.rawValue] {
 ////            let tag = asdf[Notification.Key.taggingUser]
 //        }
 //        try await PostService.singleton.getMentions()
@@ -78,7 +92,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 //        try await MatchRequestService.singleton.loadMatchRequests()
 //        
         do {
-            try await MistboxManager.shared.fetchSyncedMistbox()
+//            try await MistboxManager.shared.fetchSyncedMistbox()
             //update badge count
         } catch {
             print("FAILED TO LOAD DATA AFTER RECEIVING BACKGROUND NOTIFICATION")
