@@ -37,7 +37,7 @@ class NotificationsManager: NSObject {
     func post() {
         NotificationCenter.default.post(name: .newDM,
                                         object: nil,
-                                        userInfo:[Notification.Key.key0: "value", "key1": 1234])
+                                        userInfo:[Notification.Key.key1: "value", "key1": 1234])
     }
     
     //MARK: - Permission and Status
