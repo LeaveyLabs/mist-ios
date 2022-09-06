@@ -229,7 +229,12 @@ class UserService: NSObject {
     
     func logOut()  {
         eraseUserFromFilesystem()
-        DeviceService.shared.eraseData()
+        if getGlobalDeviceToken() != "" {
+            Task {
+                DeviceService.shared.eraseData()
+                try await DeviceAPI.disableCurrentDeviceNotificationsForUser(user: authedUser.id)
+            }
+        }
         frontendCompleteUser = nil
         setGlobalAuthToken(token: "")
     }
