@@ -261,8 +261,11 @@ class PostAPI {
         try filterPostErrors(data: data, response: response)
     }
     
-    static func deleteMistboxPost(post:Int) async throws {
-        let url = "\(Env.BASE_URL)\(PATH_TO_DELETE_MISTBOX_POST)?post=\(post)"
+    static func deleteMistboxPost(post:Int, opened:Bool) async throws {
+        var url = "\(Env.BASE_URL)\(PATH_TO_DELETE_MISTBOX_POST)?post=\(post)&"
+        if opened {
+            url += "opened=1"
+        }
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
         try filterPostErrors(data: data, response: response)
     }

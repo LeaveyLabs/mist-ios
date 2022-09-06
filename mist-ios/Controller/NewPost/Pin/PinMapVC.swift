@@ -32,7 +32,7 @@ class PinMapViewController: MapViewController {
     @IBOutlet weak var pinImageView: UIImageView!
     @IBOutlet weak var pinDotView: UIView!
     @IBOutlet weak var pinVerticalConstraint: NSLayoutConstraint!
-    let DEFAULT_PIN_OFFSET: CGFloat = 0
+    let DEFAULT_PIN_OFFSET: CGFloat = -5
     
     func setupUI() {
         pinDotView.layer.cornerCurve = .continuous
@@ -126,7 +126,7 @@ class PinMapViewController: MapViewController {
         view.layoutIfNeeded()
         doneButton.isEnabled = false
         UIView.animate(withDuration: 0.25) { [self] in
-            pinVerticalConstraint.constant = DEFAULT_PIN_OFFSET + 10
+            pinVerticalConstraint.constant = DEFAULT_PIN_OFFSET + 13
             doneButton.alpha = 0.6
             view.layoutIfNeeded()
         }

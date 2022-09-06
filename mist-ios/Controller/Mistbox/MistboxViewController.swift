@@ -63,7 +63,6 @@ class MistboxViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateUI()
-        updateKeywordCount(to: MistboxManager.shared.getCurrentKeywords().count)
     }
     
     
@@ -134,7 +133,6 @@ class MistboxViewController: UIViewController {
         keywordsBackgroundView.roundCornersViaCornerRadius(radius: 8)
         let keywordsTap = UITapGestureRecognizer(target: self, action: #selector(didPressKeywordsButton))
         keywordsBackgroundView.addGestureRecognizer(keywordsTap)
-        updateKeywordCount(to: MistboxManager.shared.getCurrentKeywords().count)
         
         //setupMistbox
         setupMistboxBackgroundView.applyLightMediumShadow()
@@ -218,10 +216,6 @@ class MistboxViewController: UIViewController {
     @objc func didPressKeywordsButton() {
         let keywordsVC = EnterKeywordsViewController.create()
         self.navigationController?.pushViewController(keywordsVC, animated: true)
-    }
-    
-    func updateKeywordCount(to newKeywordCount: Int) {
-        keywordsLabel.text = String(newKeywordCount) + "/" + String(MistboxManager.MAX_KEYWORDS) + " keywords"
     }
     
     @IBAction func didPressLearnMoreButton(_ sender: UIButton) {

@@ -87,7 +87,7 @@ class MistboxManager: NSObject {
         
         Task {
             do {
-                try await PostAPI.deleteMistboxPost(post: postId)
+                try await PostAPI.deleteMistboxPost(post: postId, opened: true)
                 mistbox!.opens_used_today += 1
             } catch {
                 print(error)
@@ -102,7 +102,7 @@ class MistboxManager: NSObject {
         
         Task {
             do {
-                try await PostAPI.deleteMistboxPost(post: postId)
+                try await PostAPI.deleteMistboxPost(post: postId, opened: false)
             } catch {
                 print(error)
                 throw error
