@@ -33,6 +33,7 @@ struct UserError: Codable {
     let longitude: [String]?
     let picture: [String]?
     let confirm_picture: [String]?
+    let code: [String]?
     
     let non_field_errors: [String]?
     let detail: String?
@@ -50,6 +51,7 @@ class UserAPI {
     static let PATH_TO_NEARBY_USERS = "api/nearby-users/"
     static let PATH_TO_VERIFY_PROFILE_PICTURE = "api-verify-profile-picture/"
     static let PATH_TO_USER_POPULATION = "api/user-population/"
+    static let PATH_TO_ACCESS_CODES = "api/access-codes/"
     static let EMAIL_PARAM = "email"
     static let USERNAME_PARAM = "username"
     static let PASSWORD_PARAM = "password"
@@ -64,6 +66,7 @@ class UserAPI {
     static let TOKEN_PARAM = "token"
     static let LATITUDE_PARAM = "latitude"
     static let LONGITUDE_PARAM = "longitude"
+    static let CODE_PARAM = "code"
     
     static let USER_RECOVERY_MESSAGE = "try again later"
     
@@ -111,6 +114,13 @@ class UserAPI {
         if let confirmPictureErrors = error.confirm_picture,
            let confirmPictureError = confirmPictureErrors.first{
             throw APIError.ClientError(confirmPictureError, USER_RECOVERY_MESSAGE)
+        }
+        if let codeErrors = error.code,
+           let codeError = codeErrors.first{
+            throw APIError.ClientError(codeError, USER_RECOVERY_MESSAGE)
+        }
+        if let detailError = error.detail {
+            throw APIError.ClientError(detailError, USER_RECOVERY_MESSAGE)
         }
     }
     
@@ -222,6 +232,16 @@ class UserAPI {
         let (data, _) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         let userPopulation = try JSONDecoder().decode(UserPopulation.self, from: data)
         return userPopulation.population
+    }
+    
+    static func postAccessCode(code:String) async throws {
+        let url = "\(Env.BASE_URL)\(PATH_TO_ACCESS_CODES)"
+        let params:[String:String] = [
+            CODE_PARAM: code
+        ]
+        let json = try JSONEncoder().encode(params)
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData:json, method: HTTPMethods.POST.rawValue)
+        try filterUserErrors(data: data, response: response)
     }
     
     static func verifyProfilePic(profilePicture:UIImage, confirmPicture: UIImage) async throws {
