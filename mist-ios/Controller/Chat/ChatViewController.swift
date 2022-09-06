@@ -479,6 +479,7 @@ extension ChatViewController: MatchRequestCellDelegate {
     func matchRequestCellDidTapped(postId: Int) {
         guard let post = PostService.singleton.getPost(withPostId: postId) else { return }
         let postVC = PostViewController.createPostVC(with: post, shouldStartWithRaisedKeyboard: false, completionHandler: nil)
+        view.endEditing(true)
         navigationController!.pushViewController(postVC, animated: true)
     }
     
@@ -575,7 +576,7 @@ extension ChatViewController: MessagesDisplayDelegate {
     }
     
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
-        return .bubble
+        return isFromCurrentSender(message: message) ? .bubble : .bubbleOutline(.systemGray4.withAlphaComponent(0.8))
     }
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {

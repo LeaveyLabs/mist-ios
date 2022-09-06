@@ -41,6 +41,8 @@ class HomeExploreParentViewController: ExploreParentViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+//        if firstAppearance
+        
         guard firstAppearance else { return }
         firstAppearance = false
         

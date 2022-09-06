@@ -26,6 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //        Performance.sharedInstance().isDataCollectionEnabled = false
 //        Analytics.setAnalyticsCollectionEnabled(false)
         
+        NotificationsManager.shared.registerForNotificationsOnStartupIfAccessExists()
+        
         FirebaseApp.configure()
         return true
     }

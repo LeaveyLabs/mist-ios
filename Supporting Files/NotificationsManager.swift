@@ -20,10 +20,14 @@ extension Notification {
     }
 }
 
-class NotificationsManager {
+class NotificationsManager: NSObject {
     
     private let center  = UNUserNotificationCenter.current()
     static let shared = NotificationsManager()
+    
+    private override init() {
+        super.init()
+    }
     
     //MARK: - Posting
     
@@ -35,13 +39,24 @@ class NotificationsManager {
     
     //MARK: - Permission and Status
     
-    internal func getNotificationStatus(closure: @escaping (UNAuthorizationStatus) -> Void) {
+    func getNotificationStatus(closure: @escaping (UNAuthorizationStatus) -> Void) {
         center.getNotificationSettings { setting in
             closure(setting.authorizationStatus)
         }
     }
     
-    internal func askForNewNotificationPermissionsIfNecessary(permission: PermissionType, onVC vc: UIViewController, closure: @escaping (Bool) -> Void = { _ in } ) {
+    func registerForNotificationsOnStartupIfAccessExists() {
+        center.getNotificationSettings(completionHandler: { (settings) in
+            if settings.authorizationStatus == .authorized {
+                DispatchQueue.main.async {
+                    print("REGISTERED")
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            }
+        })
+    }
+    
+    func askForNewNotificationPermissionsIfNecessary(permission: PermissionType, onVC vc: UIViewController, closure: @escaping (Bool) -> Void = { _ in } ) {
         center.getNotificationSettings(completionHandler: { [self] (settings) in
             switch settings.authorizationStatus {
             case .denied, .notDetermined:
@@ -72,4 +87,27 @@ class NotificationsManager {
         })
     }
         
+}
+
+extension NotificationsManager: UNUserNotificationCenterDelegate {
+    
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+//        <#code#>
+//    }
+//    
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
+//        <#code#>
+//    }
+//    
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
+//        <#code#>
+//    }
+//    
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//        <#code#>
+//    }
+//    
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+//        <#code#>
+//    }
 }

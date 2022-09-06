@@ -54,6 +54,7 @@ extension InputBarAccessoryView {
     
     func configureForChatting() {
         //iMessage
+        inputTextView.layer.shadowOpacity = 0 //remove any potential shadow from beforehand
         inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 36)
         inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 36)
         separatorLine.height = 0

@@ -32,6 +32,7 @@ class PinMapViewController: MapViewController {
     @IBOutlet weak var pinImageView: UIImageView!
     @IBOutlet weak var pinDotView: UIView!
     @IBOutlet weak var pinVerticalConstraint: NSLayoutConstraint!
+//    @IBOutlet weak var pinWidthConstraint: NSLayoutConstraint!
     let DEFAULT_PIN_OFFSET: CGFloat = -5
     
     func setupUI() {
