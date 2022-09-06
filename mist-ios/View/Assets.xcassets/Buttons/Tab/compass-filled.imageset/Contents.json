@@ -1,15 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "bubble.left.and.bubble 1.png",
+      "filename" : "explore-filled-button.pdf",
       "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "template-rendering-intent" : "original"
   }
 }

@@ -1819,7 +1819,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sgT-Cj-JbC" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="chat" selectedImage="chat-filled" id="Nyq-Td-DCa">
-                        <inset key="imageInsets" minX="0.0" minY="18" maxX="0.0" maxY="21"/>
+                        <inset key="imageInsets" minX="-7" minY="-9" maxX="-11" maxY="-11"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mRG-4Y-hFV">
@@ -3096,7 +3096,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="L3R-Wv-k2S" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="tray" selectedImage="tray-fill" id="e0l-3A-dlF">
-                        <inset key="imageInsets" minX="0.0" minY="19" maxX="0.0" maxY="22"/>
+                        <inset key="imageInsets" minX="-5" minY="-8" maxX="-6" maxY="-9"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="e8S-ph-Lw2">
@@ -3116,7 +3116,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="76h-DH-iGW" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="compass-outlined" selectedImage="compass-filled" id="q53-cw-Qok">
-                        <inset key="imageInsets" minX="-2" minY="-3" maxX="-3" maxY="0.0"/>
+                        <inset key="imageInsets" minX="-10" minY="-8" maxX="-10" maxY="-9"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="UMG-zr-feC">
@@ -3635,13 +3635,13 @@
         <image name="arrow.turn.right.up" catalog="system" width="120" height="128"/>
         <image name="bookmark" catalog="system" width="112" height="128"/>
         <image name="camera.circle.fill" catalog="system" width="128" height="121"/>
-        <image name="chat" width="84" height="68"/>
-        <image name="chat-filled" width="84" height="68"/>
+        <image name="chat" width="21" height="17"/>
+        <image name="chat-filled" width="21" height="17"/>
         <image name="checkmark.seal.fill" catalog="system" width="128" height="128"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
-        <image name="compass-filled" width="33" height="33"/>
-        <image name="compass-outlined" width="30" height="30"/>
+        <image name="compass-filled" width="22" height="22"/>
+        <image name="compass-outlined" width="20" height="20"/>
         <image name="drop-a-pin" width="112" height="126"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
         <image name="empty-mistbox-graphic" width="816" height="868"/>
@@ -3662,8 +3662,8 @@
         <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
         <image name="toggle-list-button" width="96" height="96"/>
         <image name="trash" catalog="system" width="121" height="128"/>
-        <image name="tray" width="96" height="68"/>
-        <image name="tray-fill" width="96" height="68"/>
+        <image name="tray" width="24" height="17"/>
+        <image name="tray-fill" width="24" height="17"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <namedColor name="mist-black">
             <color red="0.066666666666666666" green="0.066666666666666666" blue="0.066666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

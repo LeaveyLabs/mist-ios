@@ -37,7 +37,7 @@ class EnterKeywordsViewController: UIViewController, UITableViewDataSource, UITa
         customNavBar.configure(title: "keywords", leftItems: [.back, .title], rightItems: [])
         customNavBar.backButton.addTarget(self, action: #selector(didPressBack), for: .touchUpInside)
         tableView.register(TagsViewCell.self, forCellReuseIdentifier: String(describing: TagsViewCell.self))
-        
+        setupFooterLabel()
     }
     
     func setupFooterLabel() {

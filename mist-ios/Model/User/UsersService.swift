@@ -149,9 +149,7 @@ actor UsersService: NSObject {
                 (contact, stop) in
                 allContacts.append(contact) // Array containing all unified contacts from everywhere
             }
-            print("allContacts mapped", allContacts.compactMap { $0.bestPhoneNumberE164 })
             usersInContacts = try await UserAPI.fetchUsersByPhoneNumbers(phoneNumbers: allContacts.compactMap { $0.bestPhoneNumberE164 })
-            print("usersInContacts:", usersInContacts)
         } catch {
             print("Failed to fetch users for contacts, error: \(error)")
         }

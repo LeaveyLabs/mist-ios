@@ -9,24 +9,27 @@ import Foundation
 
 extension Notification.Name {
     static let newMistboxMist = Notification.Name("newMistboxMist")
+    static let sdfv = Notification.Name("dailyOpensRefreshed")
     static let newDM = Notification.Name("newDM")
-    static let newMentionedMist = Notification.Name("newDM")
+    static let newMentionedMist = Notification.Name("tag")
 }
 
 extension Notification {
     enum Key: String {
-        case key0
+        case tagObject
         case key1
+        case taggingUser
     }
 }
 
 class NotificationsManager: NSObject {
     
-    private let center  = UNUserNotificationCenter.current()
+    private var center: UNUserNotificationCenter!
     static let shared = NotificationsManager()
     
     private override init() {
         super.init()
+        center =  UNUserNotificationCenter.current()
     }
     
     //MARK: - Posting
@@ -87,27 +90,4 @@ class NotificationsManager: NSObject {
         })
     }
         
-}
-
-extension NotificationsManager: UNUserNotificationCenterDelegate {
-    
-//    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-//        <#code#>
-//    }
-//    
-//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
-//        <#code#>
-//    }
-//    
-//    func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
-//        <#code#>
-//    }
-//    
-//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-//        <#code#>
-//    }
-//    
-//    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-//        <#code#>
-//    }
 }

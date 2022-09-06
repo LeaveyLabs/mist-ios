@@ -27,7 +27,7 @@ class HomeExploreParentViewController: ExploreParentViewController {
     func setupTabBar() {
         guard let tabBarController = tabBarController as? SpecialTabBarController else { return }
         tabBarController.selectedIndex = 1
-        tabBarController.refreshBadges()
+        tabBarController.refreshBadgeCount()
     }
     
     func setupActiveLabel() {
@@ -36,6 +36,14 @@ class HomeExploreParentViewController: ExploreParentViewController {
         exploreMapVC.trojansActiveLabel.text = String(1) + " active"
         exploreMapVC.trojansActiveView.layer.cornerRadius = 10
         exploreMapVC.trojansActiveView.layer.cornerCurve = .continuous
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if isHandlingNewPost {
+            isHandlingNewPost = false
+            overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: false)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -75,14 +83,6 @@ class HomeExploreParentViewController: ExploreParentViewController {
             }
         }
         
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if isHandlingNewPost {
-            isHandlingNewPost = false
-            overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: false)
-        }
     }
     
 }
