@@ -7,6 +7,11 @@
 
 import Foundation
 
+enum NotificationTypes: String {
+    case tag = "tag"
+    case message = "message"
+}
+
 extension Notification.Name {
     static let newMistboxMist = Notification.Name("newMistboxMist")
     static let sdfv = Notification.Name("dailyOpensRefreshed")
@@ -15,10 +20,9 @@ extension Notification.Name {
 }
 
 extension Notification {
-    enum Key: String {
-        case tagObject
-        case key1
-        case taggingUser
+    enum extra: String {
+        case type = "type"
+        case data = "data"
     }
 }
 
@@ -35,9 +39,9 @@ class NotificationsManager: NSObject {
     //MARK: - Posting
     
     func post() {
-        NotificationCenter.default.post(name: .newDM,
-                                        object: nil,
-                                        userInfo:[Notification.Key.key1: "value", "key1": 1234])
+//        NotificationCenter.default.post(name: .newDM,
+//                                        object: nil,
+//                                        userInfo:[Notification.Key.key1: "value", "key1": 1234])
     }
     
     //MARK: - Permission and Status
