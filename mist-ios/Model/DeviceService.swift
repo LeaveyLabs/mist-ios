@@ -35,6 +35,15 @@ class DeviceService: NSObject {
     func hasBeenOfferedNotificationsAfterPost() -> Bool { return device.hasBeenOfferedNotificationsAfterPost }
     func hasBeenOfferedNotificationsAfterDM() -> Bool { return device.hasBeenOfferedNotificationsAfterDM }
     func hasBeenRequestedARating() -> Bool { return device.hasBeenRequestedARating }
+    func unreadMentionsCount() -> Int {
+        var unreadCount = 0
+        PostService.singleton.getMentions().forEach { mention in
+            if mention.timestamp > device.lastMentionsOpenTime {
+                unreadCount += 1
+            }
+        }
+        return unreadCount
+    }
 
     //MARK: - Doers
     
@@ -52,6 +61,10 @@ class DeviceService: NSObject {
     }
     func showRatingRequest() {
         device.hasBeenRequestedARating = true
+        Task { await saveToFilesystem() }
+    }
+    func didViewMentions() {
+        device.lastMentionsOpenTime = Date().timeIntervalSince1970
         Task { await saveToFilesystem() }
     }
     

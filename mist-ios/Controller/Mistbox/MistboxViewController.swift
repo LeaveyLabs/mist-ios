@@ -66,6 +66,14 @@ class MistboxViewController: UIViewController {
         if hasAppearedOnce {
             collectionView.reloadData()
         }
+        if let tabVC = UIApplication.shared.windows.first?.rootViewController as? SpecialTabBarController {
+            tabVC.refreshBadgeCount()
+        }
+        let prevCount = navBar.accountBadgeHub.getCurrentCount()
+        navBar.accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
+        if prevCount < DeviceService.shared.unreadMentionsCount() {
+            navBar.accountBadgeHub.bump()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

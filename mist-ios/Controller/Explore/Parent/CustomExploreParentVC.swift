@@ -31,6 +31,9 @@ class CustomExploreParentViewController: ExploreParentViewController {
         setupBackButton()
         navigationController?.fullscreenInteractivePopGestureRecognizer(delegate: self)
         renderNewPostsOnFeedAndMap(withType: .newSearch, customSetting: setting) //using newSearch in order to force a relocation of the map
+        if setting == .mentions {
+            DeviceService.shared.didViewMentions()
+        }
     }
     
     func setupTitleLabel() {

@@ -25,6 +25,16 @@ class ConversationsViewController: UIViewController {
         tableView.reloadData()
         tableView.bounces = ConversationService.singleton.getCount() > 0 ? true : false
         noConvosStackView.isHidden = ConversationService.singleton.getCount() > 0
+        
+        if let tabVC = UIApplication.shared.windows.first?.rootViewController as? SpecialTabBarController {
+            tabVC.refreshBadgeCount()
+        }
+        
+        let prevCount = customNavBar.accountBadgeHub.getCurrentCount()
+        customNavBar.accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
+        if prevCount < DeviceService.shared.unreadMentionsCount() {
+            customNavBar.accountBadgeHub.bump()
+        }
     }
     
     //MARK: - Setup

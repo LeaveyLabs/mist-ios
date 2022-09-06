@@ -13,6 +13,7 @@ class SettingCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var accessoryLabel: UILabel!
     @IBOutlet weak var accessoryImageView: UIImageView!
+    @IBOutlet weak var redCircleView: UIView!
         
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,6 +24,8 @@ class SettingCell: UITableViewCell {
     }
     
     func configure(setting: Setting) {
+        redCircleView.roundCornersViaCornerRadius(radius: 12.5)
+        redCircleView.isHidden = true
         iconImageView.image = setting.iconImage
         titleLabel.text = setting.displayName
         accessoryLabel.text = ""
@@ -31,10 +34,14 @@ class SettingCell: UITableViewCell {
         
         switch setting {
         case .friends:
-            //TODO: notifications for new friends
             break
         case .mentions:
-            accessoryLabel.text = String(PostService.singleton.getMentions().count)
+            if DeviceService.shared.unreadMentionsCount() > 0 {
+                redCircleView.isHidden = true
+                accessoryLabel.text = String(DeviceService.shared.unreadMentionsCount())
+            } else {
+                accessoryLabel.text = String(PostService.singleton.getMentions().count)
+            }
         case .submissions:
             accessoryLabel.text = String(PostService.singleton.getSubmissions().count)
         case .favorites:

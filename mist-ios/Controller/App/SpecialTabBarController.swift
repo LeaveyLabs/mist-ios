@@ -18,7 +18,7 @@ class SpecialTabBarController: UITabBarController {
     
     var dmTabBadgeCount: Int! {
         didSet {
-            tabBar.items![2].badgeValue = "i" //dmTabBadgeCount == 0 ? nil : String(dmTabBadgeCount)
+            tabBar.items![2].badgeValue = dmTabBadgeCount == 0 ? nil : String(dmTabBadgeCount)
         }
     }
     
@@ -28,7 +28,6 @@ class SpecialTabBarController: UITabBarController {
         super.viewDidLoad()
         removeLineAndAddShadow()
         tabBar.applyLightMediumShadow()
-        addNotificationsObservers()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,33 +71,9 @@ extension SpecialTabBarController {
         mistboxTabBadgeCount -= 1
     }
     
-    func decrementDmsBadgeCount() {
-        dmTabBadgeCount -= 1
-    }
-    
     func refreshBadgeCount() {
         mistboxTabBadgeCount = MistboxManager.shared.getRemainingOpens() ?? 0
-        dmTabBadgeCount = 0
-    }
-
-    func addNotificationsObservers() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(handleNewDMNotificaiton(_:)),
-                                               name: .newDM,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(handleNewMentionNotification(_:)),
-                                               name: .newMentionedMist,
-                                               object: nil)
-    }
-
-    @objc func handleNewMentionNotification(_ notification: Notification) {
-//        tabBar.items![1].badgeValue = String(mistboxTabCount + 1)
-//        tabBar.items![2].badgeValue = String(dmTabCount + 1)
-    }
-    
-    @objc func handleNewDMNotificaiton(_ notification: Notification) {
-        dmTabBadgeCount += 1
+        dmTabBadgeCount = ConversationService.singleton.getUnreadConversations().count
     }
     
 }

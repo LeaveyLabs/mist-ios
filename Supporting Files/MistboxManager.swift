@@ -31,6 +31,7 @@ class MistboxManager: NSObject {
     private override init() {
         super.init()
         startTimerToTenAM()
+        startOccasionalRefreshTask()
     }
     
     func createMistox(withKeywords keywords: [String]) {
@@ -54,12 +55,22 @@ class MistboxManager: NSObject {
         }
     }
     
+    func startOccasionalRefreshTask() {
+        Task {
+            while true {
+                try await fetchSyncedMistbox()
+                try await Task.sleep(nanoseconds: NSEC_PER_SEC * 30)
+            }
+        }
+    }
+    
     //MARK: - Fetchers
     
     func fetchSyncedMistbox() async throws {
         mistbox = try await PostAPI.fetchMistbox()
         if let mistbox = mistbox {
             let _ = await PostService.singleton.cachePostsAndGetArrayOfPostIdsFrom(posts: mistbox.posts)
+            //TODO: display some "you have 4 new mists in your mistbox!!!" sign
         }
     }
     

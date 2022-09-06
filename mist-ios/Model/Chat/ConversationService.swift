@@ -7,11 +7,31 @@
 
 import Foundation
 
+struct ConversationsLastMessageReadTime: Codable {
+    var lastTimestamps = [Int:Double]() //sangdaebang.id : lastReadTime
+    
+    enum CodingKeys: String, CodingKey {
+        case lastTimestamps
+    }
+    
+    init() {
+        lastTimestamps = [:]
+    }
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        lastTimestamps = try values.decodeIfPresent([Int:Double].self, forKey: .lastTimestamps) ?? [:]
+    }
+}
+
 class ConversationService: NSObject {
     
     //MARK: - Properties
     
     static var singleton = ConversationService()
+    private var conversationsLastMessageReadTime: ConversationsLastMessageReadTime!
+    private let LOCAL_FILE_APPENDING_PATH = "conversations.json"
+    private var localFileLocation: URL!
     private var conversations = [Int: Conversation]() //[sangdaebang.id, conversation]
     private var nonBlockedConversations: [Int: Conversation] {
         get {
@@ -22,6 +42,18 @@ class ConversationService: NSObject {
                 }
             }
             return nonBlockedConversations
+        }
+    }
+    
+    private override init() {
+        super.init()
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        localFileLocation = documentsDirectory.appendingPathComponent(LOCAL_FILE_APPENDING_PATH)
+        if FileManager.default.fileExists(atPath: localFileLocation.path) {
+            loadFromFilesystem()
+        } else {
+            conversationsLastMessageReadTime = ConversationsLastMessageReadTime()
+            Task { await saveToFilesystem() }
         }
     }
     
@@ -74,6 +106,26 @@ class ConversationService: NSObject {
         return nonBlockedConversations[userId]
     }
     
+    func getUnreadConversations() -> [Conversation] {
+        var unreadConvos = [Conversation]()
+        for (sangdaebangId, convo) in nonBlockedConversations {
+            guard
+                let conversation = getConversationWith(userId:sangdaebangId),
+                let lastMessage = conversation.messageThread.server_messages.last,
+                let lastReadTime = conversationsLastMessageReadTime.lastTimestamps[sangdaebangId]
+            else { continue }
+            if lastReadTime < lastMessage.timestamp {
+                unreadConvos.append(convo)
+            }
+        }
+        return unreadConvos
+    }
+    
+    func updateLastMessageReadTime(withUserId userId: Int) {
+        conversationsLastMessageReadTime.lastTimestamps[userId] = Date().timeIntervalSince1970
+        Task { await saveToFilesystem() }
+    }
+    
     //MARK: - Receiving messages
     
     func handleMessageThreadSizeIncrease(with sangdaebangId: Int) {
@@ -104,4 +156,37 @@ class ConversationService: NSObject {
         conversations.removeValue(forKey: userId)
     }
     
+}
+
+extension ConversationService {
+    
+    //MARK: - Filesystem
+    
+    func saveToFilesystem() async {
+        do {
+            let encoder = JSONEncoder()
+            let data: Data = try encoder.encode(conversationsLastMessageReadTime)
+            let jsonString = String(data: data, encoding: .utf8)!
+            try jsonString.write(to: self.localFileLocation, atomically: true, encoding: .utf8)
+        } catch {
+            print("COULD NOT SAVE: \(error)")
+        }
+    }
+
+    func loadFromFilesystem() {
+        do {
+            let data = try Data(contentsOf: self.localFileLocation)
+            conversationsLastMessageReadTime = try JSONDecoder().decode(ConversationsLastMessageReadTime.self, from: data)
+        } catch {
+            print("COULD NOT LOAD: \(error)")
+        }
+    }
+    
+    func eraseData() {
+        do {
+            try FileManager.default.removeItem(at: self.localFileLocation)
+        } catch {
+            print("\(error)")
+        }
+    }
 }

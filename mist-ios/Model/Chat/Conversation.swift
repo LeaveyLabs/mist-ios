@@ -152,15 +152,14 @@ class Conversation {
                 }
                 
                 DispatchQueue.main.async {
+                    if let tabVC = UIApplication.shared.windows.first?.rootViewController as? SpecialTabBarController {
+                        tabVC.refreshBadgeCount()
+                    }
                     let visibleVC = SceneDelegate.visibleViewController
                     if let chatVC = visibleVC as? ChatViewController {
                         chatVC.handleNewMessage()
                     } else if let conversationsVC = visibleVC as? ConversationsViewController {
                         conversationsVC.tableView.reloadData()
-                        //add a notification here, too
-                    } else {
-                        //todo later: notification creating and reading
-        //                        tabVC.tabBar.items![2].badgeValue = "1"
                     }
                 }
             } catch {

@@ -261,6 +261,27 @@ extension CustomSwiftMessages {
         }
     }
     
+    static func showNoMoreOpensMessage() {
+        DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
+            let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
+            let title = "you're out of opens"
+            let body = "come back tomorrow for more"
+            messageView.configureContent(title: title, body: body, iconText: "🤷‍♀️")
+            messageView.customConfig(approveText: "", dismissText: "ok")
+            messageView.approveAction = {
+                SwiftMessages.hide()
+            }
+            messageView.dismissAction = {
+                SwiftMessages.hide()
+            }
+            
+            messageView.configureBackgroundView(width: 300)
+            messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+            messageView.backgroundView.layer.cornerRadius = 10
+            SwiftMessages.show(config: middlePresentationConfig(), view: messageView)
+        }
+    }
+    
     static func showAlert(title: String, body: String, emoji: String, dismissText: String, approveText: String, onDismiss: @escaping () -> Void, onApprove: @escaping () -> Void) {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()

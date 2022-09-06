@@ -79,6 +79,8 @@ class CustomNavBar: UIView {
     @IBOutlet weak var stackView: UIStackView!
         
     var accountButton = CustomNavBar.navBarButton(for: .profile)
+    lazy var accountBadgeHub = BadgeHub(view: accountButton) // Initially count set to 0
+
     var searchButton = CustomNavBar.navBarButton(for: .search)
     var titleLabel = UILabel()
     var filterButton = CustomNavBar.navBarButton(for: .filter)
@@ -172,8 +174,7 @@ class CustomNavBar: UIView {
     override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
         accountButton.setImage(UserService.singleton.getProfilePic(), for: .normal)
-        
-        //TODO: update badge count , unread notifications here
+        accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount()) //TODO: not sure if this is needed bc we also call it in the vc's viewwillappear
     }
     
 }

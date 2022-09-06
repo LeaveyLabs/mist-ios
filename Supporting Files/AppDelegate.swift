@@ -56,71 +56,82 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
     //user was in app
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print("userInfo:", notification.request.content.userInfo )
-        print("aps", notification.request.content.userInfo["aps"])
-        guard
-            let userInfo = notification.request.content.userInfo as? [String : AnyObject]
-        else { return }
+        print("WILL PRESENT NOTIFIATION. userInfo:", notification.request.content.userInfo )
+        guard let userInfo = notification.request.content.userInfo as? [String : AnyObject] else { return }
         Task {
             await handleNotificationWhileInApp(userInfo: userInfo)
         }
 //        completionHandler([.alert, .sound, .badge]) //when the user is in the app, we don't want to do an ios system displays
     }
     
+    //user was not in app
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("DID RECEIVE NOTIFIATION. userInfo:", response.notification.request.content.userInfo )
+        guard let userInfo = response.notification.request.content.userInfo as? [String : AnyObject] else { return }
+        handleNotificationOpenFromLockScreen(userInfo: userInfo)
+        completionHandler()
+    }
+    
     func handleNotificationWhileInApp(userInfo: [String: AnyObject]) async {
         let tabVC = UIApplication.shared.windows.first!.rootViewController as! SpecialTabBarController
-        guard let type = userInfo[Notification.extra.type.rawValue] as? String else { return }
+        guard let notificaitonType = userInfo[Notification.extra.type.rawValue] as? String else { return }
         
         do {
             let json = userInfo[Notification.extra.data.rawValue]
-            let data = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
-            if type == NotificationTypes.tag.rawValue {
-                let tag = try JSONDecoder().decode(Tag.self, from: data)
-                print(tag)
-            } else if type == NotificationTypes.message.rawValue {
+            let data = try JSONSerialization.data(withJSONObject: json as Any, options: .prettyPrinted)
+            if notificaitonType == NotificationTypes.tag.rawValue {
+//                let tag = try JSONDecoder().decode(Tag.self, from: data)
+                try await PostService.singleton.loadMentions()
+                DispatchQueue.main.async {
+                    tabVC.refreshBadgeCount()
+                    let visibleVC = SceneDelegate.visibleViewController
+                    if let mistboxVC = visibleVC as? MistboxViewController {
+                        mistboxVC.navBar.accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
+                        mistboxVC.navBar.accountBadgeHub.bump()
+                    } else if let conversationsVC = visibleVC as? ConversationsViewController {
+                        conversationsVC.customNavBar.accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
+                        conversationsVC.customNavBar.accountBadgeHub.bump()
+                    }
+                }
+            } else if notificaitonType == NotificationTypes.message.rawValue {
                 let message = try JSONDecoder().decode(Message.self, from: data)
-                print(message)
+                if (ConversationService.singleton.getConversationWith(userId: message.sender) != nil) {
+                    try await ConversationService.singleton.loadMessageThreads()
+                    DispatchQueue.main.async {
+                        tabVC.refreshBadgeCount()
+                        let visibleVC = SceneDelegate.visibleViewController
+                        if let chatVC = visibleVC as? ChatViewController {
+                            chatVC.handleNewMessage()
+                        } else if let conversationsVC = visibleVC as? ConversationsViewController {
+                            conversationsVC.tableView.reloadData()
+                        }
+                    }
+                } else {
+                    //if we do have a converation open, this code is handled in Conversation
+                }
             }
         } catch {
-            print(error.localizedDescription)
+            print("failed to load data after notification:", error.localizedDescription)
         }
-        //        if let newDm = userInfo[Notification.Name.newDM.rawValue] {
-////            let tag = asdf[Notification.Key.taggingUser]
-//        }
-//        try await PostService.singleton.getMentions()
-//
-//        try await MatchRequestService.singleton.loadMatchRequests()
-//        
-        do {
-//            try await MistboxManager.shared.fetchSyncedMistbox()
-            //update badge count
-        } catch {
-            print("FAILED TO LOAD DATA AFTER RECEIVING BACKGROUND NOTIFICATION")
-        }
-    }
-
-    //user was not in app
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        print("userInfo:", response.notification.request.content.userInfo )
-        guard
-            let userInfo = response.notification.request.content.userInfo as? [String : AnyObject]
-        else { return }
-        
-        handleNotificationOpenFromLockScreen(userInfo: userInfo)
-        completionHandler()
-
     }
     
     func handleNotificationOpenFromLockScreen(userInfo: [String: AnyObject]) {
         let tabVC = UIApplication.shared.windows.first!.rootViewController as! SpecialTabBarController
+        guard let notificaitonType = userInfo[Notification.extra.type.rawValue] as? String else { return }
 
-        //if a match request
-        tabVC.selectedIndex = 2
-        
-        //if a mistbox, do nothing
-        
-        //if a mention, open up mentions? do nothing for now
-        
+//            let json = userInfo[Notification.extra.data.rawValue]
+//            let data = try JSONSerialization.data(withJSONObject: json as Any, options: .prettyPrinted)
+        if notificaitonType == NotificationTypes.tag.rawValue {
+//                let tag = try JSONDecoder().decode(Tag.self, from: data)
+            
+            //TODO: refactor caching and post loading so that we could immediately pull up a postVC with a skeleton view while the post loads in
+            
+//                let taggedPost = PostViewController.createPostVC(with: tag., shouldStartWithRaisedKeyboard: <#T##Bool#>, completionHandler: T##PostCompletionHandler?##PostCompletionHandler?##() -> Void)
+//                tabVC.present(<#T##viewControllerToPresent: UIViewController##UIViewController#>, animated: <#T##Bool#>)
+            
+        } else if notificaitonType == NotificationTypes.message.rawValue {
+            tabVC.selectedIndex = 2
+        }
     }
 
     // MARK: UISceneSession Lifecycle

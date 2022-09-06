@@ -101,7 +101,12 @@ class EnvelopeView: UIView {
     //MARK: - User Interaction
     
     @IBAction func openButtonDidTapped(_ sender: UIButton) {
-        finishSwiping(.up)
+        if let remainingOpens = MistboxManager.shared.getRemainingOpens(),
+           remainingOpens == 0 {
+            CustomSwiftMessages.showNoMoreOpensMessage()
+        } else {
+            finishSwiping(.up)
+        }
     }
     
     @IBAction func skipButtonDidtapped(_ sender: UIButton) {

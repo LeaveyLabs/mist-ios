@@ -188,6 +188,7 @@ class ChatViewController: MessagesViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewHasAppeared = true
+        ConversationService.singleton.updateLastMessageReadTime(withUserId: conversation.sangdaebang.id)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -435,6 +436,7 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
     }
     
     func handleNewMessage() {
+        ConversationService.singleton.updateLastMessageReadTime(withUserId: conversation.sangdaebang.id)
         isAuthedUserProfileHidden = conversation.isAuthedUserHidden
         if isSangdaebangProfileHidden && !conversation.isSangdaebangHidden {
             //Don't insert a new section, simply reload the data. This is because even though we're handling a new message, we're also removing the last placeholder "info" message, so we shouldn't insert any sections
