@@ -111,10 +111,10 @@ class ConversationService: NSObject {
         for (sangdaebangId, convo) in nonBlockedConversations {
             guard
                 let conversation = getConversationWith(userId:sangdaebangId),
-                let lastMessage = conversation.messageThread.server_messages.last,
+                let lastMessageReceived = conversation.messageThread.server_messages.filter( {$0.sender == sangdaebangId}).last,
                 let lastReadTime = conversationsLastMessageReadTime.lastTimestamps[sangdaebangId]
             else { continue }
-            if lastReadTime < lastMessage.timestamp {
+            if lastReadTime < lastMessageReceived.timestamp {
                 unreadConvos.append(convo)
             }
         }

@@ -13,6 +13,7 @@ func loadEverything() async throws {
         group.addTask { try await ConversationService.singleton.loadMessageThreads() }
         group.addTask { try await FriendRequestService.singleton.loadFriendRequests() }
         group.addTask { try await MistboxManager.shared.fetchSyncedMistbox() }
+        group.addTask { try await CommentService.singleton.fetchTags() }
         group.addTask { try await UsersService.singleton.loadTotalUserCount() }
         try await group.waitForAll()
     }

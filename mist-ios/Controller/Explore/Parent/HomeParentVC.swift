@@ -25,22 +25,9 @@ class HomeExploreParentViewController: ExploreParentViewController {
     }
     
     func setupTabBar() {
-        guard let tabBarController = tabBarController as? SpecialTabBarController else { return }
-        tabBarController.selectedIndex = 1
-        tabBarController.refreshBadgeCount()
-        repositionBadges(tab: 0)
-    }
-    
-//    the tab integer is NOT zero-indexed, so the first tab will be number 1, the 2nd number 2, etc.
-    func repositionBadges(tab: Int) {
-        tabBarController?.tabBar.subviews.forEach({ tab in
-            tab.subviews.forEach { badgeView in
-                if NSStringFromClass(badgeView.classForCoder) == "_UIBadgeView" {
-                   badgeView.layer.transform = CATransform3DIdentity
-                    badgeView.layer.transform = CATransform3DMakeTranslation(-13.0, -1.0, 1.0)
-                 }
-            }
-        })
+        guard let tabBarVC = tabBarController as? SpecialTabBarController else { return }
+        tabBarVC.selectedIndex = 1
+        tabBarVC.repositionBadges()
     }
     
     func setupActiveLabel() {

@@ -49,6 +49,7 @@ class MistboxViewController: UIViewController {
     //Other
     var currentLayout: MistboxLayout = .normal
     var hasAppearedOnce = false
+    var isPostPushed = false
 
     // MARK: - Lifecycle
     
@@ -57,13 +58,21 @@ class MistboxViewController: UIViewController {
         setupCollectionView()
         setupNavBar()
         setupLabelsAndButtons()
+        setupTabBar()
         reloadVisibleIndexLabel()
+    }
+    
+    func setupTabBar() {
+        guard let tabBarController = tabBarController as? SpecialTabBarController else { return }
+        tabBarController.selectedIndex = 1
+        tabBarController.refreshBadgeCount()
+        tabBarController.repositionBadges()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateUI()
-        if hasAppearedOnce {
+        if hasAppearedOnce && !isPostPushed {
             collectionView.reloadData()
         }
         if let tabVC = UIApplication.shared.windows.first?.rootViewController as? SpecialTabBarController {
@@ -334,8 +343,10 @@ extension MistboxViewController: MistboxCellDelegate {
             CustomSwiftMessages.displayError(error)
         }
         
+        isPostPushed = true
         let openedPostVC = PostViewController.createPostVC(with: post, shouldStartWithRaisedKeyboard: false, fromMistbox: true, completionHandler: {
             self.visuallyRemoveMist(postIndex: postIndex)
+            self.isPostPushed = false
         })
         navigationController?.pushViewController(openedPostVC, animated: true) { [self] in
             (tabBarController as? SpecialTabBarController)?.decrementMistboxBadgeCount()
@@ -377,33 +388,5 @@ extension MistboxViewController: MistboxCellDelegate {
         }
         titleButton.setAttributedTitle(attributedText, for: .normal)
     }
-    
-}
-
-
-//MARK: - PostDelegate
-
-extension MistboxViewController: PostDelegate {
-    
-    func handleVote(postId: Int, emoji: String, action: VoteAction) {
-         
-    }
-    
-    func handleCommentButtonTap(postId: Int) {
-         
-    }
-    
-    func handleBackgroundTap(postId: Int) {
-         
-    }
-    
-    func handleDeletePost(postId: Int) {
-         
-    }
-    
-    func handleReactTap(postId: Int) {
-         
-    }
-    
     
 }

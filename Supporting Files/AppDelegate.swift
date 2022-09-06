@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let notifCenter = UNUserNotificationCenter.current()
         notifCenter.delegate = self
         NotificationsManager.shared.registerForNotificationsOnStartupIfAccessExists()
-        
+    
         FirebaseApp.configure()
         return true
     }
@@ -56,7 +56,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
     //user was in app
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print("WILL PRESENT NOTIFIATION. userInfo:", notification.request.content.userInfo )
+        print("WILL PRESENT NOTIFIATION. userInfo:")
         guard let userInfo = notification.request.content.userInfo as? [String : AnyObject] else { return }
         Task {
             await handleNotificationWhileInApp(userInfo: userInfo)
@@ -66,14 +66,14 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
     //user was not in app
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        print("DID RECEIVE NOTIFIATION. userInfo:", response.notification.request.content.userInfo )
+        print("DID RECEIVE NOTIFIATION. userInfo:")
         guard let userInfo = response.notification.request.content.userInfo as? [String : AnyObject] else { return }
         handleNotificationOpenFromLockScreen(userInfo: userInfo)
         completionHandler()
     }
     
     func handleNotificationWhileInApp(userInfo: [String: AnyObject]) async {
-        let tabVC = UIApplication.shared.windows.first!.rootViewController as! SpecialTabBarController
+        guard let tabVC = UIApplication.shared.windows.first?.rootViewController as? SpecialTabBarController else { return }
         guard let notificaitonType = userInfo[Notification.extra.type.rawValue] as? String else { return }
         
         do {
@@ -82,6 +82,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             if notificaitonType == NotificationTypes.tag.rawValue {
 //                let tag = try JSONDecoder().decode(Tag.self, from: data)
                 try await PostService.singleton.loadMentions()
+                try await CommentService.singleton.fetchTags()
                 DispatchQueue.main.async {
                     tabVC.refreshBadgeCount()
                     let visibleVC = SceneDelegate.visibleViewController
@@ -95,7 +96,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                 }
             } else if notificaitonType == NotificationTypes.message.rawValue {
                 let message = try JSONDecoder().decode(Message.self, from: data)
-                if (ConversationService.singleton.getConversationWith(userId: message.sender) != nil) {
+                if (ConversationService.singleton.getConversationWith(userId: message.sender) == nil) {
                     try await ConversationService.singleton.loadMessageThreads()
                     DispatchQueue.main.async {
                         tabVC.refreshBadgeCount()
@@ -116,12 +117,13 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
     
     func handleNotificationOpenFromLockScreen(userInfo: [String: AnyObject]) {
-        let tabVC = UIApplication.shared.windows.first!.rootViewController as! SpecialTabBarController
-        guard let notificaitonType = userInfo[Notification.extra.type.rawValue] as? String else { return }
+        //TODO: how do you set the initialVC from a notification given that we're supposed to do this within SceneDelegate, not AppDelegate ,now?
+//        let tabVC = UIApplication.shared.windows.first!.rootViewController as! SpecialTabBarController
+//        guard let notificaitonType = userInfo[Notification.extra.type.rawValue] as? String else { return }
 
 //            let json = userInfo[Notification.extra.data.rawValue]
 //            let data = try JSONSerialization.data(withJSONObject: json as Any, options: .prettyPrinted)
-        if notificaitonType == NotificationTypes.tag.rawValue {
+//        if notificaitonType == NotificationTypes.tag.rawValue {
 //                let tag = try JSONDecoder().decode(Tag.self, from: data)
             
             //TODO: refactor caching and post loading so that we could immediately pull up a postVC with a skeleton view while the post loads in
@@ -129,9 +131,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 //                let taggedPost = PostViewController.createPostVC(with: tag., shouldStartWithRaisedKeyboard: <#T##Bool#>, completionHandler: T##PostCompletionHandler?##PostCompletionHandler?##() -> Void)
 //                tabVC.present(<#T##viewControllerToPresent: UIViewController##UIViewController#>, animated: <#T##Bool#>)
             
-        } else if notificaitonType == NotificationTypes.message.rawValue {
-            tabVC.selectedIndex = 2
-        }
+//        } else if notificaitonType == NotificationTypes.message.rawValue {
+//            tabVC.selectedIndex = 2
+//        }
     }
 
     // MARK: UISceneSession Lifecycle

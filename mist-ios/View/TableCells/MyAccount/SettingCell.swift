@@ -25,24 +25,28 @@ class SettingCell: UITableViewCell {
     
     func configure(setting: Setting) {
         redCircleView.roundCornersViaCornerRadius(radius: 12.5)
-        redCircleView.isHidden = true
+        redCircleView.backgroundColor = .clear
         iconImageView.image = setting.iconImage
         titleLabel.text = setting.displayName
         accessoryLabel.text = ""
         accessoryImageView.isHidden = false
+        accessoryLabel.textColor = Constants.Color.mistBlack
         selectionStyle = .default
         
         switch setting {
         case .friends:
             break
         case .mentions:
+            print("unread count", DeviceService.shared.unreadMentionsCount())
             if DeviceService.shared.unreadMentionsCount() > 0 {
-                redCircleView.isHidden = true
+                redCircleView.backgroundColor = Constants.Color.mistLilacPurple
+                accessoryLabel.textColor = .white
                 accessoryLabel.text = String(DeviceService.shared.unreadMentionsCount())
             } else {
                 accessoryLabel.text = String(PostService.singleton.getMentions().count)
             }
         case .submissions:
+            print("SERTTING TEXT TO:", PostService.singleton.getSubmissions().count)
             accessoryLabel.text = String(PostService.singleton.getSubmissions().count)
         case .favorites:
             accessoryLabel.text = String(PostService.singleton.getFavorites().count)

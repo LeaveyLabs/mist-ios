@@ -110,6 +110,7 @@ class CustomNavBar: UIView {
         nibInit()
         setupStackView()
         setupSpecialItems()
+        accountBadgeHub.setCircleColor(Constants.Color.mistLilacPurple, label: .white)
     }
     
     func setupStackView() {
@@ -128,6 +129,8 @@ class CustomNavBar: UIView {
     
     func setupSpecialItems() {
         accountButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
+        accountBadgeHub.scaleCircleSize(by: 0.65) //match the bottm notification height
+        accountBadgeHub.setCountLabelFont(UIFont(name: Constants.Font.Medium, size: 12))
         titleLabel.font = UIFont(name: Constants.Font.Heavy, size: 28)
         titleLabel.textColor = Constants.Color.mistBlack
         titleLabel.sizeToFit()

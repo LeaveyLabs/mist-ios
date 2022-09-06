@@ -26,8 +26,13 @@ class SpecialTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tabBar.items?.forEach({ item in
+            item.badgeColor = Constants.Color.mistLilacPurple
+            item.setBadgeTextAttributes([NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 12)!], for: .normal)
+        })
         removeLineAndAddShadow()
         tabBar.applyLightMediumShadow()
+        refreshBadgeCount()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,6 +50,17 @@ class SpecialTabBarController: UITabBarController {
         tabBarLineHidingView.frame.origin.y -= 1 //hides the tab bar line
         tabBarLineHidingView.frame.size.height += 50 //extends down beyond safe area
     }
+    
+    func repositionBadges() {
+         tabBar.subviews.forEach({ tab in
+             tab.subviews.forEach { badgeView in
+                 if NSStringFromClass(badgeView.classForCoder) == "_UIBadgeView" {
+                    badgeView.layer.transform = CATransform3DIdentity
+                     badgeView.layer.transform = CATransform3DMakeTranslation(-13.0, -1.0, 1.0)
+                  }
+             }
+         })
+     }
 }
 
 // MARK: - UITabBarController Delegate

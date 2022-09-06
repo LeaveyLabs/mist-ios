@@ -37,8 +37,8 @@ class DeviceService: NSObject {
     func hasBeenRequestedARating() -> Bool { return device.hasBeenRequestedARating }
     func unreadMentionsCount() -> Int {
         var unreadCount = 0
-        PostService.singleton.getMentions().forEach { mention in
-            if mention.timestamp > device.lastMentionsOpenTime {
+        CommentService.singleton.getTags().forEach { tag in
+            if tag.timestamp > device.lastMentionsOpenTime {
                 unreadCount += 1
             }
         }
@@ -65,6 +65,7 @@ class DeviceService: NSObject {
     }
     func didViewMentions() {
         device.lastMentionsOpenTime = Date().timeIntervalSince1970
+        print(device.lastMentionsOpenTime)
         Task { await saveToFilesystem() }
     }
     

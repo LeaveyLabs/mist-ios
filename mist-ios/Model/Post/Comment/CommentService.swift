@@ -12,7 +12,7 @@ import Foundation
 class CommentService: NSObject {
     
     static var singleton = CommentService()
-    
+    var tags = [Tag]()
     //TBH: We should also cache comments here. dont need to reload comments when you were just there.
     //dictionary of [postId: [Comment]]
         //buttt what if you wanna reload comments? there's no refresh button...
@@ -22,6 +22,10 @@ class CommentService: NSObject {
     
     private override init(){
         super.init()
+    }
+    
+    func fetchTags() async throws {
+        tags = try await TagAPI.fetchTags()
     }
     
     func uploadComment(text: String, postId: Int, tags: [Tag]) async throws -> Comment {
@@ -40,6 +44,10 @@ class CommentService: NSObject {
     
     func deleteComment(commentId: Int) async throws {
         try await CommentAPI.deleteComment(comment_id: commentId)
+    }
+    
+    func getTags() -> [Tag] {
+        return tags
     }
     
 }

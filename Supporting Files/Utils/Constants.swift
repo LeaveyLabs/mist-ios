@@ -16,12 +16,14 @@ struct Constants {
         static let Medium: String = "Avenir-Medium"
         static let Heavy: String = "Avenir-Heavy"
         static let Book: String = "Avenir-Book"
+        static let Black: String = "Avenir-Black"
         static let Size: CGFloat = 20
     }
     
     struct Color {
         static let mistPink = UIColor.init(named: "mist-pink")!
         static let mistLilac = UIColor.init(named: "mist-lilac")!
+        static let mistLilacPurple = UIColor.init(named: "mist-lilac-purple")!
         static let mistPurple = UIColor.init(named: "mist-purple")!
         static let mistNight = UIColor.init(named: "mist-night")!
         static let mistBlack = UIColor.init(named: "mist-black")!

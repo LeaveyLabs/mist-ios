@@ -14,6 +14,7 @@ class ConversationCell: UITableViewCell {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var verifiedImageView: UIImageView!
     @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var indicatorView: UIView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,10 +28,23 @@ class ConversationCell: UITableViewCell {
         selectionStyle = .none
         verifiedImageView.isHidden = !conversation.sangdaebang.is_verified
         setupTimeLabel(conversation)
+        
+        if ConversationService.singleton.getUnreadConversations().contains(where: { convo in
+            convo.sangdaebang == conversation.sangdaebang
+        }) {
+            nameLabel.font = UIFont(name: Constants.Font.Heavy, size: 25)
+            messageLabel.font = UIFont(name: Constants.Font.Heavy, size: 15)
+            indicatorView.isHidden = false
+            indicatorView.roundCornersViaCornerRadius(radius: 10)
+        } else {
+            nameLabel.font = UIFont(name: Constants.Font.Roman, size: 25)
+            messageLabel.font = UIFont(name: Constants.Font.Roman, size: 15)
+            indicatorView.isHidden = true
+        }
     }
     
     func setupTimeLabel(_ conversation: Conversation) {
-        guard let lastMessageTime = conversation.messageThread.server_messages.first?.timestamp else { return }
+        guard let lastMessageTime = conversation.messageThread.server_messages.last?.timestamp else { return }
         let timeSinceString = getFormattedTimeStringForConvo(timestamp: lastMessageTime)
         timeLabel.text = timeSinceString.lowercased()
     }

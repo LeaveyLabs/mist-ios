@@ -32,7 +32,7 @@ struct MessageKitMessage: MessageType {
     }
     
     init(message: Message, conversation: Conversation) {
-        let attributedMessage = NSAttributedString(string: message.body, attributes: [.font: UIFont(name: Constants.Font.Medium, size: 15)!])
+        let attributedMessage = NSAttributedString(string: message.body, attributes: [.font: UIFont(name: Constants.Font.Roman, size: 15)!])
         
         self.kind = .attributedText(attributedMessage)
         self.sender = message.sender == UserService.singleton.getId() ? UserService.singleton.getUserAsFrontendReadOnlyUser() : conversation.sangdaebang
