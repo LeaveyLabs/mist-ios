@@ -63,7 +63,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         enterNumberTextField.delegate = self
         enterNumberTextField.countryCodePlaceholderColor = .red
         enterNumberTextField.withFlag = true
-//        enterNumberTextField.withPrefix = trueer
+        enterNumberTextField.withPrefix = true
 //        enterNumberTextField.withExamplePlaceholder = true
     }
     
