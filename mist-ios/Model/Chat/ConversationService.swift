@@ -113,9 +113,12 @@ class ConversationService: NSObject {
         for (sangdaebangId, convo) in nonBlockedConversations {
             guard
                 let conversation = getConversationWith(userId:sangdaebangId),
-                let lastMessageReceived = conversation.messageThread.server_messages.filter( {$0.sender == sangdaebangId}).last,
-                let lastMessageReadTime = conversationsLastMessageReadTime.lastTimestamps[sangdaebangId]
+                let lastMessageReceived = conversation.messageThread.server_messages.filter( {$0.sender == sangdaebangId}).last
             else { continue }
+            guard let lastMessageReadTime = conversationsLastMessageReadTime.lastTimestamps[sangdaebangId] else {
+                unreadConvos.append(convo) //then they've never opened a conversation with this person before
+                continue
+            }
             if lastMessageReadTime < lastMessageReceived.timestamp {
                 unreadConvos.append(convo)
             }
