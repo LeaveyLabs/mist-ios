@@ -40,7 +40,12 @@ struct UserError: Codable {
 }
 
 struct UserPopulation: Codable {
-    let population: Int;
+    let population: Int
+}
+
+struct AccessCode: Codable {
+    let code_string: String
+    let claimed_user: Int?
 }
 
 class UserAPI {
@@ -242,6 +247,14 @@ class UserAPI {
         let json = try JSONEncoder().encode(params)
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData:json, method: HTTPMethods.POST.rawValue)
         try filterUserErrors(data: data, response: response)
+    }
+    
+    static func isAccessCodeAvailable(code:String) async throws -> Bool {
+        let url = "\(Env.BASE_URL)\(PATH_TO_ACCESS_CODES)?code=\(code)"
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData:Data(), method: HTTPMethods.GET.rawValue)
+        try filterUserErrors(data: data, response: response)
+        let accessCodes = try JSONDecoder().decode([AccessCode].self, from: data)
+        return !accessCodes.isEmpty
     }
     
     static func verifyProfilePic(profilePicture:UIImage, confirmPicture: UIImage) async throws {
