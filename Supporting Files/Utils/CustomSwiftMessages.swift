@@ -332,4 +332,39 @@ extension CustomSwiftMessages {
         config.presentationContext  = .window(windowLevel: UIWindow.Level.statusBar)
         return config
     }
+    
+    static func badgeConfig() -> SwiftMessages.Config {
+        var config = SwiftMessages.defaultConfig
+        config.presentationStyle = .center
+        config.duration = .forever
+        config.dimMode = .blur(style: .dark, alpha: 0.5, interactive: false)
+        config.interactiveHide = true
+        config.presentationContext  = .window(windowLevel: UIWindow.Level.statusBar)
+        return config
+    }
+    
+    //MARK: - Badges
+    
+    static func displayBadgePopup(name: String, badge: String) {
+        DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
+            let messageView: SwiftMessagesBadgeView = try! SwiftMessages.viewFromNib()
+            var title = ""
+            var body = ""
+            if badge == "💌" {
+                title = "love, mist"
+                body = name + " participated in the on-campus event \"love, mist\" by entering a special access code"
+            }
+            messageView.configureContent(title: title, body: body, iconText: badge)
+            messageView.badgeConfig()
+            messageView.dismissAction = {
+                SwiftMessages.hide()
+            }
+            
+            messageView.configureBackgroundView(width: 250)
+            messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+            messageView.backgroundView.layer.cornerRadius = 10
+            SwiftMessages.show(config: badgeConfig(), view: messageView)
+        }
+    }
+    
 }

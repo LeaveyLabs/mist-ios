@@ -71,6 +71,7 @@ class EnvelopeView: UIView {
         titleLabel.applyMediumShadow()
         extraShadowView.applyMediumShadow() //so that when the label animates up, the shadow is still remaining underneath
         titleLabelMaskingView.clipsToBounds = true
+        skipButton.setImage(UIImage(systemName: "bin.xmark"), for: .normal) //to avoid name deprecation warning
     }
     
     

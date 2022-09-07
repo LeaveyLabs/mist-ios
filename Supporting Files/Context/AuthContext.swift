@@ -19,6 +19,7 @@ struct AuthContext {
     static var lastName: String = ""
     static var dob: String = ""
     static var sex: String?
+    static var accessCode: String? = nil
     
     static var resetToken: ResetToken = ""
     
@@ -32,5 +33,6 @@ struct AuthContext {
         dob = ""
         sex = nil
         resetToken = ""
+        accessCode = nil
     }
 }

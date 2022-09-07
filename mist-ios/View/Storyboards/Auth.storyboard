@@ -449,6 +449,7 @@
                         <outlet property="continueButton" destination="Xhc-0S-30x" id="qOl-6v-g5I"/>
                         <outlet property="resendButton" destination="OPx-I9-xIv" id="Pkk-Hb-qNC"/>
                         <outlet property="sentToLabel" destination="7de-VV-9m2" id="qXE-Ie-xPh"/>
+                        <outlet property="titleLabel" destination="dKh-ip-f21" id="wGw-tL-UPj"/>
                         <segue destination="gJj-BM-Q35" kind="show" identifier="unusedIdentifier" id="WeX-Le-tjh"/>
                     </connections>
                 </viewController>

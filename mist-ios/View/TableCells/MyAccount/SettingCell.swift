@@ -11,9 +11,10 @@ class SettingCell: UITableViewCell {
     
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var accessoryLabel: UILabel!
+    @IBOutlet weak var accessoryLabel: UILabel! //for non notifications
+    @IBOutlet weak var accessoryIndicatorLabel: UILabel! //for notifications
+    @IBOutlet weak var accessoryIndicatorBackgroundView: UIView! //for notifications
     @IBOutlet weak var accessoryImageView: UIImageView!
-    @IBOutlet weak var redCircleView: UIView!
         
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,14 +25,12 @@ class SettingCell: UITableViewCell {
     }
     
     func configure(setting: Setting) {
-        redCircleView.roundCornersViaCornerRadius(radius: 12.5)
-        redCircleView.backgroundColor = .clear
         iconImageView.image = setting.iconImage
         titleLabel.text = setting.displayName
         accessoryLabel.text = ""
-        accessoryImageView.isHidden = false
         accessoryLabel.textColor = Constants.Color.mistBlack
         selectionStyle = .default
+        accessoryIndicatorBackgroundView.isHidden = true
         
         switch setting {
         case .friends:
@@ -39,9 +38,10 @@ class SettingCell: UITableViewCell {
         case .mentions:
             print("unread count", DeviceService.shared.unreadMentionsCount())
             if DeviceService.shared.unreadMentionsCount() > 0 {
-                redCircleView.backgroundColor = Constants.Color.mistLilacPurple
-                accessoryLabel.textColor = .white
-                accessoryLabel.text = String(DeviceService.shared.unreadMentionsCount())
+                accessoryIndicatorBackgroundView.roundCornersViaCornerRadius(radius: 12.5)
+                accessoryIndicatorBackgroundView.isHidden = false
+                accessoryLabel.isHidden = true
+                accessoryIndicatorLabel.text = String(DeviceService.shared.unreadMentionsCount())
             } else {
                 accessoryLabel.text = String(PostService.singleton.getMentions().count)
             }

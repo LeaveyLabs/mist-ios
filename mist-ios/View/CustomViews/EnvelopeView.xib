@@ -37,7 +37,7 @@
                     </constraints>
                     <color key="tintColor" name="mist-black"/>
                     <inset key="imageEdgeInsets" minX="6" minY="7" maxX="6" maxY="7"/>
-                    <state key="normal" image="bin.xmark" catalog="system">
+                    <state key="normal" image="trash" catalog="system">
                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default" weight="medium"/>
                     </state>
                     <connections>
@@ -68,6 +68,20 @@
                         <constraint firstAttribute="trailing" secondItem="ZcQ-Yz-faN" secondAttribute="trailing" id="eaW-pt-rax"/>
                     </constraints>
                 </view>
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7t-zf-CUB" userLabel="SecondaryMaskingView">
+                    <rect key="frame" x="0.0" y="103" width="270" height="31.5"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gee-8c-jYU" userLabel="ExtraShadowView">
+                            <rect key="frame" x="13" y="-50" width="243" height="81.5"/>
+                            <color key="backgroundColor" name="mist-pink"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="Gee-8c-jYU" firstAttribute="top" secondItem="u7t-zf-CUB" secondAttribute="top" constant="-50" id="BsJ-5b-Cvd"/>
+                        <constraint firstAttribute="bottom" secondItem="Gee-8c-jYU" secondAttribute="bottom" id="ZVP-vI-0HM"/>
+                    </constraints>
+                </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="20Z-Rx-y7g" userLabel="PrimaryMaskingView">
                     <rect key="frame" x="0.0" y="40.5" width="270" height="94"/>
                     <subviews>
@@ -83,20 +97,6 @@
                     <constraints>
                         <constraint firstItem="G9D-vV-252" firstAttribute="top" secondItem="20Z-Rx-y7g" secondAttribute="top" constant="9.5" id="2wJ-EB-qop"/>
                         <constraint firstAttribute="bottom" secondItem="G9D-vV-252" secondAttribute="bottom" id="IDh-L3-fmw"/>
-                    </constraints>
-                </view>
-                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7t-zf-CUB" userLabel="SecondaryMaskingView">
-                    <rect key="frame" x="0.0" y="103" width="270" height="31.5"/>
-                    <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gee-8c-jYU" userLabel="ExtraShadowView">
-                            <rect key="frame" x="13" y="-50" width="243" height="81.5"/>
-                            <color key="backgroundColor" name="mist-pink"/>
-                        </view>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstItem="Gee-8c-jYU" firstAttribute="top" secondItem="u7t-zf-CUB" secondAttribute="top" constant="-50" id="BsJ-5b-Cvd"/>
-                        <constraint firstAttribute="bottom" secondItem="Gee-8c-jYU" secondAttribute="bottom" id="ZVP-vI-0HM"/>
                     </constraints>
                 </view>
             </subviews>
@@ -132,8 +132,8 @@
         </view>
     </objects>
     <resources>
-        <image name="bin.xmark" catalog="system" width="128" height="93"/>
         <image name="envelope-graphic" width="1308" height="1528"/>
+        <image name="trash" catalog="system" width="121" height="128"/>
         <namedColor name="mist-black">
             <color red="0.066666666666666666" green="0.066666666666666666" blue="0.066666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

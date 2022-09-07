@@ -17,7 +17,7 @@ class MistboxManager: NSObject {
     //MARK: - Properties
     
     static var shared = MistboxManager()
-    static let DAILY_SWIPES = 5
+    static let DAILY_OPENS = 5
     static let MAX_KEYWORDS = 10
     
     private var mistbox: Mistbox?
@@ -72,15 +72,13 @@ class MistboxManager: NSObject {
             let _ = await PostService.singleton.cachePostsAndGetArrayOfPostIdsFrom(posts: mistbox.posts)
             //TODO: display some "you have 4 new mists in your mistbox!!!" sign
         }
-        mistbox?.posts = try await PostService.singleton.getSubmissions()
     }
     
     //MARK: - Getters
     
     func getRemainingOpens() -> Int? {
         guard let mistbox = mistbox else { return nil }
-        return 10
-        return MistboxManager.DAILY_SWIPES - mistbox.opens_used_today
+        return MistboxManager.DAILY_OPENS - mistbox.opens_used_today
     }
     
     func getCurrentKeywords() -> [String] {
@@ -100,7 +98,7 @@ class MistboxManager: NSObject {
         
         Task {
             do {
-//                try await PostAPI.deleteMistboxPost(post: postId, opened: true)
+                try await PostAPI.deleteMistboxPost(post: postId, opened: true)
                 mistbox!.opens_used_today += 1
             } catch {
                 print(error)
@@ -115,7 +113,7 @@ class MistboxManager: NSObject {
         
         Task {
             do {
-//                try await PostAPI.deleteMistboxPost(post: postId, opened: false)
+                try await PostAPI.deleteMistboxPost(post: postId, opened: false)
             } catch {
                 print(error)
                 throw error
@@ -134,7 +132,7 @@ class MistboxManager: NSObject {
         mistbox?.keywords = newKeywords
         Task {
             do {
-//                try await UserService.singleton.updateKeywords(to: newKeywords)
+                try await UserService.singleton.updateKeywords(to: newKeywords)
             } catch {
                 CustomSwiftMessages.displayError(error)
             }

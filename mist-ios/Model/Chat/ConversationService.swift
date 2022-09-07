@@ -106,22 +106,26 @@ class ConversationService: NSObject {
         return nonBlockedConversations[userId]
     }
     
+    //TODO: this system actually needs to be by user, not by device, because if i log into the same account on my iphone vs simulator, dif results emerge
+    //if the user saved a read time while on here, but then logged into another device, we can't trust the read time here anymore
     func getUnreadConversations() -> [Conversation] {
         var unreadConvos = [Conversation]()
         for (sangdaebangId, convo) in nonBlockedConversations {
             guard
                 let conversation = getConversationWith(userId:sangdaebangId),
                 let lastMessageReceived = conversation.messageThread.server_messages.filter( {$0.sender == sangdaebangId}).last,
-                let lastReadTime = conversationsLastMessageReadTime.lastTimestamps[sangdaebangId]
+                let lastMessageReadTime = conversationsLastMessageReadTime.lastTimestamps[sangdaebangId]
             else { continue }
-            if lastReadTime < lastMessageReceived.timestamp {
+            if lastMessageReadTime < lastMessageReceived.timestamp {
                 unreadConvos.append(convo)
             }
         }
+        print("timestamps", conversationsLastMessageReadTime.lastTimestamps)
         return unreadConvos
     }
     
     func updateLastMessageReadTime(withUserId userId: Int) {
+        print("UPDATE LST MESSAGE READ TIEM")
         conversationsLastMessageReadTime.lastTimestamps[userId] = Date().timeIntervalSince1970
         Task { await saveToFilesystem() }
     }

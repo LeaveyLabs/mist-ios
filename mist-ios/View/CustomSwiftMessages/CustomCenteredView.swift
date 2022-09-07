@@ -11,6 +11,8 @@ import SwiftMessages
 class CustomCenteredView: MessageView {
     @IBOutlet weak var dismissButton: UIButton!
     @IBOutlet weak var approveButton: UIButton!
+    @IBOutlet weak var exitButton: UIButton!
+    @IBOutlet weak var bottomStackView: UIStackView!
 
     var dismissAction: (() -> Void)!
     var approveAction: (() -> Void)!
@@ -30,7 +32,7 @@ class CustomCenteredView: MessageView {
     
     func customConfig(approveText: String, dismissText: String) {
         let dismissFontSize: CGFloat = dismissText.length > 12 ? 15 : 17
-        let dismissAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: dismissFontSize)!]
+        let dismissAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Roman, size: dismissFontSize)!]
         let approveAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Heavy, size: 19)!]
         approveButton.setAttributedTitle(NSAttributedString(string: approveText, attributes: approveAttributes), for: .normal)
         dismissButton.setAttributedTitle(NSAttributedString(string: dismissText, attributes: dismissAttributes), for: .normal)
@@ -41,6 +43,13 @@ class CustomCenteredView: MessageView {
         if approveText.isEmpty {
             approveButton.isHidden = true
         }
+    }
+    
+    func badgeConfig() {
+        approveButton.isHidden = true
+        dismissButton.isHidden = true
+        exitButton.isHidden = false
+        bottomStackView.isHidden = true //not actually neeeded
     }
 
 }

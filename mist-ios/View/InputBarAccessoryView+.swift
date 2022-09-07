@@ -54,9 +54,9 @@ extension InputBarAccessoryView {
     
     func configureForChatting() {
         //iMessage
-        inputTextView.layer.shadowOpacity = 0 //remove any potential shadow from beforehand
-        inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 36)
-        inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 36)
+        layer.shadowOpacity = 0
+        inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
         separatorLine.height = 0
         
         inputTextView.placeholderLabel.font = Comment.normalInputAttributes[.font] as? UIFont
@@ -64,7 +64,8 @@ extension InputBarAccessoryView {
         
         //Center
         inputTextView.layer.borderWidth = 1
-        inputTextView.layer.borderColor = UIColor.systemGray4.cgColor
+        inputTextView.layer.borderColor = UIColor.darkGray.withAlphaComponent(0.23).cgColor
+//        UIColor.systemGray4.cgColor
         inputTextView.tintColor = Constants.Color.mistLilac
         inputTextView.backgroundColor = .lightGray.withAlphaComponent(0.1)
         inputTextView.layer.cornerRadius = 16.0
@@ -78,6 +79,9 @@ extension InputBarAccessoryView {
             middleContentView.layer.shadowOpacity = 0
             setMiddleContentView(inputTextView, animated: false)
         }
+        
+        //Left
+        setLeftStackViewWidthConstant(to: 2, animated: false)
 
         //Right
         setRightStackViewWidthConstant(to: 38, animated: false)

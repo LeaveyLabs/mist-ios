@@ -99,6 +99,8 @@ class UpdateProfileSettingViewController: UITableViewController {
     func registerNibs() {
         let inputCellNib = UINib(nibName: Constants.SBID.Cell.SimpleInput, bundle: nil)
         tableView.register(inputCellNib, forCellReuseIdentifier: Constants.SBID.Cell.SimpleInput)
+        let badgeCellNib = UINib(nibName: Constants.SBID.Cell.BadgesCell, bundle: nil)
+        tableView.register(badgeCellNib, forCellReuseIdentifier: Constants.SBID.Cell.BadgesCell)
     }
     
     func setupIsVerifiedButton() {
@@ -143,23 +145,31 @@ class UpdateProfileSettingViewController: UITableViewController {
     
     //MARK: - Table View
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 2
-        } else {
+        } else if section == 1 {
             return 1
+        } else {
+            return 1 //badges
         }
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
             return "name"
-        } else {
+        } else if section == 1 {
             return "username"
+        } else {
+            return "badges"
         }
     }
     
@@ -196,12 +206,17 @@ class UpdateProfileSettingViewController: UITableViewController {
                 lastNameTextField.autocapitalizationType = .words
                 cell.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             }
-        } else {
+        } else if indexPath.section == 1 {
             usernameTextField = cell.textField
             cell.textField.autocorrectionType = .no
             cell.textField.autocapitalizationType = .none
             cell.textField.text = username
             cell.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        } else {
+            let badgesCell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.BadgesCell, for: indexPath) as! BadgesCell
+            badgesCell.configureWith(username: UserService.singleton.getUsername(), badges: UserService.singleton.getBadges())
+            badgesCell.selectionStyle = .none
+            return badgesCell
         }
         return cell
     }

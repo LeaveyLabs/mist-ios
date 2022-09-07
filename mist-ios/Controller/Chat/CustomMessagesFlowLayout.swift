@@ -15,7 +15,7 @@ open class CustomMessagesFlowLayout: MessagesCollectionViewFlowLayout {
         super.init()
         sectionInset = UIEdgeInsets(top: 1, left: 10, bottom: 2, right: 8)
         setMessageOutgoingAvatarSize(.zero)
-        setMessageIncomingAvatarSize(.init(width: 33, height: 33))
+        setMessageIncomingAvatarSize(.init(width: 28, height: 28))
         setMessageOutgoingMessageBottomLabelAlignment(LabelAlignment(textAlignment: .right, textInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 12)))
         setMessageOutgoingMessagePadding(.init(top: 0, left: 70, bottom: 0, right: 0)) //limit age max width
         setMessageIncomingMessagePadding(.init(top: 0, left: 5, bottom: 0, right: 70)) //limit max width, and create padding between avatar

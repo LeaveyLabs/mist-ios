@@ -39,6 +39,10 @@ class SpecialTabBar: UITabBar {
         addMiddleButton()
         buttonRock()
     }
+    
+    var SubmitButtonHeight: Double {
+        return self.bounds.width * 0.225
+    }
 
     func addMiddleButton() {
         NSLayoutConstraint.activate([

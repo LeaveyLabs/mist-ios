@@ -63,7 +63,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         enterNumberTextField.delegate = self
         enterNumberTextField.countryCodePlaceholderColor = .red
         enterNumberTextField.withFlag = true
-        enterNumberTextField.withPrefix = true
+//        enterNumberTextField.withPrefix = trueer
 //        enterNumberTextField.withExamplePlaceholder = true
     }
     
@@ -174,7 +174,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func validateInput() {
-        isValidInput = enterNumberTextField.text?.asE164PhoneNumber != nil || enterNumberTextField.text?.filter("1234567890".contains) == AuthContext.APPLE_PHONE_NUMBER
+        isValidInput = enterNumberTextField.text?.asE164PhoneNumber != nil || enterNumberTextField.text!.filter("1234567890".contains).contains(AuthContext.APPLE_PHONE_NUMBER)
     }
     
 }

@@ -564,6 +564,10 @@
 		5B99D3C128C487F4009E63CD /* OldMistbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99D3BF28C487F4009E63CD /* OldMistbox.swift */; };
 		5B99D3C428C48ADC009E63CD /* ScalingCarousel in Frameworks */ = {isa = PBXBuildFile; productRef = 5B99D3C328C48ADC009E63CD /* ScalingCarousel */; };
 		5B99D3C628C48AF3009E63CD /* ScalingCarousel in Frameworks */ = {isa = PBXBuildFile; productRef = 5B99D3C528C48AF3009E63CD /* ScalingCarousel */; };
+		5BA1179E28C8037E00F470F7 /* SwiftMessagesBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA1179D28C8037E00F470F7 /* SwiftMessagesBadgeView.swift */; };
+		5BA1179F28C8037E00F470F7 /* SwiftMessagesBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA1179D28C8037E00F470F7 /* SwiftMessagesBadgeView.swift */; };
+		5BA117A128C803B100F470F7 /* SwiftMessagesBadgeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BA117A028C803B100F470F7 /* SwiftMessagesBadgeView.xib */; };
+		5BA117A228C803B100F470F7 /* SwiftMessagesBadgeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BA117A028C803B100F470F7 /* SwiftMessagesBadgeView.xib */; };
 		5BA401F72878052B004A556E /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA401F62878052B004A556E /* Env.swift */; };
 		5BA967322872BC5E00724CD9 /* Array+FirstWhere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */; };
 		5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */; };
@@ -688,6 +692,14 @@
 		5BEFCD23287816FB00379CE6 /* Launch-beta.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BEFCD22287816FB00379CE6 /* Launch-beta.storyboard */; };
 		5BF78337285D955F003C3955 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78336285D955F003C3955 /* Map.swift */; };
 		5BF78339285E4477003C3955 /* UITableView+SectionShadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78338285E4477003C3955 /* UITableView+SectionShadow.swift */; };
+		5BFBA83E28C7B30A00414A99 /* BadgesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFBA83C28C7B30A00414A99 /* BadgesCell.swift */; };
+		5BFBA83F28C7B30A00414A99 /* BadgesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFBA83C28C7B30A00414A99 /* BadgesCell.swift */; };
+		5BFBA84028C7B30A00414A99 /* BadgesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BFBA83D28C7B30A00414A99 /* BadgesCell.xib */; };
+		5BFBA84128C7B30A00414A99 /* BadgesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BFBA83D28C7B30A00414A99 /* BadgesCell.xib */; };
+		5BFBA84428C7B65A00414A99 /* BadgeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFBA84228C7B65A00414A99 /* BadgeCell.swift */; };
+		5BFBA84528C7B65A00414A99 /* BadgeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFBA84228C7B65A00414A99 /* BadgeCell.swift */; };
+		5BFBA84628C7B65A00414A99 /* BadgeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BFBA84328C7B65A00414A99 /* BadgeCell.xib */; };
+		5BFBA84728C7B65A00414A99 /* BadgeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BFBA84328C7B65A00414A99 /* BadgeCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -979,6 +991,8 @@
 		5B99D3B828C4698A009E63CD /* NewPostViewController+Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewPostViewController+Keyboard.swift"; sourceTree = "<group>"; };
 		5B99D3BC28C4733C009E63CD /* UIScrollView+IsAt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+IsAt.swift"; sourceTree = "<group>"; };
 		5B99D3BF28C487F4009E63CD /* OldMistbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldMistbox.swift; sourceTree = "<group>"; };
+		5BA1179D28C8037E00F470F7 /* SwiftMessagesBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftMessagesBadgeView.swift; sourceTree = "<group>"; };
+		5BA117A028C803B100F470F7 /* SwiftMessagesBadgeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SwiftMessagesBadgeView.xib; sourceTree = "<group>"; };
 		5BA401F62878052B004A556E /* Env.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		5BA967312872BC5E00724CD9 /* Array+FirstWhere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+FirstWhere.swift"; sourceTree = "<group>"; };
 		5BAD62682875500E00DCFE45 /* InformationCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationCollectionCell.swift; sourceTree = "<group>"; };
@@ -1059,6 +1073,10 @@
 		5BEFCD22287816FB00379CE6 /* Launch-beta.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch-beta.storyboard"; sourceTree = "<group>"; };
 		5BF78336285D955F003C3955 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		5BF78338285E4477003C3955 /* UITableView+SectionShadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+SectionShadow.swift"; sourceTree = "<group>"; };
+		5BFBA83C28C7B30A00414A99 /* BadgesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgesCell.swift; sourceTree = "<group>"; };
+		5BFBA83D28C7B30A00414A99 /* BadgesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BadgesCell.xib; sourceTree = "<group>"; };
+		5BFBA84228C7B65A00414A99 /* BadgeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeCell.swift; sourceTree = "<group>"; };
+		5BFBA84328C7B65A00414A99 /* BadgeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BadgeCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1502,6 +1520,10 @@
 				475271962855851200DDF84D /* SettingCell.xib */,
 				5B6208A428B4B6F7005610A9 /* FeedbackFormCell.swift */,
 				5B6208A528B4B6F7005610A9 /* FeedbackFormCell.xib */,
+				5BFBA83C28C7B30A00414A99 /* BadgesCell.swift */,
+				5BFBA83D28C7B30A00414A99 /* BadgesCell.xib */,
+				5BFBA84228C7B65A00414A99 /* BadgeCell.swift */,
+				5BFBA84328C7B65A00414A99 /* BadgeCell.xib */,
 			);
 			path = MyAccount;
 			sourceTree = "<group>";
@@ -1707,6 +1729,8 @@
 				47EE28FF28414B2300C6425C /* CustomCenteredView.xib */,
 				5BB624B128620D4A00DCD45B /* CustomCardView.swift */,
 				5BB624B328620D5F00DCD45B /* CustomCardView.xib */,
+				5BA1179D28C8037E00F470F7 /* SwiftMessagesBadgeView.swift */,
+				5BA117A028C803B100F470F7 /* SwiftMessagesBadgeView.xib */,
 			);
 			path = CustomSwiftMessages;
 			sourceTree = "<group>";
@@ -2303,6 +2327,8 @@
 				47E74E1527CA0FFF00467A0C /* Assets.xcassets in Resources */,
 				47E86F6E2853EA65005A7DC7 /* Auth.storyboard in Resources */,
 				470F271927DE758100C6DDAF /* SearchResultCell.xib in Resources */,
+				5BFBA84028C7B30A00414A99 /* BadgesCell.xib in Resources */,
+				5BA117A128C803B100F470F7 /* SwiftMessagesBadgeView.xib in Resources */,
 				47527192285584F400DDF84D /* MyProfileCell.xib in Resources */,
 				475271982855851200DDF84D /* SettingCell.xib in Resources */,
 				47EE290028414B2300C6425C /* CustomCenteredView.xib in Resources */,
@@ -2317,6 +2343,7 @@
 				5BAD626B2875500E00DCFE45 /* InformationCollectionCell.xib in Resources */,
 				5BDE1F7628C5CD8800B8B108 /* EnvelopeView.xib in Resources */,
 				5BC2763F286AE9BD00DA5A3D /* Main.storyboard in Resources */,
+				5BFBA84628C7B65A00414A99 /* BadgeCell.xib in Resources */,
 				5B6208A828B4B6F7005610A9 /* FeedbackFormCell.xib in Resources */,
 				478A78A1284EBF180058C845 /* Launch.storyboard in Resources */,
 				5BEFCD23287816FB00379CE6 /* Launch-beta.storyboard in Resources */,
@@ -2351,6 +2378,8 @@
 				5B739E7728935B9500E4EED0 /* Assets.xcassets in Resources */,
 				5B739E7828935B9500E4EED0 /* Auth.storyboard in Resources */,
 				5B739E7928935B9500E4EED0 /* SearchResultCell.xib in Resources */,
+				5BFBA84128C7B30A00414A99 /* BadgesCell.xib in Resources */,
+				5BA117A228C803B100F470F7 /* SwiftMessagesBadgeView.xib in Resources */,
 				5B739E7A28935B9500E4EED0 /* MyProfileCell.xib in Resources */,
 				5B739E7B28935B9500E4EED0 /* SettingCell.xib in Resources */,
 				5B739E7C28935B9500E4EED0 /* CustomCenteredView.xib in Resources */,
@@ -2365,6 +2394,7 @@
 				5B739E8428935B9500E4EED0 /* InformationCollectionCell.xib in Resources */,
 				5BDE1F7728C5CD8800B8B108 /* EnvelopeView.xib in Resources */,
 				5B739E8528935B9500E4EED0 /* Main.storyboard in Resources */,
+				5BFBA84728C7B65A00414A99 /* BadgeCell.xib in Resources */,
 				5B6208A928B4B6F7005610A9 /* FeedbackFormCell.xib in Resources */,
 				5B739E8628935B9500E4EED0 /* Launch.storyboard in Resources */,
 				5B739E8728935B9500E4EED0 /* Launch-beta.storyboard in Resources */,
@@ -2439,6 +2469,7 @@
 			files = (
 				47D5B3672844116A004CDE6C /* UIView+AddBorders.swift in Sources */,
 				5BB624CF2867A50F00DCD45B /* FavoriteService.swift in Sources */,
+				5BFBA83E28C7B30A00414A99 /* BadgesCell.swift in Sources */,
 				472A4C0128408BD800FD52B7 /* AsyncButton.swift in Sources */,
 				479AA1F527DCFFCB00EA0DFC /* UIView+TopBorder.swift in Sources */,
 				47A3D71027D55BDD003DBEA5 /* PostFilter.swift in Sources */,
@@ -2579,6 +2610,7 @@
 				5B235B0728AEAD4300FD27A9 /* UIViewController+Window.swift in Sources */,
 				471F92D1280159430079F8CA /* SegmentedControlCell.swift in Sources */,
 				5B4152A028BDEA2A00592A55 /* TagsViewCell.swift in Sources */,
+				5BA1179E28C8037E00F470F7 /* SwiftMessagesBadgeView.swift in Sources */,
 				5BB624C5286790D400DCD45B /* BlockService.swift in Sources */,
 				5BC8822C28B15192007E83F8 /* UIViewController+Logout.swift in Sources */,
 				5BB624B228620D4A00DCD45B /* CustomCardView.swift in Sources */,
@@ -2625,6 +2657,7 @@
 				472A4BF528408BD800FD52B7 /* DesignableLabel.swift in Sources */,
 				472A4BEF28408BD800FD52B7 /* KeyboardLayoutConstraint.swift in Sources */,
 				4700F8B527DD7BBA006C2E08 /* CommentAPI.swift in Sources */,
+				5BFBA84428C7B65A00414A99 /* BadgeCell.swift in Sources */,
 				5BA967322872BC5E00724CD9 /* Array+FirstWhere.swift in Sources */,
 				47A3D70227D524F4003DBEA5 /* NewPostViewController.swift in Sources */,
 				472A4C0328408BD800FD52B7 /* SpringLabel.swift in Sources */,
@@ -2765,6 +2798,7 @@
 			files = (
 				5B739D9328935B9500E4EED0 /* UIView+AddBorders.swift in Sources */,
 				5B739D9428935B9500E4EED0 /* FavoriteService.swift in Sources */,
+				5BFBA83F28C7B30A00414A99 /* BadgesCell.swift in Sources */,
 				5B739D9528935B9500E4EED0 /* AsyncButton.swift in Sources */,
 				5B739D9628935B9500E4EED0 /* UIView+TopBorder.swift in Sources */,
 				5B739D9728935B9500E4EED0 /* PostFilter.swift in Sources */,
@@ -2905,6 +2939,7 @@
 				5BC25A9828990BF9005AAF69 /* EmojiButton.swift in Sources */,
 				5B739DFB28935B9500E4EED0 /* DesignableTextField.swift in Sources */,
 				5B4152A128BDEA2A00592A55 /* TagsViewCell.swift in Sources */,
+				5BA1179F28C8037E00F470F7 /* SwiftMessagesBadgeView.swift in Sources */,
 				5B739DFC28935B9500E4EED0 /* DesignableButton.swift in Sources */,
 				5B739DFD28935B9500E4EED0 /* BasicAPI.swift in Sources */,
 				5B739DFE28935B9500E4EED0 /* UIViewController+OpenURL.swift in Sources */,
@@ -2951,6 +2986,7 @@
 				5B739E1E28935B9500E4EED0 /* DesignableLabel.swift in Sources */,
 				5B739E1F28935B9500E4EED0 /* KeyboardLayoutConstraint.swift in Sources */,
 				5B739E2028935B9500E4EED0 /* CommentAPI.swift in Sources */,
+				5BFBA84528C7B65A00414A99 /* BadgeCell.swift in Sources */,
 				5B739E2128935B9500E4EED0 /* Array+FirstWhere.swift in Sources */,
 				5B739E2228935B9500E4EED0 /* NewPostViewController.swift in Sources */,
 				5B739E2328935B9500E4EED0 /* SpringLabel.swift in Sources */,

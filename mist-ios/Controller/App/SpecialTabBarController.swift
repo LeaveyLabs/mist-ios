@@ -12,13 +12,19 @@ class SpecialTabBarController: UITabBarController {
     
     var mistboxTabBadgeCount: Int! {
         didSet {
-            tabBar.items![1].badgeValue = mistboxTabBadgeCount == 0 ? nil : String(mistboxTabBadgeCount)
+            DispatchQueue.main.async { [self] in
+                tabBar.items![1].badgeValue = mistboxTabBadgeCount == 0 ? nil : String(mistboxTabBadgeCount)
+                repositionBadges() //necessary or else badge position is incorrect
+            }
         }
     }
     
     var dmTabBadgeCount: Int! {
         didSet {
-            tabBar.items![2].badgeValue = dmTabBadgeCount == 0 ? nil : String(dmTabBadgeCount)
+            DispatchQueue.main.async { [self] in
+                tabBar.items![2].badgeValue = dmTabBadgeCount == 0 ? nil : String(dmTabBadgeCount)
+                repositionBadges()
+            }
         }
     }
     
@@ -88,7 +94,7 @@ extension SpecialTabBarController {
     }
     
     func refreshBadgeCount() {
-        mistboxTabBadgeCount = MistboxManager.shared.getRemainingOpens() ?? 0
+        mistboxTabBadgeCount = MistboxManager.shared.getMistboxMists().count
         dmTabBadgeCount = ConversationService.singleton.getUnreadConversations().count
     }
     

@@ -68,7 +68,7 @@ class UserService: NSObject {
     //User
     func getUser() -> FrontendCompleteUser { return authedUser }
     func getUserAsReadOnlyUser() -> ReadOnlyUser {
-        return ReadOnlyUser(id: authedUser.id,
+        return ReadOnlyUser(badges: authedUser.badges, id: authedUser.id,
                             username: authedUser.username,
                             first_name: authedUser.first_name,
                             last_name: authedUser.last_name,
@@ -90,10 +90,9 @@ class UserService: NSObject {
     func getPhoneNumber() -> String? { return authedUser.phone_number }
     func getPhoneNumberPretty() -> String? { return authedUser.phone_number?.asNationalPhoneNumber }
     func getProfilePic() -> UIImage { return authedUser.profilePicWrapper.image }
-    func getBlurredPic() -> UIImage { return authedUser.profilePicWrapper.blurredImage }
-    func getKeywords() -> [String] {
-        return []
-    }
+    func getBlurredPic() -> UIImage { return getUserAsFrontendReadOnlyUser().blurredPic } //we have to use the asFrontendReadOnlyUser method in order to make sure the silhouette, not the blurred image, is shown
+    
+    func getBadges() -> [String] { return authedUser.badges }
     func isVerified() -> Bool { return false }
     
     //MARK: - Login and create user
@@ -227,11 +226,11 @@ class UserService: NSObject {
     
     //MARK: - Logout and delete user
     
-    func logOut()  {
+    func logOutFromDevice()  {
         eraseUserFromFilesystem()
+        DeviceService.shared.eraseData()
         if getGlobalDeviceToken() != "" {
             Task {
-                DeviceService.shared.eraseData()
                 try await DeviceAPI.disableCurrentDeviceNotificationsForUser(user: authedUser.id)
             }
         }
@@ -240,7 +239,7 @@ class UserService: NSObject {
     }
     
     func kickUserToHomeScreenAndLogOut() {
-        logOut()
+        logOutFromDevice()
         DispatchQueue.main.async {
             transitionToAuth()
         }
@@ -249,8 +248,12 @@ class UserService: NSObject {
     func deleteMyAccount() async throws {
         guard let frontendCompleteUser = frontendCompleteUser else { return }
         let id = frontendCompleteUser.id
-        logOut()
-        try await UserAPI.deleteUser(user_id: id)
+        do {
+            try await UserAPI.deleteUser(user_id: id)
+            logOutFromDevice()
+        } catch {
+            print(error)
+        }
     }
     
     //MARK: - Firebase

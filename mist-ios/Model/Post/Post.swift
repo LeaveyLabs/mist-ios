@@ -8,7 +8,8 @@
 import Foundation
 
 let DUMMY_POST_ID: Int = -1
-
+typealias Emoji = String
+typealias EmojiCountDict = [Emoji:Int]
 typealias EmojiCountTuple = (emoji: String, count: Int)
 
 struct Post: Codable, Equatable {
@@ -22,7 +23,8 @@ struct Post: Codable, Equatable {
     let timestamp: Double
     let author: Int
     let read_only_author: ReadOnlyUser
-    let votes: [PostVote];
+//    let emoji_dict: EmojiCountDict
+    let votes: [PostVote]
     
     //commentCount is not supported right now. we're trying to avoid ever updating the Post on the frontend, so it's easier just to not think about this right now
     let commentcount: Int
@@ -48,7 +50,9 @@ struct Post: Codable, Equatable {
          longitude: Double?,
          timestamp: Double,
          author: Int,
-         votecount: Int = 0,
+         emojiDict: EmojiCountDict = [:],
+         votes: [PostVote] = [],
+         emojiCountTuples: [EmojiCountTuple] = [],
          commentcount: Int = 0) {
         self.id = id
         self.title = title
@@ -60,9 +64,9 @@ struct Post: Codable, Equatable {
         self.author = author
         self.read_only_author = UserService.singleton.getUserAsReadOnlyUser()
         self.commentcount = commentcount
-//        self.votecount = votecount
-        self.votes = []
-        self.emojiCountTuples = []
+        self.votes = votes
+//        self.emoji_dict = emojiDict
+        self.emojiCountTuples = emojiCountTuples
     }
     
     static func == (lhs: Post, rhs: Post) -> Bool {
@@ -81,9 +85,9 @@ struct Post: Codable, Equatable {
         self.author = try container.decode(Int.self, forKey: .author)
         self.read_only_author = try container.decode(ReadOnlyUser.self, forKey: .read_only_author)
         self.commentcount = try container.decode(Int.self, forKey: .commentcount)
-//        self.votecount = try container.decode(Int.self, forKey: .votecount)
         self.votes = try container.decode([PostVote].self, forKey: .votes)
-        self.emojiCountTuples = Post.setupPostTuples(from: votes, title)
+//        self.emoji_dict = try container.decode([String:Int].self, forKey: .votes)
+        emojiCountTuples = Post.setupPostTuples(from: votes, title)
     }
     
     static private func setupPostTuples(from votes: [PostVote], _ title: String) -> [EmojiCountTuple] {

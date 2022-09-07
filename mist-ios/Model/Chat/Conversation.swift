@@ -123,7 +123,7 @@ class Conversation {
                 
         do {
             try messageThread.sendMessage(message_text: messageText)
-            let attributedMessage = NSAttributedString(string: messageText, attributes: [.font: UIFont(name: Constants.Font.Roman, size: 15)!])
+            let attributedMessage = NSAttributedString(string: messageText, attributes: [.font: UIFont(name: Constants.Font.Roman, size: 16)!])
             let messageKitMessage = MessageKitMessage(text: attributedMessage,
                                             sender: UserService.singleton.getUserAsFrontendReadOnlyUser(),
                                                       receiver: sangdaebang,
@@ -139,7 +139,7 @@ class Conversation {
     //MARK: - Receiving things
     
     func handleReceivedMessage(_ message: Message) {
-        let attributedMessage = NSAttributedString(string: message.body, attributes: [.font: UIFont(name: Constants.Font.Roman, size: 15)!])
+        let attributedMessage = NSAttributedString(string: message.body, attributes: [.font: UIFont(name: Constants.Font.Roman, size: 16)!])
         let messageKitMessage = MessageKitMessage(text: attributedMessage, sender: sangdaebang, receiver: UserService.singleton.getUserAsFrontendReadOnlyUser(), messageId: String(message.id), date: Date(timeIntervalSince1970: message.timestamp))
         chatObjects.append(messageKitMessage)
         renderedIndex += 1

@@ -12,25 +12,25 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ConversationCell" rowHeight="101" id="KGk-i7-Jjw" customClass="ConversationCell" customModule="mist_ios" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ConversationCell" rowHeight="106" id="KGk-i7-Jjw" customClass="ConversationCell" customModule="mist_ios" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="106"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="106"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="N6i-8e-dhH">
-                        <rect key="frame" x="15" y="0.0" width="290" height="100"/>
+                        <rect key="frame" x="15" y="0.0" width="285" height="105"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="EGi-0T-fN4">
-                                <rect key="frame" x="0.0" y="15" width="70" height="70"/>
+                                <rect key="frame" x="0.0" y="17.5" width="70" height="70"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="EGi-0T-fN4" secondAttribute="height" multiplier="1:1" id="90N-CV-9JX"/>
                                     <constraint firstAttribute="height" constant="70" id="pZC-0c-ZCV"/>
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="QsJ-Pb-gBh">
-                                <rect key="frame" x="85" y="17.5" width="170" height="65.5"/>
+                                <rect key="frame" x="85" y="20" width="170" height="65.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Hvl-0P-hEs">
                                         <rect key="frame" x="0.0" y="0.0" width="170" height="30"/>
@@ -51,11 +51,11 @@
                                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20"/>
                                             </imageView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XiZ-ML-ARk">
-                                                <rect key="frame" x="92.5" y="0.0" width="68.5" height="30"/>
+                                                <rect key="frame" x="92.5" y="0.0" width="67.5" height="30"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 days ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hCf-7P-Lt6">
-                                                <rect key="frame" x="166" y="6" width="4" height="18"/>
+                                                <rect key="frame" x="165" y="6" width="5" height="18"/>
                                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
                                                 <color key="textColor" systemColor="systemGrayColor"/>
                                                 <nil key="highlightedColor"/>
@@ -80,17 +80,17 @@
                                 </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HJz-hD-h1D">
-                                <rect key="frame" x="270" y="40" width="20" height="20"/>
+                                <rect key="frame" x="270" y="45" width="15" height="15"/>
                                 <color key="backgroundColor" name="mist-lilac-purple"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="HJz-hD-h1D" secondAttribute="height" multiplier="1:1" id="mSp-ZL-YCc"/>
-                                    <constraint firstAttribute="width" constant="20" id="zmr-HV-kqz"/>
+                                    <constraint firstAttribute="width" constant="15" id="zmr-HV-kqz"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <constraints>
                             <constraint firstItem="QsJ-Pb-gBh" firstAttribute="height" secondItem="EGi-0T-fN4" secondAttribute="height" multiplier="0.935714" id="QRW-aR-c3y"/>
-                            <constraint firstAttribute="height" constant="100" id="yJX-tA-yLe"/>
+                            <constraint firstAttribute="height" constant="105" id="yJX-tA-yLe"/>
                         </constraints>
                     </stackView>
                 </subviews>
@@ -99,7 +99,7 @@
                     <constraint firstItem="N6i-8e-dhH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="GDv-WS-8tg"/>
                     <constraint firstAttribute="bottom" secondItem="N6i-8e-dhH" secondAttribute="bottom" id="cvG-Ze-xR5"/>
                     <constraint firstAttribute="bottom" secondItem="N6i-8e-dhH" secondAttribute="bottom" id="jZA-51-c8Z"/>
-                    <constraint firstAttribute="trailing" secondItem="N6i-8e-dhH" secondAttribute="trailing" constant="15" id="pRy-F1-quu"/>
+                    <constraint firstAttribute="trailing" secondItem="N6i-8e-dhH" secondAttribute="trailing" constant="20" id="pRy-F1-quu"/>
                     <constraint firstItem="N6i-8e-dhH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="zFp-NH-I6c"/>
                 </constraints>
             </tableViewCellContentView>
@@ -113,7 +113,7 @@
                 <outlet property="timeLabel" destination="hCf-7P-Lt6" id="kMv-ex-yQW"/>
                 <outlet property="verifiedImageView" destination="oRA-X8-hSR" id="yR1-ZS-8QJ"/>
             </connections>
-            <point key="canvasLocation" x="137.68115942028987" y="118.86160714285714"/>
+            <point key="canvasLocation" x="137.68115942028987" y="120.53571428571428"/>
         </tableViewCell>
     </objects>
     <resources>
@@ -126,7 +126,7 @@
             <color red="0.78431372549019607" green="0.62352941176470589" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="mist-lilac-purple">
-            <color red="0.68235294117647061" green="0.45882352941176469" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.68199998140335083" green="0.45899999141693115" blue="0.96899998188018799" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="off-white">
             <color red="0.9882352941176471" green="0.9882352941176471" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

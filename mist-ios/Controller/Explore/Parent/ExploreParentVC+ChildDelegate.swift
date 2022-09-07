@@ -149,7 +149,6 @@ extension ExploreParentViewController: PostDelegate {
                 if let postAnnotationView = exploreMapVC.selectedAnnotationView, keyboardHeight > 100 { //keyboardHeight of 90 appears with postVC keyboard
                     postAnnotationView.movePostUpAfterEmojiKeyboardRaised()
                 }
-                
             }
         }
     }

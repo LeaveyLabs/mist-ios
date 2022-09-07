@@ -34,7 +34,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="2gR-fK-2Th"/>
                                     <constraint firstAttribute="width" constant="167" id="O7g-NR-qty"/>
@@ -1018,7 +1018,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="IoS-2r-uTy"/>
                                     <constraint firstItem="35t-zU-3HN" firstAttribute="centerX" secondItem="VHe-77-zY4" secondAttribute="centerX" id="JqR-k2-uv1"/>
@@ -2311,10 +2311,13 @@
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" name="mist-lilac"/>
                                                     </view>
-                                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qoP-vE-2go">
-                                                        <rect key="frame" x="184" y="125" width="8" height="8"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qoP-vE-2go">
+                                                        <rect key="frame" x="184" y="124.33333333333331" width="8" height="8"/>
                                                         <color key="backgroundColor" name="mist-lilac"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="8" id="8RJ-Pj-PhF"/>
+                                                            <constraint firstAttribute="width" secondItem="qoP-vE-2go" secondAttribute="height" multiplier="1:1" id="E5u-lY-sHP"/>
+                                                        </constraints>
                                                     </view>
                                                 </subviews>
                                                 <color key="backgroundColor" name="mist-pink"/>
@@ -2322,6 +2325,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="trailing" secondItem="Iic-TR-uAk" secondAttribute="trailing" constant="15" id="1RP-sE-j0w"/>
                                                     <constraint firstItem="d76-Ur-nhi" firstAttribute="leading" secondItem="x2W-5m-lTz" secondAttribute="leading" constant="11" id="3vO-eI-SX5"/>
+                                                    <constraint firstItem="qoP-vE-2go" firstAttribute="top" secondItem="OVP-oT-mo6" secondAttribute="top" constant="16" id="5fE-dN-ROd"/>
                                                     <constraint firstItem="QFY-T2-i4P" firstAttribute="trailing" secondItem="Scd-dZ-nEi" secondAttribute="trailing" constant="-8" id="8lz-Cj-rXb"/>
                                                     <constraint firstAttribute="bottom" secondItem="OVP-oT-mo6" secondAttribute="bottom" constant="15" id="HwN-QZ-Kcy"/>
                                                     <constraint firstItem="OVP-oT-mo6" firstAttribute="leading" secondItem="x2W-5m-lTz" secondAttribute="leading" constant="15" id="IIy-Jb-L8W"/>
@@ -2335,6 +2339,7 @@
                                                     <constraint firstAttribute="trailing" secondItem="OVP-oT-mo6" secondAttribute="trailing" constant="15" id="obi-ik-ZK9"/>
                                                     <constraint firstItem="CUc-2u-pl4" firstAttribute="trailing" secondItem="qaR-57-CDg" secondAttribute="trailing" constant="2" id="pIv-tc-BGr"/>
                                                     <constraint firstItem="d76-Ur-nhi" firstAttribute="top" secondItem="x2W-5m-lTz" secondAttribute="top" constant="13" id="sIb-Df-92u"/>
+                                                    <constraint firstItem="qoP-vE-2go" firstAttribute="leading" secondItem="x2W-5m-lTz" secondAttribute="leading" constant="184" id="sdr-r6-xNJ"/>
                                                     <constraint firstItem="Iic-TR-uAk" firstAttribute="leading" secondItem="x2W-5m-lTz" secondAttribute="leading" constant="15" id="veK-7D-xPr"/>
                                                 </constraints>
                                             </view>
