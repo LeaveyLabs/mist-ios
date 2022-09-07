@@ -25,6 +25,12 @@ struct MistboxError: Codable {
     let detail: String?
 }
 
+enum Order {
+    case RECENT
+    case BEST
+    case TRENDING
+}
+
 class PostAPI {
     static let PATH_TO_POST_MODEL = "api/posts/"
     static let PATH_TO_FEATURED_POSTS = "api/featured-posts/"
@@ -97,6 +103,13 @@ class PostAPI {
     // Fetches all posts from database
     static func fetchPosts() async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)"
+        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterPostErrors(data: data, response: response)
+        return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
+    static func fetchPosts(order:Order) async throws -> [Post] {
+        let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?order=\(order)"
         let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
