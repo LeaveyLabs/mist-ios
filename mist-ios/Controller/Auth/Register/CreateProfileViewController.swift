@@ -212,10 +212,8 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
                     profilePic: uploadedProfilePic,
                     email: AuthContext.email,
                     phoneNumber: AuthContext.phoneNumber,
-                    dob: AuthContext.dob)
-                if let accessCode = AuthContext.accessCode {
-                    await UserService.singleton.tryToEnterAccessCode(accessCode)
-                }
+                    dob: AuthContext.dob,
+                    accessCode: AuthContext.accessCode)
                 try await loadEverything()
                 AuthContext.reset()
                 isSubmitting = false

@@ -36,13 +36,14 @@ class DeviceService: NSObject {
     func hasBeenOfferedNotificationsAfterDM() -> Bool { return device.hasBeenOfferedNotificationsAfterDM }
     func hasBeenRequestedARating() -> Bool { return device.hasBeenRequestedARating }
     func unreadMentionsCount() -> Int {
-        var unreadCount = 0
+        var unreadPostUniqueTags = [Tag]()
         CommentService.singleton.getTags().forEach { tag in
-            if tag.timestamp > device.lastMentionsOpenTime {
-                unreadCount += 1
+            if tag.timestamp > device.lastMentionsOpenTime && !unreadPostUniqueTags.contains(where: { $0.post == tag.post }) {
+                print(tag)
+                unreadPostUniqueTags.append(tag)
             }
         }
-        return unreadCount
+        return unreadPostUniqueTags.count
     }
 
     //MARK: - Doers

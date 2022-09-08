@@ -19,6 +19,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="faC-4s-3Of">
+                        <rect key="frame" x="262.5" y="9.5" width="25" height="25"/>
+                        <color key="backgroundColor" name="mist-lilac-purple"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="faC-4s-3Of" secondAttribute="height" multiplier="1:1" id="SdJ-l3-ApM"/>
+                            <constraint firstAttribute="width" constant="25" id="nsW-h9-NhT"/>
+                        </constraints>
+                    </view>
                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="WCS-Rw-vdc">
                         <rect key="frame" x="15" y="0.0" width="290" height="44"/>
                         <subviews>
@@ -33,35 +41,20 @@
                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" scale="default" weight="regular"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Submissions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iIb-Rs-rXn">
-                                <rect key="frame" x="33" y="12" width="182" height="20.5"/>
+                                <rect key="frame" x="33" y="12" width="209.5" height="20.5"/>
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
                                 <color key="textColor" name="mist-black"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RD7-VJ-KZ1">
-                                <rect key="frame" x="225" y="13" width="7.5" height="18"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RD7-VJ-KZ1">
+                                <rect key="frame" x="252.5" y="13" width="15" height="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="15" id="x6V-f9-c4O"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="faC-4s-3Of">
-                                <rect key="frame" x="242.5" y="9.5" width="25" height="25"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfv-tv-l5B">
-                                        <rect key="frame" x="9" y="3.5" width="7.5" height="18"/>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
-                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" name="mist-lilac-purple"/>
-                                <constraints>
-                                    <constraint firstItem="qfv-tv-l5B" firstAttribute="centerX" secondItem="faC-4s-3Of" secondAttribute="centerX" id="EY0-9K-l6a"/>
-                                    <constraint firstAttribute="width" secondItem="faC-4s-3Of" secondAttribute="height" multiplier="1:1" id="SdJ-l3-ApM"/>
-                                    <constraint firstItem="qfv-tv-l5B" firstAttribute="centerY" secondItem="faC-4s-3Of" secondAttribute="centerY" id="asY-A6-Eor"/>
-                                    <constraint firstAttribute="width" constant="25" id="nsW-h9-NhT"/>
-                                </constraints>
-                            </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="svx-55-TkI">
                                 <rect key="frame" x="277.5" y="15" width="12.5" height="14"/>
                                 <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -71,6 +64,7 @@
                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="14"/>
                             </imageView>
                         </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="44" id="Q1i-S9-9Wo"/>
                         </constraints>
@@ -79,7 +73,9 @@
                 <constraints>
                     <constraint firstItem="WCS-Rw-vdc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="7Jw-sw-Qgw"/>
                     <constraint firstItem="WCS-Rw-vdc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="h82-zs-gA1"/>
+                    <constraint firstItem="faC-4s-3Of" firstAttribute="centerY" secondItem="RD7-VJ-KZ1" secondAttribute="centerY" id="jFf-qU-pz7"/>
                     <constraint firstAttribute="trailing" secondItem="WCS-Rw-vdc" secondAttribute="trailing" constant="15" id="juK-q7-GoO"/>
+                    <constraint firstItem="faC-4s-3Of" firstAttribute="centerX" secondItem="RD7-VJ-KZ1" secondAttribute="centerX" id="l0R-gQ-FEc"/>
                     <constraint firstAttribute="bottom" secondItem="WCS-Rw-vdc" secondAttribute="bottom" id="pQa-Vz-Taq"/>
                 </constraints>
             </tableViewCellContentView>
@@ -88,7 +84,6 @@
             <connections>
                 <outlet property="accessoryImageView" destination="svx-55-TkI" id="1gM-FY-s6f"/>
                 <outlet property="accessoryIndicatorBackgroundView" destination="faC-4s-3Of" id="deG-Sa-eg7"/>
-                <outlet property="accessoryIndicatorLabel" destination="qfv-tv-l5B" id="98C-3J-uto"/>
                 <outlet property="accessoryLabel" destination="RD7-VJ-KZ1" id="CNn-fc-FM4"/>
                 <outlet property="iconImageView" destination="Ala-tG-FA0" id="hlo-u9-h0G"/>
                 <outlet property="titleLabel" destination="iIb-Rs-rXn" id="KOi-H0-Wcm"/>

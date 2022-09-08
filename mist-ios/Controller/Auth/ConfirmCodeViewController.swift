@@ -38,7 +38,11 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
     }
     var isSubmitting: Bool = false {
         didSet {
-            continueButton.setTitle(isSubmitting ? "" : "continue", for: .normal)
+            if confirmMethod == .accessCode {
+                continueButton.setTitle("skip", for: .normal)
+            } else {
+                continueButton.setTitle(isSubmitting ? "" : "continue", for: .normal)
+            }
             continueButton.loadingIndicator(isSubmitting)
             resendButton.isEnabled = !isSubmitting
         }
@@ -88,6 +92,7 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
         setupContinueButton()
         setupLabel()
         confirmTextField.becomeFirstResponder()
+        validateInput()
         
         if confirmMethod == .accessCode {
             resendButton.isHidden = true
@@ -284,8 +289,8 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
             try await loadEverything()
         case .accessCode:
             let isAvailable = try await UserAPI.isAccessCodeAvailable(code: validationCode)
-            if isAvailable {
-                throw APIError.ClientError("code not available", "please try again")
+            if !isAvailable {
+                throw APIError.ClientError("invalid code", "please try again")
             }
             AuthContext.accessCode = validationCode
         case .none:

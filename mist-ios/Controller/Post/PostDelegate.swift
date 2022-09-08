@@ -84,15 +84,6 @@ extension PostDelegate where Self: UIViewController {
         present(navigationController, animated: true, completion: nil)
     }
     
-    func handleFavorite(postId: Int, isAdding: Bool) {
-        // Singleton & remote update
-        do {
-            try FavoriteService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
-        } catch {
-            CustomSwiftMessages.displayError(error)
-        }
-    }
-    
     func handleFlag(postId: Int, isAdding: Bool) {
         // Singleton & remote update
         do {

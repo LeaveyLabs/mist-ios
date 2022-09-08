@@ -67,6 +67,15 @@ extension ExploreParentViewController: ExploreChildDelegate {
 
 extension ExploreParentViewController: PostDelegate {
     
+    func handleFavorite(postId: Int, isAdding: Bool) {
+        // Singleton & remote update
+        do {
+            try FavoriteService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
+        } catch {
+            CustomSwiftMessages.displayError(error)
+        }
+    }
+    
     func handleVote(postId: Int, emoji: String, action: VoteAction) {
         do {
             try VoteService.singleton.handlePostVoteUpdate(postId: postId, emoji: emoji, action)

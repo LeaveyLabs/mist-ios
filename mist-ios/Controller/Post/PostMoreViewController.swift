@@ -13,7 +13,6 @@ class PostMoreViewController: UIViewController {
     @IBOutlet weak var favoriteButton: ToggleButton!
     @IBOutlet weak var flagButton: ToggleButton!
     @IBOutlet weak var deleteButton: UIButton!
-    @IBOutlet weak var deleteButtonGrayLine: UIView!
     @IBOutlet weak var backgroundView: UIView!
 
     var postDelegate: PostDelegate!

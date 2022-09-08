@@ -198,7 +198,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
                 
                 let fetchedUsers = try await UserAPI.fetchUsersByWords(words: [query])
                 let nonduplicatedUsers = Set(fetchedUsers).union(usersInContacts)
-                let trimmedUsers = Array(nonduplicatedUsers.prefix(15))
+                let trimmedUsers = Array(nonduplicatedUsers.prefix(10))
                 let frontendSuggestedUsers = try await Array(UsersService.singleton.loadAndCacheUsers(users: trimmedUsers).values)
                 
                 let newResults = turnResultsIntoAutocompletions(frontendSuggestedUsers, contactsWithoutAnAccount)

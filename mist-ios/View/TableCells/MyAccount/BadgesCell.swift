@@ -26,7 +26,7 @@ class BadgesCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        badgeBackground.applyMediumShadow()
+        badgeBackground.applyLightMediumShadow()
         badgeBackground.roundCornersViaCornerRadius(radius: 8)
         let badgeTap = UITapGestureRecognizer(target: self, action: #selector(badgeDidTapped))
         badgeBackground.addGestureRecognizer(badgeTap)

@@ -1578,10 +1578,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eWl-wB-JB7">
-                                <rect key="frame" x="0.0" y="462" width="390" height="382"/>
+                                <rect key="frame" x="0.0" y="461" width="390" height="383"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Z1f-UG-0Ah">
-                                        <rect key="frame" x="10" y="10" width="370" height="352"/>
+                                        <rect key="frame" x="10" y="10" width="370" height="353"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zn7-nt-cZ6" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="370" height="70"/>
@@ -1671,8 +1671,15 @@
                                                     <action selector="deleteButtonDidPressed:" destination="T5e-wC-mjN" eventType="touchUpInside" id="67L-fJ-WeD"/>
                                                 </connections>
                                             </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vty-to-0n7">
+                                                <rect key="frame" x="0.0" y="282" width="370" height="1"/>
+                                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="Gts-ps-A8g"/>
+                                                </constraints>
+                                            </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hzi-0y-WHM">
-                                                <rect key="frame" x="0.0" y="282" width="370" height="70"/>
+                                                <rect key="frame" x="0.0" y="283" width="370" height="70"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="70" id="kPy-VH-usB"/>

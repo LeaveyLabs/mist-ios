@@ -104,7 +104,8 @@ class UserService: NSObject {
                     profilePic: UIImage,
                     email: String,
                     phoneNumber: String,
-                    dob: String) async throws {
+                    dob: String,
+                    accessCode: String?) async throws {
         let newProfilePicWrapper = ProfilePicWrapper(image: profilePic, withCompresssion: true)
         let compressedProfilePic = newProfilePicWrapper.image
         let token = try await AuthAPI.createUser(username: username,
@@ -115,14 +116,20 @@ class UserService: NSObject {
                                             phone_number: phoneNumber,
                                             dob: dob)
         setGlobalAuthToken(token: token)
-        let completeUser = try await UserAPI.fetchAuthedUserByToken(token: token)
+        if let accessCode = AuthContext.accessCode {
+            await UserService.singleton.tryToEnterAccessCode(accessCode)
+        }
         
-        Task { try await waitAndRegisterDeviceToken(id: completeUser.id) }
+        let completeUser = try await UserAPI.fetchAuthedUserByToken(token: token)
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
                                                     profilePic: newProfilePicWrapper,
                                                     token: token)
-        setupFirebaseAnalyticsProperties()
+        authedUser = frontendCompleteUser!
         await self.saveUserToFilesystem()
+        Task { try await waitAndRegisterDeviceToken(id: completeUser.id) }
+        Task {
+            setupFirebaseAnalyticsProperties() //must come later at the end of this process so that we dont access authedUser while it's null and kick the user to the home screen
+        }
     }
     
 //    func logIn(json: Data) async throws {
@@ -154,7 +161,6 @@ class UserService: NSObject {
     func tryToEnterAccessCode(_ accessCode: String) async {
         do {
             try await UserAPI.postAccessCode(code: accessCode)
-            authedUser.badges.append("LM")
         } catch {
             print("ACCESS CODE POST FAILED")
         }
@@ -309,6 +315,7 @@ class UserService: NSObject {
         do {
             let data = try Data(contentsOf: self.localFileLocation)
             frontendCompleteUser = try JSONDecoder().decode(FrontendCompleteUser.self, from: data)
+            print(frontendCompleteUser)
             guard let frontendCompleteUser = frontendCompleteUser else { return }
             setGlobalAuthToken(token: frontendCompleteUser.token) //this shouldn't be necessary, but to be safe
             Task { try await waitAndRegisterDeviceToken(id: frontendCompleteUser.id) }

@@ -67,11 +67,14 @@ class MistboxManager: NSObject {
     //MARK: - Fetchers
     
     func fetchSyncedMistbox() async throws {
-        mistbox = try await PostAPI.fetchMistbox()
-        if let mistbox = mistbox {
-            let _ = await PostService.singleton.cachePostsAndGetArrayOfPostIdsFrom(posts: mistbox.posts)
-            //TODO: display some "you have 4 new mists in your mistbox!!!" sign
+        guard let newMistbox = try await PostAPI.fetchMistbox() else { return }
+        let _ = await PostService.singleton.cachePostsAndGetArrayOfPostIdsFrom(posts: newMistbox.posts)
+        
+        if newMistbox.posts.count > (mistbox?.posts.count ?? 0) {
+            //update tab bar
+            //tell the tabbarvc to reload
         }
+        mistbox = newMistbox
     }
     
     //MARK: - Getters

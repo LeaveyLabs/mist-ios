@@ -59,6 +59,7 @@ class MistboxViewController: UIViewController {
         setupNavBar()
         setupLabelsAndButtons()
         setupTabBar()
+        updateUI()
     }
     
     func setupTabBar() {
@@ -70,7 +71,6 @@ class MistboxViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updateUI()
         if hasAppearedOnce && !isPostPushed {
             collectionView.reloadData()
             rerenderTitleText()
@@ -370,13 +370,14 @@ extension MistboxViewController: MistboxCellDelegate {
             self.collectionView.deleteItems(at:[IndexPath(item: postIndex, section: 0)])
         }) { completed in
             guard !MistboxManager.shared.getMistboxMists().isEmpty else {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [self] in
                     self.updateUI()
                 }
                 return
             }
             self.reloadVisibleIndexLabel()
             self.rerenderTitleText()
+            
         }
     }
     

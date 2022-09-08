@@ -55,6 +55,7 @@ class ConversationService: NSObject {
             conversationsLastMessageReadTime = ConversationsLastMessageReadTime()
             Task { await saveToFilesystem() }
         }
+        startOccasionalRefreshTask()
     }
     
     
@@ -88,6 +89,29 @@ class ConversationService: NSObject {
             conversations = Dictionary(uniqueKeysWithValues: frontendUsers.map {userId, user in
                 (userId, Conversation(sangdaebang: user, messageThread: messageThreadsByUserIds[userId]!))
             })
+        }
+    }
+    
+    func loadConversationsAndRefreshVC() async throws {
+        try await loadMessageThreads()
+        DispatchQueue.main.async {
+            guard let tabVC = UIApplication.shared.windows.first?.rootViewController as? SpecialTabBarController else { return }
+            tabVC.refreshBadgeCount()
+            let visibleVC = SceneDelegate.visibleViewController
+            if let chatVC = visibleVC as? ChatViewController {
+                chatVC.handleNewMessage()
+            } else if let conversationsVC = visibleVC as? ConversationsViewController {
+                conversationsVC.tableView.reloadData()
+            }
+        }
+    }
+    
+    func startOccasionalRefreshTask() {
+        Task {
+            while true {
+                try await loadConversationsAndRefreshVC()
+                try await Task.sleep(nanoseconds: NSEC_PER_SEC * 30)
+            }
         }
     }
     

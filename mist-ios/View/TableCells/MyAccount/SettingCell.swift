@@ -12,7 +12,6 @@ class SettingCell: UITableViewCell {
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var accessoryLabel: UILabel! //for non notifications
-    @IBOutlet weak var accessoryIndicatorLabel: UILabel! //for notifications
     @IBOutlet weak var accessoryIndicatorBackgroundView: UIView! //for notifications
     @IBOutlet weak var accessoryImageView: UIImageView!
         
@@ -31,6 +30,7 @@ class SettingCell: UITableViewCell {
         accessoryLabel.textColor = Constants.Color.mistBlack
         selectionStyle = .default
         accessoryIndicatorBackgroundView.isHidden = true
+        accessoryLabel.font = UIFont(name: Constants.Font.Medium, size: 13)
         
         switch setting {
         case .friends:
@@ -40,16 +40,20 @@ class SettingCell: UITableViewCell {
             if DeviceService.shared.unreadMentionsCount() > 0 {
                 accessoryIndicatorBackgroundView.roundCornersViaCornerRadius(radius: 12.5)
                 accessoryIndicatorBackgroundView.isHidden = false
-                accessoryLabel.isHidden = true
-                accessoryIndicatorLabel.text = String(DeviceService.shared.unreadMentionsCount())
+                accessoryLabel.textColor = .white
+                print("unread mentions", DeviceService.shared.unreadMentionsCount())
+                accessoryLabel.text = String(DeviceService.shared.unreadMentionsCount())
             } else {
                 accessoryLabel.text = String(PostService.singleton.getMentions().count)
             }
+            accessoryLabel.font = UIFont(name: Constants.Font.Medium, size: 15)
         case .submissions:
             print("SERTTING TEXT TO:", PostService.singleton.getSubmissions().count)
             accessoryLabel.text = String(PostService.singleton.getSubmissions().count)
+            accessoryLabel.font = UIFont(name: Constants.Font.Medium, size: 15)
         case .favorites:
             accessoryLabel.text = String(PostService.singleton.getFavorites().count)
+            accessoryLabel.font = UIFont(name: Constants.Font.Medium, size: 15)
         case .settings:
             break
         case .shareFeedback:

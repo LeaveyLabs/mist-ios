@@ -141,13 +141,23 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     
     //MARK: - Setup
     
+    let navBarFavoriteButton = UIButton()
     func setupNavBar() {
-        if fromMistbox {
-            navBar.configure(title: "", leftItems: [.back], rightItems: [.favorite])
-            navBar.favoriteButton.isSelected = FavoriteService.singleton.hasFavoritedPost(post.id)
-            navBar.favoriteButton.addTarget(self, action: #selector(handleFavoriteButtonTap), for: .touchUpInside)
-        } else {
+        if true { //instead of if fromMistbox
             navBar.configure(title: "", leftItems: [.back], rightItems: [])
+            navBarFavoriteButton.tintColor = .black
+            navBarFavoriteButton.setImage(UIImage(systemName: "bookmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .default))!, for: .normal)
+            navBarFavoriteButton.setImage(UIImage(systemName: "bookmark.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .default))!, for: .selected)
+            navBarFavoriteButton.isSelected = FavoriteService.singleton.hasFavoritedPost(post.id)
+            navBarFavoriteButton.addTarget(self, action: #selector(handleFavoriteButtonInTopCorner), for: .touchUpInside)
+            navBar.addSubview(navBarFavoriteButton)
+            navBarFavoriteButton.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                navBarFavoriteButton.topAnchor.constraint(equalTo: navBar.topAnchor, constant: 15),
+                navBarFavoriteButton.widthAnchor.constraint(equalToConstant: 25),
+                navBarFavoriteButton.heightAnchor.constraint(equalToConstant: 27),
+                navBarFavoriteButton.rightAnchor.constraint(equalTo: navBar.rightAnchor, constant: -20),
+            ])
         }
         navBar.backButton.addTarget(self, action: #selector(didPressBack), for: .touchUpInside)
         navBar.applyVeryLightBottomOnlyShadow()
@@ -187,10 +197,8 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
 
 extension PostViewController {
     
-    @objc func handleFavoriteButtonTap() {
-        print("HANDLE FAV TAP")
-        navBar.favoriteButton.isSelected = !navBar.favoriteButton.isSelected
-        handleFavorite(postId: post.id, isAdding: navBar.favoriteButton.isSelected) //this is implmeneted in PostDelegate file
+    @objc func handleFavoriteButtonInTopCorner() {
+        handleFavorite(postId: post.id, isAdding: !navBarFavoriteButton.isSelected)
     }
     
     @objc func didPressBack() {
@@ -290,8 +298,9 @@ extension PostViewController: InputBarAccessoryViewDelegate {
         let alert = UIAlertController(title: alertTitle,
                                       message: "we'll send a text to let them know you mentioned them",
                                       preferredStyle: UIAlertController.Style.alert)
+        alert.view.tintColor = UIColor(hex: "6D29C3")
         alert.addAction(UIAlertAction(title: "cancel",
-                                      style: UIAlertAction.Style.default, handler: { alertAction in
+                                      style: UIAlertAction.Style.destructive, handler: { alertAction in
             closure(false)
         }))
         alert.addAction(UIAlertAction(title: "ok",
@@ -306,11 +315,11 @@ extension PostViewController: InputBarAccessoryViewDelegate {
         for (name, context) in commentAutocompletions {
             if let taggedUserId = context[AutocompleteContext.id.rawValue] as? Int {
                 //Completion from users
-                let userTag = Tag(id: Int.random(in: 0..<Int.max), comment: 0, tagged_name: name, tagged_user: taggedUserId, tagged_phone_number: nil, tagging_user: UserService.singleton.getId(), timestamp: Date().timeIntervalSince1970)
+                let userTag = Tag(id: Int.random(in: 0..<Int.max), comment: 0, tagged_name: name, tagged_user: taggedUserId, tagged_phone_number: nil, tagging_user: UserService.singleton.getId(), timestamp: Date().timeIntervalSince1970, post: post)
                 tags.append(userTag)
             } else if let numberE164 = context[AutocompleteContext.numberE164.rawValue] as? String {
                 //Completion from contacts
-                let contactTag = Tag(id: Int.random(in: 0..<Int.max), comment: 0, tagged_name: name, tagged_user: nil, tagged_phone_number: numberE164, tagging_user: UserService.singleton.getId(), timestamp: Date().timeIntervalSince1970)
+                let contactTag = Tag(id: Int.random(in: 0..<Int.max), comment: 0, tagged_name: name, tagged_user: nil, tagged_phone_number: numberE164, tagging_user: UserService.singleton.getId(), timestamp: Date().timeIntervalSince1970, post: post)
                 tags.append(contactTag)
             }
         }
@@ -404,15 +413,9 @@ extension PostViewController {
         activityIndicator.startAnimating()
         Task {
             do {
-                comments = try await CommentAPI.fetchCommentsByPostID(post: post.id)
-//                
-//                comments.forEach { comment in
-//                    if (comment.id == 249) {
-//                        print("votecount", comment.votecount)
-//                    }
-//                }
-                
-                commentAuthors = try await UsersService.singleton.loadAndCacheUsers(users: comments.map { $0.read_only_author } )
+                comments = try await CommentService.singleton.fetchComments(postId: post.id)
+                let uniqueReadOnlyAuthors = Array(Set(comments.map { $0.read_only_author }))
+                commentAuthors = try await UsersService.singleton.loadAndCacheUsers(users: uniqueReadOnlyAuthors )
 //                loadFakeProfilesWhenAWSIsDown()
                 DispatchQueue.main.async { [weak self] in
                     self?.activityIndicator.stopAnimating() //must come before reloading tableView, since the activityIndicator's "isAnimating" is the flag for whether comments have loaded or not
@@ -464,7 +467,7 @@ extension PostViewController: UITableViewDataSource {
         let numberOfNonCommentCells = 2
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-            cell.configurePostCell(post: post, nestedPostViewDelegate: self, bubbleTrianglePosition: .left, isWithinPostVC: true)
+            cell.configurePostCell(post: post, nestedPostViewDelegate: self, bubbleTrianglePosition: .left, isWithinPostVC: true, updatedCommentCount: activityIndicator.isAnimating ? nil : comments.count)
             emojiTextField = cell.postView.reactButtonTextField
             if let emojiTextField = emojiTextField {
                 view.addSubview(emojiTextField)
@@ -602,6 +605,16 @@ extension PostViewController: PostDelegate {
     
     func handleDeletePost(postId: Int) {
         navigationController?.popViewController(animated: true)
+    }
+    
+    func handleFavorite(postId: Int, isAdding: Bool) {
+        print("HANDLE FAVORITE")
+        navBarFavoriteButton.isSelected = isAdding
+        do {
+            try FavoriteService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
+        } catch {
+            CustomSwiftMessages.displayError(error)
+        }
     }
     
     //MARK: - React interaction

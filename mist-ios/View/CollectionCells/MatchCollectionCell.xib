@@ -33,19 +33,19 @@
                                         </constraints>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="mhd-6K-3a1">
-                                        <rect key="frame" x="90" y="12.5" width="280.5" height="57.5"/>
+                                        <rect key="frame" x="90" y="13.5" width="280.5" height="55.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mei replied to your mist:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ls-gB-c7e">
-                                                <rect key="frame" x="0.0" y="0.0" width="156.5" height="25"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="156.5" height="23"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="25" id="xxG-ge-qyq"/>
+                                                    <constraint firstAttribute="height" constant="23" id="xxG-ge-qyq"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pink Korean hoodie??? Omg i think that" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="31y-WH-wWL">
-                                                <rect key="frame" x="0.0" y="27" width="280.5" height="30.5"/>
+                                                <rect key="frame" x="0.0" y="25" width="280.5" height="30.5"/>
                                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="22"/>
                                                 <color key="textColor" name="mist-black"/>
                                                 <nil key="highlightedColor"/>

@@ -18,7 +18,9 @@ class CommentHeaderCell: UITableViewCell {
     
     func configure(commentCount: Int) {
         self.separatorInset = .init(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-        if commentCount > 99 {
+        if commentCount == 1 {
+            headerLabel.text = "1 comment"
+        } else if commentCount > 99 {
             headerLabel.text = "99+ comments"
         } else {
             headerLabel.text = String(commentCount) + " comments"
