@@ -43,14 +43,14 @@ class CommentFlagAPI {
     
     static func fetchFlagsByCommentId(commentId:Int) async throws -> [CommentFlag] {
         let url = "\(Env.BASE_URL)\(PATH_TO_FLAG_MODEL)?\(COMMENT_PARAM)=\(commentId)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterCommentFlagErrors(data: data, response: response)
         return try JSONDecoder().decode([CommentFlag].self, from: data)
     }
     
     static func fetchFlagsByFlagger(flaggerId:Int) async throws -> [CommentFlag] {
         let url = "\(Env.BASE_URL)\(PATH_TO_FLAG_MODEL)?\(FLAGGER_PARAM)=\(flaggerId)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterCommentFlagErrors(data: data, response: response)
         return try JSONDecoder().decode([CommentFlag].self, from: data)
     }
@@ -62,7 +62,7 @@ class CommentFlagAPI {
             COMMENT_PARAM: commentId,
         ]
         let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterCommentFlagErrors(data: data, response: response)
         return try JSONDecoder().decode(CommentFlag.self, from: data)
     }
@@ -79,7 +79,7 @@ class CommentFlagAPI {
 
     static func deleteFlag(flag_id:Int) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_FLAG_MODEL)\(flag_id)/"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
         try filterCommentFlagErrors(data: data, response: response)
     }
 }

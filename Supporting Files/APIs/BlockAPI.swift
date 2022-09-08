@@ -44,14 +44,14 @@ class BlockAPI {
     
     static func fetchBlocksByBlockingUser(blockingUserId:Int) async throws -> [Block] {
         let url = "\(Env.BASE_URL)\(PATH_TO_BLOCK_MODEL)?\(BLOCKING_USER_PARAM)=\(blockingUserId)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterBlockErrors(data: data, response: response)
         return try JSONDecoder().decode([Block].self, from: data)
     }
     
     static func fetchBlocksByBlockedUser(blockedUserId:Int) async throws -> [Block] {
         let url = "\(Env.BASE_URL)\(PATH_TO_BLOCK_MODEL)?\(BLOCKED_USER_PARAM)=\(blockedUserId)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterBlockErrors(data: data, response: response)
         return try JSONDecoder().decode([Block].self, from: data)
     }
@@ -63,7 +63,7 @@ class BlockAPI {
             BLOCKED_USER_PARAM: blockedUserId,
         ]
         let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterBlockErrors(data: data, response: response)
         return try JSONDecoder().decode(Block.self, from: data)
     }
@@ -72,13 +72,13 @@ class BlockAPI {
         let endpoint = "\(Env.BASE_URL)\(PATH_TO_CUSTOM_DELETE_BLOCK_ENDPOINT)"
         let params = "\(BLOCKING_USER_PARAM)=\(blockingUserId)&\(BLOCKED_USER_PARAM)=\(blockedUserId)"
         let url = "\(endpoint)?\(params)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
         try filterBlockErrors(data: data, response: response)
     }
     
     static func deleteBlock(block_id:Int) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_BLOCK_MODEL)\(block_id)/"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
         try filterBlockErrors(data: data, response: response)
     }
 }

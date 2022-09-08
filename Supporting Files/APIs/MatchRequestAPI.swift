@@ -45,14 +45,14 @@ class MatchRequestAPI {
     
     static func fetchMatchRequestsBySender(senderUserId:Int) async throws -> [MatchRequest] {
         let url = "\(Env.BASE_URL)\(PATH_TO_MATCH_REQUEST)?\(SENDER_PARAM)=\(senderUserId)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterMatchRequestErrors(data: data, response: response)
         return try JSONDecoder().decode([MatchRequest].self, from: data)
     }
     
     static func fetchMatchRequestsByReceiver(receiverUserId:Int) async throws -> [MatchRequest] {
         let url = "\(Env.BASE_URL)\(PATH_TO_MATCH_REQUEST)?\(RECEIVER_PARAM)=\(receiverUserId)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterMatchRequestErrors(data: data, response: response)
         return try JSONDecoder().decode([MatchRequest].self, from: data)
     }
@@ -65,7 +65,7 @@ class MatchRequestAPI {
             POST_PARAM: postId,
         ]
         let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterMatchRequestErrors(data: data, response: response)
         return try JSONDecoder().decode(MatchRequest.self, from: data)
     }
@@ -77,7 +77,7 @@ class MatchRequestAPI {
             RECEIVER_PARAM: receiverUserId,
         ]
         let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterMatchRequestErrors(data: data, response: response)
         return try JSONDecoder().decode(MatchRequest.self, from: data)
     }
@@ -86,13 +86,13 @@ class MatchRequestAPI {
         let endpoint = "\(Env.BASE_URL)\(PATH_TO_CUSTOM_DELETE_MATCH_REQUEST_ENDPOINT)"
         let params = "\(SENDER_PARAM)=\(senderUserId)&\(RECEIVER_PARAM)=\(receiverUserId)"
         let url = "\(endpoint)?\(params)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
         try filterMatchRequestErrors(data: data, response: response)
     }
     
     static func deleteMatchRequest(match_request_id:Int) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_MATCH_REQUEST)\(match_request_id)/"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
         try filterMatchRequestErrors(data: data, response: response)
     }
 }

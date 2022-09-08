@@ -46,28 +46,28 @@ class MessageAPI {
     
     static func fetchMessagesBySender(sender:Int) async throws -> [Message] {
         let url = "\(Env.BASE_URL)\(PATH_TO_MESSAGE_MODEL)?\(SENDER_PARAM)=\(sender)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterMessageErrors(data: data, response: response)
         return try JSONDecoder().decode([Message].self, from: data)
     }
     
     static func fetchMessagesByReceiver(receiver:Int) async throws -> [Message] {
         let url = "\(Env.BASE_URL)\(PATH_TO_MESSAGE_MODEL)?\(RECEIVER_PARAM)=\(receiver)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterMessageErrors(data: data, response: response)
         return try JSONDecoder().decode([Message].self, from: data)
     }
     
     static func fetchMessagesBySenderAndReceiver(sender:Int, receiver:Int) async throws -> [Message] {
         let url = "\(Env.BASE_URL)\(PATH_TO_MESSAGE_MODEL)?\(SENDER_PARAM)=\(sender)&\(RECEIVER_PARAM)=\(receiver)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterMessageErrors(data: data, response: response)
         return try JSONDecoder().decode([Message].self, from: data)
     }
     
     static func fetchConversations() async throws -> [UserID: [Message]] {
         let url = "\(Env.BASE_URL)\(PATH_TO_CONVERSATIONS)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterMessageErrors(data: data, response: response)
         return try JSONDecoder().decode([UserID: [Message]].self, from: data)
     }

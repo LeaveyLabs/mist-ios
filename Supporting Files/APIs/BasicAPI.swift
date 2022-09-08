@@ -116,7 +116,7 @@ class BasicAPI {
         return (data, response)
     }
     
-    static func baiscHTTPCallWithToken(url:String, jsonData:Data, method:String) async throws -> (Data, HTTPURLResponse) {
+    static func basicHTTPCallWithToken(url:String, jsonData:Data, method:String) async throws -> (Data, HTTPURLResponse) {
         let request = try formatURLRequest(url: url,
                                        method: method,
                                        body: jsonData,

@@ -54,7 +54,7 @@ class PostVoteAPI {
     // Get votes from a user
     static func fetchVotesByUser(voter:Int) async throws -> [PostVote] {
         let url = "\(Env.BASE_URL)\(PATH_TO_VOTE_MODEL)?\(VOTER_PARAM)=\(voter)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostVoteErrors(data: data, response: response)
         return try JSONDecoder().decode([PostVote].self, from: data)
     }
@@ -63,7 +63,7 @@ class PostVoteAPI {
     static func fetchVotesByVoterAndPost(voter:Int, post:Int) async throws -> [PostVote] {
         // Fetch the vote from the API endpoint
         let url = "\(Env.BASE_URL)\(PATH_TO_VOTE_MODEL)?\(VOTER_PARAM)=\(voter)&\(POST_PARAM)=\(post)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         // Deserialize to get original vote
         try filterPostVoteErrors(data: data, response: response)
         return try JSONDecoder().decode([PostVote].self, from: data)
@@ -77,7 +77,7 @@ class PostVoteAPI {
             POST_PARAM: post,
         ]
         let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterPostVoteErrors(data: data, response: response)
         return try JSONDecoder().decode(PostVote.self, from: data)
     }
@@ -86,7 +86,7 @@ class PostVoteAPI {
         let url = "\(Env.BASE_URL)\(PATH_TO_VOTE_MODEL)"
         let params = PostVoteParams(voter: voter, post: post, emoji: emoji)
         let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterPostVoteErrors(data: data, response: response)
         return try JSONDecoder().decode(PostVote.self, from: data)
     }
@@ -99,7 +99,7 @@ class PostVoteAPI {
             EMOJI_PARAM: emoji
         ]
         let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
         try filterPostVoteErrors(data: data, response: response)
         return try JSONDecoder().decode(PostVote.self, from: data)
     }
@@ -108,13 +108,13 @@ class PostVoteAPI {
         let endpoint = "\(Env.BASE_URL)\(PATH_TO_CUSTOM_DELETE_VOTE_ENDPOINT)"
         let params = "\(VOTER_PARAM)=\(voter)&\(POST_PARAM)=\(post)"
         let url = "\(endpoint)?\(params)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
         try filterPostVoteErrors(data: data, response: response)
     }
 
     static func deleteVote(vote_id:Int) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_VOTE_MODEL)\(vote_id)/"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
         try filterPostVoteErrors(data: data, response: response)
     }
 }
