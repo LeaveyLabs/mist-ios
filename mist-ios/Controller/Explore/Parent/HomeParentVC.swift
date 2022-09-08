@@ -73,7 +73,7 @@ class HomeExploreParentViewController: ExploreParentViewController {
             }
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 7) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
             UIView.animate(withDuration: 1, delay: 0, options: .curveLinear) {
                 self.exploreMapVC.trojansActiveView.alpha = 0
             } completion: { completed in
