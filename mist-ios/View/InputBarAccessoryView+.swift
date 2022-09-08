@@ -63,7 +63,7 @@ extension InputBarAccessoryView {
         inputTextView.font = Comment.normalInputAttributes[.font] as? UIFont
         
         //Center
-        inputTextView.layer.borderWidth = 1
+        inputTextView.layer.borderWidth = 0.8
         inputTextView.layer.borderColor = UIColor.darkGray.withAlphaComponent(0.23).cgColor
 //        UIColor.systemGray4.cgColor
         inputTextView.tintColor = Constants.Color.mistLilac

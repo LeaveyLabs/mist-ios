@@ -24,8 +24,9 @@ extension AutocompleteTableView {
         guard let inputAccessoryView = superview?.superview else {
             return nil
         }
+        let navBarHeight: CGFloat = 55 //because we're using customNavBar w height of 55
         guard
-            let navBarHeight = self.parentViewController()?.navigationController?.navigationBar.frame.height,
+//            let navBarHeight = self.parentViewController()?.navigationController?.navigationBar.frame.height,
             let statusBarHeight = self.parentViewController()?.window?.windowScene?.statusBarManager?.statusBarFrame.height
         else { return nil }
 

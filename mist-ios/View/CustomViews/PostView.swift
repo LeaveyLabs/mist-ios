@@ -119,9 +119,6 @@ extension PostView {
         self.postEmojiCountTuples = post.emojiCountTuples
         setupEmojiButtons(topThreeVotes: Array(post.emojiCountTuples.prefix(3)))
         
-        
-        
-        
 //        let blurEffect = UIBlurEffect(style: .dark)
 //        let blurEffectView = UIVisualEffectView(effect: blurEffect)
 //        //always fill the view

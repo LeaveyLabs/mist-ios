@@ -91,12 +91,12 @@ extension CustomSwiftMessages {
         }
     }
     
-    static func showInfoCentered(_ title: String, _ body: String, emoji: String, onDismiss: @escaping () -> Void = { }) {
+    static func showInfoCentered(_ title: String, _ body: String, emoji: String, dismissButtonTitle: String = "ok", onDismiss: @escaping () -> Void = { }) {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
             messageView.configureContent(title: title, body: body, iconText: emoji)
-            messageView.customConfig(approveText: "", dismissText: "ok")
-            messageView.dismissAction = {
+            messageView.customConfig(approveText: dismissButtonTitle, dismissText: "")
+            messageView.approveAction = {
                 SwiftMessages.hide()
                 onDismiss()
             }
@@ -114,8 +114,7 @@ extension CustomSwiftMessages {
     
     static func showSuccess(_ title: String, _ body: String) {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
-            let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
-            messageView.configureTheme(backgroundColor: .systemGreen, foregroundColor: .white)
+            let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
             messageView.applyMediumShadow()
             messageView.button?.isHidden = true
             messageView.configureContent(title: title,

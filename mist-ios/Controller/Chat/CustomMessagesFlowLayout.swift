@@ -13,7 +13,7 @@ open class CustomMessagesFlowLayout: MessagesCollectionViewFlowLayout {
     
     public override init() {
         super.init()
-        sectionInset = UIEdgeInsets(top: 1, left: 10, bottom: 2, right: 8)
+        sectionInset = UIEdgeInsets(top: 2, left: 10, bottom: 3, right: 8)
         setMessageOutgoingAvatarSize(.zero)
         setMessageIncomingAvatarSize(.init(width: 28, height: 28))
         setMessageOutgoingMessageBottomLabelAlignment(LabelAlignment(textAlignment: .right, textInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 12)))
@@ -38,7 +38,13 @@ open class CustomMessagesFlowLayout: MessagesCollectionViewFlowLayout {
         if case .custom = message.kind {
             return customMessageSizeCalculator
         }
-        return super.cellSizeCalculatorForItem(at: indexPath)
+        let cellCalculator = super.cellSizeCalculatorForItem(at: indexPath)
+        if let textCellCalculator = cellCalculator as? TextMessageSizeCalculator {
+            //for some reason, the top label inset change doeosnt create a visual change
+//            textCellCalculator.outgoingMessageLabelInsets = UIEdgeInsets(top: 100, left: 30, bottom: 100, right: 18)
+//            textCellCalculator.incomingMessageLabelInsets
+        }
+        return cellCalculator
     }
     
     open override func messageSizeCalculators() -> [MessageSizeCalculator] {
@@ -75,7 +81,7 @@ open class CustomMessageSizeCalculator: MessageSizeCalculator {
         if customType is MessageKitInfo {
             return CGSize(width: collectionViewWidth - inset, height: 110)
         } else if customType is MessageKitMatchRequest {
-            return CGSize(width: collectionViewWidth - inset, height: 110)
+            return CGSize(width: collectionViewWidth - inset, height: 130)
         }
         return CGSize(width: collectionViewWidth - inset, height: 44)
     }

@@ -278,10 +278,10 @@ class UpdateProfileSettingViewController: UITableViewController {
     }
     
     func handleSuccessfulUpdate() {
-        CustomSwiftMessages.showSuccess("successfully updated", "your profile is really popping off")
-        DispatchQueue.main.async {
-            self.validateInput()
-            self.saveButton.isEnabled = false
+        CustomSwiftMessages.showInfoCentered("successfully updated", "your profile is really popping off", emoji: "😇", dismissButtonTitle: "i know 💁‍♀️") {
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: true)
+            }
         }
     }
     

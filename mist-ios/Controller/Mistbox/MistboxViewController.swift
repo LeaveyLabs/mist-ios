@@ -370,7 +370,9 @@ extension MistboxViewController: MistboxCellDelegate {
             self.collectionView.deleteItems(at:[IndexPath(item: postIndex, section: 0)])
         }) { completed in
             guard !MistboxManager.shared.getMistboxMists().isEmpty else {
-                self.updateUI()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
+                    self.updateUI()
+                }
                 return
             }
             self.reloadVisibleIndexLabel()

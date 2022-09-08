@@ -122,7 +122,7 @@ class UserService: NSObject {
                                                     profilePic: newProfilePicWrapper,
                                                     token: token)
         setupFirebaseAnalyticsProperties()
-        Task { await self.saveUserToFilesystem() }
+        await self.saveUserToFilesystem()
     }
     
 //    func logIn(json: Data) async throws {
@@ -148,7 +148,16 @@ class UserService: NSObject {
                                                     profilePic: ProfilePicWrapper(image: profilePicUIImage,withCompresssion: false),
                                                     token: token)
         setupFirebaseAnalyticsProperties()
-        Task { await self.saveUserToFilesystem() }
+        await self.saveUserToFilesystem()
+    }
+    
+    func tryToEnterAccessCode(_ accessCode: String) async {
+        do {
+            try await UserAPI.postAccessCode(code: accessCode)
+            authedUser.badges.append("LM")
+        } catch {
+            print("ACCESS CODE POST FAILED")
+        }
     }
     
     //MARK: - Update user
@@ -227,32 +236,34 @@ class UserService: NSObject {
     //MARK: - Logout and delete user
     
     func logOutFromDevice()  {
-        eraseUserFromFilesystem()
-        DeviceService.shared.eraseData()
+        guard isLoggedIn() else { return } //prevents infinite loop on authedUser didSet
         if getGlobalDeviceToken() != "" {
             Task {
                 try await DeviceAPI.disableCurrentDeviceNotificationsForUser(user: authedUser.id)
             }
         }
-        frontendCompleteUser = nil
         setGlobalAuthToken(token: "")
+        eraseUserFromFilesystem()
+        frontendCompleteUser = nil
     }
     
     func kickUserToHomeScreenAndLogOut() {
-        logOutFromDevice()
+        //they might already be logged out, so don't try and logout again. this will cause an infinite loop for checkingAuthedUser :(
+        if isLoggedIn() {
+            logOutFromDevice()
+        }
         DispatchQueue.main.async {
             transitionToAuth()
         }
     }
     
     func deleteMyAccount() async throws {
-        guard let frontendCompleteUser = frontendCompleteUser else { return }
-        let id = frontendCompleteUser.id
         do {
-            try await UserAPI.deleteUser(user_id: id)
+            try await UserAPI.deleteUser(user_id: authedUser.id)
             logOutFromDevice()
         } catch {
             print(error)
+            throw(error)
         }
     }
     

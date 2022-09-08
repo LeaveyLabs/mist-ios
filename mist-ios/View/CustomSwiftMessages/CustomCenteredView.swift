@@ -43,6 +43,9 @@ class CustomCenteredView: MessageView {
         if approveText.isEmpty {
             approveButton.isHidden = true
         }
+        if dismissText.isEmpty {
+            dismissButton.isHidden = true
+        }
     }
     
     func badgeConfig() {
