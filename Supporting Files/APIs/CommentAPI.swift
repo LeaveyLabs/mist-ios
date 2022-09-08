@@ -50,7 +50,7 @@ class CommentAPI {
     // Fetch comments from database with the given postID
     static func fetchCommentsByPostID(post:Int) async throws -> [Comment] {
         let url = "\(Env.BASE_URL)\(PATH_TO_COMMENT_MODEL)?\(POST_PARAM)=\(post)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterCommentErrors(data: data, response: response)
         return try JSONDecoder().decode([Comment].self, from: data)
     }
@@ -66,7 +66,7 @@ class CommentAPI {
             AUTHOR_PARAM: String(author),
         ]
         let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterCommentErrors(data: data, response: response)
         return try JSONDecoder().decode(Comment.self, from: data)
     }
@@ -74,7 +74,7 @@ class CommentAPI {
     // Delete comment from database
     static func deleteComment(comment_id:Int) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_COMMENT_MODEL)\(comment_id)/"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
         try filterCommentErrors(data: data, response: response)
     }
 }

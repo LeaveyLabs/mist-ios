@@ -65,7 +65,7 @@ class TagAPI {
     
     static func fetchTags() async throws -> [Tag] {
         let url = "\(Env.BASE_URL)\(PATH_TO_TAG_MODEL)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterTagErrors(data: data, response: response)
         return try JSONDecoder().decode([Tag].self, from: data)
     }
@@ -81,7 +81,7 @@ class TagAPI {
                                tagged_user: tagged_user,
                                tagged_phone_number: nil)
         let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterTagErrors(data: data, response: response)
         return try JSONDecoder().decode(Tag.self, from: data)
     }
@@ -97,7 +97,7 @@ class TagAPI {
                                tagged_user: nil,
                                tagged_phone_number: tagged_phone_number)
         let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterTagErrors(data: data, response: response)
         return try JSONDecoder().decode(Tag.self, from: data)
     }
@@ -125,7 +125,7 @@ class TagAPI {
     
     static func deleteTag(id:Int) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_TAG_MODEL)\(id)/"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
         try filterTagErrors(data: data, response: response)
     }
 }

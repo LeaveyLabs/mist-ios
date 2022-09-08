@@ -103,14 +103,14 @@ class PostAPI {
     // Fetches all posts from database
     static func fetchPosts() async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
     static func fetchPosts(order:Order) async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?order=\(order)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
     }
@@ -123,42 +123,42 @@ class PostAPI {
         for id in ids {
             url += "\(IDS_PARAM)=\(id)&"
         }
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
     static func fetchMatchedPosts() async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_MATCHED_POSTS)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
     static func fetchFeaturedPosts() async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_FEATURED_POSTS)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
     static func fetchFriendPosts() async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_FRIEND_POSTS)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
     static func fetchFavoritedPosts() async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_FAVORITED_POSTS)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
     static func fetchSubmittedPosts() async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_SUBMITTED_POSTS)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
     }
@@ -166,7 +166,7 @@ class PostAPI {
     static func fetchMistbox() async throws -> Mistbox? {
         let url = "\(Env.BASE_URL)\(PATH_TO_MISTBOX)"
         do {
-            let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+            let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
             try filterMistboxErrors(data: data, response: response)
             return try JSONDecoder().decode(Mistbox.self, from: data)
         }
@@ -177,7 +177,7 @@ class PostAPI {
     
     static func fetchTaggedPosts() async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_TAGGED_POSTS)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
     }
@@ -185,7 +185,7 @@ class PostAPI {
     // Fetches a post for a particular ID
     static func fetchPostByPostID(postId:Int) async throws -> Post {
         let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)\(postId)/"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode(Post.self, from: data)
     }
@@ -196,7 +196,7 @@ class PostAPI {
         for word in words {
             url += "\(WORDS_PARAM)=\(word)&"
         }
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
     }
@@ -204,7 +204,7 @@ class PostAPI {
     // Fetches all posts from database (searching with latitude + longitude)
     static func fetchPostsByLatitudeLongitude(latitude:Double, longitude:Double) async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(LATITUDE_PARAM)=\(latitude)&\(LONGITUDE_PARAM)=\(longitude)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
     }
@@ -212,14 +212,14 @@ class PostAPI {
     // Fetches all posts from database (searching with latitude + longitude + radius)
     static func fetchPostsByLatitudeLongitude(latitude:Double, longitude:Double, radius:Double) async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(LATITUDE_PARAM)=\(latitude)&\(LONGITUDE_PARAM)=\(longitude)&\(RADIUS_PARAM)=\(radius)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
     static func fetchPostsByLocationDescription(locationDescription:String) async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(LOC_DESCRIPTION_PARAM)=\(locationDescription)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
     }
@@ -227,7 +227,7 @@ class PostAPI {
     // Fetches posts by a particular author
     static func fetchPostsByAuthor(userId:Int) async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(AUTHOR_PARAM)=\(userId)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
     }
@@ -252,7 +252,7 @@ class PostAPI {
                         timestamp: timestamp,
                         author: author)
         let json = try JSONEncoder().encode(post)
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode(Post.self, from: data)
     }
@@ -260,7 +260,7 @@ class PostAPI {
     // Deletes post from the database
     static func deletePost(post_id:Int) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)\(post_id)/"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
         try filterPostErrors(data: data, response: response)
     }
     
@@ -270,7 +270,7 @@ class PostAPI {
             KEYWORDS_PARAM: keywords,
         ]
         let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
         try filterPostErrors(data: data, response: response)
     }
     
@@ -279,7 +279,7 @@ class PostAPI {
         if opened {
             url += "opened=1"
         }
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
         try filterPostErrors(data: data, response: response)
     }
 }

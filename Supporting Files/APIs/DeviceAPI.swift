@@ -61,7 +61,7 @@ class DeviceAPI {
         let url = "\(Env.BASE_URL)\(PATH_TO_DEVICES)"
         let params = DeviceParams(user: user, registration_id: DEVICETOKEN, active: true)
         let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterDeviceErrors(data: data, response: response)
     }
     
@@ -69,7 +69,7 @@ class DeviceAPI {
         let url = "\(Env.BASE_URL)\(PATH_TO_DEVICES)"
         let params = DeviceParams(user: user, registration_id: DEVICETOKEN, active: false)
         let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterDeviceErrors(data: data, response: response)
     }
 }

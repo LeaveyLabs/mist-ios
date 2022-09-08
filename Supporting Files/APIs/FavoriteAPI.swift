@@ -44,7 +44,7 @@ class FavoriteAPI {
     
     static func fetchFavoritesByUser(userId: Int) async throws -> [Favorite] {
         let url = "\(Env.BASE_URL)\(PATH_TO_FAVORITES)?\(USER_PARAM)=\(userId)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterFavoriteErrors(data: data, response: response)
         return try JSONDecoder().decode([Favorite].self, from: data)
     }
@@ -56,7 +56,7 @@ class FavoriteAPI {
             USER_PARAM: userId,
         ]
         let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterFavoriteErrors(data: data, response: response)
         return try JSONDecoder().decode(Favorite.self, from: data)
     }
@@ -65,13 +65,13 @@ class FavoriteAPI {
         let endpoint = "\(Env.BASE_URL)\(PATH_TO_CUSTOM_DELETE_FAVORITE_ENDPOINT)"
         let params = "\(USER_PARAM)=\(userId)&\(POST_PARAM)=\(postId)"
         let url = "\(endpoint)?\(params)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
         try filterFavoriteErrors(data: data, response: response)
     }
     
     static func deleteFavorite(favorite_id:Int) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_FAVORITES)\(favorite_id)/"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.DELETE.rawValue)
         try filterFavoriteErrors(data: data, response: response)
     }
 }

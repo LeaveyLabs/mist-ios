@@ -29,7 +29,7 @@ class WordAPI {
             url += "\(WRAPPER_WORDS_PARAM)=\(wrapper_word)&"
         }
         url += "\(SEARCH_WORD_PARAM)=\(search_word)"
-        let (data, response) = try await BasicAPI.baiscHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterWordErrors(data: data, response: response)
         return try JSONDecoder().decode([Word].self, from: data)
     }
