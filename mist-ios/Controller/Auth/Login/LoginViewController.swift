@@ -150,20 +150,21 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         isSubmitting = true
         Task {
             do {
-                print(number, number.filter("1234567890".contains), AuthContext.APPLE_PHONE_NUMBER)
                 if number.filter("1234567890".contains) == AuthContext.APPLE_PHONE_NUMBER {
-                    //pass right through, without an api call
-                    AuthContext.phoneNumber = number.filter("1234567890".contains)
+                    AuthContext.phoneNumber = "+" + AuthContext.APPLE_PHONE_NUMBER
+                    try await PhoneNumberAPI.requestLoginCode(phoneNumber: AuthContext.phoneNumber)
+                    let vc = ConfirmCodeViewController.create(confirmMethod: .appleLogin)
+                    self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
+                        self?.isSubmitting = false
+                    })
                 } else if let number = number.asE164PhoneNumber {
                     try await PhoneNumberAPI.requestLoginCode(phoneNumber: number)
                     AuthContext.phoneNumber = number
-                } else {
-                    return
+                    let vc = ConfirmCodeViewController.create(confirmMethod: .loginText)
+                    self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
+                        self?.isSubmitting = false
+                    })
                 }
-                let vc = ConfirmCodeViewController.create(confirmMethod: .loginText)
-                self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
-                    self?.isSubmitting = false
-                })
             } catch {
                 handleFailure(error)
             }

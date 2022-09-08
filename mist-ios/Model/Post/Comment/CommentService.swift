@@ -12,7 +12,7 @@ import Foundation
 class CommentService: NSObject {
     
     static var singleton = CommentService()
-    var tags = [Tag]()
+    var taggedTags = [Tag]() //as opposed to "taggingTags"
     var commentsPostedSinceLastFetch = [Comment]()
     
     //MARK: - Initialization
@@ -21,8 +21,8 @@ class CommentService: NSObject {
         super.init()
     }
     
-    func fetchTags() async throws {
-        tags = try await TagAPI.fetchTags()
+    func fetchTaggedTags() async throws {
+        taggedTags = try await TagAPI.fetchTagsByTaggedUser(taggedUser: UserService.singleton.getId())
     }
     
     func fetchComments(postId: Int) async throws -> [Comment] {
@@ -56,7 +56,7 @@ class CommentService: NSObject {
     }
     
     func getTags() -> [Tag] {
-        return tags
+        return taggedTags
     }
     
 }

@@ -12,7 +12,7 @@ import UIKit
 class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
     
     enum ConfirmMethod: CaseIterable {
-        case signupEmail, signupText, loginText, resetPhoneNumberEmail, resetPhoneNumberText, accessCode
+        case signupEmail, signupText, loginText, resetPhoneNumberEmail, resetPhoneNumberText, accessCode, appleLogin
     }
     
     enum ResendState {
@@ -79,6 +79,8 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
             vc.recipient = AuthContext.phoneNumber.asNationalPhoneNumber ?? AuthContext.phoneNumber
         case .accessCode:
             vc.recipient = ""
+        case .appleLogin:
+            vc.recipient = AuthContext.phoneNumber
         }
         vc.confirmMethod = confirmMethod
         return vc
@@ -268,7 +270,7 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
             try await PhoneNumberAPI.requestResetText(email: AuthContext.email, phoneNumber: AuthContext.phoneNumber, resetToken: AuthContext.resetToken)
         case .loginText:
             try await PhoneNumberAPI.requestLoginCode(phoneNumber: AuthContext.phoneNumber)
-        case .none, .accessCode:
+        case .none, .accessCode, .appleLogin:
             break
         }
     }
@@ -283,7 +285,8 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
             AuthContext.resetToken = try await PhoneNumberAPI.validateResetEmail(email: AuthContext.email, code: validationCode)
         case .resetPhoneNumberText:
             try await PhoneNumberAPI.validateResetText(phoneNumber: AuthContext.phoneNumber, code: validationCode, resetToken: AuthContext.resetToken)
-        case .loginText:
+        case .loginText, .appleLogin:
+            print(AuthContext.phoneNumber)
             let authToken = try await PhoneNumberAPI.validateLoginCode(phoneNumber: AuthContext.phoneNumber, code: validationCode)
             try await UserService.singleton.logInWith(authToken: authToken)
             try await loadEverything()
@@ -322,7 +325,7 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
                 navigationController?.dismiss(animated: true)
                 AuthContext.reset()
             }
-        case .loginText:
+        case .loginText, .appleLogin:
             transitionToHomeAndRequestPermissions() { }
             AuthContext.reset()
         case .accessCode:

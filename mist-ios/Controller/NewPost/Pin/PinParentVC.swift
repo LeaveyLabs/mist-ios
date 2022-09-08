@@ -14,6 +14,10 @@ import MapKit
 typealias PinMapCompletionHandler = ((CLLocationCoordinate2D?) -> Void)
 
 class PinParentViewController: UIViewController {
+    
+    enum OverlayNotch: Int, CaseIterable {
+        case minimum, maximum
+    }
 
     //MARK: - Properties
     

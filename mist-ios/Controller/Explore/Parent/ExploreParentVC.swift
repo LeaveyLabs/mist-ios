@@ -16,11 +16,11 @@ protocol ExploreChildDelegate {
     var posts: [Post] { get }
 }
 
-enum OverlayNotch: Int, CaseIterable {
-    case minimum, maximum
-}
-
 class ExploreParentViewController: UIViewController {
+    
+    enum OverlayNotch: Int, CaseIterable {
+        case minimum, maximum
+    }
 
     //MARK: - Properties
     

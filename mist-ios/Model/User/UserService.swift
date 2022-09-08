@@ -18,7 +18,9 @@ class UserService: NSObject {
     private var authedUser: FrontendCompleteUser { //a wrapper for the real underlying frontendCompleteUser. if for some unknown reason, frontendCompleteUser is nil, instead of the app crashing with a force unwrap, we kick them to the home screen and log them out
         get {
             guard let authedUser = frontendCompleteUser else {
-                kickUserToHomeScreenAndLogOut()
+                if isLoggedIntoApp { //another potential check: if the visible view controller belongs to Main storyboard
+                    kickUserToHomeScreenAndLogOut()
+                }
                 return FrontendCompleteUser.nilUser
             }
             return authedUser
@@ -34,6 +36,13 @@ class UserService: NSObject {
     
     private var SLEEP_INTERVAL:UInt32 = 120
     
+    // Called on startup so that the singleton is created and isLoggedIn is properly initialized
+    var isLoggedIntoAnAccount: Bool { //"is there a frontendCompleteUser which represents them?"
+        return frontendCompleteUser != nil
+    }
+    private var isLoggedIntoApp = false //"have they passed beyond the auth process?" becomes true after login or signup or loading a user from the documents directory
+    
+    
     //MARK: - Initializer
     
     //private initializer because there will only ever be one instance of UserService, the singleton
@@ -45,6 +54,7 @@ class UserService: NSObject {
         if FileManager.default.fileExists(atPath: localFileLocation.path) {
             self.loadUserFromFilesystem()
             setupFirebaseAnalyticsProperties()
+            isLoggedIntoApp = true
         }
         
 //        Task {
@@ -59,12 +69,7 @@ class UserService: NSObject {
     }
     
     //MARK: - Getters
-    
-    // Called on startup so that the singleton is created and isLoggedIn is properly initialized
-    func isLoggedIn() -> Bool {
-        return frontendCompleteUser != nil
-    }
-    
+
     //User
     func getUser() -> FrontendCompleteUser { return authedUser }
     func getUserAsReadOnlyUser() -> ReadOnlyUser {
@@ -119,7 +124,6 @@ class UserService: NSObject {
         if let accessCode = AuthContext.accessCode {
             await UserService.singleton.tryToEnterAccessCode(accessCode)
         }
-        
         let completeUser = try await UserAPI.fetchAuthedUserByToken(token: token)
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
                                                     profilePic: newProfilePicWrapper,
@@ -130,21 +134,8 @@ class UserService: NSObject {
         Task {
             setupFirebaseAnalyticsProperties() //must come later at the end of this process so that we dont access authedUser while it's null and kick the user to the home screen
         }
+        isLoggedIntoApp = true
     }
-    
-//    func logIn(json: Data) async throws {
-//        let token = try await AuthAPI.fetchAuthToken(json: json)
-//        setGlobalAuthToken(token: token)
-//        let completeUser = try await UserAPI.fetchAuthedUserByToken(token: token)
-//        Task { try await waitAndRegisterDeviceToken(id: completeUser.id) }
-//        let profilePicUIImage = try await UserAPI.UIImageFromURLString(url: completeUser.picture)
-//        frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
-//                                                    profilePic: ProfilePicWrapper(image: profilePicUIImage,
-//                                                                                  withCompresssion: false),
-//                                                    token: token)
-//        setupFirebaseAnalyticsProperties()
-//        Task { await self.saveUserToFilesystem() }
-//    }
     
     func logInWith(authToken token: String) async throws {
         setGlobalAuthToken(token: token)
@@ -156,6 +147,7 @@ class UserService: NSObject {
                                                     token: token)
         setupFirebaseAnalyticsProperties()
         await self.saveUserToFilesystem()
+        isLoggedIntoApp = true
     }
     
     func tryToEnterAccessCode(_ accessCode: String) async {
@@ -242,7 +234,7 @@ class UserService: NSObject {
     //MARK: - Logout and delete user
     
     func logOutFromDevice()  {
-        guard isLoggedIn() else { return } //prevents infinite loop on authedUser didSet
+        guard isLoggedIntoAnAccount else { return } //prevents infinite loop on authedUser didSet
         if getGlobalDeviceToken() != "" {
             Task {
                 try await DeviceAPI.disableCurrentDeviceNotificationsForUser(user: authedUser.id)
@@ -251,11 +243,12 @@ class UserService: NSObject {
         setGlobalAuthToken(token: "")
         eraseUserFromFilesystem()
         frontendCompleteUser = nil
+        isLoggedIntoApp = false
     }
     
     func kickUserToHomeScreenAndLogOut() {
         //they might already be logged out, so don't try and logout again. this will cause an infinite loop for checkingAuthedUser :(
-        if isLoggedIn() {
+        if isLoggedIntoAnAccount {
             logOutFromDevice()
         }
         DispatchQueue.main.async {
@@ -315,7 +308,6 @@ class UserService: NSObject {
         do {
             let data = try Data(contentsOf: self.localFileLocation)
             frontendCompleteUser = try JSONDecoder().decode(FrontendCompleteUser.self, from: data)
-            print(frontendCompleteUser)
             guard let frontendCompleteUser = frontendCompleteUser else { return }
             setGlobalAuthToken(token: frontendCompleteUser.token) //this shouldn't be necessary, but to be safe
             Task { try await waitAndRegisterDeviceToken(id: frontendCompleteUser.id) }

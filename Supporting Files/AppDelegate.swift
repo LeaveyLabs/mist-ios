@@ -82,7 +82,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             if notificaitonType == NotificationTypes.tag.rawValue {
 //                let tag = try JSONDecoder().decode(Tag.self, from: data)
                 try await PostService.singleton.loadMentions()
-                try await CommentService.singleton.fetchTags()
+                try await CommentService.singleton.fetchTaggedTags()
                 DispatchQueue.main.async {
                     tabVC.refreshBadgeCount()
                     let visibleVC = SceneDelegate.visibleViewController
