@@ -70,6 +70,20 @@ class TagAPI {
         return try JSONDecoder().decode([Tag].self, from: data)
     }
     
+    static func fetchTagsByTaggingUser(taggingUser:Int) async throws -> [Tag] {
+        let url = "\(Env.BASE_URL)\(PATH_TO_TAG_MODEL)?tagging_user=\(taggingUser)"
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterTagErrors(data: data, response: response)
+        return try JSONDecoder().decode([Tag].self, from: data)
+    }
+    
+    static func fetchTagsByTaggedUser(taggedUser:Int) async throws -> [Tag] {
+        let url = "\(Env.BASE_URL)\(PATH_TO_TAG_MODEL)?tagged_user=\(taggedUser)"
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterTagErrors(data: data, response: response)
+        return try JSONDecoder().decode([Tag].self, from: data)
+    }
+    
     static func postTag(comment:Int,
                         tagged_name:String,
                         tagging_user:Int,
