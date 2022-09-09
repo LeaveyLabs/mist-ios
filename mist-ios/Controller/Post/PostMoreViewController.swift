@@ -53,11 +53,12 @@ class PostMoreViewController: UIViewController {
         flagButton.isSelected = FlagService.singleton.hasFlaggedPost(postId)
         favoriteButton.isSelected = FavoriteService.singleton.hasFavoritedPost(postId)
         
-        superUserVoteInflationSlider.value = 1
+        superUserVoteInflationSlider.value = Float(VoteService.singleton.getCastingVoteRating())
         superUserVoteInflationSlider.addTarget(self, action: #selector(onVoteInflationSliderValChanged(slider:event:)), for: .valueChanged)
         if UserService.singleton.isSuperuser() {
+            superUserVoteInflationLabel.text = String(VoteService.singleton.getCastingVoteRating())
             superUserVoteInflationSlider.isHidden = false
-            superUserVoteInflationLabel.isHidden = true
+            superUserVoteInflationLabel.isHidden = false
         }
     }
     

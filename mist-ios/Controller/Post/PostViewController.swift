@@ -65,7 +65,10 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     }()
     
     //Data
-    var post: Post!
+    var postId: Int!
+    var post: Post {
+        return PostService.singleton.getPost(withPostId: postId)!
+    }
     var comments = [Comment]()
     var commentAuthors = [Int: FrontendReadOnlyUser]() //[authorId: author]
     
@@ -80,7 +83,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     class func createPostVC(with post: Post, shouldStartWithRaisedKeyboard: Bool, fromMistbox: Bool = false, completionHandler: PostCompletionHandler?) -> PostViewController {
         let postVC =
         UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
-        postVC.post = post
+        postVC.postId = post.id
         postVC.shouldStartWithRaisedKeyboard = shouldStartWithRaisedKeyboard
         postVC.didDismiss = completionHandler
         postVC.fromMistbox = fromMistbox
@@ -332,7 +335,6 @@ extension PostViewController: InputBarAccessoryViewDelegate {
 //        inputBar.inputTextView.isEditable = true //not needed righ tnow
         inputBar.sendButton.setTitleColor(.clear, for: .disabled)
         inputBar.inputTextView.resignFirstResponder()
-//        post.commentcount += 1
         comments.append(newComment)
         commentAuthors[newComment.author] = UserService.singleton.getUserAsFrontendReadOnlyUser()
         
@@ -580,16 +582,40 @@ extension PostViewController: CommentDelegate {
 
 extension PostViewController: PostDelegate {
     
-    func handleVote(postId: Int, emoji: String, action: VoteAction) {
-        // viewController update
-        //Below is no longer needed
-//        let originalVoteCount = post.votecount
+    func handleVote(postId: Int, emoji: String, emojiBeforePatch: String? = nil, existingVoteRating: Int?, action: VoteAction) {
+        guard
+            let emojiDict = PostService.singleton.getPost(withPostId: postId)?.emoji_dict,
+            let emojiCount = emojiDict[emoji]
+        else { return }
         
-        // Singleton & remote update
+        var updatedEmojiDict = emojiDict
+        switch action {
+        case .cast:
+            updatedEmojiDict[emoji] = emojiCount + VoteService.singleton.getCastingVoteRating()
+        case .patch:
+            guard
+                let emojiBeforePatch = emojiBeforePatch,
+                let existingVoteRating = existingVoteRating,
+                let existingEmojiCount = emojiDict[emojiBeforePatch]
+            else {
+                fatalError("must provide emojiBeforePatch on patch")
+            }
+            updatedEmojiDict[emoji] = emojiCount + VoteService.singleton.getCastingVoteRating()
+            updatedEmojiDict[emojiBeforePatch] = existingEmojiCount - existingVoteRating
+        case .delete:
+            guard
+                let existingVoteRating = existingVoteRating  else {
+                fatalError("must provide emojiBeforePatch on patch")
+            }
+            updatedEmojiDict[emoji] = emojiCount - existingVoteRating
+        }
+        PostService.singleton.updateCachedPostWith(postId: postId, updatedEmojiDict: updatedEmojiDict)
+        
+        // Cache & remote update
         do {
             try VoteService.singleton.handlePostVoteUpdate(postId: postId, emoji: emoji, action)
         } catch {
-//            post.votecount = originalVoteCount //undo viewController data change
+            PostService.singleton.updateCachedPostWith(postId: postId, updatedEmojiDict: emojiDict)
             (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost() //reload data
             CustomSwiftMessages.displayError(error)
         }

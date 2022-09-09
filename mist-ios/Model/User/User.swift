@@ -15,7 +15,7 @@ protocol ReadOnlyUserBackendProperties: Equatable {
     var username: String { get }
     var first_name: String { get }
     var last_name: String { get }
-    var picture: String? { get }
+    var picture: String { get }
     var badges: [String] { get }
 }
 
@@ -41,7 +41,7 @@ struct ReadOnlyUser: Codable, ReadOnlyUserBackendProperties, Hashable {
     let username: String
     let first_name: String
     let last_name: String
-    let picture: String?
+    let picture: String
     
     //Equatable
     static func == (lhs: ReadOnlyUser, rhs: ReadOnlyUser) -> Bool { return lhs.id == rhs.id }
@@ -57,7 +57,8 @@ struct FrontendReadOnlyUser: ReadOnlyUserBackendProperties, SenderType, Hashable
     let username: String
     let first_name: String
     let last_name: String
-    let picture: String?
+    let picture: String
+//    let thumbnail: String
 
     // Frontend-only properties
     var full_name: String {

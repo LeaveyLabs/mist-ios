@@ -17,7 +17,10 @@ protocol PostDelegate: ShareActivityDelegate, UITextFieldDelegate { // , AnyObje
     func emojiKeyboardDidDelete()
 
     // Require subclass implementation
-    func handleVote(postId: Int, emoji: String, action: VoteAction)
+    
+//    func handleVote(postId: Int, emoji: String, action: VoteAction)
+    func handleVote(postId: Int, emoji: String, emojiBeforePatch: String?, existingVoteRating: Int?, action: VoteAction)
+    
     func handleCommentButtonTap(postId: Int)
     func handleBackgroundTap(postId: Int)
     func handleDeletePost(postId: Int)    

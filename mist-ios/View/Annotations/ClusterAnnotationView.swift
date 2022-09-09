@@ -335,7 +335,9 @@ extension ClusterAnnotationView: UICollectionViewDataSource {
         else { return cell }
         
 //        cell.configureForPost(post: postAnnotation.post, nestedPostViewDelegate: postDelegate, bubbleTrianglePosition: .bottom)
-        cell.configureForPost(post: sortedMemberPosts[indexPath.item], nestedPostViewDelegate: postDelegate, bubbleTrianglePosition: .bottom)
+        let cachedPost = PostService.singleton.getPost(withPostId: sortedMemberPosts[indexPath.item].id)!
+        print("DICT", cachedPost.emoji_dict, sortedMemberPosts[indexPath.item].emoji_dict)
+        cell.configureForPost(post: cachedPost, nestedPostViewDelegate: postDelegate, bubbleTrianglePosition: .bottom)
         
         //when the post is tapped, we want to FIRST make sure it's the currently centered one
         

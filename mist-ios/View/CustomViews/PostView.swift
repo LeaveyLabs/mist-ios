@@ -47,8 +47,6 @@ import MapKit
     //Data
     var postId: Int!
     var postAuthor: ReadOnlyUser!
-    var postEmojiCountTuples: [EmojiCountTuple]!
-    var usersVoteBeforePostWasLoaded: PostVote?
     
     //Delegation
     var postDelegate: PostDelegate!
@@ -115,9 +113,10 @@ extension PostView {
         
         moreButton.transform = CGAffineTransform(rotationAngle: degreesToRadians(degrees: 90))
         
-        self.usersVoteBeforePostWasLoaded = post.votes.first {$0.voter == UserService.singleton.getId() }
-        self.postEmojiCountTuples = post.emojiCountTuples
-        setupEmojiButtons(topThreeVotes: Array(post.emojiCountTuples.prefix(3)))
+//        self.usersVoteBeforePostWasLoaded = post.votes.first {$0.voter == UserService.singleton.getId() }
+        
+        let topThreeVotes = post.emoji_dict.map { ($0, $1) }.prefix(3)
+        setupEmojiButtons(topThreeVotes: Array(topThreeVotes))
         
 //        let blurEffect = UIBlurEffect(style: .dark)
 //        let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -138,7 +137,11 @@ extension PostView {
     }
     
     func reconfigurePost() {
-        setupEmojiButtons(topThreeVotes: Array(postEmojiCountTuples.prefix(3)))
+        guard let emojiDict = PostService.singleton.getPost(withPostId: postId)?.emoji_dict else { return }
+        let topThreeVotes = emojiDict.map { ($0, $1) }.prefix(3)
+        setupEmojiButtons(topThreeVotes: Array(topThreeVotes))
+        
+//        setupEmojiButtons(topThreeVotes: Array(postEmojiCountTuples.prefix(3)))
     }
     
 }
@@ -161,42 +164,13 @@ extension PostView {
     //was vote, and we removed it
     
     func setupEmojiButtons(topThreeVotes: [EmojiCountTuple]) {
-        let usersCurrentVoteOnThisPost = VoteService.singleton.votesForPost(postId: postId).first
+        let usersCurrentVoteOnThisPost = VoteService.singleton.voteForPost(postId: postId)
         
         for index in (0 ..< topThreeVotes.count) {
             let emojiButton = emojiButtons[index]
             let topThreeVote = topThreeVotes[index]
             (emojiButton.emoji, emojiButton.count) = (topThreeVote.emoji, topThreeVote.count)
-            if let usersCurrentVoteOnThisPost = usersCurrentVoteOnThisPost {
-                emojiButton.isSelected = usersCurrentVoteOnThisPost.emoji == topThreeVote.emoji
-                
-                //user had no original vote, but they added one
-                if usersVoteBeforePostWasLoaded == nil &&
-                    usersCurrentVoteOnThisPost.emoji == topThreeVote.emoji {
-                    emojiButton.count += 1
-                }
-                
-                //user had an original vote, but they changed it
-                if let usersVoteBeforePostWasLoaded = usersVoteBeforePostWasLoaded,
-                   usersVoteBeforePostWasLoaded.emoji != usersCurrentVoteOnThisPost.emoji {
-                    //if this is their new vote, then increment it
-                    if usersCurrentVoteOnThisPost.emoji == topThreeVote.emoji {
-                        emojiButton.count += 1
-                    }
-                    //if this is their old vote, then decrement it
-                    if usersVoteBeforePostWasLoaded.emoji == topThreeVote.emoji {
-                        emojiButton.count -= 1
-                    }
-                }
-            } else {
-                emojiButton.isSelected = false //deselect all buttons just in case
-                
-                //user had an original vote, but they remove it
-                if let usersVoteBeforePostWasLoaded = usersVoteBeforePostWasLoaded,
-                   usersVoteBeforePostWasLoaded.emoji == topThreeVote.emoji {
-                    emojiButton.count -= 1
-                }
-            }
+            emojiButton.isSelected = usersCurrentVoteOnThisPost != nil && usersCurrentVoteOnThisPost!.emoji == topThreeVote.emoji
         }
         
         if usersCurrentVoteOnThisPost != nil {
@@ -204,31 +178,89 @@ extension PostView {
         }
     }
     
+//    func setupEmojiButtons(topThreeVotes: [EmojiCountTuple]) {
+//        let usersCurrentVoteOnThisPost = VoteService.singleton.votesForPost(postId: postId).first
+//
+//        for index in (0 ..< topThreeVotes.count) {
+//            let emojiButton = emojiButtons[index]
+//            let topThreeVote = topThreeVotes[index]
+//            (emojiButton.emoji, emojiButton.count) = (topThreeVote.emoji, topThreeVote.count)
+//            if let usersCurrentVoteOnThisPost = usersCurrentVoteOnThisPost {
+//                emojiButton.isSelected = usersCurrentVoteOnThisPost.emoji == topThreeVote.emoji
+//
+//                //user had no original vote, but they added one
+//                if usersVoteBeforePostWasLoaded == nil &&
+//                    usersCurrentVoteOnThisPost.emoji == topThreeVote.emoji {
+//                    emojiButton.count += 1
+//                }
+//
+//                //user had an original vote, but they changed it
+//                if let usersVoteBeforePostWasLoaded = usersVoteBeforePostWasLoaded,
+//                   usersVoteBeforePostWasLoaded.emoji != usersCurrentVoteOnThisPost.emoji {
+//                    //if this is their new vote, then increment it
+//                    if usersCurrentVoteOnThisPost.emoji == topThreeVote.emoji {
+//                        emojiButton.count += 1
+//                    }
+//                    //if this is their old vote, then decrement it
+//                    if usersVoteBeforePostWasLoaded.emoji == topThreeVote.emoji {
+//                        emojiButton.count -= 1
+//                    }
+//                }
+//            } else {
+//                emojiButton.isSelected = false //deselect all buttons just in case
+//
+//                //user had an original vote, but they remove it
+//                if let usersVoteBeforePostWasLoaded = usersVoteBeforePostWasLoaded,
+//                   usersVoteBeforePostWasLoaded.emoji == topThreeVote.emoji {
+//                    emojiButton.count -= 1
+//                }
+//            }
+//        }
+//
+//        if usersCurrentVoteOnThisPost != nil {
+//            ensureTheUsersVoteAppearsOnAButton()
+//        }
+//    }
+    
     func ensureTheUsersVoteAppearsOnAButton() {
-        guard let usersVoteOnThisPost = VoteService.singleton.votesForPost(postId: postId).first else { return }
+        guard let usersVoteOnThisPost = VoteService.singleton.voteForPost(postId: postId) else { return }
         if !emojiButtons.contains(where: { $0.emoji == usersVoteOnThisPost.emoji }) {
             //Make emojiButton3 the emoji of the user's vote on this post
             
             emojiButton3.isSelected = true
-            if let votedOriginalTuple = postEmojiCountTuples.first(where: {$0.emoji == usersVoteOnThisPost.emoji }) {
-                (emojiButton3.emoji, emojiButton3.count) = (usersVoteOnThisPost.emoji,
-                                                            votedOriginalTuple.count)
-            } else {
-                (emojiButton3.emoji, emojiButton3.count) = (usersVoteOnThisPost.emoji,
-                                                            0)
-            }
-            //COUNT INCREMENT HANDLING
-            //case 1: user had no original vote, so they must have added this one
-            if usersVoteBeforePostWasLoaded == nil  {
-                emojiButton3.count += 1
-            }
-            //case 2: user had an original vote when posts were loaded in, but they changed it
-            if let usersVoteBeforePostWasLoaded = usersVoteBeforePostWasLoaded,
-               usersVoteBeforePostWasLoaded.emoji != usersVoteOnThisPost.emoji {
-                emojiButton3.count += 1
-            }
+            guard
+                let emojiDict = PostService.singleton.getPost(withPostId: postId)?.emoji_dict,
+                let emojiCount = emojiDict[usersVoteOnThisPost.emoji]
+            else { return }
+            (emojiButton3.emoji, emojiButton3.count) = (usersVoteOnThisPost.emoji, emojiCount)
         }
     }
+    
+//    func ensureTheUsersVoteAppearsOnAButton() {
+//        guard let usersVoteOnThisPost = VoteService.singleton.voteForPost(postId: postId) else { return }
+//        if !emojiButtons.contains(where: { $0.emoji == usersVoteOnThisPost.emoji }) {
+//            //Make emojiButton3 the emoji of the user's vote on this post
+//
+//            emojiButton3.isSelected = true
+//            if let votedOriginalTuple = postEmojiCountTuples.first(where: {$0.emoji == usersVoteOnThisPost.emoji }) {
+//                (emojiButton3.emoji, emojiButton3.count) = (usersVoteOnThisPost.emoji,
+//                                                            votedOriginalTuple.count)
+//            } else {
+//                (emojiButton3.emoji, emojiButton3.count) = (usersVoteOnThisPost.emoji,
+//                                                            0)
+//            }
+//            //COUNT INCREMENT HANDLING
+//            //case 1: user had no original vote, so they must have added this one
+//            if usersVoteBeforePostWasLoaded == nil  {
+//                emojiButton3.count += 1
+//            }
+//            //case 2: user had an original vote when posts were loaded in, but they changed it
+//            if let usersVoteBeforePostWasLoaded = usersVoteBeforePostWasLoaded,
+//               usersVoteBeforePostWasLoaded.emoji != usersVoteOnThisPost.emoji {
+//                emojiButton3.count += 1
+//            }
+//        }
+//    }
         
     //MARK: - User Interaction
     
@@ -275,15 +307,15 @@ extension PostView {
     }
     
     //not in use as of now
-    @objc func postWasDoubleTapped() {
-        guard
-            let random = Array(0x1F300...0x1F3F0).randomElement(),
-            let randomEmojiScalar = UnicodeScalar(random)
-        else { return }
-        let randomEmoji = String(randomEmojiScalar)
-        guard randomEmoji.isSingleEmoji else { return }
-        handleEmojiVote(emojiString: randomEmoji)
-    }
+//    @objc func postWasDoubleTapped() {
+//        guard
+//            let random = Array(0x1F300...0x1F3F0).randomElement(),
+//            let randomEmojiScalar = UnicodeScalar(random)
+//        else { return }
+//        let randomEmoji = String(randomEmojiScalar)
+//        guard randomEmoji.isSingleEmoji else { return }
+//        handleEmojiVote(emojiString: randomEmoji)
+//    }
     
     @IBAction func emojiButtonDidPressed(_ sender: EmojiButton) {
         reactButtonTextField.resignFirstResponder()
@@ -293,10 +325,11 @@ extension PostView {
     func handleEmojiVote(emojiString: String) {
         emojiButtons.forEach { $0.isEnabled = false }
         
-        let hasUserAlreadyVoted = !VoteService.singleton.votesForPost(postId: postId).isEmpty
+        let hasUserAlreadyVoted = VoteService.singleton.voteForPost(postId: postId) != nil
         let doesNewEmojiAlreadyExist = emojiButtons.firstIndex { $0.emoji == emojiString } != nil
         let isUserDeletingTheirVote = emojiButtons.firstIndex { $0.isSelected && $0.emoji == emojiString } != nil
 
+        
         if hasUserAlreadyVoted {
             if isUserDeletingTheirVote {
                 deleteVote(emojiString)
@@ -328,41 +361,46 @@ extension PostView {
     
     func deleteVote(_ emojiString: String) {
         print("DELETE VOTE")
+        guard let existingVoteRating = VoteService.singleton.voteForPost(postId: postId)?.rating else { return }
         guard let selectedEmojiButton = emojiButtons.first(where: { $0.isSelected }) else { return }
         selectedEmojiButton.isSelected = false
-        selectedEmojiButton.count -= 1
+        selectedEmojiButton.count -= existingVoteRating
         
         //remote and stoarge updates
-        postDelegate.handleVote(postId: postId, emoji: emojiString, action: .delete)
+        postDelegate.handleVote(postId: postId, emoji: emojiString, emojiBeforePatch: nil, existingVoteRating: existingVoteRating, action: .delete)
     }
     
     //They have already voted, and they're changing their vote to one of the other two already on the screen
     func patchVoteWithExistingEmoji(_ emojiString: String) {
         print("PATCH VOTE EXISTING")
+        guard let existingVoteRating = VoteService.singleton.voteForPost(postId: postId)?.rating else { return }
         guard let previouslySelectedEmojiButton = emojiButtons.first(where: { $0.isSelected }) else { return }
         guard let newlySelectedEmojiButton = emojiButtons.first(where: { $0.emoji == emojiString }) else { return }
         previouslySelectedEmojiButton.isSelected = false
-        previouslySelectedEmojiButton.count -= 1
+        previouslySelectedEmojiButton.count -= existingVoteRating
         newlySelectedEmojiButton.isSelected = true
-        newlySelectedEmojiButton.count += 1
+        newlySelectedEmojiButton.count += VoteService.singleton.getCastingVoteRating()
         
         //remote and storage updates
-        postDelegate.handleVote(postId: postId, emoji: emojiString, action: .patch)
+        postDelegate.handleVote(postId: postId, emoji: emojiString, emojiBeforePatch: previouslySelectedEmojiButton.emoji, existingVoteRating: existingVoteRating, action: .patch) //we dont need to hold onto the previouslySelectedEmojiButton's emoji here since we know we aren't going to be overriding our reference to it. it will remain on the screen
     }
     
     //They have already voted, and they're changing their vote to a custom emoji
     func patchVoteWithCustomEmoji(_ emojiString: String) {
         print("PATCH VOTE CUSTOM")
+        guard let existingVoteRating = VoteService.singleton.voteForPost(postId: postId)?.rating else { return }
         guard let previouslySelectedEmojiButton = emojiButtons.first(where: { $0.isSelected }) else { return }
-        previouslySelectedEmojiButton.count -= 1
+        let previousEmoji = previouslySelectedEmojiButton.emoji //we need to hold onto this button's emoji in case it was actually button3, meaning it would get overrided below
+        previouslySelectedEmojiButton.count -= existingVoteRating
         previouslySelectedEmojiButton.isSelected = false
         
         //see if the emoji already has some votes
         let customVote: EmojiCountTuple
-        if let existingVoteWithSameEmoji = postEmojiCountTuples.first(where: { $0.emoji == emojiString }) {
-            customVote = EmojiCountTuple(emojiString, existingVoteWithSameEmoji.count + 1)
+        guard let emojiDict = PostService.singleton.getPost(withPostId: postId)?.emoji_dict else { return }
+        if let existingVoteCountForSameEmoji = emojiDict[emojiString] {
+            customVote = EmojiCountTuple(emojiString, existingVoteCountForSameEmoji + VoteService.singleton.getCastingVoteRating())
         } else {
-            customVote = EmojiCountTuple(emojiString, 1)
+            customVote = EmojiCountTuple(emojiString, VoteService.singleton.getCastingVoteRating())
         }
         
         (emojiButton3.emoji, emojiButton3.count) = (customVote.emoji, customVote.count)
@@ -388,28 +426,29 @@ extension PostView {
 //        }
 
         //remote and storage updates
-        postDelegate.handleVote(postId: postId, emoji: emojiString, action: .patch)
+        postDelegate.handleVote(postId: postId, emoji: emojiString, emojiBeforePatch: previousEmoji, existingVoteRating: existingVoteRating, action: .patch)
     }
     
     //They're adding a vote to one of the three already on the screen
     func castVoteWithExistingEmoji(_ emojiString: String) {
         print("CAST VOTE EXISTING")
         guard let newlySelectedEmojiButton = emojiButtons.first(where: { $0.emoji == emojiString }) else { return }
-        newlySelectedEmojiButton.count += 1
+        newlySelectedEmojiButton.count += VoteService.singleton.getCastingVoteRating()
         newlySelectedEmojiButton.isSelected = true
 
         //remote and storage updates
-        postDelegate.handleVote(postId: postId, emoji: emojiString, action: .cast)
+        postDelegate.handleVote(postId: postId, emoji: emojiString, emojiBeforePatch: nil, existingVoteRating: nil, action: .cast)
     }
     
     func castVoteWithCustomEmoji(_ emojiString: String) {
         print("CAST VOTE CUSTOM")
-        let previousVoteCountForThisEmoji = postEmojiCountTuples.first { $0.emoji == emojiString }?.count ?? 0
-        (emojiButton3.emoji, emojiButton3.count) = (emojiString, previousVoteCountForThisEmoji + 1)
+        guard let emojiDict = PostService.singleton.getPost(withPostId: postId)?.emoji_dict else { return }
+        let previousVoteCountForThisEmoji = emojiDict[emojiString] ?? 0
+        (emojiButton3.emoji, emojiButton3.count) = (emojiString, previousVoteCountForThisEmoji + VoteService.singleton.getCastingVoteRating())
         emojiButton3.isSelected = true //The third button always has the least votes
 
         //remote and storage updates
-        postDelegate.handleVote(postId: postId, emoji: emojiString, action: .cast)
+        postDelegate.handleVote(postId: postId, emoji: emojiString, emojiBeforePatch: nil, existingVoteRating: nil, action: .cast)
     }
     
 }

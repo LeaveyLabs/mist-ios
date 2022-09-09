@@ -47,8 +47,12 @@ class VoteService: NSObject {
     
     //MARK: - Getters
     
-    func votesForPost(postId: Int) -> [PostVote] {
-        return postVotes.filter { $0.post == postId }
+    func getCastingVoteRating() -> Int {
+        return castingVoteRating
+    }
+    
+    func voteForPost(postId: Int) -> PostVote? {
+        return postVotes.filter { $0.post == postId }.first
     }
     
     func voteForComment(commentId: Int) -> CommentVote? {

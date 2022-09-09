@@ -14,6 +14,7 @@ extension ExploreParentViewController: ExploreChildDelegate {
     
     func reloadData() {
         DispatchQueue.main.async { [self] in
+            print("RELOADING DATA")
             exploreMapVC.selectedAnnotationView?.rerenderCalloutForUpdatedPostData()
             exploreFeedVC.feed.reloadData()
         }
@@ -79,13 +80,50 @@ extension ExploreParentViewController: PostDelegate {
         }
     }
     
-    func handleVote(postId: Int, emoji: String, action: VoteAction) {
+    func handleVote(postId: Int, emoji: String, emojiBeforePatch: String? = nil, existingVoteRating: Int?, action: VoteAction) {
+        guard
+            let emojiDict = PostService.singleton.getPost(withPostId: postId)?.emoji_dict,
+            let emojiCount = emojiDict[emoji]
+        else { return }
+        
+        var updatedEmojiDict = emojiDict
+        switch action {
+        case .cast:
+            updatedEmojiDict[emoji] = emojiCount + VoteService.singleton.getCastingVoteRating()
+        case .patch:
+            guard
+                let emojiBeforePatch = emojiBeforePatch,
+                let existingVoteRating = existingVoteRating,
+                let existingEmojiCount = emojiDict[emojiBeforePatch]
+            else {
+                fatalError("must provide emojiBeforePatch on patch")
+            }
+            updatedEmojiDict[emoji] = emojiCount + VoteService.singleton.getCastingVoteRating()
+            updatedEmojiDict[emojiBeforePatch] = existingEmojiCount - existingVoteRating
+        case .delete:
+            guard
+                let existingVoteRating = existingVoteRating  else {
+                fatalError("must provide emojiBeforePatch on patch")
+            }
+            updatedEmojiDict[emoji] = emojiCount - existingVoteRating
+        }
+        PostService.singleton.updateCachedPostWith(postId: postId, updatedEmojiDict: updatedEmojiDict)
+        
+        // Cache & remote update
         do {
             try VoteService.singleton.handlePostVoteUpdate(postId: postId, emoji: emoji, action)
         } catch {
+            PostService.singleton.updateCachedPostWith(postId: postId, updatedEmojiDict: emojiDict)
             reloadData() //reloadData to ensure undos are visible
             CustomSwiftMessages.displayError(error)
         }
+        
+//        do {
+//            try VoteService.singleton.handlePostVoteUpdate(postId: postId, emoji: emoji, action)
+//        } catch {
+//            reloadData() //reloadData to ensure undos are visible
+//            CustomSwiftMessages.displayError(error)
+//        }
     }
     
     func handleBackgroundTap(postId: Int) {

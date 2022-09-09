@@ -100,25 +100,32 @@ class PostService: NSObject {
         return postIds.compactMap { postId in cachedPosts[postId] }
     }
         
-    func updateAllPostsWithDataFrom(updatedPost: Post) {
+    func updateCachedPostWithDataFrom(updatedPost: Post) {
         cachedPosts[updatedPost.id] = updatedPost
+        rerenderAnyVisiblePosts()
+    }
+    
+    func updateCachedPostWith(postId: Int, updatedEmojiDict: EmojiCountDict) {
+        print("CACHED POST BEFORE:", cachedPosts[postId]?.emoji_dict)
+        cachedPosts[postId]?.emoji_dict = updatedEmojiDict
+        print("CACHED POST BEFORE:", cachedPosts[postId]?.emoji_dict)
         rerenderAnyVisiblePosts()
     }
     
     //the other problem: we need to make sure PostViewController, etc actually depend on PostService for posts. right now, Explore does depend on PostService, but PostViewController does not
     //hmmm - instead of passing Post from explore to PostVC, we'd want to pass the postId, yea? than we can just call PostService.getPost(forId: ) throughout PostVC
     func rerenderAnyVisiblePosts() {
-        DispatchQueue.main.async {
-            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-            let delegate = windowScene.delegate as? SceneDelegate, let window = delegate.window else { return }
-            guard let tabVC = window.rootViewController as? UITabBarController else { return }
-            let firstNavVC = tabVC.viewControllers![0] as! UINavigationController
-            let secondNavVC = tabVC.viewControllers![2] as! UINavigationController
-            guard let visibleFirstVC = firstNavVC.visibleViewController! as? DisplayingPostDelegate else { return }
-            guard let visibleSecondVC = secondNavVC.visibleViewController! as? DisplayingPostDelegate else { return }
-            visibleFirstVC.rerenderPostUIAfterPostServiceUpdate()
-            visibleSecondVC.rerenderPostUIAfterPostServiceUpdate()
-        }
+//        DispatchQueue.main.async {
+//            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+//            let delegate = windowScene.delegate as? SceneDelegate, let window = delegate.window else { return }
+//            guard let tabVC = window.rootViewController as? UITabBarController else { return }
+//            let firstNavVC = tabVC.viewControllers![0] as! UINavigationController
+//            let secondNavVC = tabVC.viewControllers![2] as! UINavigationController
+//            guard let visibleFirstVC = firstNavVC.visibleViewController! as? DisplayingPostDelegate else { return }
+//            guard let visibleSecondVC = secondNavVC.visibleViewController! as? DisplayingPostDelegate else { return }
+//            visibleFirstVC.rerenderPostUIAfterPostServiceUpdate()
+//            visibleSecondVC.rerenderPostUIAfterPostServiceUpdate()
+//        }
     }
     
     //MARK: - Getting

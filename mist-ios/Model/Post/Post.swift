@@ -24,6 +24,7 @@ struct Post: Codable, Equatable {
     let author: Int
     let read_only_author: ReadOnlyUser
     var emoji_dict: EmojiCountDict
+    let sorted_emoji_array: [EmojiCountTuple]
 //    let votes: [PostVote]
     
     //commentCount is not supported right now. we're trying to avoid ever updating the Post on the frontend, so it's easier just to not think about this right now
@@ -52,7 +53,7 @@ struct Post: Codable, Equatable {
          author: Int,
          emojiDict: EmojiCountDict = [:],
          votes: [PostVote] = [],
-         emojiCountTuples: [EmojiCountTuple] = [],
+         sortedEmojiArray: [EmojiCountTuple] = [],
          commentcount: Int = 0) {
         self.id = id
         self.title = title
@@ -65,7 +66,7 @@ struct Post: Codable, Equatable {
         self.read_only_author = UserService.singleton.getUserAsReadOnlyUser()
         self.commentcount = commentcount
         self.emoji_dict = emojiDict
-//        self.emojiCountTuples = emojiCountTuples
+        self.sorted_emoji_array = sortedEmojiArray
     }
     
     static func == (lhs: Post, rhs: Post) -> Bool {
@@ -87,7 +88,9 @@ struct Post: Codable, Equatable {
         self.commentcount = try container.decode(Int.self, forKey: .commentcount)
         let decodedEmojiCountDict = try container.decode(EmojiCountDict.self, forKey: .emoji_dict)
         self.emoji_dict = Post.insertUpToThreePlaceholderEmojis(on: decodedEmojiCountDict)
-//        emojiCountTuples = Post.setupPostTupes(from: self.emoji_dict)
+        self.sorted_emoji_array = self.emoji_dict.map( { ($0, $1) }).sorted(by: { first, second in
+            first.count > second.count
+        })
     }
     
     static private func insertUpToThreePlaceholderEmojis(on emojiDict: EmojiCountDict) -> EmojiCountDict {
@@ -99,14 +102,6 @@ struct Post: Codable, Equatable {
         }
         return emojiDictWithPlaceholders
     }
-    
-//    static private func setupPostTupes(from emojiDict: EmojiCountDict) -> [EmojiCountTuple] {
-//        var emojiCountTuples = [EmojiCountTuple]()
-//        emojiDict.forEach { emoji, count in
-//            emojiCountTuples.append((emoji, count))
-//        }
-//        return emojiCountTuples
-//    }
     
     @available(*, deprecated, message: "prefer setting up from EmojiCountDict")
     static private func setupPostTuples(from votes: [PostVote], _ title: String) -> [EmojiCountTuple] {
