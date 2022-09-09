@@ -91,12 +91,12 @@ extension CustomSwiftMessages {
         }
     }
     
-    static func showInfoCentered(_ title: String, _ body: String, emoji: String, onDismiss: @escaping () -> Void = { }) {
+    static func showInfoCentered(_ title: String, _ body: String, emoji: String, dismissButtonTitle: String = "ok", onDismiss: @escaping () -> Void = { }) {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
             messageView.configureContent(title: title, body: body, iconText: emoji)
-            messageView.customConfig(approveText: "", dismissText: "ok")
-            messageView.dismissAction = {
+            messageView.customConfig(approveText: dismissButtonTitle, dismissText: "")
+            messageView.approveAction = {
                 SwiftMessages.hide()
                 onDismiss()
             }
@@ -114,8 +114,7 @@ extension CustomSwiftMessages {
     
     static func showSuccess(_ title: String, _ body: String) {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
-            let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
-            messageView.configureTheme(backgroundColor: .systemGreen, foregroundColor: .white)
+            let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
             messageView.applyMediumShadow()
             messageView.button?.isHidden = true
             messageView.configureContent(title: title,
@@ -332,4 +331,39 @@ extension CustomSwiftMessages {
         config.presentationContext  = .window(windowLevel: UIWindow.Level.statusBar)
         return config
     }
+    
+    static func badgeConfig() -> SwiftMessages.Config {
+        var config = SwiftMessages.defaultConfig
+        config.presentationStyle = .center
+        config.duration = .forever
+        config.dimMode = .blur(style: .dark, alpha: 0.5, interactive: false)
+        config.interactiveHide = true
+        config.presentationContext  = .window(windowLevel: UIWindow.Level.statusBar)
+        return config
+    }
+    
+    //MARK: - Badges
+    
+    static func displayBadgePopup(name: String, badge: String) {
+        DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
+            let messageView: SwiftMessagesBadgeView = try! SwiftMessages.viewFromNib()
+            var title = ""
+            var body = ""
+            if badge == "💌" {
+                title = "love, mist"
+                body = name + " participated in the on-campus event \"love, mist\" by entering a special access code"
+            }
+            messageView.configureContent(title: title, body: body, iconText: badge)
+            messageView.badgeConfig()
+            messageView.dismissAction = {
+                SwiftMessages.hide()
+            }
+            
+            messageView.configureBackgroundView(width: 250)
+            messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+            messageView.backgroundView.layer.cornerRadius = 10
+            SwiftMessages.show(config: badgeConfig(), view: messageView)
+        }
+    }
+    
 }

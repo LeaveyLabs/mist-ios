@@ -32,7 +32,9 @@ class EnterKeywordsViewController: UIViewController, UITableViewDataSource, UITa
         //keyboard will always be raised, so this is the estimated keyboard height
         tableView.contentInset.bottom = 300 + (window?.safeAreaInsets.bottom ?? 0)
         
-        navigationController?.fullscreenInteractivePopGestureRecognizer(delegate: self)
+        if !MistboxManager.shared.hasUserActivatedMistbox { //we dont want them slide to pop back on the very first flow
+            navigationController?.fullscreenInteractivePopGestureRecognizer(delegate: self)
+        }
 
         customNavBar.configure(title: "keywords", leftItems: [.back, .title], rightItems: [])
         customNavBar.backButton.addTarget(self, action: #selector(didPressBack), for: .touchUpInside)

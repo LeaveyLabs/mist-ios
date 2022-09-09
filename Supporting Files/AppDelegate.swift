@@ -82,7 +82,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             if notificaitonType == NotificationTypes.tag.rawValue {
 //                let tag = try JSONDecoder().decode(Tag.self, from: data)
                 try await PostService.singleton.loadMentions()
-                try await CommentService.singleton.fetchTags()
+                try await CommentService.singleton.fetchTaggedTags()
                 DispatchQueue.main.async {
                     tabVC.refreshBadgeCount()
                     let visibleVC = SceneDelegate.visibleViewController
@@ -97,16 +97,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             } else if notificaitonType == NotificationTypes.message.rawValue {
                 let message = try JSONDecoder().decode(Message.self, from: data)
                 if (ConversationService.singleton.getConversationWith(userId: message.sender) == nil) {
-                    try await ConversationService.singleton.loadMessageThreads()
-                    DispatchQueue.main.async {
-                        tabVC.refreshBadgeCount()
-                        let visibleVC = SceneDelegate.visibleViewController
-                        if let chatVC = visibleVC as? ChatViewController {
-                            chatVC.handleNewMessage()
-                        } else if let conversationsVC = visibleVC as? ConversationsViewController {
-                            conversationsVC.tableView.reloadData()
-                        }
-                    }
+                    try await ConversationService.singleton.loadConversationsAndRefreshVC()
                 } else {
                     //if we do have a converation open, this code is handled in Conversation
                 }

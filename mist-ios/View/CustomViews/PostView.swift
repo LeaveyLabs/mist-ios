@@ -87,7 +87,7 @@ extension PostView {
     
     // Note: the constraints for the PostView should already be set-up when this is called.
     // Otherwise you'll get loads of constraint errors in the console
-    func configurePost(post: Post, delegate: PostDelegate, arrowPosition: BubbleTrianglePosition? = nil) {
+    func configurePost(post: Post, delegate: PostDelegate, arrowPosition: BubbleTrianglePosition? = nil, updatedCommentCount: Int? = nil) {
         self.postId = post.id
         self.postAuthor = post.read_only_author
         self.postDelegate = delegate
@@ -101,7 +101,7 @@ extension PostView {
         locationLabel.text = post.location_description?.lowercased()
         messageLabel.text = post.body
         postTitleLabel.text = post.title
-        commentButton.setTitle(post.commentcount >= 3 ? String(post.commentcount) : "comment", for: .normal)
+        commentButton.setTitle(post.commentcount >= 3 ? String(updatedCommentCount ?? post.commentcount) : "comment", for: .normal)
         if post.author == UserService.singleton.getId() {
             dmButton.setTitleColor(.lightGray.withAlphaComponent(0.5), for: .normal)
             dmButton.imageView?.tintColor = .lightGray.withAlphaComponent(0.5)
@@ -118,9 +118,6 @@ extension PostView {
         self.usersVoteBeforePostWasLoaded = post.votes.first {$0.voter == UserService.singleton.getId() }
         self.postEmojiCountTuples = post.emojiCountTuples
         setupEmojiButtons(topThreeVotes: Array(post.emojiCountTuples.prefix(3)))
-        
-        
-        
         
 //        let blurEffect = UIBlurEffect(style: .dark)
 //        let blurEffectView = UIVisualEffectView(effect: blurEffect)

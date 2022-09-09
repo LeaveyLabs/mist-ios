@@ -16,6 +16,7 @@ protocol ReadOnlyUserBackendProperties: Equatable {
     var first_name: String { get }
     var last_name: String { get }
     var picture: String? { get }
+    var badges: [String] { get }
 }
 
 protocol CompleteUserBackendProperties: Equatable {
@@ -24,17 +25,18 @@ protocol CompleteUserBackendProperties: Equatable {
     var first_name: String { get }
     var last_name: String { get }
     var picture: String? { get }
+    var badges: [String] { get }
     var email: String { get }
     var date_of_birth: String { get }
     var sex: String? { get }
     var phone_number: String? { get }
-    //let phone_number: String?
 }
 
 //MARK: - Structs
 
 struct ReadOnlyUser: Codable, ReadOnlyUserBackendProperties, Hashable {
-        
+    
+    var badges: [String]
     let id: Int
     let username: String
     let first_name: String
@@ -68,6 +70,7 @@ struct FrontendReadOnlyUser: ReadOnlyUserBackendProperties, SenderType, Hashable
     var is_verified: Bool {
         return false
     }
+    var badges: [String]
     
     //MessageKit's SenderType
     var senderId: String { return String(id) }
@@ -81,6 +84,7 @@ struct FrontendReadOnlyUser: ReadOnlyUserBackendProperties, SenderType, Hashable
         self.picture = readOnlyUser.picture
         
         self.profilePic = profilePic
+        self.badges = readOnlyUser.badges
 //        self.blurredPic = blurredPic == nil ? profilePic.blur() : blurredPic!
     }
     
@@ -103,6 +107,7 @@ struct CompleteUser: Codable, CompleteUserBackendProperties {
     let latitude: Double?
     let longitude: Double?
     let phone_number: String?
+    var badges: [String]
     
     //Equatable
     static func == (lhs: CompleteUser, rhs: CompleteUser) -> Bool { return lhs.id == rhs.id }
@@ -122,6 +127,7 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
     let latitude: Double?
     let longitude: Double?
     let phone_number: String?
+    var badges: [String]
     
     var full_name: String {
         return first_name + " " + last_name
@@ -157,6 +163,7 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
         self.latitude = completeUser.latitude
         self.longitude = completeUser.longitude
         self.phone_number = completeUser.phone_number
+        self.badges = completeUser.badges
         
         self.profilePicWrapper = profilePic
         self.token = token
@@ -165,5 +172,5 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
     //Equatable
     static func == (lhs: FrontendCompleteUser, rhs: FrontendCompleteUser) -> Bool { return lhs.id == rhs.id }
     
-    static let nilUser = FrontendCompleteUser(completeUser: CompleteUser(id: 0, username: "", first_name: "", last_name: "", picture: "", email: "", date_of_birth: "", sex: "", latitude: 0, longitude: 0, phone_number: ""), profilePic: ProfilePicWrapper(image: Constants.defaultProfilePic, withCompresssion: false), token: "")
+    static let nilUser = FrontendCompleteUser(completeUser: CompleteUser(id: 0, username: "", first_name: "", last_name: "", picture: "", email: "", date_of_birth: "", sex: "", latitude: 0, longitude: 0, phone_number: "", badges: []), profilePic: ProfilePicWrapper(image: Constants.defaultProfilePic, withCompresssion: false), token: "")
 }

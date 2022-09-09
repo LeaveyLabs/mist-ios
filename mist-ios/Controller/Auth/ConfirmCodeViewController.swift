@@ -12,7 +12,7 @@ import UIKit
 class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
     
     enum ConfirmMethod: CaseIterable {
-        case signupEmail, signupText, loginText, resetPhoneNumberEmail, resetPhoneNumberText
+        case signupEmail, signupText, loginText, resetPhoneNumberEmail, resetPhoneNumberText, accessCode, appleLogin
     }
     
     enum ResendState {
@@ -22,6 +22,7 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
     var recipient: String!
     var confirmMethod: ConfirmMethod!
 
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var sentToLabel: UILabel!
     @IBOutlet weak var confirmTextField: UITextField!
     @IBOutlet weak var continueButton: UIButton!
@@ -30,12 +31,20 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
     var isValidInput: Bool! {
         didSet {
             continueButton.isEnabled = isValidInput
+            if confirmMethod == .accessCode {
+                continueButton.setTitle(confirmTextField.text!.count == 6 ? "continue" : "skip", for: .normal)
+            }
         }
     }
     var isSubmitting: Bool = false {
         didSet {
-            continueButton.setTitle(isSubmitting ? "" : "continue", for: .normal)
+            if confirmMethod == .accessCode {
+                continueButton.setTitle("skip", for: .normal)
+            } else {
+                continueButton.setTitle(isSubmitting ? "" : "continue", for: .normal)
+            }
             continueButton.loadingIndicator(isSubmitting)
+            resendButton.isEnabled = !isSubmitting
         }
     }
     
@@ -68,6 +77,10 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
             vc.recipient = AuthContext.email
         case .signupText, .loginText, .resetPhoneNumberText:
             vc.recipient = AuthContext.phoneNumber.asNationalPhoneNumber ?? AuthContext.phoneNumber
+        case .accessCode:
+            vc.recipient = ""
+        case .appleLogin:
+            vc.recipient = AuthContext.phoneNumber
         }
         vc.confirmMethod = confirmMethod
         return vc
@@ -79,9 +92,15 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
         shouldNotAnimateKUIAccessoryInputView = true
         setupConfirmEmailTextField()
         setupContinueButton()
-        setupResendButton()
         setupLabel()
         confirmTextField.becomeFirstResponder()
+        validateInput()
+        
+        if confirmMethod == .accessCode {
+            resendButton.isHidden = true
+            sentToLabel.text = "enter it here for your first profile badge"
+            titleLabel.text = "got an access code?"
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -108,10 +127,6 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
         confirmTextField.defaultTextAttributes.updateValue(spacing, forKey: NSAttributedString.Key.kern)
     }
     
-    func setupResendButton() {
-        resendButton.isEnabled = false
-    }
-    
     func setupContinueButton() {
         continueButton.roundCornersViaCornerRadius(radius: 10)
         continueButton.clipsToBounds = true
@@ -121,6 +136,15 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
         continueButton.setTitleColor(.white, for: .normal)
         continueButton.setTitleColor(Constants.Color.mistLilac, for: .disabled)
         continueButton.setTitle("continue", for: .normal)
+        
+        if confirmMethod == .accessCode {
+            continueButton.setTitle("skip", for: .normal)
+        }
+        
+        if confirmMethod == .accessCode {
+            continueButton.setTitleColor(.white, for: .disabled)
+            continueButton.setBackgroundImage(UIImage.imageFromColor(color: Constants.Color.mistLilac), for: .disabled)
+        }
     }
     
     func setupLabel() {
@@ -200,20 +224,29 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
     
     func tryToContinue() {
         guard let code = confirmTextField.text else { return }
-        isSubmitting = true
-        Task {
-            do {
-                try await validate(validationCode: code)
-                DispatchQueue.main.async {
-                    self.continueToNextScreen()
+        if confirmMethod == .accessCode && code.length < 6 {
+            AuthContext.accessCode = nil
+            continueToNextScreen()
+        } else {
+            isSubmitting = true
+            Task {
+                do {
+                    try await validate(validationCode: code)
+                    DispatchQueue.main.async {
+                        self.continueToNextScreen()
+                    }
+                } catch {
+                    handleError(error)
                 }
-            } catch {
-                handleError(error)
             }
         }
     }
     
     func validateInput() {
+        guard confirmMethod != .accessCode else {
+            isValidInput = true
+            return
+        }
         isValidInput = confirmTextField.text?.count == 6
     }
     
@@ -237,7 +270,7 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
             try await PhoneNumberAPI.requestResetText(email: AuthContext.email, phoneNumber: AuthContext.phoneNumber, resetToken: AuthContext.resetToken)
         case .loginText:
             try await PhoneNumberAPI.requestLoginCode(phoneNumber: AuthContext.phoneNumber)
-        case .none:
+        case .none, .accessCode, .appleLogin:
             break
         }
     }
@@ -252,11 +285,17 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
             AuthContext.resetToken = try await PhoneNumberAPI.validateResetEmail(email: AuthContext.email, code: validationCode)
         case .resetPhoneNumberText:
             try await PhoneNumberAPI.validateResetText(phoneNumber: AuthContext.phoneNumber, code: validationCode, resetToken: AuthContext.resetToken)
-        case .loginText:
-            print(AuthContext.phoneNumber, validationCode, validationCode)
+        case .loginText, .appleLogin:
+            print(AuthContext.phoneNumber)
             let authToken = try await PhoneNumberAPI.validateLoginCode(phoneNumber: AuthContext.phoneNumber, code: validationCode)
             try await UserService.singleton.logInWith(authToken: authToken)
             try await loadEverything()
+        case .accessCode:
+            let isAvailable = try await UserAPI.isAccessCodeAvailable(code: validationCode)
+            if !isAvailable {
+                throw APIError.ClientError("invalid code", "please try again")
+            }
+            AuthContext.accessCode = validationCode
         case .none:
             break
         }
@@ -271,7 +310,7 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
                 self?.isSubmitting = false
             })
         case .signupText:
-            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterBios)
+            let vc = ConfirmCodeViewController.create(confirmMethod: .accessCode)
             self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
                 self?.isSubmitting = false
             })
@@ -286,9 +325,14 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
                 navigationController?.dismiss(animated: true)
                 AuthContext.reset()
             }
-        case .loginText:
+        case .loginText, .appleLogin:
             transitionToHomeAndRequestPermissions() { }
             AuthContext.reset()
+        case .accessCode:
+            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterBios)
+            self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
+                self?.isSubmitting = false
+            })
         case .none:
             break
         }

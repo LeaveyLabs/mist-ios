@@ -15,4 +15,5 @@ struct Tag: Codable {
     let tagged_phone_number: String?
     let tagging_user: Int
     let timestamp: Double
+    let post: Post
 }

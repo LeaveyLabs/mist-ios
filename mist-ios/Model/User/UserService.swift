@@ -18,7 +18,9 @@ class UserService: NSObject {
     private var authedUser: FrontendCompleteUser { //a wrapper for the real underlying frontendCompleteUser. if for some unknown reason, frontendCompleteUser is nil, instead of the app crashing with a force unwrap, we kick them to the home screen and log them out
         get {
             guard let authedUser = frontendCompleteUser else {
-                kickUserToHomeScreenAndLogOut()
+                if isLoggedIntoApp { //another potential check: if the visible view controller belongs to Main storyboard
+                    kickUserToHomeScreenAndLogOut()
+                }
                 return FrontendCompleteUser.nilUser
             }
             return authedUser
@@ -34,6 +36,13 @@ class UserService: NSObject {
     
     private var SLEEP_INTERVAL:UInt32 = 120
     
+    // Called on startup so that the singleton is created and isLoggedIn is properly initialized
+    var isLoggedIntoAnAccount: Bool { //"is there a frontendCompleteUser which represents them?"
+        return frontendCompleteUser != nil
+    }
+    private var isLoggedIntoApp = false //"have they passed beyond the auth process?" becomes true after login or signup or loading a user from the documents directory
+    
+    
     //MARK: - Initializer
     
     //private initializer because there will only ever be one instance of UserService, the singleton
@@ -45,6 +54,7 @@ class UserService: NSObject {
         if FileManager.default.fileExists(atPath: localFileLocation.path) {
             self.loadUserFromFilesystem()
             setupFirebaseAnalyticsProperties()
+            isLoggedIntoApp = true
         }
         
 //        Task {
@@ -59,16 +69,11 @@ class UserService: NSObject {
     }
     
     //MARK: - Getters
-    
-    // Called on startup so that the singleton is created and isLoggedIn is properly initialized
-    func isLoggedIn() -> Bool {
-        return frontendCompleteUser != nil
-    }
-    
+
     //User
     func getUser() -> FrontendCompleteUser { return authedUser }
     func getUserAsReadOnlyUser() -> ReadOnlyUser {
-        return ReadOnlyUser(id: authedUser.id,
+        return ReadOnlyUser(badges: authedUser.badges, id: authedUser.id,
                             username: authedUser.username,
                             first_name: authedUser.first_name,
                             last_name: authedUser.last_name,
@@ -90,10 +95,9 @@ class UserService: NSObject {
     func getPhoneNumber() -> String? { return authedUser.phone_number }
     func getPhoneNumberPretty() -> String? { return authedUser.phone_number?.asNationalPhoneNumber }
     func getProfilePic() -> UIImage { return authedUser.profilePicWrapper.image }
-    func getBlurredPic() -> UIImage { return authedUser.profilePicWrapper.blurredImage }
-    func getKeywords() -> [String] {
-        return []
-    }
+    func getBlurredPic() -> UIImage { return getUserAsFrontendReadOnlyUser().blurredPic } //we have to use the asFrontendReadOnlyUser method in order to make sure the silhouette, not the blurred image, is shown
+    
+    func getBadges() -> [String] { return authedUser.badges }
     func isVerified() -> Bool { return false }
     
     //MARK: - Login and create user
@@ -105,7 +109,8 @@ class UserService: NSObject {
                     profilePic: UIImage,
                     email: String,
                     phoneNumber: String,
-                    dob: String) async throws {
+                    dob: String,
+                    accessCode: String?) async throws {
         let newProfilePicWrapper = ProfilePicWrapper(image: profilePic, withCompresssion: true)
         let compressedProfilePic = newProfilePicWrapper.image
         let token = try await AuthAPI.createUser(username: username,
@@ -116,29 +121,21 @@ class UserService: NSObject {
                                             phone_number: phoneNumber,
                                             dob: dob)
         setGlobalAuthToken(token: token)
+        if let accessCode = AuthContext.accessCode {
+            await UserService.singleton.tryToEnterAccessCode(accessCode)
+        }
         let completeUser = try await UserAPI.fetchAuthedUserByToken(token: token)
-        
-        Task { try await waitAndRegisterDeviceToken(id: completeUser.id) }
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
                                                     profilePic: newProfilePicWrapper,
                                                     token: token)
-        setupFirebaseAnalyticsProperties()
-        Task { await self.saveUserToFilesystem() }
+        authedUser = frontendCompleteUser!
+        await self.saveUserToFilesystem()
+        Task { try await waitAndRegisterDeviceToken(id: completeUser.id) }
+        Task {
+            setupFirebaseAnalyticsProperties() //must come later at the end of this process so that we dont access authedUser while it's null and kick the user to the home screen
+        }
+        isLoggedIntoApp = true
     }
-    
-//    func logIn(json: Data) async throws {
-//        let token = try await AuthAPI.fetchAuthToken(json: json)
-//        setGlobalAuthToken(token: token)
-//        let completeUser = try await UserAPI.fetchAuthedUserByToken(token: token)
-//        Task { try await waitAndRegisterDeviceToken(id: completeUser.id) }
-//        let profilePicUIImage = try await UserAPI.UIImageFromURLString(url: completeUser.picture)
-//        frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
-//                                                    profilePic: ProfilePicWrapper(image: profilePicUIImage,
-//                                                                                  withCompresssion: false),
-//                                                    token: token)
-//        setupFirebaseAnalyticsProperties()
-//        Task { await self.saveUserToFilesystem() }
-//    }
     
     func logInWith(authToken token: String) async throws {
         setGlobalAuthToken(token: token)
@@ -149,7 +146,16 @@ class UserService: NSObject {
                                                     profilePic: ProfilePicWrapper(image: profilePicUIImage,withCompresssion: false),
                                                     token: token)
         setupFirebaseAnalyticsProperties()
-        Task { await self.saveUserToFilesystem() }
+        await self.saveUserToFilesystem()
+        isLoggedIntoApp = true
+    }
+    
+    func tryToEnterAccessCode(_ accessCode: String) async {
+        do {
+            try await UserAPI.postAccessCode(code: accessCode)
+        } catch {
+            print("ACCESS CODE POST FAILED")
+        }
     }
     
     //MARK: - Update user
@@ -227,30 +233,37 @@ class UserService: NSObject {
     
     //MARK: - Logout and delete user
     
-    func logOut()  {
-        eraseUserFromFilesystem()
+    func logOutFromDevice()  {
+        guard isLoggedIntoAnAccount else { return } //prevents infinite loop on authedUser didSet
         if getGlobalDeviceToken() != "" {
             Task {
-                DeviceService.shared.eraseData()
                 try await DeviceAPI.disableCurrentDeviceNotificationsForUser(user: authedUser.id)
             }
         }
-        frontendCompleteUser = nil
         setGlobalAuthToken(token: "")
+        eraseUserFromFilesystem()
+        frontendCompleteUser = nil
+        isLoggedIntoApp = false
     }
     
     func kickUserToHomeScreenAndLogOut() {
-        logOut()
+        //they might already be logged out, so don't try and logout again. this will cause an infinite loop for checkingAuthedUser :(
+        if isLoggedIntoAnAccount {
+            logOutFromDevice()
+        }
         DispatchQueue.main.async {
             transitionToAuth()
         }
     }
     
     func deleteMyAccount() async throws {
-        guard let frontendCompleteUser = frontendCompleteUser else { return }
-        let id = frontendCompleteUser.id
-        logOut()
-        try await UserAPI.deleteUser(user_id: id)
+        do {
+            try await UserAPI.deleteUser(user_id: authedUser.id)
+            logOutFromDevice()
+        } catch {
+            print(error)
+            throw(error)
+        }
     }
     
     //MARK: - Firebase

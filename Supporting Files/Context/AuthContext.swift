@@ -8,7 +8,7 @@
 import Foundation
 
 struct AuthContext {
-    static let APPLE_PHONE_NUMBER: String = "1111111111"
+    static let APPLE_PHONE_NUMBER: String = "13103103101"
     static let APPLE_CODE: String = "123456"
     
     static var username: String = ""
@@ -19,6 +19,7 @@ struct AuthContext {
     static var lastName: String = ""
     static var dob: String = ""
     static var sex: String?
+    static var accessCode: String? = nil
     
     static var resetToken: ResetToken = ""
     
@@ -32,5 +33,6 @@ struct AuthContext {
         dob = ""
         sex = nil
         resetToken = ""
+        accessCode = nil
     }
 }

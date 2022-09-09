@@ -11,7 +11,7 @@ extension UIViewController {
     
     func logoutAndGoToAuth() {
         //optionally: present an alert before they log out
-        UserService.singleton.logOut()
+        UserService.singleton.logOutFromDevice()
         transitionToStoryboard(storyboardID: Constants.SBID.SB.Auth,
                                viewControllerID: Constants.SBID.VC.AuthNavigation,
                                duration: 0) { _ in }

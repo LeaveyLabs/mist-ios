@@ -62,6 +62,8 @@ struct Constants {
             static let MyProfile = "MyProfileCell"
             static let SimpleInput = "SimpleInputCell"
             static let CommentHeaderCell = "CommentHeaderCell"
+            static let BadgesCell = "BadgesCell"
+            static let BadgeCell = "BadgeCell"
         }
         struct VC {
             //Post

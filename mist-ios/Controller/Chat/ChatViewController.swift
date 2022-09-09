@@ -25,6 +25,7 @@
 import UIKit
 import MessageKit
 import InputBarAccessoryView
+import MessageUI
 
 class ChatViewController: MessagesViewController {
     
@@ -144,32 +145,50 @@ class ChatViewController: MessagesViewController {
         keyboardManager.bind(to: messagesCollectionView) //enables interactive dismissal
                 
         NotificationCenter.default.addObserver(self,
-            selector: #selector(keyboardWillShow),
+            selector: #selector(keyboardWillShow(sender:)),
             name: UIResponder.keyboardWillShowNotification,
             object: nil)
         
         NotificationCenter.default.addObserver(self,
-            selector: #selector(keyboardWillHide),
+            selector: #selector(keyboardWillHide(sender:)),
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(keyboardWillChangeFrame(sender:)),
+            name: UIResponder.keyboardWillChangeFrameNotification,
+            object: nil)
+        
     }
     
-    @objc func keyboardWillShow() {
-        additionalBottomInset = 55
+    @objc func keyboardWillShow(sender: NSNotification) {
+        additionalBottomInset = 52
     }
     
-    @objc func keyboardWillHide() {
+    @objc func keyboardWillHide(sender: NSNotification) {
         updateAdditionalBottomInsetForDismissedKeyboard()
+    }
+    
+    var keyboardHeight: CGFloat = 0
+    @objc func keyboardWillChangeFrame(sender: NSNotification) {
+        let i = sender.userInfo!
+        let newKeyboardHeight = (i[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height
+        let isKeyboardTypeToggling = keyboardHeight > 0 && newKeyboardHeight > 0
+        if isKeyboardTypeToggling {
+            DispatchQueue.main.async { [self] in
+                additionalBottomInset += newKeyboardHeight - keyboardHeight
+                messagesCollectionView.scrollToLastItem()
+            }
+        }
+        keyboardHeight = newKeyboardHeight
     }
     
     func updateAdditionalBottomInsetForDismissedKeyboard() {
         //can't use view's safe area insets because they're 0 on viewdidload
-        additionalBottomInset = 55 + (window?.safeAreaInsets.bottom ?? 0)
+        additionalBottomInset = 52 + (window?.safeAreaInsets.bottom ?? 0)
     }
     
     //i had to add this code because scrollstolastitemonkeyboardbeginsediting doesnt work
     func textViewDidBeginEditing(_ textView: UITextView) {
-        print("DID BEGIN EDITING")
         DispatchQueue.main.async {
             self.messagesCollectionView.scrollToLastItem(animated: true)
         }
@@ -178,7 +197,6 @@ class ChatViewController: MessagesViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController!.setNavigationBarHidden(true, animated: animated)
-        print("CHAT VIEW WILL APPEAR")
         messagesCollectionView.reloadDataAndKeepOffset()
         if !inputBar.inputTextView.canBecomeFirstResponder {
             inputBar.inputTextView.canBecomeFirstResponder = true //bc we set to false in viewdiddisappear
@@ -245,9 +263,6 @@ class ChatViewController: MessagesViewController {
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
         showMessageTimestampOnSwipeLeft = true // default false
 //        additionalBottomInset = 55 + (window?.safeAreaInsets.bottom ?? 0)
-        
-        let backgroundTapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        messagesCollectionView.addGestureRecognizer(backgroundTapGesture)
     }
     
     func setupCustomNavigationBar() {
@@ -361,8 +376,7 @@ class ChatViewController: MessagesViewController {
     
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if let cell = cell as? TextMessageCell {
-            //default is 7/14/7/18
-            cell.messageLabel.textInsets = .init(top: 8, left: 15, bottom: 8, right: 15)
+            cell.messageLabel.textInsets = .init(top: 8, left: 16, bottom: 8, right: 15)
         }
     }
     
@@ -385,7 +399,7 @@ extension ChatViewController: MessagesDataSource {
     }
 
     func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        if isLastMessageFromSender(message: message, at: indexPath) {
+        if isMostRecentMessageFromSender(message: message, at: indexPath) {
             return NSAttributedString(string: "sent", attributes: [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 11)!, NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         }
         return nil
@@ -393,7 +407,7 @@ extension ChatViewController: MessagesDataSource {
 
     func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         if isTimeLabelVisible(at: indexPath) {
-            return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate).lowercased(), attributes: [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 11)!, NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate).lowercased(), attributes: [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 12)!, NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         }
         return nil
     }
@@ -408,7 +422,7 @@ extension InputBarAccessoryViewDelegate {
 // MARK: - InputBarDelegate
 
 extension ChatViewController: InputBarAccessoryViewDelegate {
-    
+        
     func accessoryViewRemovedFromSuperview() {
         print("HI")
     }
@@ -435,25 +449,46 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         }
     }
     
+    func inputBar(_ inputBar: InputBarAccessoryView, didChangeIntrinsicContentTo size: CGSize) {
+        //TODO later: when going onto a new line of text, recalculate inputBar like we do within the postVC
+//        additionalBottomInset = 52
+//        messagesCollectionView.scrollToLastItem()
+    }
+        
+    @MainActor
     func handleNewMessage() {
         ConversationService.singleton.updateLastMessageReadTime(withUserId: conversation.sangdaebang.id)
         isAuthedUserProfileHidden = conversation.isAuthedUserHidden
         if isSangdaebangProfileHidden && !conversation.isSangdaebangHidden {
             //Don't insert a new section, simply reload the data. This is because even though we're handling a new message, we're also removing the last placeholder "info" message, so we shouldn't insert any sections
-            messagesCollectionView.reloadData()
+//            messagesCollectionView.reloadDataAndKeepOffset()
             isSangdaebangProfileHidden = conversation.isSangdaebangHidden
         } else {
+            //ANIMATING NEW MESSAGES CAUSES ISSUES WITH THE BUBBLE INSETS
+//            let range = Range(uncheckedBounds: (0, messagesCollectionView.numberOfSections - 1))
+//            let indexSet = IndexSet(integersIn: range)
+//            messagesCollectionView.reloadSections(indexSet)
             // Reload last section to update header/footer labels and insert a new one
-            messagesCollectionView.performBatchUpdates({
-                messagesCollectionView.insertSections([numberOfSections(in: messagesCollectionView) - 1])
-                if numberOfSections(in: messagesCollectionView) >= 2 {
-                    messagesCollectionView.reloadSections([numberOfSections(in: messagesCollectionView) - 2])
-                }
-//                messagesCollectionView.reloadDataAndKeepOffset()
-            })
-            
+//            UIView.animate(withDuration: <#T##TimeInterval#>, delay: <#T##TimeInterval#>, animations: <#T##() -> Void#>)
+//            messagesCollectionView.reloadDataAndKeepOffset()
+
+//            messagesCollectionView.performBatchUpdates({
+//                messagesCollectionView.insertSections([numberOfSections(in: messagesCollectionView) - 1])
+//                if numberOfSections(in: messagesCollectionView) >= 2 {
+//                    messagesCollectionView.reloadSections([numberOfSections(in: messagesCollectionView) - 2])
+//                }
+//            }) {_ in
+//            }
+//            messagesCollectionView.reloadData()
         }
-        messagesCollectionView.scrollToLastItem(animated: true)
+        
+        self.messagesCollectionView.reloadDataAndKeepOffset()
+
+        //TODO: we do want to scrollToLastItem, but ONLY if the bottom message is below the keyboard. otherwise we get weird animations when creating the first 5 or 7 or so messages
+            //no nono
+        //we don't want to update the contentOffset when there is too little content
+//        messagesCollectionView.scrollToLastItem(animated: true)
+        
         if !DeviceService.shared.hasBeenOfferedNotificationsAfterDM() {
             DeviceService.shared.showedNotificationRequestAfterDM()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -570,7 +605,7 @@ extension ChatViewController: MessagesDisplayDelegate {
     }
     
     func enabledDetectors(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> [DetectorType] {
-        return [.url, .address, .phoneNumber, .date]
+        return [.url, .phoneNumber]
     }
         
     func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
@@ -578,7 +613,7 @@ extension ChatViewController: MessagesDisplayDelegate {
     }
     
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
-        return isFromCurrentSender(message: message) ? .bubble : .bubbleOutline(.systemGray4.withAlphaComponent(0.8))
+        return isFromCurrentSender(message: message) ? .bubble : .bubbleOutline(.darkGray.withAlphaComponent(0.23))
     }
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
@@ -593,15 +628,13 @@ extension ChatViewController: MessagesDisplayDelegate {
 // MARK: - MessagesLayoutDelegate
 
 extension ChatViewController: MessagesLayoutDelegate {
-    
-    //TODO: Can we delete these now that we have customcalculator?
-    
+        
     func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return isTimeLabelVisible(at: indexPath) ? 50 : 0
     }
     
     func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return isLastMessageFromSender(message: message, at: indexPath) ? 16 : 0
+        return isMostRecentMessageFromSender(message: message, at: indexPath) ? 16 : 0
     }
     
 }
@@ -650,6 +683,14 @@ extension ChatViewController: MessageCellDelegate {
         dismissKeyboard()
     }
     
+    func didTapCellTopLabel(in cell: MessageCollectionViewCell) {
+        dismissKeyboard()
+    }
+    
+    func didTapMessageBottomLabel(in cell: MessageCollectionViewCell) {
+        dismissKeyboard()
+    }
+    
     @objc func dismissKeyboard() {
         updateAdditionalBottomInsetForDismissedKeyboard()
         inputBar.inputTextView.resignFirstResponder()
@@ -659,10 +700,26 @@ extension ChatViewController: MessageCellDelegate {
 
 // MARK: - MessageLabelDelegate
 
-extension ChatViewController: MessageLabelDelegate {
+extension ChatViewController: MessageLabelDelegate, MFMessageComposeViewControllerDelegate {
     
     func didSelectURL(_ url: URL) {
-        print("URL Selected: \(url)")
+        openURL(url)
+    }
+    
+    func didSelectPhoneNumber(_ phoneNumber: String) {
+        print(phoneNumber)
+        if (MFMessageComposeViewController.canSendText()) {
+            let controller = MFMessageComposeViewController()
+            controller.body = ""
+            controller.recipients = [phoneNumber]
+            controller.messageComposeDelegate = self
+            self.present(controller, animated: true, completion: nil)
+        }
+    }
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        //... handle sms screen actions
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -670,22 +727,9 @@ extension ChatViewController: MessageLabelDelegate {
 
 extension ChatViewController {
     
-    func isLastMessageFromSender(message: MessageType, at indexPath: IndexPath) -> Bool {
-        let startingIndex = indexPath.section
-        if startingIndex > conversation.chatObjects.count { return false }
-        if startingIndex == conversation.chatObjects.count {
-            return isFromCurrentSender(message: message)
-        }
-        if !isFromCurrentSender(message: message) { return false } //make sure this message if from current sender
-        //make sure all later messages are NOT from the current sender
-        for index in startingIndex+1..<conversation.chatObjects.count {
-            if let message = conversation.chatObjects[index] as? MessageKitMessage {
-                if isFromCurrentSender(message: message) {
-                    return false
-                }
-            }
-        }
-        return true
+    func isMostRecentMessageFromSender(message: MessageType, at indexPath: IndexPath) -> Bool {
+        let isMostRecentMessage = indexPath.section == conversation.getRenderedChatObjects().count - 1
+        return isMostRecentMessage && isFromCurrentSender(message: message)
     }
     
     func isLastMessage(at indexPath: IndexPath) -> Bool {

@@ -16,11 +16,11 @@ protocol ExploreChildDelegate {
     var posts: [Post] { get }
 }
 
-enum OverlayNotch: Int, CaseIterable {
-    case minimum, maximum
-}
-
 class ExploreParentViewController: UIViewController {
+    
+    enum OverlayNotch: Int, CaseIterable {
+        case minimum, maximum
+    }
 
     //MARK: - Properties
     
@@ -129,13 +129,12 @@ extension ExploreParentViewController: OverlayContainerViewControllerDelegate {
         else { return }
         exploreFeedVC.view.endEditing(true)
         exploreMapVC.view.endEditing(true)
-        switch notch {
-        case .maximum:
-            exploreFeedVC.handleFeedWentUp(duration: 0.3)
-            exploreMapVC.handleFeedWentUp(duration: 0.3)
-        case .minimum:
+        if currentNotch == .maximum && (notch == .minimum) {
             exploreFeedVC.handleFeedWentDown(duration: 0.3)
             exploreMapVC.handleFeedWentDown(duration: 0.3)
+        } else if (currentNotch == .minimum) && notch == .maximum {
+            exploreFeedVC.handleFeedWentUp(duration: 0.3)
+            exploreMapVC.handleFeedWentUp(duration: 0.3)
         }
     }
     

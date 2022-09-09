@@ -27,7 +27,6 @@ class HomeExploreParentViewController: ExploreParentViewController {
     func setupTabBar() {
         guard let tabBarVC = tabBarController as? SpecialTabBarController else { return }
         tabBarVC.selectedIndex = 1
-        tabBarVC.repositionBadges()
     }
     
     func setupActiveLabel() {
@@ -130,7 +129,7 @@ extension HomeExploreParentViewController {
         
         //Map
         exploreMapVC.slowFlyWithoutZoomTo(lat: newPostAnnotation.coordinate.latitude, long: newPostAnnotation.coordinate.longitude, withDuration: exploreMapVC.cameraAnimationDuration + 2, withLatitudeOffset: true) { [self] completed in
-            DispatchQueue.main.asyncAfter(deadline: .now()) { [self] in //otherwise, for far away annotations, the annotation just wont be selected
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in //delay prevents cluster annotations from getting immediatley deselected
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .dmNotificationsAfterNewPost, onVC: self)
                 }

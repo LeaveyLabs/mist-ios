@@ -12,7 +12,7 @@ struct Device: Codable {
     var hasBeenOfferedNotificationsAfterDM: Bool = false
     var hasBeenOfferedNotificationsAfterPost: Bool = false
     var hasBeenRequestedARating: Bool = false
-    var lastMentionsOpenTime: Double = Date().timeIntervalSince1970
+    var lastMentionsOpenTime: Double = .leastNormalMagnitude
     
     enum CodingKeys: String, CodingKey {
         case hasBeenShownGuidelines
@@ -28,7 +28,7 @@ struct Device: Codable {
         hasBeenOfferedNotificationsAfterDM = try values.decodeIfPresent(Bool.self, forKey: .hasBeenOfferedNotificationsAfterDM) ?? false
         hasBeenOfferedNotificationsAfterDM = try values.decodeIfPresent(Bool.self, forKey: .hasBeenOfferedNotificationsAfterPost) ?? false
         hasBeenRequestedARating = try values.decodeIfPresent(Bool.self, forKey: .hasBeenRequestedARating) ?? false
-        lastMentionsOpenTime = try values.decodeIfPresent(Double.self, forKey: .lastMentionsOpenTime) ?? Date().timeIntervalSince1970
+        lastMentionsOpenTime = try values.decodeIfPresent(Double.self, forKey: .lastMentionsOpenTime) ?? .leastNormalMagnitude
     }
     
     init() {
@@ -36,7 +36,7 @@ struct Device: Codable {
         hasBeenOfferedNotificationsAfterDM = false
         hasBeenOfferedNotificationsAfterPost = false
         hasBeenRequestedARating = false
-        lastMentionsOpenTime = Date().timeIntervalSince1970
+        lastMentionsOpenTime = .leastNormalMagnitude
     }
     
 }

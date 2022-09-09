@@ -35,7 +35,7 @@ class ConversationCell: UITableViewCell {
             nameLabel.font = UIFont(name: Constants.Font.Heavy, size: 25)
             messageLabel.font = UIFont(name: Constants.Font.Heavy, size: 15)
             indicatorView.isHidden = false
-            indicatorView.roundCornersViaCornerRadius(radius: 10)
+            indicatorView.roundCornersViaCornerRadius(radius: 7.5)
         } else {
             nameLabel.font = UIFont(name: Constants.Font.Roman, size: 25)
             messageLabel.font = UIFont(name: Constants.Font.Roman, size: 15)

@@ -42,12 +42,12 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="700" verticalHuggingPriority="251" verticalCompressionResistancePriority="752" text="[Message Body]" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TGC-Td-alh">
-                                    <rect key="frame" x="113" y="150.5" width="108.5" height="20.5"/>
+                                    <rect key="frame" x="113.5" y="150.5" width="107" height="20.5"/>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     <accessibility key="accessibilityConfiguration">
                                         <bool key="isElement" value="NO"/>
                                     </accessibility>
-                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                    <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="15"/>
                                     <color key="textColor" name="mist-black"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -84,6 +84,21 @@
                                 <constraint firstAttribute="height" constant="60" id="uCf-GA-EKT"/>
                             </constraints>
                         </stackView>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P7c-zc-Vcd">
+                            <rect key="frame" x="8" y="13" width="41" height="33"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="41" id="KWX-Qb-gGQ"/>
+                                <constraint firstAttribute="width" secondItem="P7c-zc-Vcd" secondAttribute="height" multiplier="41:33" id="tzz-Sy-vax"/>
+                            </constraints>
+                            <color key="tintColor" name="mist-black"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" image="xmark" catalog="system">
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22" weight="medium"/>
+                            </state>
+                            <connections>
+                                <action selector="dismissButtonPressed" destination="g5x-hF-D0u" eventType="touchUpInside" id="3Ec-CD-107"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
@@ -94,10 +109,12 @@
                         <constraint firstAttribute="trailing" secondItem="YST-yc-0HK" secondAttribute="trailing" constant="30" id="JYB-gw-7Ol">
                             <variation key="widthClass=regular" constant="30"/>
                         </constraint>
+                        <constraint firstItem="P7c-zc-Vcd" firstAttribute="top" secondItem="0Mj-jC-BX6" secondAttribute="top" constant="13" id="L8L-kY-Ihr"/>
                         <constraint firstAttribute="trailing" secondItem="1gp-r2-h1d" secondAttribute="trailing" id="Vlk-7g-anA"/>
                         <constraint firstAttribute="width" relation="lessThanOrEqual" priority="900" constant="500" id="Y89-EE-TtG"/>
                         <constraint firstItem="1gp-r2-h1d" firstAttribute="leading" secondItem="0Mj-jC-BX6" secondAttribute="leading" id="ngv-8y-Eir"/>
                         <constraint firstItem="1gp-r2-h1d" firstAttribute="top" secondItem="YST-yc-0HK" secondAttribute="bottom" constant="25" id="rd9-2A-aMU"/>
+                        <constraint firstItem="P7c-zc-Vcd" firstAttribute="leading" secondItem="0Mj-jC-BX6" secondAttribute="leading" constant="8" id="uD8-3T-Dpd"/>
                         <constraint firstItem="YST-yc-0HK" firstAttribute="top" secondItem="0Mj-jC-BX6" secondAttribute="top" constant="30" id="yRl-kK-cQH">
                             <variation key="widthClass=regular" constant="30"/>
                         </constraint>
@@ -168,7 +185,9 @@
                 <outlet property="approveButton" destination="VOA-Iy-PCr" id="IeZ-XV-VQN"/>
                 <outlet property="backgroundView" destination="0Mj-jC-BX6" id="idD-fU-aXH"/>
                 <outlet property="bodyLabel" destination="TGC-Td-alh" id="swz-Qb-Dxw"/>
+                <outlet property="bottomStackView" destination="1gp-r2-h1d" id="o0f-Ha-gsE"/>
                 <outlet property="dismissButton" destination="byZ-AJ-mNz" id="HHj-HV-gx2"/>
+                <outlet property="exitButton" destination="P7c-zc-Vcd" id="FvT-ct-3r1"/>
                 <outlet property="iconImageView" destination="hUK-sr-A3U" id="Htw-4A-Adn"/>
                 <outlet property="iconLabel" destination="elb-HW-olH" id="JXQ-xt-3t7"/>
                 <outlet property="titleLabel" destination="ggW-gB-SWF" id="Coi-Gy-uPh"/>
@@ -177,6 +196,7 @@
         </view>
     </objects>
     <resources>
+        <image name="xmark" catalog="system" width="128" height="113"/>
         <namedColor name="mist-black">
             <color red="0.066666666666666666" green="0.066666666666666666" blue="0.066666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

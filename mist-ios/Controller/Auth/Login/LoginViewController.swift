@@ -64,7 +64,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         enterNumberTextField.countryCodePlaceholderColor = .red
         enterNumberTextField.withFlag = true
         enterNumberTextField.withPrefix = true
-//        enterNumberTextField.withExamplePlaceholder = true
+        enterNumberTextField.withExamplePlaceholder = true
     }
     
     func setupContinueButton() {
@@ -150,16 +150,21 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         isSubmitting = true
         Task {
             do {
-                if let number = number.asE164PhoneNumber {
+                if number.filter("1234567890".contains) == AuthContext.APPLE_PHONE_NUMBER {
+                    AuthContext.phoneNumber = "+" + AuthContext.APPLE_PHONE_NUMBER
+                    try await PhoneNumberAPI.requestLoginCode(phoneNumber: AuthContext.phoneNumber)
+                    let vc = ConfirmCodeViewController.create(confirmMethod: .appleLogin)
+                    self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
+                        self?.isSubmitting = false
+                    })
+                } else if let number = number.asE164PhoneNumber {
                     try await PhoneNumberAPI.requestLoginCode(phoneNumber: number)
                     AuthContext.phoneNumber = number
-                } else {
-                    AuthContext.phoneNumber = AuthContext.APPLE_PHONE_NUMBER
+                    let vc = ConfirmCodeViewController.create(confirmMethod: .loginText)
+                    self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
+                        self?.isSubmitting = false
+                    })
                 }
-                let vc = ConfirmCodeViewController.create(confirmMethod: .loginText)
-                self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
-                    self?.isSubmitting = false
-                })
             } catch {
                 handleFailure(error)
             }
@@ -174,7 +179,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     }
     
     func validateInput() {
-        isValidInput = enterNumberTextField.text?.asE164PhoneNumber != nil || enterNumberTextField.text?.filter("1234567890".contains) == AuthContext.APPLE_PHONE_NUMBER
+        isValidInput = enterNumberTextField.text?.asE164PhoneNumber != nil || enterNumberTextField.text!.filter("1234567890".contains) == AuthContext.APPLE_PHONE_NUMBER
     }
     
 }

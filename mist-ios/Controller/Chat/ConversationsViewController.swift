@@ -45,6 +45,7 @@ class ConversationsViewController: UIViewController {
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
+        tableView.tableHeaderView = UIView(frame: .init(x: 0, y: 0, width: tableView.frame.width, height: 5)) //balance out the cell distance visually
     }
     
     private func registerNibs() {
