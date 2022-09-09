@@ -107,7 +107,8 @@ struct CompleteUser: Codable, CompleteUserBackendProperties {
     let latitude: Double?
     let longitude: Double?
     let phone_number: String?
-    var badges: [String]
+    let badges: [String]
+    let is_superuser: Bool
     
     //Equatable
     static func == (lhs: CompleteUser, rhs: CompleteUser) -> Bool { return lhs.id == rhs.id }
@@ -127,7 +128,8 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
     let latitude: Double?
     let longitude: Double?
     let phone_number: String?
-    var badges: [String]
+    let badges: [String]
+    let is_superuser: Bool
     
     var full_name: String {
         return first_name + " " + last_name
@@ -164,6 +166,7 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
         self.longitude = completeUser.longitude
         self.phone_number = completeUser.phone_number
         self.badges = completeUser.badges
+        self.is_superuser = completeUser.is_superuser
         
         self.profilePicWrapper = profilePic
         self.token = token
@@ -172,5 +175,5 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
     //Equatable
     static func == (lhs: FrontendCompleteUser, rhs: FrontendCompleteUser) -> Bool { return lhs.id == rhs.id }
     
-    static let nilUser = FrontendCompleteUser(completeUser: CompleteUser(id: 0, username: "", first_name: "", last_name: "", picture: "", email: "", date_of_birth: "", sex: "", latitude: 0, longitude: 0, phone_number: "", badges: []), profilePic: ProfilePicWrapper(image: Constants.defaultProfilePic, withCompresssion: false), token: "")
+    static let nilUser = FrontendCompleteUser(completeUser: CompleteUser(id: 0, username: "", first_name: "", last_name: "", picture: "", email: "", date_of_birth: "", sex: "", latitude: 0, longitude: 0, phone_number: "", badges: [], is_superuser: false), profilePic: ProfilePicWrapper(image: Constants.defaultProfilePic, withCompresssion: false), token: "")
 }

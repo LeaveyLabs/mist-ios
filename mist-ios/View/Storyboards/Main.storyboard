@@ -1583,6 +1583,23 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Z1f-UG-0Ah">
                                         <rect key="frame" x="10" y="10" width="370" height="353"/>
                                         <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ORy-P5-2MR">
+                                                <rect key="frame" x="0.0" y="0.0" width="370" height="0.0"/>
+                                                <subviews>
+                                                    <slider hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="20" translatesAutoresizingMaskIntoConstraints="NO" id="099-6h-O10">
+                                                        <rect key="frame" x="-2" y="0.0" width="4" height="31"/>
+                                                    </slider>
+                                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="25" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UXl-QB-PMa">
+                                                        <rect key="frame" x="0.0" y="0.0" width="25" height="30"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="25" id="p8D-2p-R5j"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zn7-nt-cZ6" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="370" height="70"/>
                                                 <constraints>
@@ -1721,6 +1738,8 @@
                         <outlet property="deleteButton" destination="cdv-h6-88r" id="2US-WC-qYI"/>
                         <outlet property="favoriteButton" destination="dOI-fF-YuU" id="AYX-gU-amv"/>
                         <outlet property="flagButton" destination="77k-qe-emv" id="Hb3-wb-6pz"/>
+                        <outlet property="superUserVoteInflationLabel" destination="UXl-QB-PMa" id="GWE-qf-yWE"/>
+                        <outlet property="superUserVoteInflationSlider" destination="099-6h-O10" id="gSu-i3-mA3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q8w-RR-S7I" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

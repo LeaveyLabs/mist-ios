@@ -19,6 +19,9 @@ class PostMoreViewController: UIViewController {
     var postId: Int!
     var postAuthor: Int!
     
+    @IBOutlet weak var superUserVoteInflationSlider: UISlider!
+    @IBOutlet weak var superUserVoteInflationLabel: UILabel!
+    
     class func create(postId: Int, postAuthor: Int, postDelegate: PostDelegate) -> PostMoreViewController {
         let postMoreVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.PostMore) as! PostMoreViewController
         postMoreVC.postId = postId
@@ -49,6 +52,13 @@ class PostMoreViewController: UIViewController {
         
         flagButton.isSelected = FlagService.singleton.hasFlaggedPost(postId)
         favoriteButton.isSelected = FavoriteService.singleton.hasFavoritedPost(postId)
+        
+        superUserVoteInflationSlider.value = 1
+        superUserVoteInflationSlider.addTarget(self, action: #selector(onVoteInflationSliderValChanged(slider:event:)), for: .valueChanged)
+        if UserService.singleton.isSuperuser() {
+            superUserVoteInflationSlider.isHidden = false
+            superUserVoteInflationLabel.isHidden = true
+        }
     }
     
     func setupBackgroundView() {
@@ -56,6 +66,28 @@ class PostMoreViewController: UIViewController {
         view.addGestureRecognizer(dismissTap)
         backgroundView.layer.cornerRadius = 10
         backgroundView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+    }
+    
+    //MARK: - User Interaction
+    
+    @objc func onVoteInflationSliderValChanged(slider: UISlider, event: UIEvent) {
+        if let touchEvent = event.allTouches?.first {
+            switch touchEvent.phase {
+            case .began:
+                break
+            case .moved:
+                handleSliderValChange()
+            case .ended:
+                break
+            default:
+                break
+            }
+        }
+    }
+    
+    func handleSliderValChange() {
+        superUserVoteInflationLabel.text = String(Int(superUserVoteInflationSlider.value))
+        VoteService.singleton.updateInflatedVoteValue(to: Int(superUserVoteInflationSlider.value))
     }
     
     @IBAction func closeButtonDidPressed(_ sender: UIButton) {
@@ -80,6 +112,8 @@ class PostMoreViewController: UIViewController {
             self.dismiss(animated: true)
         }
     }
+    
+    
     
     @IBAction func reportButton(_ sender: UIButton) {
         // UI Updates

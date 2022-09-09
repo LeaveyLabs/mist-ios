@@ -96,6 +96,7 @@ class UserService: NSObject {
     func getPhoneNumberPretty() -> String? { return authedUser.phone_number?.asNationalPhoneNumber }
     func getProfilePic() -> UIImage { return authedUser.profilePicWrapper.image }
     func getBlurredPic() -> UIImage { return getUserAsFrontendReadOnlyUser().blurredPic } //we have to use the asFrontendReadOnlyUser method in order to make sure the silhouette, not the blurred image, is shown
+    func isSuperuser() -> Bool { return authedUser.is_superuser }
     
     func getBadges() -> [String] { return authedUser.badges }
     func isVerified() -> Bool { return false }

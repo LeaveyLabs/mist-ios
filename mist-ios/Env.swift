@@ -38,7 +38,7 @@ class Env {
     static let BASE_URL: String = "https://mist-backend.herokuapp.com/"
     static let AI_URL: String = "https://mist-ai-production.herokuapp.com/"
     static let CHAT_URL: String = "wss://mist-chat.herokuapp.com/"
-    static let Timeout_Duration: Double = 10
+    static let Timeout_Duration: Double = 15
     #endif
 }
 

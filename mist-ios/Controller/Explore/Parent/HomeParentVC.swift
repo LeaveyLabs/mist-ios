@@ -180,7 +180,7 @@ extension MKMapView {
 
 // MARK: - Filter
 
-extension HomeExploreParentViewController: FilterDelegate {
+extension HomeExploreParentViewController {//} FilterDelegate {
             
     //User Interaction
     

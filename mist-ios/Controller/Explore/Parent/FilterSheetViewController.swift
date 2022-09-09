@@ -1,15 +1,15 @@
+//////
+//////  OkViewController.swift
+//////  mist-ios
+//////
+//////  Created by Adam Novak on 2022/03/13.
+//////
 ////
-////  OkViewController.swift
-////  mist-ios
+////import UIKit
 ////
-////  Created by Adam Novak on 2022/03/13.
-////
-//
-//import UIKit
-//
-protocol FilterDelegate {
-    func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool, _ afterFilterUpdate: @escaping () -> Void)
-}
+//protocol FilterDelegate {
+//    func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool, _ afterFilterUpdate: @escaping () -> Void)
+//}
 //
 //class FilterSheetViewController: CustomSheetViewController {
 //
