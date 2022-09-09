@@ -11,8 +11,6 @@ import InputBarAccessoryView //dependency of MessageKit. If we remove MessageKit
 
 let COMMENT_PLACEHOLDER_TEXT = "comment & tag friends"
 typealias PostCompletionHandler = (() -> Void)
-var hasPromptedUserForContactsAccess = false
-
 
 extension AutocompleteManagerDelegate {
     func autocompleteDidScroll() {
@@ -111,14 +109,15 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         enableInteractivePopGesture()
         inputBar.inputTextView.canBecomeFirstResponder = true // to offset viewWillDisappear
         
-        if !hasPromptedUserForContactsAccess && !areContactsAuthorized() {
-           requestContactsAccessIfNecessary { approved in
-               DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [self] in
-                   if shouldStartWithRaisedKeyboard {
-                       inputBar.inputTextView.becomeFirstResponder()
-                   }
-               })
-           }
+        if !DeviceService.shared.hasBeenRequestedContactsOnPost() {
+            DeviceService.shared.requestContactsOnPost()
+            requestContactsAccess { wasShownPermissionRequest in
+                DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [self] in
+                    if shouldStartWithRaisedKeyboard {
+                        inputBar.inputTextView.becomeFirstResponder()
+                    }
+                })
+            }
         } else {
             if shouldStartWithRaisedKeyboard {
                 inputBar.inputTextView.becomeFirstResponder()
@@ -298,7 +297,7 @@ extension PostViewController: InputBarAccessoryViewDelegate {
         let alert = UIAlertController(title: alertTitle,
                                       message: "we'll send a text to let them know you mentioned them",
                                       preferredStyle: UIAlertController.Style.alert)
-        alert.view.tintColor = UIColor(hex: "6D29C3")
+        alert.view.tintColor = Constants.Color.mistLilac
         alert.addAction(UIAlertAction(title: "cancel",
                                       style: UIAlertAction.Style.destructive, handler: { alertAction in
             closure(false)
@@ -413,6 +412,7 @@ extension PostViewController {
         activityIndicator.startAnimating()
         Task {
             do {
+                print("LOADING COMMENTS FOR POST:", post.id)
                 comments = try await CommentService.singleton.fetchComments(postId: post.id)
                 let uniqueReadOnlyAuthors = Array(Set(comments.map { $0.read_only_author }))
                 commentAuthors = try await UsersService.singleton.loadAndCacheUsers(users: uniqueReadOnlyAuthors )
@@ -430,6 +430,7 @@ extension PostViewController {
                     self?.activityIndicator.stopAnimating()
                     self?.activityIndicator.removeFromSuperview()
                     self?.tableView.tableFooterView = nil
+                    self?.tableView.reloadData() //so that the "0 comments" cell appears
                 }
             }
         }
@@ -567,6 +568,9 @@ extension PostViewController: CommentDelegate {
             tableView.beginUpdates()
             tableView.deleteRows(at: [IndexPath(row: commentIndex + 2, section: 0)], with: .fade)
             tableView.endUpdates()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                self.tableView.reloadData()
+            }
         }
     }
 

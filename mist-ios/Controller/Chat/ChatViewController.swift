@@ -407,7 +407,7 @@ extension ChatViewController: MessagesDataSource {
 
     func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         if isTimeLabelVisible(at: indexPath) {
-            return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate).lowercased(), attributes: [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 12)!, NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            return NSAttributedString(string: getFormattedTimeStringForChat(timestamp: message.sentDate.timeIntervalSince1970).lowercased(), attributes: [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 12)!, NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         }
         return nil
     }
@@ -440,8 +440,14 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         Task {
             do {
                 try await conversation.sendMessage(messageText: messageString)
-                DispatchQueue.main.async { [weak self] in
-                    self?.handleNewMessage()
+                DispatchQueue.main.async { [self] in
+                    handleNewMessage()
+                    if !DeviceService.shared.hasBeenOfferedNotificationsAfterDM() {
+                        DeviceService.shared.showedNotificationRequestAfterDM()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.65) {
+                            NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .dmNotificationsAfterDm, onVC: self)
+                        }
+                    }
                 }
             } catch {
                 CustomSwiftMessages.displayError(error)
@@ -488,13 +494,6 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
             //no nono
         //we don't want to update the contentOffset when there is too little content
 //        messagesCollectionView.scrollToLastItem(animated: true)
-        
-        if !DeviceService.shared.hasBeenOfferedNotificationsAfterDM() {
-            DeviceService.shared.showedNotificationRequestAfterDM()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .dmNotificationsAfterDm, onVC: self)
-            }
-        }
     }
     
 }

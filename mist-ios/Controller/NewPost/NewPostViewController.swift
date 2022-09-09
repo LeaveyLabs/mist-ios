@@ -31,7 +31,7 @@ class NewPostViewController: UIViewController {
     //Top
     @IBOutlet weak var pinButton: UIButton!
     @IBOutlet weak var pinArrowButton: UIButton!
-    @IBOutlet weak var dateTimeTextField: NewPostTextView!
+    @IBOutlet weak var dateTimeTextField: NewPostTextField!
     @IBOutlet var locationNameTextField: NewPostTextField!
         
     var datePicker: UIDatePicker = {
@@ -158,12 +158,12 @@ class NewPostViewController: UIViewController {
         locationNameTextField.layer.cornerCurve = .continuous
         
         dateTimeTextField.inputView = datePicker
+        dateTimeTextField.initializerToolbar(target: self, doneSelector: #selector(dismissKeyboard), withProgressBar: false)
         datePicker.addTarget(self, action: #selector(updateDateTime), for: .valueChanged)
         dateTimeTextField.applyLightShadow()
         dateTimeTextField.text = "just now"
         dateTimeTextField.layer.cornerRadius = 10
         dateTimeTextField.layer.cornerCurve = .continuous
-        dateTimeTextField.initializerToolbar(target: self, doneSelector: #selector(dismissKeyboard), withProgressBar: false)
     }
     
     func setupIndicatorViews() {
@@ -265,7 +265,6 @@ class NewPostViewController: UIViewController {
             return
         }
 
-        view.isUserInteractionEnabled = false
         scrollView.scrollToTop()
         setAllInteractionTo(false)
         animateProgressBar()
@@ -275,8 +274,10 @@ class NewPostViewController: UIViewController {
                 PostService.singleton.resetFilter()
                 try await PostService.singleton.loadExplorePosts()
                 try await PostService.singleton.uploadPost(title: trimmedTitleText, text: trimmedBodyText, locationDescription: postLocationText, latitude: postLocationCoordinate.latitude, longitude: postLocationCoordinate.longitude, timestamp: datePicker.date.timeIntervalSince1970)
-                await MainActor.run {
-                    handleSuccessfulNewPost()
+                NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .dmNotificationsAfterNewPost, onVC: self) { didDisplayRequest in
+                    DispatchQueue.main.async {
+                        self.handleSuccessfulNewPost(wasOfferedNotifications: didDisplayRequest)
+                    }
                 }
             } catch {
                 DispatchQueue.main.async { [weak self] in
@@ -293,7 +294,7 @@ class NewPostViewController: UIViewController {
     }
     
     @MainActor
-    func handleSuccessfulNewPost() {
+    func handleSuccessfulNewPost(wasOfferedNotifications: Bool) {
         let tbc = presentingViewController as! UITabBarController
         tbc.selectedIndex = 0
         let homeNav = tbc.selectedViewController as! UINavigationController
@@ -302,7 +303,7 @@ class NewPostViewController: UIViewController {
         finishAnimationProgress() {
             homeParent.isHandlingNewPost = true
             self.dismiss(animated: true) {
-                homeParent.handleNewlySubmittedPost()
+                homeParent.handleNewlySubmittedPost(didJustShowNotificaitonsRequest: wasOfferedNotifications)
             }
         }
     }
@@ -347,7 +348,7 @@ extension NewPostViewController: UITextFieldDelegate {
         } else if bodyTextView.text.isEmpty {
             bodyTextView.becomeFirstResponder()
         } else {
-            resignFirstResponder()
+            locationNameTextField.resignFirstResponder()
         }
         return true
     }
@@ -480,8 +481,12 @@ extension NewPostViewController: UITextViewDelegate {
     func validateAllFields() {
         locationNameLilacIndicator.isHidden = !locationNameTextField.text!.isEmpty
         pinLilacIndicator.isHidden = currentPin != nil || LocationManager.Shared.authorizationStatus == .authorizedWhenInUse || LocationManager.Shared.authorizationStatus == .authorizedAlways
-        titleLilacIndicator.isHidden = titleTextView.text.count != 0 && titleTextView.text.count <= titleTextView.maxLength
-        bodyLilacIndicator.isHidden = bodyTextView.text.count != 0 && bodyTextView.text.count <= bodyTextView.maxLength
-        postButton.isEnabled = locationNameLilacIndicator.isHidden && pinLilacIndicator.isHidden && titleLilacIndicator.isHidden && bodyLilacIndicator.isHidden
+        
+        //note: the text indicator being hidden and the field being valid are two different things. the user can input in text longer than the field allows, which shouldnt rerender the indicator view, but which should disable submit button
+        titleLilacIndicator.isHidden = titleTextView.text.count != 0
+        let isValidTitle = titleTextView.text.count != 0 && titleTextView.text.count < TITLE_CHARACTER_LIMIT
+        bodyLilacIndicator.isHidden = bodyTextView.text.count != 0
+        let isValidBody = bodyTextView.text.count != 0 && bodyTextView.text.count < BODY_CHARACTER_LIMIT
+        postButton.isEnabled = locationNameLilacIndicator.isHidden && pinLilacIndicator.isHidden && isValidTitle && isValidBody
     }
 }

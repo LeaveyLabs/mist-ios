@@ -52,16 +52,29 @@ class HomeExploreParentViewController: ExploreParentViewController {
         firstAppearance = false
         guard !isHandlingNewPost else { return }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [self] in
             self.renderNewPostsOnFeedAndMap(withType: .firstLoad)
-            if !hasRequestedLocationPermissionsDuringAppSession && (CLLocationManager.authorizationStatus() == .denied ||
+            if !DeviceService.shared.hasBeenRequestedLocationOnHome() && (CLLocationManager.authorizationStatus() == .denied ||
                 CLLocationManager.authorizationStatus() == .notDetermined) {
-                hasRequestedLocationPermissionsDuringAppSession = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                DeviceService.shared.showHomeLocationRequest()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.exploreMapVC.requestUserLocationPermissionIfNecessary()
                 }
-                
             } else {
+                automaticallyFlyToPostAfterViewDidAppear()
+            }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            UIView.animate(withDuration: 1, delay: 0, options: .curveLinear) {
+                self.exploreMapVC.trojansActiveView.alpha = 0
+            } completion: { completed in
+                self.exploreMapVC.trojansActiveView.isHidden = true
+            }
+        }
+    }
+    
+    func automaticallyFlyToPostAfterViewDidAppear() {
 //                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [self] in
 //                    if let cluster = exploreMapVC.mapView?.greatestClusterAnnotation {
 //                        exploreMapVC.mapView.
@@ -70,17 +83,6 @@ class HomeExploreParentViewController: ExploreParentViewController {
 //                        exploreMapVC.mapView.selectAnnotation(annotation, animated: true)
 //                    }
 //                }
-            }
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 7) {
-            UIView.animate(withDuration: 1, delay: 0, options: .curveLinear) {
-                self.exploreMapVC.trojansActiveView.alpha = 0
-            } completion: { completed in
-                self.exploreMapVC.trojansActiveView.isHidden = true
-            }
-        }
-        
     }
     
 }
@@ -118,7 +120,7 @@ extension HomeExploreParentViewController {
     }
     
     @MainActor
-    func handleNewlySubmittedPost() {
+    func handleNewlySubmittedPost(didJustShowNotificaitonsRequest: Bool) {
         exploreMapVC.annotationSelectionType = .submission
         renderNewPostsOnFeedAndMap(withType: .newPost)
         guard let newPostAnnotation = exploreMapVC.postAnnotations.first else { return }
@@ -130,9 +132,12 @@ extension HomeExploreParentViewController {
         //Map
         exploreMapVC.slowFlyWithoutZoomTo(lat: newPostAnnotation.coordinate.latitude, long: newPostAnnotation.coordinate.longitude, withDuration: exploreMapVC.cameraAnimationDuration + 2, withLatitudeOffset: true) { [self] completed in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in //delay prevents cluster annotations from getting immediatley deselected
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .dmNotificationsAfterNewPost, onVC: self)
+                if !didJustShowNotificaitonsRequest {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+                        AppStoreReviewManager.requestReviewIfAppropriate()
+                    }
                 }
+                
                 if let greatestCluster = greatestClusterContaining(newPostAnnotation) {
                     exploreMapVC.mapView.selectAnnotation(greatestCluster, animated: true)
                 } else {

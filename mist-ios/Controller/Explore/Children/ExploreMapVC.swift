@@ -14,8 +14,6 @@ enum ReloadType {
     case refresh, cancel, newSearch, newPost, firstLoad
 }
 
-var hasRequestedLocationPermissionsDuringAppSession = false
-
 class ExploreMapViewController: MapViewController {
     
     // UI
@@ -105,10 +103,10 @@ extension ExploreMapViewController {
         Task {
             let usersCount = await UsersService.singleton.getTotalUsersCount() ?? 50
             let hourOfDay = Calendar.current.component(.hour, from: Date())
-            let hourlyDiscount = abs(hourOfDay - 12) * 11
+            let hourlyDecrement = abs(hourOfDay - 12) * 7
             let dayOfWeek = Calendar.current.component(.weekday, from: Date())
-            let dailyVariance = abs(dayOfWeek-4) * 17
-            let varied = usersCount * 4 - hourlyDiscount + dailyVariance
+            let dailyIncrement = abs(dayOfWeek-4) * 19
+            let varied = usersCount * 4 - hourlyDecrement + dailyIncrement
             await MainActor.run {
                 trojansActiveLabel.text = formattedVoteCount(Double(varied)) + " active"
             }

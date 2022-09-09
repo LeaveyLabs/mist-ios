@@ -32,7 +32,7 @@ class EnterKeywordsViewController: UIViewController, UITableViewDataSource, UITa
         //keyboard will always be raised, so this is the estimated keyboard height
         tableView.contentInset.bottom = 300 + (window?.safeAreaInsets.bottom ?? 0)
         
-        if !MistboxManager.shared.hasUserActivatedMistbox { //we dont want them slide to pop back on the very first flow
+        if MistboxManager.shared.hasUserActivatedMistbox { //we dont want them slide to pop back on the very first flow
             navigationController?.fullscreenInteractivePopGestureRecognizer(delegate: self)
         }
 

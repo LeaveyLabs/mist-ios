@@ -11,15 +11,25 @@ struct Device: Codable {
     var hasBeenShownGuidelines: Bool = false
     var hasBeenOfferedNotificationsAfterDM: Bool = false
     var hasBeenOfferedNotificationsAfterPost: Bool = false
+    var hasBeenOfferedNotificationsBeforeMistbox: Bool = false
     var hasBeenRequestedARating: Bool = false
+    var hasBeenRequestedLocationOnHome: Bool = false
+    var hasBeenRequestedLocationOnNewPostPin: Bool = false
+    var hasBeenRequestedContactsOnPost: Bool = false
+    var hasBeenRequestedContactsBeforeTagging: Bool = false
     var lastMentionsOpenTime: Double = .leastNormalMagnitude
     
     enum CodingKeys: String, CodingKey {
         case hasBeenShownGuidelines
         case hasBeenOfferedNotificationsAfterDM
         case hasBeenOfferedNotificationsAfterPost
+        case hasBeenOfferedNotificationsBeforeMistbox
         case hasBeenRequestedARating
         case lastMentionsOpenTime
+        case hasBeenRequestedLocationOnHome
+        case hasBeenRequestedLocationOnNewPostPin
+        case hasBeenRequestedContactsBeforeTagging
+        case hasBeenRequestedContactsOnPost
     }
     
     init(from decoder: Decoder) throws {
@@ -27,8 +37,13 @@ struct Device: Codable {
         hasBeenShownGuidelines = try values.decodeIfPresent(Bool.self, forKey: .hasBeenShownGuidelines) ?? false
         hasBeenOfferedNotificationsAfterDM = try values.decodeIfPresent(Bool.self, forKey: .hasBeenOfferedNotificationsAfterDM) ?? false
         hasBeenOfferedNotificationsAfterDM = try values.decodeIfPresent(Bool.self, forKey: .hasBeenOfferedNotificationsAfterPost) ?? false
+        hasBeenOfferedNotificationsBeforeMistbox = try values.decodeIfPresent(Bool.self, forKey: .hasBeenOfferedNotificationsBeforeMistbox) ?? false
         hasBeenRequestedARating = try values.decodeIfPresent(Bool.self, forKey: .hasBeenRequestedARating) ?? false
         lastMentionsOpenTime = try values.decodeIfPresent(Double.self, forKey: .lastMentionsOpenTime) ?? .leastNormalMagnitude
+        hasBeenRequestedLocationOnHome = try values.decodeIfPresent(Bool.self, forKey: .hasBeenRequestedLocationOnHome) ?? false
+        hasBeenRequestedLocationOnNewPostPin = try values.decodeIfPresent(Bool.self, forKey: .hasBeenRequestedLocationOnNewPostPin) ?? false
+        hasBeenRequestedContactsBeforeTagging = try values.decodeIfPresent(Bool.self, forKey: .hasBeenRequestedContactsBeforeTagging) ?? false
+        hasBeenRequestedContactsOnPost = try values.decodeIfPresent(Bool.self, forKey: .hasBeenRequestedContactsOnPost) ?? false
     }
     
     init() {
@@ -36,7 +51,13 @@ struct Device: Codable {
         hasBeenOfferedNotificationsAfterDM = false
         hasBeenOfferedNotificationsAfterPost = false
         hasBeenRequestedARating = false
+        hasBeenRequestedLocationOnHome = false
+        hasBeenRequestedLocationOnNewPostPin = false
+        hasBeenOfferedNotificationsBeforeMistbox = false
+        hasBeenRequestedContactsBeforeTagging = false
+        hasBeenRequestedContactsOnPost = false
         lastMentionsOpenTime = .leastNormalMagnitude
+        
     }
     
 }

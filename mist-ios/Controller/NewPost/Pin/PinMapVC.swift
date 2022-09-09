@@ -82,7 +82,9 @@ class PinMapViewController: MapViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            guard !DeviceService.shared.hasBeenRequestedLocationOnNewPostPin() else  { return }
+            DeviceService.shared.showNewpostLocationRequest()
             self.requestUserLocationPermissionIfNecessary()
         }
     }

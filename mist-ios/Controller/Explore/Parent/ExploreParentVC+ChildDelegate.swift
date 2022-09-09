@@ -43,6 +43,9 @@ extension ExploreParentViewController: ExploreChildDelegate {
             }
         } else {
             posts = PostService.singleton.getExplorePosts()
+//            posts.append(contentsOf: PostService.singleton.getExplorePosts())
+//            posts.append(contentsOf: PostService.singleton.getExplorePosts())
+//            posts.append(contentsOf: PostService.singleton.getExplorePosts())
         }
         
         exploreMapVC.turnPostsIntoAnnotations(posts)
