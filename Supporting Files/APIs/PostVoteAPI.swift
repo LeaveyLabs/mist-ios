@@ -19,6 +19,7 @@ struct PostVoteParams: Codable {
     let voter: Int
     let post: Int
     let emoji: String
+    let rating: Float?
 }
 
 class PostVoteAPI {
@@ -84,9 +85,29 @@ class PostVoteAPI {
     
     static func postVote(voter:Int, post:Int, emoji:String) async throws -> PostVote {
         let url = "\(Env.BASE_URL)\(PATH_TO_VOTE_MODEL)"
-        let params = PostVoteParams(voter: voter, post: post, emoji: emoji)
+        let params = PostVoteParams(voter: voter, post: post, emoji: emoji, rating:nil)
         let json = try JSONEncoder().encode(params)
         let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        try filterPostVoteErrors(data: data, response: response)
+        return try JSONDecoder().decode(PostVote.self, from: data)
+    }
+    
+    static func postVote(voter:Int, post:Int, emoji:String, rating:Float) async throws -> PostVote {
+        let url = "\(Env.BASE_URL)\(PATH_TO_VOTE_MODEL)"
+        let params = PostVoteParams(voter: voter, post: post, emoji: emoji, rating: rating)
+        let json = try JSONEncoder().encode(params)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        try filterPostVoteErrors(data: data, response: response)
+        return try JSONDecoder().decode(PostVote.self, from: data)
+    }
+    
+    static func patchVote(voter:Int, post:Int, emoji:String, rating:Float) async throws -> PostVote {
+        let endpoint = "\(Env.BASE_URL)\(PATH_TO_CUSTOM_PATCH_VOTE_ENDPOINT)"
+        let queryParams = "\(VOTER_PARAM)=\(voter)&\(POST_PARAM)=\(post)"
+        let url = "\(endpoint)?\(queryParams)"
+        let params = PostVoteParams(voter: voter, post: post, emoji: emoji, rating: rating)
+        let json = try JSONEncoder().encode(params)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
         try filterPostVoteErrors(data: data, response: response)
         return try JSONDecoder().decode(PostVote.self, from: data)
     }
