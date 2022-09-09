@@ -45,6 +45,7 @@ class CommentService: NSObject {
             } catch {
                 commentsPostedSinceLastFetch.removeAll { $0.id == newComment.id }
                 try await CommentAPI.deleteComment(comment_id: newComment.id)
+                print("ERROR POSTING COMMENT", error)
                 throw error
             }
         }

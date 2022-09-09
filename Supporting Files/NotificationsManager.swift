@@ -63,27 +63,52 @@ class NotificationsManager: NSObject {
         })
     }
     
-    func askForNewNotificationPermissionsIfNecessary(permission: PermissionType, onVC vc: UIViewController, closure: @escaping (Bool) -> Void = { _ in } ) {
+    //the closure returns a bool: wasThePermissionReqeust displayed?
+    //returns false when they already were requested permissioned, or if they were already accepted
+    func askForNewNotificationPermissionsIfNecessary(permission: PermissionType, onVC vc: UIViewController, closure: @escaping (_ wasShownPermissionRequest: Bool) -> Void = { _ in } ) {
+        switch permission {
+        case .userLocation, .newpostUserLocation, .contacts: //shouldn't be passed as arguments
+            return
+        case .mistboxNotifications:
+            if DeviceService.shared.hasBeenOfferedNotificationsBeforeMistbox() {
+                closure(false)
+                return
+            } else {
+                DeviceService.shared.showedNotificationRequestBeforeMistbox()
+            }
+        case .dmNotificationsAfterNewPost:
+            if DeviceService.shared.hasBeenOfferedNotificationsAfterPost() {
+                closure(false)
+                return
+            } else {
+                DeviceService.shared.showedNotificationRequestAfterPost()
+            }
+        case .dmNotificationsAfterDm:
+            if DeviceService.shared.hasBeenOfferedNotificationsAfterDM() {
+                closure(false)
+                return
+            } else {
+                DeviceService.shared.showedNotificationRequestAfterDM()
+            }
+        }
+        
         center.getNotificationSettings(completionHandler: { [self] (settings) in
             switch settings.authorizationStatus {
             case .denied, .notDetermined:
                 CustomSwiftMessages.showPermissionRequest(permissionType: permission) { approved in
                     guard approved else {
-                        closure(false)
+                        closure(true)
                         return
                     }
                     guard settings.authorizationStatus != .denied else {
                         CustomSwiftMessages.showSettingsAlertController(title: "enable notifications in settings", message: "", on: vc)
-                        closure(false)
                         return
                     }
                     self.center.requestAuthorization(options: [.sound, .alert, .badge]) { (granted, error) in
-                        guard granted else {
-                            closure(false)
-                            return
-                        }
-                        DispatchQueue.main.async {
-                            UIApplication.shared.registerForRemoteNotifications()
+                        if granted {
+                            DispatchQueue.main.async {
+                                UIApplication.shared.registerForRemoteNotifications()
+                            }
                         }
                         closure(true)
                     }

@@ -2262,15 +2262,18 @@
                                                                     <action selector="textFieldEditingChanged:" destination="MOo-nm-fo2" eventType="editingChanged" id="OMJ-gP-l0R"/>
                                                                 </connections>
                                                             </textField>
-                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="just now" textAlignment="center" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="nCN-3L-vbD" customClass="NewPostTextField" customModule="mist_ios" customModuleProvider="target">
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="just now" textAlignment="center" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="eIX-1L-Jri" customClass="NewPostTextField" customModule="mist_ios" customModuleProvider="target">
                                                                 <rect key="frame" x="231" y="0.0" width="110" height="35"/>
                                                                 <color key="backgroundColor" name="mist-pink"/>
-                                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <color key="tintColor" name="mist-lilac"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" constant="110" id="Mb7-vq-0sn"/>
+                                                                    <constraint firstAttribute="width" constant="110" id="JPT-H2-bmw"/>
                                                                 </constraints>
                                                                 <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
                                                                 <textInputTraits key="textInputTraits"/>
+                                                                <connections>
+                                                                    <action selector="textFieldEditingChanged:" destination="MOo-nm-fo2" eventType="editingChanged" id="bII-Ed-x3L"/>
+                                                                </connections>
                                                             </textField>
                                                         </subviews>
                                                         <constraints>
@@ -2388,7 +2391,7 @@
                     <connections>
                         <outlet property="bodyLilacIndicator" destination="qoP-vE-2go" id="k4J-f8-Qp1"/>
                         <outlet property="bodyTextView" destination="OVP-oT-mo6" id="YZB-BM-lFV"/>
-                        <outlet property="dateTimeTextField" destination="nCN-3L-vbD" id="l17-hs-56j"/>
+                        <outlet property="dateTimeTextField" destination="eIX-1L-Jri" id="VNz-rb-Jyj"/>
                         <outlet property="guidelinesButton" destination="FfO-4g-Uge" id="kGI-R5-uQD"/>
                         <outlet property="locationNameLilacIndicator" destination="CUc-2u-pl4" id="6ND-rI-jzH"/>
                         <outlet property="locationNameTextField" destination="qaR-57-CDg" id="KCg-AR-PNl"/>
@@ -3227,7 +3230,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="VhH-Qw-dwo" customClass="PostTableView" customModule="mist_ios" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="114" width="390" height="696"/>
-                                <color key="backgroundColor" name="off-white"/>
+                                <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CkT-OY-dB1" userLabel="Notch View">
                                 <rect key="frame" x="0.0" y="44" width="390" height="70"/>
@@ -3254,7 +3257,7 @@
                                         </scopeButtonTitles>
                                     </searchBar>
                                 </subviews>
-                                <color key="backgroundColor" name="off-white"/>
+                                <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="nIw-uQ-ZM3" firstAttribute="centerX" secondItem="CkT-OY-dB1" secondAttribute="centerX" id="3o4-Yy-Q4N"/>
                                     <constraint firstItem="nIw-uQ-ZM3" firstAttribute="top" secondItem="CkT-OY-dB1" secondAttribute="top" constant="5" id="Cal-tR-yXQ"/>
@@ -3535,7 +3538,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LZL-QL-YAZ">
-                                <rect key="frame" x="0.0" y="623" width="390" height="221"/>
+                                <rect key="frame" x="0.0" y="589" width="390" height="255"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Fjx-ac-F9P">
                                         <rect key="frame" x="10" y="10" width="370" height="211"/>
@@ -3608,7 +3611,6 @@
                                 <constraints>
                                     <constraint firstItem="Fjx-ac-F9P" firstAttribute="leading" secondItem="LZL-QL-YAZ" secondAttribute="leading" constant="10" id="AaK-w4-KTs"/>
                                     <constraint firstItem="Fjx-ac-F9P" firstAttribute="top" secondItem="LZL-QL-YAZ" secondAttribute="top" constant="10" id="FWw-ws-hkW"/>
-                                    <constraint firstAttribute="bottom" secondItem="Fjx-ac-F9P" secondAttribute="bottom" id="gLB-O6-c8N"/>
                                     <constraint firstAttribute="trailing" secondItem="Fjx-ac-F9P" secondAttribute="trailing" constant="10" id="iVv-nq-nxP"/>
                                 </constraints>
                             </view>
@@ -3616,6 +3618,7 @@
                         <viewLayoutGuide key="safeArea" id="k87-Iq-izW"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Fjx-ac-F9P" firstAttribute="bottom" secondItem="k87-Iq-izW" secondAttribute="bottom" id="1cq-jw-MHo"/>
                             <constraint firstItem="LZL-QL-YAZ" firstAttribute="leading" secondItem="CK7-Cc-hRK" secondAttribute="leading" id="KdN-uR-4O6"/>
                             <constraint firstAttribute="bottom" secondItem="LZL-QL-YAZ" secondAttribute="bottom" id="gp4-ub-i4x"/>
                             <constraint firstAttribute="trailing" secondItem="LZL-QL-YAZ" secondAttribute="trailing" id="rjs-rj-l0I"/>

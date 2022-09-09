@@ -14,8 +14,6 @@ enum ReloadType {
     case refresh, cancel, newSearch, newPost, firstLoad
 }
 
-var hasRequestedLocationPermissionsDuringAppSession = false
-
 class ExploreMapViewController: MapViewController {
     
     // UI

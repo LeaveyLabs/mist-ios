@@ -109,6 +109,19 @@ func getFormattedTimeStringForPost(timestamp: Double) -> String {
     return getDateNumbers(currentTimeMillis: timestamp)
 }
 
+func getFormattedTimeStringForChat(timestamp: Double) -> String {
+    let elapsedTimeSincePost = NSDate().timeIntervalSince1970.getElapsedTime(since: timestamp)
+    //if within the last week
+    if elapsedTimeSincePost.days < 7 {
+        return getRecentFormattedDate(currentTimeMillis: timestamp)
+    }
+    //if within the last year
+    if elapsedTimeSincePost.years < 1 {
+        return getFormattedDate(currentTimeMillis: timestamp)
+    }
+    return getDateNumbers(currentTimeMillis: timestamp) //TODO: add the time, too
+}
+
 func getFormattedTimeStringForConvo(timestamp: Double) -> String {
     let elapsedTimeSincePost = NSDate().timeIntervalSince1970.getElapsedTime(since: timestamp)
     //if seconds ago

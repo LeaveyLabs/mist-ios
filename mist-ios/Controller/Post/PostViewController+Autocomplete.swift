@@ -140,7 +140,19 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
             }
         }
 
-        loadAutocompleteData(query: mostRecentAutocompleteQuery)
+        if !DeviceService.shared.hasBeenRequestedContactsBeforeTagging() {
+            DeviceService.shared.requestContactsBeforeTagging()
+            requestContactsAccess { [self] wasShownPermissionRequest in
+                DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [weak self] in
+                    guard let self = self else { return }
+                    self.tableView.layoutIfNeeded()
+                    self.scrollToBottom()
+                    self.loadAutocompleteData(query: self.mostRecentAutocompleteQuery)
+                })
+            }
+        } else {
+            loadAutocompleteData(query: mostRecentAutocompleteQuery)
+        }
     }
     
     func loadAutocompleteData(query: String) {
@@ -275,6 +287,7 @@ extension PostViewController {
     
     //MARK: - Permission
     
+    //not in use
     func areContactsAuthorized() -> Bool {
         let status = CNContactStore.authorizationStatus(for: .contacts)
         switch status {
@@ -291,30 +304,31 @@ extension PostViewController {
         }
     }
     
-    func requestContactsAccessIfNecessary(closure: @escaping (_ authorized: Bool) -> Void) {
-        hasPromptedUserForContactsAccess = true
+    //bool: wasShownPermissionsRequest
+    func requestContactsAccess(closure: @escaping (_ wasShownPermissionRequest: Bool) -> Void) {
         let status = CNContactStore.authorizationStatus(for: .contacts)
         switch status {
-        case .notDetermined:
+        case .notDetermined, .denied:
             CustomSwiftMessages.showPermissionRequest(permissionType: .contacts) { approved in
                 if approved {
+                    if status == .denied {
+                        CustomSwiftMessages.showSettingsAlertController(title: "share your contacts with mist in settings", message: "", on: self)
+                        closure(false)
+                    }
                     self.contactStore.requestAccess(for: .contacts) { approved, _ in
-                        Task {
-                            await UsersService.singleton.loadUsersAssociatedWithContacts()
-                            closure(true)
+                        if approved {
+                            Task {
+                                await UsersService.singleton.loadUsersAssociatedWithContacts()
+                                closure(true)
+                            }
                         }
                     }
                 } else {
-                    closure(false)
+                    closure(true)
                 }
             }
-        case .restricted:
+        case .restricted, .authorized:
             closure(false)
-        case .denied:
-            CustomSwiftMessages.showSettingsAlertController(title: "Turn on contact sharing for Mist in Settings.", message: "", on: self)
-            closure(false)
-        case .authorized:
-            closure(true)
         @unknown default:
             closure(false)
         }

@@ -186,13 +186,18 @@ class MistboxViewController: UIViewController {
             if MistboxManager.shared.hasUserActivatedMistbox {
                 setupEmptyLayout()
                 //don't increment the notification request here, since this is a default one
-                NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .mistboxNotifications, onVC: self)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .mistboxNotifications, onVC: self)
+                }
             } else {
                 setupWelcomeLayout()
             }
         case .empty:
             if !MistboxManager.shared.getMistboxMists().isEmpty {
                 setupNormalLayout()
+            } else if !MistboxManager.shared.hasUserActivatedMistbox { //this should never happen, but just in case we leave some bug laying around
+                setupWelcomeLayout()
+                
             } else {
                 setupEmptyLayout()
             }
@@ -350,6 +355,9 @@ extension MistboxViewController: MistboxCellDelegate {
         let openedPostVC = PostViewController.createPostVC(with: post, shouldStartWithRaisedKeyboard: false, fromMistbox: true, completionHandler: {
             self.visuallyRemoveMist(postIndex: postIndex)
             self.isPostPushed = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                AppStoreReviewManager.requestReviewIfAppropriate()
+            }
         })
         navigationController?.pushViewController(openedPostVC, animated: true) { [self] in
             (tabBarController as? SpecialTabBarController)?.decrementMistboxBadgeCount()

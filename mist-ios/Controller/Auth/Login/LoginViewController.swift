@@ -64,7 +64,7 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         enterNumberTextField.countryCodePlaceholderColor = .red
         enterNumberTextField.withFlag = true
         enterNumberTextField.withPrefix = true
-        enterNumberTextField.withExamplePlaceholder = true
+//        enterNumberTextField.withExamplePlaceholder = true //turning this on disables auto fill
     }
     
     func setupContinueButton() {
@@ -150,21 +150,17 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         isSubmitting = true
         Task {
             do {
-                if number.filter("1234567890".contains) == AuthContext.APPLE_PHONE_NUMBER {
-                    AuthContext.phoneNumber = "+" + AuthContext.APPLE_PHONE_NUMBER
-                    try await PhoneNumberAPI.requestLoginCode(phoneNumber: AuthContext.phoneNumber)
-                    let vc = ConfirmCodeViewController.create(confirmMethod: .appleLogin)
-                    self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
-                        self?.isSubmitting = false
-                    })
-                } else if let number = number.asE164PhoneNumber {
-                    try await PhoneNumberAPI.requestLoginCode(phoneNumber: number)
-                    AuthContext.phoneNumber = number
-                    let vc = ConfirmCodeViewController.create(confirmMethod: .loginText)
-                    self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
-                        self?.isSubmitting = false
-                    })
-                }
+                guard let number = number.asE164PhoneNumber else { throw APIError.ClientError("that phone number won't work", "please enter another one") }
+                print("number", number)
+                try await PhoneNumberAPI.requestLoginCode(phoneNumber: number)
+//                try await PhoneNumberAPI.requestLoginCode(phoneNumber: "+13103103101")
+                AuthContext.phoneNumber = number
+//                AuthContext.phoneNumber = "+" + AuthContext.APPLE_PHONE_NUMBER
+//                try await PhoneNumberAPI.requestLoginCode(phoneNumber: AuthContext.phoneNumber)
+                let vc = ConfirmCodeViewController.create(confirmMethod: .appleLogin)
+                self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
+                    self?.isSubmitting = false
+                })
             } catch {
                 handleFailure(error)
             }

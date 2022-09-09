@@ -32,9 +32,14 @@ class DeviceService: NSObject {
     //MARK: - Getters
     
     func hasBeenShowedGuidelines() -> Bool { return device?.hasBeenShownGuidelines ?? true } //if they load in the app and start it up too quickly, the app was crashing here for invalida access bc still nil...
+    func hasBeenRequestedContactsBeforeTagging() -> Bool { return device.hasBeenRequestedContactsBeforeTagging }
+    func hasBeenRequestedContactsOnPost() -> Bool { return device.hasBeenRequestedContactsOnPost }
     func hasBeenOfferedNotificationsAfterPost() -> Bool { return device.hasBeenOfferedNotificationsAfterPost }
     func hasBeenOfferedNotificationsAfterDM() -> Bool { return device.hasBeenOfferedNotificationsAfterDM }
+    func hasBeenOfferedNotificationsBeforeMistbox() -> Bool { return device.hasBeenOfferedNotificationsBeforeMistbox }
     func hasBeenRequestedARating() -> Bool { return device.hasBeenRequestedARating }
+    func hasBeenRequestedLocationOnHome() -> Bool { return device.hasBeenRequestedLocationOnHome }
+    func hasBeenRequestedLocationOnNewPostPin() -> Bool { return device.hasBeenRequestedLocationOnNewPostPin }
     func unreadMentionsCount() -> Int {
         var unreadPostUniqueTags = [Tag]()
         CommentService.singleton.getTags().forEach { tag in
@@ -52,6 +57,14 @@ class DeviceService: NSObject {
         device.hasBeenShownGuidelines = true
         Task { await saveToFilesystem() }
     }
+    func requestContactsOnPost() {
+        device.hasBeenRequestedContactsOnPost = true
+        Task { await saveToFilesystem() }
+    }
+    func requestContactsBeforeTagging() {
+        device.hasBeenRequestedContactsBeforeTagging = true
+        Task { await saveToFilesystem() }
+    }
     func showedNotificationRequestAfterPost() {
         device.hasBeenOfferedNotificationsAfterPost = true
         Task { await saveToFilesystem() }
@@ -60,8 +73,20 @@ class DeviceService: NSObject {
         device.hasBeenOfferedNotificationsAfterDM = true
         Task { await saveToFilesystem() }
     }
+    func showedNotificationRequestBeforeMistbox() {
+        device.hasBeenOfferedNotificationsBeforeMistbox = true
+        Task { await saveToFilesystem() }
+    }
     func showRatingRequest() {
         device.hasBeenRequestedARating = true
+        Task { await saveToFilesystem() }
+    }
+    func showHomeLocationRequest() {
+        device.hasBeenRequestedLocationOnHome = true
+        Task { await saveToFilesystem() }
+    }
+    func showNewpostLocationRequest() {
+        device.hasBeenRequestedLocationOnNewPostPin = true
         Task { await saveToFilesystem() }
     }
     func didViewMentions() {
