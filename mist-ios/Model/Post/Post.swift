@@ -23,8 +23,8 @@ struct Post: Codable, Equatable {
     let timestamp: Double
     let author: Int
     let read_only_author: ReadOnlyUser
-//    let emoji_dict: EmojiCountDict
-    let votes: [PostVote]
+    var emoji_dict: EmojiCountDict
+//    let votes: [PostVote]
     
     //commentCount is not supported right now. we're trying to avoid ever updating the Post on the frontend, so it's easier just to not think about this right now
     let commentcount: Int
@@ -32,7 +32,7 @@ struct Post: Codable, Equatable {
     //votecount has been removed bc it's no longer needed
 //    var votecount: Int
     
-    let emojiCountTuples: [EmojiCountTuple] //right now, this is serving as the default three emojis that one can vote on a post with. this could be changed to become more useful later on, potentially eliminating the need for votes^
+//    let emojiCountTuples: [EmojiCountTuple] //right now, this is serving as the default three emojis that one can vote on a post with. this could be changed to become more useful later on, potentially eliminating the need for votes^
     //potential solution which would also us to not need to load in votes: an array of local votes in VoteService. (problem: if we were to not load in votes, if we've voted for a post, how do we know if the count for an emoji should be incremented or not?
 
     
@@ -64,15 +64,15 @@ struct Post: Codable, Equatable {
         self.author = author
         self.read_only_author = UserService.singleton.getUserAsReadOnlyUser()
         self.commentcount = commentcount
-        self.votes = votes
-//        self.emoji_dict = emojiDict
-        self.emojiCountTuples = emojiCountTuples
+        self.emoji_dict = emojiDict
+//        self.emojiCountTuples = emojiCountTuples
     }
     
     static func == (lhs: Post, rhs: Post) -> Bool {
         return lhs.id == rhs.id
     }
     
+    //We use a custom decoder so that we can insert default emojis into the emoji_dict in case the post has fewer than 3 different emoji votes
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(Int.self, forKey: .id)
@@ -85,11 +85,30 @@ struct Post: Codable, Equatable {
         self.author = try container.decode(Int.self, forKey: .author)
         self.read_only_author = try container.decode(ReadOnlyUser.self, forKey: .read_only_author)
         self.commentcount = try container.decode(Int.self, forKey: .commentcount)
-        self.votes = try container.decode([PostVote].self, forKey: .votes)
-//        self.emoji_dict = try container.decode([String:Int].self, forKey: .votes)
-        emojiCountTuples = Post.setupPostTuples(from: votes, title)
+        let decodedEmojiCountDict = try container.decode(EmojiCountDict.self, forKey: .emoji_dict)
+        self.emoji_dict = Post.insertUpToThreePlaceholderEmojis(on: decodedEmojiCountDict)
+//        emojiCountTuples = Post.setupPostTupes(from: self.emoji_dict)
     }
     
+    static private func insertUpToThreePlaceholderEmojis(on emojiDict: EmojiCountDict) -> EmojiCountDict {
+        let missingEmojiCount = 3 - emojiDict.values.count
+        guard missingEmojiCount > 0 else { return emojiDict }
+        var emojiDictWithPlaceholders = emojiDict
+        for _ in (0 ..< missingEmojiCount) {
+            emojiDictWithPlaceholders[randomUnusedEmoji(usedEmojis: emojiDict.map { ($0, $1) })] = 0
+        }
+        return emojiDictWithPlaceholders
+    }
+    
+//    static private func setupPostTupes(from emojiDict: EmojiCountDict) -> [EmojiCountTuple] {
+//        var emojiCountTuples = [EmojiCountTuple]()
+//        emojiDict.forEach { emoji, count in
+//            emojiCountTuples.append((emoji, count))
+//        }
+//        return emojiCountTuples
+//    }
+    
+    @available(*, deprecated, message: "prefer setting up from EmojiCountDict")
     static private func setupPostTuples(from votes: [PostVote], _ title: String) -> [EmojiCountTuple] {
         //Tally up votes by their respective emojis
         var postVotesOrganizedByEmoji: [String: Int] = [:]
@@ -128,6 +147,6 @@ struct Post: Codable, Equatable {
     }
     
     enum CodingKeys: CodingKey {
-        case id, title, body, location_description, latitude, longitude, timestamp, author, read_only_author, votes, commentcount
+        case id, title, body, location_description, latitude, longitude, timestamp, author, read_only_author, emoji_dict, commentcount
     }
 }
