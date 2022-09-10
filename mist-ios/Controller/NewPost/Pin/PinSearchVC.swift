@@ -31,6 +31,9 @@ class PinSearchViewController: UIViewController {
     @IBOutlet weak var notchView: UIView!
     @IBOutlet weak var notchHandleView: UIView!
     
+    @IBOutlet weak var searchBarHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var searchBarDividerUIView: UIView!
+    
     var pinSearchChildDelegate: PinSearchChildDelegate!
     
     //MARK: - Initialization
@@ -56,7 +59,7 @@ class PinSearchViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        tableView.contentInset.top -= self.view.safeAreaInsets.top //needed bc auto content inset adjustment behavior isn't reflecing safeareainsets for some reason
+        tableView.contentInset.top -= self.view.safeAreaInsets.top - 20 //needed bc auto content inset adjustment behavior isn't reflecing safeareainsets for some reason
         tableView.contentInset.bottom = 280 //estimate of keyboard height
         tableView.verticalScrollIndicatorInsets.bottom = 250
         tableView.verticalScrollIndicatorInsets.top -= self.view.safeAreaInsets.top
@@ -87,6 +90,7 @@ class PinSearchViewController: UIViewController {
     }
 
     func setupSearchBar() {
+        searchBar.placeholder = MapSearchResultType.randomPlaceholder()
         searchBar.setValue("cancel", forKey: "cancelButtonText")
         searchBar.delegate = self // Monitor when the search button is tapped.
         searchBar.tintColor = cornerButtonGrey
@@ -140,7 +144,7 @@ extension PinSearchViewController: UISearchBarDelegate {
             tableView.reloadData()
             return
         }
-        
+        searchBar.placeholder = MapSearchResultType.randomPlaceholder()
         startNearbySearch(with: searchString)
     }
     
@@ -191,7 +195,7 @@ extension PinSearchViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard !searchString.isEmpty else { return "" }
-        return "nearby locations"
+        return "nearby places"
     }
             
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

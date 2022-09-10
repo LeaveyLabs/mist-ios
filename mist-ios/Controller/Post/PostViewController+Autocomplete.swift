@@ -140,10 +140,11 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
             }
         }
 
-        if !DeviceService.shared.hasBeenRequestedContactsBeforeTagging() {
+        if !areContactsAuthorized() && !DeviceService.shared.hasBeenRequestedContactsBeforeTagging() {
+            autocompleteManager.invalidate()
             DeviceService.shared.requestContactsBeforeTagging()
             requestContactsAccess { [self] wasShownPermissionRequest in
-                DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [weak self] in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: { [weak self] in
                     guard let self = self else { return }
                     self.tableView.layoutIfNeeded()
                     self.scrollToBottom()
