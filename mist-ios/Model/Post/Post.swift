@@ -10,7 +10,7 @@ import Foundation
 let DUMMY_POST_ID: Int = -1
 typealias Emoji = String
 typealias EmojiCountDict = [Emoji:Int]
-typealias EmojiCountTuple = (emoji: String, count: Int)
+typealias EmojiCountTuple = (emoji: Emoji, count: Int)
 
 struct Post: Codable, Equatable {
     
@@ -25,16 +25,7 @@ struct Post: Codable, Equatable {
     let read_only_author: ReadOnlyUser
     var emoji_dict: EmojiCountDict
     let sorted_emoji_array: [EmojiCountTuple]
-//    let votes: [PostVote]
-    
-    //commentCount is not supported right now. we're trying to avoid ever updating the Post on the frontend, so it's easier just to not think about this right now
     let commentcount: Int
-    
-    //votecount has been removed bc it's no longer needed
-//    var votecount: Int
-    
-//    let emojiCountTuples: [EmojiCountTuple] //right now, this is serving as the default three emojis that one can vote on a post with. this could be changed to become more useful later on, potentially eliminating the need for votes^
-    //potential solution which would also us to not need to load in votes: an array of local votes in VoteService. (problem: if we were to not load in votes, if we've voted for a post, how do we know if the count for an emoji should be incremented or not?
 
     
     //MARK: - Initializers
@@ -112,34 +103,6 @@ struct Post: Codable, Equatable {
             }
         }
     }
-    
-//    @available(*, deprecated, message: "prefer setting up from EmojiCountDict")
-//    static private func setupPostTuples(from votes: [PostVote], _ title: String) -> [EmojiCountTuple] {
-//        //Tally up votes by their respective emojis
-//        var postVotesOrganizedByEmoji: [String: Int] = [:]
-//        for postVote in votes {
-//            if postVotesOrganizedByEmoji.keys.contains(postVote.emoji) {
-//                postVotesOrganizedByEmoji[postVote.emoji]! += 1
-//            } else {
-//                postVotesOrganizedByEmoji[postVote.emoji] = 1
-//            }
-//        }
-//
-//        //Turn the dictionary into an array of tuples, sorted by count
-//        var emojiCountTuples = postVotesOrganizedByEmoji.map { (key: String, value: Int) in
-//            EmojiCountTuple(key, value)
-//        }.sorted { $0.count > $1.count }
-//
-//        //Add placeholder emojis
-//        let missingEmojiCount = 3 - emojiCountTuples.count
-//        if missingEmojiCount > 0 {
-//            for _ in (0 ..< missingEmojiCount) {
-//                emojiCountTuples.append(EmojiCountTuple(randomUnusedEmoji(usedEmojis: emojiCountTuples), 0))
-//            }
-//        }
-//
-//        return emojiCountTuples
-//    }
     
     enum CodingKeys: CodingKey {
         case id, title, body, location_description, latitude, longitude, timestamp, author, read_only_author, emoji_dict, commentcount
