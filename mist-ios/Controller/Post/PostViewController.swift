@@ -617,7 +617,7 @@ extension PostViewController: PostDelegate {
         } catch {
             PostService.singleton.updateCachedPostWith(postId: postId, updatedEmojiDict: emojiDict)
             DispatchQueue.main.async { [weak self] in
-                (self?.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost() //reload data
+                (self?.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigureVotes() //reload data
             }
             CustomSwiftMessages.displayError(error)
         }

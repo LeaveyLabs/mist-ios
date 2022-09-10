@@ -112,35 +112,18 @@ extension PostView {
         
         moreButton.transform = CGAffineTransform(rotationAngle: degreesToRadians(degrees: 90))
         
-//        self.usersVoteBeforePostWasLoaded = post.votes.first {$0.voter == UserService.singleton.getId() }
-        
-        let topThreeVotes = post.emoji_dict.map { ($0, $1) }.prefix(3)
-        setupEmojiButtons(topThreeVotes: Array(topThreeVotes))
-        
-//        let blurEffect = UIBlurEffect(style: .dark)
-//        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-//        //always fill the view
-//        blurEffectView.frame = backgroundBubbleView.bounds
-//        blurEffectView.frame.origin.x += 100
-//        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        blurEffectView.alpha = 0.5
-//
-//        backgroundBubbleView.addSubview(blurEffectView)
-//        backgroundBubbleView.sendSubviewToBack(blurEffectView)
-        
-//        let badQualityRatio: CGFloat = 6
-//        postTitleLabel.layer.shouldRasterize = true
-//        messageLabel.layer.shouldRasterize = true
-//        messageLabel.layer.rasterizationScale = UIScreen.main.scale/badQualityRatio
-//        postTitleLabel.layer.rasterizationScale = UIScreen.main.scale/badQualityRatio
+        //Whenever the user votes, we update the local copy of the post's emoji_dict
+        //Whenever we display votes, we must sort through the dict to find the top three votes
+        //This is especially important for superusers, because they could cast or remove a vote that was not originally in the topThreeVotes, and we want to be sure that the display of all emojis accurately reflects that
+        //We keep greatest efficiency on the casting and removing of votes, but we lose some efficiency on the rendering of votes because we have to resort them each time
+        let sortedEmojiVotes = post.emoji_dict.map( { ($0, $1) }).sorted(by: { $0.1 > $1.1 })
+        setupEmojiButtons(topThreeVotes: Array(sortedEmojiVotes.prefix(3)))
     }
     
-    func reconfigurePost() {
+    func reconfigureVotes() {
         guard let emojiDict = PostService.singleton.getPost(withPostId: postId)?.emoji_dict else { return }
-        let topThreeVotes = emojiDict.map { ($0, $1) }.prefix(3)
-        setupEmojiButtons(topThreeVotes: Array(topThreeVotes))
-        
-//        setupEmojiButtons(topThreeVotes: Array(postEmojiCountTuples.prefix(3)))
+        let sortedEmojiVotes = emojiDict.map( { ($0, $1) }).sorted(by: { $0.1 > $1.1 })
+        setupEmojiButtons(topThreeVotes: Array(sortedEmojiVotes.prefix(3)))
     }
     
 }
@@ -165,11 +148,10 @@ extension PostView {
         }
     }
     
+    //If the user has voted, but it's not in the top three most popular votes, make it appear as the third vote
     func ensureTheUsersVoteAppearsOnAButton() {
         guard let usersVoteOnThisPost = VoteService.singleton.voteForPost(postId: postId) else { return }
         if !emojiButtons.contains(where: { $0.emoji == usersVoteOnThisPost.emoji }) {
-            //Make emojiButton3 the emoji of the user's vote on this post
-            
             emojiButton3.isSelected = true
             guard
                 let emojiDict = PostService.singleton.getPost(withPostId: postId)?.emoji_dict,
@@ -264,10 +246,36 @@ extension PostView {
                 castVoteWithCustomEmoji(emojiString)
             }
         }
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now()) {
+//            self.resortEmojiButtonsByVoteCount() //this repositioning actually feels weird
             self.emojiButtons.forEach { $0.isEnabled = true }
         }
+    }
+    
+    func resortEmojiButtonsByVoteCount() {
+        if emojiButton2.count > emojiButton1.count {
+            swapEmojiButtons(emojiButton1, emojiButton2)
+        }
+        //now we know that 1 and 2 are sorted properly
+        if emojiButton3.count > emojiButton1.count {
+            swapEmojiButtons(emojiButton3, emojiButton1)
+            swapEmojiButtons(emojiButton3, emojiButton2)
+        }  else if emojiButton3.count > emojiButton2.count {
+            swapEmojiButtons(emojiButton1, emojiButton2)
+        }
+    }
+    
+    func swapEmojiButtons(_ buttonA: EmojiButton, _ buttonB: EmojiButton) {
+        let Acount = buttonA.count
+        let Aemoji = buttonA.emoji
+        let AisSelected = buttonA.isSelected
+        buttonA.count = buttonB.count
+        buttonA.emoji = buttonB.emoji
+        buttonA.isSelected = buttonB.isSelected
+        buttonB.count = Acount
+        buttonB.emoji = Aemoji
+        buttonB.isSelected = AisSelected
     }
     
 }

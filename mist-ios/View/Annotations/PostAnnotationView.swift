@@ -217,7 +217,7 @@ extension PostAnnotationView: AnnotationViewWithPosts {
     
     //The callout is currently presented, and we want to update the postView's UI with the new data
     func rerenderCalloutForUpdatedPostData() {
-        postCalloutView!.reconfigurePost()
+        postCalloutView!.reconfigureVotes()
     }
     
     func movePostUpAfterEmojiKeyboardRaised() {

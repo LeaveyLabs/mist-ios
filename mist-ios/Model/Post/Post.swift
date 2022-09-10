@@ -24,9 +24,7 @@ struct Post: Codable, Equatable {
     let author: Int
     let read_only_author: ReadOnlyUser
     var emoji_dict: EmojiCountDict
-    let sorted_emoji_array: [EmojiCountTuple]
     let commentcount: Int
-
     
     //MARK: - Initializers
     
@@ -44,7 +42,6 @@ struct Post: Codable, Equatable {
          author: Int,
          emojiDict: EmojiCountDict = [:],
          votes: [PostVote] = [],
-         sortedEmojiArray: [EmojiCountTuple] = [],
          commentcount: Int = 0) {
         self.id = id
         self.title = title
@@ -57,7 +54,6 @@ struct Post: Codable, Equatable {
         self.read_only_author = UserService.singleton.getUserAsReadOnlyUser()
         self.commentcount = commentcount
         self.emoji_dict = emojiDict
-        self.sorted_emoji_array = sortedEmojiArray
     }
     
     static func == (lhs: Post, rhs: Post) -> Bool {
@@ -79,9 +75,6 @@ struct Post: Codable, Equatable {
         self.commentcount = try container.decode(Int.self, forKey: .commentcount)
         let decodedEmojiCountDict = try container.decode(EmojiCountDict.self, forKey: .emoji_dict)
         self.emoji_dict = Post.insertUpToThreePlaceholderEmojis(on: decodedEmojiCountDict)
-        self.sorted_emoji_array = self.emoji_dict.map( { ($0, $1) }).sorted(by: { first, second in
-            first.count > second.count
-        })
     }
     
     static private func insertUpToThreePlaceholderEmojis(on emojiDict: EmojiCountDict) -> EmojiCountDict {
