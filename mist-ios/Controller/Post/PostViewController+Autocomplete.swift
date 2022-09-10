@@ -249,7 +249,9 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
         var suggestedUsersDict = Set<String>()
         var context = [String: Any]()
 
-        var newAsyncCompletions: [AutocompleteCompletion] = suggestedUsers.map {
+        var newAsyncCompletions: [AutocompleteCompletion] = suggestedUsers.compactMap {
+            guard $0.id != UserService.singleton.getId() else { return nil }
+            
             context = [:]
             let fullName = $0.first_name + " " + $0.last_name
             

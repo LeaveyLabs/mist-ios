@@ -45,7 +45,6 @@ class UpdateProfileSettingViewController: UITableViewController {
             view.isUserInteractionEnabled = !isSaving
         }
     }
-    var rerenderProfileCallback: (() -> Void)!
     
     //MARK: - Initialization
     
@@ -79,11 +78,6 @@ class UpdateProfileSettingViewController: UITableViewController {
         super.viewDidAppear(animated)
         setupImagePicker()
         enableInteractivePopGesture()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        rerenderProfileCallback()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
