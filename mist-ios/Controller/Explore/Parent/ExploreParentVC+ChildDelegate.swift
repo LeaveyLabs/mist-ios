@@ -12,11 +12,12 @@ import MapKit
 
 extension ExploreParentViewController: ExploreChildDelegate {
     
+    @MainActor
     func reloadData() {
-        DispatchQueue.main.async { [self] in
+//        DispatchQueue.main.async { [self] in
             exploreMapVC.selectedAnnotationView?.rerenderCalloutForUpdatedPostData()
             exploreFeedVC.feed.reloadData()
-        }
+//        }
     }
     
     func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType, customSetting: Setting? = nil) {
@@ -113,16 +114,11 @@ extension ExploreParentViewController: PostDelegate {
             try VoteService.singleton.handlePostVoteUpdate(postId: postId, emoji: emoji, action)
         } catch {
             PostService.singleton.updateCachedPostWith(postId: postId, updatedEmojiDict: emojiDict)
-            reloadData() //reloadData to ensure undos are visible
+            DispatchQueue.main.async { [weak self] in
+                self?.reloadData() //reloadData to ensure undos are visible
+            }
             CustomSwiftMessages.displayError(error)
         }
-        
-//        do {
-//            try VoteService.singleton.handlePostVoteUpdate(postId: postId, emoji: emoji, action)
-//        } catch {
-//            reloadData() //reloadData to ensure undos are visible
-//            CustomSwiftMessages.displayError(error)
-//        }
     }
     
     func handleBackgroundTap(postId: Int) {
