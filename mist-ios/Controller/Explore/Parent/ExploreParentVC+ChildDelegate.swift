@@ -14,7 +14,6 @@ extension ExploreParentViewController: ExploreChildDelegate {
     
     func reloadData() {
         DispatchQueue.main.async { [self] in
-            print("RELOADING DATA")
             exploreMapVC.selectedAnnotationView?.rerenderCalloutForUpdatedPostData()
             exploreFeedVC.feed.reloadData()
         }
@@ -82,10 +81,10 @@ extension ExploreParentViewController: PostDelegate {
     
     func handleVote(postId: Int, emoji: String, emojiBeforePatch: String? = nil, existingVoteRating: Int?, action: VoteAction) {
         guard
-            let emojiDict = PostService.singleton.getPost(withPostId: postId)?.emoji_dict,
-            let emojiCount = emojiDict[emoji]
+            let emojiDict = PostService.singleton.getPost(withPostId: postId)?.emoji_dict
         else { return }
-        
+        let emojiCount = emojiDict[emoji] ?? 0 //0 if the emoji has never been cast before
+
         var updatedEmojiDict = emojiDict
         switch action {
         case .cast:

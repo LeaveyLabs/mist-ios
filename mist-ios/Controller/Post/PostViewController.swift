@@ -584,9 +584,9 @@ extension PostViewController: PostDelegate {
     
     func handleVote(postId: Int, emoji: String, emojiBeforePatch: String? = nil, existingVoteRating: Int?, action: VoteAction) {
         guard
-            let emojiDict = PostService.singleton.getPost(withPostId: postId)?.emoji_dict,
-            let emojiCount = emojiDict[emoji]
+            let emojiDict = PostService.singleton.getPost(withPostId: postId)?.emoji_dict
         else { return }
+        let emojiCount = emojiDict[emoji] ?? 0 //0 if the emoji has never been cast before
         
         var updatedEmojiDict = emojiDict
         switch action {

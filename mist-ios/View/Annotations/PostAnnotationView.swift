@@ -138,7 +138,9 @@ extension PostAnnotationView {
         ])
         
         let postAnnotation = annotation as! PostAnnotation
-        postCalloutView.configurePost(post: postAnnotation.post, delegate: postDelegate, arrowPosition: .bottom)
+        
+        let cachedPost = PostService.singleton.getPost(withPostId: postAnnotation.post.id)!
+        postCalloutView.configurePost(post: cachedPost, delegate: postDelegate, arrowPosition: .bottom)
 
         //Do i need to call some of these? I dont think so.
 //        mapView.layoutIfNeeded()

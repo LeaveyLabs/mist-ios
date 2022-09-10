@@ -24,7 +24,7 @@ protocol CompleteUserBackendProperties: Equatable {
     var username: String { get }
     var first_name: String { get }
     var last_name: String { get }
-    var picture: String? { get }
+    var picture: String { get }
     var badges: [String] { get }
     var email: String { get }
     var date_of_birth: String { get }
@@ -101,7 +101,7 @@ struct CompleteUser: Codable, CompleteUserBackendProperties {
     let username: String
     let first_name: String
     let last_name: String
-    let picture: String?
+    let picture: String
     let email: String
     let date_of_birth: String
     let sex: String?
@@ -122,7 +122,7 @@ struct FrontendCompleteUser: Codable, CompleteUserBackendProperties, SenderType 
     var username: String
     var first_name: String
     var last_name: String
-    var picture: String?
+    var picture: String
     var email: String
     let date_of_birth: String
     let sex: String?

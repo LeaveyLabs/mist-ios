@@ -79,7 +79,8 @@ class PostMoreViewController: UIViewController {
             case .moved:
                 handleSliderValChange()
             case .ended:
-                break
+                handleSliderValChange()
+                dismiss(animated: true)
             default:
                 break
             }

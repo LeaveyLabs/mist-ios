@@ -108,7 +108,7 @@ class PostService: NSObject {
     func updateCachedPostWith(postId: Int, updatedEmojiDict: EmojiCountDict) {
         print("CACHED POST BEFORE:", cachedPosts[postId]?.emoji_dict)
         cachedPosts[postId]?.emoji_dict = updatedEmojiDict
-        print("CACHED POST BEFORE:", cachedPosts[postId]?.emoji_dict)
+        print("CACHED POST AFTER:", cachedPosts[postId]?.emoji_dict)
         rerenderAnyVisiblePosts()
     }
     

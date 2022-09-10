@@ -98,37 +98,9 @@ struct Post: Codable, Equatable {
         guard missingEmojiCount > 0 else { return emojiDict }
         var emojiDictWithPlaceholders = emojiDict
         for _ in (0 ..< missingEmojiCount) {
-            emojiDictWithPlaceholders[randomUnusedEmoji(usedEmojis: emojiDict.map { ($0, $1) })] = 0
+            emojiDictWithPlaceholders[randomUnusedEmoji(usedEmojis: emojiDictWithPlaceholders.map { ($0, $1) })] = 0
         }
         return emojiDictWithPlaceholders
-    }
-    
-    @available(*, deprecated, message: "prefer setting up from EmojiCountDict")
-    static private func setupPostTuples(from votes: [PostVote], _ title: String) -> [EmojiCountTuple] {
-        //Tally up votes by their respective emojis
-        var postVotesOrganizedByEmoji: [String: Int] = [:]
-        for postVote in votes {
-            if postVotesOrganizedByEmoji.keys.contains(postVote.emoji) {
-                postVotesOrganizedByEmoji[postVote.emoji]! += 1
-            } else {
-                postVotesOrganizedByEmoji[postVote.emoji] = 1
-            }
-        }
-        
-        //Turn the dictionary into an array of tuples, sorted by count
-        var emojiCountTuples = postVotesOrganizedByEmoji.map { (key: String, value: Int) in
-            EmojiCountTuple(key, value)
-        }.sorted { $0.count > $1.count }
-        
-        //Add placeholder emojis
-        let missingEmojiCount = 3 - emojiCountTuples.count
-        if missingEmojiCount > 0 {
-            for _ in (0 ..< missingEmojiCount) {
-                emojiCountTuples.append(EmojiCountTuple(randomUnusedEmoji(usedEmojis: emojiCountTuples), 0))
-            }
-        }
-        
-        return emojiCountTuples
     }
     
     static private func randomUnusedEmoji(usedEmojis: [EmojiCountTuple]) -> String {
@@ -140,6 +112,34 @@ struct Post: Codable, Equatable {
             }
         }
     }
+    
+//    @available(*, deprecated, message: "prefer setting up from EmojiCountDict")
+//    static private func setupPostTuples(from votes: [PostVote], _ title: String) -> [EmojiCountTuple] {
+//        //Tally up votes by their respective emojis
+//        var postVotesOrganizedByEmoji: [String: Int] = [:]
+//        for postVote in votes {
+//            if postVotesOrganizedByEmoji.keys.contains(postVote.emoji) {
+//                postVotesOrganizedByEmoji[postVote.emoji]! += 1
+//            } else {
+//                postVotesOrganizedByEmoji[postVote.emoji] = 1
+//            }
+//        }
+//
+//        //Turn the dictionary into an array of tuples, sorted by count
+//        var emojiCountTuples = postVotesOrganizedByEmoji.map { (key: String, value: Int) in
+//            EmojiCountTuple(key, value)
+//        }.sorted { $0.count > $1.count }
+//
+//        //Add placeholder emojis
+//        let missingEmojiCount = 3 - emojiCountTuples.count
+//        if missingEmojiCount > 0 {
+//            for _ in (0 ..< missingEmojiCount) {
+//                emojiCountTuples.append(EmojiCountTuple(randomUnusedEmoji(usedEmojis: emojiCountTuples), 0))
+//            }
+//        }
+//
+//        return emojiCountTuples
+//    }
     
     enum CodingKeys: CodingKey {
         case id, title, body, location_description, latitude, longitude, timestamp, author, read_only_author, emoji_dict, commentcount

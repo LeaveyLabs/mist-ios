@@ -132,7 +132,7 @@ extension ExploreParentViewController: OverlayContainerViewControllerDelegate {
         if currentNotch == .maximum && (notch == .minimum) {
             exploreFeedVC.handleFeedWentDown(duration: 0.3)
             exploreMapVC.handleFeedWentDown(duration: 0.3)
-        } else if (currentNotch == .minimum) && notch == .maximum {
+        } else if (currentNotch == .maximum || currentNotch == .minimum) && notch == .maximum {
             exploreFeedVC.handleFeedWentUp(duration: 0.3)
             exploreMapVC.handleFeedWentUp(duration: 0.3)
         }
