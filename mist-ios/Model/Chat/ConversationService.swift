@@ -80,7 +80,7 @@ class ConversationService: NSObject {
                 value.server_messages.sort()
             }
             
-            let frontendUsers = try await UsersService.singleton.loadAndCacheUsers(userIds: Array(messageThreadsByUserIds.keys))
+            let frontendUsers = try await UsersService.singleton.loadAndCacheEverythingForUsers(userIds: Array(messageThreadsByUserIds.keys))
             
             //Wait for matchRequests and blocks to load in
             try await group.waitForAll()

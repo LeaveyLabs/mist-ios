@@ -123,8 +123,8 @@
 		4752717C28553F6200DDF84D /* ProfilePicWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4752717B28553F6200DDF84D /* ProfilePicWrapper.swift */; };
 		4752717E28555DC800DDF84D /* UIImage+Compress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4752717D28555DC800DDF84D /* UIImage+Compress.swift */; };
 		4752718328557C1300DDF84D /* PasswordSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4752718228557C1300DDF84D /* PasswordSettingViewController.swift */; };
-		47527191285584F400DDF84D /* MyProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4752718D285584F400DDF84D /* MyProfileCell.swift */; };
-		47527192285584F400DDF84D /* MyProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4752718E285584F400DDF84D /* MyProfileCell.xib */; };
+		47527191285584F400DDF84D /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4752718D285584F400DDF84D /* ProfileCell.swift */; };
+		47527192285584F400DDF84D /* ProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4752718E285584F400DDF84D /* ProfileCell.xib */; };
 		47527193285584F400DDF84D /* SimpleInputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4752718F285584F400DDF84D /* SimpleInputCell.xib */; };
 		47527194285584F400DDF84D /* SimpleInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47527190285584F400DDF84D /* SimpleInputCell.swift */; };
 		475271972855851200DDF84D /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475271952855851200DDF84D /* SettingCell.swift */; };
@@ -310,7 +310,7 @@
 		5B739DA328935B9500E4EED0 /* MatchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D925212852802E00438C5C /* MatchRequest.swift */; };
 		5B739DA428935B9500E4EED0 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E44FB27E01D4900E244D6 /* AuthAPI.swift */; };
 		5B739DA528935B9500E4EED0 /* UIView+RoundedIndividualCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475271A02855BCB500DDF84D /* UIView+RoundedIndividualCorners.swift */; };
-		5B739DA628935B9500E4EED0 /* MyProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4752718D285584F400DDF84D /* MyProfileCell.swift */; };
+		5B739DA628935B9500E4EED0 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4752718D285584F400DDF84D /* ProfileCell.swift */; };
 		5B739DA728935B9500E4EED0 /* UserResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F271A27DE764F00C6DDAF /* UserResultCell.swift */; };
 		5B739DA828935B9500E4EED0 /* ExploreMapVC+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4752719C2855A80C00DDF84D /* ExploreMapVC+Map.swift */; };
 		5B739DA928935B9500E4EED0 /* SettingsTapDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD62782876938900DCFE45 /* SettingsTapDelegate.swift */; };
@@ -517,7 +517,7 @@
 		5B739E7728935B9500E4EED0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47E74E1427CA0FFF00467A0C /* Assets.xcassets */; };
 		5B739E7828935B9500E4EED0 /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47E86F6C2853EA65005A7DC7 /* Auth.storyboard */; };
 		5B739E7928935B9500E4EED0 /* SearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 470F271727DE758100C6DDAF /* SearchResultCell.xib */; };
-		5B739E7A28935B9500E4EED0 /* MyProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4752718E285584F400DDF84D /* MyProfileCell.xib */; };
+		5B739E7A28935B9500E4EED0 /* ProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4752718E285584F400DDF84D /* ProfileCell.xib */; };
 		5B739E7B28935B9500E4EED0 /* SettingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 475271962855851200DDF84D /* SettingCell.xib */; };
 		5B739E7C28935B9500E4EED0 /* CustomCenteredView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47EE28FF28414B2300C6425C /* CustomCenteredView.xib */; };
 		5B739E7D28935B9500E4EED0 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4700F8BD27DD807C006C2E08 /* CommentCell.xib */; };
@@ -839,8 +839,8 @@
 		4752717B28553F6200DDF84D /* ProfilePicWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePicWrapper.swift; sourceTree = "<group>"; };
 		4752717D28555DC800DDF84D /* UIImage+Compress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Compress.swift"; sourceTree = "<group>"; };
 		4752718228557C1300DDF84D /* PasswordSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSettingViewController.swift; sourceTree = "<group>"; };
-		4752718D285584F400DDF84D /* MyProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileCell.swift; sourceTree = "<group>"; };
-		4752718E285584F400DDF84D /* MyProfileCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProfileCell.xib; sourceTree = "<group>"; };
+		4752718D285584F400DDF84D /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
+		4752718E285584F400DDF84D /* ProfileCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileCell.xib; sourceTree = "<group>"; };
 		4752718F285584F400DDF84D /* SimpleInputCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleInputCell.xib; sourceTree = "<group>"; };
 		47527190285584F400DDF84D /* SimpleInputCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleInputCell.swift; sourceTree = "<group>"; };
 		475271952855851200DDF84D /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
@@ -1512,8 +1512,8 @@
 			isa = PBXGroup;
 			children = (
 				471F92D0280159430079F8CA /* SegmentedControlCell.swift */,
-				4752718D285584F400DDF84D /* MyProfileCell.swift */,
-				4752718E285584F400DDF84D /* MyProfileCell.xib */,
+				4752718D285584F400DDF84D /* ProfileCell.swift */,
+				4752718E285584F400DDF84D /* ProfileCell.xib */,
 				47527190285584F400DDF84D /* SimpleInputCell.swift */,
 				4752718F285584F400DDF84D /* SimpleInputCell.xib */,
 				475271952855851200DDF84D /* SettingCell.swift */,
@@ -2329,7 +2329,7 @@
 				470F271927DE758100C6DDAF /* SearchResultCell.xib in Resources */,
 				5BFBA84028C7B30A00414A99 /* BadgesCell.xib in Resources */,
 				5BA117A128C803B100F470F7 /* SwiftMessagesBadgeView.xib in Resources */,
-				47527192285584F400DDF84D /* MyProfileCell.xib in Resources */,
+				47527192285584F400DDF84D /* ProfileCell.xib in Resources */,
 				475271982855851200DDF84D /* SettingCell.xib in Resources */,
 				47EE290028414B2300C6425C /* CustomCenteredView.xib in Resources */,
 				5B879E9328B9129100D2DFC1 /* CustomNavBar.xib in Resources */,
@@ -2380,7 +2380,7 @@
 				5B739E7928935B9500E4EED0 /* SearchResultCell.xib in Resources */,
 				5BFBA84128C7B30A00414A99 /* BadgesCell.xib in Resources */,
 				5BA117A228C803B100F470F7 /* SwiftMessagesBadgeView.xib in Resources */,
-				5B739E7A28935B9500E4EED0 /* MyProfileCell.xib in Resources */,
+				5B739E7A28935B9500E4EED0 /* ProfileCell.xib in Resources */,
 				5B739E7B28935B9500E4EED0 /* SettingCell.xib in Resources */,
 				5B739E7C28935B9500E4EED0 /* CustomCenteredView.xib in Resources */,
 				5B879E9428B9129100D2DFC1 /* CustomNavBar.xib in Resources */,
@@ -2491,7 +2491,7 @@
 				439E44FC27E01D4900E244D6 /* AuthAPI.swift in Sources */,
 				475271A12855BCB500DDF84D /* UIView+RoundedIndividualCorners.swift in Sources */,
 				5B41529028BDCFBB00592A55 /* MistboxManager.swift in Sources */,
-				47527191285584F400DDF84D /* MyProfileCell.swift in Sources */,
+				47527191285584F400DDF84D /* ProfileCell.swift in Sources */,
 				5BE147CE28A2937E0096FEBE /* CommentDelegate.swift in Sources */,
 				470F271C27DE764F00C6DDAF /* UserResultCell.swift in Sources */,
 				4752719D2855A80C00DDF84D /* ExploreMapVC+Map.swift in Sources */,
@@ -2824,7 +2824,7 @@
 				5B739DA428935B9500E4EED0 /* AuthAPI.swift in Sources */,
 				5B739DA528935B9500E4EED0 /* UIView+RoundedIndividualCorners.swift in Sources */,
 				5BCE5F8328B483D2002078E1 /* CommentMoreViewController.swift in Sources */,
-				5B739DA628935B9500E4EED0 /* MyProfileCell.swift in Sources */,
+				5B739DA628935B9500E4EED0 /* ProfileCell.swift in Sources */,
 				5B739DA728935B9500E4EED0 /* UserResultCell.swift in Sources */,
 				5B739DA828935B9500E4EED0 /* ExploreMapVC+Map.swift in Sources */,
 				5B739DA928935B9500E4EED0 /* SettingsTapDelegate.swift in Sources */,

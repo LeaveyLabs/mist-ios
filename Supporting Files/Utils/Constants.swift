@@ -30,8 +30,7 @@ struct Constants {
         static let offWhite = UIColor.init(named: "off-white")!
     }
     
-    static let profilePicConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .unspecified)
-    static let defaultProfilePic = UIImage(systemName: "person.crop.circle", withConfiguration: Constants.profilePicConfig)!
+    static let defaultProfilePic = ReadOnlyUser.RandomSilhouette()
         
     static let maxPasswordLength = 1000
     
@@ -59,7 +58,7 @@ struct Constants {
             static let Sort = "SortCell"
             static let Conversation = "ConversationCell"
             static let NoConversations = "NoConversationsCell"
-            static let MyProfile = "MyProfileCell"
+            static let MyProfile = "ProfileCell"
             static let SimpleInput = "SimpleInputCell"
             static let CommentHeaderCell = "CommentHeaderCell"
             static let BadgesCell = "BadgesCell"
@@ -85,6 +84,7 @@ struct Constants {
             //Settings
             static let Settings = "SettingsViewController"
             static let PasswordSetting = "PasswordSettingViewController"
+            static let UpdateProfile = "UpdateProfileSettingViewController"
             //Explore
             static let CustomExploreParent = "CustomExploreParentViewController"
             static let HomeExploreParent = "HomeExploreParentViewController"
@@ -128,9 +128,6 @@ struct Constants {
 //            static let FinalizeResetPassword = "FinalizeResetPasswordViewController"
         }
         struct Segue {
-            static let ToMyProfileSetting = "ToMyProfileSetting"
-            static let ToNameSetting = "ToNameSetting"
-            static let ToPasswordSetting = "ToPasswordSetting"
             static let ToNotificationsSetting = "ToNotificationsSetting"
             static let ToListView = "ToListView"
             static let ToExplain = "ToExplain"

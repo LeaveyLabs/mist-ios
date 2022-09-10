@@ -448,7 +448,6 @@
                         <outlet property="appVersionLabel" destination="Mhx-CA-mSa" id="dqk-GC-pcq"/>
                         <outlet property="mistFooterView" destination="bVJ-9j-k2a" id="BO0-L6-GVg"/>
                         <outlet property="tableView" destination="Rna-kL-yjN" id="D3z-GK-aTY"/>
-                        <segue destination="TJI-kg-NyR" kind="show" identifier="ToMyProfileSetting" id="KTn-d1-rMh"/>
                         <segue destination="3Iw-44-EBZ" kind="show" identifier="ToPasswordSetting" id="3Cx-sD-Fkm"/>
                     </connections>
                 </viewController>
@@ -459,7 +458,7 @@
         <!--update profile-->
         <scene sceneID="hx6-Hg-4qg">
             <objects>
-                <tableViewController id="TJI-kg-NyR" customClass="UpdateProfileSettingViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="UpdateProfileSettingViewController" id="TJI-kg-NyR" customClass="UpdateProfileSettingViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="ape-A0-m2l">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -45,19 +45,8 @@ class MyAccountViewController: SettingsViewController {
     
     override func registerNibs() {
         super.registerNibs()
-        let myProfileNib = UINib(nibName: String(describing: MyProfileCell.self), bundle: nil)
-        tableView.register(myProfileNib, forCellReuseIdentifier: String(describing: MyProfileCell.self))
-    }
-    
-    //MARK: - Navigation
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == Constants.SBID.Segue.ToMyProfileSetting {
-            let myProfileSettingViewController = segue.destination as! UpdateProfileSettingViewController
-            myProfileSettingViewController.rerenderProfileCallback = {
-                self.tableView.reloadData()
-            }
-        }
+        let myProfileNib = UINib(nibName: String(describing: ProfileCell.self), bundle: nil)
+        tableView.register(myProfileNib, forCellReuseIdentifier: String(describing: ProfileCell.self))
     }
     
     //MARK: - User Interaction
@@ -85,7 +74,9 @@ class MyAccountViewController: SettingsViewController {
         let settingsSection = AccountSection.init(rawValue: indexPath.section)!
         
         if settingsSection == .profile {
-            return tableView.dequeueReusableCell(withIdentifier: String(describing: MyProfileCell.self), for: indexPath) as! MyProfileCell
+            let profileCell = tableView.dequeueReusableCell(withIdentifier: String(describing: ProfileCell.self), for: indexPath) as! ProfileCell
+            profileCell.configure(setting: settingsSection.settings[indexPath.row])
+            return profileCell
         } else if settingsSection == .logout {
             return tableView.dequeueReusableCell(withIdentifier: "SettingsLogoutCell", for: indexPath)
         } else {
@@ -101,9 +92,7 @@ class MyAccountViewController: SettingsViewController {
         tableView.deselectRow(at: indexPath, animated: false)
         let settingsSection = AccountSection.init(rawValue: indexPath.section)!
         
-        if settingsSection == .profile {
-            performSegue(withIdentifier: Constants.SBID.Segue.ToMyProfileSetting, sender: nil)
-        } else if settingsSection == .logout {
+        if settingsSection == .logout {
             handleLogoutButtonPressed()
         } else {
             settingsSection.settings[indexPath.row].tapAction(with: self)

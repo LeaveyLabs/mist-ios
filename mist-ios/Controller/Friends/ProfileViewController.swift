@@ -35,12 +35,14 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    //OOOOHH ADAM: instead of a default black icon, show their character
+    
     //MARK: - Constructors
     
     class func create(for user: FrontendReadOnlyUser) -> ProfileViewController {
         let profileVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Profile) as! ProfileViewController
         profileVC.user = user
-        profileVC.status = .loaded
+        profileVC.status = .loading
         return profileVC
     }
     
@@ -57,7 +59,6 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        profilePicButton.imageView?.tintColor = Constants.Color.mistBlack
         hasViewLoaded = true
         loadUser()
         renderUser()
@@ -74,17 +75,16 @@ class ProfileViewController: UIViewController {
             usernameLabel.text = user.username
             verifiedImageView.isHidden = !user.is_verified
         case .loading:
-            profilePicButton.imageView?.image = Constants.defaultProfilePic
             nameLabel.text = "loading..."
             usernameLabel.text = ""
         case .nonexisting:
             guard let handle = userHandleForLoading else { return }
-            profilePicButton.imageView?.image = Constants.defaultProfilePic
+            profilePicButton.setImage(Constants.defaultProfilePic, for: .normal)
             nameLabel.text = "this user does not exist"
             usernameLabel.text = handle.filter({ $0 != "@" })
         case .notclaimed:
             guard let handle = userHandleForLoading else { return }
-            profilePicButton.imageView?.image = Constants.defaultProfilePic
+            profilePicButton.setImage(Constants.defaultProfilePic, for: .normal)
             nameLabel.text = "this account has not yet been claimed"
             usernameLabel.text = handle.filter({ $0 != "@" })
         case .none:
@@ -95,7 +95,7 @@ class ProfileViewController: UIViewController {
     //MARK: - DB Calls
     
     func loadUser() {
-        guard user == nil, status != .loaded else { return } //user already provided on creation
+        guard status != .loaded else { return } //user already provided on creation
         
         Task {
             if let userNumber = userPhoneNumberForLoading {
@@ -108,25 +108,28 @@ class ProfileViewController: UIViewController {
                 } catch {
                     CustomSwiftMessages.displayError(error)
                 }
-            } else if let userId = userIdForLoading {
+            } else if let userId = userIdForLoading { //loading frontenduser AND profilepic
                 await getProfileDataForUserId(userId)
+            } else if let user = user { //loading profile pic
+                await getProfileDataForUserId(user.id)
             }
         }
     }
     
     func getProfileDataForUserId(_ userId: Int) async {
-        if let cachedUser = await UsersService.singleton.getPotentiallyCachedUser(userId: userId) {
-            user = cachedUser
-            status = .loaded
-        } else {
-            await fetchProfileDataForUserId(userId)
-        }
-    }
-    
-    func fetchProfileDataForUserId(_ userId: Int) async {
         status = .loading
         do {
-            user = try await UsersService.singleton.loadAndCacheUser(userId: userId)
+            if let cachedUser = await UsersService.singleton.getPotentiallyCachedUser(userId: userId) {
+                user = cachedUser
+            } else {
+                user = try await UsersService.singleton.loadAndCacheUser(userId: userId)
+            }
+            let loadedUser = user!
+            if let cachedPic = await UsersService.singleton.getPotentiallyCachedProfilePic(userId: userId) {
+                user?.profilePic = cachedPic
+            } else {
+                user?.profilePic = try await  UsersService.singleton.loadAndCacheProfilePic(frontendUser: loadedUser)
+            }
             status = .loaded
         } catch {
             status = .nonexisting
@@ -145,8 +148,8 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func profilePicDidPressed(_ sender: UIButton) {
-        guard let user = user else { return }
-        let photoDetailVC = PhotoDetailViewController.create(photo: user.profilePic)
+        guard let profilePic = user?.profilePic else { return }
+        let photoDetailVC = PhotoDetailViewController.create(photo: profilePic)
         photoDetailVC.modalPresentationStyle = .fullScreen
         present(photoDetailVC, animated: true)
     }

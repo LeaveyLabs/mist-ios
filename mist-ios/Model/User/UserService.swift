@@ -77,12 +77,13 @@ class UserService: NSObject {
                             username: authedUser.username,
                             first_name: authedUser.first_name,
                             last_name: authedUser.last_name,
-                            picture: authedUser.picture)
+                            picture: authedUser.picture,
+                            thumbnail: authedUser.thumbnail)
     }
     func getUserAsFrontendReadOnlyUser() -> FrontendReadOnlyUser {
         return FrontendReadOnlyUser(readOnlyUser: getUserAsReadOnlyUser(),
-                                    profilePic: authedUser.profilePicWrapper.image,
-                                    blurredPic: authedUser.profilePicWrapper.blurredImage)
+                                    thumbnailPic: authedUser.profilePicWrapper.image,
+                                    profilePic: authedUser.profilePicWrapper.image)
     }
     
     //Properties
@@ -95,7 +96,7 @@ class UserService: NSObject {
     func getPhoneNumber() -> String? { return authedUser.phone_number }
     func getPhoneNumberPretty() -> String? { return authedUser.phone_number?.asNationalPhoneNumber }
     func getProfilePic() -> UIImage { return authedUser.profilePicWrapper.image }
-    func getBlurredPic() -> UIImage { return getUserAsFrontendReadOnlyUser().blurredPic } //we have to use the asFrontendReadOnlyUser method in order to make sure the silhouette, not the blurred image, is shown
+    func getSilhouette() -> UIImage { return authedUser.silhouette }
     func isSuperuser() -> Bool { return authedUser.is_superuser }
     
     func getBadges() -> [String] { return authedUser.badges }
@@ -127,7 +128,7 @@ class UserService: NSObject {
         }
         let completeUser = try await UserAPI.fetchAuthedUserByToken(token: token)
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
-                                                    profilePic: newProfilePicWrapper,
+                                                    profilePicWrapper: newProfilePicWrapper,
                                                     token: token)
         authedUser = frontendCompleteUser!
         await self.saveUserToFilesystem()
@@ -144,7 +145,7 @@ class UserService: NSObject {
         Task { try await waitAndRegisterDeviceToken(id: completeUser.id) }
         let profilePicUIImage = try await UserAPI.UIImageFromURLString(url: completeUser.picture)
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
-                                                    profilePic: ProfilePicWrapper(image: profilePicUIImage,withCompresssion: false),
+                                                    profilePicWrapper: ProfilePicWrapper(image: profilePicUIImage,withCompresssion: false),
                                                     token: token)
         setupFirebaseAnalyticsProperties()
         await self.saveUserToFilesystem()

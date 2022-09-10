@@ -46,6 +46,13 @@ class UpdateProfileSettingViewController: UITableViewController {
         }
     }
     var rerenderProfileCallback: (() -> Void)!
+    
+    //MARK: - Initialization
+    
+    class func create() -> UpdateProfileSettingViewController {
+        let vc = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.UpdateProfile) as! UpdateProfileSettingViewController
+        return vc
+    }
 
     //MARK: - Lifecycle
     

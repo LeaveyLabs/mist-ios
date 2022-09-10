@@ -145,8 +145,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     
     let navBarFavoriteButton = UIButton()
     func setupNavBar() {
-        if true { //instead of if fromMistbox
-            navBar.configure(title: "", leftItems: [.back], rightItems: [])
+        if fromMistbox { //instead of if fromMistbox
             navBarFavoriteButton.tintColor = .black
             navBarFavoriteButton.setImage(UIImage(systemName: "bookmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .default))!, for: .normal)
             navBarFavoriteButton.setImage(UIImage(systemName: "bookmark.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .default))!, for: .selected)
@@ -161,6 +160,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
                 navBarFavoriteButton.rightAnchor.constraint(equalTo: navBar.rightAnchor, constant: -20),
             ])
         }
+        navBar.configure(title: "", leftItems: [.back], rightItems: [])
         navBar.backButton.addTarget(self, action: #selector(didPressBack), for: .touchUpInside)
         navBar.applyVeryLightBottomOnlyShadow()
         //        navBar.layer.shadowOpacity = 0

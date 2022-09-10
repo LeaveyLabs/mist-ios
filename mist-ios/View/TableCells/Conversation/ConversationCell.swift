@@ -22,7 +22,10 @@ class ConversationCell: UITableViewCell {
     
     func configureWith(conversation: Conversation) {
         let isHidden = conversation.isSangdaebangHidden
-        profilePicImageView.becomeProfilePicImageView(with: isHidden ? conversation.sangdaebang.blurredPic : conversation.sangdaebang.profilePic)
+        
+        //TODO: if profilePic is not loaded in, we should load it in and display it
+        
+        profilePicImageView.becomeProfilePicImageView(with: isHidden ? conversation.sangdaebang.silhouette : conversation.sangdaebang.profilePic)
         nameLabel.text = isHidden ? "???" : conversation.sangdaebang.first_name
         messageLabel.text = conversation.messageThread.server_messages.last?.body ?? ""
         selectionStyle = .none
@@ -30,7 +33,7 @@ class ConversationCell: UITableViewCell {
         setupTimeLabel(conversation)
         
         if ConversationService.singleton.getUnreadConversations().contains(where: { convo in
-            convo.sangdaebang == conversation.sangdaebang
+            convo.sangdaebang.id == conversation.sangdaebang.id
         }) {
             nameLabel.font = UIFont(name: Constants.Font.Heavy, size: 25)
             messageLabel.font = UIFont(name: Constants.Font.Heavy, size: 15)

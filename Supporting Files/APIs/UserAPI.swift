@@ -444,7 +444,8 @@ class UserAPI {
     
     static func turnUserIntoFrontendUser(_ user: ReadOnlyUser) async throws -> FrontendReadOnlyUser {
         return FrontendReadOnlyUser(readOnlyUser: user,
-                                    profilePic: try await UIImageFromURLString(url: user.picture))
+                                    thumbnailPic: try await UIImageFromURLString(url: user.thumbnail),
+                                    profilePic: nil)
     }
     
     static func batchTurnUsersIntoFrontendUsers(_ users: [ReadOnlyUser]) async throws -> [Int: FrontendReadOnlyUser] {
@@ -453,7 +454,7 @@ class UserAPI {
         try await withThrowingTaskGroup(of: (Int, FrontendReadOnlyUser).self) { group in
           for user in users {
             group.addTask {
-                return (user.id, FrontendReadOnlyUser(readOnlyUser: user, profilePic: try await UIImageFromURLString(url: user.picture)))
+                return (user.id, FrontendReadOnlyUser(readOnlyUser: user, thumbnailPic: try await UIImageFromURLString(url: user.thumbnail), profilePic: nil))
             }
           }
           // Obtain results from the child tasks, sequentially, in order of completion
@@ -464,13 +465,13 @@ class UserAPI {
         return frontendUsers
     }
     
-    static func batchFetchProfilePicsForPicPaths(_ picPaths: [Int: String]) async throws -> [Int: UIImage] {
-        guard picPaths.count > 0 else { return [:] }
+    static func batchFetchProfilePics(_ users: [ReadOnlyUser]) async throws -> [Int: UIImage] {
+        guard users.count > 0 else { return [:] }
         var thumbnails: [Int: UIImage] = [:]
       try await withThrowingTaskGroup(of: (Int, UIImage).self) { group in
-          for (userId, picPath) in picPaths {
+          for user in users {
               group.addTask {
-                  return (userId, try await UserAPI.UIImageFromURLString(url: picPath))
+                  return (user.id, try await UserAPI.UIImageFromURLString(url: user.picture))
               }
           }
          // Obtain results from the child tasks, sequentially, in order of completion
@@ -480,4 +481,21 @@ class UserAPI {
       }
       return thumbnails
     }
+    
+//    static func batchFetchPicPaths(_ picPaths: [Int: String]) async throws -> [Int: UIImage] {
+//        guard picPaths.count > 0 else { return [:] }
+//        var thumbnails: [Int: UIImage] = [:]
+//      try await withThrowingTaskGroup(of: (Int, UIImage).self) { group in
+//          for (userId, picPath) in picPaths {
+//              group.addTask {
+//                  return (userId, try await UserAPI.UIImageFromURLString(url: picPath))
+//              }
+//          }
+//         // Obtain results from the child tasks, sequentially, in order of completion
+//         for try await (id, thumbnail) in group {
+//            thumbnails[id] = thumbnail
+//         }
+//      }
+//      return thumbnails
+//    }
 }

@@ -39,7 +39,7 @@ open class CustomMessagesFlowLayout: MessagesCollectionViewFlowLayout {
             return customMessageSizeCalculator
         }
         let cellCalculator = super.cellSizeCalculatorForItem(at: indexPath)
-        if let textCellCalculator = cellCalculator as? TextMessageSizeCalculator {
+        if cellCalculator is TextMessageSizeCalculator {
             //for some reason, the top label inset change doeosnt create a visual change
 //            textCellCalculator.outgoingMessageLabelInsets = UIEdgeInsets(top: 100, left: 30, bottom: 100, right: 18)
 //            textCellCalculator.incomingMessageLabelInsets

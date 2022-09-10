@@ -8,6 +8,8 @@
 import Foundation
 
 enum Setting {
+    //profile
+    case myProfile, avatar
     //friends
     case friends
     //mists
@@ -54,6 +56,10 @@ enum Setting {
             return "Learn more".lowercased()
         case .leaveReview:
             return "Leave a review".lowercased()
+        case .myProfile:
+            return ""
+        case .avatar:
+            return ""
         }
     }
     
@@ -97,6 +103,10 @@ enum Setting {
             return UIImage(systemName: "gearshape")!
         case .rateMist:
             return UIImage(systemName: "star")!
+        case .myProfile:
+            return UIImage()
+        case .avatar:
+            return UIImage()
         }
     }
     
@@ -140,6 +150,10 @@ enum Setting {
             AppStoreReviewManager.requestReviewIfAppropriate()
         case .leaveReview:
             settingsTapDelegate.handleLeaveReview()
+        case .myProfile:
+            settingsTapDelegate.handleProfile()
+        case .avatar:
+            settingsTapDelegate.handleAvatar()
         }
     }
 }

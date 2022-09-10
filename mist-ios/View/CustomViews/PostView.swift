@@ -89,7 +89,6 @@ extension PostView {
         self.postId = post.id
         self.postAuthor = post.read_only_author
         self.postDelegate = delegate
-        postDelegate.beginLoadingAuthorProfilePic(postId: postId, author: post.read_only_author)
         
         //if we are in PostViewController, make the body longer
         if postDelegate.isKind(of: PostViewController.self) {

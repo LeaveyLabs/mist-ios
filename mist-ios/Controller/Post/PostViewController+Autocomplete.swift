@@ -246,7 +246,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
             let fullName = $0.first_name + " " + $0.last_name
             
             context = [AutocompleteContext.id.rawValue: $0.id,
-                       AutocompleteContext.pic.rawValue: $0.profilePic,
+                       AutocompleteContext.pic.rawValue: $0.thumbnailPic,
                        AutocompleteContext.queryName.rawValue: fullName]
             
             suggestedUsersDict.insert(fullName)
