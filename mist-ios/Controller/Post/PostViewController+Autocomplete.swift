@@ -187,50 +187,58 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
                 return
             }
         }
-    
+        
+        autocompleteManager.activityIndicator.startAnimating()
         autocompletionTasks[query] = Task {
-            autocompleteManager.activityIndicator.startAnimating()
+            var suggestedContacts = [CNContact]()
+            if CNContactStore.authorizationStatus(for: .contacts) == .authorized  {
+                suggestedContacts = fetchSuggestedContacts(partialString: query)
+                suggestedContacts = Array(suggestedContacts.prefix(20))
+            }
+            
+            var usersInContacts = [ReadOnlyUser]()
+            var contactsWithoutAnAccount = [CNContact]()
+            for contact in suggestedContacts {
+                guard let number = contact.bestPhoneNumberE164 else { continue }
+                if let user = await UsersService.singleton.getUserAssociatedWithContact(phoneNumber: number) {
+                    usersInContacts.append(user)
+                } else {
+                    contactsWithoutAnAccount.append(contact)
+                }
+            }
+            
+            let frontendSuggestedUsers: [FrontendReadOnlyUser]
             do {
-                var suggestedContacts = [CNContact]()
-                if CNContactStore.authorizationStatus(for: .contacts) == .authorized  {
-                    suggestedContacts = fetchSuggestedContacts(partialString: query)
-                    suggestedContacts = Array(suggestedContacts.prefix(20))
-                }
-                
-                var usersInContacts = [ReadOnlyUser]()
-                var contactsWithoutAnAccount = [CNContact]()
-                for contact in suggestedContacts {
-                    guard let number = contact.bestPhoneNumberE164 else { continue }
-                    if let user = await UsersService.singleton.getUserAssociatedWithContact(phoneNumber: number) {
-                        usersInContacts.append(user)
-                    } else {
-                        contactsWithoutAnAccount.append(contact)
-                    }
-                }
-                
                 let fetchedUsers = try await UserAPI.fetchUsersByWords(words: [query])
                 let nonduplicatedUsers = Set(fetchedUsers).union(usersInContacts)
                 let trimmedUsers = Array(nonduplicatedUsers.prefix(10))
-                let frontendSuggestedUsers = try await Array(UsersService.singleton.loadAndCacheUsers(users: trimmedUsers).values)
-                
-                let newResults = turnResultsIntoAutocompletions(frontendSuggestedUsers, contactsWithoutAnAccount)
-                autocompletionCache[query] = newResults
-                
-                if query == mostRecentAutocompleteQuery {
-                    DispatchQueue.main.async { [weak self] in
-                        if newResults.isEmpty {
-                            self?.autocompleteManager.placeholderLabel.text = "No results found"
-                        }
-                        self?.asyncCompletions = newResults
-                        self?.autocompleteManager.reloadData()
-                        self?.autocompleteManager.tableView.flashScrollIndicators()
-                        self?.autocompleteManager.activityIndicator.stopAnimating()
-                    }
-                }
+                frontendSuggestedUsers = try await Array(UsersService.singleton.loadAndCacheUsers(users: trimmedUsers).values)
             } catch {
                 autocompletionTasks[query]?.cancel()
-                autocompleteManager.activityIndicator.stopAnimating()
                 CustomSwiftMessages.displayError(error)
+                DispatchQueue.main.async { [weak self] in
+                    self?.autocompleteManager.placeholderLabel.text = "Couldn't load results"
+                    self?.asyncCompletions = []
+                    self?.autocompleteManager.reloadData()
+                    self?.autocompleteManager.tableView.flashScrollIndicators()
+                    self?.autocompleteManager.activityIndicator.stopAnimating()
+                }
+                return
+            }
+            
+            let newResults = turnResultsIntoAutocompletions(frontendSuggestedUsers, contactsWithoutAnAccount)
+            autocompletionCache[query] = newResults
+            
+            if query == mostRecentAutocompleteQuery {
+                DispatchQueue.main.async { [weak self] in
+                    if newResults.isEmpty {
+                        self?.autocompleteManager.placeholderLabel.text = "No results found"
+                    }
+                    self?.asyncCompletions = newResults
+                    self?.autocompleteManager.reloadData()
+                    self?.autocompleteManager.tableView.flashScrollIndicators()
+                    self?.autocompleteManager.activityIndicator.stopAnimating()
+                }
             }
         }
     }
