@@ -994,9 +994,9 @@
                                 </constraints>
                             </imageView>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="cr5-Jn-Gzm" customClass="TapUISlider" customModule="mist_ios" customModuleProvider="target">
-                                <rect key="frame" x="89.666666666666686" y="407" width="571" height="31"/>
+                                <rect key="frame" x="89.666666666666686" y="402" width="571" height="41"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="NRb-H9-osE"/>
+                                    <constraint firstAttribute="height" constant="40" id="NRb-H9-osE"/>
                                 </constraints>
                                 <color key="minimumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="maximumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

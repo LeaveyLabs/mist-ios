@@ -99,12 +99,14 @@ class MapViewController: UIViewController {
         zoomSlider.transform = CGAffineTransform(rotationAngle: -.pi/2)
         zoomSlider.value = currentZoomSliderValue
         zoomSlider.addTarget(self, action: #selector(onZoomSlide(slider:event:)), for: .valueChanged)
-        zoomSlider.trackRectWidth = 4
-        zoomSlider.thumbRectHorizontalOffset = -19
-        zoomSliderGradientImageView.alpha = 0.5
+        zoomSlider.tintColor = .clear
+        zoomSlider.thumbTintColor = .clear
+        zoomSliderGradientImageView.alpha = 0.3
         zoomSliderGradientImageView.applyMediumShadow()
-        zoomSlider.setThumbImage(UIImage(named: "thumb"), for: .normal)
-        zoomSlider.setThumbImage(UIImage(named: "thumb"), for: .highlighted)
+//        zoomSlider.setThumbImage(UIImage(named: "thumb"), for: .normal)
+//        zoomSlider.setThumbImage(UIImage(named: "thumb"), for: .highlighted)
+//        zoomSlider.trackRectWidth = 4
+//        zoomSlider.thumbRectHorizontalOffset = -19
     }
     
     var currentZoomSliderValue: Float = 3
@@ -124,13 +126,6 @@ class MapViewController: UIViewController {
             case .moved:
                 handleZoomSliderValChange(previousZoom: currentZoomSliderValue, newZoom: zoomSlider.value)
             case .ended:
-                UIView.animate(withDuration: 0.3) {
-                    self.zoomSliderGradientImageView.alpha = 0
-                    self.zoomSlider.alpha = 0.02
-                } completion: { completed in
-                    self.zoomSlider.minimumTrackTintColor = .white
-                    self.zoomSlider.maximumTrackTintColor = .white
-                }
                 handleZoomSliderValChange(previousZoom: currentZoomSliderValue, newZoom: zoomSlider.value)
                 isCameraZooming = false
             default:
@@ -274,30 +269,6 @@ extension MapViewController {
         }
     }
     
-//    @IBAction func zoomInButtonDidPressed(_ sender: UIButton) {
-//        let analyticsTitle = "zoomInButtonDidPressed"
-//        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-//          AnalyticsParameterItemID: "id-\(analyticsTitle)",
-//          AnalyticsParameterItemName: analyticsTitle,
-//        ])
-//
-//        zoomByAFactorOf(0.25) {
-//            self.view.isUserInteractionEnabled = true //in case the user scrolled map before pressing
-//        }
-//    }
-    
-//    @IBAction func zoomOutButtonDidPressed(_ sender: UIButton) {
-//        let analyticsTitle = "zoomOutButtonDidPressed"
-//        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-//          AnalyticsParameterItemID: "id-\(analyticsTitle)",
-//          AnalyticsParameterItemName: analyticsTitle,
-//        ])
-//
-//        zoomByAFactorOf(4) {
-//            self.view.isUserInteractionEnabled = true //in case the user scrolled map before pressing
-//        }
-//    }
-    
 }
 
 //MARK: - MKMapViewDelegate
@@ -329,12 +300,6 @@ extension MapViewController: MKMapViewDelegate {
     //This could be useful, i'm not using this function at all up until now
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         moveMapLegalLabel()
-        
-//        if !zoomSlider.isTracking {
-//            UIView.animate(withDuration: 0.3) {
-//                self.zoomSliderGradientImageView.alpha = 1
-//            }
-//        }
     }
 
     //updates continuously throughout user drag
@@ -350,8 +315,7 @@ extension MapViewController: MKMapViewDelegate {
             modifyingMap = false
         }
         
-        //DONT do this on scroll did begin
-        if abs(cameraDistance - mapView.camera.centerCoordinateDistance) > 1 {
+        if abs(cameraDistance - mapView.camera.centerCoordinateDistance) > 5 {
             print(zoomSliderGradientImageView.alpha)
             if zoomSliderGradientImageView.alpha < 0.35 {
                 UIView.animate(withDuration: 0.3) {
