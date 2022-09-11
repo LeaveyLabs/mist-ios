@@ -15,9 +15,10 @@
                 <outlet property="extraShadowView" destination="Gee-8c-jYU" id="25L-qJ-Pri"/>
                 <outlet property="openButton" destination="ZcQ-Yz-faN" id="xDR-9R-Pjk"/>
                 <outlet property="openButtonShadowSuperView" destination="AY3-1S-3mf" id="ewi-Qr-BFe"/>
+                <outlet property="shadowViewMaskViewHeightConstraint" destination="okl-GT-US4" id="cO2-4y-Xs3"/>
+                <outlet property="shadowViewMaskingView" destination="u7t-zf-CUB" id="MaJ-5a-vbR"/>
                 <outlet property="skipButton" destination="ypy-qB-hhC" id="Hbv-bd-UxG"/>
                 <outlet property="titleLabel" destination="G9D-vV-252" id="AQp-kz-AB3"/>
-                <outlet property="titleLabelHeightConstraint" destination="dqt-jx-B6r" id="xWT-D1-V51"/>
                 <outlet property="titleLabelMaskingView" destination="20Z-Rx-y7g" id="1ID-c5-57V"/>
             </connections>
         </placeholder>
@@ -30,7 +31,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="270" height="313"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ypy-qB-hhC">
-                    <rect key="frame" x="222.5" y="265.5" width="37.5" height="37.5"/>
+                    <rect key="frame" x="228.5" y="271.5" width="31.5" height="31.5"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="ypy-qB-hhC" secondAttribute="height" id="QRL-F2-EQU"/>
@@ -69,23 +70,22 @@
                     </constraints>
                 </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7t-zf-CUB" userLabel="SecondaryMaskingView">
-                    <rect key="frame" x="0.0" y="103" width="270" height="31.5"/>
+                    <rect key="frame" x="0.0" y="111" width="270" height="23.5"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gee-8c-jYU" userLabel="ExtraShadowView">
-                            <rect key="frame" x="13" y="-50" width="243" height="81.5"/>
+                            <rect key="frame" x="13" y="-61" width="243" height="87.5"/>
                             <color key="backgroundColor" name="mist-pink"/>
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="Gee-8c-jYU" firstAttribute="top" secondItem="u7t-zf-CUB" secondAttribute="top" constant="-50" id="BsJ-5b-Cvd"/>
-                        <constraint firstAttribute="bottom" secondItem="Gee-8c-jYU" secondAttribute="bottom" id="ZVP-vI-0HM"/>
+                        <constraint firstAttribute="height" constant="23.5" id="okl-GT-US4"/>
                     </constraints>
                 </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="20Z-Rx-y7g" userLabel="PrimaryMaskingView">
                     <rect key="frame" x="0.0" y="40.5" width="270" height="94"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="korean boy and sljd jdlksjd dkj skj dkj skj dkj d" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="G9D-vV-252">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="korean boy and sljd jdlksjd dkj skj dkj skj dkj d" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="G9D-vV-252" customClass="InsetLabel" customModule="mist_ios" customModuleProvider="target">
                             <rect key="frame" x="13" y="9.5" width="243" height="84.5"/>
                             <color key="backgroundColor" name="mist-pink"/>
                             <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
@@ -106,18 +106,20 @@
                 <constraint firstItem="20Z-Rx-y7g" firstAttribute="width" secondItem="u7t-zf-CUB" secondAttribute="width" id="0Ym-OB-hNv"/>
                 <constraint firstItem="AY3-1S-3mf" firstAttribute="width" secondItem="i6z-rH-Bjf" secondAttribute="width" multiplier="0.503704" id="7tJ-9R-Q0O"/>
                 <constraint firstItem="20Z-Rx-y7g" firstAttribute="width" secondItem="i6z-rH-Bjf" secondAttribute="width" id="8KZ-Az-o99"/>
+                <constraint firstItem="Gee-8c-jYU" firstAttribute="height" secondItem="i6z-rH-Bjf" secondAttribute="height" multiplier="0.28" id="9bW-Ue-1up"/>
                 <constraint firstItem="Gee-8c-jYU" firstAttribute="leading" secondItem="G9D-vV-252" secondAttribute="leading" id="DJ1-3N-M94"/>
                 <constraint firstItem="20Z-Rx-y7g" firstAttribute="centerX" secondItem="i6z-rH-Bjf" secondAttribute="centerX" id="HEb-fw-XKV"/>
+                <constraint firstItem="20Z-Rx-y7g" firstAttribute="height" secondItem="i6z-rH-Bjf" secondAttribute="height" multiplier="0.300319" id="JSJ-jQ-KNp"/>
                 <constraint firstItem="i6z-rH-Bjf" firstAttribute="top" secondItem="KYc-1U-yNK" secondAttribute="top" id="MaO-7l-k3W"/>
                 <constraint firstItem="AY3-1S-3mf" firstAttribute="centerX" secondItem="KYc-1U-yNK" secondAttribute="centerX" id="TD1-m3-VKB"/>
                 <constraint firstItem="G9D-vV-252" firstAttribute="centerY" secondItem="i6z-rH-Bjf" secondAttribute="centerY" multiplier="0.59" id="XA3-TA-8WN"/>
                 <constraint firstItem="G9D-vV-252" firstAttribute="centerX" secondItem="i6z-rH-Bjf" secondAttribute="centerX" multiplier="0.997" id="Z4V-FU-Ypn"/>
                 <constraint firstItem="i6z-rH-Bjf" firstAttribute="trailing" secondItem="uho-0Y-sJF" secondAttribute="trailing" id="bii-vT-Dm3"/>
+                <constraint firstItem="Gee-8c-jYU" firstAttribute="centerY" secondItem="i6z-rH-Bjf" secondAttribute="centerY" multiplier="0.6" id="cHt-eZ-RR7"/>
                 <constraint firstItem="i6z-rH-Bjf" firstAttribute="leading" secondItem="uho-0Y-sJF" secondAttribute="leading" id="cT1-LE-XZL"/>
                 <constraint firstItem="AY3-1S-3mf" firstAttribute="centerY" secondItem="i6z-rH-Bjf" secondAttribute="centerY" multiplier="1.3" id="cWX-6c-ZId"/>
-                <constraint firstItem="ypy-qB-hhC" firstAttribute="height" secondItem="i6z-rH-Bjf" secondAttribute="height" multiplier="0.12" id="cen-i1-QCe"/>
+                <constraint firstItem="ypy-qB-hhC" firstAttribute="height" secondItem="i6z-rH-Bjf" secondAttribute="height" multiplier="0.1" id="cen-i1-QCe"/>
                 <constraint firstItem="uho-0Y-sJF" firstAttribute="bottom" secondItem="ypy-qB-hhC" secondAttribute="bottom" constant="10" id="d6m-oC-c8U"/>
-                <constraint firstItem="20Z-Rx-y7g" firstAttribute="height" secondItem="i6z-rH-Bjf" secondAttribute="height" multiplier="0.3" id="dqt-jx-B6r"/>
                 <constraint firstItem="u7t-zf-CUB" firstAttribute="leading" secondItem="20Z-Rx-y7g" secondAttribute="leading" id="ipk-Wj-6kM"/>
                 <constraint firstItem="Gee-8c-jYU" firstAttribute="trailing" secondItem="G9D-vV-252" secondAttribute="trailing" id="jOP-DI-R6m"/>
                 <constraint firstItem="AY3-1S-3mf" firstAttribute="height" secondItem="i6z-rH-Bjf" secondAttribute="height" multiplier="0.166134" id="jU9-s3-WbD"/>
@@ -125,7 +127,6 @@
                 <constraint firstItem="uho-0Y-sJF" firstAttribute="trailing" secondItem="ypy-qB-hhC" secondAttribute="trailing" constant="10" id="p1y-e8-cep"/>
                 <constraint firstItem="i6z-rH-Bjf" firstAttribute="bottom" secondItem="uho-0Y-sJF" secondAttribute="bottom" id="qTC-WS-gBB"/>
                 <constraint firstItem="u7t-zf-CUB" firstAttribute="bottom" secondItem="20Z-Rx-y7g" secondAttribute="bottom" id="rpD-s2-Rtp"/>
-                <constraint firstItem="20Z-Rx-y7g" firstAttribute="height" secondItem="u7t-zf-CUB" secondAttribute="height" multiplier="3" id="uQN-Jb-3bd"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-21.739130434782609" y="-7.03125"/>

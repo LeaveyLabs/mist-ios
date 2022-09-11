@@ -17,7 +17,8 @@ class InsetLabel: UILabel {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        self.insets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        super.init(coder: coder)
     }
     
     override func drawText(in rect: CGRect) {

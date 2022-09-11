@@ -30,9 +30,10 @@ class EnvelopeView: UIView {
     @IBOutlet weak var openButton: UIButton!
     @IBOutlet weak var openButtonShadowSuperView: UIView!
     @IBOutlet weak var skipButton: UIButton!
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var titleLabel: InsetLabel!
     @IBOutlet weak var titleLabelMaskingView: UIView!
-    @IBOutlet weak var titleLabelHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var shadowViewMaskingView: UIView!
+    @IBOutlet weak var shadowViewMaskViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var extraShadowView: UIView!
     
     var postId: Int!
@@ -67,7 +68,8 @@ class EnvelopeView: UIView {
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(contentView)
         setupButtons()
-        envelopeImageView.applyMediumShadow()
+//        envelopeImageView.applyMediumShadow()
+        titleLabel.insets = .init(top: 5, left: 8, bottom: 5, right: 8)
         titleLabel.applyMediumShadow()
         extraShadowView.applyMediumShadow() //so that when the label animates up, the shadow is still remaining underneath
         titleLabelMaskingView.clipsToBounds = true
@@ -136,6 +138,9 @@ extension EnvelopeView {
         self.titleLabel.text = post.title
         rerenderOpenCount()
         self.titleLabelMaskingView.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by:0)
+        self.shadowViewMaskingView.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by:0)
+        shadowViewMaskViewHeightConstraint.constant = 0
+        layoutIfNeeded()
 //        panGesture.addTarget(self, action: #selector(handlePan(gestureRecognizer:)))
 //        mask(titleLabel, maskRect: CGRect(x: titleLabel.center.x, y: titleLabel.center.y, width: titleLabel.frame.width + 10, height: titleLabel.frame.height + 50))
         // Cuts 20pt borders around the view, keeping part inside rect intact
@@ -212,20 +217,23 @@ extension EnvelopeView {
     private func finishSwiping(_ direction: SwipeDirection) {
         switch direction {
         case .up:
+            self.layoutIfNeeded()
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut) {
-//                self.titleLabelHeightConstraint.constant += 30
-//                self.layoutIfNeeded()
+                self.shadowViewMaskViewHeightConstraint.constant = self.envelopeImageView.frame.height * 0.0750799
+                self.layoutIfNeeded()
                 self.titleLabelMaskingView.transform = CGAffineTransform(translationX: 0, y: -30)
+//                self.shadowViewMaskingView.transform = CGAffineTransform(translationX: 0, y: -30)
             } completion: { finished in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    self.delegate.didOpenMist(postId: self.postId)
-                }
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+//                    self.delegate.didOpenMist(postId: self.postId)
+//                }
             }
         case .incomplete:
             UIView.animate(withDuration: 0.2,
                            delay: 0,
                            options: .curveEaseOut) {
                 self.titleLabelMaskingView.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by:0)
+//                self.shadowViewMaskingView.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by:0)
             } completion: { finished in
                 
             }

@@ -89,7 +89,7 @@ class MistboxManager: NSObject {
     }
     
     func getMistboxMists() -> [Post] {
-        guard let mistbox = mistbox else { return [] }
+        guard var mistbox = mistbox else { return [] }
         return mistbox.posts
     }
     

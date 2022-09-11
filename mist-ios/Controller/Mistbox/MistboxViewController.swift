@@ -149,7 +149,6 @@ class MistboxViewController: UIViewController {
             visibleIndexLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
             visibleIndexLabel.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 15),
         ])
-        reloadVisibleIndexLabel()
         
         //title button
         rerenderTitleText()
@@ -313,17 +312,20 @@ extension MistboxViewController: UICollectionViewDataSource {
     
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        recalculateCurrentVisibleIndex(scrollView)
+//        recalculateCurrentVisibleIndex(scrollView)
+        if let centeredPage = centeredCollectionViewFlowLayout.currentCenteredPage {
+            currentVisibleIndex = centeredPage
+        }
         reloadVisibleIndexLabel()
     }
     
-    func recalculateCurrentVisibleIndex(_ scrollView: UIScrollView) {
-        let offSet = scrollView.contentOffset.x
-        let width = scrollView.frame.width
-        let horizontalCenter = width / 2
-        guard width != 0 else { return }
-        currentVisibleIndex = Int(offSet + horizontalCenter) / Int(width)
-    }
+//    func recalculateCurrentVisibleIndex(_ scrollView: UIScrollView) {
+//        let offSet = scrollView.contentOffset.x
+//        let width = scrollView.frame.width
+//        let horizontalCenter = width / 2
+//        guard width != 0 else { return }
+//        currentVisibleIndex = Int(offSet + horizontalCenter) / Int(width)
+//    }
     
 }
 
