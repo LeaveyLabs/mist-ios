@@ -68,7 +68,7 @@ class EnvelopeView: UIView {
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(contentView)
         setupButtons()
-//        envelopeImageView.applyMediumShadow()
+        envelopeImageView.applyMediumShadow()
         titleLabel.insets = .init(top: 5, left: 8, bottom: 5, right: 8)
         titleLabel.applyMediumShadow()
         extraShadowView.applyMediumShadow() //so that when the label animates up, the shadow is still remaining underneath

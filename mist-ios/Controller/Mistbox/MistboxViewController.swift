@@ -299,33 +299,13 @@ extension MistboxViewController: UICollectionViewDataSource {
         cell.configureForPost(post: posts[indexPath.row], delegate: self, panGesture: collectionView.panGestureRecognizer)
         return cell
     }
-
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        print("Did end decelerating. Current centered index: \(String(describing: centeredCollectionViewFlowLayout.currentCenteredPage ?? nil))")
-//        reloadVisibleIndexLabel()
-    }
-
-    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-//        print("Did end animation. Current centered index: \(String(describing: centeredCollectionViewFlowLayout.currentCenteredPage ?? nil))")
-//        reloadVisibleIndexLabel()
-    }
-    
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        recalculateCurrentVisibleIndex(scrollView)
         if let centeredPage = centeredCollectionViewFlowLayout.currentCenteredPage {
             currentVisibleIndex = centeredPage
         }
         reloadVisibleIndexLabel()
     }
-    
-//    func recalculateCurrentVisibleIndex(_ scrollView: UIScrollView) {
-//        let offSet = scrollView.contentOffset.x
-//        let width = scrollView.frame.width
-//        let horizontalCenter = width / 2
-//        guard width != 0 else { return }
-//        currentVisibleIndex = Int(offSet + horizontalCenter) / Int(width)
-//    }
     
 }
 

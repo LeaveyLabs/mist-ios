@@ -90,6 +90,7 @@ class MistboxManager: NSObject {
     
     func getMistboxMists() -> [Post] {
         guard var mistbox = mistbox else { return [] }
+        mistbox.posts.append(contentsOf: PostService.singleton.getExplorePosts())
         return mistbox.posts
     }
     
