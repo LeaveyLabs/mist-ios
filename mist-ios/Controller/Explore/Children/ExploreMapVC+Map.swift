@@ -94,11 +94,11 @@ extension ExploreMapViewController {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         
-        let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(location) { (placemark, error) in
-            guard error == nil else { return }
-            //Here, you can do something on a successful user location update
-        }
+//        let geocoder = CLGeocoder()
+//        geocoder.reverseGeocodeLocation(location) { (placemark, error) in
+//            guard error == nil else { return }
+//            //Here, you can do something on a successful user location update
+//        }
     }
 }
 

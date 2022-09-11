@@ -192,6 +192,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
         autocompleteManager.activityIndicator.startAnimating()
         autocompletionTasks[query] = Task {
             var suggestedContacts = [CNContact]()
+            print("ARE AUTHORIZED", areContactsAuthorized())
             if CNContactStore.authorizationStatus(for: .contacts) == .authorized  {
                 suggestedContacts = fetchSuggestedContacts(partialString: query)
                 suggestedContacts = Array(suggestedContacts.prefix(20))

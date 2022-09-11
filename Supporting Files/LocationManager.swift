@@ -66,11 +66,12 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         DispatchQueue.main.async {
 //            NotificationCenter.default.post(name: kLocationDidChangeNotification, object: self, userInfo: userInfo as [NSObject : AnyObject])
         }
-                
-        geocoder.reverseGeocodeLocation(newLocation, preferredLocale: Locale(identifier: "en_US")) { (placemarks, error) in
-            guard error == nil else { return }
-//            self.currentLocationTitle = placemarks?.first?.name
-        }
+              
+        //should only be done occasionally
+//        geocoder.reverseGeocodeLocation(newLocation, preferredLocale: Locale(identifier: "en_US")) { (placemarks, error) in
+//            guard error == nil else { return }
+////            self.currentLocationTitle = placemarks?.first?.name
+//        }
     }
     
     internal func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

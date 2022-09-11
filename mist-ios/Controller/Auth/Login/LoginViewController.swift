@@ -151,13 +151,9 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
         Task {
             do {
                 guard let number = number.asE164PhoneNumber else { throw APIError.ClientError("that phone number won't work", "please enter another one") }
-                print("number", number)
                 try await PhoneNumberAPI.requestLoginCode(phoneNumber: number)
-//                try await PhoneNumberAPI.requestLoginCode(phoneNumber: "+13103103101")
                 AuthContext.phoneNumber = number
-//                AuthContext.phoneNumber = "+" + AuthContext.APPLE_PHONE_NUMBER
-//                try await PhoneNumberAPI.requestLoginCode(phoneNumber: AuthContext.phoneNumber)
-                let vc = ConfirmCodeViewController.create(confirmMethod: .appleLogin)
+                let vc = ConfirmCodeViewController.create(confirmMethod: .loginText)
                 self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
                     self?.isSubmitting = false
                 })

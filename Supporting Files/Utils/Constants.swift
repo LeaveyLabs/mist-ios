@@ -30,6 +30,8 @@ struct Constants {
         static let offWhite = UIColor.init(named: "off-white")!
     }
     
+    static let downloadLink = NSURL(string: "https://www.getmist.app/download")!
+    
     static let defaultProfilePic = ReadOnlyUser.RandomSilhouette()
         
     static let maxPasswordLength = 1000
