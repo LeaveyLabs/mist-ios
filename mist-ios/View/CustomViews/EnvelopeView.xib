@@ -12,14 +12,12 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EnvelopeView" customModule="mist_ios" customModuleProvider="target">
             <connections>
                 <outlet property="envelopeImageView" destination="i6z-rH-Bjf" id="mgg-dC-xDN"/>
-                <outlet property="extraShadowView" destination="Gee-8c-jYU" id="25L-qJ-Pri"/>
                 <outlet property="openButton" destination="ZcQ-Yz-faN" id="xDR-9R-Pjk"/>
                 <outlet property="openButtonShadowSuperView" destination="AY3-1S-3mf" id="ewi-Qr-BFe"/>
-                <outlet property="shadowViewMaskViewHeightConstraint" destination="okl-GT-US4" id="cO2-4y-Xs3"/>
-                <outlet property="shadowViewMaskingView" destination="u7t-zf-CUB" id="MaJ-5a-vbR"/>
                 <outlet property="skipButton" destination="ypy-qB-hhC" id="Hbv-bd-UxG"/>
                 <outlet property="titleLabel" destination="G9D-vV-252" id="AQp-kz-AB3"/>
-                <outlet property="titleLabelMaskingView" destination="20Z-Rx-y7g" id="1ID-c5-57V"/>
+                <outlet property="titleMaskingView" destination="20Z-Rx-y7g" id="Mns-3o-sds"/>
+                <outlet property="titleShadowView" destination="s5z-dv-pRY" id="HCA-rL-8xf"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -30,16 +28,17 @@
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="envelope-graphic" translatesAutoresizingMaskIntoConstraints="NO" id="i6z-rH-Bjf">
                     <rect key="frame" x="0.0" y="0.0" width="270" height="313"/>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ypy-qB-hhC">
-                    <rect key="frame" x="228.5" y="271.5" width="31.5" height="31.5"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ypy-qB-hhC">
+                    <rect key="frame" x="225" y="268" width="35" height="35"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="ypy-qB-hhC" secondAttribute="height" id="QRL-F2-EQU"/>
+                        <constraint firstAttribute="width" constant="35" id="zJm-s8-v3k"/>
                     </constraints>
                     <color key="tintColor" name="mist-black"/>
-                    <inset key="imageEdgeInsets" minX="6" minY="7" maxX="6" maxY="7"/>
-                    <state key="normal" image="trash" catalog="system">
-                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default" weight="medium"/>
+                    <inset key="imageEdgeInsets" minX="3" minY="7" maxX="3" maxY="7"/>
+                    <state key="normal" image="bin.xmark" catalog="system">
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default" weight="regular"/>
                     </state>
                     <connections>
                         <action selector="skipButtonDidtapped:" destination="-1" eventType="touchUpInside" id="Tip-ue-gp5"/>
@@ -69,72 +68,61 @@
                         <constraint firstAttribute="trailing" secondItem="ZcQ-Yz-faN" secondAttribute="trailing" id="eaW-pt-rax"/>
                     </constraints>
                 </view>
-                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7t-zf-CUB" userLabel="SecondaryMaskingView">
-                    <rect key="frame" x="0.0" y="111" width="270" height="23.5"/>
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="20Z-Rx-y7g" userLabel="PrimaryMaskingView">
+                    <rect key="frame" x="0.0" y="11" width="270" height="125"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gee-8c-jYU" userLabel="ExtraShadowView">
-                            <rect key="frame" x="13" y="-61" width="243" height="87.5"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s5z-dv-pRY">
+                            <rect key="frame" x="14" y="59.5" width="243" height="172"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="korean boy and sljd jdlksjd dkj skj dkj skj dkj d" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="G9D-vV-252" customClass="InsetLabel" customModule="mist_ios" customModuleProvider="target">
+                                    <rect key="frame" x="8" y="15" width="227" height="51"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="22"/>
+                                    <color key="textColor" name="mist-black"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
                             <color key="backgroundColor" name="mist-pink"/>
+                            <constraints>
+                                <constraint firstItem="G9D-vV-252" firstAttribute="leading" secondItem="s5z-dv-pRY" secondAttribute="leading" constant="8" id="2Vu-2k-Imb"/>
+                                <constraint firstItem="G9D-vV-252" firstAttribute="top" secondItem="s5z-dv-pRY" secondAttribute="top" constant="15" id="Sij-5j-yyx"/>
+                                <constraint firstAttribute="trailing" secondItem="G9D-vV-252" secondAttribute="trailing" constant="8" id="fre-iO-40C"/>
+                            </constraints>
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="23.5" id="okl-GT-US4"/>
-                    </constraints>
-                </view>
-                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="20Z-Rx-y7g" userLabel="PrimaryMaskingView">
-                    <rect key="frame" x="0.0" y="40.5" width="270" height="94"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="korean boy and sljd jdlksjd dkj skj dkj skj dkj d" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="G9D-vV-252" customClass="InsetLabel" customModule="mist_ios" customModuleProvider="target">
-                            <rect key="frame" x="13" y="9.5" width="243" height="84.5"/>
-                            <color key="backgroundColor" name="mist-pink"/>
-                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
-                            <color key="textColor" name="mist-black"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstItem="G9D-vV-252" firstAttribute="top" secondItem="20Z-Rx-y7g" secondAttribute="top" constant="9.5" id="2wJ-EB-qop"/>
-                        <constraint firstAttribute="bottom" secondItem="G9D-vV-252" secondAttribute="bottom" id="IDh-L3-fmw"/>
-                    </constraints>
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="uho-0Y-sJF"/>
             <color key="tintColor" name="mist-lilac"/>
             <constraints>
-                <constraint firstItem="20Z-Rx-y7g" firstAttribute="width" secondItem="u7t-zf-CUB" secondAttribute="width" id="0Ym-OB-hNv"/>
+                <constraint firstItem="s5z-dv-pRY" firstAttribute="centerY" secondItem="i6z-rH-Bjf" secondAttribute="centerY" id="2WV-LX-ps5"/>
                 <constraint firstItem="AY3-1S-3mf" firstAttribute="width" secondItem="i6z-rH-Bjf" secondAttribute="width" multiplier="0.503704" id="7tJ-9R-Q0O"/>
                 <constraint firstItem="20Z-Rx-y7g" firstAttribute="width" secondItem="i6z-rH-Bjf" secondAttribute="width" id="8KZ-Az-o99"/>
-                <constraint firstItem="Gee-8c-jYU" firstAttribute="height" secondItem="i6z-rH-Bjf" secondAttribute="height" multiplier="0.28" id="9bW-Ue-1up"/>
-                <constraint firstItem="Gee-8c-jYU" firstAttribute="leading" secondItem="G9D-vV-252" secondAttribute="leading" id="DJ1-3N-M94"/>
                 <constraint firstItem="20Z-Rx-y7g" firstAttribute="centerX" secondItem="i6z-rH-Bjf" secondAttribute="centerX" id="HEb-fw-XKV"/>
-                <constraint firstItem="20Z-Rx-y7g" firstAttribute="height" secondItem="i6z-rH-Bjf" secondAttribute="height" multiplier="0.300319" id="JSJ-jQ-KNp"/>
+                <constraint firstItem="20Z-Rx-y7g" firstAttribute="height" secondItem="i6z-rH-Bjf" secondAttribute="height" multiplier="0.4" id="JSJ-jQ-KNp"/>
                 <constraint firstItem="i6z-rH-Bjf" firstAttribute="top" secondItem="KYc-1U-yNK" secondAttribute="top" id="MaO-7l-k3W"/>
+                <constraint firstItem="s5z-dv-pRY" firstAttribute="height" secondItem="i6z-rH-Bjf" secondAttribute="height" multiplier="0.55" id="Pex-oj-gef"/>
                 <constraint firstItem="AY3-1S-3mf" firstAttribute="centerX" secondItem="KYc-1U-yNK" secondAttribute="centerX" id="TD1-m3-VKB"/>
-                <constraint firstItem="G9D-vV-252" firstAttribute="centerY" secondItem="i6z-rH-Bjf" secondAttribute="centerY" multiplier="0.59" id="XA3-TA-8WN"/>
-                <constraint firstItem="G9D-vV-252" firstAttribute="centerX" secondItem="i6z-rH-Bjf" secondAttribute="centerX" multiplier="0.997" id="Z4V-FU-Ypn"/>
+                <constraint firstItem="G9D-vV-252" firstAttribute="height" secondItem="i6z-rH-Bjf" secondAttribute="height" multiplier="0.162939" id="ZOJ-9L-M6D"/>
+                <constraint firstItem="s5z-dv-pRY" firstAttribute="centerX" secondItem="i6z-rH-Bjf" secondAttribute="centerX" multiplier="1.005" id="Za2-yz-2gp"/>
                 <constraint firstItem="i6z-rH-Bjf" firstAttribute="trailing" secondItem="uho-0Y-sJF" secondAttribute="trailing" id="bii-vT-Dm3"/>
-                <constraint firstItem="Gee-8c-jYU" firstAttribute="centerY" secondItem="i6z-rH-Bjf" secondAttribute="centerY" multiplier="0.6" id="cHt-eZ-RR7"/>
                 <constraint firstItem="i6z-rH-Bjf" firstAttribute="leading" secondItem="uho-0Y-sJF" secondAttribute="leading" id="cT1-LE-XZL"/>
                 <constraint firstItem="AY3-1S-3mf" firstAttribute="centerY" secondItem="i6z-rH-Bjf" secondAttribute="centerY" multiplier="1.3" id="cWX-6c-ZId"/>
-                <constraint firstItem="ypy-qB-hhC" firstAttribute="height" secondItem="i6z-rH-Bjf" secondAttribute="height" multiplier="0.1" id="cen-i1-QCe"/>
                 <constraint firstItem="uho-0Y-sJF" firstAttribute="bottom" secondItem="ypy-qB-hhC" secondAttribute="bottom" constant="10" id="d6m-oC-c8U"/>
-                <constraint firstItem="u7t-zf-CUB" firstAttribute="leading" secondItem="20Z-Rx-y7g" secondAttribute="leading" id="ipk-Wj-6kM"/>
-                <constraint firstItem="Gee-8c-jYU" firstAttribute="trailing" secondItem="G9D-vV-252" secondAttribute="trailing" id="jOP-DI-R6m"/>
                 <constraint firstItem="AY3-1S-3mf" firstAttribute="height" secondItem="i6z-rH-Bjf" secondAttribute="height" multiplier="0.166134" id="jU9-s3-WbD"/>
-                <constraint firstItem="G9D-vV-252" firstAttribute="width" secondItem="i6z-rH-Bjf" secondAttribute="width" multiplier="0.9" id="kh0-gf-g3c"/>
+                <constraint firstItem="20Z-Rx-y7g" firstAttribute="centerY" secondItem="i6z-rH-Bjf" secondAttribute="centerY" multiplier="0.47" id="o03-4S-buy"/>
                 <constraint firstItem="uho-0Y-sJF" firstAttribute="trailing" secondItem="ypy-qB-hhC" secondAttribute="trailing" constant="10" id="p1y-e8-cep"/>
+                <constraint firstItem="s5z-dv-pRY" firstAttribute="width" secondItem="i6z-rH-Bjf" secondAttribute="width" multiplier="0.9" id="qQZ-jN-64r"/>
                 <constraint firstItem="i6z-rH-Bjf" firstAttribute="bottom" secondItem="uho-0Y-sJF" secondAttribute="bottom" id="qTC-WS-gBB"/>
-                <constraint firstItem="u7t-zf-CUB" firstAttribute="bottom" secondItem="20Z-Rx-y7g" secondAttribute="bottom" id="rpD-s2-Rtp"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-21.739130434782609" y="-7.03125"/>
         </view>
     </objects>
     <resources>
+        <image name="bin.xmark" catalog="system" width="128" height="93"/>
         <image name="envelope-graphic" width="1308" height="1528"/>
-        <image name="trash" catalog="system" width="121" height="128"/>
         <namedColor name="mist-black">
             <color red="0.066666666666666666" green="0.066666666666666666" blue="0.066666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

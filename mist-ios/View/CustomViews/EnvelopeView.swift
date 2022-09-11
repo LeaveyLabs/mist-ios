@@ -30,11 +30,9 @@ class EnvelopeView: UIView {
     @IBOutlet weak var openButton: UIButton!
     @IBOutlet weak var openButtonShadowSuperView: UIView!
     @IBOutlet weak var skipButton: UIButton!
-    @IBOutlet weak var titleLabel: InsetLabel!
-    @IBOutlet weak var titleLabelMaskingView: UIView!
-    @IBOutlet weak var shadowViewMaskingView: UIView!
-    @IBOutlet weak var shadowViewMaskViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var extraShadowView: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var titleMaskingView: UIView!
+    @IBOutlet weak var titleShadowView: UIView!
     
     var postId: Int!
     var delegate: MistboxCellDelegate!
@@ -69,10 +67,8 @@ class EnvelopeView: UIView {
         addSubview(contentView)
         setupButtons()
         envelopeImageView.applyMediumShadow()
-        titleLabel.insets = .init(top: 5, left: 8, bottom: 5, right: 8)
-        titleLabel.applyMediumShadow()
-        extraShadowView.applyMediumShadow() //so that when the label animates up, the shadow is still remaining underneath
-        titleLabelMaskingView.clipsToBounds = true
+        titleShadowView.applyMediumShadow()
+        titleMaskingView.clipsToBounds = true
         skipButton.setImage(UIImage(systemName: "bin.xmark"), for: .normal) //to avoid name deprecation warning
     }
     
@@ -80,7 +76,6 @@ class EnvelopeView: UIView {
     func setupButtons() {
         openButton.roundCornersViaCornerRadius(radius: 8)
         openButton.clipsToBounds = true
-//        openButton.applyMediumShadow() //this will reset clips to bounds
         openButtonShadowSuperView.applyMediumShadow()
         skipButton.roundCornersViaCornerRadius(radius: 5)
         skipButton.clipsToBounds = true
@@ -116,11 +111,15 @@ class EnvelopeView: UIView {
            remainingOpens == 0 {
             CustomSwiftMessages.showNoMoreOpensMessage()
         } else {
+            openButton.isEnabled = false
+            skipButton.isEnabled = false
             finishSwiping(.up)
         }
     }
     
     @IBAction func skipButtonDidtapped(_ sender: UIButton) {
+        openButton.isEnabled = false
+        skipButton.isEnabled = false
         delegate.didSkipMist(postId: postId)
     }
     
@@ -137,9 +136,7 @@ extension EnvelopeView {
         self.delegate = delegate
         self.titleLabel.text = post.title
         rerenderOpenCount()
-        self.titleLabelMaskingView.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by:0)
-        self.shadowViewMaskingView.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by:0)
-        shadowViewMaskViewHeightConstraint.constant = 0
+        self.titleShadowView.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by:0)
         layoutIfNeeded()
 //        panGesture.addTarget(self, action: #selector(handlePan(gestureRecognizer:)))
 //        mask(titleLabel, maskRect: CGRect(x: titleLabel.center.x, y: titleLabel.center.y, width: titleLabel.frame.width + 10, height: titleLabel.frame.height + 50))
@@ -218,11 +215,9 @@ extension EnvelopeView {
         switch direction {
         case .up:
             self.layoutIfNeeded()
+            let ytranslate = envelopeImageView.frame.height * 0.2
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut) {
-                self.shadowViewMaskViewHeightConstraint.constant = self.envelopeImageView.frame.height * 0.0750799
-                self.layoutIfNeeded()
-                self.titleLabelMaskingView.transform = CGAffineTransform(translationX: 0, y: -30)
-//                self.shadowViewMaskingView.transform = CGAffineTransform(translationX: 0, y: -30)
+                self.titleShadowView.transform = CGAffineTransform(translationX: 0, y: -ytranslate)
             } completion: { finished in
 //                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
 //                    self.delegate.didOpenMist(postId: self.postId)
@@ -232,8 +227,7 @@ extension EnvelopeView {
             UIView.animate(withDuration: 0.2,
                            delay: 0,
                            options: .curveEaseOut) {
-                self.titleLabelMaskingView.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by:0)
-//                self.shadowViewMaskingView.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by:0)
+                self.titleShadowView.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by:0)
             } completion: { finished in
                 
             }

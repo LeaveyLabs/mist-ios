@@ -134,7 +134,7 @@ class MistboxViewController: UIViewController {
         NSLayoutConstraint.activate([
             collectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
             collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            collectionView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -30),
+            collectionView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: view.frame.height * -0.02),
             collectionView.heightAnchor.constraint(equalToConstant: envelopeHeight),
         ])
     }
@@ -147,8 +147,14 @@ class MistboxViewController: UIViewController {
         visibleIndexLabel.font = UIFont(name: Constants.Font.Roman, size: 14)
         NSLayoutConstraint.activate([
             visibleIndexLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            visibleIndexLabel.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 15),
+            visibleIndexLabel.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: view.frame.height * 0.013),
         ])
+        
+        //so that text can shrink
+        titleButton.titleLabel?.minimumScaleFactor = 0.1
+        titleButton.titleLabel?.numberOfLines = 1
+        titleButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        titleButton.titleLabel?.lineBreakMode = NSLineBreakMode.byClipping
         
         //title button
         rerenderTitleText()
