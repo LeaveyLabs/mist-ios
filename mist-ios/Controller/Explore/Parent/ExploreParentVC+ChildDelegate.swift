@@ -14,13 +14,12 @@ extension ExploreParentViewController: ExploreChildDelegate {
     
     @MainActor
     func reloadData() {
-//        DispatchQueue.main.async { [self] in
-            exploreMapVC.selectedAnnotationView?.rerenderCalloutForUpdatedPostData()
-            exploreFeedVC.feed.reloadData()
-//        }
+        exploreFeedVC.feed.reloadData()
+        exploreMapVC.selectedAnnotationView?.rerenderCalloutForUpdatedPostData()
+        //the annotationView handle removing the postannotation if necessary
     }
     
-    func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType, customSetting: Setting? = nil) {
+    func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType) {
         //Feed scroll to top, on every reload. this should happen BEFORE the datasource for the feed is altered, in order to prevent a potential improper element access
         if reloadType != .firstLoad {
             if !exploreMapVC.postAnnotations.isEmpty {
@@ -32,23 +31,6 @@ extension ExploreParentViewController: ExploreChildDelegate {
         //Map camera travel, only on new searches
         exploreMapVC.removeExistingPlaceAnnotationsFromMap()
         exploreMapVC.removeExistingPostAnnotationsFromMap()
-        
-        //Get the right data
-        if let setting = customSetting {
-            if setting == .submissions {
-                posts = PostService.singleton.getSubmissions()
-            } else if setting == .favorites {
-                posts = PostService.singleton.getFavorites()
-            } else if setting == .mentions {
-                posts = PostService.singleton.getMentions()
-            }
-        } else {
-            posts = PostService.singleton.getExplorePosts()
-//            posts.append(contentsOf: PostService.singleton.getExplorePosts())
-//            posts.append(contentsOf: PostService.singleton.getExplorePosts())
-//            posts.append(contentsOf: PostService.singleton.getExplorePosts())
-        }
-        
         exploreMapVC.turnPostsIntoAnnotations(posts)
 
         //if at some point we decide to list out places in the feed results, too, then turnPlacesIntoAnnoations should be moved here

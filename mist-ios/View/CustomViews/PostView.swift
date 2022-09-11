@@ -128,7 +128,6 @@ extension PostView {
     
 }
 
-
 extension PostView {
     
     //MARK: - Setup

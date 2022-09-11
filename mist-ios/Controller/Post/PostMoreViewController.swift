@@ -140,7 +140,6 @@ class PostMoreViewController: UIViewController {
                     try await PostService.singleton.deletePost(postId: postId)
                     DispatchQueue.main.async { [self] in
                         dismiss(animated: true)
-                        deleteButton.isEnabled = true
                         postDelegate.handleDeletePost(postId: postId)
                     }
                 } catch {

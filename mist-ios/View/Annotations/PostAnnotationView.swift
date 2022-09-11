@@ -217,7 +217,17 @@ extension PostAnnotationView: AnnotationViewWithPosts {
     
     //The callout is currently presented, and we want to update the postView's UI with the new data
     func rerenderCalloutForUpdatedPostData() {
-        postCalloutView!.reconfigureVotes()
+        guard
+            let postCalloutView = postCalloutView,
+            let _ = PostService.singleton.getPost(withPostId: postCalloutView.postId)
+        else {
+            guard let deletedPostAnnotation = mapView?.annotations.first(where: { ($0 as? PostAnnotation)?.post.id == postCalloutView?.postId }) else {
+                return
+            }
+            mapView?.removeAnnotation(deletedPostAnnotation)
+            return
+        }
+        postCalloutView.reconfigureVotes()
     }
     
     func movePostUpAfterEmojiKeyboardRaised() {
