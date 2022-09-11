@@ -38,6 +38,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     
     //Flags
     var fromMistbox: Bool!
+    var didFailLoadingComments: Bool = false
         
     //Keyboard
     var shouldStartWithRaisedKeyboard: Bool!
@@ -427,6 +428,7 @@ extension PostViewController {
                     self?.updateMessageCollectionViewBottomInset()
                 }
             } catch {
+                didFailLoadingComments = true
                 CustomSwiftMessages.displayError(error)
                 DispatchQueue.main.async { [weak self] in
                     self?.activityIndicator.stopAnimating()
@@ -459,7 +461,10 @@ extension PostViewController {
 extension PostViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return activityIndicator.isAnimating ? 1 : comments.count + 2 //1 for post, 1 for comment header
+        if activityIndicator.isAnimating || didFailLoadingComments {
+            return 1
+        }
+        return comments.count + 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
