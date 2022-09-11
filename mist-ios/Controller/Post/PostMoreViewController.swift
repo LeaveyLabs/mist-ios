@@ -19,7 +19,7 @@ class PostMoreViewController: UIViewController {
     var postId: Int!
     var postAuthor: Int!
     
-    @IBOutlet weak var superUserVoteInflationSlider: UISlider!
+    @IBOutlet weak var superUserVoteInflationSlider: TapUISlider!
     @IBOutlet weak var superUserVoteInflationLabel: UILabel!
     
     class func create(postId: Int, postAuthor: Int, postDelegate: PostDelegate) -> PostMoreViewController {
@@ -62,6 +62,14 @@ class PostMoreViewController: UIViewController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+//        let longPress = UILongPressGestureRecognizer(target: self.slider, action: #selector(tapAndSlide(gesture: <#T##UILongPressGestureRecognizer#>)))
+//        longPress.minimumPressDuration = 0
+//        view.addGestureRecognizer(longPress)
+    }
+    
     func setupBackgroundView() {
         let dismissTap = UITapGestureRecognizer(target: self, action: #selector(closeButtonDidPressed(_:)))
         view.addGestureRecognizer(dismissTap)
@@ -75,7 +83,7 @@ class PostMoreViewController: UIViewController {
         if let touchEvent = event.allTouches?.first {
             switch touchEvent.phase {
             case .began:
-                break
+                handleSliderValChange()
             case .moved:
                 handleSliderValChange()
             case .ended:
@@ -151,4 +159,46 @@ class PostMoreViewController: UIViewController {
             }
         })
     }
+}
+
+class TapUISlider: UISlider {
+    
+    var trackRectWidth: CGFloat = 10
+    var thumbRectHorizontalOffset: CGFloat = 0
+    
+     private var thumbFrame: CGRect {
+         return thumbRect(forBounds: bounds, trackRect: trackRect(forBounds: bounds), value: value)
+     }
+
+
+    override func thumbRect(forBounds bounds: CGRect, trackRect rect: CGRect, value: Float) -> CGRect {
+        var newRect = super.thumbRect(forBounds: bounds, trackRect: rect, value: value)
+        print(bounds, rect)
+        newRect.origin.y = thumbRectHorizontalOffset
+        return newRect
+    }
+    
+    override func trackRect(forBounds bounds: CGRect) -> CGRect {
+       var newBounds = super.trackRect(forBounds: bounds)
+       newBounds.size.height = trackRectWidth
+       return newBounds
+    }
+    
+    @objc
+    private func sliderTapped(touch: UITouch) {
+        let point = touch.location(in: self)
+        let percentage = Float(point.x / self.bounds.width)
+        let delta = percentage * (self.maximumValue - self.minimumValue)
+        let newValue = self.minimumValue + delta
+        if newValue != self.value {
+            value = newValue
+            sendActions(for: .valueChanged)
+        }
+    }
+
+    override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        sliderTapped(touch: touch)
+        return true
+    }
+    
 }

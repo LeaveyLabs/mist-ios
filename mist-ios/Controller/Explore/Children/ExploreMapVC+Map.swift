@@ -44,15 +44,15 @@ extension ExploreMapViewController {
         mapDimensionButtonDidPressed(sender)
     }
     
-    @IBAction func exploreZoomInButtonDidPressed(_ sender: UIButton) {
-        dismissPost()
-        zoomInButtonDidPressed(sender)
-    }
+//    @IBAction func exploreZoomInButtonDidPressed(_ sender: UIButton) {
+//        dismissPost()
+//        zoomInButtonDidPressed(sender)
+//    }
     
-    @IBAction func exploreZoomOutButtonDidPressed(_ sender: UIButton) {
-        dismissPost()
-        zoomOutButtonDidPressed(sender)
-    }
+//    @IBAction func exploreZoomOutButtonDidPressed(_ sender: UIButton) {
+//        dismissPost()
+//        zoomOutButtonDidPressed(sender)
+//    }
     
     //MARK: AnnotationViewInteractionDelayPrevention
 

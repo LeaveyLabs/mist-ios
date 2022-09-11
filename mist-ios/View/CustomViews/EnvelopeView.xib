@@ -37,7 +37,7 @@
                     </constraints>
                     <color key="tintColor" name="mist-black"/>
                     <inset key="imageEdgeInsets" minX="3" minY="7" maxX="3" maxY="7"/>
-                    <state key="normal" image="bin.xmark" catalog="system">
+                    <state key="normal" image="trash" catalog="system">
                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default" weight="regular"/>
                     </state>
                     <connections>
@@ -121,8 +121,8 @@
         </view>
     </objects>
     <resources>
-        <image name="bin.xmark" catalog="system" width="128" height="93"/>
         <image name="envelope-graphic" width="1308" height="1528"/>
+        <image name="trash" catalog="system" width="121" height="128"/>
         <namedColor name="mist-black">
             <color red="0.066666666666666666" green="0.066666666666666666" blue="0.066666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

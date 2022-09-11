@@ -26,10 +26,8 @@ class MapViewController: UIViewController {
     @IBOutlet weak var mapView: MyMapView!
     @IBOutlet weak var userTrackingButton: UIButton!
     @IBOutlet weak var mapDimensionButton: UIButton!
-    @IBOutlet weak var zoomInButton: UIButton!
-    @IBOutlet weak var zoomOutButton: UIButton!
-    @IBOutlet weak var zoomStackView: UIStackView!
     @IBOutlet weak var trackingDimensionStackView: UIStackView!
+    @IBOutlet weak var zoomSlider: TapUISlider!
     
     // User location
     let locationManager = CLLocationManager()
@@ -86,6 +84,7 @@ class MapViewController: UIViewController {
         setupMapButtons()
         setupMapView()
         setupLocationManager()
+        setupZoomSlider()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -94,6 +93,56 @@ class MapViewController: UIViewController {
     }
     
     // MARK: - Setup
+    
+    @IBOutlet weak var zoomSliderGradientImageView: UIImageView!
+    func setupZoomSlider() {
+        zoomSlider.transform = CGAffineTransform(rotationAngle: -.pi/2)
+        zoomSlider.value = currentZoomSliderValue
+        zoomSlider.addTarget(self, action: #selector(onZoomSlide(slider:event:)), for: .valueChanged)
+        zoomSlider.trackRectWidth = 4
+        zoomSlider.thumbRectHorizontalOffset = -19
+        zoomSliderGradientImageView.alpha = 0.5
+        zoomSliderGradientImageView.applyMediumShadow()
+        zoomSlider.setThumbImage(UIImage(named: "thumb"), for: .normal)
+        zoomSlider.setThumbImage(UIImage(named: "thumb"), for: .highlighted)
+    }
+    
+    var currentZoomSliderValue: Float = 3
+    @objc func onZoomSlide(slider: UISlider, event: UIEvent) {
+        if let touchEvent = event.allTouches?.first {
+            switch touchEvent.phase {
+            case .began:
+                self.zoomSlider.maximumTrackTintColor = .clear
+                self.zoomSlider.minimumTrackTintColor = .clear
+                UIView.animate(withDuration: 0.3, delay: 0) {
+                    self.zoomSliderGradientImageView.alpha = 1
+                    self.zoomSlider.alpha = 1
+                }
+                isCameraZooming = true
+                handleZoomSliderValChange(previousZoom: currentZoomSliderValue, newZoom: zoomSlider.value)
+                break
+            case .moved:
+                handleZoomSliderValChange(previousZoom: currentZoomSliderValue, newZoom: zoomSlider.value)
+            case .ended:
+                UIView.animate(withDuration: 0.3) {
+                    self.zoomSliderGradientImageView.alpha = 0
+                    self.zoomSlider.alpha = 0.02
+                } completion: { completed in
+                    self.zoomSlider.minimumTrackTintColor = .white
+                    self.zoomSlider.maximumTrackTintColor = .white
+                }
+                handleZoomSliderValChange(previousZoom: currentZoomSliderValue, newZoom: zoomSlider.value)
+                isCameraZooming = false
+            default:
+                break
+            }
+        }
+        currentZoomSliderValue = zoomSlider.value
+    }
+    
+    func handleZoomSliderValChange(previousZoom: Float, newZoom: Float) {
+        mapView.camera.centerCoordinateDistance += Double(previousZoom - newZoom) * mapView.camera.centerCoordinateDistance * 2
+    }
     
     func moveMapLegalLabel() {
         mapView.subviews.first { "\(type(of: $0))" == "MKAttributionLabel" }?.frame.origin.y = mapView.frame.maxY + 4.0 - mapViewLegalLabelYOffset
@@ -133,10 +182,6 @@ class MapViewController: UIViewController {
     }
     
     private func setupMapButtons() {
-        zoomInButton.roundCorners(corners: [.topLeft, .topRight], radius: 10)
-        zoomOutButton.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 10)
-        applyShadowOnView(zoomStackView)
-        
         mapDimensionButton.roundCorners(corners: [.topLeft, .bottomLeft], radius: 10)
         userTrackingButton.roundCorners(corners: [.topRight, .bottomRight], radius: 10)
         applyShadowOnView(trackingDimensionStackView)
@@ -229,33 +274,35 @@ extension MapViewController {
         }
     }
     
-    @IBAction func zoomInButtonDidPressed(_ sender: UIButton) {
-        let analyticsTitle = "zoomInButtonDidPressed"
-        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-          AnalyticsParameterItemID: "id-\(analyticsTitle)",
-          AnalyticsParameterItemName: analyticsTitle,
-        ])
-        
-        zoomByAFactorOf(0.25) {
-            self.view.isUserInteractionEnabled = true //in case the user scrolled map before pressing
-        }
-    }
+//    @IBAction func zoomInButtonDidPressed(_ sender: UIButton) {
+//        let analyticsTitle = "zoomInButtonDidPressed"
+//        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+//          AnalyticsParameterItemID: "id-\(analyticsTitle)",
+//          AnalyticsParameterItemName: analyticsTitle,
+//        ])
+//
+//        zoomByAFactorOf(0.25) {
+//            self.view.isUserInteractionEnabled = true //in case the user scrolled map before pressing
+//        }
+//    }
     
-    @IBAction func zoomOutButtonDidPressed(_ sender: UIButton) {
-        let analyticsTitle = "zoomOutButtonDidPressed"
-        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-          AnalyticsParameterItemID: "id-\(analyticsTitle)",
-          AnalyticsParameterItemName: analyticsTitle,
-        ])
-        
-        zoomByAFactorOf(4) {
-            self.view.isUserInteractionEnabled = true //in case the user scrolled map before pressing
-        }
-    }
+//    @IBAction func zoomOutButtonDidPressed(_ sender: UIButton) {
+//        let analyticsTitle = "zoomOutButtonDidPressed"
+//        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+//          AnalyticsParameterItemID: "id-\(analyticsTitle)",
+//          AnalyticsParameterItemName: analyticsTitle,
+//        ])
+//
+//        zoomByAFactorOf(4) {
+//            self.view.isUserInteractionEnabled = true //in case the user scrolled map before pressing
+//        }
+//    }
     
 }
 
 //MARK: - MKMapViewDelegate
+
+var cameraDistance: Double = 0
 
 extension MapViewController: MKMapViewDelegate {
     
@@ -270,11 +317,24 @@ extension MapViewController: MKMapViewDelegate {
             isCameraFlyingOutAndIn = false //so that on the next call of regionDidChangeAnimated, aka when the camera is done flying back in, isCameraFlying will be set to false
             //note: this doesnt work for more than one chaining... for that. you'll have to set isCameraFlyingOutAndIn in the last animation block
         }
+        
+        if !zoomSlider.isTracking {
+            UIView.animate(withDuration: 0.3) {
+                self.zoomSlider.alpha = 0.02
+                self.zoomSliderGradientImageView.alpha = 0.3
+            }
+        }
     }
     
     //This could be useful, i'm not using this function at all up until now
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         moveMapLegalLabel()
+        
+//        if !zoomSlider.isTracking {
+//            UIView.animate(withDuration: 0.3) {
+//                self.zoomSliderGradientImageView.alpha = 1
+//            }
+//        }
     }
 
     //updates continuously throughout user drag
@@ -284,27 +344,25 @@ extension MapViewController: MKMapViewDelegate {
         let zoom = mapView.camera.centerCoordinateDistance //centerCoordinateDistance takes pitch into account
         
         // Limit minimum pitch. Doing this because of weird behavior with clicking on posts from a pitch less than 50
-        
         if mapView.camera.pitch > maxCameraPitch && !modifyingMap {
             modifyingMap = true
             mapView.camera.pitch = maxCameraPitch
             modifyingMap = false
         }
         
-        // Automatically reduce the pitch while zooming out
-        //once i click on post, or when i click 2d/3d button, this just stops working
-        //this is also called incorrectly when youre roughly 1000 distance away and you manually adjust the pitch (since adjusting pitch also adjusts zoom)
-//        if zoom > 1000 && prevZoom < 1000 && !modifyingMap && !cameraIsFlying {
-//            print("REDUCE PITCH")
-//            modifyingMap = true
-////            mapView.camera.pitch = 0
-//            mapView.camera = MKMapCamera(lookingAtCenter: mapView.camera.centerCoordinate,
-//                                         fromDistance: mapView.camera.centerCoordinateDistance,
-//                                         pitch: 0,
-//                                         heading: mapView.camera.heading)
-//            //try setting the whole camera to something new?
-//            modifyingMap = false
-//        }
+        //DONT do this on scroll did begin
+        if abs(cameraDistance - mapView.camera.centerCoordinateDistance) > 1 {
+            print(zoomSliderGradientImageView.alpha)
+            if zoomSliderGradientImageView.alpha < 0.35 {
+                UIView.animate(withDuration: 0.3) {
+                    self.zoomSliderGradientImageView.alpha = 1
+                }
+            }
+            //update the side indicator value?
+//            let asdf = pow(mapView.camera.centerCoordinateDistance, (1/10)) - 0.5
+//            zoomSlider.value = Float(1 - asdf)
+        }
+        cameraDistance = mapView.camera.centerCoordinateDistance
         
         // If the mapView frame is moving but the camera isn't programatically flying
         // Aka: if the user zooms/pans the map
