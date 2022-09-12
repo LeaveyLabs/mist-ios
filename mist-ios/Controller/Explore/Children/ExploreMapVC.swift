@@ -7,6 +7,7 @@
 
 import UIKit
 import MapKit
+import CenteredCollectionView
 
 // MARK: - Properties
 
@@ -26,7 +27,16 @@ class ExploreMapViewController: MapViewController {
     //Flags
     var annotationSelectionType: AnnotationSelectionType = .normal
         
-    // Map
+    // CollectionView
+//    let centeredCollectionViewFlowLayout = CenteredCollectionViewFlowLayout()
+//    var collectionView: PostCollectionView?
+//    var currentlyVisiblePostIndex: Int?
+//
+//    lazy var MAP_VIEW_WIDTH: Double = Double(mapView?.bounds.width ?? 350)
+//    lazy var POST_VIEW_WIDTH: Double = MAP_VIEW_WIDTH * 0.5 + 100
+//    lazy var POST_VIEW_MARGIN: Double = (MAP_VIEW_WIDTH - POST_VIEW_WIDTH) / 2
+//    lazy var POST_VIEW_MAX_HEIGHT: Double = (((mapView?.frame.height ?? 500) * 0.75) - 110.0)
+    
     var selectedAnnotationView: AnnotationViewWithPosts? {
         didSet {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in //because we might immediately deselect and select
@@ -117,29 +127,15 @@ extension ExploreMapViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false) //for a better searchcontroller animation
-//        reloadData()
-//
-//        //Emoji keyboard autodismiss notification
-//        NotificationCenter.default.addObserver(self,
-//            selector: #selector(keyboardWillChangeFrame),
-//            name: UIResponder.keyboardWillShowNotification,
-//            object: nil)
-//
-//        NotificationCenter.default.addObserver(self,
-//            selector: #selector(keyboardWillDismiss(sender:)),
-//            name: UIResponder.keyboardWillHideNotification,
-//            object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-//        NotificationCenter.default.removeObserver(self)
         navigationController?.setNavigationBarHidden(false, animated: false) //for a better searchcontroller animation
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        enableInteractivePopGesture()
         moveMapLegalLabel()
         
         // Handle controller being exposed from push/present or pop/dismiss
@@ -154,212 +150,53 @@ extension ExploreMapViewController {
     
 }
 
-//MARK: - Getting / refreshing posts
+//MARK: - CollectionView
 
 extension ExploreMapViewController {
     
-//    func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType, customSetting: Setting? = nil) {
-//        //Feed scroll to top, on every reload. this should happen BEFORE the datasource for the feed is altered, in order to prevent a potential improper element access
-//        if reloadType != .firstLoad {
-//            if !postAnnotations.isEmpty {
-//                feed.isUserInteractionEnabled = false
-//                feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-//                feed.isUserInteractionEnabled = true
-//            }
-//        }
-//        //Map camera travel, only on new searches
+//    func setupCollectionView() {
+//        collectionView = PostCollectionView(centeredCollectionViewFlowLayout: centeredCollectionViewFlowLayout)
+//        guard let collectionView = collectionView else { return }
+//        self.postDelegate = postDelegate
 //
-//        removeExistingPlaceAnnotationsFromMap()
-//        removeExistingPostAnnotationsFromMap()
-//        //Both data update
-//        if let setting = customSetting {
-//            if setting == .submissions {
-//                turnPostsIntoAnnotations(PostService.singleton.getSubmissions())
-//            } else if setting == .favorites {
-//                turnPostsIntoAnnotations(PostService.singleton.getFavorites())
-//            } else if setting == .mentions {
-//                turnPostsIntoAnnotations(PostService.singleton.getMentions())
-//            } else if setting == .mistbox {
-//                turnPostsIntoAnnotations(PostService.singleton.getMistboxPosts())
-//            }
+//        collectionView.backgroundColor = UIColor.clear
+//        collectionView.delegate = self
+//        collectionView.dataSource = self
+//        collectionView.translatesAutoresizingMaskIntoConstraints = false
+//        collectionView.clipsToBounds = false
+//        addSubview(collectionView)
+//
+//        // register collection cells
+//        collectionView.register( ClusterCarouselCell.self, forCellWithReuseIdentifier: String(describing: ClusterCarouselCell.self))
+//
+//        // configure layout
+//        centeredCollectionViewFlowLayout.itemSize = CGSize(
+//            width: POST_VIEW_WIDTH,
+//            height: POST_VIEW_MAX_HEIGHT - 20
+//        )
+//        centeredCollectionViewFlowLayout.minimumLineSpacing = 16
+//        collectionView.showsVerticalScrollIndicator = false
+//        collectionView.showsHorizontalScrollIndicator = false
+//        
+//        //SHOOOOTTTT: okay i got an error for constraining collectionView's width to the mapview because collection view (and its parent) werent a part of the mapview yet. so the annotation was clicked on too soon before it was even properly added to the map view
+//        NSLayoutConstraint.activate([
+//            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -60),
+//            collectionView.widthAnchor.constraint(equalToConstant: MAP_VIEW_WIDTH),
+//            collectionView.heightAnchor.constraint(equalToConstant: POST_VIEW_MAX_HEIGHT + 15), //15 for the bottom arrow
+//            collectionView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
+//        ])
+//        
+//        if let previouslyVisiblePostIndex = currentlyVisiblePostIndex {
+//            print(previouslyVisiblePostIndex)
+//            collectionView.setNeedsLayout()
+//            collectionView.layoutIfNeeded()
+//            let index = IndexPath(item: previouslyVisiblePostIndex, section: 0)
+//            collectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
 //        } else {
-//            turnPostsIntoAnnotations(PostService.singleton.getExplorePosts())
+//            currentlyVisiblePostIndex = 0
 //        }
-//        //if at some point we decide to list out places in the feed results, too, then turnPlacesIntoAnnoations should be moved here
-//        //the reason we don't need to rn is because the feed is not dependent on place data, just post data, and we should scroll to top of feed before refreshing the data
-//
-//        if reloadType == .newSearch {
-//            mapView.region = getRegionCenteredAround(postAnnotations + placeAnnotations) ?? PostService.singleton.getExploreFilter().region
-//        }
-//
-//        //Feed visual update
-//        feed.reloadData()
-//        //Map visual update
-//        mapView.addAnnotations(placeAnnotations)
-//        mapView.addAnnotations(postAnnotations)
+//        collectionView.alpha = 0
+//        collectionView.isHidden = true
+//        collectionView.fadeIn(duration: 0.1, delay: 0)
 //    }
-    
 }
-
-// MARK: - Toggle
-
-extension ExploreMapViewController {
-    
-//    func toggleButtonDidTapped() {
-//        reloadData()
-//        if isFeedVisible {
-//            makeMapVisible()
-//            view.endEditing(true)
-//        } else {
-//            makeFeedVisible()
-//            view.endEditing(true)
-//        }
-//    }
-//
-//    // Called upon every viewWillAppear and map/feed toggle
-//    func reloadData() {
-//        DispatchQueue.main.async {
-//            self.selectedAnnotationView?.rerenderCalloutForUpdatedPostData()
-//            self.feed.reloadData()
-//        }
-//    }
-        
-//    func makeFeedVisible() {
-//        feed.alpha = 0
-//        view.insertSubview(feed, belowSubview: customNavBar)
-//        view.isUserInteractionEnabled = false
-//        UIView.animate(withDuration: 0.1, delay: 0, options: .curveLinear) {
-//            self.feed.alpha = 1
-//        } completion: { [self] completed in
-//            isFeedVisible = true
-//            view.isUserInteractionEnabled = true
-//        }
-//    }
-//
-//    func makeMapVisible() {
-//        feed.alpha = 1
-//        view.isUserInteractionEnabled = false
-//        UIView.animate(withDuration: 0.1, delay: 0, options: .curveLinear) {
-//            self.feed.alpha = 0
-//        } completion: { [self] completed in
-//            view.sendSubviewToBack(feed)
-//            isFeedVisible = false
-//            view.isUserInteractionEnabled = true
-//
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                guard !hasRequestedLocationPermissionsDuringAppSession else { return }
-//                self.requestUserLocationPermissionIfNecessary()
-//                hasRequestedLocationPermissionsDuringAppSession = true
-//            }
-//
-//        }
-//    }
-    
-}
-//
-////MARK: - Post Delegation
-//
-//extension ExploreViewController: PostDelegate {
-//    
-//    func handleVote(postId: Int, emoji: String, action: VoteAction) {
-//        // viewController update
-////        let index = postAnnotations.firstIndex { $0.post.id == postId }!
-//                
-//        // Singleton & remote update
-//        do {
-//            try VoteService.singleton.handlePostVoteUpdate(postId: postId, emoji: emoji, action)
-//        } catch {
-//            reloadData() //reloadData to ensure undos are visible
-//            CustomSwiftMessages.displayError(error)
-//        }
-//    }
-//    
-//    func handleBackgroundTap(postId: Int) {
-//        view.endEditing(true)
-//        let tappedPostAnnotation = postAnnotations.first { $0.post.id == postId }!
-//        sendToPostViewFor(tappedPostAnnotation.post, withRaisedKeyboard: false)
-//    }
-//    
-//    func handleCommentButtonTap(postId: Int) {
-//        view.endEditing(true)
-//        let tappedPostAnnotation = postAnnotations.first { $0.post.id == postId }!
-//        sendToPostViewFor(tappedPostAnnotation.post, withRaisedKeyboard: true)
-//    }
-//    
-//    // Helpers
-//    
-//    func sendToPostViewFor(_ post: Post, withRaisedKeyboard: Bool) {
-//        let postVC = PostViewController.createPostVC(with: post, shouldStartWithRaisedKeyboard: withRaisedKeyboard) { updatedPost in
-//            //TODO: experimental. we dont need to update postannotations anymore
-//            //Update data to prepare for the next reloadData() upon self.willAppear()
-////            let index = postAnnotations.firstIndex { $0.post.id == updatedPost.id }!
-////            postAnnotations[index].post = updatedPost
-//        }
-//            navigationController!.pushViewController(postVC, animated: true)
-//    }
-//    
-//    func handleDeletePost(postId: Int) {
-//        renderNewPostsOnFeedAndMap(withType: .refresh)
-//    }
-//    
-//    //MARK: - React interaction
-//    
-//    func handleReactTap(postId: Int) {
-//        //feed's data source is postAnnotations as of now
-//        reactingPostIndex = postAnnotations.firstIndex { $0.post.id == postId }
-//        isKeyboardForEmojiReaction = true
-//    }
-//    
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        view.endEditing(true)
-//        guard let postView = textField.superview as? PostView else { return false }
-//        if !string.isSingleEmoji { return false }
-//        postView.handleEmojiVote(emojiString: string)
-//        return false
-//    }
-//    
-//    @objc func keyboardWillChangeFrame(sender: NSNotification) {
-//        let i = sender.userInfo!
-//        let previousK = keyboardHeight
-//        keyboardHeight = (i[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height
-//        
-//        ///don't dismiss the keyboard when toggling to emoji search, which hardly (~1px) lowers the keyboard
-//        /// and which does lower the keyboard at all (0px) on largest phones
-//        ///do dismiss it when toggling to normal keyboard, which more significantly (~49px) lowers the keyboard
-//        if keyboardHeight < previousK - 5 { //keyboard is going from emoji keyboard to regular keyboard
-//            view.endEditing(true)
-//        }
-//        
-//        if keyboardHeight == previousK && isKeyboardForEmojiReaction {
-//            //already reacting to one post, tried to react on another post
-//            isKeyboardForEmojiReaction = false
-//            if isFeedVisible {
-//                if let reactingPostIndex = reactingPostIndex {
-//                    scrollFeedToPostRightAboveKeyboard(reactingPostIndex)
-//                }
-//            }
-//        }
-//        
-//        if keyboardHeight > previousK && isKeyboardForEmojiReaction { //keyboard is appearing for the first time && we don't want to scroll the feed when the search controller keyboard is presented
-//            isKeyboardForEmojiReaction = false
-//            if isFeedVisible {
-//                if let reactingPostIndex = reactingPostIndex {
-//                    scrollFeedToPostRightAboveKeyboard(reactingPostIndex)
-//                }
-//            } else {
-//                if let postAnnotationView = selectedAnnotationView, keyboardHeight > 100 { //keyboardHeight of 90 appears with postVC keyboard
-//                    postAnnotationView.movePostUpAfterEmojiKeyboardRaised()
-//                }
-//            }
-//        }
-//    }
-//        
-//    @objc func keyboardWillDismiss(sender: NSNotification) {
-//        keyboardHeight = 0
-//        //DONT DO THE FOLLOWING IF THEY"RE CURRENTLY DRAGGING
-//        if let postAnnotationView = selectedAnnotationView { //!postAnnotationView.isPanning { this was useful when we allowed swiping between postsAnnotationViews. not needed anymore
-//            postAnnotationView.movePostBackDownAfterEmojiKeyboardDismissed()
-//        }
-//    }
-//
-//}

@@ -43,16 +43,26 @@ func isUpdateAvailable(completion: @escaping (Bool?, Error?) -> Void) throws -> 
         let url = URL(string: "https://itunes.apple.com/lookup?bundleId=\(identifier)") else {
             throw VersionError.invalidBundleInfo
     }
-    print(currentVersion)
+    print("CURRENT", currentVersion)
     let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
         do {
             if let error = error { throw error }
             guard let data = data else { throw VersionError.invalidResponse }
             let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? [String: Any]
-            guard let result = (json?["results"] as? [Any])?.first as? [String: Any], let version = result["version"] as? String else {
+            guard let result = (json?["results"] as? [Any])?.first as? [String: Any], let newestVersion = result["version"] as? String else {
                 throw VersionError.invalidResponse
             }
-            completion(version != currentVersion, nil)
+            let currentComponents: [Int] = currentVersion.components(separatedBy: ".").compactMap { Int($0) }
+            let newestComponents: [Int] = newestVersion.components(separatedBy: ".").compactMap { Int($0) }
+            guard currentComponents.count == 3, newestComponents.count == 3 else { return }
+            if newestComponents[0] > currentComponents[0]  {
+                completion(true, nil)
+            } else if newestComponents[1] > currentComponents[1] {
+                completion(true, nil)
+            } else if newestComponents[2] > currentComponents[2] {
+                completion(true, nil)
+            }
+            completion(false, nil)
         } catch {
             completion(nil, error)
         }
@@ -84,11 +94,11 @@ class LoadingViewController: UIViewController {
     }
     
     func checkForNewUpdate() {
-        _ = try? isUpdateAvailable { (update, error) in
+        _ = try? isUpdateAvailable { (isUpdateAvailable, error) in
             if let error = error {
                 print(error)
-            } else if let update = update {
-                print(update)
+            } else if let isUpdateAvailable = isUpdateAvailable {
+                guard isUpdateAvailable else { return }
                 self.wasUpdateFoundAvailable = true
                 CustomSwiftMessages.showUpdateAvailableCard()
             }
