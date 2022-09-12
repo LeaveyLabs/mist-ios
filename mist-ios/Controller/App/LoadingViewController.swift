@@ -43,7 +43,6 @@ func isUpdateAvailable(completion: @escaping (Bool?, Error?) -> Void) throws -> 
         let url = URL(string: "https://itunes.apple.com/lookup?bundleId=\(identifier)") else {
             throw VersionError.invalidBundleInfo
     }
-    print("CURRENT", currentVersion)
     let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
         do {
             if let error = error { throw error }
@@ -55,14 +54,19 @@ func isUpdateAvailable(completion: @escaping (Bool?, Error?) -> Void) throws -> 
             let currentComponents: [Int] = currentVersion.components(separatedBy: ".").compactMap { Int($0) }
             let newestComponents: [Int] = newestVersion.components(separatedBy: ".").compactMap { Int($0) }
             guard currentComponents.count == 3, newestComponents.count == 3 else { return }
-            if newestComponents[0] > currentComponents[0]  {
+            //we need the == check in the following else ifs in case the apple testers are testing on 3.0.0 but 2.9.9 is available in the app store
+            if newestComponents[0] > currentComponents[0]{
                 completion(true, nil)
-            } else if newestComponents[1] > currentComponents[1] {
+            } else if newestComponents[0] == currentComponents[0] &&
+                    newestComponents[1] > currentComponents[1] {
                 completion(true, nil)
-            } else if newestComponents[2] > currentComponents[2] {
+            } else if newestComponents[0] == currentComponents[0] &&
+                        newestComponents[1] == currentComponents[1] &&
+                        newestComponents[2] > newestComponents[2] {
                 completion(true, nil)
+            } else {
+                completion(false, nil)
             }
-            completion(false, nil)
         } catch {
             completion(nil, error)
         }
