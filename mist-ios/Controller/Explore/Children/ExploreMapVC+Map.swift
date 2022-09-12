@@ -180,6 +180,14 @@ extension ExploreMapViewController {
         selectedAnnotationView = nil
     }
     
+    override func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        super.mapView(mapView, regionDidChangeAnimated: animated)
+        if selectedAnnotationView != nil {
+            zoomSliderGradientImageView.layer.removeAllAnimations()
+            self.zoomSliderGradientImageView.alpha = 0
+        }
+    }
+    
     override func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
         super.mapViewDidChangeVisibleRegion(mapView)
         

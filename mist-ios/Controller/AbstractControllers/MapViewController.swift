@@ -46,6 +46,7 @@ class MapViewController: UIViewController {
         }
     }
     
+    var cameraDistance: Double = 0
     var isCameraZooming: Bool = false
     var modifyingMap: Bool = false
     var latitudeOffsetForOneKMDistance: Double = 0.00133
@@ -89,6 +90,7 @@ class MapViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        cameraDistance = mapView.camera.centerCoordinateDistance
         moveMapLegalLabel()
     }
     
@@ -101,6 +103,8 @@ class MapViewController: UIViewController {
         zoomSlider.addTarget(self, action: #selector(onZoomSlide(slider:event:)), for: .valueChanged)
         zoomSlider.tintColor = .clear
         zoomSlider.thumbTintColor = .clear
+        zoomSlider.minimumTrackTintColor = .clear
+        zoomSlider.maximumTrackTintColor = .clear
         zoomSliderGradientImageView.alpha = 0.3
         zoomSliderGradientImageView.applyMediumShadow()
 //        zoomSlider.setThumbImage(UIImage(named: "thumb"), for: .normal)
@@ -273,8 +277,6 @@ extension MapViewController {
 
 //MARK: - MKMapViewDelegate
 
-var cameraDistance: Double = 0
-
 extension MapViewController: MKMapViewDelegate {
     
     // Updates after each view change is completed
@@ -291,7 +293,6 @@ extension MapViewController: MKMapViewDelegate {
         
         if !zoomSlider.isTracking {
             UIView.animate(withDuration: 0.3) {
-                self.zoomSlider.alpha = 0.02
                 self.zoomSliderGradientImageView.alpha = 0.3
             }
         }
@@ -315,7 +316,7 @@ extension MapViewController: MKMapViewDelegate {
             modifyingMap = false
         }
         
-        if abs(cameraDistance - mapView.camera.centerCoordinateDistance) > 5 {
+        if abs(cameraDistance - mapView.camera.centerCoordinateDistance) > 5 && !isCameraFlying {
             print(zoomSliderGradientImageView.alpha)
             if zoomSliderGradientImageView.alpha < 0.35 {
                 UIView.animate(withDuration: 0.3) {
