@@ -173,19 +173,19 @@ extension CustomSwiftMessages {
                 emoji = "＠"
                 messageView.customConfig(approveText: "share", dismissText: "nah")
             case .dmNotificationsAfterDm:
-                title = "would you like to turn on notifications?"
-                body = "find out when they get back with you"
-                emoji = "📬"
+                title = "enable notifications"
+                body = "find out when they\nget back with you"
+                emoji = "💬"
                 messageView.customConfig(approveText: "of course", dismissText: "nah")
             case .dmNotificationsAfterNewPost:
-                title = "would you like to turn on notifications?"
-                body = "find out when someone replies to your mist 😯👀"
-                emoji = "📬"
+                title = "enable notifications"
+                body = "find out when someone replies to your mist 👀"
+                emoji = "💌"
                 messageView.customConfig(approveText: "of course", dismissText: "i'd rather mist out")
             case .mistboxNotifications:
                 title = "enable notifications"
-                body = "now that you've set up your keywords, find out whenever someone drops a mist with them"
-                emoji = "📬"
+                body = "find out when someone drops a mist with one of your keywords"
+                emoji = "💌"
                 messageView.customConfig(approveText: "of course", dismissText: "i'd rather mist out")
             case .newpostUserLocation:
                 title = "mists require a location"

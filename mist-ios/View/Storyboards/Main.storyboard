@@ -3616,6 +3616,85 @@
             </objects>
             <point key="canvasLocation" x="2174" y="2314"/>
         </scene>
+        <!--Post More View Controller-->
+        <scene sceneID="rID-6o-H8Q">
+            <objects>
+                <viewController storyboardIdentifier="ExploreFilterViewController" id="Mdh-79-yS3" customClass="PostMoreViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JnB-lo-7ZX">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eXE-GW-qJC">
+                                <rect key="frame" x="0.0" y="694" width="390" height="150"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="4E6-oR-e7F">
+                                        <rect key="frame" x="10" y="10" width="370" height="120"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k73-Ev-zkU" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="150" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="G6N-io-JI6"/>
+                                                    <constraint firstAttribute="width" constant="150" id="GHU-Bx-j9G"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                                <color key="tintColor" name="mist-black"/>
+                                                <inset key="titleEdgeInsets" minX="33" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="from a friend" image="bookmark" catalog="system">
+                                                    <color key="titleColor" name="mist-black"/>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="favoriteButtonDidpressed:" destination="Mdh-79-yS3" eventType="touchUpInside" id="xaa-ke-yJb"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ikk-fv-5Mx">
+                                                <rect key="frame" x="0.0" y="50" width="51" height="70"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="4Yt-J6-ggu"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                                <color key="tintColor" name="mist-black"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="close">
+                                                    <color key="titleColor" name="mist-black"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="closeButtonDidPressed:" destination="Mdh-79-yS3" eventType="touchUpInside" id="beH-7h-gFr"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="4E6-oR-e7F" secondAttribute="trailing" constant="10" id="Pph-7m-ydQ"/>
+                                    <constraint firstItem="4E6-oR-e7F" firstAttribute="top" secondItem="eXE-GW-qJC" secondAttribute="top" constant="10" id="VAl-jO-jLy"/>
+                                    <constraint firstAttribute="bottom" secondItem="4E6-oR-e7F" secondAttribute="bottom" constant="20" symbolic="YES" id="fyB-e0-OxZ"/>
+                                    <constraint firstItem="4E6-oR-e7F" firstAttribute="leading" secondItem="eXE-GW-qJC" secondAttribute="leading" constant="10" id="udf-5g-aq6"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vhN-BW-paZ"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="eXE-GW-qJC" secondAttribute="trailing" id="OSc-Ci-4yf"/>
+                            <constraint firstAttribute="bottom" secondItem="eXE-GW-qJC" secondAttribute="bottom" id="hLy-nA-vvj"/>
+                            <constraint firstItem="eXE-GW-qJC" firstAttribute="leading" secondItem="JnB-lo-7ZX" secondAttribute="leading" id="pa5-k4-lGr"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="backgroundView" destination="eXE-GW-qJC" id="vO4-UW-SHv"/>
+                        <outlet property="closeButton" destination="ikk-fv-5Mx" id="CwO-Ru-oph"/>
+                        <outlet property="favoriteButton" destination="k73-Ev-zkU" id="rBA-JO-eLg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RDR-Do-oVu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="760" y="2314"/>
+        </scene>
     </scenes>
     <color key="tintColor" name="mist-black"/>
     <resources>

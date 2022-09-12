@@ -35,7 +35,8 @@ class DeviceService: NSObject {
     func hasBeenRequestedContactsBeforeTagging() -> Bool { return device.hasBeenRequestedContactsBeforeTagging }
     func hasBeenRequestedContactsOnPost() -> Bool { return device.hasBeenRequestedContactsOnPost }
     func hasBeenOfferedNotificationsAfterPost() -> Bool { return device.hasBeenOfferedNotificationsAfterPost }
-    func hasBeenOfferedNotificationsAfterDM() -> Bool { return device.hasBeenOfferedNotificationsAfterDM }
+    func hasBeenOfferedNotificationsAfterDM() -> Bool {
+        return device.hasBeenOfferedNotificationsAfterDM }
     func hasBeenOfferedNotificationsBeforeMistbox() -> Bool { return device.hasBeenOfferedNotificationsBeforeMistbox }
     func hasBeenRequestedARating() -> Bool { return device.hasBeenRequestedARating }
     func hasBeenRequestedLocationOnHome() -> Bool { return device.hasBeenRequestedLocationOnHome }

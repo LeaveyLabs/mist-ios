@@ -74,7 +74,8 @@ class MistboxViewController: UIViewController {
         if hasAppearedOnce && !isPostPushed {
             collectionView.reloadData()
             rerenderTitleText()
-            reloadVisibleIndexLabel()
+            updateCenteredPageAndReloadVisibleIndexLabel()
+            updateUI()
         }
         if let tabVC = UIApplication.shared.windows.first?.rootViewController as? SpecialTabBarController {
             tabVC.refreshBadgeCount()
@@ -159,7 +160,7 @@ class MistboxViewController: UIViewController {
         //title button
         rerenderTitleText()
         
-        reloadVisibleIndexLabel()
+        updateCenteredPageAndReloadVisibleIndexLabel()
         
         //keywordsButton
         keywordsBackgroundView.applyLightMediumShadow()
@@ -191,7 +192,7 @@ class MistboxViewController: UIViewController {
             if MistboxManager.shared.hasUserActivatedMistbox {
                 setupEmptyLayout()
                 //don't increment the notification request here, since this is a default one
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                     NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .mistboxNotifications, onVC: self)
                 }
             } else {
@@ -307,10 +308,7 @@ extension MistboxViewController: UICollectionViewDataSource {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if let centeredPage = centeredCollectionViewFlowLayout.currentCenteredPage {
-            currentVisibleIndex = centeredPage
-        }
-        reloadVisibleIndexLabel()
+        updateCenteredPageAndReloadVisibleIndexLabel()
     }
     
 }
@@ -343,14 +341,15 @@ extension MistboxViewController: MistboxCellDelegate {
         let openedPostVC = PostViewController.createPostVC(with: post, shouldStartWithRaisedKeyboard: false, fromMistbox: true, completionHandler: {
             self.visuallyRemoveMist(postIndex: postIndex)
             self.isPostPushed = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
-                AppStoreReviewManager.requestReviewIfAppropriate()
+            
+            if MistboxManager.shared.getRemainingOpens() == 3 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + (MistboxManager.shared.getMistboxMists().count == 0 ? 1 : 0.65)) {
+                    AppStoreReviewManager.requestReviewIfAppropriate()
+                    AppStoreReviewManager.offerViewPromptUponUserRequest()
+                }
             }
         })
-        navigationController?.pushViewController(openedPostVC, animated: true) { [self] in
-            (tabBarController as? SpecialTabBarController)?.decrementMistboxBadgeCount()
-        }
-        
+        navigationController?.pushViewController(openedPostVC, animated: true)
     }
     
     //MARK: - HELPERS
@@ -361,23 +360,32 @@ extension MistboxViewController: MistboxCellDelegate {
             guard let cell = cell as? MistboxCollectionCell else { return }
             cell.envelopeView.rerenderOpenCount()
         }
+        
+        if MistboxManager.shared.getMistboxMists().count == 0 { //to accompany the final mist disappearing animation
+            UIView.animate(withDuration: 0.2) {
+                self.titleButton.alpha = 0
+                self.visibleIndexLabel.alpha = 0
+            }
+        }
 
         collectionView.performBatchUpdates({
             self.collectionView.deleteItems(at:[IndexPath(item: postIndex, section: 0)])
         }) { completed in
             guard !MistboxManager.shared.getMistboxMists().isEmpty else {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [self] in
+                DispatchQueue.main.asyncAfter(deadline: .now()) { [self] in
                     self.updateUI()
                 }
                 return
             }
-            self.reloadVisibleIndexLabel()
+            self.updateCenteredPageAndReloadVisibleIndexLabel()
             self.rerenderTitleText()
-            
         }
     }
     
-    func reloadVisibleIndexLabel() {
+    func updateCenteredPageAndReloadVisibleIndexLabel() {
+        if let centeredPage = centeredCollectionViewFlowLayout.currentCenteredPage {
+            currentVisibleIndex = centeredPage
+        }
         visibleIndexLabel.text = String(currentVisibleIndex + 1) + "/" + String(MistboxManager.shared.getMistboxMists().count)
     }
     

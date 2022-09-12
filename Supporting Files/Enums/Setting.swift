@@ -147,7 +147,7 @@ enum Setting {
         case .settings:
             settingsTapDelegate.handleSettings(setting: self)
         case .rateMist:
-            AppStoreReviewManager.requestReviewIfAppropriate()
+            AppStoreReviewManager.offerViewPromptUponUserRequest()
         case .leaveReview:
             settingsTapDelegate.handleLeaveReview()
         case .myProfile:

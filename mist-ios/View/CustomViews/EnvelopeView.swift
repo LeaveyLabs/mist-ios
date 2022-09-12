@@ -115,6 +115,10 @@ class EnvelopeView: UIView {
             skipButton.isEnabled = false
             finishSwiping(.up)
         }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in //just in case the envelope doesnt get rerendered properly for some unknown reason
+            self?.openButton.isEnabled = true
+            self?.skipButton.isEnabled = true
+        }
     }
     
     @IBAction func skipButtonDidtapped(_ sender: UIButton) {
@@ -219,9 +223,9 @@ extension EnvelopeView {
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut) {
                 self.titleShadowView.transform = CGAffineTransform(translationX: 0, y: -ytranslate)
             } completion: { finished in
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-//                    self.delegate.didOpenMist(postId: self.postId)
-//                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    self.delegate.didOpenMist(postId: self.postId)
+                }
             }
         case .incomplete:
             UIView.animate(withDuration: 0.2,

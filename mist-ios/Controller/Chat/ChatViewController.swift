@@ -454,12 +454,9 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
                 try await conversation.sendMessage(messageText: messageString)
                 DispatchQueue.main.async { [self] in
                     handleNewMessage()
-                    if !DeviceService.shared.hasBeenOfferedNotificationsAfterDM() {
-                        DeviceService.shared.showedNotificationRequestAfterDM()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.65) {
-                            NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .dmNotificationsAfterDm, onVC: self)
-                        }
-                    }
+                }
+                Task {
+                    NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .dmNotificationsAfterDm, onVC: self)
                 }
             } catch {
                 CustomSwiftMessages.displayError(error)
