@@ -13,15 +13,14 @@ protocol PostDelegate: ShareActivityDelegate, UITextFieldDelegate { // , AnyObje
     func handleFavorite(postId: Int, isAdding: Bool)
     func handleFlag(postId: Int, isAdding: Bool)
     func handleDmTap(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String)
-    func beginLoadingAuthorProfilePic(postId: Int, author: ReadOnlyUser)
+//    func beginLoadingAuthorProfilePic(postId: Int, author: ReadOnlyUser)
     func emojiKeyboardDidDelete()
 
     // Require subclass implementation
-    func handleVote(postId: Int, emoji: String, action: VoteAction)
+    func handleVote(postId: Int, emoji: String, emojiBeforePatch: String?, existingVoteRating: Int?, action: VoteAction)
     func handleCommentButtonTap(postId: Int)
     func handleBackgroundTap(postId: Int)
     func handleDeletePost(postId: Int)    
-//    var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] { get set }
     func handleReactTap(postId: Int)
 }
 
@@ -29,15 +28,16 @@ protocol PostDelegate: ShareActivityDelegate, UITextFieldDelegate { // , AnyObje
 
 extension PostDelegate where Self: UIViewController {
     
-    func beginLoadingAuthorProfilePic(postId: Int, author: ReadOnlyUser) {
-        Task {
-            do {
-                let _ = try await UsersService.singleton.loadAndCacheUser(user: author)
-            } catch {
-                print("background profile loading task failed", error.localizedDescription)
-            }
-        }
-    }
+    //This isn't necessary anymore, since' we're just displaying a silhouette based on the user's userId. However, in the future, if we want to allow users to design their own avatar, this might be useful to load that in before pressing DM
+//    func beginLoadingAuthorProfilePic(postId: Int, author: ReadOnlyUser) {
+//        Task {
+//            do {
+//                let _ = try await UsersService.singleton.loadAndCacheUser(user: author)
+//            } catch {
+//                print("background profile loading task failed", error.localizedDescription)
+//            }
+//        }
+//    }
 
     @MainActor func handleDmTap(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String) {
         guard !BlockService.singleton.isBlockedByOrHasBlocked(author.id) else {
@@ -107,5 +107,7 @@ extension PostDelegate where Self: UIViewController {
     func emojiKeyboardDidDelete() {
         view.endEditing(true)
     }
+    
+    
 
 }

@@ -38,6 +38,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     
     //Flags
     var fromMistbox: Bool!
+    var didFailLoadingComments: Bool = false
         
     //Keyboard
     var shouldStartWithRaisedKeyboard: Bool!
@@ -65,7 +66,10 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     }()
     
     //Data
-    var post: Post!
+    var postId: Int!
+    var post: Post {
+        return PostService.singleton.getPost(withPostId: postId)!
+    }
     var comments = [Comment]()
     var commentAuthors = [Int: FrontendReadOnlyUser]() //[authorId: author]
     
@@ -80,7 +84,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     class func createPostVC(with post: Post, shouldStartWithRaisedKeyboard: Bool, fromMistbox: Bool = false, completionHandler: PostCompletionHandler?) -> PostViewController {
         let postVC =
         UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Post) as! PostViewController
-        postVC.post = post
+        postVC.postId = post.id
         postVC.shouldStartWithRaisedKeyboard = shouldStartWithRaisedKeyboard
         postVC.didDismiss = completionHandler
         postVC.fromMistbox = fromMistbox
@@ -142,8 +146,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     
     let navBarFavoriteButton = UIButton()
     func setupNavBar() {
-        if true { //instead of if fromMistbox
-            navBar.configure(title: "", leftItems: [.back], rightItems: [])
+        if fromMistbox { //instead of if fromMistbox
             navBarFavoriteButton.tintColor = .black
             navBarFavoriteButton.setImage(UIImage(systemName: "bookmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .default))!, for: .normal)
             navBarFavoriteButton.setImage(UIImage(systemName: "bookmark.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .default))!, for: .selected)
@@ -158,6 +161,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
                 navBarFavoriteButton.rightAnchor.constraint(equalTo: navBar.rightAnchor, constant: -20),
             ])
         }
+        navBar.configure(title: "", leftItems: [.back], rightItems: [])
         navBar.backButton.addTarget(self, action: #selector(didPressBack), for: .touchUpInside)
         navBar.applyVeryLightBottomOnlyShadow()
         //        navBar.layer.shadowOpacity = 0
@@ -332,7 +336,6 @@ extension PostViewController: InputBarAccessoryViewDelegate {
 //        inputBar.inputTextView.isEditable = true //not needed righ tnow
         inputBar.sendButton.setTitleColor(.clear, for: .disabled)
         inputBar.inputTextView.resignFirstResponder()
-//        post.commentcount += 1
         comments.append(newComment)
         commentAuthors[newComment.author] = UserService.singleton.getUserAsFrontendReadOnlyUser()
         
@@ -425,6 +428,7 @@ extension PostViewController {
                     self?.updateMessageCollectionViewBottomInset()
                 }
             } catch {
+                didFailLoadingComments = true
                 CustomSwiftMessages.displayError(error)
                 DispatchQueue.main.async { [weak self] in
                     self?.activityIndicator.stopAnimating()
@@ -457,7 +461,10 @@ extension PostViewController {
 extension PostViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return activityIndicator.isAnimating ? 1 : comments.count + 2 //1 for post, 1 for comment header
+        if activityIndicator.isAnimating || didFailLoadingComments {
+            return 1
+        }
+        return comments.count + 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -580,17 +587,43 @@ extension PostViewController: CommentDelegate {
 
 extension PostViewController: PostDelegate {
     
-    func handleVote(postId: Int, emoji: String, action: VoteAction) {
-        // viewController update
-        //Below is no longer needed
-//        let originalVoteCount = post.votecount
+    func handleVote(postId: Int, emoji: String, emojiBeforePatch: String? = nil, existingVoteRating: Int?, action: VoteAction) {
+        guard
+            let emojiDict = PostService.singleton.getPost(withPostId: postId)?.emoji_dict
+        else { return }
+        let emojiCount = emojiDict[emoji] ?? 0 //0 if the emoji has never been cast before
         
-        // Singleton & remote update
+        var updatedEmojiDict = emojiDict
+        switch action {
+        case .cast:
+            updatedEmojiDict[emoji] = emojiCount + VoteService.singleton.getCastingVoteRating()
+        case .patch:
+            guard
+                let emojiBeforePatch = emojiBeforePatch,
+                let existingVoteRating = existingVoteRating,
+                let existingEmojiCount = emojiDict[emojiBeforePatch]
+            else {
+                fatalError("must provide emojiBeforePatch on patch")
+            }
+            updatedEmojiDict[emoji] = emojiCount + VoteService.singleton.getCastingVoteRating()
+            updatedEmojiDict[emojiBeforePatch] = existingEmojiCount - existingVoteRating
+        case .delete:
+            guard
+                let existingVoteRating = existingVoteRating  else {
+                fatalError("must provide emojiBeforePatch on patch")
+            }
+            updatedEmojiDict[emoji] = emojiCount - existingVoteRating
+        }
+        PostService.singleton.updateCachedPostWith(postId: postId, updatedEmojiDict: updatedEmojiDict)
+        
+        // Cache & remote update
         do {
             try VoteService.singleton.handlePostVoteUpdate(postId: postId, emoji: emoji, action)
         } catch {
-//            post.votecount = originalVoteCount //undo viewController data change
-            (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost() //reload data
+            PostService.singleton.updateCachedPostWith(postId: postId, updatedEmojiDict: emojiDict)
+            DispatchQueue.main.async { [weak self] in
+                (self?.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigureVotes() //reload data
+            }
             CustomSwiftMessages.displayError(error)
         }
     }

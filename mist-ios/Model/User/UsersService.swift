@@ -12,6 +12,7 @@ actor UsersService: NSObject {
     
     static var singleton = UsersService()
     private var cachedUsers: [Int: FrontendReadOnlyUser] = [:]
+    private var cachedProfilePics: [Int: UIImage] = [:]
     private var usersInContacts: [PhoneNumber: ReadOnlyUser] = [:]
     private var totalNumberOfUsers: Int?
     
@@ -44,6 +45,19 @@ actor UsersService: NSObject {
         return fetchedUser
     }
     
+    func loadAndCacheProfilePic(frontendUser: FrontendReadOnlyUser) async throws -> UIImage {
+        if let profilePic = cachedProfilePics[frontendUser.id] {
+            return profilePic
+        }
+        
+        let profilePic = try await UserAPI.UIImageFromURLString(url: frontendUser.picture)
+        cachedProfilePics[frontendUser.id] = profilePic
+        if cachedUsers[frontendUser.id] != nil {
+            cachedUsers[frontendUser.id]?.profilePic = profilePic
+        }
+        return profilePic
+    }
+    
     func loadAndCacheUser(phoneNumber: String) async throws -> FrontendReadOnlyUser? {
         guard let fetchedBackendUser = try await UserAPI.fetchUsersByPhoneNumbers(phoneNumbers: [phoneNumber]).first?.value else { return nil }
         if let cachedUser = cachedUsers[fetchedBackendUser.id] {
@@ -67,7 +81,7 @@ actor UsersService: NSObject {
     
     //MARK: Fetch several
 
-    func loadAndCacheUsers(userIds: [Int]) async throws -> [Int: FrontendReadOnlyUser] {
+    func loadAndCacheEverythingForUsers(userIds: [Int]) async throws -> [Int: FrontendReadOnlyUser] {
         var noncachedUserIds = [Int]()
         var alreadyCachedUsers = [Int: FrontendReadOnlyUser]()
         for userId in userIds {
@@ -80,13 +94,40 @@ actor UsersService: NSObject {
         
         //Only fetch and cache the users we haven't already cached
         let users = try await UserAPI.batchFetchUsersFromUserIds(Set(noncachedUserIds))
-        let fetchedUsers = try await UserAPI.batchTurnUsersIntoFrontendUsers(users.map { $0.value })
+        async let profilePics = UsersService.singleton.loadAndCacheProfilePics(users: users.map { $0.value })
+        async let frontendUsers = UserAPI.batchTurnUsersIntoFrontendUsers(users.map { $0.value })
+        var (fetchedUsers, fetchedPics) = try await (frontendUsers, profilePics)
         fetchedUsers.forEach { userId, user in
             cachedUsers[userId] = user
         }
+        fetchedPics.forEach({ userId, pic in
+            cachedProfilePics[userId] = pic
+            fetchedUsers[userId]?.profilePic = pic
+        })
         
         //Return the set union
         return fetchedUsers.merging(alreadyCachedUsers) { (old, new) in new }
+    }
+    
+    func loadAndCacheProfilePics(users: [ReadOnlyUser]) async throws -> [Int: UIImage] {
+        var noncachedUserIds = [Int]()
+        var alreadyCachedPics = [Int: UIImage]()
+        for userId in users.map({ $0.id }) {
+            if let cachedPic = cachedProfilePics[userId] {
+                alreadyCachedPics[userId] = cachedPic
+            } else {
+                noncachedUserIds.append(userId)
+            }
+        }
+        
+        //Only fetch and cache the users we haven't already cached
+        let fetchedPics = try await UserAPI.batchFetchProfilePics(users)
+        fetchedPics.forEach { userId, pic in
+            cachedProfilePics[userId] = pic
+        }
+        
+        //Return the set union
+        return fetchedPics.merging(alreadyCachedPics) { (old, new) in new }
     }
     
     func loadAndCacheUsers(phoneNumbers: [PhoneNumber]) async throws -> [PhoneNumber: FrontendReadOnlyUser] {
@@ -167,6 +208,10 @@ actor UsersService: NSObject {
     
     func getPotentiallyCachedUser(userId: Int) -> FrontendReadOnlyUser? {
         return cachedUsers[userId]
+    }
+    
+    func getPotentiallyCachedProfilePic(userId: Int) -> UIImage? {
+        return cachedProfilePics[userId]
     }
     
     func getTotalUsersCount() -> Int? {

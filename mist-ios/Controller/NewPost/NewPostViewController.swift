@@ -13,7 +13,7 @@ import InputBarAccessoryView
 let BODY_PLACEHOLDER_TEXT = "pour your heart out"
 let TITLE_PLACEHOLDER_TEXT = "a cute title"
 let LOCATION_PLACEHOLDER_TEXT = "location name"
-let TEXT_LENGTH_BEYOND_MAX_PERMITTED = 5
+let TEXT_LENGTH_BEYOND_MAX_PERMITTED = 0 //if we want this > 0, we need a way to indicate to the user that theyre beyond the limit. setting text color to red is too harsh
 
 let TITLE_CHARACTER_LIMIT = 40
 let LOCATION_NAME_CHARACTER_LIMIT = 25

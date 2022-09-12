@@ -32,29 +32,40 @@ func loadPostStuff() async throws {
     }
 }
 
+enum VersionError: Error {
+    case invalidBundleInfo, invalidResponse
+}
+
+func isUpdateAvailable(completion: @escaping (Bool?, Error?) -> Void) throws -> URLSessionDataTask {
+    guard let info = Bundle.main.infoDictionary,
+        let currentVersion = info["CFBundleShortVersionString"] as? String,
+        let identifier = info["CFBundleIdentifier"] as? String,
+        let url = URL(string: "https://itunes.apple.com/lookup?bundleId=\(identifier)") else {
+            throw VersionError.invalidBundleInfo
+    }
+    print(currentVersion)
+    let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+        do {
+            if let error = error { throw error }
+            guard let data = data else { throw VersionError.invalidResponse }
+            let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? [String: Any]
+            guard let result = (json?["results"] as? [Any])?.first as? [String: Any], let version = result["version"] as? String else {
+                throw VersionError.invalidResponse
+            }
+            completion(version != currentVersion, nil)
+        } catch {
+            completion(nil, error)
+        }
+    }
+    task.resume()
+    return task
+}
+
 class LoadingViewController: UIViewController {
     
-//    var mistWideLogoView: MistWideLogoView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     var didLoadEverything = false
-    
-    override func loadView() {
-        super.loadView()
-//        loadMistLogo()
-    }
-    
-    func loadMistLogo() {
-//        mistWideLogoView = MistWideLogoView()
-//        mistWideLogoView.setup(color: .white)
-//        view.addSubview(mistWideLogoView)
-//        mistWideLogoView.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            mistWideLogoView.widthAnchor.constraint(equalToConstant: 300),
-//            mistWideLogoView.heightAnchor.constraint(equalToConstant: 130),
-//            mistWideLogoView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
-//            mistWideLogoView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-//        ])
-    }
+    var wasUpdateFoundAvailable = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +74,8 @@ class LoadingViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        checkForNewUpdate()
         if !UserService.singleton.isLoggedIntoAnAccount {
             goToAuth()
         } else {
@@ -70,8 +83,21 @@ class LoadingViewController: UIViewController {
         }
     }
     
+    func checkForNewUpdate() {
+        _ = try? isUpdateAvailable { (update, error) in
+            if let error = error {
+                print(error)
+            } else if let update = update {
+                print(update)
+                self.wasUpdateFoundAvailable = true
+                CustomSwiftMessages.showUpdateAvailableCard()
+            }
+        }
+    }
+    
     func goToAuth() {
         DispatchQueue.main.asyncAfter(deadline: .now() + Env.TRANSITION_TO_AUTH_DURATION) {
+            guard !self.wasUpdateFoundAvailable else { return }
             transitionToStoryboard(storyboardID: Constants.SBID.SB.Auth,
                                    viewControllerID: Constants.SBID.VC.AuthNavigation,
                                     duration: Env.TRANSITION_TO_HOME_DURATION) { _ in}
@@ -96,6 +122,7 @@ class LoadingViewController: UIViewController {
             Task {
                 await UsersService.singleton.loadUsersAssociatedWithContacts() //for tagging
             }
+            guard !wasUpdateFoundAvailable else { return }
             DispatchQueue.main.asyncAfter(deadline: .now() + Env.TRANSITION_TO_AUTH_DURATION) {
                 transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
                                         viewControllerID: Constants.SBID.VC.TabBarController,

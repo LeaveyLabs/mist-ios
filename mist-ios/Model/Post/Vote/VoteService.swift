@@ -17,6 +17,7 @@ class VoteService: NSObject {
     
     private var postVotes: [PostVote] = []
     private var commentVotes: [CommentVote] = []
+    private var castingVoteRating: Int = 1
 
     //MARK: - Initialization
     
@@ -37,10 +38,21 @@ class VoteService: NSObject {
         }
     }
     
+    //MARK: - Misc
+    
+    func updateInflatedVoteValue(to newValue: Int) {
+        guard UserService.singleton.isSuperuser() else { return }
+        castingVoteRating = newValue
+    }
+    
     //MARK: - Getters
     
-    func votesForPost(postId: Int) -> [PostVote] {
-        return postVotes.filter { $0.post == postId }
+    func getCastingVoteRating() -> Int {
+        return castingVoteRating
+    }
+    
+    func voteForPost(postId: Int) -> PostVote? {
+        return postVotes.filter { $0.post == postId }.first
     }
     
     func voteForComment(commentId: Int) -> CommentVote? {
@@ -67,12 +79,12 @@ class VoteService: NSObject {
                                  post: postId,
                                  timestamp: Date().timeIntervalSince1970,
                                  emoji: emoji,
-                                 rating: nil)
+                                 rating: castingVoteRating)
         postVotes.append(addedVote)
         
         Task {
             do {
-                let _ = try await PostVoteAPI.postVote(voter: UserService.singleton.getId(), post: postId, emoji: emoji)
+                let _ = try await PostVoteAPI.postVote(voter: UserService.singleton.getId(), post: postId, emoji: emoji, rating: Float(castingVoteRating))
             } catch {
                 postVotes.removeAll { $0.id == addedVote.id }
                 throw(error)
@@ -88,12 +100,12 @@ class VoteService: NSObject {
                                  post: postId,
                                  timestamp: Date().timeIntervalSince1970,
                                  emoji: emoji,
-                                 rating: nil)
+                                 rating: castingVoteRating)
         postVotes.append(patchedVote)
         
         Task {
             do {
-                let _ = try await PostVoteAPI.patchVote(voter: UserService.singleton.getId(), post: postId, emoji: emoji)
+                let _ = try await PostVoteAPI.patchVote(voter: UserService.singleton.getId(), post: postId, emoji: emoji, rating: Float(castingVoteRating))
             } catch {
                 print(error.localizedDescription)
                 postVotes.removeAll { $0.id == patchedVote.id }

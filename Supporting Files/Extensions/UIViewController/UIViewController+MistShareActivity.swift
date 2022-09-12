@@ -14,11 +14,9 @@ protocol ShareActivityDelegate {
 extension UIViewController {
     
     func presentMistShareActivity() {
-        if let url = NSURL(string: "https://www.getmist.app/download")  {
-            let objectsToShare: [Any] = [url]
-            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-            activityVC.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
-            present(activityVC, animated: true)
-        }
+        let objectsToShare: [Any] = [Constants.downloadLink]
+        let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+        activityVC.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
+        present(activityVC, animated: true)
     }
 }

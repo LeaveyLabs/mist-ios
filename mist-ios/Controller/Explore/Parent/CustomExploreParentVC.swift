@@ -14,6 +14,19 @@ class CustomExploreParentViewController: ExploreParentViewController {
     var setting: Setting!
     var feedBottomConstraint: NSLayoutConstraint!
     
+    override var posts: [Post] {
+        switch setting {
+        case .submissions:
+            return PostService.singleton.getSubmissions()
+        case .mentions:
+            return PostService.singleton.getMentions()
+        case .favorites:
+            return PostService.singleton.getFavorites()
+        default:
+            return []
+        }
+    }
+    
     //MARK: - Initialization
     
     class func create(setting: Setting) -> CustomExploreParentViewController? {
@@ -30,7 +43,7 @@ class CustomExploreParentViewController: ExploreParentViewController {
         setupTitleLabel()
         setupBackButton()
         navigationController?.fullscreenInteractivePopGestureRecognizer(delegate: self)
-        renderNewPostsOnFeedAndMap(withType: .newSearch, customSetting: setting) //using newSearch in order to force a relocation of the map
+        renderNewPostsOnFeedAndMap(withType: .newSearch) //using newSearch in order to force a relocation of the map
         if setting == .mentions {
             print("SETITNG DID VIEW METNIONS")
             DeviceService.shared.didViewMentions()

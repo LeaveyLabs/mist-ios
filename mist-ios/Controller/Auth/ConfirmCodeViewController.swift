@@ -44,7 +44,7 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
                 continueButton.setTitle(isSubmitting ? "" : "continue", for: .normal)
             }
             continueButton.loadingIndicator(isSubmitting)
-            resendButton.isEnabled = !isSubmitting
+            resendButton.isEnabled = !isSubmitting && resendState == .notsent
         }
     }
     
@@ -61,7 +61,7 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
                 resendButton.loadingIndicator(true)
                 resendButton.setTitle("", for: .normal)
             case .sent:
-                resendButton.isEnabled = false
+                resendButton.isUserInteractionEnabled = false
                 resendButton.loadingIndicator(false)
                 resendButton.setTitle("resent", for: .normal)
             }

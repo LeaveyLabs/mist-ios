@@ -122,8 +122,8 @@ extension ExploreFeedViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.feed.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-        //in the feed, we don't need a reference to the postView like we do in
-        let _ = cell.configurePostCell(post: exploreDelegate.posts[indexPath.row],
+        let cachedPost = PostService.singleton.getPost(withPostId: exploreDelegate.posts[indexPath.row].id)!
+        let _ = cell.configurePostCell(post: cachedPost,
                                nestedPostViewDelegate: postDelegate,
                                bubbleTrianglePosition: .left,
                                isWithinPostVC: false)

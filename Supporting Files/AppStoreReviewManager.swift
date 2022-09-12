@@ -17,6 +17,10 @@ enum AppStoreReviewManager {
       }
   }
     
+    static func offerViewPromptUponUserRequest() {
+        SKStoreReviewController.requestReviewInCurrentScene()
+    }
+    
 }
 
 extension SKStoreReviewController {

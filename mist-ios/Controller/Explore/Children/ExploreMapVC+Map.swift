@@ -44,15 +44,15 @@ extension ExploreMapViewController {
         mapDimensionButtonDidPressed(sender)
     }
     
-    @IBAction func exploreZoomInButtonDidPressed(_ sender: UIButton) {
-        dismissPost()
-        zoomInButtonDidPressed(sender)
-    }
+//    @IBAction func exploreZoomInButtonDidPressed(_ sender: UIButton) {
+//        dismissPost()
+//        zoomInButtonDidPressed(sender)
+//    }
     
-    @IBAction func exploreZoomOutButtonDidPressed(_ sender: UIButton) {
-        dismissPost()
-        zoomOutButtonDidPressed(sender)
-    }
+//    @IBAction func exploreZoomOutButtonDidPressed(_ sender: UIButton) {
+//        dismissPost()
+//        zoomOutButtonDidPressed(sender)
+//    }
     
     //MARK: AnnotationViewInteractionDelayPrevention
 
@@ -94,11 +94,11 @@ extension ExploreMapViewController {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         
-        let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(location) { (placemark, error) in
-            guard error == nil else { return }
-            //Here, you can do something on a successful user location update
-        }
+//        let geocoder = CLGeocoder()
+//        geocoder.reverseGeocodeLocation(location) { (placemark, error) in
+//            guard error == nil else { return }
+//            //Here, you can do something on a successful user location update
+//        }
     }
 }
 
@@ -178,6 +178,14 @@ extension ExploreMapViewController {
 
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         selectedAnnotationView = nil
+    }
+    
+    override func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        super.mapView(mapView, regionDidChangeAnimated: animated)
+        if selectedAnnotationView != nil {
+            zoomSliderGradientImageView.layer.removeAllAnimations()
+            self.zoomSliderGradientImageView.alpha = 0
+        }
     }
     
     override func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {

@@ -10,7 +10,7 @@ import OverlayContainer
 import UIKit
 
 protocol ExploreChildDelegate {
-    func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType, customSetting: Setting?)
+    func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType)
     func reloadData()
     
     var posts: [Post] { get }
@@ -39,7 +39,9 @@ class ExploreParentViewController: UIViewController {
     var reactingPostIndex: Int? //for scrolling to the right index on the feed when react keyboard raises
 
     //ExploreChildDelegate
-    var posts = PostService.singleton.getExplorePosts()
+    var posts: [Post] {
+        PostService.singleton.getExplorePosts()
+    }
 //    var currentFilter: PostFilter!
     
     var isFirstLoad = true
@@ -132,7 +134,7 @@ extension ExploreParentViewController: OverlayContainerViewControllerDelegate {
         if currentNotch == .maximum && (notch == .minimum) {
             exploreFeedVC.handleFeedWentDown(duration: 0.3)
             exploreMapVC.handleFeedWentDown(duration: 0.3)
-        } else if (currentNotch == .minimum) && notch == .maximum {
+        } else if (currentNotch == .maximum || currentNotch == .minimum) && notch == .maximum {
             exploreFeedVC.handleFeedWentUp(duration: 0.3)
             exploreMapVC.handleFeedWentUp(duration: 0.3)
         }

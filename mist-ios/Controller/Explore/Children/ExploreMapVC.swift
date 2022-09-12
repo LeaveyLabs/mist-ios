@@ -31,18 +31,19 @@ class ExploreMapViewController: MapViewController {
         didSet {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in //because we might immediately deselect and select
                 let shouldZoomBeHidden = selectedAnnotationView != nil
-                zoomStackView.isHidden = false
+//                zoomStackView.isHidden = false
                 exploreButtonStackView.isHidden = false
                 trackingDimensionStackView.isHidden = false
                 UIView.animate(withDuration: 0.2) {
-                    self.zoomStackView.alpha = shouldZoomBeHidden ? 0 : 1
+//                    self.zoomStackView.alpha = shouldZoomBeHidden ? 0 : 1
                     self.exploreButtonStackView.alpha = shouldZoomBeHidden ? 0 : 1
                     self.trackingDimensionStackView.alpha = shouldZoomBeHidden ? 0 : 1
+                    self.zoomSliderGradientImageView.alpha = shouldZoomBeHidden ? 0 : 0.3
                     if shouldZoomBeHidden {
                         self.trojansActiveView.alpha = 0
                     }
                 } completion: { completed in
-                    self.zoomStackView.isHidden = shouldZoomBeHidden
+//                    self.zoomStackView.isHidden = shouldZoomBeHidden
                     self.exploreButtonStackView.isHidden = shouldZoomBeHidden
                     self.trackingDimensionStackView.isHidden = shouldZoomBeHidden
                     if shouldZoomBeHidden {

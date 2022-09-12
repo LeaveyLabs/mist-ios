@@ -140,10 +140,11 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
             }
         }
 
-        if !DeviceService.shared.hasBeenRequestedContactsBeforeTagging() {
+        if !areContactsAuthorized() && !DeviceService.shared.hasBeenRequestedContactsBeforeTagging() {
+            autocompleteManager.invalidate()
             DeviceService.shared.requestContactsBeforeTagging()
             requestContactsAccess { [self] wasShownPermissionRequest in
-                DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [weak self] in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: { [weak self] in
                     guard let self = self else { return }
                     self.tableView.layoutIfNeeded()
                     self.scrollToBottom()
@@ -187,50 +188,59 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
                 return
             }
         }
-    
+        
+        autocompleteManager.activityIndicator.startAnimating()
         autocompletionTasks[query] = Task {
-            autocompleteManager.activityIndicator.startAnimating()
+            var suggestedContacts = [CNContact]()
+            print("ARE AUTHORIZED", areContactsAuthorized())
+            if CNContactStore.authorizationStatus(for: .contacts) == .authorized  {
+                suggestedContacts = fetchSuggestedContacts(partialString: query)
+                suggestedContacts = Array(suggestedContacts.prefix(20))
+            }
+            
+            var usersInContacts = [ReadOnlyUser]()
+            var contactsWithoutAnAccount = [CNContact]()
+            for contact in suggestedContacts {
+                guard let number = contact.bestPhoneNumberE164 else { continue }
+                if let user = await UsersService.singleton.getUserAssociatedWithContact(phoneNumber: number) {
+                    usersInContacts.append(user)
+                } else {
+                    contactsWithoutAnAccount.append(contact)
+                }
+            }
+            
+            let frontendSuggestedUsers: [FrontendReadOnlyUser]
             do {
-                var suggestedContacts = [CNContact]()
-                if CNContactStore.authorizationStatus(for: .contacts) == .authorized  {
-                    suggestedContacts = fetchSuggestedContacts(partialString: query)
-                    suggestedContacts = Array(suggestedContacts.prefix(20))
-                }
-                
-                var usersInContacts = [ReadOnlyUser]()
-                var contactsWithoutAnAccount = [CNContact]()
-                for contact in suggestedContacts {
-                    guard let number = contact.bestPhoneNumberE164 else { continue }
-                    if let user = await UsersService.singleton.getUserAssociatedWithContact(phoneNumber: number) {
-                        usersInContacts.append(user)
-                    } else {
-                        contactsWithoutAnAccount.append(contact)
-                    }
-                }
-                
                 let fetchedUsers = try await UserAPI.fetchUsersByWords(words: [query])
                 let nonduplicatedUsers = Set(fetchedUsers).union(usersInContacts)
                 let trimmedUsers = Array(nonduplicatedUsers.prefix(10))
-                let frontendSuggestedUsers = try await Array(UsersService.singleton.loadAndCacheUsers(users: trimmedUsers).values)
-                
-                let newResults = turnResultsIntoAutocompletions(frontendSuggestedUsers, contactsWithoutAnAccount)
-                autocompletionCache[query] = newResults
-                
-                if query == mostRecentAutocompleteQuery {
-                    DispatchQueue.main.async { [weak self] in
-                        if newResults.isEmpty {
-                            self?.autocompleteManager.placeholderLabel.text = "No results found"
-                        }
-                        self?.asyncCompletions = newResults
-                        self?.autocompleteManager.reloadData()
-                        self?.autocompleteManager.tableView.flashScrollIndicators()
-                        self?.autocompleteManager.activityIndicator.stopAnimating()
-                    }
-                }
+                frontendSuggestedUsers = try await Array(UsersService.singleton.loadAndCacheUsers(users: trimmedUsers).values)
             } catch {
                 autocompletionTasks[query]?.cancel()
-                autocompleteManager.activityIndicator.stopAnimating()
                 CustomSwiftMessages.displayError(error)
+                DispatchQueue.main.async { [weak self] in
+                    self?.autocompleteManager.placeholderLabel.text = "Couldn't load results"
+                    self?.asyncCompletions = []
+                    self?.autocompleteManager.reloadData()
+                    self?.autocompleteManager.tableView.flashScrollIndicators()
+                    self?.autocompleteManager.activityIndicator.stopAnimating()
+                }
+                return
+            }
+            
+            let newResults = turnResultsIntoAutocompletions(frontendSuggestedUsers, contactsWithoutAnAccount)
+            autocompletionCache[query] = newResults
+            
+            if query == mostRecentAutocompleteQuery {
+                DispatchQueue.main.async { [weak self] in
+                    if newResults.isEmpty {
+                        self?.autocompleteManager.placeholderLabel.text = "No results found"
+                    }
+                    self?.asyncCompletions = newResults
+                    self?.autocompleteManager.reloadData()
+                    self?.autocompleteManager.tableView.flashScrollIndicators()
+                    self?.autocompleteManager.activityIndicator.stopAnimating()
+                }
             }
         }
     }
@@ -241,12 +251,14 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
         var suggestedUsersDict = Set<String>()
         var context = [String: Any]()
 
-        var newAsyncCompletions: [AutocompleteCompletion] = suggestedUsers.map {
+        var newAsyncCompletions: [AutocompleteCompletion] = suggestedUsers.compactMap {
+            guard $0.id != UserService.singleton.getId() else { return nil }
+            
             context = [:]
             let fullName = $0.first_name + " " + $0.last_name
             
             context = [AutocompleteContext.id.rawValue: $0.id,
-                       AutocompleteContext.pic.rawValue: $0.profilePic,
+                       AutocompleteContext.pic.rawValue: $0.thumbnailPic,
                        AutocompleteContext.queryName.rawValue: fullName]
             
             suggestedUsersDict.insert(fullName)

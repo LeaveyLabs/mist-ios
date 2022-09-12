@@ -70,17 +70,29 @@ class ChatViewController: MessagesViewController {
             senderProfileNameButton.setTitle(UserService.singleton.getFirstName(), for: .normal)
             senderProfileNameButton.setImage(UserService.singleton.isVerified() ? UIImage(systemName: "checkmark.seal.fill") : nil, for: .normal)
             if isAuthedUserProfileHidden {
-                senderProfilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getBlurredPic())
+                senderProfilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getSilhouette())
             } else {
                 senderProfilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
             }
         }
     }
+    
+    //here's where it's complicated
+    //all our ssandaebangs are frontendCompleteUsers
+    //we'd have to reconfigure this...
+    //we want to allow for conversations WITHOUT a frontendCompleteUser, bc when you're starting a dm w someone, you only need their silhouette
+    //we also dont wanna make 50k changes in one commit
+    
+    //options:
+    //1 load in frontendCOmpleteUser when opening up the DM chat. don't let them send the message until both the machrequest and the frontendCOmpleteUserProcess
+    //2 make sangdaebang into a ReadOnlyUser    
+    //we also need to load in the profile picture upon newly received match requests
+    
     var isSangdaebangProfileHidden: Bool! {
         didSet {
             receiverProfileNameButton.setImage(conversation.sangdaebang.is_verified ? UIImage(systemName: "checkmark.seal.fill") : nil, for: .normal)
             if isSangdaebangProfileHidden {
-                receiverProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.blurredPic)
+                receiverProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.silhouette)
                 receiverProfileNameButton.setTitle("???", for: .normal)
             } else {
                 receiverProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.profilePic)
@@ -442,12 +454,9 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
                 try await conversation.sendMessage(messageText: messageString)
                 DispatchQueue.main.async { [self] in
                     handleNewMessage()
-                    if !DeviceService.shared.hasBeenOfferedNotificationsAfterDM() {
-                        DeviceService.shared.showedNotificationRequestAfterDM()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.65) {
-                            NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .dmNotificationsAfterDm, onVC: self)
-                        }
-                    }
+                }
+                Task {
+                    NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .dmNotificationsAfterDm, onVC: self)
                 }
             } catch {
                 CustomSwiftMessages.displayError(error)
@@ -618,7 +627,7 @@ extension ChatViewController: MessagesDisplayDelegate {
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
         let nextIndexPath = IndexPath(item: 0, section: indexPath.section+1)
         avatarView.isHidden = isNextMessageSameSender(at: indexPath) && !isTimeLabelVisible(at: nextIndexPath)
-        let theirPic = isSangdaebangProfileHidden ? conversation.sangdaebang.blurredPic : conversation.sangdaebang.profilePic
+        let theirPic = isSangdaebangProfileHidden ? conversation.sangdaebang.silhouette : conversation.sangdaebang.profilePic
         avatarView.set(avatar: Avatar(image: theirPic, initials: ""))
     }
 

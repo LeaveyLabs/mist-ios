@@ -226,9 +226,13 @@ extension ClusterAnnotationView: AnnotationViewWithPosts {
     func rerenderCalloutForUpdatedPostData() {
         guard
             let page = centeredCollectionViewFlowLayout.currentCenteredPage,
-            let collectionView = collectionView
-        else { return }
-        collectionView.reloadItems(at: [IndexPath(item: page, section: 0)])
+            let postCollectionView = collectionView,
+            let postCarouselCell = postCollectionView.cellForItem(at: IndexPath(item: page, section: 0)) as? ClusterCarouselCell,
+            let _ = PostService.singleton.getPost(withPostId: postCarouselCell.postView.postId)
+        else {
+            return
+        }
+        postCollectionView.reloadItems(at: [IndexPath(item: page, section: 0)])
     }
     
     func movePostUpAfterEmojiKeyboardRaised() {
@@ -335,7 +339,8 @@ extension ClusterAnnotationView: UICollectionViewDataSource {
         else { return cell }
         
 //        cell.configureForPost(post: postAnnotation.post, nestedPostViewDelegate: postDelegate, bubbleTrianglePosition: .bottom)
-        cell.configureForPost(post: sortedMemberPosts[indexPath.item], nestedPostViewDelegate: postDelegate, bubbleTrianglePosition: .bottom)
+        let cachedPost = PostService.singleton.getPost(withPostId: sortedMemberPosts[indexPath.item].id)!
+        cell.configureForPost(post: cachedPost, nestedPostViewDelegate: postDelegate, bubbleTrianglePosition: .bottom)
         
         //when the post is tapped, we want to FIRST make sure it's the currently centered one
         

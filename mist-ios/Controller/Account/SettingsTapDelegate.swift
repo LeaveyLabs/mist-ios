@@ -9,6 +9,8 @@ import Foundation
 
 protocol SettingsTapDelegate: MFMailComposeViewControllerDelegate {
     //push new vc
+    func handleProfile()
+    func handleAvatar()
     func handlePosts(setting: Setting)
     func handleLearnMore(setting: Setting)
     func handleShareFeedback(setting: Setting)
@@ -23,6 +25,15 @@ protocol SettingsTapDelegate: MFMailComposeViewControllerDelegate {
 extension SettingsTapDelegate where Self: UIViewController {
     
     //MARK: - Push VC
+    
+    func handleProfile() {
+        let updateprofileVC = UpdateProfileSettingViewController.create()
+        navigationController?.pushViewController(updateprofileVC, animated: true)
+    }
+    
+    func handleAvatar() {
+        //do nothing as of now
+    }
     
     func handlePosts(setting: Setting) {
         guard let customExplore = CustomExploreParentViewController.create(setting: setting) else { return }

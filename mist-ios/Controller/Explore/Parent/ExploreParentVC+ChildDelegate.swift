@@ -12,14 +12,14 @@ import MapKit
 
 extension ExploreParentViewController: ExploreChildDelegate {
     
+    @MainActor
     func reloadData() {
-        DispatchQueue.main.async { [self] in
-            exploreMapVC.selectedAnnotationView?.rerenderCalloutForUpdatedPostData()
-            exploreFeedVC.feed.reloadData()
-        }
+        exploreFeedVC.feed.reloadData()
+        exploreMapVC.selectedAnnotationView?.rerenderCalloutForUpdatedPostData()
+        //the annotationView handle removing the postannotation if necessary
     }
     
-    func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType, customSetting: Setting? = nil) {
+    func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType) {
         //Feed scroll to top, on every reload. this should happen BEFORE the datasource for the feed is altered, in order to prevent a potential improper element access
         if reloadType != .firstLoad {
             if !exploreMapVC.postAnnotations.isEmpty {
@@ -31,23 +31,6 @@ extension ExploreParentViewController: ExploreChildDelegate {
         //Map camera travel, only on new searches
         exploreMapVC.removeExistingPlaceAnnotationsFromMap()
         exploreMapVC.removeExistingPostAnnotationsFromMap()
-        
-        //Get the right data
-        if let setting = customSetting {
-            if setting == .submissions {
-                posts = PostService.singleton.getSubmissions()
-            } else if setting == .favorites {
-                posts = PostService.singleton.getFavorites()
-            } else if setting == .mentions {
-                posts = PostService.singleton.getMentions()
-            }
-        } else {
-            posts = PostService.singleton.getExplorePosts()
-//            posts.append(contentsOf: PostService.singleton.getExplorePosts())
-//            posts.append(contentsOf: PostService.singleton.getExplorePosts())
-//            posts.append(contentsOf: PostService.singleton.getExplorePosts())
-        }
-        
         exploreMapVC.turnPostsIntoAnnotations(posts)
 
         //if at some point we decide to list out places in the feed results, too, then turnPlacesIntoAnnoations should be moved here
@@ -79,11 +62,43 @@ extension ExploreParentViewController: PostDelegate {
         }
     }
     
-    func handleVote(postId: Int, emoji: String, action: VoteAction) {
+    func handleVote(postId: Int, emoji: String, emojiBeforePatch: String? = nil, existingVoteRating: Int?, action: VoteAction) {
+        guard
+            let emojiDict = PostService.singleton.getPost(withPostId: postId)?.emoji_dict
+        else { return }
+        let emojiCount = emojiDict[emoji] ?? 0 //0 if the emoji has never been cast before
+
+        var updatedEmojiDict = emojiDict
+        switch action {
+        case .cast:
+            updatedEmojiDict[emoji] = emojiCount + VoteService.singleton.getCastingVoteRating()
+        case .patch:
+            guard
+                let emojiBeforePatch = emojiBeforePatch,
+                let existingVoteRating = existingVoteRating,
+                let existingEmojiCount = emojiDict[emojiBeforePatch]
+            else {
+                fatalError("must provide emojiBeforePatch on patch")
+            }
+            updatedEmojiDict[emoji] = emojiCount + VoteService.singleton.getCastingVoteRating()
+            updatedEmojiDict[emojiBeforePatch] = existingEmojiCount - existingVoteRating
+        case .delete:
+            guard
+                let existingVoteRating = existingVoteRating  else {
+                fatalError("must provide emojiBeforePatch on patch")
+            }
+            updatedEmojiDict[emoji] = emojiCount - existingVoteRating
+        }
+        PostService.singleton.updateCachedPostWith(postId: postId, updatedEmojiDict: updatedEmojiDict)
+        
+        // Cache & remote update
         do {
             try VoteService.singleton.handlePostVoteUpdate(postId: postId, emoji: emoji, action)
         } catch {
-            reloadData() //reloadData to ensure undos are visible
+            PostService.singleton.updateCachedPostWith(postId: postId, updatedEmojiDict: emojiDict)
+            DispatchQueue.main.async { [weak self] in
+                self?.reloadData() //reloadData to ensure undos are visible
+            }
             CustomSwiftMessages.displayError(error)
         }
     }

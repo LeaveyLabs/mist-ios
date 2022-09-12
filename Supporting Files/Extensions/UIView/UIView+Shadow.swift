@@ -71,6 +71,11 @@ extension UIView {
     func applyLightTopOnlyShadow() {
         layer.applySketchShadow(color: .black, alpha: 0.15, x: 0, y: -4, blur: 5, spread: 0)
     }
+    
+    func applyLightLeftOnlyShadow() {
+        layer.applySketchShadow(color: .black, alpha: 0.15, x: -4, y: 0, blur: 5, spread: 0)
+    }
+    
 }
 
 

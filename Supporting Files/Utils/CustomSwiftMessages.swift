@@ -67,6 +67,22 @@ struct CustomSwiftMessages {
 
 extension CustomSwiftMessages {
     
+    static func showUpdateAvailableCard() {
+        let url = Constants.downloadLink
+        DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
+            let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
+            messageView.configureContent(title: "a new update is available!", body: "", iconText: "")
+            messageView.customConfig(approveText: "download", dismissText: "")
+            messageView.approveAction = {
+                UIApplication.shared.open(url as URL)
+            }
+            messageView.configureBackgroundView(width: 250)
+            messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+            messageView.backgroundView.layer.cornerRadius = 10
+            SwiftMessages.show(config: middlePresentationConfig(), view: messageView)
+        }
+    }
+    
     static func showInfoCard(_ title: String, _ body: String, emoji: String) {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCardView = try! SwiftMessages.viewFromNib()
@@ -157,19 +173,19 @@ extension CustomSwiftMessages {
                 emoji = "＠"
                 messageView.customConfig(approveText: "share", dismissText: "nah")
             case .dmNotificationsAfterDm:
-                title = "would you like to turn on notifications?"
-                body = "find out when they get back with you"
-                emoji = "📬"
+                title = "enable notifications"
+                body = "find out when they\nget back with you"
+                emoji = "💬"
                 messageView.customConfig(approveText: "of course", dismissText: "nah")
             case .dmNotificationsAfterNewPost:
-                title = "would you like to turn on notifications?"
-                body = "find out when someone replies to your mist 😯👀"
-                emoji = "📬"
+                title = "enable notifications"
+                body = "find out if someone\nreplies to your mist 👀"
+                emoji = "💌"
                 messageView.customConfig(approveText: "of course", dismissText: "i'd rather mist out")
             case .mistboxNotifications:
                 title = "enable notifications"
-                body = "now that you've set up your keywords, find out whenever someone drops a mist with them"
-                emoji = "📬"
+                body = "find out when someone drops a mist with one of your keywords"
+                emoji = "💌"
                 messageView.customConfig(approveText: "of course", dismissText: "i'd rather mist out")
             case .newpostUserLocation:
                 title = "mists require a location"

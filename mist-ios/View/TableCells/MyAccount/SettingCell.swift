@@ -33,7 +33,7 @@ class SettingCell: UITableViewCell {
         accessoryLabel.font = UIFont(name: Constants.Font.Medium, size: 13)
         
         switch setting {
-        case .friends:
+        case .friends, .avatar, .myProfile:
             break
         case .mentions:
             print("unread count", DeviceService.shared.unreadMentionsCount())

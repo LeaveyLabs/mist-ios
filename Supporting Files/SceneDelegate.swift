@@ -43,20 +43,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-        let _ = UIWindow(windowScene: windowScene)
-    }
-    
-    func repositionBadges() {
-        let tabVC = UIApplication.shared.windows.first!.rootViewController as! SpecialTabBarController
-        tabVC.tabBar.subviews.forEach({ tab in
-            tab.subviews.forEach { badgeView in
-                if NSStringFromClass(badgeView.classForCoder) == "_UIBadgeView" {
-                   badgeView.layer.transform = CATransform3DIdentity
-                    badgeView.layer.transform = CATransform3DMakeTranslation(-13.0, -1.0, 1.0)
-                 }
-            }
-        })
+        
+        
+        
+//        if let windowScene = scene as? UIWindowScene {
+//            let window = UIWindow(windowScene: windowScene)
+//            print(UserService.singleton.isLoggedIntoAnAccount)
+//            window.rootViewController = UpdateProfileSettingViewController.create()
+//            self.window = window
+//            window.makeKeyAndVisible()
+//        }
+//
+//        guard let windowScene = (scene as? UIWindowScene) else { return }
+//        let scene = UIWindow(windowScene: windowScene)
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -69,6 +69,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        let scene = UIWindow(windowScene: windowScene)
+        print("SCENE ROOT:", scene.rootViewController)
+
     }
 
     func sceneWillResignActive(_ scene: UIScene) {

@@ -138,7 +138,9 @@ extension PostAnnotationView {
         ])
         
         let postAnnotation = annotation as! PostAnnotation
-        postCalloutView.configurePost(post: postAnnotation.post, delegate: postDelegate, arrowPosition: .bottom)
+        
+        let cachedPost = PostService.singleton.getPost(withPostId: postAnnotation.post.id)!
+        postCalloutView.configurePost(post: cachedPost, delegate: postDelegate, arrowPosition: .bottom)
 
         //Do i need to call some of these? I dont think so.
 //        mapView.layoutIfNeeded()
@@ -215,7 +217,17 @@ extension PostAnnotationView: AnnotationViewWithPosts {
     
     //The callout is currently presented, and we want to update the postView's UI with the new data
     func rerenderCalloutForUpdatedPostData() {
-        postCalloutView!.reconfigurePost()
+        guard
+            let postCalloutView = postCalloutView,
+            let _ = PostService.singleton.getPost(withPostId: postCalloutView.postId)
+        else {
+            guard let deletedPostAnnotation = mapView?.annotations.first(where: { ($0 as? PostAnnotation)?.post.id == postCalloutView?.postId }) else {
+                return
+            }
+            mapView?.removeAnnotation(deletedPostAnnotation)
+            return
+        }
+        postCalloutView.reconfigureVotes()
     }
     
     func movePostUpAfterEmojiKeyboardRaised() {

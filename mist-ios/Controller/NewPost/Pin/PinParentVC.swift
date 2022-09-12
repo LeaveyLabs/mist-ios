@@ -46,6 +46,7 @@ class PinParentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupOverlay()
+        overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: false, completion: nil)
     }
 }
 
@@ -100,7 +101,7 @@ extension PinParentViewController: OverlayContainerViewControllerDelegate {
         case .maximum:
             return availableSpace * 0.99
         case .minimum:
-            return 80
+            return 85
         }
     }
         
@@ -130,15 +131,21 @@ extension PinParentViewController: OverlayContainerViewControllerDelegate {
         guard
             let notch = OverlayNotch.init(rawValue: index)
         else { return }
-        switch notch {
-        case .maximum:
+        //We can't simply do a switch, because we don't want to cause the "view.layoutIfNeeded" animation on the VC's first appearance, when currentNotch = .minimum and newNotch = .minimum
+        if (currentNotch == .minimum || currentNotch == .maximum) && notch == .maximum {
             pinSearchVC.searchBar.becomeFirstResponder()
             UIView.animate(withDuration: 0.25, delay: 0) {
+                self.pinSearchVC.searchBarHeightConstraint.constant = 43
+                self.pinSearchVC.searchBarDividerUIView.alpha = 1
+                self.pinSearchVC.view.layoutIfNeeded()
                 self.pinMapVC.removeBlurredStatusBar()
             }
-        case .minimum:
+        } else if currentNotch == .maximum && notch == .minimum {
             pinSearchVC.searchBar.resignFirstResponder()
             UIView.animate(withDuration: 0.25, delay: 0) {
+                self.pinSearchVC.searchBarHeightConstraint.constant = 54
+                self.pinSearchVC.searchBarDividerUIView.alpha = 0
+                self.pinSearchVC.view.layoutIfNeeded()
                 self.pinMapVC.setupBlurredStatusBar()
             }
         }
@@ -147,9 +154,6 @@ extension PinParentViewController: OverlayContainerViewControllerDelegate {
     func overlayContainerViewController(_ containerViewController: OverlayContainerViewController, didMoveOverlay overlayViewController: UIViewController, toNotchAt index: Int) {
         guard let notch = OverlayNotch.init(rawValue: index) else { return }
         currentNotch = notch
-        if notch == .minimum {
-            
-        }
     }
     
     func overlayContainerViewController(_ containerViewController: OverlayContainerViewController, willStartDraggingOverlay overlayViewController: UIViewController) {

@@ -27,6 +27,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        Performance.sharedInstance().isDataCollectionEnabled = false
 //        Analytics.setAnalyticsCollectionEnabled(false)
         
+
+//        print(rootViewController)
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let controller = storyboard.instantiateViewController(withIdentifier: "Requester") as! RequestViewController
+//        rootViewController.present(controller, animated: true, completion: { () -> Void in
+//
+//        })
+        
         //MUST COME in didfinishlaunchingwithOptions
         let notifCenter = UNUserNotificationCenter.current()
         notifCenter.delegate = self
@@ -35,6 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         return true
     }
+    
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
