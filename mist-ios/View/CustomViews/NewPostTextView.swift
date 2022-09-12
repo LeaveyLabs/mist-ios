@@ -227,17 +227,9 @@ class NewPostTextField: UITextField {
         let textCount = text?.count ?? 0
         circularProgressView.progress = Float(textCount) / Float(maxLength)
         let charactersRemaining = Int(maxLength) - textCount
-        if charactersRemaining < 10 {
-            progressLabel.text = String(charactersRemaining)
-            if charactersRemaining < 0 {
-                circularProgressView.progressTintColor = .red
-                progressLabel.textColor = .red
-            } else {
-                circularProgressView.progressTintColor = Constants.Color.mistLilac
-                progressLabel.textColor = Constants.Color.mistLilac
-            }
-        } else {
-            progressLabel.text = ""
-        }
+        circularProgressView.progressTintColor = charactersRemaining < 0 ? .red : Constants.Color.mistLilac
+        progressLabel.textColor = charactersRemaining < 0 ? .red : Constants.Color.mistLilac
+        progressLabel.text = charactersRemaining < 10 ? String(charactersRemaining) : ""
+        self.textColor = charactersRemaining < 0 ? .red : Constants.Color.mistBlack
     }
 }
