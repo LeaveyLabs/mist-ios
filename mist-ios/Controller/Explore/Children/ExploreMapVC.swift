@@ -38,8 +38,8 @@ class ExploreMapViewController: MapViewController {
 //                    self.zoomStackView.alpha = shouldZoomBeHidden ? 0 : 1
                     self.exploreButtonStackView.alpha = shouldZoomBeHidden ? 0 : 1
                     self.trackingDimensionStackView.alpha = shouldZoomBeHidden ? 0 : 1
+                    self.zoomSliderGradientImageView.alpha = shouldZoomBeHidden ? 0 : 0.3
                     if shouldZoomBeHidden {
-                        self.zoomSliderGradientImageView.alpha = 0
                         self.trojansActiveView.alpha = 0
                     }
                 } completion: { completed in
