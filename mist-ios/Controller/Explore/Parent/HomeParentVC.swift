@@ -22,6 +22,9 @@ class HomeExploreParentViewController: ExploreParentViewController {
         setupRefreshableFeed()
         setupActiveLabel()
         setupTabBar()
+        
+        self.renderNewPostsOnFeedAndMap(withType: .firstLoad)
+        automaticallyFlyToPostAfterViewDidAppear()
     }
     
     func setupTabBar() {
@@ -52,16 +55,11 @@ class HomeExploreParentViewController: ExploreParentViewController {
         firstAppearance = false
         guard !isHandlingNewPost else { return }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [self] in
-            self.renderNewPostsOnFeedAndMap(withType: .firstLoad)
-            if !DeviceService.shared.hasBeenRequestedLocationOnHome() && (CLLocationManager.authorizationStatus() == .denied ||
-                CLLocationManager.authorizationStatus() == .notDetermined) {
-                DeviceService.shared.showHomeLocationRequest()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.exploreMapVC.requestUserLocationPermissionIfNecessary()
-                }
-            } else {
-                automaticallyFlyToPostAfterViewDidAppear()
+        if !DeviceService.shared.hasBeenRequestedLocationOnHome() && (CLLocationManager.authorizationStatus() == .denied ||
+            CLLocationManager.authorizationStatus() == .notDetermined) {
+            DeviceService.shared.showHomeLocationRequest()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.exploreMapVC.requestUserLocationPermissionIfNecessary()
             }
         }
         

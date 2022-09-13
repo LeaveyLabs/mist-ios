@@ -21,7 +21,8 @@ func loadEverything() async throws {
 
 func loadPostStuff() async throws {
     try await withThrowingTaskGroup(of: Void.self) { group in
-        group.addTask { try await PostService.singleton.loadExplorePosts() }
+        group.addTask { try await PostService.singleton.loadExploreFeedPosts() }
+        group.addTask { try await PostService.singleton.loadExploreMapPosts() }
         group.addTask { try await PostService.singleton.loadSubmissions() }
         group.addTask { try await PostService.singleton.loadMentions() }
         group.addTask { try await FavoriteService.singleton.loadFavorites() }

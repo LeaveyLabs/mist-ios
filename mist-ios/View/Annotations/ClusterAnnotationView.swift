@@ -45,7 +45,7 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
     var sortedMemberPosts: [Post] = []
     func sortMemberPosts(from memberAnnotations: [MKAnnotation]) -> [Post] {
         var posts = [Post]()
-        for explorePost in PostService.singleton.getExplorePosts() {
+        for explorePost in PostService.singleton.getExploreFeedPosts() {
             for annotation in memberAnnotations {
                 guard let annotationPost = (annotation as? PostAnnotation)?.post else { continue }
                 if annotationPost == explorePost {
@@ -94,7 +94,7 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
     
     private func setupMarkerTintColor(_ clusterAnnotation: MKClusterAnnotation?) {
         guard let memberAnnotations: Int = clusterAnnotation?.memberAnnotations.count else { return }
-        let totalNumberOfAnnotationsRendered: Int = mapView?.annotations.count ?? PostService.singleton.getExplorePostCount()
+        let totalNumberOfAnnotationsRendered: Int = mapView?.annotations.count ?? PostService.singleton.getExploreMapPosts().count
         let density = Double(memberAnnotations) / Double(totalNumberOfAnnotationsRendered)
         if density < 0.08 {
             markerTintColor = UIColor(hex: "#AE75F7")

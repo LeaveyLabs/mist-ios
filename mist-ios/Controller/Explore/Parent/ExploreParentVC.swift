@@ -41,10 +41,10 @@ class ExploreParentViewController: UIViewController {
 
     //ExploreChildDelegate
     var feedPosts: [Post] {
-        PostService.singleton.getExplorePosts()
+        PostService.singleton.getExploreFeedPosts()
     }
     var mapPosts: [Post] {
-        PostService.singleton.getExplorePosts()
+        PostService.singleton.getExploreMapPosts()
     }
 //    var feedPostFilter: PostFilter!
     

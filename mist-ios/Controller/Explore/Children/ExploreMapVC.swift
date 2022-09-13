@@ -93,6 +93,8 @@ extension ExploreMapViewController {
         super.viewDidAppear(animated)
         moveMapLegalLabel()
         
+        mapView.selectAnnotation(postAnnotations.first!, animated: true)
+        
         // Handle controller being exposed from push/present or pop/dismiss
         if (self.isMovingToParent || self.isBeingPresented){
             // Controller is being pushed on or presented.
@@ -145,10 +147,10 @@ extension ExploreMapViewController {
 
         // configure layout
         centeredCollectionViewFlowLayout.itemSize = CGSize(
-            width: POST_VIEW_WIDTH,
+            width: POST_VIEW_WIDTH + 20,
             height: POST_VIEW_MAX_HEIGHT - 20
         )
-        centeredCollectionViewFlowLayout.minimumLineSpacing = 16
+        centeredCollectionViewFlowLayout.minimumLineSpacing = 25
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
 
@@ -159,7 +161,7 @@ extension ExploreMapViewController {
             collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
         ])
         
-        collectionView.backgroundColor = .black.withAlphaComponent(0.1)
+//        collectionView.backgroundColor = .black.withAlphaComponent(0.1)
         collectionView.alpha = 0
     }
 }
@@ -171,12 +173,15 @@ extension ExploreMapViewController {
     //When this function is called with FALSE, we are confident we have:
         //1 a selectedAnnotationView
     func toggleCollectionView(shouldBeHidden: Bool) {
+        guard collectionView != nil else { return } //collectionView is not set even though map didChangeVisibleRegion is called
         
         print("TOGGLING COLLECITON VIEW")
         if shouldBeHidden {
+            guard collectionView.alpha != 0 else { return }
             selectedAnnotationView = nil
             currentlyVisiblePostIndex = nil
         } else {
+            guard collectionView.alpha == 0 else { return }
             guard let selectedAnnotationView = selectedAnnotationView else {
                 fatalError("must have a selected annotation view before rendering colleciton view!")
             }
@@ -195,7 +200,7 @@ extension ExploreMapViewController {
             } else { //place annotation?
                 postIndexToBeVisible = 6969696
             }
-            centeredCollectionViewFlowLayout.scrollToPage(index: postIndexToBeVisible, animated: true)
+            centeredCollectionViewFlowLayout.scrollToPage(index: postIndexToBeVisible, animated: false)
         }
         
         print("ANIMATING TRUE")

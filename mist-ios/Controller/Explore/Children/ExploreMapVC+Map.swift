@@ -73,6 +73,9 @@ extension ExploreMapViewController {
         
         // Handle other purposes of the tap gesture besides just AnnotationViewInteractionDelayPrevention:
         deselectOneAnnotationIfItExists()
+        if selectedAnnotationView != nil {
+            toggleCollectionView(shouldBeHidden: true)
+        }
     }
     
 }
@@ -207,15 +210,10 @@ extension ExploreMapViewController {
     }
     
     override func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        if selectedAnnotationView != nil && !isCameraFlying {
+            toggleCollectionView(shouldBeHidden: true)
+        }
         super.mapViewDidChangeVisibleRegion(mapView)
-        
-        //If you want to dismiss on drag/pan, then fix this code
-//        if !cameraIsFlying {
-//            print(sheetPresentationController?.selectedDetentIdentifier)
-//            if sheetPresentationController?.selectedDetentIdentifier != nil && sheetPresentationController?.selectedDetentIdentifier?.rawValue != "zil" {
-//                dismissFilter()
-//            }
-//        }
     }
     
     //MARK: Map Helpers

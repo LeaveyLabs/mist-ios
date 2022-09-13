@@ -18,7 +18,8 @@ class PostService: NSObject {
     
     private var cachedPosts = [Int: Post]() //[postId: post]
     
-    private var explorePostIds = [Int]()
+    private var exploreMapPostIds = [Int]()
+    private var exploreFeedPostIds = [Int]()
     private var conversationPostIds = [Int]()
     private var submissionPostIds = [Int]()
     private var favoritePostIds = [Int]()
@@ -41,21 +42,17 @@ class PostService: NSObject {
     //MARK: - Load and setup
     
     func loadFeederPosts() async {
-        explorePostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: FeederData.posts)
+        exploreFeedPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: FeederData.posts)
     }
         
-    func loadExplorePosts() async throws {
-        let loadedPosts: [Post]
-        switch explorePostFilter.searchBy {
-        case .all:
-            loadedPosts = try await PostAPI.fetchPosts()
-        case .location:
-            loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: explorePostFilter.region.center.latitude, longitude: explorePostFilter.region.center.longitude, radius: convertLatDeltaToKms(explorePostFilter.region.span.latitudeDelta))
-        case .text:
-            let searchWords = explorePostFilter.text?.components(separatedBy: .whitespaces)
-            loadedPosts = try await PostAPI.fetchPostsByWords(words: searchWords ?? [""])
-        }
-        explorePostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts)
+    func loadExploreFeedPosts() async throws {
+        let loadedPosts: [Post] = try await PostAPI.fetchPosts()
+        exploreFeedPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts)
+    }
+    
+    func loadExploreMapPosts() async throws {
+        let loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: explorePostFilter.centerCoordinate.latitude, longitude: explorePostFilter.centerCoordinate.longitude)//, radius: convertLatDeltaToKms(explorePostFilter.region.span.latitudeDelta))
+        exploreMapPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts)
     }
     
     func loadSubmissions() async throws {
@@ -110,12 +107,12 @@ class PostService: NSObject {
     
     //MARK: - Getting
     
-    func getExplorePostCount() -> Int {
-        return getLoadedPostsFor(postIds: explorePostIds).count
+    func getExploreFeedPosts() -> [Post] {
+        return getLoadedPostsFor(postIds: exploreFeedPostIds)
     }
     
-    func getExplorePosts() -> [Post] {
-        return getLoadedPostsFor(postIds: explorePostIds)
+    func getExploreMapPosts() -> [Post] {
+        return getLoadedPostsFor(postIds: exploreMapPostIds)
     }
     
     func getSubmissions() -> [Post] {
@@ -189,14 +186,14 @@ class PostService: NSObject {
         cachedPosts[newPost.id] = newPost
         
         submissionPostIds.insert(newPost.id, at: 0)
-        explorePostIds.insert(newPost.id, at: 0)
+        exploreFeedPostIds.insert(newPost.id, at: 0)
     }
     
     func deletePost(postId: Int) async throws {
         try await PostAPI.deletePost(post_id: postId)
         cachedPosts.removeValue(forKey: postId)
         
-        explorePostIds.removeFirstAppearanceOf(object: postId)
+        exploreFeedPostIds.removeFirstAppearanceOf(object: postId)
         conversationPostIds.removeFirstAppearanceOf(object: postId)
         submissionPostIds.removeFirstAppearanceOf(object: postId)
         favoritePostIds.removeFirstAppearanceOf(object: postId)

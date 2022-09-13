@@ -272,7 +272,8 @@ class NewPostViewController: UIViewController {
             do {
                 //We need to reset the filter and reload posts before uploading because uploading the post will immediately insert it at index 0 of explorePosts
                 PostService.singleton.resetFilter()
-                try await PostService.singleton.loadExplorePosts()
+                try await PostService.singleton.loadExploreFeedPosts()
+                try await PostService.singleton.loadExploreMapPosts()
                 try await PostService.singleton.uploadPost(title: trimmedTitleText, text: trimmedBodyText, locationDescription: postLocationText, latitude: postLocationCoordinate.latitude, longitude: postLocationCoordinate.longitude, timestamp: datePicker.date.timeIntervalSince1970)
                 NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .dmNotificationsAfterNewPost, onVC: self) { didDisplayRequest in
                     DispatchQueue.main.async {
