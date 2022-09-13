@@ -338,10 +338,10 @@ extension ClusterAnnotationView: UICollectionViewDelegate {
                 collectionView.alpha = 1 - abs(Double(max(0,xtranslation)) / 100)
             }
         } else if currentIndex == memberCount - 1 {
+            collectionView.transform = CGAffineTransform(translationX: min(0,xtranslation/2), y: 0) //to give it a little boost
             if xtranslation < 0 {
                 collectionView.alpha = 1 - abs(Double(min(0,xtranslation)) / 100)
             }
-            collectionView.transform = CGAffineTransform(translationX: min(0,xtranslation/2), y: 0) //to give it a little boost
         }
     }
     
