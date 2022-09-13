@@ -152,20 +152,6 @@ extension HomeExploreParentViewController {
     
 }
 
-extension MKMapView {
-    
-    var greatestClusterAnnotation: MKClusterAnnotation? {
-        var greatestClusterAnnotation: MKClusterAnnotation? = nil
-        annotations.forEach { annotation in
-            if let cluster = annotation as? MKClusterAnnotation, cluster.memberAnnotations.count > greatestClusterAnnotation?.memberAnnotations.count ?? 0 {
-                greatestClusterAnnotation = cluster
-            }
-        }
-        return greatestClusterAnnotation
-    }
-    
-}
-
 
 // MARK: - Filter
 

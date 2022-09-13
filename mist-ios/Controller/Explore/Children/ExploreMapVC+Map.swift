@@ -73,9 +73,6 @@ extension ExploreMapViewController {
         
         // Handle other purposes of the tap gesture besides just AnnotationViewInteractionDelayPrevention:
         deselectOneAnnotationIfItExists()
-        if selectedAnnotationView != nil {
-            toggleCollectionView(shouldBeHidden: true)
-        }
     }
     
 }
@@ -99,12 +96,13 @@ extension ExploreMapViewController {
 
 extension ExploreMapViewController {
         
-//    func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
-//        if memberAnnotations.contains(where: { $0.coordinate == (selectedAnnotationView as? MKAnnotation)?.coordinate }) {
-//            deselectOneAnnotationIfItExists()
-//        }
-//        return MKClusterAnnotation(memberAnnotations: memberAnnotations)
-//    }
+    func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
+        if memberAnnotations.contains(where: { $0.hash == (selectedAnnotationView as? MKAnnotation)?.hash }) {
+            print("FOUND A CLUSTER THAT'S BEING CLUSTERED! SO DESELECTING IT")
+            deselectOneAnnotationIfItExists()
+        }
+        return MKClusterAnnotation(memberAnnotations: memberAnnotations)
+    }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if view.annotation is MKUserLocation {
@@ -116,6 +114,7 @@ extension ExploreMapViewController {
                       completion: { _ in })
         }
         selectedAnnotationView = view as? AnnotationViewWithPosts
+        let annotationSelectionTypeBeforeSlowFly = annotationSelectionType
         mapView.isZoomEnabled = true // AnnotationQuickSelect: 3 of 3, just in case
         switch annotationSelectionType {
         case .submission:
@@ -126,24 +125,16 @@ extension ExploreMapViewController {
                                      withLatitudeOffset: true,
                                       completion: { [weak self] completed in
                     guard let self = self else { return }
-                    clusterView.loadCollectionView(on: self.mapView, withPostDelegate: self.postDelegate)
+                    clusterView.loadCollectionView(on: self.mapView, withPostDelegate: self.postDelegate, withDelay: 0, swipeDelegate: self, selectionType: annotationSelectionTypeBeforeSlowFly)
                 })
             } else if let postAnnotationView = view as? PostAnnotationView {
                 postAnnotationView.loadPostView(on: mapView,
                                                 withDelay: 0,
-                                                withPostDelegate: postDelegate)
+                                                withPostDelegate: postDelegate, swipeDelegate: self)
             }
-        case .swipe: //just slow fly, since the collectionView is already visible
-            
-            //WAIT WHAT
-            //how could a newly selected annotationView not have an annotation?
-            
-            slowFlyWithoutZoomTo(lat: view.annotation!.coordinate.latitude, long: view.annotation!.coordinate.longitude, withDuration: cameraAnimationDuration, withLatitudeOffset: true)
-        default: //aka a tap
-                //if we're close enough, slow fly AND render the collectionView
-                //if we're too far out, simply zoom in
+        default:
             if let clusterView = view as? ClusterAnnotationView,
-                let clusterAnnotation = clusterView.annotation {
+                let clusterAnnotation = clusterView.annotation as? MKClusterAnnotation {
                 let shouldZoomIn = mapView.camera.centerCoordinateDistance > MapViewController.ANNOTATION_ZOOM_THRESHOLD
                 if shouldZoomIn {
                     mapView.deselectAnnotation(clusterAnnotation, animated: false)
@@ -155,17 +146,10 @@ extension ExploreMapViewController {
                 } else {
                     slowFlyWithoutZoomTo(lat: clusterAnnotation.coordinate.latitude,
                               long: clusterAnnotation.coordinate.longitude,
-                              withDuration: cameraAnimationDuration, withLatitudeOffset: true,
-                              completion: { [weak self] completed in
-                        guard let self = self else { return }
-        //                let doesClusterStillExist = self.mapView.selectedAnnotations.contains { annotation in
-        //                    annotation as? MKClusterAnnotation == clusterAnnotation
-        //                }
-        //                guard doesClusterStillExist else { return }
-                        self.toggleCollectionView(shouldBeHidden: false)
-                    })
+                              withDuration: cameraAnimationDuration, withLatitudeOffset: true, completion: { _ in })
+                    clusterView.loadCollectionView(on: self.mapView, withPostDelegate: self.postDelegate, withDelay: cameraAnimationDuration, swipeDelegate: self, selectionType: annotationSelectionTypeBeforeSlowFly)
                 }
-            } else if let _ = view as? PostAnnotationView {
+            } else if let postAnnotationView = view as? PostAnnotationView {
                 let shouldZoomIn = mapView.camera.centerCoordinateDistance > MapViewController.ANNOTATION_ZOOM_THRESHOLD
                 if shouldZoomIn {
                     slowFlyTo(lat: view.annotation!.coordinate.latitude,
@@ -173,17 +157,18 @@ extension ExploreMapViewController {
                               incrementalZoom: false,
                               withDuration: cameraAnimationDuration,
                               withLatitudeOffset: true,
-                              completion: { completed in
-                        self.toggleCollectionView(shouldBeHidden: false)
-                    })
+                              completion: { _ in })
+                    postAnnotationView.loadPostView(on: mapView,
+                                                    withDelay: cameraAnimationDuration,
+                                                    withPostDelegate: postDelegate, swipeDelegate: self)
                 } else {
                     slowFlyWithoutZoomTo(lat: view.annotation!.coordinate.latitude,
                                          long: view.annotation!.coordinate.longitude,
                               withDuration: cameraAnimationDuration, withLatitudeOffset: true,
-                              completion: { _ in
-                        self.toggleCollectionView(shouldBeHidden: false)
-                    })
-                    
+                              completion: { _ in })
+                    postAnnotationView.loadPostView(on: mapView,
+                                                    withDelay: cameraAnimationDuration,
+                                                    withPostDelegate: postDelegate, swipeDelegate: self)
                 }
             } else if let _ = view as? PlaceAnnotationView {
                 slowFlyTo(lat: view.annotation!.coordinate.latitude,
@@ -210,9 +195,6 @@ extension ExploreMapViewController {
     }
     
     override func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-        if selectedAnnotationView != nil && !isCameraFlying {
-            toggleCollectionView(shouldBeHidden: true)
-        }
         super.mapViewDidChangeVisibleRegion(mapView)
     }
     
@@ -228,4 +210,111 @@ extension ExploreMapViewController {
         mapView.addAnnotations(placeAnnotations)
     }
     
+}
+
+
+
+//MARK: Post swiping
+
+extension MKMapView {
+    
+    //WAIT THIS COULD GET MAJOR FUCKED UP IF SOMEONE PUTS ONE AROUND THE WORLD
+    func getNextFurthestLeftAnnotation(among annotations: [MKAnnotation], from baseAnnotation: MKAnnotation) -> MKAnnotation? {
+        var nextFurthestLeft: MKAnnotation?
+        var leastDifferenceInLongitude: Double = .greatestFiniteMagnitude
+        annotations.forEach({ annotation in
+            let differenceInLongitude = abs(annotation.coordinate.longitude - baseAnnotation.coordinate.longitude)
+            if annotation.coordinate.longitude < baseAnnotation.coordinate.longitude && differenceInLongitude < leastDifferenceInLongitude {
+                nextFurthestLeft = annotation
+                leastDifferenceInLongitude = differenceInLongitude
+            }
+        })
+        return nextFurthestLeft
+    }
+    
+    func getNextFurthestRightAnnotation(among annotations: [MKAnnotation], from baseAnnotation: MKAnnotation) -> MKAnnotation? {
+        var nextFurthestRightAnnotation: MKAnnotation?
+        var leastDifferenceInLongitude: Double = .greatestFiniteMagnitude
+        annotations.forEach({ annotation in
+            let differenceInLongitude = abs(annotation.coordinate.longitude - baseAnnotation.coordinate.longitude)
+            if annotation.coordinate.longitude > baseAnnotation.coordinate.longitude && differenceInLongitude < leastDifferenceInLongitude {
+                nextFurthestRightAnnotation = annotation
+                leastDifferenceInLongitude = differenceInLongitude
+            }
+        })
+        return nextFurthestRightAnnotation
+    }
+    
+    func getFurthestLeftAnnotation(among annotations: [MKAnnotation]) -> MKAnnotation? {
+        guard annotations.count > 0 else { return nil }
+        var furthestLeft = annotations.first!
+        annotations.forEach { annotation in
+            if annotation.coordinate.longitude < furthestLeft.coordinate.longitude {
+                furthestLeft = annotation
+            }
+        }
+        return furthestLeft
+    }
+    
+    func getFurthestRightAnnotation(among annotations: [MKAnnotation]) -> MKAnnotation? {
+        guard annotations.count > 0 else { return nil }
+        var furthestRight = annotations.first!
+        annotations.forEach { annotation in
+            if annotation.coordinate.longitude > furthestRight.coordinate.longitude {
+                furthestRight = annotation
+            }
+        }
+        return furthestRight
+    }
+}
+
+extension ExploreMapViewController: AnnotationViewSwipeDelegate {
+
+    func handlePostViewSwipeRight() {
+        guard let disappearingAnnotationView = selectedAnnotationView as? MKAnnotationView,
+              let disappearingAnnotation = disappearingAnnotationView.annotation else { return }
+        mapView.deselectAnnotation(disappearingAnnotationView.annotation, animated: true)
+        
+        var furthestLeft = disappearingAnnotation
+        if let cluster = disappearingAnnotation as? MKClusterAnnotation {
+            furthestLeft = mapView.getFurthestLeftAnnotation(among: cluster.memberAnnotations)!
+        }
+        guard let nextAnnotation = mapView.getNextFurthestLeftAnnotation(among: postAnnotations, from: furthestLeft) else { return }
+        annotationSelectionType = .swipeRight
+        if let nextPostAnnotation = nextAnnotation as? PostAnnotation,
+           let nextCluster = mapView.greatestClusterContaining(nextPostAnnotation) {
+            print("NEXT CLusTER", nextCluster)
+            mapView.selectAnnotation(nextCluster, animated: true)
+        } else {
+            print("next annotation:", nextAnnotation, "coordinate", nextAnnotation.coordinate)
+            mapView.selectAnnotation(nextAnnotation, animated: true)
+        }
+    }
+
+    func handlePostViewSwipeLeft() {
+        guard let disappearingAnnotationView = selectedAnnotationView as? MKAnnotationView,
+              let disappearingAnnotation = disappearingAnnotationView.annotation else { return }
+        mapView.deselectAnnotation(disappearingAnnotationView.annotation, animated: true)
+        var furthestRight = disappearingAnnotation
+        if let cluster = disappearingAnnotation as? MKClusterAnnotation {
+            furthestRight = mapView.getFurthestRightAnnotation(among: cluster.memberAnnotations)!
+        }
+        guard let nextAnnotation = mapView.getNextFurthestRightAnnotation(among: postAnnotations, from: furthestRight) else { return }
+        annotationSelectionType = .swipeLeft
+        if let nextPostAnnotation = nextAnnotation as? PostAnnotation,
+           let nextCluster = mapView.greatestClusterContaining(nextPostAnnotation) {
+            print("NEXT CLusTER", nextCluster)
+            mapView.selectAnnotation(nextCluster, animated: true)
+        } else {
+            print("next annotation:", nextAnnotation, "coordinate", nextAnnotation.coordinate)
+            mapView.selectAnnotation(nextAnnotation, animated: true)
+        }
+    }
+    
+}
+
+extension MKMapView {
+    func visibleAnnotations() -> [MKAnnotation] {
+        return self.annotations(in: self.visibleMapRect).map { obj -> MKAnnotation in return obj as! MKAnnotation }
+    }
 }
