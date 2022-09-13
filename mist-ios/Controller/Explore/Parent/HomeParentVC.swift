@@ -138,7 +138,7 @@ extension HomeExploreParentViewController {
                     }
                 }
                 
-                if let greatestCluster = greatestClusterContaining(newPostAnnotation) {
+                if let greatestCluster = exploreMapVC.mapView.greatestClusterContaining(newPostAnnotation) {
                     exploreMapVC.mapView.selectAnnotation(greatestCluster, animated: true)
                 } else {
                     if let rerenderedAnnotation = exploreMapVC.mapView.annotations.first(where: {
@@ -150,20 +150,6 @@ extension HomeExploreParentViewController {
             }
             
         }
-    }
-    
-    func greatestClusterContaining(_ postAnnotation: PostAnnotation) -> MKClusterAnnotation? {
-        var candidateClusters = [MKClusterAnnotation]()
-        for annotation in exploreMapVC.mapView.annotations {
-            guard let cluster = annotation as? MKClusterAnnotation,
-                  cluster.memberAnnotations.contains(where: {
-                      ($0 as? PostAnnotation)?.post == postAnnotation.post })
-            else {
-                continue
-            }
-            candidateClusters.append(cluster)
-        }
-        return candidateClusters.sorted(by: { $0.memberAnnotations.count > $1.memberAnnotations.count }).first
     }
     
 }

@@ -15,8 +15,7 @@ extension ExploreParentViewController: ExploreChildDelegate {
     @MainActor
     func reloadData() {
         exploreFeedVC.feed.reloadData()
-        exploreMapVC.selectedAnnotationView?.rerenderCalloutForUpdatedPostData()
-        //the annotationView handle removing the postannotation if necessary
+        exploreMapVC.rerenderCollectionViewForUpdatedPostData()
     }
     
     func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType) {
@@ -31,7 +30,7 @@ extension ExploreParentViewController: ExploreChildDelegate {
         //Map camera travel, only on new searches
         exploreMapVC.removeExistingPlaceAnnotationsFromMap()
         exploreMapVC.removeExistingPostAnnotationsFromMap()
-        exploreMapVC.turnPostsIntoAnnotations(posts)
+        exploreMapVC.turnPostsIntoAnnotations(mapPosts)
 
         //if at some point we decide to list out places in the feed results, too, then turnPlacesIntoAnnoations should be moved here
         //the reason we don't need to rn is because the feed is not dependent on place data, just post data, and we should scroll to top of feed before refreshing the data
@@ -105,13 +104,15 @@ extension ExploreParentViewController: PostDelegate {
     
     func handleBackgroundTap(postId: Int) {
         view.endEditing(true)
-        let tappedPost = posts.first { $0.id == postId }!
+        let tappedPost = PostService.singleton.getPost(withPostId: postId)!
+//        let tappedPost = posts.first { $0.id == postId }!
         sendToPostViewFor(tappedPost, withRaisedKeyboard: false)
     }
     
     func handleCommentButtonTap(postId: Int) {
         view.endEditing(true)
-        let tappedPost = posts.first { $0.id == postId }!
+        let tappedPost = PostService.singleton.getPost(withPostId: postId)!
+//        let tappedPost = posts.first { $0.id == postId }!
         sendToPostViewFor(tappedPost, withRaisedKeyboard: true)
     }
     
@@ -129,7 +130,7 @@ extension ExploreParentViewController: PostDelegate {
     //MARK: - React interaction
     
     func handleReactTap(postId: Int) {
-        reactingPostIndex = posts.firstIndex { $0.id == postId }
+        reactingPostIndex = feedPosts.firstIndex { $0.id == postId }
         isKeyboardForEmojiReaction = true
     }
     
@@ -173,8 +174,8 @@ extension ExploreParentViewController: PostDelegate {
                     exploreFeedVC.scrollFeedToPostRightAboveKeyboard(postIndex: reactingPostIndex, keyboardHeight: keyboardHeight)
                 }
             case .minimum: //Map
-                if let postAnnotationView = exploreMapVC.selectedAnnotationView, keyboardHeight > 100 { //keyboardHeight of 90 appears with postVC keyboard
-                    postAnnotationView.movePostUpAfterEmojiKeyboardRaised()
+                if let _ = exploreMapVC.selectedAnnotationView, keyboardHeight > 100 { //keyboardHeight of 90 appears with postVC keyboard
+                    exploreMapVC.movePostUpAfterEmojiKeyboardRaised()
                 }
             }
         }
@@ -183,8 +184,8 @@ extension ExploreParentViewController: PostDelegate {
     @objc func keyboardWillDismiss(sender: NSNotification) {
         keyboardHeight = 0
         //DONT DO THE FOLLOWING IF THEY"RE CURRENTLY DRAGGING
-        if let postAnnotationView = exploreMapVC.selectedAnnotationView { //!postAnnotationView.isPanning { this was useful when we allowed swiping between postsAnnotationViews. not needed anymore
-            postAnnotationView.movePostBackDownAfterEmojiKeyboardDismissed()
+        if let _ = exploreMapVC.selectedAnnotationView { //!postAnnotationView.isPanning { this was useful when we allowed swiping between postsAnnotationViews. not needed anymore
+            exploreMapVC.movePostBackDownAfterEmojiKeyboardDismissed()
         }
     }
 

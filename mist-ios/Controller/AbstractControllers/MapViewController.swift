@@ -18,6 +18,23 @@ import FirebaseAnalytics
     
 //}
 
+extension MKMapView {
+    
+    func greatestClusterContaining(_ postAnnotation: PostAnnotation) -> MKClusterAnnotation? {
+        var candidateClusters = [MKClusterAnnotation]()
+        for annotation in self.annotations {
+            guard let cluster = annotation as? MKClusterAnnotation,
+                  cluster.memberAnnotations.contains(where: {
+                      ($0 as? PostAnnotation)?.post == postAnnotation.post })
+            else {
+                continue
+            }
+            candidateClusters.append(cluster)
+        }
+        return candidateClusters.sorted(by: { $0.memberAnnotations.count > $1.memberAnnotations.count }).first
+    }
+}
+
 class MapViewController: UIViewController {
     
     //MARK: - Properties
@@ -425,7 +442,7 @@ extension MapViewController {
                               long: Double,
                               withDuration duration: Double,
                               withLatitudeOffset: Bool = false,
-                              completion: @escaping (Bool) -> Void) {
+                              completion: @escaping (Bool) -> Void = { _ in } ) {
         isCameraFlying = true
         
         //NOTE: unlike the other slowFlyTo functions, in this one, we're calculating the latitude offset dynamically, based on the current map zoom level

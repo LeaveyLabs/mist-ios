@@ -13,7 +13,8 @@ protocol ExploreChildDelegate {
     func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType)
     func reloadData()
     
-    var posts: [Post] { get }
+    var mapPosts: [Post] { get }
+    var feedPosts: [Post] { get }
 }
 
 class ExploreParentViewController: UIViewController {
@@ -33,16 +34,19 @@ class ExploreParentViewController: UIViewController {
     var currentNotch: OverlayNotch = .minimum
     
     //PostDelegate
-    var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] = [:]
+//    var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] = [:]
     var keyboardHeight: CGFloat = 0 //emoji keyboard autodismiss flag
     var isKeyboardForEmojiReaction: Bool = false
     var reactingPostIndex: Int? //for scrolling to the right index on the feed when react keyboard raises
 
     //ExploreChildDelegate
-    var posts: [Post] {
+    var feedPosts: [Post] {
         PostService.singleton.getExplorePosts()
     }
-//    var currentFilter: PostFilter!
+    var mapPosts: [Post] {
+        PostService.singleton.getExplorePosts()
+    }
+//    var feedPostFilter: PostFilter!
     
     var isFirstLoad = true
 

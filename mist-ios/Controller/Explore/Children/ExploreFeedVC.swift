@@ -117,12 +117,12 @@ extension ExploreFeedViewController {
 extension ExploreFeedViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return exploreDelegate.posts.count
+        return exploreDelegate.feedPosts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.feed.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.Post, for: indexPath) as! PostCell
-        let cachedPost = PostService.singleton.getPost(withPostId: exploreDelegate.posts[indexPath.row].id)!
+        let cachedPost = PostService.singleton.getPost(withPostId: exploreDelegate.feedPosts[indexPath.row].id)!
         let _ = cell.configurePostCell(post: cachedPost,
                                nestedPostViewDelegate: postDelegate,
                                bubbleTrianglePosition: .left,

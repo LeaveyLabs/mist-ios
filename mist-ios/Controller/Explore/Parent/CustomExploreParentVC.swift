@@ -14,7 +14,19 @@ class CustomExploreParentViewController: ExploreParentViewController {
     var setting: Setting!
     var feedBottomConstraint: NSLayoutConstraint!
     
-    override var posts: [Post] {
+    override var mapPosts: [Post] {
+        switch setting {
+        case .submissions:
+            return PostService.singleton.getSubmissions()
+        case .mentions:
+            return PostService.singleton.getMentions()
+        case .favorites:
+            return PostService.singleton.getFavorites()
+        default:
+            return []
+        }
+    }
+    override var feedPosts: [Post] {
         switch setting {
         case .submissions:
             return PostService.singleton.getSubmissions()
