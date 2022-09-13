@@ -469,13 +469,14 @@ extension NewPostViewController: UITextViewDelegate {
     }
     
     func setAllInteractionTo(_ shouldBeEnabled: Bool) {
-        postButton.isEnabled = shouldBeEnabled
-        pinButton.isEnabled = shouldBeEnabled
-        guidelinesButton.isEnabled = shouldBeEnabled
-        locationNameTextField.isEnabled = shouldBeEnabled
-        datePicker.isEnabled = shouldBeEnabled
-        titleTextView.isEditable = shouldBeEnabled
-        bodyTextView.isEditable = shouldBeEnabled
+        postButton.isUserInteractionEnabled = shouldBeEnabled
+        pinButton.isUserInteractionEnabled = shouldBeEnabled
+        guidelinesButton.isUserInteractionEnabled = shouldBeEnabled
+        locationNameTextField.isUserInteractionEnabled = shouldBeEnabled
+        datePicker.isUserInteractionEnabled = shouldBeEnabled
+        titleTextView.isUserInteractionEnabled = shouldBeEnabled
+        bodyTextView.isUserInteractionEnabled = shouldBeEnabled
+        postButton.isUserInteractionEnabled = shouldBeEnabled
     }
     
     //my guess is it had something to do with this validate all fields
@@ -485,9 +486,9 @@ extension NewPostViewController: UITextViewDelegate {
         
         //note: the text indicator being hidden and the field being valid are two different things. the user can input in text longer than the field allows, which shouldnt rerender the indicator view, but which should disable submit button
         titleLilacIndicator.isHidden = titleTextView.text.count != 0
-        let isValidTitle = titleTextView.text.count != 0 && titleTextView.text.count < TITLE_CHARACTER_LIMIT
+        let isValidTitle = titleTextView.text.count != 0 && titleTextView.text.count <= TITLE_CHARACTER_LIMIT
         bodyLilacIndicator.isHidden = bodyTextView.text.count != 0
-        let isValidBody = bodyTextView.text.count != 0 && bodyTextView.text.count < BODY_CHARACTER_LIMIT
+        let isValidBody = bodyTextView.text.count != 0 && bodyTextView.text.count <= BODY_CHARACTER_LIMIT
         postButton.isEnabled = locationNameLilacIndicator.isHidden && pinLilacIndicator.isHidden && isValidTitle && isValidBody
     }
 }

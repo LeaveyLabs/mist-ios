@@ -150,7 +150,6 @@ extension ExploreParentViewController: OverlayContainerViewControllerDelegate {
         if notch == .maximum {
             exploreMapVC.dismissPost()
         }
-        print(currentNotch)
     }
     
     //to fix: slight unideal animation when dragging down and then immediatley letting go on feed overlay

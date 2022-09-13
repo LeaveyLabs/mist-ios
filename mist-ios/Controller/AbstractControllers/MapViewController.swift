@@ -31,6 +31,7 @@ extension MKMapView {
             }
             candidateClusters.append(cluster)
         }
+        print(candidateClusters)
         return candidateClusters.sorted(by: { $0.memberAnnotations.count > $1.memberAnnotations.count }).first
     }
 }
@@ -54,7 +55,7 @@ class MapViewController: UIViewController {
     static let MIN_CAMERA_DISTANCE: Double = 500
     var maxCameraPitch: Double = 20
 //    static let MIN_CAMERA_PITCH: Double = 0 //not implemented yet
-    static let ANNOTATION_ZOOM_THRESHOLD: Double = STARTING_ZOOM_DISTANCE + 200
+    static let ANNOTATION_ZOOM_THRESHOLD: Double = 1_000_000
     let minSpanDelta = 0.02
     var isCameraFlyingOutAndIn: Bool = false
     var isCameraFlying: Bool = false {

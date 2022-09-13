@@ -171,15 +171,17 @@ extension UIView {
 
 
 // Panning gesture
-var panOffset = CGPoint.zero
-var isPanning = false
-var isSlidingUp = false
+//var panOffset = CGPoint.zero
+//var isPanning = false
+//var isSlidingUp = false
+//
 
-enum SwipeDirection {
-    case up, incomplete
-}
-
+//
 extension EnvelopeView {
+    
+    enum SwipeDirection {
+        case up, incomplete
+    }
     
 //    private func setupPanGesture() {
 //        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gestureRecognizer:)))

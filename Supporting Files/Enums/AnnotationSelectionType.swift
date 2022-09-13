@@ -8,5 +8,5 @@
 import Foundation
 
 enum AnnotationSelectionType { // Flag for didSelect(annotation)
-    case submission, swipe, normal
+    case submission, swipeLeft, swipeRight, normal
 }

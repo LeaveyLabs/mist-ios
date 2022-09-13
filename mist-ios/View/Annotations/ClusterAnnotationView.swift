@@ -13,6 +13,7 @@ protocol AnnotationViewWithPosts {
     func movePostUpAfterEmojiKeyboardRaised()
     func movePostBackDownAfterEmojiKeyboardDismissed()
     func rerenderCalloutForUpdatedPostData()
+    func derenderCallout()
 }
 
 class ClusterAnnotationView: MKMarkerAnnotationView {
@@ -22,10 +23,15 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
     let centeredCollectionViewFlowLayout = CenteredCollectionViewFlowLayout()
     var collectionView: PostCollectionView?
     var postDelegate: PostDelegate?
+    var isFinishingSwipe: Bool = false
+    var swipeDelegate: AnnotationViewSwipeDelegate?
+    var xtranslation: Double = 0
     lazy var MAP_VIEW_WIDTH: Double = Double(mapView?.bounds.width ?? 350)
     lazy var POST_VIEW_WIDTH: Double = MAP_VIEW_WIDTH * 0.5 + 100
     lazy var POST_VIEW_MARGIN: Double = (MAP_VIEW_WIDTH - POST_VIEW_WIDTH) / 2
     lazy var POST_VIEW_MAX_HEIGHT: Double = (((mapView?.frame.height ?? 500) * 0.75) - 110.0)
+    
+    var quickSelectGestureRecognizer: UITapGestureRecognizer!
 
     var mapView: MKMapView? {
         var view = superview
@@ -71,14 +77,11 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
         }
     }
     
-    
-    
     //MARK: - Initialization
         
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         setupGestureRecognizerToPreventInteractionDelay()
-        setupCarouselView()
         centerOffset = CGPoint(x: 0, y: -10) // Offset center point to animate better with marker annotations
     }
     
@@ -87,10 +90,6 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
     }
     
     //MARK: - Setup
-    
-    func setupCarouselView() {
-        
-    }
     
     private func setupMarkerTintColor(_ clusterAnnotation: MKClusterAnnotation?) {
         guard let memberAnnotations: Int = clusterAnnotation?.memberAnnotations.count else { return }
@@ -111,26 +110,11 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
         
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        glyphTintColor = selected ? Constants.Color.mistLilac : .white
         if selected {
-            glyphTintColor = Constants.Color.mistLilac
             markerTintColor = Constants.Color.mistPink
-            guard let collectionView = collectionView else { return }
-            collectionView.removeFromSuperview() // This check shouldn't be needed, but just in case
         } else {
-            glyphTintColor = .white
             setupMarkerTintColor(annotation as? MKClusterAnnotation)
-            endEditing(true)
-            guard let collectionView = collectionView else { return }
-            if animated {
-                collectionView.fadeOut(duration: 0.25, delay: 0, completion: { Bool in
-                    collectionView.isHidden = true
-                    collectionView.removeFromSuperview()
-                })
-            } else {
-                collectionView.isHidden = true
-                collectionView.removeFromSuperview()
-            }
         }
     }
     
@@ -171,10 +155,11 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
 
 extension ClusterAnnotationView {
     
-    func loadCollectionView(on mapView: MKMapView, withPostDelegate postDelegate: PostDelegate) {
+    func loadCollectionView(on mapView: MKMapView, withPostDelegate postDelegate: PostDelegate, withDelay delay: Double, swipeDelegate: AnnotationViewSwipeDelegate, selectionType: AnnotationSelectionType) {
         collectionView = PostCollectionView(centeredCollectionViewFlowLayout: centeredCollectionViewFlowLayout)
         guard let collectionView = collectionView else { return }
         self.postDelegate = postDelegate
+        self.swipeDelegate = swipeDelegate
 
         collectionView.backgroundColor = UIColor.clear
         collectionView.delegate = self
@@ -203,18 +188,33 @@ extension ClusterAnnotationView {
             collectionView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
         ])
         
-        if let previouslyVisiblePostIndex = currentlyVisiblePostIndex {
-            print(previouslyVisiblePostIndex)
-            collectionView.setNeedsLayout()
-            collectionView.layoutIfNeeded()
-            let index = IndexPath(item: previouslyVisiblePostIndex, section: 0)
-            collectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
+        if selectionType == .swipeLeft {
+            currentlyVisiblePostIndex = 0
+        } else if selectionType == .swipeRight {
+            currentlyVisiblePostIndex = memberCount! - 1
+        } else if let previouslyVisiblePostIndex = currentlyVisiblePostIndex {
+            currentlyVisiblePostIndex = previouslyVisiblePostIndex
+            if previouslyVisiblePostIndex > memberCount! - 1 {
+                currentlyVisiblePostIndex = memberCount! - 1
+            }
         } else {
             currentlyVisiblePostIndex = 0
         }
+        
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
+        longPress.minimumPressDuration = 0.2 //in order to prevent long presses from falling through to the map behind
+        self.addGestureRecognizer(longPress)
+        longPress.require(toFail: collectionView.panGestureRecognizer) //so that long pressing on the post doesnt prevent the pan
+                
+        collectionView.layoutIfNeeded()
+        collectionView.scrollToItem(at: IndexPath(item: currentlyVisiblePostIndex!, section: 0), at: .centeredHorizontally, animated: false)
         collectionView.alpha = 0
         collectionView.isHidden = true
-        collectionView.fadeIn(duration: 0.1, delay: 0)
+        collectionView.fadeIn(duration: 0.2, delay: delay - 0.3)
+    }
+    
+    @objc func longPress() {
+        print("LONG PRESS TO PREVENT ANNOTATION SELECTION BEHIND")
     }
 }
 
@@ -261,6 +261,15 @@ extension ClusterAnnotationView: AnnotationViewWithPosts {
         }
     }
     
+    func derenderCallout() {
+        guard let collectionView = collectionView else { return }
+        collectionView.removeFromSuperview()
+        endEditing(true)
+        collectionView.fadeOut(duration: 0.25, delay: 0, completion: { Bool in
+            collectionView.isHidden = true
+        })
+    }
+    
 }
 
 //MARK: - PreventAnnotationViewInteractionDelay
@@ -276,7 +285,7 @@ extension ClusterAnnotationView { //: UIGestureRecognizerDelegate {
     // Downside: double tap features are not possible
     //https://stackoverflow.com/questions/35639388/tapping-an-mkannotation-to-select-it-is-really-slow
     private func setupGestureRecognizerToPreventInteractionDelay() {
-        let quickSelectGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(asdf))
+        quickSelectGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(asdf))
         quickSelectGestureRecognizer.delaysTouchesBegan = false
         quickSelectGestureRecognizer.delaysTouchesEnded = false
         quickSelectGestureRecognizer.numberOfTapsRequired = 1
@@ -304,16 +313,85 @@ extension ClusterAnnotationView: UICollectionViewDelegate {
         self.endEditing(true)
     }
     
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        print("should")
-        return true
-    }
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Selected Cell #\(indexPath.row)")
         if let currentCenteredPage = centeredCollectionViewFlowLayout.currentCenteredPage,
             currentCenteredPage != indexPath.row {
             centeredCollectionViewFlowLayout.scrollToPage(index: indexPath.row, animated: true)
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard !isFinishingSwipe else { return }
+        xtranslation = scrollView.panGestureRecognizer.translation(in: self).x
+        incrementEdgeSwipe()
+    }
+    
+    func incrementEdgeSwipe() {
+        guard let currentIndex = currentlyVisiblePostIndex,
+              let memberCount = memberCount,
+              let collectionView = collectionView else { return }
+        
+        if currentIndex == 0 {
+            collectionView.transform = CGAffineTransform(translationX: max(0,xtranslation/2), y: 0) //a little boost
+            if xtranslation > 0 { //needed for some reason
+                collectionView.alpha = 1 - abs(Double(max(0,xtranslation)) / 100)
+            }
+        } else if currentIndex == memberCount - 1 {
+            if xtranslation < 0 {
+                collectionView.alpha = 1 - abs(Double(min(0,xtranslation)) / 100)
+            }
+            collectionView.transform = CGAffineTransform(translationX: min(0,xtranslation/2), y: 0) //to give it a little boost
+        }
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let didSwipeLeft = xtranslation < -75
+        let didSwipeRight = xtranslation > 75
+        guard let currentIndex = currentlyVisiblePostIndex,
+              let memberCount = memberCount else { return }
+        
+        isFinishingSwipe = true
+        if didSwipeLeft && currentIndex == memberCount - 1 {
+            finishSwiping(.left)
+        } else if didSwipeRight && currentIndex == 0 {
+            finishSwiping(.right)
+        } else {
+            finishSwiping(.incomplete)
+        }
+    }
+        
+    enum SwipeDirection {
+        case left, right, incomplete
+    }
+    
+    func finishSwiping(_ direction: SwipeDirection) {
+        guard let collectionView = collectionView else { return }
+        switch direction {
+        case .left:
+            swipeDelegate?.handlePostViewSwipeLeft()
+            collectionView.alpha = 0
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear) {
+            } completion: { finished in
+                collectionView.isHidden = true
+            }
+        case .right:
+            collectionView.alpha = 0
+            swipeDelegate?.handlePostViewSwipeRight()
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear) {
+            } completion: { finished in
+                collectionView.isHidden = true
+            }
+        case .incomplete:
+            print("INNCOMPLETE")
+            collectionView.alpha = 1
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear) {
+                collectionView.transform = CGAffineTransform(translationX: 0, y: 0)
+            }
+            break
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.isFinishingSwipe = false
         }
     }
         
@@ -324,26 +402,15 @@ extension ClusterAnnotationView: UICollectionViewDelegate {
 extension ClusterAnnotationView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        guard let clusterAnnotation = annotation as? MKClusterAnnotation else { return 0 }
-//        return clusterAnnotation.memberAnnotations.count
         return sortedMemberPosts.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ClusterCarouselCell.self), for: indexPath) as! ClusterCarouselCell
+        guard let postDelegate = postDelegate else { return cell }
         
-        guard
-//            let clusterAnnotation = annotation as? MKClusterAnnotation,
-//            let postAnnotation = clusterAnnotation.memberAnnotations[indexPath.row] as? PostAnnotation,
-            let postDelegate = postDelegate
-        else { return cell }
-        
-//        cell.configureForPost(post: postAnnotation.post, nestedPostViewDelegate: postDelegate, bubbleTrianglePosition: .bottom)
         let cachedPost = PostService.singleton.getPost(withPostId: sortedMemberPosts[indexPath.item].id)!
         cell.configureForPost(post: cachedPost, nestedPostViewDelegate: postDelegate, bubbleTrianglePosition: .bottom)
-        
-        //when the post is tapped, we want to FIRST make sure it's the currently centered one
-        
         return cell
     }
 

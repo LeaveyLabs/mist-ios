@@ -31,6 +31,7 @@ final class PostAnnotationView: MKMarkerAnnotationView {
     }
     
     // Panning gesture
+    var pan: UIPanGestureRecognizer!
     var panOffset = CGPoint.zero
     var swipeDelegate: AnnotationViewSwipeDelegate?
     var isPanning = false
@@ -55,6 +56,15 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         setupPanGesture()
         setupTapGestureRecognizerToPreventInteractionDelay()
+        
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
+        longPress.minimumPressDuration = 0.2 //in order to prevent long presses from falling through to the map behind
+        self.addGestureRecognizer(longPress)
+        longPress.require(toFail: pan) //so that you can still scroll after holding down for a few secs
+    }
+    
+    @objc func longPress() {
+        print("LONG PRESS TO PREVENT ANNOTATION SELECTION BEHIND")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -71,30 +81,8 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         
     override func setSelected(_ selected: Bool, animated: Bool) {        
         super.setSelected(selected, animated: animated)
-
-        if selected {
-            glyphTintColor = Constants.Color.mistLilac
-            markerTintColor = Constants.Color.mistPink
-            if let postCalloutView = postCalloutView {
-                postCalloutView.removeFromSuperview() // This shouldn't be needed, but just in case
-            }
-        } else {
-            glyphTintColor = .white
-            markerTintColor = Constants.Color.mistLilac
-            endEditing(true)
-            if let postCalloutView = postCalloutView {
-                postCalloutView.fadeOut(duration: 0.25, delay: 0, completion: { Bool in
-                    postCalloutView.isHidden = true
-                    postCalloutView.removeFromSuperview()
-                })
-            }
-            if let swipeDemoView = swipeDemoView {
-                swipeDemoView.fadeOut(duration: 0.25, delay: 0, completion: { Bool in
-                    swipeDemoView.isHidden = true
-                    swipeDemoView.removeFromSuperview()
-                })
-            }
-        }
+        glyphTintColor = selected ? Constants.Color.mistLilac : .white
+        markerTintColor = selected ? Constants.Color.mistPink : Constants.Color.mistLilac
     }
     
     // For detecting taps on postCalloutView subview
@@ -121,11 +109,12 @@ extension PostAnnotationView {
     // Called by the viewController, because the delay differs based on if the post was just uploaded or if it was jut clicked on
     func loadPostView(on mapView: MKMapView,
                       withDelay delay: Double,
-                      withPostDelegate postDelegate: PostDelegate) {
-//        swipeDelegate = postDelegate //no longer using swipe delegate for now
-
+                      withPostDelegate postDelegate: PostDelegate,
+                      swipeDelegate: AnnotationViewSwipeDelegate) {
+        self.swipeDelegate = swipeDelegate
         postCalloutView = PostView()
         guard let postCalloutView = postCalloutView else {return}
+        
         
         postCalloutView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(postCalloutView)
@@ -152,7 +141,7 @@ extension PostAnnotationView {
         //TODO: the fade in should take as long as it takes to fly to the post.
         //the real solution: we want the fly in to be faster if we're super close to the annotation already
         //and we want the values below to depend directly on those values for fly in, not hard coded
-        postCalloutView.fadeIn(duration: 0.2, delay: delay - 0.15)
+        postCalloutView.fadeIn(duration: 0.2, delay: delay - 0.3)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
             if !hasSwipeDemoAnimationRun {
@@ -246,6 +235,22 @@ extension PostAnnotationView: AnnotationViewWithPosts {
         }
     }
     
+    func derenderCallout() {
+        endEditing(true)
+        if let postCalloutView = postCalloutView {
+            postCalloutView.removeFromSuperview()
+            postCalloutView.fadeOut(duration: 0.25, delay: 0, completion: { Bool in
+                postCalloutView.isHidden = true
+            })
+        }
+        if let swipeDemoView = swipeDemoView {
+            swipeDemoView.removeFromSuperview()
+            swipeDemoView.fadeOut(duration: 0.25, delay: 0, completion: { Bool in
+                swipeDemoView.isHidden = true
+            })
+        }
+    }
+    
 }
 
 //MARK: - PreventAnnotationViewInteractionDelay
@@ -279,12 +284,9 @@ extension PostAnnotationView: UIGestureRecognizerDelegate {
 
 extension PostAnnotationView {
     
-    // Add a pan gesture captures the panning on map and prevents the post from being dismissed
     private func setupPanGesture() {
-//        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gestureRecognizer:)))
-        let pan = UIPanGestureRecognizer(target: self, action: nil) //NOTE: NOT ADDING THE PAN FOR REGUALR POST ANNOTATION VIEWS FOR NOW. simply preventing swipes from doing anything
+        pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gestureRecognizer:)))
         addGestureRecognizer(pan)
-        
     }
     
     @objc func handlePan(gestureRecognizer: UIPanGestureRecognizer) {
@@ -321,9 +323,8 @@ extension PostAnnotationView {
     
     private func incrementSwipe() {
         guard let postCalloutView = postCalloutView else { return }
-        postCalloutView.alpha = 2 - abs(Double(panOffset.x) / 75)
-        postCalloutView.transform = CGAffineTransform(translationX: panOffset.x*2, y: min(0, panOffset.y*2))
-            .rotated(by: panOffset.x / 300)
+        postCalloutView.alpha = 1 - abs(Double(panOffset.x) / 100)
+        postCalloutView.transform = CGAffineTransform(translationX: panOffset.x, y: 0)
     }
     
     private func finishSwiping(_ direction: SwipeDirection) {
@@ -333,8 +334,8 @@ extension PostAnnotationView {
             swipeDelegate?.handlePostViewSwipeLeft()
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear) {
                 postCalloutView.alpha = 0
-                postCalloutView.transform = CGAffineTransform(translationX: -400,
-                                                              y: self.panOffset.y*4).rotated(by:-0.85)
+                postCalloutView.transform = CGAffineTransform(translationX: -250,
+                                                              y: 0)
             } completion: { finished in
                 postCalloutView.isHidden = true
             }
@@ -342,8 +343,8 @@ extension PostAnnotationView {
             swipeDelegate?.handlePostViewSwipeRight()
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear) {
                 postCalloutView.alpha = 0
-                postCalloutView.transform = CGAffineTransform(translationX: 400,
-                                                              y: self.panOffset.y*4).rotated(by:0.85)
+                postCalloutView.transform = CGAffineTransform(translationX: 250,
+                                                              y: 0)
             } completion: { finished in
                 postCalloutView.isHidden = true
             }
