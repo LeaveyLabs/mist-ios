@@ -22,7 +22,6 @@ struct Post: Codable, Equatable {
     let longitude: Double?
     let timestamp: Double
     let author: Int
-    let read_only_author: ReadOnlyUser
     var emoji_dict: EmojiCountDict
     let commentcount: Int
     
@@ -51,7 +50,6 @@ struct Post: Codable, Equatable {
         self.longitude = longitude
         self.timestamp = timestamp
         self.author = author
-        self.read_only_author = UserService.singleton.getUserAsReadOnlyUser()
         self.commentcount = commentcount
         self.emoji_dict = emojiDict
     }
@@ -71,7 +69,6 @@ struct Post: Codable, Equatable {
         self.longitude = try container.decode(Double.self, forKey: .longitude)
         self.timestamp = try container.decode(Double.self, forKey: .timestamp)
         self.author = try container.decode(Int.self, forKey: .author)
-        self.read_only_author = try container.decode(ReadOnlyUser.self, forKey: .read_only_author)
         self.commentcount = try container.decode(Int.self, forKey: .commentcount)
         let decodedEmojiCountDict = try container.decode(EmojiCountDict.self, forKey: .emoji_dict)
         self.emoji_dict = Post.insertUpToThreePlaceholderEmojis(on: decodedEmojiCountDict)
@@ -98,6 +95,6 @@ struct Post: Codable, Equatable {
     }
     
     enum CodingKeys: CodingKey {
-        case id, title, body, location_description, latitude, longitude, timestamp, author, read_only_author, emoji_dict, commentcount
+        case id, title, body, location_description, latitude, longitude, timestamp, author, emoji_dict, commentcount
     }
 }

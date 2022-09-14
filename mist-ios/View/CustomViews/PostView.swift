@@ -46,7 +46,7 @@ import MapKit
 
     //Data
     var postId: Int!
-    var postAuthor: ReadOnlyUser!
+    var authorId: Int!
     
     //Delegation
     var postDelegate: PostDelegate!
@@ -87,7 +87,7 @@ extension PostView {
     // Otherwise you'll get loads of constraint errors in the console
     func configurePost(post: Post, delegate: PostDelegate, arrowPosition: BubbleTrianglePosition? = nil, updatedCommentCount: Int? = nil) {
         self.postId = post.id
-        self.postAuthor = post.read_only_author
+        self.authorId = post.author
         self.postDelegate = delegate
         
         //if we are in PostViewController, make the body longer
@@ -172,15 +172,15 @@ extension PostView {
     }
     
     @IBAction func dmButtonDidPressed(_ sender: UIButton) {
-        if postAuthor.id == UserService.singleton.getId() {
+        if authorId == UserService.singleton.getId() {
             //do nothing
         } else {
-            postDelegate.handleDmTap(postId: postId, author: postAuthor, dmButton: dmButton, title: postTitleLabel.text!)
+            postDelegate.handleDmTap(postId: postId, authorId: authorId, dmButton: dmButton, title: postTitleLabel.text!)
         }
     }
     
     @IBAction func moreButtonDidPressed(_ sender: UIButton) {
-        postDelegate.handleMoreTap(postId: postId, postAuthor: postAuthor.id)
+        postDelegate.handleMoreTap(postId: postId, postAuthor: authorId)
     }
 
     @IBAction func reactButtonDidPressed(_ sender: UIButton) {

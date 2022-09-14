@@ -168,7 +168,7 @@ class UserAPI {
         return try JSONDecoder().decode([ReadOnlyUser].self, from: data)
     }
     
-    static func fetchUsersByUserId(userId:Int) async throws -> ReadOnlyUser {
+    static func fetchUserByUserId(userId:Int) async throws -> ReadOnlyUser {
         let url = "\(Env.BASE_URL)\(PATH_TO_USER_MODEL)\(userId)/"
         let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterUserErrors(data: data, response: response)
@@ -431,7 +431,7 @@ class UserAPI {
       try await withThrowingTaskGroup(of: (Int, ReadOnlyUser).self) { group in
         for userId in userIds {
           group.addTask {
-              return (userId, try await UserAPI.fetchUsersByUserId(userId: userId))
+              return (userId, try await UserAPI.fetchUserByUserId(userId: userId))
           }
         }
         // Obtain results from the child tasks, sequentially, in order of completion

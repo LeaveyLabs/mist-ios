@@ -39,7 +39,7 @@ actor UsersService: NSObject {
             return cachedUser
         }
         
-        let fetchedBackendUser = try await UserAPI.fetchUsersByUserId(userId: userId)
+        let fetchedBackendUser = try await UserAPI.fetchUserByUserId(userId: userId)
         let fetchedUser = try await UserAPI.turnUserIntoFrontendUser(fetchedBackendUser)
         cachedUsers[userId] = fetchedUser
         return fetchedUser

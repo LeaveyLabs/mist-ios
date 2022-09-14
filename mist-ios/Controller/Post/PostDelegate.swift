@@ -12,7 +12,7 @@ protocol PostDelegate: ShareActivityDelegate, UITextFieldDelegate { // , AnyObje
     func handleMoreTap(postId: Int, postAuthor: Int)
     func handleFavorite(postId: Int, isAdding: Bool)
     func handleFlag(postId: Int, isAdding: Bool)
-    func handleDmTap(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String)
+    func handleDmTap(postId: Int, authorId: Int, dmButton: UIButton, title: String)
 //    func beginLoadingAuthorProfilePic(postId: Int, author: ReadOnlyUser)
     func emojiKeyboardDidDelete()
 
@@ -39,21 +39,22 @@ extension PostDelegate where Self: UIViewController {
 //        }
 //    }
 
-    @MainActor func handleDmTap(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String) {
-        guard !BlockService.singleton.isBlockedByOrHasBlocked(author.id) else {
+    @MainActor func handleDmTap(postId: Int, authorId: Int, dmButton: UIButton, title: String) {
+        guard !BlockService.singleton.isBlockedByOrHasBlocked(authorId) else {
             CustomSwiftMessages.showAlreadyBlockedMessage()
             return
         }
         //Check Conversations instead of Match Requests because we might have JUST started a conversation with them but haven't sent them a text yet
-        guard ConversationService.singleton.getConversationWith(userId: author.id) == nil else {
+        guard ConversationService.singleton.getConversationWith(userId: authorId) == nil else {
             CustomSwiftMessages.showAlreadyDmdMessage()
             return
         }
         
         Task {
-            if let frontendAuthor = await UsersService.singleton.getPotentiallyCachedUser(userId: author.id) {
+            if let frontendAuthor = await UsersService.singleton.getPotentiallyCachedUser(userId: authorId) {
                 goToChat(postId: postId, postAuthor: frontendAuthor, postTitle: title)
             } else {
+                let author = try await UserAPI.fetchUserByUserId(userId: authorId)
                 await reloadAuthorProfilePic(postId: postId, author: author, dmButton: dmButton, title: title)
             }
         }
