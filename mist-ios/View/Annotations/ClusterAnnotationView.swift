@@ -74,6 +74,7 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
             Task {
                 sortedMemberPosts = sortMemberPosts(from: newCluster.memberAnnotations)
             }
+            newCluster.updateClusterTitle()
         }
     }
     

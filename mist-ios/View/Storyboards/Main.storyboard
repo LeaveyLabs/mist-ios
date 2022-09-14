@@ -28,7 +28,7 @@
                                 </constraints>
                             </mapView>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="nNP-Xg-EUf" customClass="TapUISlider" customModule="mist_ios" customModuleProvider="target">
-                                <rect key="frame" x="104" y="355.66666666666669" width="542" height="46"/>
+                                <rect key="frame" x="109.33333333333331" y="354.66666666666669" width="531.33333333333348" height="46"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="Ook-Xz-ftX"/>
                                 </constraints>
@@ -133,7 +133,7 @@
                         <viewLayoutGuide key="safeArea" id="u8t-JX-tsJ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="nNP-Xg-EUf" firstAttribute="width" secondItem="409-4u-mra" secondAttribute="height" id="2nL-4X-qlk"/>
+                            <constraint firstItem="nNP-Xg-EUf" firstAttribute="width" secondItem="409-4u-mra" secondAttribute="height" multiplier="0.98" id="2nL-4X-qlk"/>
                             <constraint firstItem="84C-3H-hTc" firstAttribute="centerX" secondItem="z46-HH-ZpQ" secondAttribute="centerX" id="34i-IB-McC"/>
                             <constraint firstItem="lH1-jp-8cP" firstAttribute="centerY" secondItem="u8t-JX-tsJ" secondAttribute="centerY" id="4nK-un-kfu"/>
                             <constraint firstItem="kUc-Eo-XiU" firstAttribute="leading" secondItem="u8t-JX-tsJ" secondAttribute="leading" constant="12" id="5Ko-wh-Qnh"/>
@@ -153,7 +153,7 @@
                             <constraint firstItem="84C-3H-hTc" firstAttribute="top" secondItem="u8t-JX-tsJ" secondAttribute="top" constant="7" id="r3E-Xv-4CJ"/>
                             <constraint firstAttribute="bottom" secondItem="98q-0K-ZRg" secondAttribute="bottom" id="tmj-Uw-IP5"/>
                             <constraint firstItem="98q-0K-ZRg" firstAttribute="trailing" secondItem="u8t-JX-tsJ" secondAttribute="trailing" id="uGm-Zx-i2c"/>
-                            <constraint firstItem="nNP-Xg-EUf" firstAttribute="centerY" secondItem="409-4u-mra" secondAttribute="centerY" id="yvN-cr-eMt"/>
+                            <constraint firstItem="nNP-Xg-EUf" firstAttribute="centerY" secondItem="409-4u-mra" secondAttribute="centerY" constant="-1" id="yvN-cr-eMt"/>
                             <constraint firstItem="u8t-JX-tsJ" firstAttribute="trailing" secondItem="XGG-A8-5Tc" secondAttribute="trailing" constant="12" id="zAu-vu-IR4"/>
                         </constraints>
                     </view>
@@ -966,7 +966,7 @@
                                 </constraints>
                             </imageView>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="cr5-Jn-Gzm" customClass="TapUISlider" customModule="mist_ios" customModuleProvider="target">
-                                <rect key="frame" x="104.33333333333331" y="399.66666666666669" width="541.33333333333348" height="46"/>
+                                <rect key="frame" x="107" y="398.66666666666669" width="536" height="46"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="NRb-H9-osE"/>
                                 </constraints>
@@ -985,7 +985,7 @@
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="onH-Fn-vzF" secondAttribute="trailing" id="M4o-PJ-c8d"/>
                             <constraint firstItem="NEs-wN-Rkh" firstAttribute="centerY" secondItem="K85-Np-RZT" secondAttribute="centerY" id="V6s-ET-Fry"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="eID-0S-u8K" secondAttribute="trailing" constant="12" id="VMZ-MT-nFb"/>
-                            <constraint firstItem="cr5-Jn-Gzm" firstAttribute="centerY" secondItem="K85-Np-RZT" secondAttribute="centerY" id="W0i-HY-lTO"/>
+                            <constraint firstItem="cr5-Jn-Gzm" firstAttribute="centerY" secondItem="K85-Np-RZT" secondAttribute="centerY" constant="-1" id="W0i-HY-lTO"/>
                             <constraint firstItem="4Ti-Yh-6iG" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" id="Xj8-ql-Hva"/>
                             <constraint firstItem="XDC-QO-zBy" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" constant="12" id="euh-YB-Zwc"/>
                             <constraint firstItem="4Ti-Yh-6iG" firstAttribute="top" secondItem="K85-Np-RZT" secondAttribute="top" id="g3b-nd-5g9"/>
@@ -995,7 +995,7 @@
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="NEs-wN-Rkh" secondAttribute="trailing" constant="12" id="kZr-2g-hzj"/>
                             <constraint firstItem="VHe-77-zY4" firstAttribute="centerX" secondItem="K85-Np-RZT" secondAttribute="centerX" id="odp-n9-TNc"/>
                             <constraint firstItem="XDC-QO-zBy" firstAttribute="top" secondItem="PwX-9i-D1c" secondAttribute="top" constant="7" id="qvo-of-81n"/>
-                            <constraint firstItem="cr5-Jn-Gzm" firstAttribute="width" secondItem="NEs-wN-Rkh" secondAttribute="height" id="stb-XR-qzA"/>
+                            <constraint firstItem="cr5-Jn-Gzm" firstAttribute="width" secondItem="NEs-wN-Rkh" secondAttribute="height" multiplier="0.99" id="stb-XR-qzA"/>
                             <constraint firstItem="eID-0S-u8K" firstAttribute="top" secondItem="PwX-9i-D1c" secondAttribute="top" constant="7" id="tP7-KK-nwj"/>
                             <constraint firstItem="onH-Fn-vzF" firstAttribute="bottom" secondItem="4Ti-Yh-6iG" secondAttribute="bottom" id="zYe-cM-DMU"/>
                         </constraints>

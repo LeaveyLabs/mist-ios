@@ -31,7 +31,6 @@ extension MKMapView {
             }
             candidateClusters.append(cluster)
         }
-        print(candidateClusters)
         return candidateClusters.sorted(by: { $0.memberAnnotations.count > $1.memberAnnotations.count }).first
     }
 }
@@ -119,16 +118,15 @@ class MapViewController: UIViewController {
         zoomSlider.transform = CGAffineTransform(rotationAngle: -.pi/2)
         zoomSlider.value = currentZoomSliderValue
         zoomSlider.addTarget(self, action: #selector(onZoomSlide(slider:event:)), for: .valueChanged)
-        zoomSlider.tintColor = .clear
-        zoomSlider.thumbTintColor = .clear
+        zoomSlider.thumbTintColor = .white
         zoomSlider.minimumTrackTintColor = .clear
         zoomSlider.maximumTrackTintColor = .clear
         zoomSliderGradientImageView.alpha = 0.3
         zoomSliderGradientImageView.applyMediumShadow()
-//        zoomSlider.setThumbImage(UIImage(named: "thumb"), for: .normal)
-//        zoomSlider.setThumbImage(UIImage(named: "thumb"), for: .highlighted)
+        zoomSlider.setThumbImage(UIImage(named: "thumb"), for: .normal)
+        zoomSlider.setThumbImage(UIImage(named: "thumb"), for: .highlighted)
 //        zoomSlider.trackRectWidth = 4
-//        zoomSlider.thumbRectHorizontalOffset = -19
+        zoomSlider.thumbRectHorizontalOffset = 17
     }
     
     var currentZoomSliderValue: Float = 3
@@ -136,11 +134,9 @@ class MapViewController: UIViewController {
         if let touchEvent = event.allTouches?.first {
             switch touchEvent.phase {
             case .began:
-                self.zoomSlider.maximumTrackTintColor = .clear
-                self.zoomSlider.minimumTrackTintColor = .clear
                 UIView.animate(withDuration: 0.3, delay: 0) {
                     self.zoomSliderGradientImageView.alpha = 1
-                    self.zoomSlider.alpha = 1
+                    self.zoomSlider.tintColor = .white
                 }
                 isCameraZooming = true
                 handleZoomSliderValChange(previousZoom: currentZoomSliderValue, newZoom: zoomSlider.value)
@@ -310,10 +306,17 @@ extension MapViewController: MKMapViewDelegate {
         }
         
         if !zoomSlider.isTracking {
-            UIView.animate(withDuration: 0.3) {
+            UIView.animate(withDuration: 0.5) {
                 self.zoomSliderGradientImageView.alpha = 0.3
+                self.zoomSlider.tintColor = .clear
             }
         }
+    }
+    
+    func updateZoomSliderThumbValue() {
+        let asdf = pow(mapView.camera.centerCoordinateDistance, (1/10)) - 1.0
+        zoomSlider.value = Float(5.8 - asdf) * 1.02
+//                zoomSlider.value += Float(mapView.camera.centerCoordinateDistance - cameraDistance) / 2.0
     }
     
     //This could be useful, i'm not using this function at all up until now
@@ -335,15 +338,15 @@ extension MapViewController: MKMapViewDelegate {
         }
         
         if abs(cameraDistance - mapView.camera.centerCoordinateDistance) > 5 && !isCameraFlying {
-            print(zoomSliderGradientImageView.alpha)
             if zoomSliderGradientImageView.alpha < 0.35 {
                 UIView.animate(withDuration: 0.3) {
                     self.zoomSliderGradientImageView.alpha = 1
+                    self.zoomSlider.tintColor = .white
                 }
             }
-            //update the side indicator value?
-//            let asdf = pow(mapView.camera.centerCoordinateDistance, (1/10)) - 0.5
-//            zoomSlider.value = Float(1 - asdf)
+            if !zoomSlider.isTracking { //update the slide indicator value
+                updateZoomSliderThumbValue()
+            }
         }
         cameraDistance = mapView.camera.centerCoordinateDistance
         
@@ -357,28 +360,12 @@ extension MapViewController: MKMapViewDelegate {
         // Toggle text of 3d button
         isThreeDimensional = mapView.camera.pitch != 0
         
-        //RIP This is still not working 100%... oh well i'll fix it later
-        // Toggle cluster hotspot, 1 of 2
-        // Updates all clusters already rendered
-        for annotation in mapView.annotations {
-            if let clusterAnnotation = annotation as? MKClusterAnnotation {
-                clusterAnnotation.updateIsHotspot(cameraDistance: mapView.camera.centerCoordinateDistance)
-            }
-        }
-        
         prevZoomFactor = zoomFactor
         prevZoomWidth = zoomWidth
         prevZoom = zoom
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        // Toggle cluster hotspot, 2 of 2
-        // Updates new clusters created if user zooms in even more after already rendered clusters are udpated
-        // This can't go into MKClusterAnnotation because it depends on the camera distance
-        if let clusterAnnotation = annotation as? MKClusterAnnotation {
-            clusterAnnotation.updateIsHotspot(cameraDistance: mapView.camera.centerCoordinateDistance)
-        }
-        
         if let annotation = annotation as? PostAnnotation {
             return PostAnnotationView(annotation: annotation, reuseIdentifier: PostAnnotationView.ReuseID)
         }
