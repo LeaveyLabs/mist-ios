@@ -41,6 +41,7 @@ class PostAPI {
     static let PATH_TO_MISTBOX = "api/mistbox/"
     static let PATH_TO_TAGGED_POSTS = "api/tagged-posts/"
     static let PATH_TO_DELETE_MISTBOX_POST = "api/delete-mistbox-post/"
+    static let PATH_TO_VIEWS = "api/views/"
     
     static let IDS_PARAM = "ids"
     static let WORDS_PARAM = "words"
@@ -49,6 +50,7 @@ class PostAPI {
     static let RADIUS_PARAM = "radius"
     static let LOC_DESCRIPTION_PARAM = "location_description"
     static let AUTHOR_PARAM = "author"
+    static let POSTS_PARAM = "posts"
     
     static let KEYWORDS_PARAM = "keywords"
     
@@ -230,6 +232,16 @@ class PostAPI {
         let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
+    static func viewedPosts(postIds:[Int]) async throws {
+        let url = "\(Env.BASE_URL)\(PATH_TO_VIEWS)"
+        let params:[String:[Int]] = [
+            POSTS_PARAM: postIds
+        ]
+        let json = try JSONEncoder().encode(params)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        try filterPostErrors(data: data, response: response)
     }
     
     // Fetches all posts from database (searching with location description)
