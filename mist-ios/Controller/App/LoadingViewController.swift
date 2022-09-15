@@ -120,7 +120,7 @@ class LoadingViewController: UIViewController {
     }
     
     func goToHome() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
             guard let self = self, !self.didLoadEverything else { return }
             self.activityIndicator.isHidden = false
             self.activityIndicator.startAnimating()
@@ -132,13 +132,13 @@ class LoadingViewController: UIViewController {
     
     func loadAndGoHome(failCount: Int) async throws {
         do {
-            try await loadEverything()
-            didLoadEverything = true
             Task {
                 await UsersService.singleton.loadUsersAssociatedWithContacts() //for tagging
             }
+            try await loadEverything()
+            didLoadEverything = true
             guard !wasUpdateFoundAvailable else { return }
-            DispatchQueue.main.asyncAfter(deadline: .now() + Env.TRANSITION_TO_AUTH_DURATION) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0 ) {
                 transitionToStoryboard(storyboardID: Constants.SBID.SB.Main,
                                         viewControllerID: Constants.SBID.VC.TabBarController,
                                         duration: Env.TRANSITION_TO_HOME_DURATION) { _ in
