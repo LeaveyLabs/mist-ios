@@ -234,7 +234,7 @@ class PostAPI {
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
-    static func viewedPosts(postIds:[Int]) async throws {
+    static func viewPosts(postIds:[Int]) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_VIEWS)"
         let params:[String:[Int]] = [
             POSTS_PARAM: postIds
