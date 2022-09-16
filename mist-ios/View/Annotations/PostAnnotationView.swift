@@ -134,7 +134,7 @@ extension PostAnnotationView {
         //TODO: fade in should not take 0.2 for first load.. make it based on duration?
         postCalloutView.alpha = 0
         postCalloutView.isHidden = true
-        postCalloutView.fadeIn(duration: 0, delay: delay - 0.3)
+        postCalloutView.fadeIn(duration: 0.2, delay: delay - 0.3)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
             if !hasSwipeDemoAnimationRun {

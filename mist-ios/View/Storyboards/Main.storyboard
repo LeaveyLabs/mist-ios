@@ -27,10 +27,25 @@
                                     <constraint firstAttribute="width" constant="390" id="Q25-lh-vOM"/>
                                 </constraints>
                             </mapView>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="nNP-Xg-EUf" customClass="TapUISlider" customModule="mist_ios" customModuleProvider="target">
-                                <rect key="frame" x="109.33333333333331" y="354.66666666666669" width="531.33333333333348" height="46"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient-slider" translatesAutoresizingMaskIntoConstraints="NO" id="409-4u-mra">
+                                <rect key="frame" x="366" y="109" width="12" height="538"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="eQh-4b-IBT"/>
+                                </constraints>
+                            </imageView>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="nNP-Xg-EUf" userLabel="ZoomSliderVisual" customClass="TapUISlider" customModule="mist_ios" customModuleProvider="target">
+                                <rect key="frame" x="106.66666666666669" y="355" width="536.66666666666652" height="46"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="Ook-Xz-ftX"/>
+                                </constraints>
+                                <color key="minimumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="maximumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="thumbTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </slider>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="Q3O-Aq-bhD" userLabel="ZoomSliderDrag" customClass="TapUISlider" customModule="mist_ios" customModuleProvider="target">
+                                <rect key="frame" x="106.66666666666669" y="355" width="536.66666666666652" height="46"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="Ova-dy-oSO"/>
                                 </constraints>
                                 <color key="minimumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="maximumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -123,37 +138,35 @@
                                     <constraint firstAttribute="width" secondItem="0y8-aH-3KK" secondAttribute="height" id="a85-fk-L6B"/>
                                 </constraints>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient-slider" translatesAutoresizingMaskIntoConstraints="NO" id="409-4u-mra">
-                                <rect key="frame" x="366" y="109" width="12" height="538"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="12" id="eQh-4b-IBT"/>
-                                </constraints>
-                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="u8t-JX-tsJ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="nNP-Xg-EUf" firstAttribute="width" secondItem="409-4u-mra" secondAttribute="height" multiplier="0.98" id="2nL-4X-qlk"/>
+                            <constraint firstItem="nNP-Xg-EUf" firstAttribute="width" secondItem="409-4u-mra" secondAttribute="height" multiplier="0.99" id="2nL-4X-qlk"/>
                             <constraint firstItem="84C-3H-hTc" firstAttribute="centerX" secondItem="z46-HH-ZpQ" secondAttribute="centerX" id="34i-IB-McC"/>
                             <constraint firstItem="lH1-jp-8cP" firstAttribute="centerY" secondItem="u8t-JX-tsJ" secondAttribute="centerY" id="4nK-un-kfu"/>
                             <constraint firstItem="kUc-Eo-XiU" firstAttribute="leading" secondItem="u8t-JX-tsJ" secondAttribute="leading" constant="12" id="5Ko-wh-Qnh"/>
+                            <constraint firstItem="Q3O-Aq-bhD" firstAttribute="leading" secondItem="nNP-Xg-EUf" secondAttribute="leading" id="9Qx-N4-JB0"/>
                             <constraint firstItem="u8t-JX-tsJ" firstAttribute="trailing" secondItem="409-4u-mra" secondAttribute="trailing" constant="12" id="A5Z-aN-X69"/>
                             <constraint firstItem="0y8-aH-3KK" firstAttribute="centerX" secondItem="z46-HH-ZpQ" secondAttribute="centerX" id="D1o-Nc-ArQ"/>
                             <constraint firstItem="kUc-Eo-XiU" firstAttribute="top" secondItem="u8t-JX-tsJ" secondAttribute="top" constant="7" id="DFp-4V-pvD"/>
                             <constraint firstItem="98q-0K-ZRg" firstAttribute="leading" secondItem="u8t-JX-tsJ" secondAttribute="leading" id="H8d-Ip-HZA"/>
                             <constraint firstItem="XGG-A8-5Tc" firstAttribute="top" secondItem="409-4u-mra" secondAttribute="bottom" constant="18" id="HD6-8I-nj2"/>
+                            <constraint firstItem="Q3O-Aq-bhD" firstAttribute="bottom" secondItem="nNP-Xg-EUf" secondAttribute="bottom" id="HSt-N7-3jc"/>
                             <constraint firstItem="409-4u-mra" firstAttribute="top" secondItem="mPR-ya-nEr" secondAttribute="bottom" constant="18" id="K6s-5j-acj"/>
                             <constraint firstItem="lH1-jp-8cP" firstAttribute="centerX" secondItem="u8t-JX-tsJ" secondAttribute="centerX" id="OGT-iM-W9a"/>
                             <constraint firstItem="nNP-Xg-EUf" firstAttribute="centerX" secondItem="98q-0K-ZRg" secondAttribute="trailing" constant="-15" id="TTk-kP-HVp"/>
+                            <constraint firstItem="Q3O-Aq-bhD" firstAttribute="trailing" secondItem="nNP-Xg-EUf" secondAttribute="trailing" id="U0e-zU-0CD"/>
                             <constraint firstItem="u8t-JX-tsJ" firstAttribute="trailing" secondItem="mPR-ya-nEr" secondAttribute="trailing" constant="12" id="aHi-gA-XDo"/>
                             <constraint firstAttribute="top" secondItem="98q-0K-ZRg" secondAttribute="top" id="b90-Yy-liU"/>
                             <constraint firstItem="lH1-jp-8cP" firstAttribute="top" secondItem="0y8-aH-3KK" secondAttribute="bottom" constant="-5" id="iZk-yI-4TH"/>
+                            <constraint firstItem="Q3O-Aq-bhD" firstAttribute="top" secondItem="nNP-Xg-EUf" secondAttribute="top" id="j1w-gz-tiq"/>
                             <constraint firstItem="u8t-JX-tsJ" firstAttribute="bottom" secondItem="XGG-A8-5Tc" secondAttribute="bottom" constant="95" id="pKx-TT-wDR"/>
                             <constraint firstItem="mPR-ya-nEr" firstAttribute="top" secondItem="u8t-JX-tsJ" secondAttribute="top" constant="7" id="qhq-E8-Z0f"/>
                             <constraint firstItem="84C-3H-hTc" firstAttribute="top" secondItem="u8t-JX-tsJ" secondAttribute="top" constant="7" id="r3E-Xv-4CJ"/>
                             <constraint firstAttribute="bottom" secondItem="98q-0K-ZRg" secondAttribute="bottom" id="tmj-Uw-IP5"/>
                             <constraint firstItem="98q-0K-ZRg" firstAttribute="trailing" secondItem="u8t-JX-tsJ" secondAttribute="trailing" id="uGm-Zx-i2c"/>
-                            <constraint firstItem="nNP-Xg-EUf" firstAttribute="centerY" secondItem="409-4u-mra" secondAttribute="centerY" constant="-1" id="yvN-cr-eMt"/>
+                            <constraint firstItem="nNP-Xg-EUf" firstAttribute="centerY" secondItem="409-4u-mra" secondAttribute="centerY" constant="-0.5" id="yvN-cr-eMt"/>
                             <constraint firstItem="u8t-JX-tsJ" firstAttribute="trailing" secondItem="XGG-A8-5Tc" secondAttribute="trailing" constant="12" id="zAu-vu-IR4"/>
                         </constraints>
                     </view>
@@ -171,8 +184,9 @@
                         <outlet property="pinWidthConstraint" destination="A8g-ma-eF5" id="MpA-rA-JsO"/>
                         <outlet property="trackingDimensionStackView" destination="mPR-ya-nEr" id="kdf-K4-kE1"/>
                         <outlet property="userTrackingButton" destination="Q8b-G9-RUh" id="Aqx-By-AQo"/>
-                        <outlet property="zoomSlider" destination="nNP-Xg-EUf" id="3Zu-NT-31n"/>
+                        <outlet property="zoomSliderDrag" destination="Q3O-Aq-bhD" id="lic-mV-Dku"/>
                         <outlet property="zoomSliderGradientImageView" destination="409-4u-mra" id="adK-z2-idb"/>
+                        <outlet property="zoomSliderVisual" destination="nNP-Xg-EUf" id="51l-dT-kBQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aNB-MI-szE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -965,10 +979,19 @@
                                     <constraint firstAttribute="width" constant="12" id="2Nd-zc-dld"/>
                                 </constraints>
                             </imageView>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="cr5-Jn-Gzm" customClass="TapUISlider" customModule="mist_ios" customModuleProvider="target">
-                                <rect key="frame" x="107" y="398.66666666666669" width="536" height="46"/>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="cr5-Jn-Gzm" userLabel="ZoomSliderVisual" customClass="TapUISlider" customModule="mist_ios" customModuleProvider="target">
+                                <rect key="frame" x="107" y="399" width="536" height="46"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="NRb-H9-osE"/>
+                                </constraints>
+                                <color key="minimumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="maximumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="thumbTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </slider>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="RYg-vv-3jO" userLabel="ZoomSliderDrag" customClass="TapUISlider" customModule="mist_ios" customModuleProvider="target">
+                                <rect key="frame" x="107" y="399" width="536" height="46"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="OqZ-Ob-oC7"/>
                                 </constraints>
                                 <color key="minimumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="maximumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -980,16 +1003,20 @@
                         <constraints>
                             <constraint firstItem="cr5-Jn-Gzm" firstAttribute="centerX" secondItem="4Ti-Yh-6iG" secondAttribute="trailing" constant="-15" id="0Rg-nP-a4p"/>
                             <constraint firstItem="VHe-77-zY4" firstAttribute="height" secondItem="7Fw-w1-bhF" secondAttribute="height" id="50U-Vj-ABn"/>
+                            <constraint firstItem="RYg-vv-3jO" firstAttribute="trailing" secondItem="cr5-Jn-Gzm" secondAttribute="trailing" id="5lV-sk-NAf"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="4Ti-Yh-6iG" secondAttribute="trailing" id="8r7-k1-G5u"/>
+                            <constraint firstItem="RYg-vv-3jO" firstAttribute="leading" secondItem="cr5-Jn-Gzm" secondAttribute="leading" id="GIG-v8-rzs"/>
+                            <constraint firstItem="RYg-vv-3jO" firstAttribute="top" secondItem="cr5-Jn-Gzm" secondAttribute="top" id="Ifb-j7-WXF"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="bottom" secondItem="4Ti-Yh-6iG" secondAttribute="bottom" id="Lpe-Pd-ULU"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="onH-Fn-vzF" secondAttribute="trailing" id="M4o-PJ-c8d"/>
                             <constraint firstItem="NEs-wN-Rkh" firstAttribute="centerY" secondItem="K85-Np-RZT" secondAttribute="centerY" id="V6s-ET-Fry"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="eID-0S-u8K" secondAttribute="trailing" constant="12" id="VMZ-MT-nFb"/>
-                            <constraint firstItem="cr5-Jn-Gzm" firstAttribute="centerY" secondItem="K85-Np-RZT" secondAttribute="centerY" constant="-1" id="W0i-HY-lTO"/>
+                            <constraint firstItem="cr5-Jn-Gzm" firstAttribute="centerY" secondItem="K85-Np-RZT" secondAttribute="centerY" constant="-0.5" id="W0i-HY-lTO"/>
                             <constraint firstItem="4Ti-Yh-6iG" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" id="Xj8-ql-Hva"/>
                             <constraint firstItem="XDC-QO-zBy" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" constant="12" id="euh-YB-Zwc"/>
                             <constraint firstItem="4Ti-Yh-6iG" firstAttribute="top" secondItem="K85-Np-RZT" secondAttribute="top" id="g3b-nd-5g9"/>
                             <constraint firstItem="VHe-77-zY4" firstAttribute="centerY" secondItem="7Fw-w1-bhF" secondAttribute="centerY" id="hxk-ui-lzo"/>
+                            <constraint firstItem="RYg-vv-3jO" firstAttribute="bottom" secondItem="cr5-Jn-Gzm" secondAttribute="bottom" id="iqT-GO-zX0"/>
                             <constraint firstItem="NEs-wN-Rkh" firstAttribute="height" secondItem="4Ti-Yh-6iG" secondAttribute="height" multiplier="0.75" constant="-70" id="j6m-8x-dff"/>
                             <constraint firstItem="onH-Fn-vzF" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" constant="10" id="jfv-gL-wd7"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="NEs-wN-Rkh" secondAttribute="trailing" constant="12" id="kZr-2g-hzj"/>
@@ -1012,8 +1039,9 @@
                         <outlet property="trojansActiveLabel" destination="CKp-ro-cwq" id="myo-Xz-Cm7"/>
                         <outlet property="trojansActiveView" destination="VHe-77-zY4" id="9Pl-Cf-tML"/>
                         <outlet property="userTrackingButton" destination="xse-Ra-6WG" id="FIo-NZ-zG8"/>
-                        <outlet property="zoomSlider" destination="cr5-Jn-Gzm" id="mhb-4F-QqE"/>
+                        <outlet property="zoomSliderDrag" destination="RYg-vv-3jO" id="MKu-11-iQe"/>
                         <outlet property="zoomSliderGradientImageView" destination="NEs-wN-Rkh" id="eNg-eB-XQc"/>
+                        <outlet property="zoomSliderVisual" destination="cr5-Jn-Gzm" id="i2R-cX-93X"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="alN-Hu-vhD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

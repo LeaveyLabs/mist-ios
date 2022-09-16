@@ -16,7 +16,7 @@ enum MapSearchResultType: Int, CaseIterable {
         case .containing:
             return "" //"mists containing:"
         case .nearby:
-            return "nearby places:"
+            return "suggested places:"
         }
     }
     

@@ -8,9 +8,28 @@
 import Foundation
 import MapKit
 
+
+protocol ExploreChildDelegate {
+    func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType)
+    func reloadData()
+    func toggleNotchHiddenAndMinimum(hidden: Bool)
+    
+    var mapPosts: [Post] { get }
+    var feedPosts: [Post] { get }
+}
+
 //MARK: - ExploreChildDelegate
 
 extension ExploreParentViewController: ExploreChildDelegate {
+    
+    @MainActor
+    func toggleNotchHiddenAndMinimum(hidden: Bool) {
+        if hidden {
+            overlayController.moveOverlay(toNotchAt: OverlayNotch.hidden.rawValue, animated: true, completion: nil)
+        } else {
+            overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: true, completion: nil)
+        }
+    }
     
     @MainActor
     func reloadData() {
@@ -173,7 +192,7 @@ extension ExploreParentViewController: PostDelegate {
                 if let reactingPostIndex = reactingPostIndex {
                     exploreFeedVC.scrollFeedToPostRightAboveKeyboard(postIndex: reactingPostIndex, keyboardHeight: keyboardHeight)
                 }
-            case .minimum: //Map
+            case .minimum, .hidden: //Map
                 if let _ = exploreMapVC.selectedAnnotationView, keyboardHeight > 100 { //keyboardHeight of 90 appears with postVC keyboard
                     exploreMapVC.movePostUpAfterEmojiKeyboardRaised()
                 }

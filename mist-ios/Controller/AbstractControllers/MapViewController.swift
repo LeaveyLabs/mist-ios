@@ -44,7 +44,8 @@ class MapViewController: UIViewController {
     @IBOutlet weak var userTrackingButton: UIButton!
     @IBOutlet weak var mapDimensionButton: UIButton!
     @IBOutlet weak var trackingDimensionStackView: UIStackView!
-    @IBOutlet weak var zoomSlider: TapUISlider!
+    @IBOutlet weak var zoomSliderVisual: TapUISlider!
+    @IBOutlet weak var zoomSliderDrag: TapUISlider!
     
     // User location
     let locationManager = CLLocationManager()
@@ -109,24 +110,31 @@ class MapViewController: UIViewController {
         super.viewDidAppear(animated)
         cameraDistance = mapView.camera.centerCoordinateDistance
         moveMapLegalLabel()
+        updateZoomSliderThumbValue()
     }
     
     // MARK: - Setup
     
     @IBOutlet weak var zoomSliderGradientImageView: UIImageView!
     func setupZoomSlider() {
-        zoomSlider.transform = CGAffineTransform(rotationAngle: -.pi/2)
-        zoomSlider.value = currentZoomSliderValue
-        zoomSlider.addTarget(self, action: #selector(onZoomSlide(slider:event:)), for: .valueChanged)
-        zoomSlider.thumbTintColor = .white
-        zoomSlider.minimumTrackTintColor = .clear
-        zoomSlider.maximumTrackTintColor = .clear
+        zoomSliderVisual.transform = CGAffineTransform(rotationAngle: -.pi/2)
+        zoomSliderVisual.minimumTrackTintColor = .clear
+        zoomSliderVisual.maximumTrackTintColor = .clear
+        zoomSliderVisual.setThumbImage(UIImage(named: "thumb"), for: .normal)
+        zoomSliderVisual.setThumbImage(UIImage(named: "thumb"), for: .highlighted)
+        zoomSliderVisual.thumbRectHorizontalOffset = 17
+        zoomSliderVisual.isUserInteractionEnabled = false
+        
+        zoomSliderDrag.transform = CGAffineTransform(rotationAngle: -.pi/2)
+        zoomSliderDrag.value = currentZoomSliderValue
+        zoomSliderDrag.minimumTrackTintColor = .clear
+        zoomSliderDrag.maximumTrackTintColor = .clear
+        zoomSliderDrag.thumbTintColor = .clear
+        zoomSliderDrag.thumbRectHorizontalOffset = 17
+        zoomSliderDrag.addTarget(self, action: #selector(onZoomSlide(slider:event:)), for: .valueChanged)
+        
         zoomSliderGradientImageView.alpha = 0.3
         zoomSliderGradientImageView.applyMediumShadow()
-        zoomSlider.setThumbImage(UIImage(named: "thumb"), for: .normal)
-        zoomSlider.setThumbImage(UIImage(named: "thumb"), for: .highlighted)
-//        zoomSlider.trackRectWidth = 4
-        zoomSlider.thumbRectHorizontalOffset = 17
     }
     
     var currentZoomSliderValue: Float = 3
@@ -136,21 +144,21 @@ class MapViewController: UIViewController {
             case .began:
                 UIView.animate(withDuration: 0.3, delay: 0) {
                     self.zoomSliderGradientImageView.alpha = 1
-                    self.zoomSlider.tintColor = .white
+                    self.zoomSliderVisual.tintColor = .white
                 }
                 isCameraZooming = true
-                handleZoomSliderValChange(previousZoom: currentZoomSliderValue, newZoom: zoomSlider.value)
+                handleZoomSliderValChange(previousZoom: currentZoomSliderValue, newZoom: zoomSliderDrag.value)
                 break
             case .moved:
-                handleZoomSliderValChange(previousZoom: currentZoomSliderValue, newZoom: zoomSlider.value)
+                handleZoomSliderValChange(previousZoom: currentZoomSliderValue, newZoom: zoomSliderDrag.value)
             case .ended:
-                handleZoomSliderValChange(previousZoom: currentZoomSliderValue, newZoom: zoomSlider.value)
+                handleZoomSliderValChange(previousZoom: currentZoomSliderValue, newZoom: zoomSliderDrag.value)
                 isCameraZooming = false
             default:
                 break
             }
         }
-        currentZoomSliderValue = zoomSlider.value
+        currentZoomSliderValue = zoomSliderDrag.value
     }
     
     func handleZoomSliderValChange(previousZoom: Float, newZoom: Float) {
@@ -158,9 +166,9 @@ class MapViewController: UIViewController {
     }
     
     func moveMapLegalLabel() {
-        mapView.subviews.first { "\(type(of: $0))" == "MKAttributionLabel" }?.frame.origin.y = mapView.frame.maxY + 4.0 - mapViewLegalLabelYOffset
-        mapView.subviews.first { "\(type(of: $0))" == "MKAttributionLabel" }?.frame.origin.x = 66.0
-        mapView.subviews.first { "\(type(of: $0))" == "MKAppleLogoImageView" }?.frame.origin.y = mapView.frame.maxY - mapViewLegalLabelYOffset - 1
+//        mapView.subviews.first { "\(type(of: $0))" == "MKAttributionLabel" }?.frame.origin.y = mapView.frame.maxY + 4.0 - mapViewLegalLabelYOffset
+//        mapView.subviews.first { "\(type(of: $0))" == "MKAttributionLabel" }?.frame.origin.x = 66.0
+//        mapView.subviews.first { "\(type(of: $0))" == "MKAppleLogoImageView" }?.frame.origin.y = mapView.frame.maxY - mapViewLegalLabelYOffset - 1
     }
     
     func setupMapView() {
@@ -305,17 +313,17 @@ extension MapViewController: MKMapViewDelegate {
             //note: this doesnt work for more than one chaining... for that. you'll have to set isCameraFlyingOutAndIn in the last animation block
         }
         
-        if !zoomSlider.isTracking {
+        if !zoomSliderDrag.isTracking {
             UIView.animate(withDuration: 0.5) {
                 self.zoomSliderGradientImageView.alpha = 0.3
-                self.zoomSlider.tintColor = .clear
+                self.zoomSliderVisual.tintColor = .clear
             }
         }
     }
     
     func updateZoomSliderThumbValue() {
         let asdf = pow(mapView.camera.centerCoordinateDistance, (1/10)) - 1.0
-        zoomSlider.value = Float(5.8 - asdf) * 1.02
+        zoomSliderVisual.value = Float(5.6 - asdf) * 1.06
 //                zoomSlider.value += Float(mapView.camera.centerCoordinateDistance - cameraDistance) / 2.0
     }
     
@@ -341,12 +349,10 @@ extension MapViewController: MKMapViewDelegate {
             if zoomSliderGradientImageView.alpha < 0.35 {
                 UIView.animate(withDuration: 0.3) {
                     self.zoomSliderGradientImageView.alpha = 1
-                    self.zoomSlider.tintColor = .white
+                    self.zoomSliderVisual.tintColor = .white
                 }
             }
-            if !zoomSlider.isTracking { //update the slide indicator value
-                updateZoomSliderThumbValue()
-            }
+            updateZoomSliderThumbValue()
         }
         cameraDistance = mapView.camera.centerCoordinateDistance
         

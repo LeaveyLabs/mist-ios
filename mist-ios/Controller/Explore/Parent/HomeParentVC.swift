@@ -28,7 +28,9 @@ class HomeExploreParentViewController: ExploreParentViewController {
     
     func setupTabBar() {
         guard let tabBarVC = tabBarController as? SpecialTabBarController else { return }
-        tabBarVC.selectedIndex = 0
+        if MistboxManager.shared.getMistboxMists().count > 0 {
+            tabBarVC.selectedIndex = 1
+        }
     }
     
     func setupActiveLabel() {

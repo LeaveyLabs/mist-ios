@@ -195,7 +195,7 @@ extension PinSearchViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard !searchString.isEmpty else { return "" }
-        return "nearby places"
+        return "suggested places"
     }
             
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

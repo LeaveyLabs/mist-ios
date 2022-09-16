@@ -9,18 +9,10 @@ import Foundation
 import OverlayContainer
 import UIKit
 
-protocol ExploreChildDelegate {
-    func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType)
-    func reloadData()
-    
-    var mapPosts: [Post] { get }
-    var feedPosts: [Post] { get }
-}
-
 class ExploreParentViewController: UIViewController {
     
     enum OverlayNotch: Int, CaseIterable {
-        case minimum, maximum
+        case hidden, minimum, maximum
     }
 
     //MARK: - Properties
@@ -101,15 +93,19 @@ extension ExploreParentViewController: OverlayContainerViewControllerDelegate {
     
     private func notchHeight(for notch: OverlayNotch, availableSpace: CGFloat) -> CGFloat {
         switch notch {
+        case .hidden:
+            return 0
+        case .minimum:
+            return 70
         case .maximum:
             return availableSpace
-        case .minimum:
-            return 65
         }
     }
         
     @objc func didTapFeedNotch() {
         switch currentNotch {
+        case .hidden:
+            break
         case .minimum:
             overlayController.moveOverlay(toNotchAt: OverlayNotch.maximum.rawValue, animated: true, completion: nil)
         case .maximum:

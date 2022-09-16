@@ -265,6 +265,7 @@ class NewPostViewController: UIViewController {
             return
         }
 
+        view.endEditing(true)
         scrollView.scrollToTop()
         setAllInteractionTo(false)
         animateProgressBar()
@@ -481,7 +482,7 @@ extension NewPostViewController: UITextViewDelegate {
     
     //my guess is it had something to do with this validate all fields
     func validateAllFields() {
-        locationNameLilacIndicator.isHidden = !locationNameTextField.text!.isEmpty
+        locationNameLilacIndicator.isHidden = !locationNameTextField.text!.trimmingCharacters(in: .whitespaces).isEmpty
         pinLilacIndicator.isHidden = currentPin != nil || LocationManager.Shared.authorizationStatus == .authorizedWhenInUse || LocationManager.Shared.authorizationStatus == .authorizedAlways
         
         //note: the text indicator being hidden and the field being valid are two different things. the user can input in text longer than the field allows, which shouldnt rerender the indicator view, but which should disable submit button

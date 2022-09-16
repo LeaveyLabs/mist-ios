@@ -117,15 +117,15 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
             DeviceService.shared.requestContactsOnPost()
             requestContactsAccess { wasShownPermissionRequest in
                 DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [self] in
-                    if shouldStartWithRaisedKeyboard {
-                        inputBar.inputTextView.becomeFirstResponder()
-                    }
+//                    if shouldStartWithRaisedKeyboard {
+//                        inputBar.inputTextView.becomeFirstResponder()
+//                    }
                 })
             }
         } else {
-            if shouldStartWithRaisedKeyboard {
-                inputBar.inputTextView.becomeFirstResponder()
-            }
+//            if shouldStartWithRaisedKeyboard {
+//                inputBar.inputTextView.becomeFirstResponder()
+//            }
         }
     }
     
