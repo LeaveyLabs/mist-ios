@@ -118,14 +118,6 @@ extension ExploreMapViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false) //for a better searchcontroller animation
         
-        guard isFirstAppearance else { return }
-        let firstAnnotation = postAnnotations.first!
-        let firstCluster = mapView.greatestClusterContaining(firstAnnotation)
-        
-        //hmmmmmmmmmm the cluster hasnt appeared yet
-        //we need to make sure that the annotations pop up animation DOESNT occur if we do this
-        print("FIRSTs", firstAnnotation, firstCluster)
-        mapView.selectAnnotation(firstCluster ?? firstAnnotation, animated: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -141,6 +133,13 @@ extension ExploreMapViewController {
             mySearchController.searchBar.becomeFirstResponder()
         }
         
+        
+        guard isFirstAppearance else { return }
+        let firstAnnotation: MKAnnotation = mapView.greatestClusterContaining(postAnnotations.first!) ?? postAnnotations.first!
+        mapView.camera.centerCoordinate = firstAnnotation.coordinate
+//        slowFlyTo(lat: firstAnnotation.coordinate.latitude, long: firstAnnotation.coordinate.longitude, incrementalZoom: false, withDuration: 0, withLatitudeOffset: true, completion: { completed in
+            self.mapView.selectAnnotation(firstAnnotation, animated: true)
+//        })
         isFirstAppearance = false
     }
     

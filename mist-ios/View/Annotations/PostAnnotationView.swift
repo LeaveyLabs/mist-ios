@@ -131,17 +131,10 @@ extension PostAnnotationView {
         let cachedPost = PostService.singleton.getPost(withPostId: postAnnotation.post.id)!
         postCalloutView.configurePost(post: cachedPost, delegate: postDelegate, arrowPosition: .bottom)
 
-        //Do i need to call some of these? I dont think so.
-//        mapView.layoutIfNeeded()
-//        postCalloutView.setNeedsLayout()
-        
+        //TODO: fade in should not take 0.2 for first load.. make it based on duration?
         postCalloutView.alpha = 0
         postCalloutView.isHidden = true
-        
-        //TODO: the fade in should take as long as it takes to fly to the post.
-        //the real solution: we want the fly in to be faster if we're super close to the annotation already
-        //and we want the values below to depend directly on those values for fly in, not hard coded
-        postCalloutView.fadeIn(duration: 0.2, delay: delay - 0.3)
+        postCalloutView.fadeIn(duration: 0, delay: delay - 0.3)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
             if !hasSwipeDemoAnimationRun {

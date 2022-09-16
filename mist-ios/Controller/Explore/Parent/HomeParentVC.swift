@@ -24,12 +24,11 @@ class HomeExploreParentViewController: ExploreParentViewController {
         setupTabBar()
         
         self.renderNewPostsOnFeedAndMap(withType: .firstLoad)
-        automaticallyFlyToPostAfterViewDidAppear()
     }
     
     func setupTabBar() {
         guard let tabBarVC = tabBarController as? SpecialTabBarController else { return }
-        tabBarVC.selectedIndex = 1
+        tabBarVC.selectedIndex = 0
     }
     
     func setupActiveLabel() {
@@ -70,17 +69,6 @@ class HomeExploreParentViewController: ExploreParentViewController {
                 self.exploreMapVC.trojansActiveView.isHidden = true
             }
         }
-    }
-    
-    func automaticallyFlyToPostAfterViewDidAppear() {
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [self] in
-//                    if let cluster = exploreMapVC.mapView?.greatestClusterAnnotation {
-//                        exploreMapVC.mapView.
-//                        exploreMapVC.mapView.selectAnnotation(cluster, animated: true)
-//                    } else if let annotation = exploreMapVC.postAnnotations.first {
-//                        exploreMapVC.mapView.selectAnnotation(annotation, animated: true)
-//                    }
-//                }
     }
     
 }

@@ -212,10 +212,10 @@ class LoadingViewController: UIViewController {
                 CustomSwiftMessages.displayError("not found", "these message have been deleted")
                 return
             }
+            tabbarVC.selectedIndex = 2
             guard
                 let conversationsNavVC = tabbarVC.selectedViewController as? UINavigationController
             else { return }
-            tabbarVC.selectedIndex = 2
             let chatVC = ChatViewController.create(conversation: convo)
             conversationsNavVC.pushViewController(chatVC, animated: false)
         case .match:
@@ -224,10 +224,10 @@ class LoadingViewController: UIViewController {
                 CustomSwiftMessages.displayError("not found", "these message have been deleted")
                 return
             }
+            tabbarVC.selectedIndex = 2
             guard
                 let conversationsNavVC = tabbarVC.selectedViewController as? UINavigationController
             else { return }
-            tabbarVC.selectedIndex = 2
             let chatVC = ChatViewController.create(conversation: convo)
             conversationsNavVC.pushViewController(chatVC, animated: false)
         case .daily_mistbox:
