@@ -10,6 +10,9 @@ import Foundation
 enum NotificationTypes: String {
     case tag = "tag"
     case message = "message"
+    case match = "match"
+    case daily_mistbox = "dailymistbox"
+    case make_someones_day = "makesomeonesday"
 }
 
 extension Notification.Name {
