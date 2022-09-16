@@ -73,10 +73,10 @@ class SpecialTabBarController: UITabBarController {
 
 extension SpecialTabBarController: UITabBarControllerDelegate {
     
-    func presentNewPostNavVC() {
+    func presentNewPostNavVC(animated: Bool = true) {
         let newPostNav = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewPostNavigation)
         newPostNav.modalPresentationStyle = .fullScreen
-        present(newPostNav, animated: true, completion: nil)
+        present(newPostNav, animated: animated, completion: nil)
     }
     
     override func tabBar(_ tabBar: UITabBar, didEndCustomizing items: [UITabBarItem], changed: Bool) {

@@ -145,6 +145,7 @@ extension EnvelopeView {
 //        panGesture.addTarget(self, action: #selector(handlePan(gestureRecognizer:)))
 //        mask(titleLabel, maskRect: CGRect(x: titleLabel.center.x, y: titleLabel.center.y, width: titleLabel.frame.width + 10, height: titleLabel.frame.height + 50))
         // Cuts 20pt borders around the view, keeping part inside rect intact
+//        flipUp()
     }
     
 }
@@ -239,4 +240,23 @@ extension EnvelopeView {
             }
         }
     }
+}
+extension EnvelopeView {
+    
+//    func flipUp() {
+//        var perspective = CATransform3DIdentity
+//        perspective.m34 = -1.0 / layer.frame.size.width/2
+//        
+//        let animation = CABasicAnimation()
+//        animation.keyPath = "transform"
+//        animation.fromValue = NSValue(caTransform3D:
+//            CATransform3DMakeRotation(0, 0, 0, 0))
+//        animation.toValue = NSValue(caTransform3D:
+//            CATransform3DConcat(perspective,CATransform3DMakeRotation(CGFloat(CGFloat.pi), 1, 0, 0)))
+//        animation.duration = CFTimeInterval(3)
+//        animation.repeatCount = 10
+////        animation.beginTime = CACurrentMediaTime() + CFTimeInterval(0.5)
+////        animation.timingFunction = getTimingFunction(curve: 1)
+//        titleMaskingView.layer.add(animation, forKey: "3d")
+//    }
 }

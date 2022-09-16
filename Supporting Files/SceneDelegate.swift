@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -44,19 +45,52 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
+        if let windowScene = scene as? UIWindowScene {
+            let window = UIWindow(windowScene: windowScene)
+            self.window = window
+            
+            let loadingVC = UIStoryboard(name: "Loading", bundle: nil).instantiateViewController(withIdentifier: "LoadingViewController") as! LoadingViewController
+            if let notificationResponseHandler = generateNotificationResponseHandler(connectionOptions) {
+                loadingVC.notificationResponseHandler = notificationResponseHandler
+            }
+                
+            window.rootViewController = loadingVC
+            window.makeKeyAndVisible()
+        }
+    }
+    
+    func generateNotificationResponseHandler(_ connectingOptions: UIScene.ConnectionOptions) -> NotificationResponseHandler? {
+        guard
+            let notificationResponse = connectingOptions.notificationResponse,
+            let userInfo = notificationResponse.notification.request.content.userInfo as? [String : AnyObject],
+            let notificationTypeString = userInfo[Notification.extra.type.rawValue] as? String,
+            let notificationType = NotificationTypes.init(rawValue: notificationTypeString),
+            let json = userInfo[Notification.extra.data.rawValue]
+        else { return nil }
         
-        
-//        if let windowScene = scene as? UIWindowScene {
-//            let window = UIWindow(windowScene: windowScene)
-//            print(UserService.singleton.isLoggedIntoAnAccount)
-//            window.rootViewController = UpdateProfileSettingViewController.create()
-//            self.window = window
-//            window.makeKeyAndVisible()
-//        }
-//
-//        guard let windowScene = (scene as? UIWindowScene) else { return }
-//        let scene = UIWindow(windowScene: windowScene)
-        
+        do {
+            let data = try JSONSerialization.data(withJSONObject: json as Any, options: .prettyPrinted)
+            var handler = NotificationResponseHandler(notificationType: notificationType)
+            switch notificationType {
+            case .tag:
+                handler.newTag = try JSONDecoder().decode(Tag.self, from: data)
+            case .message:
+                handler.newMessage = try JSONDecoder().decode(Message.self, from: data)
+            case .match:
+                handler.newMatchRequest = try JSONDecoder().decode(MatchRequest.self, from: data)
+            case .daily_mistbox, .make_someones_day:
+                break
+            }
+            return handler
+        } catch {
+            let analyticsId = "notiifcation"
+            let analyticsTitle = "displayingVCafterRemoteNotificationFailed"
+            Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+              AnalyticsParameterItemID: "id-\(analyticsId)",
+              AnalyticsParameterItemName: analyticsTitle,
+            ])
+            return nil
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
