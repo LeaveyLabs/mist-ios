@@ -59,13 +59,24 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
     //user was not in app
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        //this case is handled within SceneDelegate
+        print("DID RECEIVE NOTIFIATION")
+        
+        guard var _ = UIApplication.shared.windows.first?.rootViewController else {
+            return //the app wasn't running in the background. scene delegate will handle
+        }
+                
+        let loadingVC = UIStoryboard(name: "Loading", bundle: nil).instantiateViewController(withIdentifier: "LoadingViewController") as! LoadingViewController
+        if let notificationResponseHandler = generateNotificationResponseHandler(response) {
+            loadingVC.notificationResponseHandler = notificationResponseHandler
+        }
+        UIApplication.shared.windows.first?.rootViewController = loadingVC
+
         completionHandler()
     }
 
     //user was in app
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print("WILL PRESENT NOTIFIATION. userInfo:")
+        print("WILL PRESENT NOTIFIATION")
         guard let userInfo = notification.request.content.userInfo as? [String : AnyObject] else { return }
         Task {
             await handleNotificationWhileInApp(userInfo: userInfo)

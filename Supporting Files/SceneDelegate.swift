@@ -50,46 +50,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window = window
             
             let loadingVC = UIStoryboard(name: "Loading", bundle: nil).instantiateViewController(withIdentifier: "LoadingViewController") as! LoadingViewController
-            if let notificationResponseHandler = generateNotificationResponseHandler(connectionOptions) {
+            if let notificationResponse = connectionOptions.notificationResponse,
+               let notificationResponseHandler = generateNotificationResponseHandler(notificationResponse) {
                 loadingVC.notificationResponseHandler = notificationResponseHandler
             }
                 
             window.rootViewController = loadingVC
             window.makeKeyAndVisible()
-        }
-    }
-    
-    func generateNotificationResponseHandler(_ connectingOptions: UIScene.ConnectionOptions) -> NotificationResponseHandler? {
-        guard
-            let notificationResponse = connectingOptions.notificationResponse,
-            let userInfo = notificationResponse.notification.request.content.userInfo as? [String : AnyObject],
-            let notificationTypeString = userInfo[Notification.extra.type.rawValue] as? String,
-            let notificationType = NotificationTypes.init(rawValue: notificationTypeString),
-            let json = userInfo[Notification.extra.data.rawValue]
-        else { return nil }
-        
-        do {
-            let data = try JSONSerialization.data(withJSONObject: json as Any, options: .prettyPrinted)
-            var handler = NotificationResponseHandler(notificationType: notificationType)
-            switch notificationType {
-            case .tag:
-                handler.newTag = try JSONDecoder().decode(Tag.self, from: data)
-            case .message:
-                handler.newMessage = try JSONDecoder().decode(Message.self, from: data)
-            case .match:
-                handler.newMatchRequest = try JSONDecoder().decode(MatchRequest.self, from: data)
-            case .daily_mistbox, .make_someones_day:
-                break
-            }
-            return handler
-        } catch {
-            let analyticsId = "notiifcation"
-            let analyticsTitle = "displayingVCafterRemoteNotificationFailed"
-            Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-              AnalyticsParameterItemID: "id-\(analyticsId)",
-              AnalyticsParameterItemName: analyticsTitle,
-            ])
-            return nil
         }
     }
 

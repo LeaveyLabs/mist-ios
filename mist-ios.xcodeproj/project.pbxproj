@@ -536,6 +536,8 @@
 		5B774DFC286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */; };
 		5B774DFF286D570400CCCF28 /* MatchCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */; };
 		5B774E00286D570400CCCF28 /* MatchCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */; };
+		5B83673D28D44C77001BF4B1 /* NotificationResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B83673C28D44C77001BF4B1 /* NotificationResponseHandler.swift */; };
+		5B83673E28D44C77001BF4B1 /* NotificationResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B83673C28D44C77001BF4B1 /* NotificationResponseHandler.swift */; };
 		5B879E6F28B6BA5500D2DFC1 /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E6E28B6BA5500D2DFC1 /* InsetLabel.swift */; };
 		5B879E7028B6BA5500D2DFC1 /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E6E28B6BA5500D2DFC1 /* InsetLabel.swift */; };
 		5B879E7628B7E3C000D2DFC1 /* CreateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7528B7E3C000D2DFC1 /* CreateProfileViewController.swift */; };
@@ -978,6 +980,7 @@
 		5B774DFB286D55AB00CCCF28 /* CustomMessagesFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessagesFlowLayout.swift; sourceTree = "<group>"; };
 		5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCollectionCell.swift; sourceTree = "<group>"; };
 		5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MatchCollectionCell.xib; sourceTree = "<group>"; };
+		5B83673C28D44C77001BF4B1 /* NotificationResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationResponseHandler.swift; sourceTree = "<group>"; };
 		5B879E6E28B6BA5500D2DFC1 /* InsetLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetLabel.swift; sourceTree = "<group>"; };
 		5B879E7528B7E3C000D2DFC1 /* CreateProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileViewController.swift; sourceTree = "<group>"; };
 		5B879E7928B804B900D2DFC1 /* ConfirmCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmCodeViewController.swift; sourceTree = "<group>"; };
@@ -1678,6 +1681,7 @@
 				47E74E4027CA152800467A0C /* Utils */,
 				47E74E3F27CA152100467A0C /* APIs */,
 				4369DB08282EC413009215D4 /* Socket */,
+				5B83673C28D44C77001BF4B1 /* NotificationResponseHandler.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -2715,6 +2719,7 @@
 				43529E292890BBD000B3A484 /* CommentVote.swift in Sources */,
 				5BAD62752876707000DCFE45 /* AccountSection.swift in Sources */,
 				478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */,
+				5B83673D28D44C77001BF4B1 /* NotificationResponseHandler.swift in Sources */,
 				5B13B741285D05B0000ADF5E /* UISearchBar+CenterText.swift in Sources */,
 				5B99D3BD28C4733C009E63CD /* UIScrollView+IsAt.swift in Sources */,
 				5BC25A9E28991A2B005AAF69 /* Numbers.swift in Sources */,
@@ -3044,6 +3049,7 @@
 				5BE147C728A0CDAA0096FEBE /* UITextView+PreventPeriod.swift in Sources */,
 				5B235AF928AC347C00FD27A9 /* CNContact+Number.swift in Sources */,
 				5B739E4928935B9500E4EED0 /* SettingCell.swift in Sources */,
+				5B83673E28D44C77001BF4B1 /* NotificationResponseHandler.swift in Sources */,
 				5B739E4A28935B9500E4EED0 /* String+Indexing.swift in Sources */,
 				5B99D3BE28C4733C009E63CD /* UIScrollView+IsAt.swift in Sources */,
 				5B739E4B28935B9500E4EED0 /* ClusterAnnotationView.swift in Sources */,

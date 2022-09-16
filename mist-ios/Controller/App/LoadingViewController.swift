@@ -78,15 +78,6 @@ func isUpdateAvailable(completion: @escaping (Bool?, Error?) -> Void) throws -> 
     return task
 }
 
-struct NotificationResponseHandler {
-    var notificationType: NotificationTypes
-    var newTag: Tag?
-    var newTaggedPost: Post?
-    var newMessage: Message?
-    var newMessageConversation: Conversation?
-    var newMatchRequest: MatchRequest?
-}
-
 class LoadingViewController: UIViewController {
     
     //UI
