@@ -39,6 +39,7 @@ class ExploreFeedViewController: UIViewController {
         setupTableView()
         view.backgroundColor = .clear
         filterButton.alpha = 0
+        filterButton.isHidden = true //means it just wont appear ever
     }
 
     func setupNotchView() {
