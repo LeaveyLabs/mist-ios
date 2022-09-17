@@ -14,7 +14,7 @@ class Conversation {
     //MARK: - Properties
     
     //Data
-    var sangdaebang: FrontendReadOnlyUser
+    var sangdaebang: ThumbnailReadOnlyUser
     var messageThread: MessageThread
     var initiatingMatchRequest: MatchRequest? {
         get {
@@ -53,7 +53,7 @@ class Conversation {
     
     //MARK: - Initialization
     
-    init(sangdaebang: FrontendReadOnlyUser, messageThread: MessageThread) {
+    init(sangdaebang: ThumbnailReadOnlyUser, messageThread: MessageThread) {
         self.sangdaebang = sangdaebang
         self.messageThread = messageThread
         self.chatObjects = messageThread.server_messages.map { MessageKitMessage(message: $0, conversation: self) }

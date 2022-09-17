@@ -78,7 +78,7 @@ extension PostDelegate where Self: UIViewController {
     }
     
     @MainActor
-    func goToChat(postId: Int, postAuthor: FrontendReadOnlyUser, postTitle: String) {
+    func goToChat(postId: Int, postAuthor: ThumbnailReadOnlyUser, postTitle: String) {
         let chatVC = ChatViewController.createFromPost(postId: postId, postAuthor: postAuthor, postTitle: postTitle)
         let navigationController = UINavigationController(rootViewController: chatVC)
         navigationController.modalPresentationStyle = .fullScreen

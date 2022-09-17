@@ -19,7 +19,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var verifiedImageView: UIImageView!
     
     //Data
-    var user: FrontendReadOnlyUser?
+    var user: ThumbnailReadOnlyUser?
     var userIdForLoading: Int?
     var userPhoneNumberForLoading: String?
     var userHandleForLoading: String?
@@ -39,7 +39,7 @@ class ProfileViewController: UIViewController {
     
     //MARK: - Constructors
     
-    class func create(for user: FrontendReadOnlyUser) -> ProfileViewController {
+    class func create(for user: ThumbnailReadOnlyUser) -> ProfileViewController {
         let profileVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Profile) as! ProfileViewController
         profileVC.user = user
         profileVC.status = .loading

@@ -442,19 +442,19 @@ class UserAPI {
       return users
     }
     
-    static func turnUserIntoFrontendUser(_ user: ReadOnlyUser) async throws -> FrontendReadOnlyUser {
-        return FrontendReadOnlyUser(readOnlyUser: user,
+    static func turnUserIntoFrontendUser(_ user: ReadOnlyUser) async throws -> ThumbnailReadOnlyUser {
+        return ThumbnailReadOnlyUser(readOnlyUser: user,
                                     thumbnailPic: try await UIImageFromURLString(url: user.thumbnail),
                                     profilePic: nil)
     }
     
-    static func batchTurnUsersIntoFrontendUsers(_ users: [ReadOnlyUser]) async throws -> [Int: FrontendReadOnlyUser] {
+    static func batchTurnUsersIntoFrontendUsers(_ users: [ReadOnlyUser]) async throws -> [Int: ThumbnailReadOnlyUser] {
         guard users.count > 0 else { return [:] }
-        var frontendUsers: [Int: FrontendReadOnlyUser] = [:]
-        try await withThrowingTaskGroup(of: (Int, FrontendReadOnlyUser).self) { group in
+        var frontendUsers: [Int: ThumbnailReadOnlyUser] = [:]
+        try await withThrowingTaskGroup(of: (Int, ThumbnailReadOnlyUser).self) { group in
           for user in users {
             group.addTask {
-                return (user.id, FrontendReadOnlyUser(readOnlyUser: user, thumbnailPic: try await UIImageFromURLString(url: user.thumbnail), profilePic: nil))
+                return (user.id, ThumbnailReadOnlyUser(readOnlyUser: user, thumbnailPic: try await UIImageFromURLString(url: user.thumbnail), profilePic: nil))
             }
           }
           // Obtain results from the child tasks, sequentially, in order of completion
@@ -465,7 +465,7 @@ class UserAPI {
         return frontendUsers
     }
     
-    static func batchFetchProfilePics(_ users: [ReadOnlyUser]) async throws -> [Int: UIImage] {
+    static func batchFetchProfilePics(_ users: [ReadOnlyUserType]) async throws -> [Int: UIImage] {
         guard users.count > 0 else { return [:] }
         var thumbnails: [Int: UIImage] = [:]
       try await withThrowingTaskGroup(of: (Int, UIImage).self) { group in

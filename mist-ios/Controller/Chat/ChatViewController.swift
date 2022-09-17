@@ -95,15 +95,24 @@ class ChatViewController: MessagesViewController {
                 receiverProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.silhouette)
                 receiverProfileNameButton.setTitle("???", for: .normal)
             } else {
-                receiverProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.profilePic)
                 receiverProfileNameButton.setTitle(conversation.sangdaebang.first_name, for: .normal)
+                receiverProfilePicButton.imageView?.becomeProfilePicImageView(with: conversation.sangdaebang.profilePic)
+                if conversation.sangdaebang.profilePic == nil {
+                    Task {
+                        let newlyLoadedPic = try await UsersService.singleton.loadAndCacheProfilePic(frontendUser: conversation.sangdaebang)
+                        DispatchQueue.main.async { [weak self] in
+                            self?.receiverProfilePicButton.imageView?.becomeProfilePicImageView(with: newlyLoadedPic)
+                        }
+                    }
+                }
+
             }
         }
     }
     
     //MARK: - Initialization
     
-    class func createFromPost(postId: Int, postAuthor: FrontendReadOnlyUser, postTitle: String) -> ChatViewController {
+    class func createFromPost(postId: Int, postAuthor: ThumbnailReadOnlyUser, postTitle: String) -> ChatViewController {
         let chatVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Chat) as! ChatViewController
         chatVC.conversation = ConversationService.singleton.getConversationWith(userId: postAuthor.id) ?? ConversationService.singleton.openConversationWith(user: postAuthor)
         chatVC.conversation.openConversationFromPost(postId: postId, postTitle: postTitle)

@@ -81,6 +81,7 @@ class ConversationService: NSObject {
             }
             
             let frontendUsers = try await UsersService.singleton.loadAndCacheEverythingForUsers(userIds: Array(messageThreadsByUserIds.keys))
+            let profilePics = try await UsersService.singleton.loadAndCacheProfilePics(users: frontendUsers.map { $0.value })
             
             //Wait for matchRequests and blocks to load in
             try await group.waitForAll()
@@ -89,6 +90,9 @@ class ConversationService: NSObject {
             conversations = Dictionary(uniqueKeysWithValues: frontendUsers.map {userId, user in
                 (userId, Conversation(sangdaebang: user, messageThread: messageThreadsByUserIds[userId]!))
             })
+            conversations.forEach { userId, convo in
+                convo.sangdaebang.profilePic = profilePics[userId]
+            }
         }
     }
     
@@ -130,8 +134,6 @@ class ConversationService: NSObject {
         return nonBlockedConversations[userId]
     }
     
-    //TODO: this system actually needs to be by user, not by device, because if i log into the same account on my iphone vs simulator, dif results emerge
-    //if the user saved a read time while on here, but then logged into another device, we can't trust the read time here anymore
     func getUnreadConversations() -> [Conversation] {
         var unreadConvos = [Conversation]()
         for (sangdaebangId, convo) in nonBlockedConversations {
@@ -140,7 +142,7 @@ class ConversationService: NSObject {
                 let lastMessageReceived = conversation.messageThread.server_messages.filter( {$0.sender == sangdaebangId}).last
             else { continue }
             guard let lastMessageReadTime = conversationsLastMessageReadTime.lastTimestamps[sangdaebangId] else {
-                unreadConvos.append(convo) //then they've never opened a conversation with this person before
+                unreadConvos.append(convo) //they've never opened a conversation with this person before
                 continue
             }
             if lastMessageReadTime < lastMessageReceived.timestamp {
@@ -170,7 +172,7 @@ class ConversationService: NSObject {
     
     //MARK: - Opening and Closing Conversations
     
-    func openConversationWith(user: FrontendReadOnlyUser) -> Conversation? {
+    func openConversationWith(user: ThumbnailReadOnlyUser) -> Conversation? {
         do {
             let newMessageThread = try MessageThread(sender: UserService.singleton.getId(), receiver: user.id, previousMessages: [])
             let newConversation = Conversation(sangdaebang: user,

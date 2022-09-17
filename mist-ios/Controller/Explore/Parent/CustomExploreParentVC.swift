@@ -75,9 +75,9 @@ class CustomExploreParentViewController: ExploreParentViewController {
     func notchHeight(for notch: OverlayNotch, availableSpace: CGFloat) -> CGFloat {
         switch notch {
         case .hidden:
-            return 70
+            return 65
         case .minimum:
-            return 70
+            return 65
         case .medium:
             return 300
         case .maximum:

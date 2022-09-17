@@ -34,7 +34,7 @@ class CommentCell: UITableViewCell {
     
     //Information
     var comment: Comment!
-    var author: FrontendReadOnlyUser!
+    var author: ThumbnailReadOnlyUser!
     
     //Delegate
     var commentDelegate: CommentDelegate!
@@ -42,7 +42,7 @@ class CommentCell: UITableViewCell {
     
     //MARK: - Initializer
     
-    func configureCommentCell(comment: Comment, delegate: CommentDelegate, author: FrontendReadOnlyUser, shouldHideDivider: Bool) {
+    func configureCommentCell(comment: Comment, delegate: CommentDelegate, author: ThumbnailReadOnlyUser, shouldHideDivider: Bool) {
         self.comment = comment
         self.commentDelegate = delegate
         self.author = author

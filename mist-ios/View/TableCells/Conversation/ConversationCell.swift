@@ -23,9 +23,18 @@ class ConversationCell: UITableViewCell {
     func configureWith(conversation: Conversation) {
         let isHidden = conversation.isSangdaebangHidden
         
-        //TODO: if profilePic is not loaded in, we should load it in and display it
-        
+        //if profilePic is not loaded in, we should load it in and display it
         profilePicImageView.becomeProfilePicImageView(with: isHidden ? conversation.sangdaebang.silhouette : conversation.sangdaebang.profilePic)
+        if !isHidden && conversation.sangdaebang.profilePic == nil {
+            Task {
+                let newlyLoadedPic = try await UsersService.singleton.loadAndCacheProfilePic(frontendUser: conversation.sangdaebang)
+                guard !isHidden else { return }
+                DispatchQueue.main.async { [weak self] in
+                    self?.profilePicImageView.becomeProfilePicImageView(with: newlyLoadedPic)
+                }
+            }
+        }
+        
         nameLabel.text = isHidden ? "???" : conversation.sangdaebang.first_name
         messageLabel.text = conversation.messageThread.server_messages.last?.body ?? ""
         selectionStyle = .none

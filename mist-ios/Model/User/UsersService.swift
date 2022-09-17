@@ -11,7 +11,7 @@ import Contacts
 actor UsersService: NSObject {
     
     static var singleton = UsersService()
-    private var cachedUsers: [Int: FrontendReadOnlyUser] = [:]
+    private var cachedUsers: [Int: ThumbnailReadOnlyUser] = [:]
     private var cachedProfilePics: [Int: UIImage] = [:]
     private var usersInContacts: [PhoneNumber: ReadOnlyUser] = [:]
     private var totalNumberOfUsers: Int?
@@ -34,7 +34,7 @@ actor UsersService: NSObject {
         totalNumberOfUsers = try await UserAPI.fetchUserCount()
     }
     
-    func loadAndCacheUser(userId: Int) async throws -> FrontendReadOnlyUser? {
+    func loadAndCacheUser(userId: Int) async throws -> ThumbnailReadOnlyUser? {
         if let cachedUser = cachedUsers[userId] {
             return cachedUser
         }
@@ -45,7 +45,7 @@ actor UsersService: NSObject {
         return fetchedUser
     }
     
-    func loadAndCacheProfilePic(frontendUser: FrontendReadOnlyUser) async throws -> UIImage {
+    func loadAndCacheProfilePic(frontendUser: ThumbnailReadOnlyUser) async throws -> UIImage {
         if let profilePic = cachedProfilePics[frontendUser.id] {
             return profilePic
         }
@@ -58,7 +58,7 @@ actor UsersService: NSObject {
         return profilePic
     }
     
-    func loadAndCacheUser(phoneNumber: String) async throws -> FrontendReadOnlyUser? {
+    func loadAndCacheUser(phoneNumber: String) async throws -> ThumbnailReadOnlyUser? {
         guard let fetchedBackendUser = try await UserAPI.fetchUsersByPhoneNumbers(phoneNumbers: [phoneNumber]).first?.value else { return nil }
         if let cachedUser = cachedUsers[fetchedBackendUser.id] {
             return cachedUser
@@ -69,7 +69,7 @@ actor UsersService: NSObject {
         return fetchedUser
     }
         
-    func loadAndCacheUser(user: ReadOnlyUser) async throws -> FrontendReadOnlyUser {
+    func loadAndCacheUser(user: ReadOnlyUser) async throws -> ThumbnailReadOnlyUser {
         if let cachedUser = cachedUsers[user.id] {
             return cachedUser
         }
@@ -81,9 +81,9 @@ actor UsersService: NSObject {
     
     //MARK: Fetch several
 
-    func loadAndCacheEverythingForUsers(userIds: [Int]) async throws -> [Int: FrontendReadOnlyUser] {
+    func loadAndCacheEverythingForUsers(userIds: [Int]) async throws -> [Int: ThumbnailReadOnlyUser] {
         var noncachedUserIds = [Int]()
-        var alreadyCachedUsers = [Int: FrontendReadOnlyUser]()
+        var alreadyCachedUsers = [Int: ThumbnailReadOnlyUser]()
         for userId in userIds {
             if let cachedUser = cachedUsers[userId] {
                 alreadyCachedUsers[userId] = cachedUser
@@ -94,22 +94,17 @@ actor UsersService: NSObject {
         
         //Only fetch and cache the users we haven't already cached
         let users = try await UserAPI.batchFetchUsersFromUserIds(Set(noncachedUserIds))
-        async let profilePics = UsersService.singleton.loadAndCacheProfilePics(users: users.map { $0.value })
         async let frontendUsers = UserAPI.batchTurnUsersIntoFrontendUsers(users.map { $0.value })
-        var (fetchedUsers, fetchedPics) = try await (frontendUsers, profilePics)
+        let fetchedUsers  = try await frontendUsers
         fetchedUsers.forEach { userId, user in
             cachedUsers[userId] = user
         }
-        fetchedPics.forEach({ userId, pic in
-            cachedProfilePics[userId] = pic
-            fetchedUsers[userId]?.profilePic = pic
-        })
         
         //Return the set union
         return fetchedUsers.merging(alreadyCachedUsers) { (old, new) in new }
     }
     
-    func loadAndCacheProfilePics(users: [ReadOnlyUser]) async throws -> [Int: UIImage] {
+    func loadAndCacheProfilePics(users: [ReadOnlyUserType]) async throws -> [Int: UIImage] {
         var noncachedUserIds = [Int]()
         var alreadyCachedPics = [Int: UIImage]()
         for userId in users.map({ $0.id }) {
@@ -130,11 +125,11 @@ actor UsersService: NSObject {
         return fetchedPics.merging(alreadyCachedPics) { (old, new) in new }
     }
     
-    func loadAndCacheUsers(phoneNumbers: [PhoneNumber]) async throws -> [PhoneNumber: FrontendReadOnlyUser] {
+    func loadAndCacheUsers(phoneNumbers: [PhoneNumber]) async throws -> [PhoneNumber: ThumbnailReadOnlyUser] {
         let usersByPhoneNumber = try await UserAPI.fetchUsersByPhoneNumbers(phoneNumbers: phoneNumbers)
         
         var noncachedUsers = [ReadOnlyUser]()
-        var alreadyCachedUsers = [PhoneNumber: FrontendReadOnlyUser]()
+        var alreadyCachedUsers = [PhoneNumber: ThumbnailReadOnlyUser]()
         for user in usersByPhoneNumber {
             if let cachedUser = cachedUsers[user.value.id] {
                 alreadyCachedUsers[user.key] = cachedUser
@@ -144,7 +139,7 @@ actor UsersService: NSObject {
         }
         
         //Only fetch and cache the users we haven't already cached
-        var newlyCachedUsers = [PhoneNumber: FrontendReadOnlyUser]()
+        var newlyCachedUsers = [PhoneNumber: ThumbnailReadOnlyUser]()
         let fetchedUsers = try await UserAPI.batchTurnUsersIntoFrontendUsers(noncachedUsers)
         usersByPhoneNumber.forEach { phoneNumber, user in
             if let fetchedUser = fetchedUsers[user.id] { //if we just fetched the profile pic for that particular user
@@ -156,9 +151,9 @@ actor UsersService: NSObject {
         return newlyCachedUsers.merging(alreadyCachedUsers) { (old, new) in new }
     }
     
-    func loadAndCacheUsers(users: [ReadOnlyUser]) async throws -> [Int: FrontendReadOnlyUser] {
+    func loadAndCacheUsers(users: [ReadOnlyUser]) async throws -> [Int: ThumbnailReadOnlyUser] {
         var noncachedUsers = [ReadOnlyUser]()
-        var alreadyCachedUsers = [Int: FrontendReadOnlyUser]()
+        var alreadyCachedUsers = [Int: ThumbnailReadOnlyUser]()
         for user in users {
             if let cachedUser = cachedUsers[user.id] {
                 alreadyCachedUsers[user.id] = cachedUser
@@ -206,7 +201,7 @@ actor UsersService: NSObject {
         return usersInContacts[phoneNumber]
     }
     
-    func getPotentiallyCachedUser(userId: Int) -> FrontendReadOnlyUser? {
+    func getPotentiallyCachedUser(userId: Int) -> ThumbnailReadOnlyUser? {
         return cachedUsers[userId]
     }
     
@@ -220,7 +215,7 @@ actor UsersService: NSObject {
     
     //MARK: - Updaters
     
-    func updateCachedUser(updatedUser: FrontendReadOnlyUser) {
+    func updateCachedUser(updatedUser: ThumbnailReadOnlyUser) {
         cachedUsers[updatedUser.id] = updatedUser
     }
     

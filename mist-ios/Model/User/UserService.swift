@@ -80,8 +80,8 @@ class UserService: NSObject {
                             picture: authedUser.picture,
                             thumbnail: authedUser.thumbnail)
     }
-    func getUserAsFrontendReadOnlyUser() -> FrontendReadOnlyUser {
-        return FrontendReadOnlyUser(readOnlyUser: getUserAsReadOnlyUser(),
+    func getUserAsFrontendReadOnlyUser() -> ThumbnailReadOnlyUser {
+        return ThumbnailReadOnlyUser(readOnlyUser: getUserAsReadOnlyUser(),
                                     thumbnailPic: authedUser.profilePicWrapper.image,
                                     profilePic: authedUser.profilePicWrapper.image)
     }

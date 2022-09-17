@@ -47,8 +47,8 @@ struct FeederData {
              author: 0,
              commentcount: 0)]
         
-    static let users: [FrontendReadOnlyUser] = [
-        FrontendReadOnlyUser(
+    static let users: [ThumbnailReadOnlyUser] = [
+        ThumbnailReadOnlyUser(
             readOnlyUser: ReadOnlyUser(badges: [], id: 0,
                                        username: "adamvnovak",
                                        first_name: "Adam",
@@ -57,7 +57,7 @@ struct FeederData {
                                        thumbnail: ""),
             thumbnailPic: UIImage(named: "adam")!,
             profilePic: nil),
-        FrontendReadOnlyUser(
+        ThumbnailReadOnlyUser(
             readOnlyUser: ReadOnlyUser(badges: [], id: 0,
                                        username: "prav",
                                        first_name: "Pranav",
@@ -66,7 +66,7 @@ struct FeederData {
                                        thumbnail: ""),
             thumbnailPic: UIImage(named: "pic1")!,
             profilePic: nil),
-        FrontendReadOnlyUser(
+        ThumbnailReadOnlyUser(
             readOnlyUser: ReadOnlyUser(badges: [], id: 0,
                                        username: "googo",
                                        first_name: "Sooyeon",
@@ -75,7 +75,7 @@ struct FeederData {
                                        thumbnail: ""),
             thumbnailPic: UIImage(named: "pic2")!,
             profilePic: nil),
-        FrontendReadOnlyUser(
+        ThumbnailReadOnlyUser(
             readOnlyUser: ReadOnlyUser(badges: [], id: 0,
                                        username: "lit",
                                        first_name: "Little",
@@ -84,7 +84,7 @@ struct FeederData {
                                        thumbnail: ""),
             thumbnailPic: UIImage(named: "pic3")!,
             profilePic: nil),
-        FrontendReadOnlyUser(
+        ThumbnailReadOnlyUser(
             readOnlyUser: ReadOnlyUser(badges: [], id: 0,
                                        username: "asdf",
                                        first_name: "Jack",

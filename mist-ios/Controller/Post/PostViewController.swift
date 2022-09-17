@@ -71,7 +71,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         return PostService.singleton.getPost(withPostId: postId)!
     }
     var comments = [Comment]()
-    var commentAuthors = [Int: FrontendReadOnlyUser]() //[authorId: author]
+    var commentAuthors = [Int: ThumbnailReadOnlyUser]() //[authorId: author]
     
     //PostDelegate
 //    var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] = [:]
@@ -441,7 +441,7 @@ extension PostViewController {
     }
     
     func loadFakeProfilesWhenAWSIsDown() {
-        commentAuthors = comments.reduce(into: [Int: FrontendReadOnlyUser](), { partialResult, comment in
+        commentAuthors = comments.reduce(into: [Int: ThumbnailReadOnlyUser](), { partialResult, comment in
             partialResult[comment.author] = UserService.singleton.getUserAsFrontendReadOnlyUser()
         })
     }
@@ -503,7 +503,7 @@ extension PostViewController: UITableViewDataSource {
 
 extension PostViewController: CommentDelegate {
     
-    func handleCommentProfilePicTap(commentAuthor: FrontendReadOnlyUser) {
+    func handleCommentProfilePicTap(commentAuthor: ThumbnailReadOnlyUser) {
         let profileVC = ProfileViewController.create(for: commentAuthor)
         navigationController?.present(profileVC, animated: true)
     }

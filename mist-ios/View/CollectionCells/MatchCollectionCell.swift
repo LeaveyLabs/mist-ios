@@ -30,7 +30,7 @@ class MatchCollectionCell: UICollectionViewCell {
     }
     
     open func configure(with messageKitMatch: MessageKitMatchRequest,
-                        sangdaebang: FrontendReadOnlyUser,
+                        sangdaebang: ThumbnailReadOnlyUser,
                         delegate: MatchRequestCellDelegate,
                         isSangdaebangHidden: Bool) {
         matchRequestCellDelegate = delegate

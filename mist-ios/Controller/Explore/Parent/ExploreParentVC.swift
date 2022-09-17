@@ -100,7 +100,7 @@ class ExploreParentViewController: UIViewController, OverlayContainerViewControl
         case .hidden:
             return 0
         case .minimum:
-            return 70
+            return 65
         case .maximum:
             return availableSpace
         }

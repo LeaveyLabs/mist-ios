@@ -209,7 +209,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
                 }
             }
             
-            let frontendSuggestedUsers: [FrontendReadOnlyUser]
+            let frontendSuggestedUsers: [ThumbnailReadOnlyUser]
             do {
                 let fetchedUsers = try await UserAPI.fetchUsersByWords(words: [query])
                 let nonduplicatedUsers = Set(fetchedUsers).union(usersInContacts)
@@ -246,7 +246,7 @@ extension PostViewController: AutocompleteManagerDelegate, AutocompleteManagerDa
     }
     
     //Turns data into [AutocompleteCompletion] and does set union on it
-    func turnResultsIntoAutocompletions(_ suggestedUsers: [FrontendReadOnlyUser],
+    func turnResultsIntoAutocompletions(_ suggestedUsers: [ThumbnailReadOnlyUser],
                                         _ suggestedContacts: [CNContact]) -> [AutocompleteCompletion] {
         var suggestedUsersDict = Set<String>()
         var context = [String: Any]()

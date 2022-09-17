@@ -8,7 +8,7 @@
 import Foundation
 
 protocol CommentDelegate: UITextViewDelegate {
-    func handleCommentProfilePicTap(commentAuthor: FrontendReadOnlyUser)
+    func handleCommentProfilePicTap(commentAuthor: ThumbnailReadOnlyUser)
     func handleTagTap(taggedUserId: Int?, taggedNumber: String?, taggedHandle: String)
     func beginLoadingTaggedProfile(taggedUserId: Int?, taggedNumber: String?)
     

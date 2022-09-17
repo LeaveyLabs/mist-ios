@@ -68,7 +68,7 @@ struct ReadOnlyUser: Codable, ReadOnlyUserType, Hashable {
 }
 
 // Does not need to be codable, because we're not encoding other user information onto one's device
-struct FrontendReadOnlyUser: ReadOnlyUserType, SenderType, Hashable {
+struct ThumbnailReadOnlyUser: ReadOnlyUserType, SenderType, Hashable {
     
     // ReadOnlyUserBackendProperties
     let id: Int
@@ -102,7 +102,7 @@ struct FrontendReadOnlyUser: ReadOnlyUserType, SenderType, Hashable {
     }
     
     //Equatable
-    static func == (lhs: FrontendReadOnlyUser, rhs: FrontendReadOnlyUser) -> Bool { return lhs.id == rhs.id }
+    static func == (lhs: ThumbnailReadOnlyUser, rhs: ThumbnailReadOnlyUser) -> Bool { return lhs.id == rhs.id }
     //Hashable
     func hash(into hasher: inout Hasher) { hasher.combine(id) }
 }
