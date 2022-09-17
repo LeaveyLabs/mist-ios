@@ -11,7 +11,7 @@ import MapKit
 struct PostFilter {
     var postType: PostType = .All
     
-    static let MIN_PAGE_NUMBER = 0
+    static let MIN_PAGE_NUMBER = 1
     var pageNumber: Int = PostFilter.MIN_PAGE_NUMBER
     var isFeedFullyLoaded: Bool = false
     var postSort: SortOrder = .TRENDING {

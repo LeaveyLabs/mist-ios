@@ -27,6 +27,15 @@ import MessageKit
 import InputBarAccessoryView
 import MessageUI
 
+class FixedInsetTextMessageCell: TextMessageCell {
+    
+    override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+        super.apply(layoutAttributes)
+        messageLabel.textInsets =  .init(top: 8, left: 16, bottom: 8, right: 15)
+    }
+    
+}
+
 class ChatViewController: MessagesViewController {
     
     //MARK: - Propreties
@@ -277,6 +286,7 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.register(matchNib, forCellWithReuseIdentifier: String(describing: MatchCollectionCell.self))
         let infoNib = UINib(nibName: String(describing: InformationCollectionCell.self), bundle: nil)
         messagesCollectionView.register(infoNib, forCellWithReuseIdentifier: String(describing: InformationCollectionCell.self))
+        messagesCollectionView.register(FixedInsetTextMessageCell.self)
         
         messagesCollectionView.refreshControl = refreshControl
         if conversation.hasRenderedAllChatObjects() { refreshControl.removeFromSuperview() }
@@ -378,8 +388,10 @@ class ChatViewController: MessagesViewController {
         guard !isSectionReservedForTypingIndicator(indexPath.section) else {
             return super.collectionView(collectionView, cellForItemAt: indexPath)
         }
+        
+        let message = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
 
-        if let messageKitMatch = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView) as? MessageKitMatchRequest {
+        if let messageKitMatch = message as? MessageKitMatchRequest {
             let cell = messagesCollectionView.dequeueReusableCell(MatchCollectionCell.self, for: indexPath)
             cell.configure(with: messageKitMatch,
                            sangdaebang: conversation.sangdaebang,
@@ -387,19 +399,28 @@ class ChatViewController: MessagesViewController {
                            isSangdaebangHidden: isSangdaebangProfileHidden)
             return cell
         }
-        if let messageKitInfo = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView) as? MessageKitInfo {
+        if let messageKitInfo = message as? MessageKitInfo {
             let cell = messagesCollectionView.dequeueReusableCell(InformationCollectionCell.self, for: indexPath)
             cell.configure(with: messageKitInfo)
             return cell
         }
-        return super.collectionView(collectionView, cellForItemAt: indexPath)
+        else {
+            if let cell = messagesDataSource.textCell(for: message, at: indexPath, in: messagesCollectionView) {
+                return cell
+            } else {
+                let cell = messagesCollectionView.dequeueReusableCell(FixedInsetTextMessageCell.self, for: indexPath)
+                cell.configure(with: message, at: indexPath, and: messagesCollectionView)
+                return cell
+            }
+        }
+//        return super.collectionView(collectionView, cellForItemAt: indexPath) //this returned the old TextMessageCell with incorrect insets
     }
     
-    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if let cell = cell as? TextMessageCell {
-            cell.messageLabel.textInsets = .init(top: 8, left: 16, bottom: 8, right: 15)
-        }
-    }
+//    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        if let cell = cell as? TextMessageCell {
+//            cell.messageLabel.textInsets = .init(top: 8, left: 16, bottom: 8, right: 15)
+//        }
+//    }
     
 }
 
@@ -488,21 +509,34 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
 //            let range = Range(uncheckedBounds: (0, messagesCollectionView.numberOfSections - 1))
 //            let indexSet = IndexSet(integersIn: range)
 //            messagesCollectionView.reloadSections(indexSet)
-            // Reload last section to update header/footer labels and insert a new one
+//             Reload last section to update header/footer labels and insert a new one
 //            UIView.animate(withDuration: <#T##TimeInterval#>, delay: <#T##TimeInterval#>, animations: <#T##() -> Void#>)
 //            messagesCollectionView.reloadDataAndKeepOffset()
 
+            
+            messagesCollectionView.performBatchUpdates({
+                messagesCollectionView.insertSections([numberOfSections(in: messagesCollectionView) - 1])
+                if numberOfSections(in: messagesCollectionView) >= 2 {
+                    messagesCollectionView.reloadSections([numberOfSections(in: messagesCollectionView) - 2])
+                }
+            }, completion: { [weak self] _ in
+                if self?.isLastSectionVisible() == true {
+                    self?.messagesCollectionView.scrollToLastItem(animated: true)
+                }
+            })
+            
 //            messagesCollectionView.performBatchUpdates({
 //                messagesCollectionView.insertSections([numberOfSections(in: messagesCollectionView) - 1])
 //                if numberOfSections(in: messagesCollectionView) >= 2 {
 //                    messagesCollectionView.reloadSections([numberOfSections(in: messagesCollectionView) - 2])
 //                }
 //            }) {_ in
+//                
 //            }
 //            messagesCollectionView.reloadData()
         }
         
-        self.messagesCollectionView.reloadDataAndKeepOffset()
+//        self.messagesCollectionView.reloadDataAndKeepOffset()
 
         //TODO: we do want to scrollToLastItem, but ONLY if the bottom message is below the keyboard. otherwise we get weird animations when creating the first 5 or 7 or so messages
             //no nono
@@ -649,7 +683,7 @@ extension ChatViewController: MessagesLayoutDelegate {
     func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return isMostRecentMessageFromSender(message: message, at: indexPath) ? 16 : 0
     }
-    
+        
 }
 
 //MARK: - ScrollViewDelegate
