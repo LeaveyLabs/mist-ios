@@ -46,12 +46,11 @@ class PostService: NSObject {
         exploreFeedPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: FeederData.posts)
     }
     
-    var isExploreFeedFullyLoaded: Bool = false
     func loadExploreFeedPostsIfPossible() async throws {
-        guard !isExploreFeedFullyLoaded else { return }
+        guard !explorePostFilter.isFeedFullyLoaded else { return }
         let loadedPosts: [Post] = try await PostAPI.fetchPosts(order: explorePostFilter.postSort, page: explorePostFilter.pageNumber)
         guard !loadedPosts.isEmpty else {
-            isExploreFeedFullyLoaded = true
+            explorePostFilter.isFeedFullyLoaded = true
             return
         }
         if explorePostFilter.pageNumber == 0 {
@@ -200,14 +199,11 @@ class PostService: NSObject {
     //MARK: - Explore Filter
     
     func resetFilter() {
-        isExploreFeedFullyLoaded = false
         explorePostFilter = PostFilter()
     }
     
     func updateFilter(newPostSort: SortOrder) {
-        isExploreFeedFullyLoaded = false
-        explorePostFilter.pageNumber = 0
-        explorePostFilter.postSort = newPostSort
+        explorePostFilter.postSort = newPostSort //page and wasFeedFullyReloaded are automatically reset
     }
     
     func updateFilter(newPostType: PostType) {
