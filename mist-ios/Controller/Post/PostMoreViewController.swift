@@ -59,6 +59,9 @@ class PostMoreViewController: UIViewController {
             superUserVoteInflationLabel.text = String(VoteService.singleton.getCastingVoteRating())
             superUserVoteInflationSlider.isHidden = false
             superUserVoteInflationLabel.isHidden = false
+        } else {
+            superUserVoteInflationSlider.isHidden = true
+            superUserVoteInflationLabel.isHidden = true
         }
     }
     
