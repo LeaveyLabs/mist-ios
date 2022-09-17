@@ -53,7 +53,7 @@ class PostService: NSObject {
             explorePostFilter.isFeedFullyLoaded = true
             return
         }
-        if explorePostFilter.pageNumber == 0 {
+        if explorePostFilter.pageNumber == PostFilter.MIN_PAGE_NUMBER {
             exploreFeedPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts)
         } else {
             exploreFeedPostIds.append(contentsOf: await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts))
@@ -122,6 +122,7 @@ class PostService: NSObject {
     func loadMentions() async throws {
         let posts = try await PostAPI.fetchTaggedPosts()
         await mentionPostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: posts)
+        print("MENTIONS NOW:", posts, mentionPostIds)
     }
     
     //Called by FavoriteService after favorites are loaded in

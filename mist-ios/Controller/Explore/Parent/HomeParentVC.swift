@@ -174,7 +174,7 @@ extension HomeExploreParentViewController: FilterDelegate {
     
     @MainActor
     func handleUpdatedExploreFilter() {
-        //We should scroll to top before we alter the dataSource for the feed or else we risk scrolling through rows which were full but are now empty
+        //We should scroll to top before we alter the dataSource for the feed or else we risk scrolling through rows which were full but are nowed empty
         if !feedPosts.isEmpty {
             exploreFeedVC.feed.isUserInteractionEnabled = false
             exploreFeedVC.feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)

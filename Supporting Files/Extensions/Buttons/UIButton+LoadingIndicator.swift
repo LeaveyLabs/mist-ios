@@ -30,6 +30,7 @@ extension UIButton {
             self.addSubview(indicator)
             indicator.startAnimating()
         } else {
+            self.imageView?.isHidden = false
             self.isEnabled = true
             self.alpha = 1.0
             if let indicator = self.viewWithTag(UIButton.LoadingIndicatorTag) as? UIActivityIndicatorView {

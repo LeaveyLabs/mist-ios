@@ -67,6 +67,7 @@ class CustomExploreParentViewController: ExploreParentViewController {
             DeviceService.shared.didViewMentions()
         }
         overlayController.moveOverlay(toNotchAt: OverlayNotch.medium.rawValue, animated: false, completion: nil)
+        exploreFeedVC.refreshButton.isHidden = false
         exploreFeedVC.filterButton.isHidden = true
     }
     
@@ -200,6 +201,8 @@ class CustomExploreParentViewController: ExploreParentViewController {
     override func reloadNewFeedPostsIfNecessary() {
         //do nothing
     }
+    
+    
 }
 
 
