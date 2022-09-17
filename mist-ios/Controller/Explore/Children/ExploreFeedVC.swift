@@ -39,7 +39,6 @@ class ExploreFeedViewController: UIViewController {
         setupTableView()
         view.backgroundColor = .clear
         filterButton.alpha = 0
-        filterButton.isHidden = true //means it just wont appear ever
     }
 
     func setupNotchView() {
@@ -66,8 +65,10 @@ class ExploreFeedViewController: UIViewController {
     
     //MARK: - UserInteraction
     
-    @IBAction func onFilterButtonPress() {
-//        on
+    @IBAction func filterButtonDidPressed() {
+        guard let parent = exploreDelegate as? HomeExploreParentViewController else { return }
+        let filterVC = FilterSheetViewController.create(delegate: parent)
+        present(filterVC, animated: true)
     }
 
 }
@@ -148,16 +149,6 @@ extension ExploreFeedViewController: UITableViewDelegate {
         let postsUntilEnd = PostService.singleton.getExploreFeedPosts().count - greatestIndex
         guard postsUntilEnd == 50 else { return }
         exploreDelegate.reloadNewFeedPostsIfNecessary()
-    }
-    
-}
-
-extension ExploreFeedViewController {
-    
-    @IBAction func filterButtonDidPressed() {
-        guard let parent = exploreDelegate as? HomeExploreParentViewController else { return }
-        let filterVC = FilterSheetViewController.create(delegate: parent)
-        present(filterVC, animated: true)
     }
     
 }

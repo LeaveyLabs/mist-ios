@@ -746,8 +746,7 @@
                                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="25" weight="medium"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="filterButtonDidPressed" destination="tSr-wA-K5t" eventType="touchUpInside" id="sE6-ln-Y9K"/>
-                                                    <action selector="onFilterButtonPress" destination="tSr-wA-K5t" eventType="touchUpInside" id="z5u-2w-xhr"/>
+                                                    <action selector="filterButtonDidPressed" destination="tSr-wA-K5t" eventType="touchUpInside" id="5hh-ht-hgn"/>
                                                 </connections>
                                             </button>
                                         </subviews>

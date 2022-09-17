@@ -42,15 +42,6 @@ extension ExploreParentViewController: ExploreChildDelegate {
     }
     
     func renderNewPostsOnFeed(withType reloadType: ReloadType) {
-        //Feed scroll to top, on every reload. this should happen BEFORE the datasource for the feed is altered, in order to prevent a potential improper element access
-        if reloadType != .firstLoad {
-            if !feedPosts.isEmpty {
-                exploreFeedVC.feed.isUserInteractionEnabled = false
-                exploreFeedVC.feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-                exploreFeedVC.feed.isUserInteractionEnabled = true
-            }
-        }
-
         //Visual update
         exploreFeedVC.feed.reloadData()
     }

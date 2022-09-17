@@ -21,6 +21,9 @@ class FilterSheetViewController: UIViewController {
 //    @IBOutlet weak var refreshButton: UIButton!
 
     @IBOutlet weak var backgroundView: UIView!
+    
+    let boldFont = UIFont(name: Constants.Font.Heavy, size: 25)
+    let regFont = UIFont(name: Constants.Font.Medium, size: 25)
 
     var filterDelegate: FilterDelegate!
     
@@ -52,13 +55,13 @@ class FilterSheetViewController: UIViewController {
         switch PostService.singleton.getExploreFilter().postSort {
         case .RECENT:
             newButton.isSelected = true
-//            newButton.backgroundColor = .green
+            newButton.titleLabel?.font = boldFont
         case .BEST:
             bestButton.isSelected = true
-//            bestButton.backgroundColor = .yellow
+            bestButton.titleLabel?.font = boldFont
         case .TRENDING:
             trendingButton.isSelected = true
-//            trendingButton.backgroundColor = .red
+            trendingButton.titleLabel?.font = boldFont
         }
     }
     
@@ -68,12 +71,16 @@ class FilterSheetViewController: UIViewController {
         backgroundView.layer.cornerRadius = 10
         backgroundView.layer.cornerCurve = .continuous
         backgroundView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        backgroundView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: nil))
     }
     
     func deselectAllButtons() {
         newButton.isSelected = false
         bestButton.isSelected = false
         trendingButton.isSelected = false
+        bestButton.titleLabel?.font = regFont
+        newButton.titleLabel?.font = regFont
+        trendingButton.titleLabel?.font = regFont
     }
     
     //MARK: - User Interaction
@@ -86,6 +93,7 @@ class FilterSheetViewController: UIViewController {
         PostService.singleton.updateFilter(newPostSort: .TRENDING)
         filterDelegate.handleUpdatedExploreFilter()
         deselectAllButtons()
+        trendingButton.titleLabel?.font = boldFont
         trendingButton.isSelected = true
         view.isUserInteractionEnabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -97,6 +105,7 @@ class FilterSheetViewController: UIViewController {
         PostService.singleton.updateFilter(newPostSort: .BEST)
         filterDelegate.handleUpdatedExploreFilter()
         deselectAllButtons()
+        bestButton.titleLabel?.font = boldFont
         bestButton.isSelected = true
         view.isUserInteractionEnabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -108,6 +117,7 @@ class FilterSheetViewController: UIViewController {
         PostService.singleton.updateFilter(newPostSort: .RECENT)
         filterDelegate.handleUpdatedExploreFilter()
         deselectAllButtons()
+        newButton.titleLabel?.font = boldFont
         newButton.isSelected = true
         view.isUserInteractionEnabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
