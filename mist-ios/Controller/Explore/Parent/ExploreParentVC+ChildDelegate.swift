@@ -64,10 +64,18 @@ extension ExploreParentViewController: ExploreChildDelegate {
             exploreMapVC.turnPostsIntoAnnotationsAndAppendToPostAnnotations(PostService.singleton.getNewExploreMapPosts())
             exploreMapVC.mapView.addAnnotations(exploreMapVC.postAnnotations)
         case .newSearch: //Relocate map around annotations
+            
+            //NOTE: this is just optimized for custom explore right now because of the offset below. we should just rename this section to "customExplore"
+            
             exploreMapVC.turnPostsIntoAnnotationsAndReplacePostAnnotations(mapPosts)
             //NOTE: we aren't adding place annotations within this function on newSearch as of now
             exploreMapVC.mapView.addAnnotations(exploreMapVC.postAnnotations)
             exploreMapVC.mapView.setRegion(exploreMapVC.getRegionCenteredAround(exploreMapVC.postAnnotations + exploreMapVC.placeAnnotations) ?? MKCoordinateRegion.init(center: Constants.Coordinates.USC, latitudinalMeters: 2000, longitudinalMeters: 2000), animated: true)
+            let dynamicLatOffset = (exploreMapVC.latitudeOffsetForOneKMDistance / 1000) * exploreMapVC.mapView.camera.centerCoordinateDistance
+            exploreMapVC.mapView.camera.centerCoordinate.latitude -= (dynamicLatOffset / 2)
+            exploreMapVC.mapView.camera.pitch = exploreMapVC.maxCameraPitch //i think the pitch is droped in "setRegion"
+            // we want to offset in the opposite direciton and smaller direction than usual because now the feed takes up a larger part of the bottomn
+
         case .newPost:
             exploreMapVC.removeExistingPostAnnotationsFromMap()
             exploreMapVC.turnPostsIntoAnnotationsAndReplacePostAnnotations(mapPosts)
