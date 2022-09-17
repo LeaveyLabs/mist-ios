@@ -273,8 +273,8 @@ class NewPostViewController: UIViewController {
             do {
                 //We need to reset the filter and reload posts before uploading because uploading the post will immediately insert it at index 0 of explorePosts
                 PostService.singleton.resetFilter()
-                try await PostService.singleton.loadExploreFeedPosts()
-                try await PostService.singleton.loadExploreMapPosts()
+                try await PostService.singleton.loadExploreFeedPostsIfPossible()
+                try await PostService.singleton.loadAndOverwriteExploreMapPosts()
                 try await PostService.singleton.uploadPost(title: trimmedTitleText, text: trimmedBodyText, locationDescription: postLocationText, latitude: postLocationCoordinate.latitude, longitude: postLocationCoordinate.longitude, timestamp: datePicker.date.timeIntervalSince1970)
                 NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .dmNotificationsAfterNewPost, onVC: self) { didDisplayRequest in
                     DispatchQueue.main.async {
@@ -368,9 +368,7 @@ extension NewPostViewController: UITextViewDelegate {
            let txt = textView.text,
            !txt.isEmpty,
            txt.last == "\n" {
-            print("WILL DO THIS NOW")
             let cursorPosition = textView.offset(from: textView.beginningOfDocument, to: selectedRange.start)
-            print(cursorPosition, txt.count)
             if cursorPosition == txt.count {
                 //the two methods below were not working on newline. the above works better
                 var visibleRect = bodyTextView.frame

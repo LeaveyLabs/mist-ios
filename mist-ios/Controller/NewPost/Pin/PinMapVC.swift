@@ -149,7 +149,6 @@ class PinMapViewController: MapViewController {
         super.mapViewDidChangeVisibleRegion(mapView)
         
         asdf = pow(mapView.camera.centerCoordinateDistance, (1/10)) - 1.5
-        print(asdf)
         pinWidthConstraint.constant = pow(maxPinWidthConstant, 1 - (asdf / maxAsdf)) + (view.frame.width * 0.06)
         dotWidthConstraint.constant = pow(maxDotWidthConstant, 1 - (asdf / maxAsdf)) + 2
         pinDotView.layer.cornerRadius = dotWidthConstraint.constant / 2
@@ -172,9 +171,8 @@ class PinMapViewController: MapViewController {
     
     func renderPlacesOnMap(places: [MKMapItem]) {
         let closestPlaces = Array(places.sorted(by: { first, second in
-            mapView.centerCoordinate.distance(from: first.placemark.coordinate) < mapView.centerCoordinate.distance(from: second.placemark.coordinate)
+            mapView.centerCoordinate.distanceInMeters(from: first.placemark.coordinate) < mapView.centerCoordinate.distanceInMeters(from: second.placemark.coordinate)
         }).prefix(8))
-        print(closestPlaces)
         placeAnnotations = closestPlaces.map({ place in PlaceAnnotation(withPlace: place) })
         removeExistingPlaceAnnotationsFromMap()
         mapView.addAnnotations(placeAnnotations)

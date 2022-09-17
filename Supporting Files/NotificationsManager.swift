@@ -59,7 +59,7 @@ class NotificationsManager: NSObject {
         center.getNotificationSettings(completionHandler: { (settings) in
             if settings.authorizationStatus == .authorized {
                 DispatchQueue.main.async {
-                    print("REGISTERED")
+                    print("REGISTERED FOR NOTIFICATIONS")
                     UIApplication.shared.registerForRemoteNotifications()
                 }
             }

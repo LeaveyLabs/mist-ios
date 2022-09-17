@@ -12,7 +12,7 @@ import CenteredCollectionView
 // MARK: - Properties
 
 enum ReloadType {
-    case refresh, cancel, newSearch, newPost, firstLoad
+    case firstLoad, addMore, newSearch, newPost
 }
 
 class ExploreMapViewController: MapViewController {
@@ -27,11 +27,6 @@ class ExploreMapViewController: MapViewController {
     //Flags
     var annotationSelectionType: AnnotationSelectionType = .normal
     var isFirstAppearance = true
-        
-    // CollectionView
-    let centeredCollectionViewFlowLayout = CenteredCollectionViewFlowLayout()
-    var collectionView: PostCollectionView!
-    var currentlyVisiblePostIndex: Int?
 
     lazy var MAP_VIEW_WIDTH: Double = Double(mapView?.bounds.width ?? 350)
     lazy var POST_VIEW_WIDTH: Double = MAP_VIEW_WIDTH * 0.5 + 100
@@ -116,6 +111,7 @@ extension ExploreMapViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false) //for a better searchcontroller animation
         
+        guard isFirstAppearance else { return }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -131,14 +127,8 @@ extension ExploreMapViewController {
             mySearchController.searchBar.becomeFirstResponder()
         }
         
-        
         guard isFirstAppearance else { return }
-        let firstAnnotation: MKAnnotation = mapView.greatestClusterContaining(postAnnotations.first!) ?? postAnnotations.first!
-        mapView.camera.centerCoordinate = firstAnnotation.coordinate
-//        slowFlyTo(lat: firstAnnotation.coordinate.latitude, long: firstAnnotation.coordinate.longitude, incrementalZoom: false, withDuration: 0, withLatitudeOffset: true, completion: { completed in
-            self.mapView.selectAnnotation(firstAnnotation, animated: true)
-//        })
-        isFirstAppearance = false
+        self.isFirstAppearance = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -174,40 +164,17 @@ extension ExploreMapViewController {
 
     //The callout is currently presented, and we want to update the postView's UI with the new data
     func rerenderCollectionViewForUpdatedPostData() {
-        guard
-            let page = centeredCollectionViewFlowLayout.currentCenteredPage,
-            let postCollectionView = collectionView,
-            let postCarouselCell = postCollectionView.cellForItem(at: IndexPath(item: page, section: 0)) as? ClusterCarouselCell,
-            let _ = PostService.singleton.getPost(withPostId: postCarouselCell.postView.postId)
-        else {
-            return
-        }
-        postCollectionView.reloadItems(at: [IndexPath(item: page, section: 0)])
+        guard let annotationView = selectedAnnotationView else { return }
+        annotationView.rerenderCalloutForUpdatedPostData()
     }
 
     func movePostUpAfterEmojiKeyboardRaised() {
-        view.layoutIfNeeded()
-        UIView.animate(withDuration: 0.25) { [self] in
-            guard let index = currentlyVisiblePostIndex else { return }
-            let currentlyVisiblePostView = collectionView?.cellForItem(at: IndexPath(item: index, section: 0)) as! ClusterCarouselCell
-            currentlyVisiblePostView.bottomConstraint.constant = -80
-            view.layoutIfNeeded()
-//                constraints.first { $0.firstAnchor == collectionView?.bottomAnchor }?.constant = -152
-//                layoutIfNeeded()
-        }
+        guard let annotationView = selectedAnnotationView else { return }
+        annotationView.movePostUpAfterEmojiKeyboardRaised()
     }
 
     func movePostBackDownAfterEmojiKeyboardDismissed() {
-        view.layoutIfNeeded()
-        UIView.animate(withDuration: 0.25) { [self] in
-            guard let index = currentlyVisiblePostIndex else { return }
-            let currentlyVisiblePostView = collectionView?.cellForItem(at: IndexPath(item: index, section: 0)) as! ClusterCarouselCell
-            currentlyVisiblePostView.bottomConstraint.constant = -15
-            view.layoutIfNeeded()
-
-            //old method
-//            self?.constraints.first { $0.firstAnchor == self?.collectionView?.bottomAnchor }?.constant = -70
-//            self?.layoutIfNeeded()
-        }
+        guard let annotationView = selectedAnnotationView else { return }
+        annotationView.movePostBackDownAfterEmojiKeyboardDismissed()
     }
 }

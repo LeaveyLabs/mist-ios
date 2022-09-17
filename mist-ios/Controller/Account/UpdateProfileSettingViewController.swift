@@ -215,7 +215,6 @@ class UpdateProfileSettingViewController: UITableViewController {
             cell.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         } else {
             let badgesCell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.BadgesCell, for: indexPath) as! BadgesCell
-            print(UserService.singleton.getBadges())
             badgesCell.configureWith(username: UserService.singleton.getUsername(), badges: UserService.singleton.getBadges())
             badgesCell.selectionStyle = .none
             return badgesCell

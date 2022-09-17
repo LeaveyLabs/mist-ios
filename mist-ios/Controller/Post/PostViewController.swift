@@ -509,8 +509,6 @@ extension PostViewController: CommentDelegate {
     }
     
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        print("SHOULD INTERACT W URL")
-        
         guard let tagLink = TagLink.decodeTag(linkString: URL.absoluteString) else { return false }
         switch tagLink.tagType {
         case .id:
@@ -645,7 +643,6 @@ extension PostViewController: PostDelegate {
     }
     
     func handleFavorite(postId: Int, isAdding: Bool) {
-        print("HANDLE FAVORITE")
         navBarFavoriteButton.isSelected = isAdding
         do {
             try FavoriteService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
@@ -715,7 +712,6 @@ extension PostViewController {
         let keyboardTopYWithinView = view.bounds.height - keyboardHeight
         let spaceBetweenPostCellAndPostView: Double = 15
         let desiredOffset = postBottomYWithinView - keyboardTopYWithinView - spaceBetweenPostCellAndPostView
-        print(desiredOffset)
 //        if desiredOffset < 0 { return } //dont scroll up for the post
 //        tableView.setContentOffset(tableView.contentOffset.applying(.init(translationX: 0, y: desiredOffset)), animated: true)
         tableView.setContentOffset(CGPoint(x: 0, y: desiredOffset), animated: true)

@@ -108,21 +108,22 @@ extension ExploreMapViewController: UITableViewDelegate {
         
         switch resultType {
         case .containing:
-            let query = searchSuggestionsVC.wordResults[indexPath.row]
+            break
+//            let query = searchSuggestionsVC.wordResults[indexPath.row]
 //            searchBarButton.text = query.text
-            PostService.singleton.updateFilter(newText: query.text)
-            PostService.singleton.updateFilter(newSearchBy: .text)
+//            PostService.singleton.updateFilter(newText: query.text)
+//            PostService.singleton.updateFilter(newSearchBy: .text)
 //            reloadPosts(withType: .newSearch) //when we allowed search by words
         case .nearby:
             if indexPath.row == 0 {
                 let query = searchSuggestionsVC.completerResults[indexPath.row].title
 //                searchBarButton.text = query
-                PostService.singleton.updateFilter(newSearchBy: .location)
+//                PostService.singleton.updateFilter(newSearchBy: .location)
                 search(for: query)
             } else {
                 let suggestion = searchSuggestionsVC.completerResults[indexPath.row-1]
 //                searchBarButton.text = suggestion.title
-                PostService.singleton.updateFilter(newSearchBy: .location)
+//                PostService.singleton.updateFilter(newSearchBy: .location)
                 search(for: suggestion) //first gets places from Apple, then calls reloadPosts(0
             }
         }

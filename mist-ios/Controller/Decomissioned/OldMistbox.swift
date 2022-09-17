@@ -149,31 +149,22 @@
 //    @MainActor
 //    func updateUI() {
 //        MistboxManager.shared.updateMistboxReleaseDates() //just to make sure we have the right time precisely before updating the UI
-////        print("1")
 //        switch currentLayout {
 //        case .countdown:
-//            print("2")
 //            if !MistboxManager.shared.hasUserActivatedMistbox {
-//                print("3")
 //                setupWelcomeLayout()
 //            } else if MistboxManager.shared.hasUnopenedMistbox {
-//                print("4")
 //                setupUnopenedLayout()
 //            } else {
-//                print("5")
 //                updateProgressBarAndCountdownLabel()
 //            }
 //        case .welcome:
-////            print("6")
 //            if MistboxManager.shared.hasUserActivatedMistbox {
-//                print("7")
 //                setupCountdownLayout()
 //                updateProgressBarAndCountdownLabel()
 //            }
 //        case .unopened:
-//            print("8")
 //            if !MistboxManager.shared.hasUnopenedMistbox {
-//                print("9")
 //                setupCountdownLayout()
 //                updateProgressBarAndCountdownLabel()
 //            }

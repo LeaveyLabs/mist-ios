@@ -712,7 +712,7 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="zdD-fI-8bA">
-                                        <rect key="frame" x="20" y="12.666666666666664" width="350" height="40"/>
+                                        <rect key="frame" x="20" y="12.666666666666664" width="355" height="40"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="explore" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OdL-yN-tWy">
                                                 <rect key="frame" x="0.0" y="0.6666666666666714" width="99.666666666666671" height="38.333333333333336"/>
@@ -721,11 +721,11 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ViQ-UT-cZU">
-                                                <rect key="frame" x="109.66666666666664" y="0.0" width="240.33333333333337" height="40"/>
+                                                <rect key="frame" x="109.66666666666664" y="0.0" width="195.33333333333337" height="40"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             </view>
                                             <button hidden="YES" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="40m-kt-KIm">
-                                                <rect key="frame" x="350" y="7.3333333333333357" width="25" height="25"/>
+                                                <rect key="frame" x="310" y="7.3333333333333357" width="25" height="25"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="40m-kt-KIm" secondAttribute="height" id="Xjj-Gd-Qdb"/>
                                                     <constraint firstAttribute="width" constant="25" id="teI-J4-Wim"/>
@@ -734,19 +734,19 @@
                                                 <state key="normal" image="arrow.clockwise" catalog="system">
                                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="6" weight="regular"/>
                                                 </state>
-                                                <connections>
-                                                    <action selector="onRefreshButtonPress" destination="tSr-wA-K5t" eventType="touchUpInside" id="wLW-Lc-0Z8"/>
-                                                </connections>
                                             </button>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GpS-wG-Hzj">
-                                                <rect key="frame" x="350" y="4" width="32" height="32"/>
+                                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GpS-wG-Hzj">
+                                                <rect key="frame" x="315" y="0.0" width="40" height="40"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="32" id="KWg-Jf-jbd"/>
+                                                    <constraint firstAttribute="width" constant="40" id="KWg-Jf-jbd"/>
                                                     <constraint firstAttribute="width" secondItem="GpS-wG-Hzj" secondAttribute="height" id="qM4-mR-Wvx"/>
                                                 </constraints>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" image="filter-button"/>
+                                                <state key="normal" image="slider.horizontal.3" catalog="system">
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="25" weight="medium"/>
+                                                </state>
                                                 <connections>
+                                                    <action selector="filterButtonDidPressed" destination="tSr-wA-K5t" eventType="touchUpInside" id="sE6-ln-Y9K"/>
                                                     <action selector="onFilterButtonPress" destination="tSr-wA-K5t" eventType="touchUpInside" id="z5u-2w-xhr"/>
                                                 </connections>
                                             </button>
@@ -763,7 +763,7 @@
                                     <constraint firstItem="zdD-fI-8bA" firstAttribute="leading" secondItem="Q8l-dH-sRt" secondAttribute="leading" constant="20" id="Elb-5e-WY6"/>
                                     <constraint firstItem="QEY-mC-Y0S" firstAttribute="top" secondItem="Q8l-dH-sRt" secondAttribute="top" constant="5" id="Vov-kW-SUp"/>
                                     <constraint firstItem="zdD-fI-8bA" firstAttribute="centerY" secondItem="Q8l-dH-sRt" secondAttribute="centerY" id="lKA-rr-6lY"/>
-                                    <constraint firstAttribute="trailing" secondItem="zdD-fI-8bA" secondAttribute="trailing" constant="20" id="oMa-A8-SUp"/>
+                                    <constraint firstAttribute="trailing" secondItem="zdD-fI-8bA" secondAttribute="trailing" constant="15" id="oMa-A8-SUp"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -2015,10 +2015,10 @@
             </objects>
             <point key="canvasLocation" x="-2478" y="-250"/>
         </scene>
-        <!--Filter Sheet View Controller-->
+        <!--View Controller-->
         <scene sceneID="wxc-YP-fMI">
             <objects>
-                <viewController storyboardIdentifier="FilterSheetViewController" id="Igm-CS-KZm" customClass="FilterSheetViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="asdffff" id="Igm-CS-KZm" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="z4q-nH-Go6">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3644,56 +3644,147 @@
             </objects>
             <point key="canvasLocation" x="2174" y="2314"/>
         </scene>
-        <!--Post More View Controller-->
+        <!--Filter Sheet View Controller-->
         <scene sceneID="rID-6o-H8Q">
             <objects>
-                <viewController storyboardIdentifier="ExploreFilterViewController" id="Mdh-79-yS3" customClass="PostMoreViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FilterSheetViewController" id="Mdh-79-yS3" customClass="FilterSheetViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JnB-lo-7ZX">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eXE-GW-qJC">
-                                <rect key="frame" x="0.0" y="694" width="390" height="150"/>
+                                <rect key="frame" x="0.0" y="514" width="390" height="330"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="4E6-oR-e7F">
-                                        <rect key="frame" x="10" y="10" width="370" height="120"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="4E6-oR-e7F">
+                                        <rect key="frame" x="10" y="10" width="370" height="300"/>
                                         <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dhx-gl-S6x">
+                                                <rect key="frame" x="0.0" y="0.0" width="370" height="70"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dfg-CY-nhj">
+                                                        <rect key="frame" x="0.0" y="0.0" width="15" height="70"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="15" id="Rfo-zq-zms"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sort" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UeR-sM-S28">
+                                                        <rect key="frame" x="15" y="0.0" width="66" height="70"/>
+                                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="36"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BjR-fo-Q4v">
+                                                        <rect key="frame" x="81" y="0.0" width="239" height="70"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    </view>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bUU-Zj-iMd">
+                                                        <rect key="frame" x="320" y="0.0" width="50" height="70"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="50" id="5SS-i3-Ua9"/>
+                                                        </constraints>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" image="xmark" catalog="system">
+                                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" weight="medium"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="closeButtonDidPressed:" destination="Mdh-79-yS3" eventType="touchUpInside" id="4fM-K4-MED"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="LqC-A5-5aJ"/>
+                                                </constraints>
+                                            </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k73-Ev-zkU" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="150" height="50"/>
+                                                <rect key="frame" x="0.0" y="80" width="180" height="60"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="50" id="G6N-io-JI6"/>
-                                                    <constraint firstAttribute="width" constant="150" id="GHU-Bx-j9G"/>
+                                                    <constraint firstAttribute="height" constant="60" id="G6N-io-JI6"/>
+                                                    <constraint firstAttribute="width" constant="180" id="GHU-Bx-j9G"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="25"/>
                                                 <color key="tintColor" name="mist-black"/>
-                                                <inset key="titleEdgeInsets" minX="33" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <inset key="titleEdgeInsets" minX="38" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="from a friend" image="bookmark" catalog="system">
+                                                <state key="normal" title="trending" image="flame" catalog="system">
                                                     <color key="titleColor" name="mist-black"/>
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="25"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="favoriteButtonDidpressed:" destination="Mdh-79-yS3" eventType="touchUpInside" id="xaa-ke-yJb"/>
+                                                    <action selector="trendingButtonDidPressed:" destination="Mdh-79-yS3" eventType="touchUpInside" id="BPG-n5-XAt"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ikk-fv-5Mx">
-                                                <rect key="frame" x="0.0" y="50" width="51" height="70"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CNL-Dt-mnJ" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="150" width="130" height="60"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="70" id="4Yt-J6-ggu"/>
+                                                    <constraint firstAttribute="height" constant="60" id="BA3-Ea-j8U"/>
+                                                    <constraint firstAttribute="width" constant="130" id="gO5-Sd-BFm"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="25"/>
                                                 <color key="tintColor" name="mist-black"/>
-                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" title="close">
+                                                <inset key="titleEdgeInsets" minX="35" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="new" image="clock" catalog="system">
                                                     <color key="titleColor" name="mist-black"/>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="25"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="closeButtonDidPressed:" destination="Mdh-79-yS3" eventType="touchUpInside" id="beH-7h-gFr"/>
+                                                    <action selector="newButtonDidPressed:" destination="Mdh-79-yS3" eventType="touchUpInside" id="wdT-Oh-sUE"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jyg-Nr-kQt" userLabel="best" customClass="ToggleButton" customModule="mist_ios" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="220" width="135" height="60"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="HcC-gV-4qq"/>
+                                                    <constraint firstAttribute="width" constant="135" id="sF9-zF-jdb"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="25"/>
+                                                <color key="tintColor" name="mist-black"/>
+                                                <inset key="titleEdgeInsets" minX="32" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="best" image="star" catalog="system">
+                                                    <color key="titleColor" name="mist-black"/>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="25"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="bestButtonDidPressed:" destination="Mdh-79-yS3" eventType="touchUpInside" id="LRp-Uz-c3R"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nwQ-Se-JkE">
+                                                <rect key="frame" x="0.0" y="290" width="240" height="10"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="10" id="il1-4g-ZCi"/>
+                                                </constraints>
+                                            </view>
+                                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9MF-Q4-6do">
+                                                <rect key="frame" x="0.0" y="300" width="370" height="40"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aqe-hK-eYy">
+                                                        <rect key="frame" x="0.0" y="0.0" width="240" height="40"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    </view>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ikk-fv-5Mx">
+                                                        <rect key="frame" x="240" y="0.0" width="130" height="40"/>
+                                                        <color key="backgroundColor" name="mist-lilac"/>
+                                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="22"/>
+                                                        <color key="tintColor" name="mist-black"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="refresh">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                    </button>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="cJ0-ch-Vwm"/>
+                                                </constraints>
+                                            </stackView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="9MF-Q4-6do" firstAttribute="width" secondItem="4E6-oR-e7F" secondAttribute="width" id="2XD-Ca-GEy"/>
+                                            <constraint firstItem="dhx-gl-S6x" firstAttribute="width" secondItem="4E6-oR-e7F" secondAttribute="width" id="hyM-8j-ogh"/>
+                                        </constraints>
                                     </stackView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -3715,8 +3806,10 @@
                     </view>
                     <connections>
                         <outlet property="backgroundView" destination="eXE-GW-qJC" id="vO4-UW-SHv"/>
+                        <outlet property="bestButton" destination="jyg-Nr-kQt" id="54B-M7-1uq"/>
                         <outlet property="closeButton" destination="ikk-fv-5Mx" id="CwO-Ru-oph"/>
-                        <outlet property="favoriteButton" destination="k73-Ev-zkU" id="rBA-JO-eLg"/>
+                        <outlet property="newButton" destination="CNL-Dt-mnJ" id="5sb-UB-8T6"/>
+                        <outlet property="trendingButton" destination="k73-Ev-zkU" id="jrH-0G-YcY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RDR-Do-oVu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -3736,6 +3829,7 @@
         <image name="checkmark.seal.fill" catalog="system" width="128" height="128"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
+        <image name="clock" catalog="system" width="128" height="121"/>
         <image name="compass-filled" width="22" height="22"/>
         <image name="compass-outlined" width="20" height="20"/>
         <image name="drop-a-pin" width="112" height="123"/>
@@ -3744,6 +3838,7 @@
         <image name="exclamationmark.circle.fill" catalog="system" width="128" height="121"/>
         <image name="filter-button" width="96" height="96"/>
         <image name="flag" catalog="system" width="128" height="121"/>
+        <image name="flame" catalog="system" width="108" height="128"/>
         <image name="gradient-slider" width="7" height="370"/>
         <image name="hand.raised" catalog="system" width="128" height="128"/>
         <image name="location" catalog="system" width="128" height="118"/>
@@ -3755,8 +3850,10 @@
         <image name="pic2" width="1024" height="769"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="questionmark.circle" catalog="system" width="128" height="121"/>
+        <image name="slider.horizontal.3" catalog="system" width="128" height="100"/>
         <image name="sparkles" catalog="system" width="112" height="128"/>
         <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
+        <image name="star" catalog="system" width="128" height="116"/>
         <image name="toggle-list-button" width="96" height="96"/>
         <image name="trash" catalog="system" width="121" height="128"/>
         <image name="tray" width="24" height="17"/>

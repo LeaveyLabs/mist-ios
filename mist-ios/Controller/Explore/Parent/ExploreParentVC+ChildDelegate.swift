@@ -10,10 +10,14 @@ import MapKit
 
 
 protocol ExploreChildDelegate {
-    func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType)
+    func renderNewPostsOnFeed(withType reloadType: ReloadType)
+    func renderNewPostsOnMap(withType reloadType: ReloadType)
     func reloadData()
     func toggleNotchHiddenAndMinimum(hidden: Bool)
     
+    func reloadNewMapPostsIfNecessary()
+    func reloadNewFeedPostsIfNecessary()
+
     var mapPosts: [Post] { get }
     var feedPosts: [Post] { get }
 }
@@ -37,32 +41,38 @@ extension ExploreParentViewController: ExploreChildDelegate {
         exploreMapVC.rerenderCollectionViewForUpdatedPostData()
     }
     
-    func renderNewPostsOnFeedAndMap(withType reloadType: ReloadType) {
+    func renderNewPostsOnFeed(withType reloadType: ReloadType) {
         //Feed scroll to top, on every reload. this should happen BEFORE the datasource for the feed is altered, in order to prevent a potential improper element access
         if reloadType != .firstLoad {
-            if !exploreMapVC.postAnnotations.isEmpty {
+            if !feedPosts.isEmpty {
                 exploreFeedVC.feed.isUserInteractionEnabled = false
                 exploreFeedVC.feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
                 exploreFeedVC.feed.isUserInteractionEnabled = true
             }
         }
-        //Map camera travel, only on new searches
-        exploreMapVC.removeExistingPlaceAnnotationsFromMap()
-        exploreMapVC.removeExistingPostAnnotationsFromMap()
-        exploreMapVC.turnPostsIntoAnnotations(mapPosts)
 
-        //if at some point we decide to list out places in the feed results, too, then turnPlacesIntoAnnoations should be moved here
-        //the reason we don't need to rn is because the feed is not dependent on place data, just post data, and we should scroll to top of feed before refreshing the data
-
-        if reloadType == .newSearch {
-            exploreMapVC.mapView.setRegion(exploreMapVC.getRegionCenteredAround(exploreMapVC.postAnnotations + exploreMapVC.placeAnnotations) ?? MKCoordinateRegion.init(center: Constants.Coordinates.USC, latitudinalMeters: 2000, longitudinalMeters: 2000), animated: true)
-        }
-
-        //Feed visual update
+        //Visual update
         exploreFeedVC.feed.reloadData()
-        //Map visual update
-        exploreMapVC.mapView.addAnnotations(exploreMapVC.placeAnnotations)
-        exploreMapVC.mapView.addAnnotations(exploreMapVC.postAnnotations)
+    }
+    
+    func renderNewPostsOnMap(withType reloadType: ReloadType) {
+        switch reloadType {
+        case .firstLoad:
+            exploreMapVC.turnPostsIntoAnnotationsAndReplacePostAnnotations(mapPosts)
+            exploreMapVC.mapView.addAnnotations(exploreMapVC.postAnnotations)
+        case .addMore: //Don't remove postAnnotations. Only add the newExploreMapPosts.
+            exploreMapVC.turnPostsIntoAnnotationsAndAppendToPostAnnotations(PostService.singleton.getNewExploreMapPosts())
+            exploreMapVC.mapView.addAnnotations(exploreMapVC.postAnnotations)
+        case .newSearch: //Relocate map around annotations
+            exploreMapVC.turnPostsIntoAnnotationsAndReplacePostAnnotations(mapPosts)
+            //NOTE: we aren't adding place annotations within this function on newSearch as of now
+            exploreMapVC.mapView.addAnnotations(exploreMapVC.postAnnotations)
+            exploreMapVC.mapView.setRegion(exploreMapVC.getRegionCenteredAround(exploreMapVC.postAnnotations + exploreMapVC.placeAnnotations) ?? MKCoordinateRegion.init(center: Constants.Coordinates.USC, latitudinalMeters: 2000, longitudinalMeters: 2000), animated: true)
+        case .newPost:
+            exploreMapVC.removeExistingPostAnnotationsFromMap()
+            exploreMapVC.turnPostsIntoAnnotationsAndReplacePostAnnotations(mapPosts)
+            exploreMapVC.mapView.addAnnotations(exploreMapVC.postAnnotations)
+        }
     }
     
 }
@@ -71,8 +81,7 @@ extension ExploreParentViewController: ExploreChildDelegate {
 
 extension ExploreParentViewController: PostDelegate {
     
-    func handleFavorite(postId: Int, isAdding: Bool) {
-        // Singleton & remote update
+    func handleFavorite(postId: Int, isAdding: Bool) { // Singleton & remote update
         do {
             try FavoriteService.singleton.handleFavoriteUpdate(postId: postId, isAdding)
         } catch {
@@ -143,7 +152,8 @@ extension ExploreParentViewController: PostDelegate {
     }
     
     func handleDeletePost(postId: Int) {
-        renderNewPostsOnFeedAndMap(withType: .refresh)
+        renderNewPostsOnFeed(withType: .addMore)
+        renderNewPostsOnMap(withType: .addMore)
     }
     
     //MARK: - React interaction

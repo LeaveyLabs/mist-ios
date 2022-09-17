@@ -56,7 +56,7 @@ class MapViewController: UIViewController {
     var maxCameraPitch: Double = 20
 //    static let MIN_CAMERA_PITCH: Double = 0 //not implemented yet
     static let ANNOTATION_ZOOM_THRESHOLD: Double = 1_000_000
-    let minSpanDelta = 0.02
+    static let MIN_SPAN_DELTA = 0.02
     var isCameraFlyingOutAndIn: Bool = false
     var isCameraFlying: Bool = false {
         didSet {
@@ -337,7 +337,7 @@ extension MapViewController: MKMapViewDelegate {
         let zoomWidth = mapView.visibleMapRect.size.width
         let zoomFactor = Int(log2(zoomWidth)) - 9
         let zoom = mapView.camera.centerCoordinateDistance //centerCoordinateDistance takes pitch into account
-        
+
         // Limit minimum pitch. Doing this because of weird behavior with clicking on posts from a pitch less than 50
         if mapView.camera.pitch > maxCameraPitch && !modifyingMap {
             modifyingMap = true
@@ -473,7 +473,7 @@ extension MapViewController {
                                          heading: 0)
         let currentLocation = mapView.camera.centerCoordinate
         let midwayPoint = currentLocation.geographicMidpoint(betweenCoordinates: [destination])
-        let distanceBetween = currentLocation.distance(from: destination)
+        let distanceBetween = currentLocation.distanceInMeters(from: destination)
         let midwayDistance = mapView.camera.centerCoordinateDistance +  distanceBetween * 2
         let preRotationCamera = MKMapCamera(lookingAtCenter: midwayPoint,
                                             fromDistance: midwayDistance,
@@ -526,8 +526,8 @@ extension MapViewController {
         let somekindofmiddle = CLLocationCoordinate2D
             .geographicMidpoint(betweenCoordinates:[CLLocationCoordinate2D(latitude: maxLat, longitude: maxLong),
                                                     CLLocationCoordinate2D(latitude: minLat, longitude: minLong)])
-        let latDelta = max(minSpanDelta,  1.3 * (maxLat - minLat))
-        let longDelta = max(minSpanDelta, 1.3 * (maxLong - minLong))
+        let latDelta = max(MapViewController.MIN_SPAN_DELTA,  1.3 * (maxLat - minLat))
+        let longDelta = max(MapViewController.MIN_SPAN_DELTA, 1.3 * (maxLong - minLong))
         return MKCoordinateRegion(center: somekindofmiddle,
                                             span: .init(latitudeDelta: latDelta,
                                                         longitudeDelta: longDelta))
@@ -614,13 +614,17 @@ extension MapViewController {
         }
     }
     
-    func turnPostsIntoAnnotations(_ posts: [Post]) {
+    func turnPostsIntoAnnotationsAndAppendToPostAnnotations(_ posts: [Post]) {
+        postAnnotations.append(contentsOf: posts.map { post in PostAnnotation(withPost: post) })
+    }
+    
+    func turnPostsIntoAnnotationsAndReplacePostAnnotations(_ posts: [Post]) {
         postAnnotations = posts.map { post in PostAnnotation(withPost: post) }
     }
     
     func turnPlacesIntoAnnotations(_ places: [MKMapItem]) {
         let closestPlaces = Array(places.sorted(by: { first, second in
-            mapView.centerCoordinate.distance(from: first.placemark.coordinate) < mapView.centerCoordinate.distance(from: second.placemark.coordinate)
+            mapView.centerCoordinate.distanceInMeters(from: first.placemark.coordinate) < mapView.centerCoordinate.distanceInMeters(from: second.placemark.coordinate)
         }).prefix(8))
         placeAnnotations = closestPlaces.map({ place in PlaceAnnotation(withPlace: place) })
     }

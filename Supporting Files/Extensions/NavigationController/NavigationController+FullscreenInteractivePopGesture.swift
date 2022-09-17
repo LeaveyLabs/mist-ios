@@ -10,30 +10,6 @@ import Foundation
 //https://stackoverflow.com/questions/35388985/how-can-i-implement-drag-right-to-dismiss-a-view-controller-thats-in-a-naviga/57487724#57487724
 public extension UINavigationController {
   func fullscreenInteractivePopGestureRecognizer(delegate: UIGestureRecognizerDelegate) {
-//      print(interactivePopGestureRecognizer)
-//      let popGestureRecognizer = interactivePopGestureRecognizer!
-//      let targets = popGestureRecognizer.value(forKey: "targets") as! NSMutableArray
-//      let gestureRecognizers = view.gestureRecognizers!
-//      print("okay starting")
-//
-//      guard let popGestureRecognizer = interactivePopGestureRecognizer else {
-//          print("here")
-//          return
-//      }
-//      guard let targets = popGestureRecognizer.value(forKey: "targets") as? NSMutableArray else {
-//          print("heeeeeeeeere")
-//          return
-//      }
-//      guard let gestureRecognizers = view.gestureRecognizers else {
-//          print("heeeere")
-//          return
-//      }
-//      guard targets.count > 0 else {
-//          print("nooo")
-//          return
-//      }
-//
-//        print("made it")
     guard
       let popGestureRecognizer = interactivePopGestureRecognizer,
       let targets = popGestureRecognizer.value(forKey: "targets") as? NSMutableArray,

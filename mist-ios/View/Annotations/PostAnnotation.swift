@@ -31,6 +31,6 @@ class PostAnnotation: NSObject, MKAnnotation, Comparable {
     
     static func < (lhs: PostAnnotation, rhs: PostAnnotation) -> Bool {
         let nullIsland = CLLocationCoordinate2D(latitude: 0, longitude: 0)
-        return lhs.coordinate.distance(from: nullIsland) > rhs.coordinate.distance(from: nullIsland)
+        return lhs.coordinate.distanceInMeters(from: nullIsland) > rhs.coordinate.distanceInMeters(from: nullIsland)
     }
 }

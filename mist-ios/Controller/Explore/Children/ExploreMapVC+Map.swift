@@ -125,11 +125,17 @@ extension ExploreMapViewController {
                                      withLatitudeOffset: true,
                                       completion: { [weak self] completed in
                     guard let self = self else { return }
-                    clusterView.loadCollectionView(on: self.mapView, withPostDelegate: self.postDelegate, withDelay: 0, swipeDelegate: self, selectionType: annotationSelectionTypeBeforeSlowFly)
+                    clusterView.loadCollectionView(on: self.mapView,
+                                                   withPostDelegate: self.postDelegate,
+                                                   withDelay: 0,
+                                                   withDuration: self.isFirstAppearance ? 0 : 0.2,
+                                                   swipeDelegate: self,
+                                                   selectionType: annotationSelectionTypeBeforeSlowFly)
                 })
             } else if let postAnnotationView = view as? PostAnnotationView {
                 postAnnotationView.loadPostView(on: mapView,
                                                 withDelay: 0,
+                                                withDuration: isFirstAppearance ? 0 : 0.2,
                                                 withPostDelegate: postDelegate, swipeDelegate: self)
             }
         default:
@@ -147,7 +153,12 @@ extension ExploreMapViewController {
                     slowFlyWithoutZoomTo(lat: clusterAnnotation.coordinate.latitude,
                               long: clusterAnnotation.coordinate.longitude,
                               withDuration: cameraAnimationDuration, withLatitudeOffset: true, completion: { _ in })
-                    clusterView.loadCollectionView(on: self.mapView, withPostDelegate: self.postDelegate, withDelay: cameraAnimationDuration, swipeDelegate: self, selectionType: annotationSelectionTypeBeforeSlowFly)
+                    clusterView.loadCollectionView(on: self.mapView,
+                                                   withPostDelegate: self.postDelegate,
+                                                   withDelay: cameraAnimationDuration,
+                                                   withDuration: isFirstAppearance ? 0 : 0.2,
+                                                   swipeDelegate: self,
+                                                   selectionType: annotationSelectionTypeBeforeSlowFly)
                 }
             } else if let postAnnotationView = view as? PostAnnotationView {
                 let shouldZoomIn = mapView.camera.centerCoordinateDistance > MapViewController.ANNOTATION_ZOOM_THRESHOLD
@@ -160,6 +171,7 @@ extension ExploreMapViewController {
                               completion: { _ in })
                     postAnnotationView.loadPostView(on: mapView,
                                                     withDelay: cameraAnimationDuration,
+                                                    withDuration: isFirstAppearance ? 0 : 0.2,
                                                     withPostDelegate: postDelegate, swipeDelegate: self)
                 } else {
                     slowFlyWithoutZoomTo(lat: view.annotation!.coordinate.latitude,
@@ -168,6 +180,7 @@ extension ExploreMapViewController {
                               completion: { _ in })
                     postAnnotationView.loadPostView(on: mapView,
                                                     withDelay: cameraAnimationDuration,
+                                                    withDuration: isFirstAppearance ? 0 : 0.2,
                                                     withPostDelegate: postDelegate, swipeDelegate: self)
                 }
             } else if let _ = view as? PlaceAnnotationView {
@@ -196,6 +209,12 @@ extension ExploreMapViewController {
     
     override func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
         super.mapViewDidChangeVisibleRegion(mapView)
+        
+        let zoomWidth = mapView.visibleMapRect.size.width
+        let plane = Int(Double(log10(zoomWidth)) - 9.0 / 4.0 + 1) //range beteween 1 and 4
+
+        PostService.singleton.updateFilter(newPlaneAndRegion:( plane, mapView.region))
+        exploreDelegate.reloadNewMapPostsIfNecessary()
     }
     
     //MARK: Map Helpers
@@ -206,7 +225,7 @@ extension ExploreMapViewController {
     
     func renderNewPlacesOnMap() {
         removeExistingPlaceAnnotationsFromMap()
-        mapView.setRegion(getRegionCenteredAround(placeAnnotations) ?? PostService.singleton.getExploreFilter().region, animated: true)
+        mapView.setRegion(getRegionCenteredAround(placeAnnotations) ?? PostService.singleton.getExploreFilter().currentMapPlaneAndRegion.1, animated: true)
         mapView.addAnnotations(placeAnnotations)
     }
     

@@ -38,6 +38,7 @@ class ExploreFeedViewController: UIViewController {
         setupNotchView()
         setupTableView()
         view.backgroundColor = .clear
+        filterButton.alpha = 0
     }
 
     func setupNotchView() {
@@ -84,6 +85,7 @@ extension ExploreFeedViewController {
         UIView.animate(withDuration: duration, delay: 0, options: .curveLinear) {
             self.notchViewHeightConstraint.constant = 55
             self.notchView.applyLightBottomOnlyShadow()
+            self.filterButton.alpha = 1
 //            self.refreshButton.alpha = 1
 //            self.filterButton.alpha = 1
             self.notchView.layer.cornerRadius = 0
@@ -100,6 +102,7 @@ extension ExploreFeedViewController {
         UIView.animate(withDuration: duration, delay: 0, options: .curveLinear) {
             self.notchViewHeightConstraint.constant = 65
             self.notchView.applyMediumTopOnlyShadow()
+            self.filterButton.alpha = 0
 //            self.refreshButton.alpha = 0
 //            self.filterButton.alpha = 0
             self.notchView.layer.cornerRadius = 20
@@ -137,6 +140,23 @@ extension ExploreFeedViewController: UITableViewDelegate {
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         view.endEditing(true)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard let greatestIndex = feed.indexPathsForVisibleRows?.last?.row else { return }
+        let postsUntilEnd = PostService.singleton.getExploreFeedPosts().count - greatestIndex
+        guard postsUntilEnd == 50 else { return }
+        exploreDelegate.reloadNewFeedPostsIfNecessary()
+    }
+    
+}
+
+extension ExploreFeedViewController {
+    
+    @IBAction func filterButtonDidPressed() {
+        guard let parent = exploreDelegate as? HomeExploreParentViewController else { return }
+        let filterVC = FilterSheetViewController.create(delegate: parent)
+        present(filterVC, animated: true)
     }
     
 }

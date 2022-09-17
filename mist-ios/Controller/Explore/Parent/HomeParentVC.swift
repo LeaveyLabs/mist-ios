@@ -14,21 +14,21 @@ class HomeExploreParentViewController: ExploreParentViewController {
     
     var firstAppearance = true
     var isHandlingNewPost = false
+    var isFetchingMorePosts: Bool = false
     
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupRefreshableFeed()
         setupActiveLabel()
         setupTabBar()
-        
-        self.renderNewPostsOnFeedAndMap(withType: .firstLoad)
+        renderNewPostsOnFeed(withType: .firstLoad)
+        renderNewPostsOnMap(withType: .firstLoad)
     }
     
     func setupTabBar() {
         guard let tabBarVC = tabBarController as? SpecialTabBarController else { return }
-        if MistboxManager.shared.getMistboxMists().count > 0 {
+        if MistboxManager.shared.getMistboxMists().count > 0 || DeviceService.shared.unreadMentionsCount() > 0 {
             tabBarVC.selectedIndex = 1
         }
     }
@@ -47,6 +47,13 @@ class HomeExploreParentViewController: ExploreParentViewController {
             isHandlingNewPost = false
             overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: false)
         }
+        
+        guard isFirstLoad else { return }
+        //set camera first
+        if let firstPostAnnotation = exploreMapVC.postAnnotations.first {
+            let dynamicLatOffset = (exploreMapVC.latitudeOffsetForOneKMDistance / 1000) * self.exploreMapVC.mapView.camera.centerCoordinateDistance
+            exploreMapVC.mapView.camera.centerCoordinate = CLLocationCoordinate2D(latitude: firstPostAnnotation.coordinate.latitude + dynamicLatOffset, longitude: firstPostAnnotation.coordinate.longitude)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -54,7 +61,17 @@ class HomeExploreParentViewController: ExploreParentViewController {
         
         guard firstAppearance else { return }
         firstAppearance = false
+        
         guard !isHandlingNewPost else { return }
+        
+        //then select post
+        if let firstPostAnnotation = exploreMapVC.postAnnotations.first {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in//waiting .1 seconds because otherwise the cluster annotation isn't found sometimes
+                let firstAnnotation: MKAnnotation = exploreMapVC.mapView.greatestClusterContaining(firstPostAnnotation) ?? firstPostAnnotation
+                print(firstAnnotation, firstPostAnnotation)
+                self.exploreMapVC.mapView.selectAnnotation(firstAnnotation, animated: true)
+            }
+        }
         
         if !DeviceService.shared.hasBeenRequestedLocationOnHome() && (CLLocationManager.authorizationStatus() == .denied ||
             CLLocationManager.authorizationStatus() == .notDetermined) {
@@ -73,6 +90,40 @@ class HomeExploreParentViewController: ExploreParentViewController {
         }
     }
     
+    override func reloadNewMapPostsIfNecessary() {
+        guard !isFetchingMorePosts && PostService.singleton.isReadyForNewMapSearch() else { return }
+        isFetchingMorePosts = true
+        Task {
+            do {
+                try await PostService.singleton.loadAndAppendExploreMapPosts()
+                DispatchQueue.main.async { [self] in
+                    renderNewPostsOnMap(withType: .addMore)
+                    isFetchingMorePosts = false
+                }
+            } catch {
+                print("ERROR LOADING IN MAP POSTS IN BACKGROUND WHILE SCROLLING")
+                isFetchingMorePosts = false
+            }
+        }
+    }
+    
+    override func reloadNewFeedPostsIfNecessary() {
+        guard !isFetchingMorePosts else { return }
+        isFetchingMorePosts = true
+        Task {
+            do {
+                try await PostService.singleton.loadExploreFeedPostsIfPossible()
+                DispatchQueue.main.async { [self] in
+                    renderNewPostsOnMap(withType: .addMore)
+                    isFetchingMorePosts = false
+                }
+            } catch {
+                isFetchingMorePosts = false
+                print("ERROR LOADING IN MAP POSTS IN BACKGROUND WHILE SCROLLING")
+            }
+        }
+    }
+    
 }
 
 
@@ -80,37 +131,11 @@ class HomeExploreParentViewController: ExploreParentViewController {
 
 extension HomeExploreParentViewController {
     
-    func setupRefreshableFeed() {
-//        feed.refreshControl = UIRefreshControl()
-//        feed.refreshControl!.addAction(.init(handler: { [self] _ in
-//            reloadPosts(withType: .refresh)
-//        }), for: .valueChanged)
-    }
-    
-    func reloadPosts(withType reloadType: ReloadType, closure: @escaping () -> Void = { } ) {
-        Task {
-            do {
-//                isLoadingPosts = true
-                try await loadPostStuff() //takes into account the updated post filter in PostsService
-//                isLoadingPosts = false
-                
-                DispatchQueue.main.async { [self] in
-                    renderNewPostsOnFeedAndMap(withType: reloadType)
-                    closure()
-                }
-            } catch {
-                if !Task.isCancelled {
-                    CustomSwiftMessages.displayError(error)
-//                    isLoadingPosts = false
-                }
-            }
-        }
-    }
-    
     @MainActor
     func handleNewlySubmittedPost(didJustShowNotificaitonsRequest: Bool) {
         exploreMapVC.annotationSelectionType = .submission
-        renderNewPostsOnFeedAndMap(withType: .newPost)
+        renderNewPostsOnFeed(withType: .newPost)
+        renderNewPostsOnMap(withType: .newPost)
         guard let newPostAnnotation = exploreMapVC.postAnnotations.first else { return }
         
         //Feed
@@ -145,57 +170,15 @@ extension HomeExploreParentViewController {
 
 // MARK: - Filter
 
-extension HomeExploreParentViewController {//} FilterDelegate {
-            
-    //User Interaction
+extension HomeExploreParentViewController: FilterDelegate {
     
-    @IBAction func filterButtonDidTapped(_ sender: UIButton) {
-//        exploreMapVC.dismissPost()
-//        let filterVC = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.Filter) as! FilterSheetViewController
-//        filterVC.selectedFilter = PostService.singleton.getExploreFilter() //TODO: just use the singleton directly, don't need to pass it intermediately
-//        filterVC.delegate = self
-//        filterVC.loadViewIfNeeded() //doesnt work without this function call
-//        present(filterVC, animated: true)
-    }
-    
-    // Helpers
-    
-    func resetCurrentFilter() {
-//        placeAnnotations = []
-//        removeExistingPlaceAnnotationsFromMap()
-//        PostService.singleton.resetFilter()
-//        reloadPosts(withType: .cancel)
-    }
-    
-    func handleUpdatedFilter(_ newPostFilter: PostFilter, shouldReload: Bool, _ afterFilterUpdate: @escaping () -> Void) {
-        PostService.singleton.updateFilter(newPostFilter: newPostFilter)
-//        updateFilterButtonLabel() //incase we want to handle UI updates somehow
-        if shouldReload {
-            reloadPosts(withType: .newSearch, closure: afterFilterUpdate)
+    func handleUpdatedExploreFilter() {
+        Task {
+            try await PostService.singleton.loadExploreFeedPostsIfPossible() //page count is set to 0 when resetting sorting
+            DispatchQueue.main.async {
+                self.renderNewPostsOnFeed(withType: .firstLoad)
+            }
         }
     }
     
 }
-
-//MARK: - Deprecated
-
-//        setupRefreshButton()
-//    func setupRefreshButton() {
-//        applyShadowOnView(refreshButton)
-//        refreshButton.layer.cornerCurve = .continuous
-//        refreshButton.layer.cornerRadius = 10
-//        refreshButton.addAction(.init(handler: { [self] _ in
-//            reloadPosts(withType: .refresh)
-//        }), for: .touchUpInside)
-//    }
-
-//var isLoadingPosts: Bool = false {
-//    didSet {
-//        //Should also probably disable some other interactions...
-//        refreshButton.isEnabled = !isLoadingPosts
-//        refreshButton.configuration?.showsActivityIndicator = isLoadingPosts
-//        if !isLoadingPosts {
-//            feed.refreshControl?.endRefreshing()
-//        }
-//    }
-//}

@@ -237,7 +237,6 @@ extension PinSearchViewController: UITableViewDataSource {
 extension PinSearchViewController: MKLocalSearchCompleterDelegate {
     
     func startNearbySearch(with searchText: String) {
-        print("STARTING NEARBY SEARCHC")
         searchCompleter.queryFragment = searchText //queries new suggestions from apple
     }
     

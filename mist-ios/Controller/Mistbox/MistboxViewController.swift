@@ -279,7 +279,6 @@ extension MistboxViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        print("should")
         return true
     }
     

@@ -112,16 +112,13 @@
 //        /// This is important to skip notifications from child modal controllers in iOS >= 13.0
 //        guard self.presentedViewController == nil else { return }
 ////        let collectionViewHeight = messagesCollectionView.frame.height
-////        print(inputBar.frame.minY, additionalBottomInset)
 ////        let newBottomInset = 0.0
 ////        let newBottomInset = collectionViewHeight - (inputBar.frame.minY - (additionalBottomInset + (window?.safeAreaInsets.bottom ?? 0))) - automaticallyAddedBottomInset
 ////        let keyboardHeight: CGFloat = 500
 //        let newBottomInset = keyboardHeight + 55
 //        
 ////        let newBottomInset = collectionViewHeight - (inputBar.frame.minY - additionalBottomInset) - automaticallyAddedBottomInset
-////        print(collectionViewHeight, inputBar.frame.minY)
 //
-////        print(newBottomInset)
 //        let normalizedNewBottomInset = max(0, newBottomInset)
 //        let differenceOfBottomInset = newBottomInset - messageCollectionViewBottomInset
 //

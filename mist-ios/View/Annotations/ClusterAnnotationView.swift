@@ -94,7 +94,7 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
     
     private func setupMarkerTintColor(_ clusterAnnotation: MKClusterAnnotation?) {
         guard let memberAnnotations: Int = clusterAnnotation?.memberAnnotations.count else { return }
-        let totalNumberOfAnnotationsRendered: Int = mapView?.annotations.count ?? PostService.singleton.getExploreMapPosts().count
+        let totalNumberOfAnnotationsRendered: Int = mapView?.annotations.count ?? PostService.singleton.getAllExploreMapPosts().count
         let density = Double(memberAnnotations) / Double(totalNumberOfAnnotationsRendered)
         if density < 0.08 {
             markerTintColor = UIColor(hex: "#AE75F7")
@@ -156,7 +156,11 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
 
 extension ClusterAnnotationView {
     
-    func loadCollectionView(on mapView: MKMapView, withPostDelegate postDelegate: PostDelegate, withDelay delay: Double, swipeDelegate: AnnotationViewSwipeDelegate, selectionType: AnnotationSelectionType) {
+    func loadCollectionView(on mapView: MKMapView,
+                            withPostDelegate postDelegate: PostDelegate,
+                            withDelay delay: Double,
+                            withDuration duration: Double,
+                            swipeDelegate: AnnotationViewSwipeDelegate, selectionType: AnnotationSelectionType) {
         collectionView = PostCollectionView(centeredCollectionViewFlowLayout: centeredCollectionViewFlowLayout)
         guard let collectionView = collectionView else { return }
         self.postDelegate = postDelegate
@@ -211,7 +215,7 @@ extension ClusterAnnotationView {
         collectionView.scrollToItem(at: IndexPath(item: currentlyVisiblePostIndex!, section: 0), at: .centeredHorizontally, animated: false)
         collectionView.alpha = 0
         collectionView.isHidden = true
-        collectionView.fadeIn(duration: 0.2, delay: delay - 0.3)
+        collectionView.fadeIn(duration: duration, delay: delay - 0.3)
     }
     
     @objc func longPress() {
@@ -307,7 +311,6 @@ extension ClusterAnnotationView { //: UIGestureRecognizerDelegate {
 
 //MARK: - CollectionViewDelegate
 
-//These are not being called for some reason
 extension ClusterAnnotationView: UICollectionViewDelegate {
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -322,45 +325,45 @@ extension ClusterAnnotationView: UICollectionViewDelegate {
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard !isFinishingSwipe else { return }
-        xtranslation = scrollView.panGestureRecognizer.translation(in: self).x
-        incrementEdgeSwipe()
-    }
-    
-    func incrementEdgeSwipe() {
-        guard let currentIndex = currentlyVisiblePostIndex,
-              let memberCount = memberCount,
-              let collectionView = collectionView else { return }
-        
-        if currentIndex == 0 {
-            collectionView.transform = CGAffineTransform(translationX: max(0,xtranslation/2), y: 0) //a little boost
-            if xtranslation > 0 { //needed for some reason
-                collectionView.alpha = 1 - abs(Double(max(0,xtranslation)) / 100)
-            }
-        } else if currentIndex == memberCount - 1 {
-            collectionView.transform = CGAffineTransform(translationX: min(0,xtranslation/2), y: 0) //to give it a little boost
-            if xtranslation < 0 {
-                collectionView.alpha = 1 - abs(Double(min(0,xtranslation)) / 100)
-            }
-        }
-    }
-    
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let didSwipeLeft = xtranslation < -75
-        let didSwipeRight = xtranslation > 75
-        guard let currentIndex = currentlyVisiblePostIndex,
-              let memberCount = memberCount else { return }
-        
-        isFinishingSwipe = true
-        if didSwipeLeft && currentIndex == memberCount - 1 {
-            finishSwiping(.left)
-        } else if didSwipeRight && currentIndex == 0 {
-            finishSwiping(.right)
-        } else {
-            finishSwiping(.incomplete)
-        }
-    }
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        guard !isFinishingSwipe else { return }
+//        xtranslation = scrollView.panGestureRecognizer.translation(in: self).x
+//        incrementEdgeSwipe()
+//    }
+//    
+//    func incrementEdgeSwipe() {
+//        guard let currentIndex = currentlyVisiblePostIndex,
+//              let memberCount = memberCount,
+//              let collectionView = collectionView else { return }
+//        
+//        if currentIndex == 0 {
+//            collectionView.transform = CGAffineTransform(translationX: max(0,xtranslation/2), y: 0) //a little boost
+//            if xtranslation > 0 { //needed for some reason
+//                collectionView.alpha = 1 - abs(Double(max(0,xtranslation)) / 100)
+//            }
+//        } else if currentIndex == memberCount - 1 {
+//            collectionView.transform = CGAffineTransform(translationX: min(0,xtranslation/2), y: 0) //to give it a little boost
+//            if xtranslation < 0 {
+//                collectionView.alpha = 1 - abs(Double(min(0,xtranslation)) / 100)
+//            }
+//        }
+//    }
+//    
+//    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+//        let didSwipeLeft = xtranslation < -75
+//        let didSwipeRight = xtranslation > 75
+//        guard let currentIndex = currentlyVisiblePostIndex,
+//              let memberCount = memberCount else { return }
+//        
+//        isFinishingSwipe = true
+//        if didSwipeLeft && currentIndex == memberCount - 1 {
+//            finishSwiping(.left)
+//        } else if didSwipeRight && currentIndex == 0 {
+//            finishSwiping(.right)
+//        } else {
+//            finishSwiping(.incomplete)
+//        }
+//    }
         
     enum SwipeDirection {
         case left, right, incomplete

@@ -45,7 +45,6 @@ class DeviceService: NSObject {
         var unreadPostUniqueTags = [Tag]()
         CommentService.singleton.getTags().forEach { tag in
             if tag.timestamp > device.lastMentionsOpenTime && !unreadPostUniqueTags.contains(where: { $0.post == tag.post }) {
-                print(tag)
                 unreadPostUniqueTags.append(tag)
             }
         }
@@ -92,7 +91,6 @@ class DeviceService: NSObject {
     }
     func didViewMentions() {
         device.lastMentionsOpenTime = Date().timeIntervalSince1970
-        print(device.lastMentionsOpenTime)
         Task { await saveToFilesystem() }
     }
     

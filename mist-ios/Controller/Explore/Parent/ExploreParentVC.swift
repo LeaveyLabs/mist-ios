@@ -9,7 +9,7 @@ import Foundation
 import OverlayContainer
 import UIKit
 
-class ExploreParentViewController: UIViewController {
+class ExploreParentViewController: UIViewController, OverlayContainerViewControllerDelegate {
     
     enum OverlayNotch: Int, CaseIterable {
         case hidden, minimum, maximum
@@ -36,9 +36,8 @@ class ExploreParentViewController: UIViewController {
         PostService.singleton.getExploreFeedPosts()
     }
     var mapPosts: [Post] {
-        PostService.singleton.getExploreMapPosts()
+        PostService.singleton.getAllExploreMapPosts()
     }
-//    var feedPostFilter: PostFilter!
     
     var isFirstLoad = true
 
@@ -74,11 +73,16 @@ class ExploreParentViewController: UIViewController {
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
     }
-}
-
-// MARK: - OverlayContainer
-
-extension ExploreParentViewController: OverlayContainerViewControllerDelegate {
+    
+    func reloadNewMapPostsIfNecessary() {
+        fatalError("requires subclass implementation")
+    }
+    
+    func reloadNewFeedPostsIfNecessary() {
+        fatalError("requires subclass implementation")
+    }
+    
+    // MARK: - OverlayContainer
     
     func setupOverlay() {
         overlayController.delegate = self
@@ -91,7 +95,7 @@ extension ExploreParentViewController: OverlayContainerViewControllerDelegate {
         exploreFeedVC.notchView.addGestureRecognizer(notchTap)
     }
     
-    private func notchHeight(for notch: OverlayNotch, availableSpace: CGFloat) -> CGFloat {
+    func notchHeight(for notch: OverlayNotch, availableSpace: CGFloat) -> CGFloat {
         switch notch {
         case .hidden:
             return 0
@@ -142,10 +146,14 @@ extension ExploreParentViewController: OverlayContainerViewControllerDelegate {
     
     func overlayContainerViewController(_ containerViewController: OverlayContainerViewController, didMoveOverlay overlayViewController: UIViewController, toNotchAt index: Int) {
         guard let notch = OverlayNotch.init(rawValue: index) else { return }
-        currentNotch = notch
         if notch == .maximum {
             exploreMapVC.dismissPost()
         }
+        if currentNotch == .maximum && notch == .hidden { //don't allow going from max to hidden
+            currentNotch = .minimum
+            overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: true, completion: nil)
+        }
+        currentNotch = notch
     }
     
     //to fix: slight unideal animation when dragging down and then immediatley letting go on feed overlay
@@ -179,4 +187,5 @@ extension ExploreParentViewController: OverlayContainerViewControllerDelegate {
         let convertedPoint = coordinateSpace.convert(point, to: header)
         return header.bounds.contains(convertedPoint)
     }
+    
 }

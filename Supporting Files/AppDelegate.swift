@@ -22,7 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let stackViewAppearance = UIStackView.appearance(whenContainedInInstancesOf: [UINavigationBar.self])
         stackViewAppearance.spacing = -10
         
-//        print(rootViewController)
 //        let storyboard = UIStoryboard(name: "Main", bundle: nil)
 //        let controller = storyboard.instantiateViewController(withIdentifier: "Requester") as! RequestViewController
 //        rootViewController.present(controller, animated: true, completion: { () -> Void in
@@ -54,7 +53,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         let token = tokenParts.joined()
         setGlobalDeviceToken(token: token)
         print("SET GLOBAL DEVICE TOKEN")
-        print("Device Token: \(token)")
     }
     
     //user was not in app

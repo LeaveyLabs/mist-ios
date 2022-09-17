@@ -18,7 +18,8 @@ class PostService: NSObject {
     
     private var cachedPosts = [Int: Post]() //[postId: post]
     
-    private var exploreMapPostIds = [Int]()
+    private var allExploreMapPostIds = [Int]()
+    private var newExploreMapPostIds = [Int]()
     private var exploreFeedPostIds = [Int]()
     private var conversationPostIds = [Int]()
     private var submissionPostIds = [Int]()
@@ -44,15 +45,74 @@ class PostService: NSObject {
     func loadFeederPosts() async {
         exploreFeedPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: FeederData.posts)
     }
-        
-    func loadExploreFeedPosts() async throws {
-        let loadedPosts: [Post] = try await PostAPI.fetchPosts()
-        exploreFeedPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts)
+    
+    var isExploreFeedFullyLoaded: Bool = false
+    func loadExploreFeedPostsIfPossible() async throws {
+        guard !isExploreFeedFullyLoaded else { return }
+        let loadedPosts: [Post] = try await PostAPI.fetchPosts(order: explorePostFilter.postSort, page: explorePostFilter.pageNumber)
+        guard !loadedPosts.isEmpty else {
+            isExploreFeedFullyLoaded = true
+            return
+        }
+        if explorePostFilter.pageNumber == 0 {
+            exploreFeedPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts)
+        } else {
+            exploreFeedPostIds.append(contentsOf: await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts))
+        }
+        explorePostFilter.pageNumber += 1
     }
     
-    func loadExploreMapPosts() async throws {
-        let loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: explorePostFilter.centerCoordinate.latitude, longitude: explorePostFilter.centerCoordinate.longitude)//, radius: convertLatDeltaToKms(explorePostFilter.region.span.latitudeDelta))
-        exploreMapPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts)
+    func isReadyForNewMapSearch() -> Bool {
+        let plane = explorePostFilter.currentMapPlaneAndRegion.0
+        let region = explorePostFilter.currentMapPlaneAndRegion.1
+
+        guard let mapRegionsForPlane = explorePostFilter.searchedMapRegions[plane] else { return true }
+        for searchedRegion in mapRegionsForPlane {
+            if searchedRegion.center.distanceInKilometers(from: region.center) < convertLatDeltaToKms(searchedRegion.span.latitudeDelta) / 2 {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
+    //TODO: we might want to reset postfilter here
+    func loadAndOverwriteExploreMapPosts() async throws {
+        guard isReadyForNewMapSearch() else { return }
+        
+        let plane = explorePostFilter.currentMapPlaneAndRegion.0
+        let region = explorePostFilter.currentMapPlaneAndRegion.1
+        
+        let loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: region.center.latitude, longitude: region.center.longitude, radius: convertLatDeltaToKms(region.span.latitudeDelta))
+        
+        if explorePostFilter.searchedMapRegions[plane] != nil {
+            explorePostFilter.searchedMapRegions[plane]!.append(region)
+        } else {
+            explorePostFilter.searchedMapRegions[plane] = [region]
+        }
+        
+        allExploreMapPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts)
+        newExploreMapPostIds =  allExploreMapPostIds
+    }
+    
+    func loadAndAppendExploreMapPosts() async throws {
+        guard isReadyForNewMapSearch() else { return }
+        
+        let plane = explorePostFilter.currentMapPlaneAndRegion.0
+        let region = explorePostFilter.currentMapPlaneAndRegion.1
+        
+        let loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: region.center.latitude, longitude: region.center.longitude, radius: convertLatDeltaToKms(region.span.latitudeDelta))
+        
+        if explorePostFilter.searchedMapRegions[plane] != nil {
+            explorePostFilter.searchedMapRegions[plane]!.append(region)
+        } else {
+            explorePostFilter.searchedMapRegions[plane] = [region]
+        }
+                
+        allExploreMapPostIds.append(contentsOf: newExploreMapPostIds)
+        newExploreMapPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts).filter {
+            !allExploreMapPostIds.contains($0)
+        }
     }
     
     func loadSubmissions() async throws {
@@ -67,10 +127,8 @@ class PostService: NSObject {
     
     //Called by FavoriteService after favorites are loaded in
     func loadFavorites(favoritedPostIds: [Int]) async throws {
-        //TODO: we should remove this bottom check if kevin updates the backend accordingly
-        if !favoritedPostIds.isEmpty {
-            favoritePostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchPostsByIds(ids: favoritedPostIds))
-        }
+        guard !favoritedPostIds.isEmpty else { return }
+        favoritePostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchPostsByIds(ids: favoritedPostIds))
     }
     
     //Called by ConversationService after conversations are loaded in
@@ -111,8 +169,12 @@ class PostService: NSObject {
         return getLoadedPostsFor(postIds: exploreFeedPostIds)
     }
     
-    func getExploreMapPosts() -> [Post] {
-        return getLoadedPostsFor(postIds: exploreMapPostIds)
+    func getAllExploreMapPosts() -> [Post] {
+        return getLoadedPostsFor(postIds: allExploreMapPostIds)
+    }
+    
+    func getNewExploreMapPosts() -> [Post] {
+        return getLoadedPostsFor(postIds: newExploreMapPostIds)
     }
     
     func getSubmissions() -> [Post] {
@@ -130,10 +192,7 @@ class PostService: NSObject {
     func getExploreFilter() -> PostFilter {
         return explorePostFilter
     }
-    
-    //TODO: i think the below function would be used by PostVC too. so why not just call it "getPost"? doesnt have to be specific to conversation posts. and of course it'll return Post?
-    
-    //Returns Post? because even though the convesation around a post exists, the post might have been deleted at any point in time by the user
+        
     func getPost(withPostId postId: Int) -> Post? {
         return cachedPosts[postId]
     }
@@ -141,31 +200,22 @@ class PostService: NSObject {
     //MARK: - Explore Filter
     
     func resetFilter() {
-        explorePostFilter = .init()
+        isExploreFeedFullyLoaded = false
+        explorePostFilter = PostFilter()
     }
     
-    func updateFilter(newPostFilter: PostFilter) {
-        explorePostFilter = newPostFilter
-    }
-    
-    func updateFilter(newText: String?) {
-        explorePostFilter.text = newText
-    }
-    
-    func updateFilter(newTimeframe: Float) {
-        explorePostFilter.postTimeframe = newTimeframe
+    func updateFilter(newPostSort: SortOrder) {
+        isExploreFeedFullyLoaded = false
+        explorePostFilter.pageNumber = 0
+        explorePostFilter.postSort = newPostSort
     }
     
     func updateFilter(newPostType: PostType) {
         explorePostFilter.postType = newPostType
     }
     
-    func updateFilter(newSearchBy: SearchBy) {
-        explorePostFilter.searchBy = newSearchBy
-    }
-    
-    func updateFilter(newRegion: MKCoordinateRegion) {
-        explorePostFilter.region = newRegion
+    func updateFilter(newPlaneAndRegion: (Int,MKCoordinateRegion)) {
+        explorePostFilter.currentMapPlaneAndRegion = newPlaneAndRegion
     }
     
     //MARK: - Major user actions
@@ -187,6 +237,7 @@ class PostService: NSObject {
         
         submissionPostIds.insert(newPost.id, at: 0)
         exploreFeedPostIds.insert(newPost.id, at: 0)
+        allExploreMapPostIds.insert(newPost.id, at: 0)
     }
     
     func deletePost(postId: Int) async throws {

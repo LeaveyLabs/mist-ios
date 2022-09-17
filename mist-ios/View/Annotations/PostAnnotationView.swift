@@ -109,6 +109,7 @@ extension PostAnnotationView {
     // Called by the viewController, because the delay differs based on if the post was just uploaded or if it was jut clicked on
     func loadPostView(on mapView: MKMapView,
                       withDelay delay: Double,
+                      withDuration duration: Double,
                       withPostDelegate postDelegate: PostDelegate,
                       swipeDelegate: AnnotationViewSwipeDelegate) {
         self.swipeDelegate = swipeDelegate
@@ -131,10 +132,9 @@ extension PostAnnotationView {
         let cachedPost = PostService.singleton.getPost(withPostId: postAnnotation.post.id)!
         postCalloutView.configurePost(post: cachedPost, delegate: postDelegate, arrowPosition: .bottom)
 
-        //TODO: fade in should not take 0.2 for first load.. make it based on duration?
         postCalloutView.alpha = 0
         postCalloutView.isHidden = true
-        postCalloutView.fadeIn(duration: 0.2, delay: delay - 0.3)
+        postCalloutView.fadeIn(duration: duration, delay: delay - 0.3)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
             if !hasSwipeDemoAnimationRun {
@@ -279,7 +279,7 @@ extension PostAnnotationView {
     
     private func setupPanGesture() {
         pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gestureRecognizer:)))
-        addGestureRecognizer(pan)
+//        addGestureRecognizer(pan)
     }
     
     @objc func handlePan(gestureRecognizer: UIPanGestureRecognizer) {

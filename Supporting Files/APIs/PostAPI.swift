@@ -25,7 +25,7 @@ struct MistboxError: Codable {
     let detail: String?
 }
 
-enum Order {
+enum SortOrder {
     case RECENT
     case BEST
     case TRENDING
@@ -50,7 +50,9 @@ class PostAPI {
     static let RADIUS_PARAM = "radius"
     static let LOC_DESCRIPTION_PARAM = "location_description"
     static let AUTHOR_PARAM = "author"
+    static let ORDER_PARAM = "order"
     static let POSTS_PARAM = "posts"
+    static let PAGE_PARAM = "page"
     
     static let KEYWORDS_PARAM = "keywords"
     
@@ -110,8 +112,23 @@ class PostAPI {
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
-    static func fetchPosts(order:Order) async throws -> [Post] {
-        let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?order=\(order)"
+    // Fetches all posts from database
+    static func fetchPosts(page:Int) async throws -> [Post] {
+        let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(PAGE_PARAM)=\(page)"
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterPostErrors(data: data, response: response)
+        return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
+    static func fetchPosts(order:SortOrder) async throws -> [Post] {
+        let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(ORDER_PARAM)=\(order)"
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterPostErrors(data: data, response: response)
+        return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
+    static func fetchPosts(order:SortOrder, page:Int) async throws -> [Post] {
+        let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(ORDER_PARAM)=\(order)&\(PAGE_PARAM)=\(page)"
         let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
@@ -203,7 +220,7 @@ class PostAPI {
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
-    // Fetches all posts from database (searching with latitude + longitude)
+    // Fetches top 100 trending posts around a latlong with default radius
     static func fetchPostsByLatitudeLongitude(latitude:Double, longitude:Double) async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(LATITUDE_PARAM)=\(latitude)&\(LONGITUDE_PARAM)=\(longitude)"
         let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
@@ -211,7 +228,7 @@ class PostAPI {
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
-    // Fetches all posts from database (searching with latitude + longitude + radius)
+    // Fetches top 100 trending posts from database around a lat/long with custom radius
     static func fetchPostsByLatitudeLongitude(latitude:Double, longitude:Double, radius:Double) async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(LATITUDE_PARAM)=\(latitude)&\(LONGITUDE_PARAM)=\(longitude)&\(RADIUS_PARAM)=\(radius)"
         let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)

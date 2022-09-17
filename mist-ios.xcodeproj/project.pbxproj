@@ -174,7 +174,7 @@
 		47C1D49127DF00B200970B3D /* PostMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C1D49027DF00B200970B3D /* PostMoreViewController.swift */; };
 		47C2834F27DED77500A19128 /* FeedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C2834D27DED77500A19128 /* FeedHeaderCell.swift */; };
 		47C2835027DED77500A19128 /* FeedHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C2834E27DED77500A19128 /* FeedHeaderCell.xib */; };
-		47CBF6F128356A7C00096514 /* FilterSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CBF6F028356A7C00096514 /* FilterSheetViewController.swift */; };
+		47CBF6F128356A7C00096514 /* OldFilterSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CBF6F028356A7C00096514 /* OldFilterSheetViewController.swift */; };
 		47CE900A27E058090004B756 /* PinMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900927E058090004B756 /* PinMapVC.swift */; };
 		47CE900C27E059DC0004B756 /* PinMapModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */; };
 		47CEEE9828545207008947FC /* UIBarButtonItem+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CEEE9728545207008947FC /* UIBarButtonItem+Image.swift */; };
@@ -485,7 +485,7 @@
 		5B739E5428935B9500E4EED0 /* FriendRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624C62867933000DCD45B /* FriendRequestService.swift */; };
 		5B739E5528935B9500E4EED0 /* PostAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA3DFF27E013EB00381218 /* PostAnnotation.swift */; };
 		5B739E5628935B9500E4EED0 /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D9251B28527E1800438C5C /* Favorite.swift */; };
-		5B739E5728935B9500E4EED0 /* FilterSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CBF6F028356A7C00096514 /* FilterSheetViewController.swift */; };
+		5B739E5728935B9500E4EED0 /* OldFilterSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CBF6F028356A7C00096514 /* OldFilterSheetViewController.swift */; };
 		5B739E5828935B9500E4EED0 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13B742285D3877000ADF5E /* Error.swift */; };
 		5B739E5928935B9500E4EED0 /* PostFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700F8B827DD7BE3006C2E08 /* PostFlag.swift */; };
 		5B739E5A28935B9500E4EED0 /* UITableView+SectionShadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF78338285E4477003C3955 /* UITableView+SectionShadow.swift */; };
@@ -538,6 +538,8 @@
 		5B774E00286D570400CCCF28 /* MatchCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */; };
 		5B83673D28D44C77001BF4B1 /* NotificationResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B83673C28D44C77001BF4B1 /* NotificationResponseHandler.swift */; };
 		5B83673E28D44C77001BF4B1 /* NotificationResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B83673C28D44C77001BF4B1 /* NotificationResponseHandler.swift */; };
+		5B83674028D58493001BF4B1 /* FilterSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B83673F28D58493001BF4B1 /* FilterSheetViewController.swift */; };
+		5B83674128D58493001BF4B1 /* FilterSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B83673F28D58493001BF4B1 /* FilterSheetViewController.swift */; };
 		5B879E6F28B6BA5500D2DFC1 /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E6E28B6BA5500D2DFC1 /* InsetLabel.swift */; };
 		5B879E7028B6BA5500D2DFC1 /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E6E28B6BA5500D2DFC1 /* InsetLabel.swift */; };
 		5B879E7628B7E3C000D2DFC1 /* CreateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B879E7528B7E3C000D2DFC1 /* CreateProfileViewController.swift */; };
@@ -892,7 +894,7 @@
 		47C2834D27DED77500A19128 /* FeedHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedHeaderCell.swift; sourceTree = "<group>"; };
 		47C2834E27DED77500A19128 /* FeedHeaderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedHeaderCell.xib; sourceTree = "<group>"; };
 		47CBF6ED283556E600096514 /* SwiftyAttributes.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SwiftyAttributes.xcframework; path = Carthage/Build/SwiftyAttributes.xcframework; sourceTree = "<group>"; };
-		47CBF6F028356A7C00096514 /* FilterSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSheetViewController.swift; sourceTree = "<group>"; };
+		47CBF6F028356A7C00096514 /* OldFilterSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldFilterSheetViewController.swift; sourceTree = "<group>"; };
 		47CE900927E058090004B756 /* PinMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinMapVC.swift; sourceTree = "<group>"; };
 		47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinMapModalViewController.swift; sourceTree = "<group>"; };
 		47CEEE9728545207008947FC /* UIBarButtonItem+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Image.swift"; sourceTree = "<group>"; };
@@ -981,6 +983,7 @@
 		5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCollectionCell.swift; sourceTree = "<group>"; };
 		5B774DFE286D570400CCCF28 /* MatchCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MatchCollectionCell.xib; sourceTree = "<group>"; };
 		5B83673C28D44C77001BF4B1 /* NotificationResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationResponseHandler.swift; sourceTree = "<group>"; };
+		5B83673F28D58493001BF4B1 /* FilterSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSheetViewController.swift; sourceTree = "<group>"; };
 		5B879E6E28B6BA5500D2DFC1 /* InsetLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetLabel.swift; sourceTree = "<group>"; };
 		5B879E7528B7E3C000D2DFC1 /* CreateProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileViewController.swift; sourceTree = "<group>"; };
 		5B879E7928B804B900D2DFC1 /* ConfirmCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmCodeViewController.swift; sourceTree = "<group>"; };
@@ -1819,6 +1822,7 @@
 		5B1F16D3287D41ED00035F93 /* Decomissioned */ = {
 			isa = PBXGroup;
 			children = (
+				47CBF6F028356A7C00096514 /* OldFilterSheetViewController.swift */,
 				4746508627D8735B0014217C /* RulesViewController.swift */,
 				47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */,
 				5B1F16D1287D1E5000035F93 /* CustomExploreViewController.swift */,
@@ -2104,7 +2108,6 @@
 				5B4152BA28BFD11F00592A55 /* ExploreParentVC+ChildDelegate.swift */,
 				5B4152BD28BFDB8600592A55 /* HomeParentVC.swift */,
 				5B4152C028BFDE6200592A55 /* CustomExploreParentVC.swift */,
-				47CBF6F028356A7C00096514 /* FilterSheetViewController.swift */,
 			);
 			path = Parent;
 			sourceTree = "<group>";
@@ -2118,6 +2121,7 @@
 				5B4152B428BF1F2000592A55 /* ExploreMapVC+OverlayDelegate.swift */,
 				5B1F16CF287D1B0700035F93 /* ExploreMapVC+Search.swift */,
 				470F271227DE6F5800C6DDAF /* SearchSuggestionsTableViewController.swift */,
+				5B83673F28D58493001BF4B1 /* FilterSheetViewController.swift */,
 			);
 			path = Children;
 			sourceTree = "<group>";
@@ -2745,7 +2749,7 @@
 				5BB624C72867933000DCD45B /* FriendRequestService.swift in Sources */,
 				47EA3E0027E013EB00381218 /* PostAnnotation.swift in Sources */,
 				43D9251C28527E1800438C5C /* Favorite.swift in Sources */,
-				47CBF6F128356A7C00096514 /* FilterSheetViewController.swift in Sources */,
+				47CBF6F128356A7C00096514 /* OldFilterSheetViewController.swift in Sources */,
 				5B13B743285D3877000ADF5E /* Error.swift in Sources */,
 				4700F8BA27DD7BE3006C2E08 /* PostFlag.swift in Sources */,
 				5BE14733289D3D990096FEBE /* FeederData.swift in Sources */,
@@ -2753,6 +2757,7 @@
 				5B4D58A72860D7FB002E2F94 /* UIImageView+ProfilePic.swift in Sources */,
 				470F271F27DE9ABE00C6DDAF /* SearchResultsTableViewController.swift in Sources */,
 				47061CD028510E4C0042F04C /* MKPlacemark+Address.swift in Sources */,
+				5B83674028D58493001BF4B1 /* FilterSheetViewController.swift in Sources */,
 				5BCE5F8228B483D2002078E1 /* CommentMoreViewController.swift in Sources */,
 				5B879E7628B7E3C000D2DFC1 /* CreateProfileViewController.swift in Sources */,
 				5BAD626A2875500E00DCFE45 /* InformationCollectionCell.swift in Sources */,
@@ -3077,12 +3082,13 @@
 				5B739E5628935B9500E4EED0 /* Favorite.swift in Sources */,
 				5B29262A28974E10008A1F5D /* CommentVote.swift in Sources */,
 				5BC8822A28AFF793007E83F8 /* ChatViewController+Keyboard.swift in Sources */,
-				5B739E5728935B9500E4EED0 /* FilterSheetViewController.swift in Sources */,
+				5B739E5728935B9500E4EED0 /* OldFilterSheetViewController.swift in Sources */,
 				5B739E5828935B9500E4EED0 /* Error.swift in Sources */,
 				5B739E5928935B9500E4EED0 /* PostFlag.swift in Sources */,
 				5B739E5A28935B9500E4EED0 /* UITableView+SectionShadow.swift in Sources */,
 				5B739E5B28935B9500E4EED0 /* UIImageView+ProfilePic.swift in Sources */,
 				5B739E5C28935B9500E4EED0 /* SearchResultsTableViewController.swift in Sources */,
+				5B83674128D58493001BF4B1 /* FilterSheetViewController.swift in Sources */,
 				5B739E5D28935B9500E4EED0 /* MKPlacemark+Address.swift in Sources */,
 				5B879E7728B7E3C000D2DFC1 /* CreateProfileViewController.swift in Sources */,
 				5B739E5E28935B9500E4EED0 /* InformationCollectionCell.swift in Sources */,

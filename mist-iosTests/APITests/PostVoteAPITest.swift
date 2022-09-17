@@ -43,8 +43,6 @@ class PostVoteAPITest: XCTestCase {
         let postVote = try await PostVoteAPI.postVote(voter: TestConstants.Auth.ID, post: post.id)
         try await PostVoteAPI.patchVote(voter: postVote.voter, post: postVote.post, emoji: "😭")
         let fetchedVote = try await PostVoteAPI.fetchVotesByVoterAndPost(voter: postVote.voter, post: postVote.post)
-
-        print(fetchedVote.first?.emoji)
     }
     
     func testPerformanceExample() throws {

@@ -125,7 +125,6 @@ func getFormattedTimeStringForChat(timestamp: Double) -> String {
 func getFormattedTimeStringForConvo(timestamp: Double) -> String {
     let elapsedTimeSincePost = NSDate().timeIntervalSince1970.getElapsedTime(since: timestamp)
     //if seconds ago
-    print(elapsedTimeSincePost)
     if elapsedTimeSincePost.hours == 0 && elapsedTimeSincePost.minutes == 0 {
         return "just now"
     }

@@ -434,10 +434,6 @@ extension InputBarAccessoryViewDelegate {
 // MARK: - InputBarDelegate
 
 extension ChatViewController: InputBarAccessoryViewDelegate {
-        
-    func accessoryViewRemovedFromSuperview() {
-        print("HI")
-    }
     
     @objc
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
@@ -715,7 +711,6 @@ extension ChatViewController: MessageLabelDelegate, MFMessageComposeViewControll
     }
     
     func didSelectPhoneNumber(_ phoneNumber: String) {
-        print(phoneNumber)
         if (MFMessageComposeViewController.canSendText()) {
             let controller = MFMessageComposeViewController()
             controller.body = ""
