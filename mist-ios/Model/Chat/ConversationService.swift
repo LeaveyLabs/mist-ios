@@ -61,50 +61,72 @@ class ConversationService: NSObject {
     
     //MARK: - Managing conversations
     
-    func loadMessageThreads() async throws {
+    func loadInitialMessageThreads() async throws {
         try await withThrowingTaskGroup(of: Void.self) { group in
             //Start loading MatchRequests in the background
             group.addTask { try await BlockService.singleton.loadBlocks() }
             group.addTask { try await MatchRequestService.singleton.loadMatchRequests() }
             
-            let allMessagesWithUsers = try await MessageAPI.fetchConversations()
-            
-            //Organize all the messages into their respective threads
-            var messageThreadsByUserIds: [Int: MessageThread] = [:]
-            for (userId, messages) in allMessagesWithUsers {
-                messageThreadsByUserIds[userId] = try MessageThread(sender: UserService.singleton.getId(), receiver: userId, previousMessages: messages)
-            }
-            
-            //Sort the server_messages
-            messageThreadsByUserIds.forEach { (key: Int, value: MessageThread) in
-                value.server_messages.sort()
-            }
-            
-            let frontendUsers = try await UsersService.singleton.loadAndCacheEverythingForUsers(userIds: Array(messageThreadsByUserIds.keys))
-            let profilePics = try await UsersService.singleton.loadAndCacheProfilePics(users: frontendUsers.map { $0.value })
-            
-            //Wait for matchRequests and blocks to load in
+            //Wait for matchRequests and blocks to load in, because our conversations depend on loaded matchRequest in initialziation
             try await group.waitForAll()
             
-            //Create conversations with the user, messageThread, and matchRequests
-            conversations = Dictionary(uniqueKeysWithValues: frontendUsers.map {userId, user in
-                (userId, Conversation(sangdaebang: user, messageThread: messageThreadsByUserIds[userId]!))
-            })
-            conversations.forEach { userId, convo in
-                convo.sangdaebang.profilePic = profilePics[userId]
-            }
+            try await prepareConversations()
         }
     }
     
-    func loadConversationsAndRefreshVC() async throws {
-        try await loadMessageThreads()
+    //make server messages thread safe
+    //on reconnect.... what if we got new messages while we were disconnected?
+    //also, whenever receiving/sending a message, make sure all the messages are as they should be
+    
+    func loadMatchRequestsAndCreateNewConversations() async throws {
+        try await MatchRequestService.singleton.loadMatchRequests()
+        let matchRequestsWithoutConvos = MatchRequestService.singleton.getAllPostUniqueMatchRequests().filter {
+            conversations[$0.match_requested_user] == nil && conversations[$0.match_requesting_user] == nil
+        }
+        guard !matchRequestsWithoutConvos.isEmpty else { return }
+
+        let userIdsToCreateConvosWith = matchRequestsWithoutConvos.map {
+            $0.match_requested_user == UserService.singleton.getId() ? $0.match_requesting_user : $0.match_requested_user
+        }
+        
+        try await prepareConversations(onlyWithUserIds: userIdsToCreateConvosWith)
+        
+        forceVisualConversationsReload()
+    }
+    
+    func prepareConversations(onlyWithUserIds: [Int]? = nil) async throws {
+        let allMessagesWithUsers = try await MessageAPI.fetchConversations()
+        var newMessageThreadsByUserIds: [Int: MessageThread] = [:]
+        if let onlyWithUserIds = onlyWithUserIds {
+            for userId in onlyWithUserIds {
+                guard let newMessages = allMessagesWithUsers[userId] else { continue }
+                newMessageThreadsByUserIds[userId] = try MessageThread(sender: UserService.singleton.getId(), receiver: userId, previousMessages: newMessages)
+            }
+        } else {
+            for (userId, newMessages) in allMessagesWithUsers {
+                newMessageThreadsByUserIds[userId] = try MessageThread(sender: UserService.singleton.getId(), receiver: userId, previousMessages: newMessages)
+            }
+        }
+        newMessageThreadsByUserIds.forEach { $1.server_messages.sort() }
+        
+        let frontendUsers = try await UsersService.singleton.loadAndCacheEverythingForUsers(userIds: Array(newMessageThreadsByUserIds.keys))
+        let profilePics = try await UsersService.singleton.loadAndCacheProfilePics(users: frontendUsers.map { $0.value })
+        //Create conversations with the user, messageThread, and matchRequests
+//        conversations = Dictionary(uniqueKeysWithValues: frontendUsers.map {userId, user in
+//            (userId, Conversation(sangdaebang: user, messageThread: newMessageThreadsByUserIds[userId]!))
+//        }) //not safe:: we don't want to overwrite existing conversations
+        frontendUsers.forEach { userId, user in
+            conversations[userId] = Conversation(sangdaebang: user, messageThread: newMessageThreadsByUserIds[userId]!)
+        }
+        conversations.forEach { $1.sangdaebang.profilePic = profilePics[$0] }
+    }
+    
+    func forceVisualConversationsReload() {
         DispatchQueue.main.async {
             guard let tabVC = UIApplication.shared.windows.first?.rootViewController as? SpecialTabBarController else { return }
             tabVC.refreshBadgeCount()
             let visibleVC = SceneDelegate.visibleViewController
-            if let chatVC = visibleVC as? ChatViewController {
-                chatVC.handleNewMessage()
-            } else if let conversationsVC = visibleVC as? ConversationsViewController {
+            if let conversationsVC = visibleVC as? ConversationsViewController {
                 conversationsVC.tableView.reloadData()
             }
         }
@@ -113,8 +135,11 @@ class ConversationService: NSObject {
     func startOccasionalRefreshTask() {
         Task {
             while true {
-                try await loadConversationsAndRefreshVC()
-                try await Task.sleep(nanoseconds: NSEC_PER_SEC * 30)
+                try await Task.sleep(nanoseconds: NSEC_PER_SEC * 10)
+                conversations.forEach { userId, convo in
+                    convo.messageThread.refreshSocketStatus()
+                }
+                try await loadMatchRequestsAndCreateNewConversations()
             }
         }
     }
@@ -149,12 +174,10 @@ class ConversationService: NSObject {
                 unreadConvos.append(convo)
             }
         }
-        print("timestamps", conversationsLastMessageReadTime.lastTimestamps)
         return unreadConvos
     }
     
     func updateLastMessageReadTime(withUserId userId: Int) {
-        print("UPDATE LST MESSAGE READ TIEM")
         conversationsLastMessageReadTime.lastTimestamps[userId] = Date().timeIntervalSince1970
         Task { await saveToFilesystem() }
     }

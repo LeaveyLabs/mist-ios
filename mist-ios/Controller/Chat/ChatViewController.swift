@@ -69,7 +69,10 @@ class ChatViewController: MessagesViewController {
     @IBOutlet weak var customNavigationBar: UIView!
     
     //Data
-    var conversation: Conversation!
+    var sangdaebangId: Int!
+    var conversation: Conversation {
+        ConversationService.singleton.getConversationWith(userId: sangdaebangId)!
+    }
 
     //Flags
     var isPresentedFromPost: Bool = false
@@ -123,7 +126,11 @@ class ChatViewController: MessagesViewController {
     
     class func createFromPost(postId: Int, postAuthor: ThumbnailReadOnlyUser, postTitle: String) -> ChatViewController {
         let chatVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Chat) as! ChatViewController
-        chatVC.conversation = ConversationService.singleton.getConversationWith(userId: postAuthor.id) ?? ConversationService.singleton.openConversationWith(user: postAuthor)
+//        chatVC.conversation = ConversationService.singleton.getConversationWith(userId: postAuthor.id) ?? ConversationService.singleton.openConversationWith(user: postAuthor)
+        chatVC.sangdaebangId = postAuthor.id
+        if ConversationService.singleton.getConversationWith(userId: postAuthor.id) == nil {
+            let _ = ConversationService.singleton.openConversationWith(user: postAuthor)
+        }
         chatVC.conversation.openConversationFromPost(postId: postId, postTitle: postTitle)
         chatVC.isPresentedFromPost = true
         return chatVC
@@ -131,7 +138,7 @@ class ChatViewController: MessagesViewController {
     
     class func create(conversation: Conversation) -> ChatViewController {
         let chatVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Chat) as! ChatViewController
-        chatVC.conversation = conversation
+        chatVC.sangdaebangId = conversation.sangdaebang.id
         chatVC.conversation.openConversation()
         return chatVC
     }
@@ -502,46 +509,17 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         isAuthedUserProfileHidden = conversation.isAuthedUserHidden
         if isSangdaebangProfileHidden && !conversation.isSangdaebangHidden {
             //Don't insert a new section, simply reload the data. This is because even though we're handling a new message, we're also removing the last placeholder "info" message, so we shouldn't insert any sections
-//            messagesCollectionView.reloadDataAndKeepOffset()
+            messagesCollectionView.reloadDataAndKeepOffset()
             isSangdaebangProfileHidden = conversation.isSangdaebangHidden
         } else {
-            //ANIMATING NEW MESSAGES CAUSES ISSUES WITH THE BUBBLE INSETS
-//            let range = Range(uncheckedBounds: (0, messagesCollectionView.numberOfSections - 1))
-//            let indexSet = IndexSet(integersIn: range)
-//            messagesCollectionView.reloadSections(indexSet)
-//             Reload last section to update header/footer labels and insert a new one
-//            UIView.animate(withDuration: <#T##TimeInterval#>, delay: <#T##TimeInterval#>, animations: <#T##() -> Void#>)
-//            messagesCollectionView.reloadDataAndKeepOffset()
-
-            
             messagesCollectionView.performBatchUpdates({
                 messagesCollectionView.insertSections([numberOfSections(in: messagesCollectionView) - 1])
                 if numberOfSections(in: messagesCollectionView) >= 2 {
                     messagesCollectionView.reloadSections([numberOfSections(in: messagesCollectionView) - 2])
                 }
-            }, completion: { [weak self] _ in
-                if self?.isLastSectionVisible() == true {
-                    self?.messagesCollectionView.scrollToLastItem(animated: true)
-                }
             })
-            
-//            messagesCollectionView.performBatchUpdates({
-//                messagesCollectionView.insertSections([numberOfSections(in: messagesCollectionView) - 1])
-//                if numberOfSections(in: messagesCollectionView) >= 2 {
-//                    messagesCollectionView.reloadSections([numberOfSections(in: messagesCollectionView) - 2])
-//                }
-//            }) {_ in
-//                
-//            }
-//            messagesCollectionView.reloadData()
+            messagesCollectionView.scrollToLastItem(animated: true)
         }
-        
-//        self.messagesCollectionView.reloadDataAndKeepOffset()
-
-        //TODO: we do want to scrollToLastItem, but ONLY if the bottom message is below the keyboard. otherwise we get weird animations when creating the first 5 or 7 or so messages
-            //no nono
-        //we don't want to update the contentOffset when there is too little content
-//        messagesCollectionView.scrollToLastItem(animated: true)
     }
     
 }
@@ -774,8 +752,7 @@ extension ChatViewController: MessageLabelDelegate, MFMessageComposeViewControll
 extension ChatViewController {
     
     func isMostRecentMessageFromSender(message: MessageType, at indexPath: IndexPath) -> Bool {
-        let isMostRecentMessage = indexPath.section == conversation.getRenderedChatObjects().count - 1
-        return isMostRecentMessage && isFromCurrentSender(message: message)
+        return isLastMessage(at: indexPath) && isFromCurrentSender(message: message)
     }
     
     func isLastMessage(at indexPath: IndexPath) -> Bool {

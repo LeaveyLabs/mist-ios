@@ -47,14 +47,6 @@ class MessageThread: WebSocketDelegate {
         self.socket.connect()
     }
     
-    func startInfiniteBackgroundLoop() {
-//        while true {
-            //if it's been X seconds:
-                //if the socket is closed, reopen it
-                //pull in new MatchRequests. if you don't have a conversation with that person open, create a conversation with them
-//        }
-    }
-    
     func refreshSocketStatus() {
         guard socket != nil, connected else { return }
         socket.write(ping: Data())
@@ -105,14 +97,13 @@ class MessageThread: WebSocketDelegate {
         let sent_messages = try await MessageAPI.fetchMessagesBySenderAndReceiver(sender: self.sender, receiver: self.receiver)
         let offline_messages = (received_messages + sent_messages).sorted()
 
-        var server_message_ids:[Int] = []
-        for server_message in self.server_messages {
-            server_message_ids.append(server_message.id)
-        }
-        
-        for offline_message in offline_messages {
-            if !server_message_ids.contains(offline_message.id) {
-                self.server_messages.append(offline_message)
+        let server_message_ids:Set<Int> = Set(server_messages.map { $0.id })
+        Task {
+            for offline_message in offline_messages {
+                if !server_message_ids.contains(offline_message.id) {
+                    self.server_messages.append(offline_message)
+                    try await Task.sleep(nanoseconds: NSEC_PER_SEC / 2)
+                }
             }
         }
     }

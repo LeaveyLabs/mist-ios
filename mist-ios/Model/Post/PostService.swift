@@ -38,6 +38,36 @@ class PostService: NSObject {
     
     private override init(){
         super.init()
+        startBackgroundRefreeshTask()
+    }
+    
+    func startBackgroundRefreeshTask() {
+        Task {
+            while true {
+                try await Task.sleep(nanoseconds: NSEC_PER_SEC * 10)
+                try await checkForNewMentions()
+            }
+        }
+    }
+    
+    func checkForNewMentions() async throws {
+        let prevMentionCount = DeviceService.shared.unreadMentionsCount()
+        try await PostService.singleton.loadMentions()
+        try await CommentService.singleton.fetchTaggedTags()
+        guard DeviceService.shared.unreadMentionsCount() > prevMentionCount else { return }
+        
+        DispatchQueue.main.async {
+            guard let tabVC = UIApplication.shared.windows.first?.rootViewController as? SpecialTabBarController else { return }
+            tabVC.refreshBadgeCount()
+            let visibleVC = SceneDelegate.visibleViewController
+            if let mistboxVC = visibleVC as? MistboxViewController {
+                mistboxVC.navBar.accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
+                mistboxVC.navBar.accountBadgeHub.bump()
+            } else if let conversationsVC = visibleVC as? ConversationsViewController {
+                conversationsVC.customNavBar.accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
+                conversationsVC.customNavBar.accountBadgeHub.bump()
+            }
+        }
     }
     
     //MARK: - Load and setup
@@ -122,7 +152,6 @@ class PostService: NSObject {
     func loadMentions() async throws {
         let posts = try await PostAPI.fetchTaggedPosts()
         await mentionPostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: posts)
-        print("MENTIONS NOW:", posts, mentionPostIds)
     }
     
     //Called by FavoriteService after favorites are loaded in

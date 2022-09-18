@@ -113,15 +113,13 @@ class Conversation {
         let _ = try await MatchRequestService.singleton.sendMatchRequest(to: sangdaebang.id, forPostId: initiatingMatchRequest?.post ?? nil)
     }
     
-    func sendMessage(messageText: String) async throws {
-        if
-            let placeholderMatchRequest = placeholderMessageKitMatchRequest,
-            let postId = placeholderMatchRequest.matchRequest.post {
-            try await sendInitiatingMatchRequest(forPostId: postId)
-            renderedIndex += 1
-        }
-                
+    func sendMessage(messageText: String) async throws {                
         do {
+            if let placeholderMatchRequest = placeholderMessageKitMatchRequest,
+                let postId = placeholderMatchRequest.matchRequest.post {
+                try await sendInitiatingMatchRequest(forPostId: postId)
+                renderedIndex += 1
+            }
             try messageThread.sendMessage(message_text: messageText)
             let attributedMessage = NSAttributedString(string: messageText, attributes: [.font: UIFont(name: Constants.Font.Roman, size: 15)!])
             let messageKitMessage = MessageKitMessage(text: attributedMessage,
@@ -156,7 +154,8 @@ class Conversation {
                         tabVC.refreshBadgeCount()
                     }
                     let visibleVC = SceneDelegate.visibleViewController
-                    if let chatVC = visibleVC as? ChatViewController {
+                    if let chatVC = visibleVC as? ChatViewController,
+                       chatVC.sangdaebangId == self.sangdaebang.id {
                         chatVC.handleNewMessage()
                     } else if let conversationsVC = visibleVC as? ConversationsViewController {
                         conversationsVC.tableView.reloadData()

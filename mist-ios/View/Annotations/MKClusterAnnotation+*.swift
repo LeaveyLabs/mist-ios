@@ -11,12 +11,12 @@ import MapKit
 
 extension MKClusterAnnotation {
     
-    func updateClusterTitle() {
-        title = getMostCommonAnnotationLocation(among: memberAnnotations)
+    func updateClusterTitle(newTitle: String) {
+        title = newTitle
         subtitle = ""
     }
     
-    func getMostCommonAnnotationLocation(among memberAnnotations: [MKAnnotation]) -> String? {
-        return (memberAnnotations.first { $0 .isKind(of: PostAnnotation.self) } as? PostAnnotation)?.post.title
-    }
+//    func getMostCommonAnnotationLocation(among memberAnnotations: [MKAnnotation]) -> String? {
+//        return (memberAnnotations.first { $0 .isKind(of: PostAnnotation.self) } as? PostAnnotation)?.post.title
+//    }
 }

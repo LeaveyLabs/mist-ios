@@ -11,7 +11,7 @@ import FirebaseAnalytics
 func loadEverything() async throws {
     try await withThrowingTaskGroup(of: Void.self) { group in
         group.addTask { try await loadPostStuff() }
-        group.addTask { try await ConversationService.singleton.loadMessageThreads() }
+        group.addTask { try await ConversationService.singleton.loadInitialMessageThreads() }
         group.addTask { try await FriendRequestService.singleton.loadFriendRequests() }
         group.addTask { try await MistboxManager.shared.fetchSyncedMistbox() }
         group.addTask { try await CommentService.singleton.fetchTaggedTags() }

@@ -22,12 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let stackViewAppearance = UIStackView.appearance(whenContainedInInstancesOf: [UINavigationBar.self])
         stackViewAppearance.spacing = -10
         
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let controller = storyboard.instantiateViewController(withIdentifier: "Requester") as! RequestViewController
-//        rootViewController.present(controller, animated: true, completion: { () -> Void in
-//
-//        })
-        
         //MUST COME in didfinishlaunchingwithOptions
         let notifCenter = UNUserNotificationCenter.current()
         notifCenter.delegate = self
@@ -85,7 +79,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
     func handleNotificationWhileInApp(userInfo: [String: AnyObject]) async {
         //both of these methods work here. we'll just use the first
-        guard let tabVC = UIApplication.shared.windows.first?.rootViewController as? SpecialTabBarController else { return }
+//        guard let _ = UIApplication.shared.windows.first?.rootViewController as? SpecialTabBarController else { return }
 //        guard let rootViewController = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.window?.rootViewController as? SpecialTabBarController else { return }
         
         guard
@@ -95,36 +89,26 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         
         do {
             let json = userInfo[Notification.extra.data.rawValue]
-            let data = try JSONSerialization.data(withJSONObject: json as Any, options: .prettyPrinted)
+            _ = try JSONSerialization.data(withJSONObject: json as Any, options: .prettyPrinted)
             switch notificationType {
             case .tag:
-                try await PostService.singleton.loadMentions()
-                try await CommentService.singleton.fetchTaggedTags()
-                DispatchQueue.main.async {
-                    tabVC.refreshBadgeCount()
-                    let visibleVC = SceneDelegate.visibleViewController
-                    if let mistboxVC = visibleVC as? MistboxViewController {
-                        mistboxVC.navBar.accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
-                        mistboxVC.navBar.accountBadgeHub.bump()
-                    } else if let conversationsVC = visibleVC as? ConversationsViewController {
-                        conversationsVC.customNavBar.accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
-                        conversationsVC.customNavBar.accountBadgeHub.bump()
-                    }
-                }
+                break //handled in PostService background task
             case .message:
-                let message = try JSONDecoder().decode(Message.self, from: data)
-                if (ConversationService.singleton.getConversationWith(userId: message.sender) == nil) {
-                    try await ConversationService.singleton.loadConversationsAndRefreshVC()
-                } else {
-                    //if we do have a converation open, this code is handled in Conversation
-                }
+                 break //do nothing: this case should be handled within the socket
+//                let message = try JSONDecoder().decode(Message.self, from: data)
+//                if (ConversationService.singleton.getConversationWith(userId: message.sender) == nil) {
+//                    try await ConversationService.singleton.loadConversationsAndRefreshVC()
+//                } else {
+//                    //if we do have a converation open, this code is handled in Conversation
+//                }
             case .match:
-                let matchRequest = try JSONDecoder().decode(MatchRequest.self, from: data)
-                if (ConversationService.singleton.getConversationWith(userId: matchRequest.match_requesting_user) == nil) {
-                    try await ConversationService.singleton.loadConversationsAndRefreshVC()
-                } else {
-                    //if we do have a converation open, this code is handled in Conversation
-                }
+                break //do nothing, this is handled within ConversationService every 15 seconds
+//                let matchRequest = try JSONDecoder().decode(MatchRequest.self, from: data)
+//                if (ConversationService.singleton.getConversationWith(userId: matchRequest.match_requesting_user) == nil) {
+//                    try await ConversationService.singleton.load
+//                } else {
+//                    //if we do have a converation open, this code is handled in Conversation
+//                }
             case .daily_mistbox, .make_someones_day:
                 break
             }

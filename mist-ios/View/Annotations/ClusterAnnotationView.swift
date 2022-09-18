@@ -73,8 +73,8 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
             currentlyVisiblePostIndex = nil
             Task {
                 sortedMemberPosts = sortMemberPosts(from: newCluster.memberAnnotations)
+                newCluster.updateClusterTitle(newTitle: sortedMemberPosts.first!.title)
             }
-            newCluster.updateClusterTitle()
         }
     }
     
@@ -210,10 +210,15 @@ extension ClusterAnnotationView {
         self.addGestureRecognizer(longPress)
         longPress.require(toFail: collectionView.panGestureRecognizer) //so that long pressing on the post doesnt prevent the pan
                 
-        collectionView.layoutIfNeeded()
-        if memberCount > 0  {
-            collectionView.scrollToItem(at: IndexPath(item: currentlyVisiblePostIndex!, section: 0), at: .centeredHorizontally, animated: false)
-        } //on initial app launch & auto selecting an annotation, sometimes the cluster has no member counts when it is selected
+        if duration != 0 { //produces an error on the very first selection sometimes
+            collectionView.layoutIfNeeded()
+            if memberCount > 0  {
+                collectionView.scrollToItem(at: IndexPath(item: currentlyVisiblePostIndex!, section: 0), at: .centeredHorizontally, animated: false)
+            } //on initial app launch & auto selecting an annotation, sometimes the cluster has no member counts when it is selected
+        }
+        if sortedMemberPosts.isEmpty { //another check which should only really be useful on the very first selection. sometimes the Task to sort memberposts hasnt finished by now
+            sortedMemberPosts = sortMemberPosts(from: (annotation as! MKClusterAnnotation).memberAnnotations)
+        }
         collectionView.alpha = 0
         collectionView.isHidden = true
         collectionView.fadeIn(duration: duration, delay: delay - 0.3)
