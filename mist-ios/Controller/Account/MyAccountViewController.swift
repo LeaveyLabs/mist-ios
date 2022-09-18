@@ -40,7 +40,12 @@ class MyAccountViewController: SettingsViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        reloadAllData()
+    }
+    
+    func reloadAllData() {
         tableView.reloadData()
+        navigationItem.title = UserService.singleton.getUsername()
     }
     
     override func registerNibs() {

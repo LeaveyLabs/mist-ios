@@ -15,6 +15,13 @@ class HomeExploreParentViewController: ExploreParentViewController {
     var firstAppearance = true
     var isHandlingNewPost = false
     var isFetchingMorePosts: Bool = false
+    lazy var firstPostAnnotation: PostAnnotation = {
+        if let userCenter = exploreMapVC.locationManager.location {
+            return exploreMapVC.postAnnotations.sorted(by: { $0.coordinate.distanceInKilometers(from: userCenter.coordinate) < $1.coordinate.distanceInKilometers(from: userCenter.coordinate) } ).first!
+        } else {
+            return exploreMapVC.postAnnotations.randomElement()!
+        }
+    }()
     
     //MARK: - Lifecycle
     
@@ -49,11 +56,10 @@ class HomeExploreParentViewController: ExploreParentViewController {
         }
         
         guard isFirstLoad else { return }
+        
         //set camera first
-        if let firstPostAnnotation = exploreMapVC.postAnnotations.first {
-            let dynamicLatOffset = (exploreMapVC.latitudeOffsetForOneKMDistance / 1000) * self.exploreMapVC.mapView.camera.centerCoordinateDistance
-            exploreMapVC.mapView.camera.centerCoordinate = CLLocationCoordinate2D(latitude: firstPostAnnotation.coordinate.latitude + dynamicLatOffset, longitude: firstPostAnnotation.coordinate.longitude)
-        }
+        let dynamicLatOffset = (exploreMapVC.latitudeOffsetForOneKMDistance / 1000) * self.exploreMapVC.mapView.camera.centerCoordinateDistance
+        exploreMapVC.mapView.camera.centerCoordinate = CLLocationCoordinate2D(latitude: firstPostAnnotation.coordinate.latitude + dynamicLatOffset, longitude: firstPostAnnotation.coordinate.longitude)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -64,13 +70,11 @@ class HomeExploreParentViewController: ExploreParentViewController {
         
         guard !isHandlingNewPost else { return }
         
-        //then select post
-        if let firstPostAnnotation = exploreMapVC.postAnnotations.first {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in//waiting .1 seconds because otherwise the cluster annotation isn't found sometimes
-                let firstAnnotation: MKAnnotation = exploreMapVC.mapView.greatestClusterContaining(firstPostAnnotation) ?? firstPostAnnotation
-                print(firstAnnotation, firstPostAnnotation)
-                self.exploreMapVC.mapView.selectAnnotation(firstAnnotation, animated: true)
-            }
+        //then select post nearest to you
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in//waiting .1 seconds because otherwise the cluster annotation isn't found sometimes
+            let firstAnnotation: MKAnnotation = exploreMapVC.mapView.greatestClusterContaining(firstPostAnnotation) ?? firstPostAnnotation
+            print(firstAnnotation, firstPostAnnotation)
+            self.exploreMapVC.mapView.selectAnnotation(firstAnnotation, animated: true)
         }
         
         if !DeviceService.shared.hasBeenRequestedLocationOnHome() && (CLLocationManager.authorizationStatus() == .denied ||
@@ -81,7 +85,7 @@ class HomeExploreParentViewController: ExploreParentViewController {
             }
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
             UIView.animate(withDuration: 1, delay: 0, options: .curveLinear) {
                 self.exploreMapVC.trojansActiveView.alpha = 0
             } completion: { completed in
@@ -114,7 +118,7 @@ class HomeExploreParentViewController: ExploreParentViewController {
             do {
                 try await PostService.singleton.loadExploreFeedPostsIfPossible()
                 DispatchQueue.main.async { [self] in
-                    renderNewPostsOnMap(withType: .addMore)
+                    renderNewPostsOnFeed(withType: .addMore)
                     isFetchingMorePosts = false
                 }
             } catch {
@@ -172,7 +176,14 @@ extension HomeExploreParentViewController {
 
 extension HomeExploreParentViewController: FilterDelegate {
     
+    @MainActor
     func handleUpdatedExploreFilter() {
+        //We should scroll to top before we alter the dataSource for the feed or else we risk scrolling through rows which were full but are nowed empty
+        if !feedPosts.isEmpty {
+            exploreFeedVC.feed.isUserInteractionEnabled = false
+            exploreFeedVC.feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            exploreFeedVC.feed.isUserInteractionEnabled = true
+        }
         Task {
             try await PostService.singleton.loadExploreFeedPostsIfPossible() //page count is set to 0 when resetting sorting
             DispatchQueue.main.async {

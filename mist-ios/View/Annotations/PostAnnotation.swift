@@ -20,7 +20,7 @@ class PostAnnotation: NSObject, MKAnnotation, Comparable {
     init(withPost post: Post) {
         self.post = post
         self.title = post.title
-        self.coordinate = CLLocationCoordinate2D(latitude: post.latitude!, longitude: post.longitude!)
+        self.coordinate = CLLocationCoordinate2D(latitude: post.latitude, longitude: post.longitude)
         super.init()
     }
     

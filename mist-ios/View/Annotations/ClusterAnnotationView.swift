@@ -42,8 +42,8 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
         return nil
     }
     
-    var memberCount: Int? {
-        return (annotation as? MKClusterAnnotation)?.memberAnnotations.count
+    var memberCount: Int {
+        return (annotation as! MKClusterAnnotation).memberAnnotations.count
     }
     
     var currentlyVisiblePostIndex: Int?
@@ -51,7 +51,7 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
     var sortedMemberPosts: [Post] = []
     func sortMemberPosts(from memberAnnotations: [MKAnnotation]) -> [Post] {
         var posts = [Post]()
-        for explorePost in PostService.singleton.getExploreFeedPosts() {
+        for explorePost in PostService.singleton.getAllExploreMapPosts() {
             for annotation in memberAnnotations {
                 guard let annotationPost = (annotation as? PostAnnotation)?.post else { continue }
                 if annotationPost == explorePost {
@@ -73,8 +73,8 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
             currentlyVisiblePostIndex = nil
             Task {
                 sortedMemberPosts = sortMemberPosts(from: newCluster.memberAnnotations)
+                newCluster.updateClusterTitle(newTitle: sortedMemberPosts.first?.title)
             }
-            newCluster.updateClusterTitle()
         }
     }
     
@@ -138,9 +138,8 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
     
     //ideally, this would be detected by collectionViewRowWasSelected, but that function isn't being called for some reason
     private func detectNeighboringPostTap(pointInMapView: CGPoint) -> Bool {
-        guard let currentpage = centeredCollectionViewFlowLayout.currentCenteredPage,
-              let maxPages = memberCount else { return false }
-        if pointInMapView.x > POST_VIEW_WIDTH + POST_VIEW_MARGIN, currentpage < maxPages - 1 {
+        guard let currentpage = centeredCollectionViewFlowLayout.currentCenteredPage else { return false }
+        if pointInMapView.x > POST_VIEW_WIDTH + POST_VIEW_MARGIN, currentpage < memberCount - 1 {
             centeredCollectionViewFlowLayout.scrollToPage(index: currentpage + 1, animated: true)
             return true
         } else if pointInMapView.x < POST_VIEW_MARGIN, currentpage >= 1 {
@@ -196,11 +195,11 @@ extension ClusterAnnotationView {
         if selectionType == .swipeLeft {
             currentlyVisiblePostIndex = 0
         } else if selectionType == .swipeRight {
-            currentlyVisiblePostIndex = memberCount! - 1
+            currentlyVisiblePostIndex = memberCount - 1
         } else if let previouslyVisiblePostIndex = currentlyVisiblePostIndex {
             currentlyVisiblePostIndex = previouslyVisiblePostIndex
-            if previouslyVisiblePostIndex > memberCount! - 1 {
-                currentlyVisiblePostIndex = memberCount! - 1
+            if previouslyVisiblePostIndex > memberCount - 1 {
+                currentlyVisiblePostIndex = memberCount - 1
             }
         } else {
             currentlyVisiblePostIndex = 0
@@ -211,8 +210,15 @@ extension ClusterAnnotationView {
         self.addGestureRecognizer(longPress)
         longPress.require(toFail: collectionView.panGestureRecognizer) //so that long pressing on the post doesnt prevent the pan
                 
-        collectionView.layoutIfNeeded()
-        collectionView.scrollToItem(at: IndexPath(item: currentlyVisiblePostIndex!, section: 0), at: .centeredHorizontally, animated: false)
+        if duration != 0 { //produces an error on the very first selection sometimes
+            collectionView.layoutIfNeeded()
+            if memberCount > 0  {
+                collectionView.scrollToItem(at: IndexPath(item: currentlyVisiblePostIndex!, section: 0), at: .centeredHorizontally, animated: false)
+            } //on initial app launch & auto selecting an annotation, sometimes the cluster has no member counts when it is selected
+        }
+        if sortedMemberPosts.isEmpty { //another check which should only really be useful on the very first selection. sometimes the Task to sort memberposts hasnt finished by now
+            sortedMemberPosts = sortMemberPosts(from: (annotation as! MKClusterAnnotation).memberAnnotations)
+        }
         collectionView.alpha = 0
         collectionView.isHidden = true
         collectionView.fadeIn(duration: duration, delay: delay - 0.3)
@@ -406,7 +412,7 @@ extension ClusterAnnotationView: UICollectionViewDelegate {
 extension ClusterAnnotationView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return sortedMemberPosts.count
+        return memberCount
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

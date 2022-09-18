@@ -95,7 +95,7 @@ extension PostView {
             messageLabel.numberOfLines = 0
         }
         timestampLabel.text = getFormattedTimeStringForPost(timestamp: post.timestamp).lowercased()
-        locationLabel.text = post.location_description?.lowercased()
+        locationLabel.text = post.location_description.lowercased()
         messageLabel.text = post.body
         postTitleLabel.text = post.title
         commentButton.setTitle(post.commentcount >= 3 ? String(updatedCommentCount ?? post.commentcount) : "comment", for: .normal)

@@ -99,11 +99,11 @@ func getFormattedTimeStringForPost(timestamp: Double) -> String {
         }
     }
     //if within the last week
-    else if elapsedTimeSincePost.days < 7 {
+    if elapsedTimeSincePost.days < 7 {
         return getRecentFormattedDate(currentTimeMillis: timestamp)
     }
     //if within the last year
-    if elapsedTimeSincePost.years < 1 {
+    else if elapsedTimeSincePost.years < 1 {
         return getFormattedDate(currentTimeMillis: timestamp)
     }
     return getDateNumbers(currentTimeMillis: timestamp)
@@ -111,12 +111,26 @@ func getFormattedTimeStringForPost(timestamp: Double) -> String {
 
 func getFormattedTimeStringForChat(timestamp: Double) -> String {
     let elapsedTimeSincePost = NSDate().timeIntervalSince1970.getElapsedTime(since: timestamp)
-    //if within the last week
+    
+    if elapsedTimeSincePost.days < 3 {
+        let myTimeInterval = TimeInterval(timestamp)
+        let thedate = Date(timeIntervalSince1970: myTimeInterval)
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US")
+        dateFormatter.dateFormat = "h:mma"
+        
+        //if today
+        if getDayOfWeek(currentTimeMillis: timestamp) == getDayOfWeek(currentTimeMillis: currentTimeMillis()) {
+            return "today, " + dateFormatter.string(from: thedate).replacingOccurrences(of: "AM", with: "am").replacingOccurrences(of: "PM", with: "pm")
+        }
+        //if yesterday
+        if getDayOfWeek(currentTimeMillis: timestamp) == getDayOfWeek(currentTimeMillis: Date.yesterday.timeIntervalSince1970) {
+            return "yesterday, " + dateFormatter.string(from: thedate).replacingOccurrences(of: "AM", with: "am").replacingOccurrences(of: "PM", with: "pm")
+        }
+    }
     if elapsedTimeSincePost.days < 7 {
         return getRecentFormattedDate(currentTimeMillis: timestamp)
-    }
-    //if within the last year
-    if elapsedTimeSincePost.years < 1 {
+    } else if elapsedTimeSincePost.years < 1 {
         return getFormattedDate(currentTimeMillis: timestamp)
     }
     return getDateNumbers(currentTimeMillis: timestamp) //TODO: add the time, too
@@ -124,19 +138,16 @@ func getFormattedTimeStringForChat(timestamp: Double) -> String {
 
 func getFormattedTimeStringForConvo(timestamp: Double) -> String {
     let elapsedTimeSincePost = NSDate().timeIntervalSince1970.getElapsedTime(since: timestamp)
-    //if seconds ago
+    
     if elapsedTimeSincePost.hours == 0 && elapsedTimeSincePost.minutes == 0 {
         return "just now"
-    }
-    //if if minutes ago
-    if elapsedTimeSincePost.hours == 0 {
+    } else if elapsedTimeSincePost.hours == 0 {
         if elapsedTimeSincePost.minutes == 0 {
             return String(elapsedTimeSincePost.minutes) + "m ago"
         } else {
             return String(elapsedTimeSincePost.minutes) + "m ago"
         }
-    }
-    if elapsedTimeSincePost.days < 3 {
+    } else if elapsedTimeSincePost.days < 3 {
         //if today
         if getDayOfWeek(currentTimeMillis: timestamp) == getDayOfWeek(currentTimeMillis: currentTimeMillis()) {
             if (elapsedTimeSincePost.hours == 1) {
@@ -144,18 +155,12 @@ func getFormattedTimeStringForConvo(timestamp: Double) -> String {
             } else {
                 return String(elapsedTimeSincePost.hours) + "h ago"
             }
-        }
-        //if yesterday
-        if getDayOfWeek(currentTimeMillis: timestamp) == getDayOfWeek(currentTimeMillis: Date.yesterday.timeIntervalSince1970) {
+        } else if getDayOfWeek(currentTimeMillis: timestamp) == getDayOfWeek(currentTimeMillis: Date.yesterday.timeIntervalSince1970) {
             return "yesterday"
         }
-    }
-    //if within the last week
-    if elapsedTimeSincePost.days < 7 {
+    } else if elapsedTimeSincePost.days < 7 {
         return getDayOfWeek(currentTimeMillis: timestamp)
-    }
-    //if within the last year
-    if elapsedTimeSincePost.years < 1 {
+    } else if elapsedTimeSincePost.years < 1 {
         return getDateOnly(currentTimeMillis: timestamp)
     }
     return getDateNumbers(currentTimeMillis: timestamp)

@@ -38,6 +38,36 @@ class PostService: NSObject {
     
     private override init(){
         super.init()
+        startBackgroundRefreeshTask()
+    }
+    
+    func startBackgroundRefreeshTask() {
+        Task {
+            while true {
+                try await Task.sleep(nanoseconds: NSEC_PER_SEC * 10)
+                try await checkForNewMentions()
+            }
+        }
+    }
+    
+    func checkForNewMentions() async throws {
+        let prevMentionCount = DeviceService.shared.unreadMentionsCount()
+        try await PostService.singleton.loadMentions()
+        try await CommentService.singleton.fetchTaggedTags()
+        guard DeviceService.shared.unreadMentionsCount() > prevMentionCount else { return }
+        
+        DispatchQueue.main.async {
+            guard let tabVC = UIApplication.shared.windows.first?.rootViewController as? SpecialTabBarController else { return }
+            tabVC.refreshBadgeCount()
+            let visibleVC = SceneDelegate.visibleViewController
+            if let mistboxVC = visibleVC as? MistboxViewController {
+                mistboxVC.navBar.accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
+                mistboxVC.navBar.accountBadgeHub.bump()
+            } else if let conversationsVC = visibleVC as? ConversationsViewController {
+                conversationsVC.customNavBar.accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
+                conversationsVC.customNavBar.accountBadgeHub.bump()
+            }
+        }
     }
     
     //MARK: - Load and setup
@@ -46,15 +76,14 @@ class PostService: NSObject {
         exploreFeedPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: FeederData.posts)
     }
     
-    var isExploreFeedFullyLoaded: Bool = false
     func loadExploreFeedPostsIfPossible() async throws {
-        guard !isExploreFeedFullyLoaded else { return }
+        guard !explorePostFilter.isFeedFullyLoaded else { return }
         let loadedPosts: [Post] = try await PostAPI.fetchPosts(order: explorePostFilter.postSort, page: explorePostFilter.pageNumber)
         guard !loadedPosts.isEmpty else {
-            isExploreFeedFullyLoaded = true
+            explorePostFilter.isFeedFullyLoaded = true
             return
         }
-        if explorePostFilter.pageNumber == 0 {
+        if explorePostFilter.pageNumber == PostFilter.MIN_PAGE_NUMBER {
             exploreFeedPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts)
         } else {
             exploreFeedPostIds.append(contentsOf: await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts))
@@ -200,14 +229,11 @@ class PostService: NSObject {
     //MARK: - Explore Filter
     
     func resetFilter() {
-        isExploreFeedFullyLoaded = false
         explorePostFilter = PostFilter()
     }
     
     func updateFilter(newPostSort: SortOrder) {
-        isExploreFeedFullyLoaded = false
-        explorePostFilter.pageNumber = 0
-        explorePostFilter.postSort = newPostSort
+        explorePostFilter.postSort = newPostSort //page and wasFeedFullyReloaded are automatically reset
     }
     
     func updateFilter(newPostType: PostType) {
@@ -222,9 +248,9 @@ class PostService: NSObject {
     
     func uploadPost(title: String,
                     text: String,
-                    locationDescription: String?,
-                    latitude: Double?,
-                    longitude: Double?,
+                    locationDescription: String,
+                    latitude: Double,
+                    longitude: Double,
                     timestamp: Double) async throws {
         let newPost = try await PostAPI.createPost(title: title,
                                                    text: text,

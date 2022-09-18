@@ -27,6 +27,15 @@ import MessageKit
 import InputBarAccessoryView
 import MessageUI
 
+class FixedInsetTextMessageCell: TextMessageCell {
+    
+    override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+        super.apply(layoutAttributes)
+        messageLabel.textInsets =  .init(top: 8, left: 16, bottom: 8, right: 15)
+    }
+    
+}
+
 class ChatViewController: MessagesViewController {
     
     //MARK: - Propreties
@@ -60,7 +69,10 @@ class ChatViewController: MessagesViewController {
     @IBOutlet weak var customNavigationBar: UIView!
     
     //Data
-    var conversation: Conversation!
+    var sangdaebangId: Int!
+    var conversation: Conversation {
+        ConversationService.singleton.getConversationWith(userId: sangdaebangId)!
+    }
 
     //Flags
     var isPresentedFromPost: Bool = false
@@ -114,7 +126,11 @@ class ChatViewController: MessagesViewController {
     
     class func createFromPost(postId: Int, postAuthor: ThumbnailReadOnlyUser, postTitle: String) -> ChatViewController {
         let chatVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Chat) as! ChatViewController
-        chatVC.conversation = ConversationService.singleton.getConversationWith(userId: postAuthor.id) ?? ConversationService.singleton.openConversationWith(user: postAuthor)
+//        chatVC.conversation = ConversationService.singleton.getConversationWith(userId: postAuthor.id) ?? ConversationService.singleton.openConversationWith(user: postAuthor)
+        chatVC.sangdaebangId = postAuthor.id
+        if ConversationService.singleton.getConversationWith(userId: postAuthor.id) == nil {
+            let _ = ConversationService.singleton.openConversationWith(user: postAuthor)
+        }
         chatVC.conversation.openConversationFromPost(postId: postId, postTitle: postTitle)
         chatVC.isPresentedFromPost = true
         return chatVC
@@ -122,7 +138,7 @@ class ChatViewController: MessagesViewController {
     
     class func create(conversation: Conversation) -> ChatViewController {
         let chatVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Chat) as! ChatViewController
-        chatVC.conversation = conversation
+        chatVC.sangdaebangId = conversation.sangdaebang.id
         chatVC.conversation.openConversation()
         return chatVC
     }
@@ -277,6 +293,7 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.register(matchNib, forCellWithReuseIdentifier: String(describing: MatchCollectionCell.self))
         let infoNib = UINib(nibName: String(describing: InformationCollectionCell.self), bundle: nil)
         messagesCollectionView.register(infoNib, forCellWithReuseIdentifier: String(describing: InformationCollectionCell.self))
+        messagesCollectionView.register(FixedInsetTextMessageCell.self)
         
         messagesCollectionView.refreshControl = refreshControl
         if conversation.hasRenderedAllChatObjects() { refreshControl.removeFromSuperview() }
@@ -378,8 +395,10 @@ class ChatViewController: MessagesViewController {
         guard !isSectionReservedForTypingIndicator(indexPath.section) else {
             return super.collectionView(collectionView, cellForItemAt: indexPath)
         }
+        
+        let message = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
 
-        if let messageKitMatch = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView) as? MessageKitMatchRequest {
+        if let messageKitMatch = message as? MessageKitMatchRequest {
             let cell = messagesCollectionView.dequeueReusableCell(MatchCollectionCell.self, for: indexPath)
             cell.configure(with: messageKitMatch,
                            sangdaebang: conversation.sangdaebang,
@@ -387,19 +406,28 @@ class ChatViewController: MessagesViewController {
                            isSangdaebangHidden: isSangdaebangProfileHidden)
             return cell
         }
-        if let messageKitInfo = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView) as? MessageKitInfo {
+        if let messageKitInfo = message as? MessageKitInfo {
             let cell = messagesCollectionView.dequeueReusableCell(InformationCollectionCell.self, for: indexPath)
             cell.configure(with: messageKitInfo)
             return cell
         }
-        return super.collectionView(collectionView, cellForItemAt: indexPath)
+        else {
+            if let cell = messagesDataSource.textCell(for: message, at: indexPath, in: messagesCollectionView) {
+                return cell
+            } else {
+                let cell = messagesCollectionView.dequeueReusableCell(FixedInsetTextMessageCell.self, for: indexPath)
+                cell.configure(with: message, at: indexPath, and: messagesCollectionView)
+                return cell
+            }
+        }
+//        return super.collectionView(collectionView, cellForItemAt: indexPath) //this returned the old TextMessageCell with incorrect insets
     }
     
-    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if let cell = cell as? TextMessageCell {
-            cell.messageLabel.textInsets = .init(top: 8, left: 16, bottom: 8, right: 15)
-        }
-    }
+//    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        if let cell = cell as? TextMessageCell {
+//            cell.messageLabel.textInsets = .init(top: 8, left: 16, bottom: 8, right: 15)
+//        }
+//    }
     
 }
 
@@ -431,6 +459,10 @@ extension ChatViewController: MessagesDataSource {
             return NSAttributedString(string: getFormattedTimeStringForChat(timestamp: message.sentDate.timeIntervalSince1970).lowercased(), attributes: [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 12)!, NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         }
         return nil
+    }
+    
+    func messageTimestampLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+        return NSAttributedString(string: getFormattedTimeStringForChat(timestamp: message.sentDate.timeIntervalSince1970).lowercased(), attributes: [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 12)!, NSAttributedString.Key.foregroundColor: UIColor.lightGray])
     }
 }
 
@@ -481,33 +513,17 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         isAuthedUserProfileHidden = conversation.isAuthedUserHidden
         if isSangdaebangProfileHidden && !conversation.isSangdaebangHidden {
             //Don't insert a new section, simply reload the data. This is because even though we're handling a new message, we're also removing the last placeholder "info" message, so we shouldn't insert any sections
-//            messagesCollectionView.reloadDataAndKeepOffset()
+            messagesCollectionView.reloadDataAndKeepOffset()
             isSangdaebangProfileHidden = conversation.isSangdaebangHidden
         } else {
-            //ANIMATING NEW MESSAGES CAUSES ISSUES WITH THE BUBBLE INSETS
-//            let range = Range(uncheckedBounds: (0, messagesCollectionView.numberOfSections - 1))
-//            let indexSet = IndexSet(integersIn: range)
-//            messagesCollectionView.reloadSections(indexSet)
-            // Reload last section to update header/footer labels and insert a new one
-//            UIView.animate(withDuration: <#T##TimeInterval#>, delay: <#T##TimeInterval#>, animations: <#T##() -> Void#>)
-//            messagesCollectionView.reloadDataAndKeepOffset()
-
-//            messagesCollectionView.performBatchUpdates({
-//                messagesCollectionView.insertSections([numberOfSections(in: messagesCollectionView) - 1])
-//                if numberOfSections(in: messagesCollectionView) >= 2 {
-//                    messagesCollectionView.reloadSections([numberOfSections(in: messagesCollectionView) - 2])
-//                }
-//            }) {_ in
-//            }
-//            messagesCollectionView.reloadData()
+            messagesCollectionView.performBatchUpdates({
+                messagesCollectionView.insertSections([numberOfSections(in: messagesCollectionView) - 1])
+                if numberOfSections(in: messagesCollectionView) >= 2 {
+                    messagesCollectionView.reloadSections([numberOfSections(in: messagesCollectionView) - 2])
+                }
+            })
+            messagesCollectionView.scrollToLastItem(animated: true)
         }
-        
-        self.messagesCollectionView.reloadDataAndKeepOffset()
-
-        //TODO: we do want to scrollToLastItem, but ONLY if the bottom message is below the keyboard. otherwise we get weird animations when creating the first 5 or 7 or so messages
-            //no nono
-        //we don't want to update the contentOffset when there is too little content
-//        messagesCollectionView.scrollToLastItem(animated: true)
     }
     
 }
@@ -649,7 +665,7 @@ extension ChatViewController: MessagesLayoutDelegate {
     func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return isMostRecentMessageFromSender(message: message, at: indexPath) ? 16 : 0
     }
-    
+        
 }
 
 //MARK: - ScrollViewDelegate
@@ -740,8 +756,7 @@ extension ChatViewController: MessageLabelDelegate, MFMessageComposeViewControll
 extension ChatViewController {
     
     func isMostRecentMessageFromSender(message: MessageType, at indexPath: IndexPath) -> Bool {
-        let isMostRecentMessage = indexPath.section == conversation.getRenderedChatObjects().count - 1
-        return isMostRecentMessage && isFromCurrentSender(message: message)
+        return isLastMessage(at: indexPath) && isFromCurrentSender(message: message)
     }
     
     func isLastMessage(at indexPath: IndexPath) -> Bool {

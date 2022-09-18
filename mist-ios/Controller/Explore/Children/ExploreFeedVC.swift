@@ -39,7 +39,6 @@ class ExploreFeedViewController: UIViewController {
         setupTableView()
         view.backgroundColor = .clear
         filterButton.alpha = 0
-        filterButton.isHidden = true //means it just wont appear ever
     }
 
     func setupNotchView() {
@@ -66,8 +65,49 @@ class ExploreFeedViewController: UIViewController {
     
     //MARK: - UserInteraction
     
-    @IBAction func onFilterButtonPress() {
-//        on
+    @IBAction func filterButtonDidPressed() {
+        guard let parent = exploreDelegate as? HomeExploreParentViewController else { return }
+        let filterVC = FilterSheetViewController.create(delegate: parent)
+        present(filterVC, animated: true)
+    }
+    
+    @IBAction func refreshButtonDidPressed() {
+        guard let parent = exploreDelegate as? CustomExploreParentViewController else { return }
+        refreshCustomExplorePosts(setting: parent.setting)
+    }
+    
+    func refreshCustomExplorePosts(setting: Setting) {
+        refreshButton.isUserInteractionEnabled = false
+        refreshButton.loadingIndicator(true)
+        refreshButton.setImage(nil, for: .normal)
+        Task {
+            do {
+                switch setting {
+                case .mentions:
+                    try await PostService.singleton.loadMentions()
+                case .submissions:
+                    try await PostService.singleton.loadSubmissions()
+                case .favorites:
+                    try await FavoriteService.singleton.loadFavorites() //also loads in favorites
+                default:
+                    break
+                }
+                DispatchQueue.main.async { [weak self] in
+                    self?.exploreDelegate.renderNewPostsOnFeed(withType: .newSearch) //to reposition
+                    self?.exploreDelegate.renderNewPostsOnMap(withType: .newSearch)
+                    self?.refreshButton.isUserInteractionEnabled = true
+                    self?.refreshButton.loadingIndicator(false)
+                    self?.refreshButton.setImage(UIImage(systemName: "arrow.clockwise", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium))!, for: .normal)
+                }
+            } catch {
+                CustomSwiftMessages.displayError(error)
+                DispatchQueue.main.async { [weak self] in
+                    self?.refreshButton.isUserInteractionEnabled = true
+                    self?.refreshButton.loadingIndicator(false)
+                    self?.refreshButton.setImage(UIImage(systemName: "arrow.clockwise", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium))!, for: .normal)
+                }
+            }
+        }
     }
 
 }
@@ -145,19 +185,9 @@ extension ExploreFeedViewController: UITableViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let greatestIndex = feed.indexPathsForVisibleRows?.last?.row else { return }
-        let postsUntilEnd = PostService.singleton.getExploreFeedPosts().count - greatestIndex
+        let postsUntilEnd = exploreDelegate.feedPosts.count - greatestIndex
         guard postsUntilEnd == 50 else { return }
         exploreDelegate.reloadNewFeedPostsIfNecessary()
-    }
-    
-}
-
-extension ExploreFeedViewController {
-    
-    @IBAction func filterButtonDidPressed() {
-        guard let parent = exploreDelegate as? HomeExploreParentViewController else { return }
-        let filterVC = FilterSheetViewController.create(delegate: parent)
-        present(filterVC, animated: true)
     }
     
 }

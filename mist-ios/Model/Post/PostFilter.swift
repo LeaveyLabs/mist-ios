@@ -11,8 +11,15 @@ import MapKit
 struct PostFilter {
     var postType: PostType = .All
     
-    var pageNumber: Int = 0
-    var postSort: SortOrder = .TRENDING
+    static let MIN_PAGE_NUMBER = 1
+    var pageNumber: Int = PostFilter.MIN_PAGE_NUMBER
+    var isFeedFullyLoaded: Bool = false
+    var postSort: SortOrder = .TRENDING {
+        didSet {
+            pageNumber = PostFilter.MIN_PAGE_NUMBER
+            isFeedFullyLoaded = false
+        }
+    }
     
     var currentMapPlaneAndRegion: (Int, MKCoordinateRegion) = (1, MKCoordinateRegion(center: Constants.Coordinates.USC, span: MKCoordinateSpan(latitudeDelta: MapViewController.MIN_SPAN_DELTA, longitudeDelta: MapViewController.MIN_SPAN_DELTA)))
     var searchedMapRegions: [Int:[MKCoordinateRegion]] = [:]

@@ -9,40 +9,47 @@ import Foundation
 
 struct FeederData {
     
+    static var manyPosts: [Post] {
+        var longPosts = [Post]()
+        for _ in 1...100 {
+            longPosts.append(contentsOf: posts)
+        }
+        return longPosts
+    }
     static let posts: [Post] = [
         Post(id: 1,
              title: "That crazy",
              body: "omgggggg  youre sooooo cute",
-             location_description: nil,
-             latitude: nil,
-             longitude: nil,
+             location_description: "leavey",
+             latitude: Constants.Coordinates.USC.latitude,
+             longitude: Constants.Coordinates.USC.longitude,
              timestamp: 10298,
              author: 0,
              commentcount: 0),
         Post(id: 2,
              title: "hiiiiiiiii",
              body: "omgggggg  youre sooooo cute",
-             location_description: nil,
-             latitude: nil,
-             longitude: nil,
+             location_description: "dohney",
+             latitude: Constants.Coordinates.USC.latitude,
+             longitude: Constants.Coordinates.USC.longitude,
              timestamp: 10298,
              author: 0,
              commentcount: 0),
         Post(id: 3,
              title: "tommy trojans yooooooooooooo",
              body: "omgggggg  youre sooooo cute",
-             location_description: nil,
-             latitude: nil,
-             longitude: nil,
+             location_description: "starbucks",
+             latitude: Constants.Coordinates.USC.latitude,
+             longitude: Constants.Coordinates.USC.longitude,
              timestamp: 10298,
              author: 0,
              commentcount: 0),
         Post(id: 4,
              title: " a;lsdkjf  dfl;kd;f  sfdsfkljs dl s s d",
              body: "omgggggg  youre sooooo cute",
-             location_description: nil,
-             latitude: nil,
-             longitude: nil,
+             location_description: "dulce",
+             latitude: Constants.Coordinates.USC.latitude,
+             longitude: Constants.Coordinates.USC.longitude,
              timestamp: 10298,
              author: 0,
              commentcount: 0)]

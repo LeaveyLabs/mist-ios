@@ -25,7 +25,7 @@ struct MistboxError: Codable {
     let detail: String?
 }
 
-enum SortOrder {
+enum SortOrder: Int, CaseIterable {
     case RECENT
     case BEST
     case TRENDING
@@ -121,14 +121,14 @@ class PostAPI {
     }
     
     static func fetchPosts(order:SortOrder) async throws -> [Post] {
-        let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(ORDER_PARAM)=\(order)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(ORDER_PARAM)=\(order.rawValue)"
         let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
     static func fetchPosts(order:SortOrder, page:Int) async throws -> [Post] {
-        let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(ORDER_PARAM)=\(order)&\(PAGE_PARAM)=\(page)"
+        let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(ORDER_PARAM)=\(order.rawValue)&\(PAGE_PARAM)=\(page)"
         let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
@@ -267,9 +267,9 @@ class PostAPI {
     // Posts post in the database
     static func createPost(title: String,
                            text: String,
-                           locationDescription: String?,
-                           latitude: Double?,
-                           longitude: Double?,
+                           locationDescription: String,
+                           latitude: Double,
+                           longitude: Double,
                            timestamp: Double,
                            author: Int) async throws -> Post {
         let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)"

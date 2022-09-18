@@ -1249,7 +1249,6 @@
 		4726C6AF27CA1DE90093400C /* Enums */ = {
 			isa = PBXGroup;
 			children = (
-				47A3D70F27D55BDD003DBEA5 /* PostFilter.swift */,
 				47061CD128511C750042F04C /* MapSearchResultType.swift */,
 				47061CD9285170CB0042F04C /* FeedType.swift */,
 				5B13B742285D3877000ADF5E /* Error.swift */,
@@ -1980,6 +1979,7 @@
 			children = (
 				47A3D70527D54F3C003DBEA5 /* Post.swift */,
 				47A3D70B27D55A3A003DBEA5 /* PostService.swift */,
+				47A3D70F27D55BDD003DBEA5 /* PostFilter.swift */,
 				439E44F927DFE20600E244D6 /* Word.swift */,
 				43A25346289BA45200B1468F /* Tag */,
 				5BB624CB28679FD900DCD45B /* Flag */,

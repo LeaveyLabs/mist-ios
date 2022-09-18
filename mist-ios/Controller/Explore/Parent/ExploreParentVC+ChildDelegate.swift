@@ -42,15 +42,6 @@ extension ExploreParentViewController: ExploreChildDelegate {
     }
     
     func renderNewPostsOnFeed(withType reloadType: ReloadType) {
-        //Feed scroll to top, on every reload. this should happen BEFORE the datasource for the feed is altered, in order to prevent a potential improper element access
-        if reloadType != .firstLoad {
-            if !feedPosts.isEmpty {
-                exploreFeedVC.feed.isUserInteractionEnabled = false
-                exploreFeedVC.feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-                exploreFeedVC.feed.isUserInteractionEnabled = true
-            }
-        }
-
         //Visual update
         exploreFeedVC.feed.reloadData()
     }
@@ -58,6 +49,7 @@ extension ExploreParentViewController: ExploreChildDelegate {
     func renderNewPostsOnMap(withType reloadType: ReloadType) {
         switch reloadType {
         case .firstLoad:
+            exploreMapVC.removeExistingPostAnnotationsFromMap()
             exploreMapVC.turnPostsIntoAnnotationsAndReplacePostAnnotations(mapPosts)
             exploreMapVC.mapView.addAnnotations(exploreMapVC.postAnnotations)
         case .addMore: //Don't remove postAnnotations. Only add the newExploreMapPosts.
@@ -70,9 +62,10 @@ extension ExploreParentViewController: ExploreChildDelegate {
             exploreMapVC.turnPostsIntoAnnotationsAndReplacePostAnnotations(mapPosts)
             //NOTE: we aren't adding place annotations within this function on newSearch as of now
             exploreMapVC.mapView.addAnnotations(exploreMapVC.postAnnotations)
-            exploreMapVC.mapView.setRegion(exploreMapVC.getRegionCenteredAround(exploreMapVC.postAnnotations + exploreMapVC.placeAnnotations) ?? MKCoordinateRegion.init(center: Constants.Coordinates.USC, latitudinalMeters: 2000, longitudinalMeters: 2000), animated: true)
+            var newRegion = exploreMapVC.getRegionCenteredAround(exploreMapVC.postAnnotations + exploreMapVC.placeAnnotations) ?? MKCoordinateRegion.init(center: Constants.Coordinates.USC, latitudinalMeters: 2000, longitudinalMeters: 2000)
             let dynamicLatOffset = (exploreMapVC.latitudeOffsetForOneKMDistance / 1000) * exploreMapVC.mapView.camera.centerCoordinateDistance
-            exploreMapVC.mapView.camera.centerCoordinate.latitude -= (dynamicLatOffset / 2)
+            newRegion.center.latitude -= (dynamicLatOffset / 2)
+            exploreMapVC.mapView.setRegion(newRegion, animated: true)
             exploreMapVC.mapView.camera.pitch = exploreMapVC.maxCameraPitch //i think the pitch is droped in "setRegion"
             // we want to offset in the opposite direciton and smaller direction than usual because now the feed takes up a larger part of the bottomn
 

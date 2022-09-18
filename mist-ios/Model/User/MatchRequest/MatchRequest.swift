@@ -10,7 +10,7 @@ import Foundation
 struct MatchRequest: Codable, Comparable {
     
     static let PLACEHOLDER_ID = -1
-    static let DELETED_POST_TITLE = "This mist has been deleted."
+    static let DELETED_POST_TITLE = "mist doesn't exist"
     
     let id: Int;
     let match_requesting_user: Int;
