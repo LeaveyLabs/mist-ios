@@ -248,9 +248,9 @@ class PostService: NSObject {
     
     func uploadPost(title: String,
                     text: String,
-                    locationDescription: String?,
-                    latitude: Double?,
-                    longitude: Double?,
+                    locationDescription: String,
+                    latitude: Double,
+                    longitude: Double,
                     timestamp: Double) async throws {
         let newPost = try await PostAPI.createPost(title: title,
                                                    text: text,

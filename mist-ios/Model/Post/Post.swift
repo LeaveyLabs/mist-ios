@@ -17,10 +17,11 @@ struct Post: Codable, Equatable {
     let id: Int
     let title: String
     let body: String
-    let location_description: String?
-    let latitude: Double?
-    let longitude: Double?
+    let location_description: String
+    let latitude: Double
+    let longitude: Double
     let timestamp: Double
+    let creation_time: Double
     let author: Int
     var emoji_dict: EmojiCountDict
     let commentcount: Int
@@ -34,9 +35,9 @@ struct Post: Codable, Equatable {
     init(id: Int = DUMMY_POST_ID,
          title: String,
          body: String,
-         location_description: String?,
-         latitude: Double?,
-         longitude: Double?,
+         location_description: String,
+         latitude: Double,
+         longitude: Double,
          timestamp: Double,
          author: Int,
          emojiDict: EmojiCountDict = [:],
@@ -51,6 +52,7 @@ struct Post: Codable, Equatable {
         self.timestamp = timestamp
         self.author = author
         self.commentcount = commentcount
+        self.creation_time = Date().timeIntervalSince1970
         self.emoji_dict = emojiDict
     }
     
@@ -68,6 +70,7 @@ struct Post: Codable, Equatable {
         self.latitude = try container.decode(Double.self, forKey: .latitude)
         self.longitude = try container.decode(Double.self, forKey: .longitude)
         self.timestamp = try container.decode(Double.self, forKey: .timestamp)
+        self.creation_time = try container.decode(Double.self, forKey: .creation_time)
         self.author = try container.decode(Int.self, forKey: .author)
         self.commentcount = try container.decode(Int.self, forKey: .commentcount)
         let decodedEmojiCountDict = try container.decode(EmojiCountDict.self, forKey: .emoji_dict)
@@ -95,6 +98,6 @@ struct Post: Codable, Equatable {
     }
     
     enum CodingKeys: CodingKey {
-        case id, title, body, location_description, latitude, longitude, timestamp, author, emoji_dict, commentcount
+        case id, title, body, location_description, latitude, longitude, timestamp, creation_time, author, emoji_dict, commentcount
     }
 }

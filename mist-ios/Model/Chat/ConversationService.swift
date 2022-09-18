@@ -109,9 +109,17 @@ class ConversationService: NSObject {
         }
         newMessageThreadsByUserIds.forEach { $1.server_messages.sort() }
         
+        
         let frontendUsers = try await UsersService.singleton.loadAndCacheEverythingForUsers(userIds: Array(newMessageThreadsByUserIds.keys))
-        let profilePics = try await UsersService.singleton.loadAndCacheProfilePics(users: frontendUsers.map { $0.value })
-        //Create conversations with the user, messageThread, and matchRequests
+        
+        //ONLY LOAD IN PROFILE PICS IF THEY ARE NOT HIDDEN
+        //if we have a match request from them, load their profile pic in
+        //TODO: we need to make sure we load in profile pics on new match requests
+        let userIdsToFetchProfilesFor = frontendUsers.filter {
+            MatchRequestService.singleton.hasReceivedMatchRequestFrom($0.key)
+        }
+        let profilePics = try await UsersService.singleton.loadAndCacheProfilePics(users: userIdsToFetchProfilesFor.map { $0.value })
+        
 //        conversations = Dictionary(uniqueKeysWithValues: frontendUsers.map {userId, user in
 //            (userId, Conversation(sangdaebang: user, messageThread: newMessageThreadsByUserIds[userId]!))
 //        }) //not safe:: we don't want to overwrite existing conversations

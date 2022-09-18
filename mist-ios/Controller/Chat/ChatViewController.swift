@@ -460,6 +460,10 @@ extension ChatViewController: MessagesDataSource {
         }
         return nil
     }
+    
+    func messageTimestampLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+        return NSAttributedString(string: getFormattedTimeStringForChat(timestamp: message.sentDate.timeIntervalSince1970).lowercased(), attributes: [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 12)!, NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+    }
 }
 
 extension InputBarAccessoryViewDelegate {

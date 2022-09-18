@@ -271,7 +271,7 @@ class UpdateProfileSettingViewController: UITableViewController {
     //MARK: - Helpers
     
     func validateInput() {
-        let isValidName = firstName.count > 0 && lastName.count > 0
+        let isValidName = Validate.validateName(firstName) && Validate.validateName(lastName)
         let isValidUsername = Validate.validateUsername(username)
         
         let isNewPic = profilePic != UserService.singleton.getProfilePic()
