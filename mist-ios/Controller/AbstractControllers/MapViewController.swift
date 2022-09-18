@@ -67,7 +67,7 @@ class MapViewController: UIViewController {
     var cameraDistance: Double = 0
     var isCameraZooming: Bool = false
     var modifyingMap: Bool = false
-    var latitudeOffsetForOneKMDistance: Double = 0.00133
+    var latitudeOffsetForOneKMDistance: Double = 0.00145
     //remove one of these three
     var prevZoomFactor: Int = 4
     var prevZoomWidth: Double! //when the pitch increases, zoomWidth's value increases

@@ -18,4 +18,10 @@ struct Validate {
         return isValidUsername
     }
     
+    static func validateName(_ name: String) -> Bool {
+        var usernamePermittedCharacters: CharacterSet = .letters
+        let isValidName = usernamePermittedCharacters.isSuperset(of: CharacterSet(charactersIn: name)) && name.count > 0
+        return isValidName
+    }
+    
 }

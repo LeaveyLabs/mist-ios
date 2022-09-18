@@ -46,7 +46,8 @@ func isUpdateAvailable(completion: @escaping (Bool?, Error?) -> Void) throws -> 
         let url = URL(string: "https://itunes.apple.com/lookup?bundleId=\(identifier)") else {
             throw VersionError.invalidBundleInfo
     }
-    let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+    let request = URLRequest(url: url, cachePolicy: URLRequest.CachePolicy.reloadIgnoringLocalCacheData) //ignore local cache of old version
+    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
         do {
             if let error = error { throw error }
             guard let data = data else { throw VersionError.invalidResponse }

@@ -459,7 +459,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L6t-3z-PO7">
-                                    <rect key="frame" x="95" y="20" width="200" height="200"/>
+                                    <rect key="frame" x="78.666666666666686" y="20" width="233" height="233"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="200" id="FTO-hY-joF"/>
                                         <constraint firstAttribute="width" secondItem="L6t-3z-PO7" secondAttribute="height" multiplier="1:1" id="cGH-uf-gMi"/>
@@ -473,7 +473,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ziz-OH-z1c">
-                                    <rect key="frame" x="245" y="170" width="40" height="40"/>
+                                    <rect key="frame" x="261.66666666666669" y="203" width="40" height="40"/>
                                     <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="40" id="8u3-AJ-Hnc"/>
@@ -489,10 +489,11 @@
                                     </connections>
                                 </button>
                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HPJ-ZZ-0km">
-                                    <rect key="frame" x="120" y="232" width="150" height="33"/>
+                                    <rect key="frame" x="120" y="265" width="150" height="0.0"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="150" id="0Ts-Me-HjI"/>
+                                        <constraint firstAttribute="height" id="TUl-Vr-Iwo"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
                                     <color key="tintColor" systemColor="systemRedColor"/>

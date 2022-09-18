@@ -9,6 +9,13 @@ import Foundation
 
 struct FeederData {
     
+    static var manyPosts: [Post] {
+        var longPosts = [Post]()
+        for _ in 1...100 {
+            longPosts.append(contentsOf: posts)
+        }
+        return longPosts
+    }
     static let posts: [Post] = [
         Post(id: 1,
              title: "That crazy",

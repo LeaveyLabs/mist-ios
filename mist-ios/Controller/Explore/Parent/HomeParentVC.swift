@@ -118,7 +118,7 @@ class HomeExploreParentViewController: ExploreParentViewController {
             do {
                 try await PostService.singleton.loadExploreFeedPostsIfPossible()
                 DispatchQueue.main.async { [self] in
-                    renderNewPostsOnMap(withType: .addMore)
+                    renderNewPostsOnFeed(withType: .addMore)
                     isFetchingMorePosts = false
                 }
             } catch {

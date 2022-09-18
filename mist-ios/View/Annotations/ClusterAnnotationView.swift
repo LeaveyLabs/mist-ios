@@ -73,7 +73,7 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
             currentlyVisiblePostIndex = nil
             Task {
                 sortedMemberPosts = sortMemberPosts(from: newCluster.memberAnnotations)
-                newCluster.updateClusterTitle(newTitle: sortedMemberPosts.first!.title)
+                newCluster.updateClusterTitle(newTitle: sortedMemberPosts.first?.title)
             }
         }
     }

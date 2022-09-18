@@ -271,10 +271,14 @@ class UpdateProfileSettingViewController: UITableViewController {
     //MARK: - Helpers
     
     func validateInput() {
-        let isNewName = firstName.count > 0 && lastName.count > 0 && (firstName != UserService.singleton.getFirstName() || lastName != UserService.singleton.getLastName())
-        let isNewUsername = Validate.validateUsername(username) && username != UserService.singleton.getUsername()
+        let isValidName = firstName.count > 0 && lastName.count > 0
+        let isValidUsername = Validate.validateUsername(username)
+        
         let isNewPic = profilePic != UserService.singleton.getProfilePic()
-        let isValid = isNewPic || isNewName || isNewUsername
+        let isNewName = (firstName != UserService.singleton.getFirstName() || lastName != UserService.singleton.getLastName())
+        let isNewUsername = username != UserService.singleton.getUsername()
+        
+        let isValid = isValidName && isValidUsername && (isNewName || isNewUsername || isNewPic)
         saveButton.isEnabled = isValid
     }
     

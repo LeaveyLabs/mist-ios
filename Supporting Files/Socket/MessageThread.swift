@@ -111,7 +111,7 @@ class MessageThread: WebSocketDelegate {
     func didReceive(event: WebSocketEvent, client: WebSocketClient) {
         switch event {
             case .connected(let headers):
-                print("websocket is connected: \(headers)")
+//                print("websocket is connected: \(headers)")
                 self.connected = true
                 self.connection_in_progress = false
                 self.socket.write(data: init_data)
@@ -132,7 +132,7 @@ class MessageThread: WebSocketDelegate {
                 }
                 print("websocket is disconnected: \(reason) with code: \(code)")
             case .text(let string):
-                print("Received text: \(string)")
+//                print("Received text: \(string)")
                 Task {
                     do {
                         let new_message = try JSONDecoder().decode(Message.self, from: string.data(using: .utf8)!)

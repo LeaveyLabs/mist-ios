@@ -11,7 +11,7 @@ import MapKit
 
 extension MKClusterAnnotation {
     
-    func updateClusterTitle(newTitle: String) {
+    func updateClusterTitle(newTitle: String?) {
         title = newTitle
         subtitle = ""
     }
