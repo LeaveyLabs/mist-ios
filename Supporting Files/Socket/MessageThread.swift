@@ -55,6 +55,11 @@ class MessageThread: WebSocketDelegate {
 //        }
     }
     
+    func refreshSocketStatus() {
+        guard socket != nil, connected else { return }
+        socket.write(ping: Data())
+    }
+    
     deinit {
         self.socket.disconnect()
     }
