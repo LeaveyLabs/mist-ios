@@ -126,6 +126,12 @@ class MessageThread: WebSocketDelegate {
             case .disconnected(let reason, let code):
                 self.connected = false
                 self.connection_in_progress = false
+                Task {
+                    while(!self.connected && !self.connection_in_progress) {
+                        connect()
+                        sleep(5)
+                    }
+                }
                 print("websocket is disconnected: \(reason) with code: \(code)")
             case .text(let string):
                 print("Received text: \(string)")
