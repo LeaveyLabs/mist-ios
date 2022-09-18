@@ -114,7 +114,6 @@ class ConversationService: NSObject {
         
         //ONLY LOAD IN PROFILE PICS IF THEY ARE NOT HIDDEN
         //if we have a match request from them, load their profile pic in
-        //TODO: we need to make sure we load in profile pics on new match requests
         let userIdsToFetchProfilesFor = frontendUsers.filter {
             MatchRequestService.singleton.hasReceivedMatchRequestFrom($0.key)
         }
