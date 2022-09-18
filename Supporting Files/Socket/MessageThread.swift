@@ -127,8 +127,10 @@ class MessageThread: WebSocketDelegate {
                 self.connected = false
                 self.connection_in_progress = false
                 Task {
-                    while(!self.connected && !self.connection_in_progress) {
+                    while(!self.connected) {
+                        self.connection_in_progress = true
                         connect()
+                        self.connection_in_progress = false
                         sleep(5)
                     }
                 }
