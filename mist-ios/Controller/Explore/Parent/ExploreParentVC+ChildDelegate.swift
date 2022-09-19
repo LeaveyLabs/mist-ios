@@ -153,8 +153,8 @@ extension ExploreParentViewController: PostDelegate {
     }
     
     func handleDeletePost(postId: Int) {
-        renderNewPostsOnFeed(withType: .addMore)
-        renderNewPostsOnMap(withType: .addMore)
+        renderNewPostsOnFeed(withType: .firstLoad)
+        renderNewPostsOnMap(withType: .firstLoad)
     }
     
     //MARK: - React interaction

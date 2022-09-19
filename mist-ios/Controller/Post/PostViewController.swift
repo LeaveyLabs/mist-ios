@@ -186,6 +186,7 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         tableView.addGestureRecognizer(tableViewTap)
         
         tableView.tableFooterView = activityIndicator
+        tableView.showsVerticalScrollIndicator = true
     }
     
     func setupCommentInputBar() {

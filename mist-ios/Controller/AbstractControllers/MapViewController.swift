@@ -51,7 +51,7 @@ class MapViewController: UIViewController {
     let locationManager = CLLocationManager()
     
     // Camera
-    static let STARTING_ZOOM_DISTANCE: Double = 3000
+    static let STARTING_ZOOM_DISTANCE: Double = 5000
     static let MIN_CAMERA_DISTANCE: Double = 500
     var maxCameraPitch: Double = 20
 //    static let MIN_CAMERA_PITCH: Double = 0 //not implemented yet

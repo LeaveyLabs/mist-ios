@@ -89,8 +89,9 @@ class PinSearchViewController: UIViewController {
         notchHandleView.layer.cornerRadius = 2
     }
 
+    
     func setupSearchBar() {
-        searchBar.placeholder = MapSearchResultType.randomPlaceholder()
+        searchBar.placeholder = Constants.searchPlaceholder
         searchBar.setValue("cancel", forKey: "cancelButtonText")
         searchBar.delegate = self // Monitor when the search button is tapped.
         searchBar.tintColor = cornerButtonGrey
@@ -144,7 +145,7 @@ extension PinSearchViewController: UISearchBarDelegate {
             tableView.reloadData()
             return
         }
-        searchBar.placeholder = MapSearchResultType.randomPlaceholder()
+        searchBar.placeholder = Constants.searchPlaceholder
         startNearbySearch(with: searchString)
     }
     

@@ -137,15 +137,14 @@ class PostService: NSObject {
         } else {
             explorePostFilter.searchedMapRegions[plane] = [region]
         }
-                
-        allExploreMapPostIds.append(contentsOf: newExploreMapPostIds)
-        newExploreMapPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts).filter {
-            !allExploreMapPostIds.contains($0)
-        }
+        
+        let uniqueNewPosts = loadedPosts.filter { !allExploreMapPostIds.contains($0.id) }
+        allExploreMapPostIds.append(contentsOf: uniqueNewPosts.map { $0.id })
+        newExploreMapPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: uniqueNewPosts)
     }
     
     func loadSubmissions() async throws {
-        let submissions = try await PostAPI.fetchPostsByAuthor(userId: UserService.singleton.getId())
+        let submissions = try await PostAPI.fetchSubmittedPosts()
         await submissionPostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: submissions)
     }
     
@@ -157,7 +156,12 @@ class PostService: NSObject {
     //Called by FavoriteService after favorites are loaded in
     func loadFavorites(favoritedPostIds: [Int]) async throws {
         guard !favoritedPostIds.isEmpty else { return }
-        favoritePostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchPostsByIds(ids: favoritedPostIds))
+        
+//        TODO: factor out favoritedPostids
+        let favorites = try await PostAPI.fetchFavoritedPosts()
+        favoritePostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: favorites)
+//        favoritePostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: try await PostAPI.fetchPostsByIds(ids: favoritedPostIds))
+        
     }
     
     //Called by ConversationService after conversations are loaded in
@@ -227,6 +231,19 @@ class PostService: NSObject {
     }
     
     //MARK: - Explore Filter
+    
+    func resetEverything() {
+        resetFilter()
+        
+        cachedPosts = [:]
+        allExploreMapPostIds = [Int]()
+        newExploreMapPostIds = [Int]()
+        exploreFeedPostIds = [Int]()
+        conversationPostIds = [Int]()
+        submissionPostIds = [Int]()
+        favoritePostIds = [Int]()
+        mentionPostIds = [Int]()
+    }
     
     func resetFilter() {
         explorePostFilter = PostFilter()

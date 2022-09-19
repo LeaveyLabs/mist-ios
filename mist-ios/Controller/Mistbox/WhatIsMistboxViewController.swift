@@ -122,7 +122,7 @@ extension WhatIsMistboxViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: LargeImageAndButtonCollectionCell.self), for: indexPath) as! LargeImageAndButtonCollectionCell
-        cell.setup(image: images[indexPath.section], delegate: self, index: indexPath.section, isLastIndex: indexPath.section == 3, continueButtonTitle: MistboxManager.shared.hasUserActivatedMistbox ? "got it" : "get started")
+        cell.setup(image: images[indexPath.section], delegate: self, index: indexPath.section, lastIndex: 3, continueButtonTitle: MistboxManager.shared.hasUserActivatedMistbox ? "got it" : "get started")
         return cell
     }
     

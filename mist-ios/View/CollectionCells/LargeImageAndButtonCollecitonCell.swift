@@ -11,7 +11,8 @@ class LargeImageAndButtonCollectionCell: UICollectionViewCell {
     
     let imageView = UIImageView()
     var guidelinesDelegate: LargeImageCollectionCellDelegate!
-    var hasSetupCloseButton = false
+    let closeButton = UIButton()
+    var lastIndex: Int!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,18 +28,20 @@ class LargeImageAndButtonCollectionCell: UICollectionViewCell {
         ])
     }
     
-    func setup(image: UIImage, delegate: LargeImageCollectionCellDelegate, index: Int, isLastIndex: Bool, continueButtonTitle: String) {
+    func setup(image: UIImage, delegate: LargeImageCollectionCellDelegate, index: Int, lastIndex: Int, continueButtonTitle: String) {
+        setupCloseButton(continueButtonTitle: continueButtonTitle)
         imageView.image = image
+        self.lastIndex = lastIndex
         self.guidelinesDelegate = delegate
-        if isLastIndex && !hasSetupCloseButton {
-            setupCloseButton(continueButtonTitle: continueButtonTitle)
-            hasSetupCloseButton = true
+        if lastIndex == index {
+            closeButton.isHidden = false
+        } else {
+            closeButton.isHidden = true
         }
     }
     
     func setupCloseButton(continueButtonTitle: String) {
         let attributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Heavy, size: 20)!]
-        let closeButton = UIButton()
         closeButton.roundCornersViaCornerRadius(radius: 10)
         closeButton.clipsToBounds = true
         closeButton.setAttributedTitle(NSAttributedString(string: continueButtonTitle, attributes: attributes), for: .normal)

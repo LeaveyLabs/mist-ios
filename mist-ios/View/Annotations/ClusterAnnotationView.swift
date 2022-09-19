@@ -61,6 +61,7 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
         }
         return posts
     }
+    var sortMemberPostsTask: Task<Void, Never>?
     
     override var annotation: MKAnnotation? {
         willSet {
@@ -71,9 +72,14 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
             setupMarkerTintColor(newCluster)
             displayPriority = .required
             currentlyVisiblePostIndex = nil
-            Task {
+                    
+            sortMemberPostsTask = Task {
                 sortedMemberPosts = sortMemberPosts(from: newCluster.memberAnnotations)
-                newCluster.updateClusterTitle(newTitle: sortedMemberPosts.first?.title)
+                //on main thread:
+                DispatchQueue.main.async {
+                    newCluster.updateClusterTitle(newTitle: self.sortedMemberPosts.first?.title)
+                    return
+                }
             }
         }
     }
@@ -160,68 +166,77 @@ extension ClusterAnnotationView {
                             withDelay delay: Double,
                             withDuration duration: Double,
                             swipeDelegate: AnnotationViewSwipeDelegate, selectionType: AnnotationSelectionType) {
-        collectionView = PostCollectionView(centeredCollectionViewFlowLayout: centeredCollectionViewFlowLayout)
-        guard let collectionView = collectionView else { return }
-        self.postDelegate = postDelegate
-        self.swipeDelegate = swipeDelegate
+        Task {
+            print("AWAITING TASK")
+            guard let task = sortMemberPostsTask else { return }
+            await task.value
+            print("MEMBER COUNT", sortedMemberPosts.count)
+            guard sortedMemberPosts.count > 0 else { return }
+            DispatchQueue.main.async { [self] in
+                collectionView = PostCollectionView(centeredCollectionViewFlowLayout: centeredCollectionViewFlowLayout)
+                guard let collectionView = collectionView else { return }
+                self.postDelegate = postDelegate
+                self.swipeDelegate = swipeDelegate
 
-        collectionView.backgroundColor = UIColor.clear
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.clipsToBounds = false
-        addSubview(collectionView)
+                collectionView.backgroundColor = UIColor.clear
+                collectionView.delegate = self
+                collectionView.dataSource = self
+                collectionView.translatesAutoresizingMaskIntoConstraints = false
+                collectionView.clipsToBounds = false
+                addSubview(collectionView)
 
-        // register collection cells
-        collectionView.register( ClusterCarouselCell.self, forCellWithReuseIdentifier: String(describing: ClusterCarouselCell.self))
+                // register collection cells
+                collectionView.register( ClusterCarouselCell.self, forCellWithReuseIdentifier: String(describing: ClusterCarouselCell.self))
 
-        // configure layout
-        centeredCollectionViewFlowLayout.itemSize = CGSize(
-            width: POST_VIEW_WIDTH,
-            height: POST_VIEW_MAX_HEIGHT - 20
-        )
-        centeredCollectionViewFlowLayout.minimumLineSpacing = 16
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.showsHorizontalScrollIndicator = false
-        
-        //SHOOOOTTTT: okay i got an error for constraining collectionView's width to the mapview because collection view (and its parent) werent a part of the mapview yet. so the annotation was clicked on too soon before it was even properly added to the map view
-        NSLayoutConstraint.activate([
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -60),
-            collectionView.widthAnchor.constraint(equalToConstant: MAP_VIEW_WIDTH),
-            collectionView.heightAnchor.constraint(equalToConstant: POST_VIEW_MAX_HEIGHT + 15), //15 for the bottom arrow
-            collectionView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
-        ])
-        
-        if selectionType == .swipeLeft {
-            currentlyVisiblePostIndex = 0
-        } else if selectionType == .swipeRight {
-            currentlyVisiblePostIndex = memberCount - 1
-        } else if let previouslyVisiblePostIndex = currentlyVisiblePostIndex {
-            currentlyVisiblePostIndex = previouslyVisiblePostIndex
-            if previouslyVisiblePostIndex > memberCount - 1 {
-                currentlyVisiblePostIndex = memberCount - 1
-            }
-        } else {
-            currentlyVisiblePostIndex = 0
-        }
-        
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
-        longPress.minimumPressDuration = 0.2 //in order to prevent long presses from falling through to the map behind
-        self.addGestureRecognizer(longPress)
-        longPress.require(toFail: collectionView.panGestureRecognizer) //so that long pressing on the post doesnt prevent the pan
+                // configure layout
+                centeredCollectionViewFlowLayout.itemSize = CGSize(
+                    width: POST_VIEW_WIDTH,
+                    height: POST_VIEW_MAX_HEIGHT - 20
+                )
+                centeredCollectionViewFlowLayout.minimumLineSpacing = 16
+                collectionView.showsVerticalScrollIndicator = false
+                collectionView.showsHorizontalScrollIndicator = false
                 
-        if duration != 0 { //produces an error on the very first selection sometimes
-            collectionView.layoutIfNeeded()
-            if memberCount > 0  {
-                collectionView.scrollToItem(at: IndexPath(item: currentlyVisiblePostIndex!, section: 0), at: .centeredHorizontally, animated: false)
-            } //on initial app launch & auto selecting an annotation, sometimes the cluster has no member counts when it is selected
+                //SHOOOOTTTT: okay i got an error for constraining collectionView's width to the mapview because collection view (and its parent) werent a part of the mapview yet. so the annotation was clicked on too soon before it was even properly added to the map view
+                NSLayoutConstraint.activate([
+                    collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -60),
+                    collectionView.widthAnchor.constraint(equalToConstant: MAP_VIEW_WIDTH),
+                    collectionView.heightAnchor.constraint(equalToConstant: POST_VIEW_MAX_HEIGHT + 15), //15 for the bottom arrow
+                    collectionView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
+                ])
+                
+                if selectionType == .swipeLeft {
+                    currentlyVisiblePostIndex = 0
+                } else if selectionType == .swipeRight {
+                    currentlyVisiblePostIndex = memberCount - 1
+                } else if let previouslyVisiblePostIndex = currentlyVisiblePostIndex {
+                    currentlyVisiblePostIndex = previouslyVisiblePostIndex
+                    if previouslyVisiblePostIndex > memberCount - 1 {
+                        currentlyVisiblePostIndex = memberCount - 1
+                    }
+                } else {
+                    currentlyVisiblePostIndex = 0
+                }
+                
+                let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
+                longPress.minimumPressDuration = 0.2 //in order to prevent long presses from falling through to the map behind
+                self.addGestureRecognizer(longPress)
+                longPress.require(toFail: collectionView.panGestureRecognizer) //so that long pressing on the post doesnt prevent the pan
+                        
+                if duration != 0 { //produces an error on the very first selection sometimes
+                    if memberCount > 0  {
+                        collectionView.layoutIfNeeded()
+                        collectionView.scrollToItem(at: IndexPath(item: currentlyVisiblePostIndex!, section: 0), at: .centeredHorizontally, animated: false)
+                    } //on initial app launch & auto selecting an annotation, sometimes the cluster has no member counts when it is selected
+                }
+                if sortedMemberPosts.isEmpty { //another check which should only really be useful on the very first selection. sometimes the Task to sort memberposts hasnt finished by now
+                    sortedMemberPosts = sortMemberPosts(from: (annotation as! MKClusterAnnotation).memberAnnotations)
+                }
+                collectionView.alpha = 0
+                collectionView.isHidden = true
+                collectionView.fadeIn(duration: duration, delay: delay - 0.3)
+            }
         }
-        if sortedMemberPosts.isEmpty { //another check which should only really be useful on the very first selection. sometimes the Task to sort memberposts hasnt finished by now
-            sortedMemberPosts = sortMemberPosts(from: (annotation as! MKClusterAnnotation).memberAnnotations)
-        }
-        collectionView.alpha = 0
-        collectionView.isHidden = true
-        collectionView.fadeIn(duration: duration, delay: delay - 0.3)
     }
     
     @objc func longPress() {

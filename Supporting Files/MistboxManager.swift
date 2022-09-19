@@ -59,7 +59,7 @@ class MistboxManager: NSObject {
         Task {
             while true {
                 try await fetchSyncedMistbox()
-                try await Task.sleep(nanoseconds: NSEC_PER_SEC * 30)
+                try await Task.sleep(nanoseconds: NSEC_PER_SEC * 15)
             }
         }
     }
@@ -69,7 +69,7 @@ class MistboxManager: NSObject {
     func fetchSyncedMistbox() async throws {
         guard let newMistbox = try await PostAPI.fetchMistbox() else { return }
         let _ = await PostService.singleton.cachePostsAndGetArrayOfPostIdsFrom(posts: newMistbox.posts)
-        
+        print("FETCHED NEW MISTBOX")
         if newMistbox.posts.count > (mistbox?.posts.count ?? 0),
            let tabBarVC = await UIApplication.shared.windows.first?.rootViewController as? SpecialTabBarController,
            await tabBarVC.selectedIndex != 2 {

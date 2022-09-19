@@ -46,7 +46,7 @@ extension SettingsTapDelegate where Self: UIViewController {
     }
     
     func handleShareFeedback(setting: Setting) {
-        let settingsVC = SettingsViewController.create(settings: [.rateMist, .contactUs, .leaveReview], title: setting.displayName)
+        let settingsVC = SettingsViewController.create(settings: [.contactUs, .rateMist, .leaveReview], title: setting.displayName)
         navigationController?.pushViewController(settingsVC, animated: true)
     }
     

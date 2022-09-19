@@ -94,7 +94,7 @@ extension SpecialTabBarController {
     }
     
     func refreshBadgeCount() {
-        mistboxTabBadgeCount = MistboxManager.shared.getMistboxMists().count
+        mistboxTabBadgeCount = MistboxManager.shared.getMistboxMists().count + DeviceService.shared.unreadMentionsCount()
         dmTabBadgeCount = ConversationService.singleton.getUnreadConversations().count
     }
     

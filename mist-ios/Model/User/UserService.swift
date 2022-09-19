@@ -242,6 +242,7 @@ class UserService: NSObject {
                 try await DeviceAPI.disableCurrentDeviceNotificationsForUser(user: authedUser.id)
             }
         }
+        PostService.singleton.resetEverything()
         setGlobalAuthToken(token: "")
         eraseUserFromFilesystem()
         frontendCompleteUser = nil

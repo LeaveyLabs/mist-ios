@@ -36,6 +36,8 @@ struct Constants {
         
     static let maxPasswordLength = 1000
     
+    static let searchPlaceholder = "search a place or address"
+    
     struct Coordinates {
         static let USC = CLLocationCoordinate2D(latitude: 34.0209 + 0.0019, longitude: -118.2861)
     }

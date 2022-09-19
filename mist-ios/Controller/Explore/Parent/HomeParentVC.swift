@@ -34,10 +34,10 @@ class HomeExploreParentViewController: ExploreParentViewController {
     }
     
     func setupTabBar() {
-        guard let tabBarVC = tabBarController as? SpecialTabBarController else { return }
-        if MistboxManager.shared.getMistboxMists().count > 0 || DeviceService.shared.unreadMentionsCount() > 0 {
-            tabBarVC.selectedIndex = 1
-        }
+//        guard let tabBarVC = tabBarController as? SpecialTabBarController else { return }
+//        if MistboxManager.shared.getMistboxMists().count > 0 || DeviceService.shared.unreadMentionsCount() > 0 {
+//            tabBarVC.selectedIndex = 1
+//        }
     }
     
     func setupActiveLabel() {
@@ -73,7 +73,6 @@ class HomeExploreParentViewController: ExploreParentViewController {
         //then select post nearest to you
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in//waiting .1 seconds because otherwise the cluster annotation isn't found sometimes
             let firstAnnotation: MKAnnotation = exploreMapVC.mapView.greatestClusterContaining(firstPostAnnotation) ?? firstPostAnnotation
-            print(firstAnnotation, firstPostAnnotation)
             self.exploreMapVC.mapView.selectAnnotation(firstAnnotation, animated: true)
         }
         
