@@ -36,6 +36,7 @@ class EnvelopeView: UIView {
     
     var postId: Int!
     var delegate: MistboxCellDelegate!
+    var isAnimating = false
     
     var rect: CGRect!
     
@@ -59,7 +60,7 @@ class EnvelopeView: UIView {
         super.init(coder: coder)
         customInit()
     }
-    
+        
     private func customInit() {
         guard let contentView = loadViewFromNib(nibName: "EnvelopeView") else { return }
         contentView.frame = self.bounds
@@ -107,23 +108,22 @@ class EnvelopeView: UIView {
     //MARK: - User Interaction
     
     @IBAction func openButtonDidTapped(_ sender: UIButton) {
+        guard !isAnimating else { return }
+        isAnimating = true
         if let remainingOpens = MistboxManager.shared.getRemainingOpens(),
            remainingOpens == 0 {
             CustomSwiftMessages.showNoMoreOpensMessage()
         } else {
-            openButton.isEnabled = false
-            skipButton.isEnabled = false
             finishSwiping(.up)
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in //just in case the envelope doesnt get rerendered properly for some unknown reason
-            self?.openButton.isEnabled = true
-            self?.skipButton.isEnabled = true
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+//            self.isAnimating = false
+//        }
     }
     
     @IBAction func skipButtonDidtapped(_ sender: UIButton) {
-        openButton.isEnabled = false
-        skipButton.isEnabled = false
+        guard !isAnimating else { return }
+        isAnimating = true
         delegate.didSkipMist(postId: postId)
     }
     
@@ -142,6 +142,7 @@ extension EnvelopeView {
         rerenderOpenCount()
         self.titleShadowView.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by:0)
         layoutIfNeeded()
+        isAnimating = false
 //        panGesture.addTarget(self, action: #selector(handlePan(gestureRecognizer:)))
 //        mask(titleLabel, maskRect: CGRect(x: titleLabel.center.x, y: titleLabel.center.y, width: titleLabel.frame.width + 10, height: titleLabel.frame.height + 50))
         // Cuts 20pt borders around the view, keeping part inside rect intact

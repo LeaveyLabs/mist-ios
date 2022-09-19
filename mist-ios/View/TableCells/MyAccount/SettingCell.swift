@@ -36,7 +36,6 @@ class SettingCell: UITableViewCell {
         case .friends, .avatar, .myProfile:
             break
         case .mentions:
-            print("unread count", DeviceService.shared.unreadMentionsCount())
             if DeviceService.shared.unreadMentionsCount() > 0 {
                 accessoryIndicatorBackgroundView.roundCornersViaCornerRadius(radius: 12.5)
                 accessoryIndicatorBackgroundView.isHidden = false
@@ -48,7 +47,6 @@ class SettingCell: UITableViewCell {
             }
             accessoryLabel.font = UIFont(name: Constants.Font.Medium, size: 15)
         case .submissions:
-            print("SERTTING TEXT TO:", PostService.singleton.getSubmissions().count)
             accessoryLabel.text = String(PostService.singleton.getSubmissions().count)
             accessoryLabel.font = UIFont(name: Constants.Font.Medium, size: 15)
         case .favorites:

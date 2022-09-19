@@ -46,7 +46,7 @@ func isUpdateAvailable(completion: @escaping (Bool?, Error?) -> Void) throws -> 
         let url = URL(string: "https://itunes.apple.com/lookup?bundleId=\(identifier)") else {
             throw VersionError.invalidBundleInfo
     }
-    let request = URLRequest(url: url, cachePolicy: URLRequest.CachePolicy.reloadIgnoringLocalCacheData) //ignore local cache of old version
+    let request = URLRequest(url: url, cachePolicy: URLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData) //ignore local cache of old version
     let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
         do {
             if let error = error { throw error }
@@ -55,6 +55,7 @@ func isUpdateAvailable(completion: @escaping (Bool?, Error?) -> Void) throws -> 
             guard let result = (json?["results"] as? [Any])?.first as? [String: Any], let newestVersion = result["version"] as? String else {
                 throw VersionError.invalidResponse
             }
+            print("VERSIONN", newestVersion, currentVersion)
             let currentComponents: [Int] = currentVersion.components(separatedBy: ".").compactMap { Int($0) }
             let newestComponents: [Int] = newestVersion.components(separatedBy: ".").compactMap { Int($0) }
             guard currentComponents.count == 3, newestComponents.count == 3 else { return }

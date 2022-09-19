@@ -77,9 +77,7 @@ class MistboxViewController: UIViewController {
             updateCenteredPageAndReloadVisibleIndexLabel()
             updateUI()
         }
-        if let tabVC = UIApplication.shared.windows.first?.rootViewController as? SpecialTabBarController {
-            tabVC.refreshBadgeCount()
-        }
+        (tabBarController as? SpecialTabBarController)?.refreshBadgeCount()
         let prevCount = navBar.accountBadgeHub.getCurrentCount()
         navBar.accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
         if prevCount < DeviceService.shared.unreadMentionsCount() {
@@ -217,7 +215,9 @@ class MistboxViewController: UIViewController {
         keywordsBackgroundView.isHidden = false
         collectionView.isHidden = false
         titleButton.isHidden = false
+        titleButton.alpha = 1
         visibleIndexLabel.isHidden = false
+        visibleIndexLabel.alpha = 1
     }
         
     func setupWelcomeLayout() {
@@ -342,7 +342,7 @@ extension MistboxViewController: MistboxCellDelegate {
             self.isPostPushed = false
             
             if MistboxManager.shared.getRemainingOpens() == 3 {
-                DispatchQueue.main.asyncAfter(deadline: .now() + (MistboxManager.shared.getMistboxMists().count == 0 ? 1 : 0.65)) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                     AppStoreReviewManager.requestReviewIfAppropriate()
                     AppStoreReviewManager.offerViewPromptUponUserRequest()
                 }
@@ -370,6 +370,7 @@ extension MistboxViewController: MistboxCellDelegate {
         collectionView.performBatchUpdates({
             self.collectionView.deleteItems(at:[IndexPath(item: postIndex, section: 0)])
         }) { completed in
+            (self.tabBarController as? SpecialTabBarController)?.refreshBadgeCount()
             guard !MistboxManager.shared.getMistboxMists().isEmpty else {
                 DispatchQueue.main.asyncAfter(deadline: .now()) { [self] in
                     self.updateUI()

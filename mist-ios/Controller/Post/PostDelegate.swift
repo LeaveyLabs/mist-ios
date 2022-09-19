@@ -54,26 +54,25 @@ extension PostDelegate where Self: UIViewController {
             if let frontendAuthor = await UsersService.singleton.getPotentiallyCachedUser(userId: authorId) {
                 goToChat(postId: postId, postAuthor: frontendAuthor, postTitle: title)
             } else {
-                let author = try await UserAPI.fetchUserByUserId(userId: authorId)
-                await reloadAuthorProfilePic(postId: postId, author: author, dmButton: dmButton, title: title)
+                do {
+                    let author = try await UserAPI.fetchUserByUserId(userId: authorId)
+                    try await reloadAuthorProfilePic(postId: postId, author: author, dmButton: dmButton, title: title)
+                } catch {
+                    DispatchQueue.main.async {
+                        dmButton.loadingIndicator(false)
+                        CustomSwiftMessages.displayError(error)
+                    }
+                }
             }
         }
     }
     
-    func reloadAuthorProfilePic(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String) async {
+    func reloadAuthorProfilePic(postId: Int, author: ReadOnlyUser, dmButton: UIButton, title: String) async throws {
         await dmButton.loadingIndicator(true)
-        do {
-            let reloadedAuthor = try await UsersService.singleton.loadAndCacheUser(user: author)
-            DispatchQueue.main.async { [weak self] in
-                dmButton.loadingIndicator(false)
-                self?.goToChat(postId: postId, postAuthor: reloadedAuthor, postTitle: title)
-            }
-        } catch {
-            DispatchQueue.main.async {
-                dmButton.loadingIndicator(false)
-                CustomSwiftMessages.displayError("something went wrong",
-                                                 "try again later")
-            }
+        let reloadedAuthor = try await UsersService.singleton.loadAndCacheUser(user: author)
+        DispatchQueue.main.async { [weak self] in
+            dmButton.loadingIndicator(false)
+            self?.goToChat(postId: postId, postAuthor: reloadedAuthor, postTitle: title)
         }
     }
     

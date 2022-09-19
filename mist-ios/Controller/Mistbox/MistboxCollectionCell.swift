@@ -34,6 +34,10 @@ class MistboxCollectionCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        envelopeView.isAnimating = false
+    }
+    
     func configureForPost(post: Post, delegate: MistboxCellDelegate, panGesture: UIPanGestureRecognizer) {
         envelopeView.configureForPost(post: post, delegate: delegate, panGesture: panGesture)
     }

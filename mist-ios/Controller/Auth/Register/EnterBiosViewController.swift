@@ -162,7 +162,7 @@ class EnterBiosViewController: KUIViewController, UITextFieldDelegate {
     }
 
     @IBAction func whyWeAskDidTapped(_ sender: UIButton) {
-        CustomSwiftMessages.showInfoCentered("why we ask about age", "in order to follow legal guidelines for platforms with user-generated content, we must ensure all account holders are above their country's minimum age requirement.", emoji: "")
+        CustomSwiftMessages.showInfoCentered("why we ask about age", "in order to follow legal guidelines for platforms with user-generated content, apple requires us to ensure all account holders are above their country's minimum age requirement", emoji: "")
     }
     
     //MARK: - TextField Delegate

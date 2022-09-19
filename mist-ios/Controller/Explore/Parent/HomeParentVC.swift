@@ -16,11 +16,11 @@ class HomeExploreParentViewController: ExploreParentViewController {
     var isHandlingNewPost = false
     var isFetchingMorePosts: Bool = false
     lazy var firstPostAnnotation: PostAnnotation = {
-        if let userCenter = exploreMapVC.locationManager.location {
-            return exploreMapVC.postAnnotations.sorted(by: { $0.coordinate.distanceInKilometers(from: userCenter.coordinate) < $1.coordinate.distanceInKilometers(from: userCenter.coordinate) } ).first!
-        } else {
+//        if let userCenter = exploreMapVC.locationManager.location {
+//            return exploreMapVC.postAnnotations.sorted(by: { $0.coordinate.distanceInKilometers(from: userCenter.coordinate) < $1.coordinate.distanceInKilometers(from: userCenter.coordinate) } ).first!
+//        } else {
             return exploreMapVC.postAnnotations.randomElement()!
-        }
+//        }
     }()
     
     //MARK: - Lifecycle
@@ -85,7 +85,7 @@ class HomeExploreParentViewController: ExploreParentViewController {
             }
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             UIView.animate(withDuration: 1, delay: 0, options: .curveLinear) {
                 self.exploreMapVC.trojansActiveView.alpha = 0
             } completion: { completed in
