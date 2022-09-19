@@ -34,7 +34,7 @@ class UserService: NSObject {
     private let LOCAL_FILE_APPENDING_PATH = "myaccount.json"
     private var localFileLocation: URL!
     
-    private var SLEEP_INTERVAL:UInt32 = 120
+    private var SLEEP_INTERVAL:UInt32 = 30
     
     // Called on startup so that the singleton is created and isLoggedIn is properly initialized
     var isLoggedIntoAnAccount: Bool { //"is there a frontendCompleteUser which represents them?"
@@ -332,10 +332,10 @@ class UserService: NSObject {
     
     func waitAndRegisterDeviceToken(id:Int) async throws {
         while true {
-            try await Task.sleep(nanoseconds: NSEC_PER_SEC * UInt64(SLEEP_INTERVAL))
             if getGlobalDeviceToken() != "" && getGlobalAuthToken() != "" {
                 try await DeviceAPI.registerCurrentDeviceWithUser(user: id)
             }
+            try await Task.sleep(nanoseconds: NSEC_PER_SEC * UInt64(SLEEP_INTERVAL))
         }
     }
 }
