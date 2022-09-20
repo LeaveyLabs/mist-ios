@@ -9,7 +9,7 @@ import UIKit
 import Contacts
 import InputBarAccessoryView //dependency of MessageKit. If we remove MessageKit, we should install this package independently
 
-let COMMENT_PLACEHOLDER_TEXT = "comment & tag friends"
+let COMMENT_PLACEHOLDER_TEXT = "comment & tag your contacts"
 typealias PostCompletionHandler = (() -> Void)
 
 extension AutocompleteManagerDelegate {
@@ -146,26 +146,30 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     
     let navBarFavoriteButton = UIButton()
     func setupNavBar() {
-        if fromMistbox { //instead of if fromMistbox
-            navBarFavoriteButton.tintColor = .black
-            navBarFavoriteButton.setImage(UIImage(systemName: "bookmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .default))!, for: .normal)
-            navBarFavoriteButton.setImage(UIImage(systemName: "bookmark.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .default))!, for: .selected)
-            navBarFavoriteButton.isSelected = FavoriteService.singleton.hasFavoritedPost(post.id)
-            navBarFavoriteButton.addTarget(self, action: #selector(handleFavoriteButtonInTopCorner), for: .touchUpInside)
-            navBar.addSubview(navBarFavoriteButton)
-            navBarFavoriteButton.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                navBarFavoriteButton.topAnchor.constraint(equalTo: navBar.topAnchor, constant: 15),
-                navBarFavoriteButton.widthAnchor.constraint(equalToConstant: 25),
-                navBarFavoriteButton.heightAnchor.constraint(equalToConstant: 27),
-                navBarFavoriteButton.rightAnchor.constraint(equalTo: navBar.rightAnchor, constant: -20),
-            ])
+        if true { //fromMistbox { 
+            setupNavFavoriteButton()
         }
         navBar.configure(title: "", leftItems: [.back], rightItems: [])
         navBar.backButton.addTarget(self, action: #selector(didPressBack), for: .touchUpInside)
         navBar.applyVeryLightBottomOnlyShadow()
         //        navBar.layer.shadowOpacity = 0
         tableView.tableHeaderView = UIView(frame: .init(x: 0, y: 0, width: view.bounds.width, height: 10))
+    }
+    
+    func setupNavFavoriteButton() {
+        navBarFavoriteButton.tintColor = .black
+        navBarFavoriteButton.setImage(UIImage(systemName: "bookmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .default))!, for: .normal)
+        navBarFavoriteButton.setImage(UIImage(systemName: "bookmark.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .default))!, for: .selected)
+        navBarFavoriteButton.isSelected = FavoriteService.singleton.hasFavoritedPost(post.id)
+        navBarFavoriteButton.addTarget(self, action: #selector(handleFavoriteButtonInTopCorner), for: .touchUpInside)
+        navBar.addSubview(navBarFavoriteButton)
+        navBarFavoriteButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            navBarFavoriteButton.topAnchor.constraint(equalTo: navBar.topAnchor, constant: 15),
+            navBarFavoriteButton.widthAnchor.constraint(equalToConstant: 25),
+            navBarFavoriteButton.heightAnchor.constraint(equalToConstant: 27),
+            navBarFavoriteButton.rightAnchor.constraint(equalTo: navBar.rightAnchor, constant: -20),
+        ])
     }
         
     func setupTableView() {
