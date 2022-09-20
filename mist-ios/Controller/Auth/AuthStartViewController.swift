@@ -43,7 +43,6 @@ class AuthStartViewController: UIViewController, UITextViewDelegate {
         loginButton.clipsToBounds = true
         loginButton.setBackgroundImage(UIImage.imageFromColor(color: Constants.Color.mistLilac.withAlphaComponent(0.2)), for: .normal)
         loginButton.setTitleColor(Constants.Color.mistLilac, for: .normal)
-        
     }
     
     func setupAgreementTextView() {

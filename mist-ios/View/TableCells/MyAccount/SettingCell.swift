@@ -58,11 +58,9 @@ class SettingCell: UITableViewCell {
             break
         case .learnMore:
             break
-        case .email:
-            accessoryLabel.text = UserService.singleton.getEmail()
+        case .phoneNumber:
             accessoryImageView.isHidden = true
             selectionStyle = .none
-        case .phoneNumber:
             accessoryLabel.text = UserService.singleton.getPhoneNumberPretty()
         case .deleteAccount:
             break

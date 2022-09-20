@@ -92,9 +92,8 @@ class UserService: NSObject {
     func getFirstName() -> String { return authedUser.first_name }
     func getLastName() -> String { return authedUser.last_name }
     func getFirstLastName() -> String { return authedUser.first_name + " " + authedUser.last_name }
-    func getEmail() -> String { return authedUser.email }
     func getPhoneNumber() -> String? { return authedUser.phone_number }
-    func getPhoneNumberPretty() -> String? { return authedUser.phone_number?.asNationalPhoneNumber }
+    func getPhoneNumberPretty() -> String? { return authedUser.phone_number.asNationalPhoneNumber }
     func getProfilePic() -> UIImage { return authedUser.profilePicWrapper.image }
     func getSilhouette() -> UIImage { return authedUser.silhouette }
     func isSuperuser() -> Bool { return authedUser.is_superuser }
@@ -109,9 +108,7 @@ class UserService: NSObject {
                     firstName: String,
                     lastName: String,
                     profilePic: UIImage,
-                    email: String,
                     phoneNumber: String,
-                    dob: String,
                     accessCode: String?) async throws {
         let newProfilePicWrapper = ProfilePicWrapper(image: profilePic, withCompresssion: true)
         let compressedProfilePic = newProfilePicWrapper.image
@@ -119,9 +116,7 @@ class UserService: NSObject {
                                             first_name: firstName,
                                             last_name: lastName,
                                             picture: compressedProfilePic,
-                                            email: email,
-                                            phone_number: phoneNumber,
-                                            dob: dob)
+                                            phone_number: phoneNumber)
         setGlobalAuthToken(token: token)
         if let accessCode = AuthContext.accessCode {
             await UserService.singleton.tryToEnterAccessCode(accessCode)
@@ -273,23 +268,23 @@ class UserService: NSObject {
     
     func setupFirebaseAnalyticsProperties() {
         //if we decide to use firebase ad support framework in the future, gender, age, and interest will automatically be set
-        guard let age = frontendCompleteUser?.age else { return }
-        var ageBracket = ""
-        if age < 25 {
-            ageBracket = "18-24"
-        } else if age < 35 {
-            ageBracket = "25-35"
-        } else if age < 45 {
-            ageBracket = "35-45"
-        } else if age < 55 {
-            ageBracket = "45-55"
-        } else if age < 65 {
-            ageBracket = "55-65"
-        } else {
-            ageBracket = "65+"
-        }
-        Analytics.setUserProperty(authedUser.sex, forName: "sex")
-        Analytics.setUserProperty(ageBracket, forName: "age")
+//        guard let age = frontendCompleteUser?.age else { return }
+//        var ageBracket = ""
+//        if age < 25 {
+//            ageBracket = "18-24"
+//        } else if age < 35 {
+//            ageBracket = "25-35"
+//        } else if age < 45 {
+//            ageBracket = "35-45"
+//        } else if age < 55 {
+//            ageBracket = "45-55"
+//        } else if age < 65 {
+//            ageBracket = "55-65"
+//        } else {
+//            ageBracket = "65+"
+//        }
+//        Analytics.setUserProperty(authedUser.sex, forName: "sex")
+//        Analytics.setUserProperty(ageBracket, forName: "age")
     }
     
     //MARK: - Filesystem

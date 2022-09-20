@@ -12,7 +12,7 @@ import UIKit
 class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
     
     enum ConfirmMethod: CaseIterable {
-        case signupEmail, signupText, loginText, resetPhoneNumberEmail, resetPhoneNumberText, accessCode, appleLogin
+        case signupText, loginText, accessCode, appleLogin //signupEmail, signupText, loginText, resetPhoneNumberEmail, resetPhoneNumberText, accessCode, appleLogin
     }
     
     enum ResendState {
@@ -73,9 +73,7 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
     class func create(confirmMethod: ConfirmMethod) -> ConfirmCodeViewController {
         let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ConfirmCode) as! ConfirmCodeViewController
         switch confirmMethod {
-        case .signupEmail, .resetPhoneNumberEmail:
-            vc.recipient = AuthContext.email
-        case .signupText, .loginText, .resetPhoneNumberText:
+        case .signupText, .loginText:
             vc.recipient = AuthContext.phoneNumber.asNationalPhoneNumber ?? AuthContext.phoneNumber
         case .accessCode:
             vc.recipient = ""
@@ -261,14 +259,8 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
     
     func resend() async throws {
         switch confirmMethod {
-        case .signupEmail:
-            try await AuthAPI.registerEmail(email: AuthContext.email)
         case .signupText:
-            try await PhoneNumberAPI.registerNewPhoneNumber(email: AuthContext.email, phoneNumber: AuthContext.phoneNumber)
-        case .resetPhoneNumberEmail:
-            try await PhoneNumberAPI.requestResetEmail(email: AuthContext.email)
-        case .resetPhoneNumberText:
-            try await PhoneNumberAPI.requestResetText(email: AuthContext.email, phoneNumber: AuthContext.phoneNumber, resetToken: AuthContext.resetToken)
+            try await PhoneNumberAPI.registerNewPhoneNumber(phoneNumber: AuthContext.phoneNumber)
         case .loginText:
             try await PhoneNumberAPI.requestLoginCode(phoneNumber: AuthContext.phoneNumber)
         case .none, .accessCode, .appleLogin:
@@ -278,14 +270,8 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
     
     func validate(validationCode: String) async throws {
         switch confirmMethod {
-        case .signupEmail:
-            try await AuthAPI.validateEmail(email: AuthContext.email, code: validationCode)
         case .signupText:
             try await PhoneNumberAPI.validateNewPhoneNumber(phoneNumber: AuthContext.phoneNumber, code: validationCode)
-        case .resetPhoneNumberEmail:
-            AuthContext.resetToken = try await PhoneNumberAPI.validateResetEmail(email: AuthContext.email, code: validationCode)
-        case .resetPhoneNumberText:
-            try await PhoneNumberAPI.validateResetText(phoneNumber: AuthContext.phoneNumber, code: validationCode, resetToken: AuthContext.resetToken)
         case .loginText, .appleLogin:
             print(AuthContext.phoneNumber)
             let authToken = try await PhoneNumberAPI.validateLoginCode(phoneNumber: AuthContext.phoneNumber, code: validationCode)
@@ -305,32 +291,16 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
     @MainActor
     func continueToNextScreen() {
         switch confirmMethod {
-        case .signupEmail:
-            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterNumber)
-            self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
-                self?.isSubmitting = false
-            })
         case .signupText:
             let vc = ConfirmCodeViewController.create(confirmMethod: .accessCode)
             self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
                 self?.isSubmitting = false
             })
-        case .resetPhoneNumberEmail:
-            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ResetNumber)
-            self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
-                self?.isSubmitting = false
-            })
-        case .resetPhoneNumberText:
-            CustomSwiftMessages.showInfoCentered("phone number successfully updated", "", emoji: "👍") { [self] in
-                isSubmitting = false
-                navigationController?.dismiss(animated: true)
-                AuthContext.reset()
-            }
         case .loginText, .appleLogin:
             transitionToHomeAndRequestPermissions() { }
             AuthContext.reset()
         case .accessCode:
-            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterBios)
+            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.CreateProfile)
             self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
                 self?.isSubmitting = false
             })

@@ -36,10 +36,10 @@ extension ReadOnlyUserType {
 }
 
 protocol CompleteUserType: ReadOnlyUserType {
-    var email: String { get }
-    var date_of_birth: String { get }
+    var email: String? { get }
+    var date_of_birth: String? { get }
     var sex: String? { get }
-    var phone_number: String? { get }
+    var phone_number: String { get }
 }
 
 //MARK: - Structs
@@ -115,12 +115,12 @@ struct CompleteUser: Codable, CompleteUserType {
     let last_name: String
     let picture: String
     var thumbnail: String
-    let email: String
-    let date_of_birth: String
+    let email: String?
+    let date_of_birth: String?
     let sex: String?
     let latitude: Double?
     let longitude: Double?
-    let phone_number: String?
+    let phone_number: String
     let badges: [String]
     let is_superuser: Bool
     
@@ -137,28 +137,18 @@ struct FrontendCompleteUser: Codable, CompleteUserType, ReadOnlyUserType, Sender
     var last_name: String
     var picture: String
     var thumbnail: String
-    var email: String
-    let date_of_birth: String
+    var email: String?
+    let date_of_birth: String?
     let sex: String?
     let latitude: Double?
     let longitude: Double?
-    let phone_number: String?
+    let phone_number: String
     let badges: [String]
     let is_superuser: Bool
     
     // Complete-only properties
     var profilePicWrapper: ProfilePicWrapper
     var token: String
-    var age: Int? {
-        get {
-            let dateFormatter = DateFormatter()
-            dateFormatter.locale = Locale(identifier: "en_US")
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            guard let birthday = dateFormatter.date(from: date_of_birth) else { return nil }
-            let ageAsElapsedTime = Date().timeIntervalSince1970.getElapsedTime(since: birthday.timeIntervalSince1970)
-            return ageAsElapsedTime.years
-        }
-    }
     
     //MessageKit's SenderType
     var senderId: String { return String(id) }
@@ -188,3 +178,14 @@ struct FrontendCompleteUser: Codable, CompleteUserType, ReadOnlyUserType, Sender
     
     static let nilUser = FrontendCompleteUser(completeUser: CompleteUser(id: 0, username: "", first_name: "", last_name: "", picture: "", thumbnail: "", email: "", date_of_birth: "", sex: "", latitude: 0, longitude: 0, phone_number: "", badges: [], is_superuser: false), profilePicWrapper: ProfilePicWrapper(image: Constants.defaultProfilePic, withCompresssion: false), token: "")
 }
+
+//    var age: Int? {
+//        get {
+//            let dateFormatter = DateFormatter()
+//            dateFormatter.locale = Locale(identifier: "en_US")
+//            dateFormatter.dateFormat = "yyyy-MM-dd"
+//            guard let birthday = dateFormatter.date(from: date_of_birth) else { return nil }
+//            let ageAsElapsedTime = Date().timeIntervalSince1970.getElapsedTime(since: birthday.timeIntervalSince1970)
+//            return ageAsElapsedTime.years
+//        }
+//    }

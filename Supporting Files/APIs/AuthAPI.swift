@@ -164,21 +164,13 @@ class AuthAPI {
                            first_name:String,
                            last_name:String,
                            picture:UIImage?,
-                           email:String,
-                           phone_number:String,
-                           dob: String,
-                           sex:String?=nil) async throws -> String {
+                           phone_number:String) async throws -> String {
         var params:[String:String] = [
             UserAPI.USERNAME_PARAM: username,
             UserAPI.FIRST_NAME_PARAM: first_name,
             UserAPI.LAST_NAME_PARAM: last_name,
-            UserAPI.EMAIL_PARAM: email,
             UserAPI.PHONE_NUMBER_PARAM: phone_number,
-            UserAPI.DATE_OF_BIRTH_PARAM: dob,
         ]
-        if let sex = sex {
-            params[UserAPI.SEX_PARAM] = sex
-        }
         let request = AF.upload(
             multipartFormData:
                 { multipartFormData in
