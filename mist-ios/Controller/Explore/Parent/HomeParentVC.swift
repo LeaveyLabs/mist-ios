@@ -15,11 +15,11 @@ class HomeExploreParentViewController: ExploreParentViewController {
     var firstAppearance = true
     var isHandlingNewPost = false
     var isFetchingMorePosts: Bool = false
-    lazy var firstPostAnnotation: PostAnnotation = {
+    lazy var firstPostAnnotation: PostAnnotation? = {
 //        if let userCenter = exploreMapVC.locationManager.location {
 //            return exploreMapVC.postAnnotations.sorted(by: { $0.coordinate.distanceInKilometers(from: userCenter.coordinate) < $1.coordinate.distanceInKilometers(from: userCenter.coordinate) } ).first!
 //        } else {
-            return exploreMapVC.postAnnotations.randomElement()!
+            return exploreMapVC.postAnnotations.randomElement()
 //        }
     }()
     
@@ -57,6 +57,8 @@ class HomeExploreParentViewController: ExploreParentViewController {
         
         guard isFirstLoad else { return }
         
+        
+        guard let firstPostAnnotation = firstPostAnnotation else { return }
         //set camera first
         let dynamicLatOffset = (exploreMapVC.latitudeOffsetForOneKMDistance / 1000) * self.exploreMapVC.mapView.camera.centerCoordinateDistance
         exploreMapVC.mapView.camera.centerCoordinate = CLLocationCoordinate2D(latitude: firstPostAnnotation.coordinate.latitude + dynamicLatOffset, longitude: firstPostAnnotation.coordinate.longitude)
@@ -69,12 +71,6 @@ class HomeExploreParentViewController: ExploreParentViewController {
         firstAppearance = false
         
         guard !isHandlingNewPost else { return }
-        
-        //then select post nearest to you
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in//waiting .1 seconds because otherwise the cluster annotation isn't found sometimes
-            let firstAnnotation: MKAnnotation = exploreMapVC.mapView.greatestClusterContaining(firstPostAnnotation) ?? firstPostAnnotation
-            self.exploreMapVC.mapView.selectAnnotation(firstAnnotation, animated: true)
-        }
         
         if !DeviceService.shared.hasBeenRequestedLocationOnHome() && (CLLocationManager.authorizationStatus() == .denied ||
             CLLocationManager.authorizationStatus() == .notDetermined) {
@@ -90,6 +86,13 @@ class HomeExploreParentViewController: ExploreParentViewController {
             } completion: { completed in
                 self.exploreMapVC.trojansActiveView.isHidden = true
             }
+        }
+        
+        guard let firstPostAnnotation = firstPostAnnotation else { return }
+        //then select post nearest to you
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in//waiting .1 seconds because otherwise the cluster annotation isn't found sometimes
+            let firstAnnotation: MKAnnotation = exploreMapVC.mapView.greatestClusterContaining(firstPostAnnotation) ?? firstPostAnnotation
+            self.exploreMapVC.mapView.selectAnnotation(firstAnnotation, animated: true)
         }
     }
     
@@ -146,8 +149,8 @@ extension HomeExploreParentViewController {
         exploreFeedVC.feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         
         //Map
-        exploreMapVC.slowFlyWithoutZoomTo(lat: newPostAnnotation.coordinate.latitude, long: newPostAnnotation.coordinate.longitude, withDuration: exploreMapVC.cameraAnimationDuration + 2, withLatitudeOffset: true) { [self] completed in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in //delay prevents cluster annotations from getting immediatley deselected
+        exploreMapVC.slowFlyWithoutZoomTo(lat: newPostAnnotation.coordinate.latitude, long: newPostAnnotation.coordinate.longitude, withDuration: exploreMapVC.cameraAnimationDuration + 1.5, withLatitudeOffset: true) { [self] completed in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [self] in //delay prevents cluster annotations from getting immediatley deselected
                 if !didJustShowNotificaitonsRequest {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
                         AppStoreReviewManager.requestReviewIfAppropriate()

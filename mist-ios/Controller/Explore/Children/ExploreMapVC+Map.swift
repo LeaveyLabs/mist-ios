@@ -211,9 +211,9 @@ extension ExploreMapViewController {
         super.mapViewDidChangeVisibleRegion(mapView)
         
         let zoomWidth = mapView.visibleMapRect.size.width
-        let plane = Int(Double(log10(zoomWidth)) - 9.0 / 4.0 + 1) //range beteween 1 and 4
+        let plane = Int(Double(log10(zoomWidth)) - 9.0 / 4.0 + 1.5) //range beteween 1 and 4
 
-        PostService.singleton.updateFilter(newPlaneAndRegion:( plane, mapView.region))
+        PostService.singleton.updateFilter(newPlaneAndRegion:(plane, mapView.region))
         exploreDelegate.reloadNewMapPostsIfNecessary()
     }
     

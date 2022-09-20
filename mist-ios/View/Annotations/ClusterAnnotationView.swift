@@ -43,26 +43,33 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
     }
     
     var memberCount: Int {
-        return (annotation as! MKClusterAnnotation).memberAnnotations.count
+        guard let cluster = annotation as? MKClusterAnnotation else { return 0 }
+        return cluster.memberAnnotations.count
+    }
+    
+    var memberPostAnnotations: [PostAnnotation]? {
+        return ((annotation as? MKClusterAnnotation)?.memberAnnotations.compactMap { $0 as? PostAnnotation } )
     }
     
     var currentlyVisiblePostIndex: Int?
     
-    var sortedMemberPosts: [Post] = []
+    var localCopyOfAllMapPostIds = [Int]()
+    var sortedMemberPosts = [Post]()
+    
     func sortMemberPosts(from memberAnnotations: [MKAnnotation]) -> [Post] {
-        var posts = [Post]()
-        for explorePost in PostService.singleton.getAllExploreMapPosts() {
+        var sortedPosts = [Post]()
+        for mapPostId in localCopyOfAllMapPostIds {
             for annotation in memberAnnotations {
                 guard let annotationPost = (annotation as? PostAnnotation)?.post else { continue }
-                if annotationPost == explorePost {
-                    posts.append(annotationPost)
+                if annotationPost.id == mapPostId {
+                    sortedPosts.append(annotationPost)
                 }
             }
         }
-        return posts
+        return sortedPosts
     }
     var sortMemberPostsTask: Task<Void, Never>?
-    
+
     override var annotation: MKAnnotation? {
         willSet {
             guard let newCluster = newValue as? MKClusterAnnotation else {
@@ -72,7 +79,8 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
             setupMarkerTintColor(newCluster)
             displayPriority = .required
             currentlyVisiblePostIndex = nil
-                    
+            localCopyOfAllMapPostIds = PostService.singleton.getExploreMapPostsSortedIds()
+                                
             sortMemberPostsTask = Task {
                 sortedMemberPosts = sortMemberPosts(from: newCluster.memberAnnotations)
                 //on main thread:
@@ -100,7 +108,7 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
     
     private func setupMarkerTintColor(_ clusterAnnotation: MKClusterAnnotation?) {
         guard let memberAnnotations: Int = clusterAnnotation?.memberAnnotations.count else { return }
-        let totalNumberOfAnnotationsRendered: Int = mapView?.annotations.count ?? PostService.singleton.getAllExploreMapPosts().count
+        let totalNumberOfAnnotationsRendered: Int = mapView?.annotations.count ?? 100
         let density = Double(memberAnnotations) / Double(totalNumberOfAnnotationsRendered)
         if density < 0.08 {
             markerTintColor = UIColor(hex: "#AE75F7")
@@ -167,10 +175,8 @@ extension ClusterAnnotationView {
                             withDuration duration: Double,
                             swipeDelegate: AnnotationViewSwipeDelegate, selectionType: AnnotationSelectionType) {
         Task {
-            print("AWAITING TASK")
             guard let task = sortMemberPostsTask else { return }
             await task.value
-            print("MEMBER COUNT", sortedMemberPosts.count)
             guard sortedMemberPosts.count > 0 else { return }
             DispatchQueue.main.async { [self] in
                 collectionView = PostCollectionView(centeredCollectionViewFlowLayout: centeredCollectionViewFlowLayout)
@@ -228,9 +234,6 @@ extension ClusterAnnotationView {
                         collectionView.layoutIfNeeded()
                         collectionView.scrollToItem(at: IndexPath(item: currentlyVisiblePostIndex!, section: 0), at: .centeredHorizontally, animated: false)
                     } //on initial app launch & auto selecting an annotation, sometimes the cluster has no member counts when it is selected
-                }
-                if sortedMemberPosts.isEmpty { //another check which should only really be useful on the very first selection. sometimes the Task to sort memberposts hasnt finished by now
-                    sortedMemberPosts = sortMemberPosts(from: (annotation as! MKClusterAnnotation).memberAnnotations)
                 }
                 collectionView.alpha = 0
                 collectionView.isHidden = true
@@ -427,14 +430,15 @@ extension ClusterAnnotationView: UICollectionViewDelegate {
 extension ClusterAnnotationView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return memberCount
+        return sortedMemberPosts.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ClusterCarouselCell.self), for: indexPath) as! ClusterCarouselCell
         guard let postDelegate = postDelegate else { return cell }
         
-        let cachedPost = PostService.singleton.getPost(withPostId: sortedMemberPosts[indexPath.item].id)!
+        let postId = sortedMemberPosts[indexPath.item].id
+        let cachedPost = PostService.singleton.getPost(withPostId: postId)!
         cell.configureForPost(post: cachedPost, nestedPostViewDelegate: postDelegate, bubbleTrianglePosition: .bottom)
         return cell
     }

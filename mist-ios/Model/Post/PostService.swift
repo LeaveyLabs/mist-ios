@@ -19,6 +19,7 @@ class PostService: NSObject {
     private var cachedPosts = [Int: Post]() //[postId: post]
     
     private var allExploreMapPostIds = [Int]()
+    
     private var newExploreMapPostIds = [Int]()
     private var exploreFeedPostIds = [Int]()
     private var conversationPostIds = [Int]()
@@ -32,7 +33,6 @@ class PostService: NSObject {
     //This is probably the way to go down the road (if someone clicks on a post, the screen should immediately open up, and there could be a loading screen for half a second or so until the cache is able to be accessed
     //For now, we'll just use this single cacheQueue so that after loading in posts, cachedPosts is only written to one at a time
     private let cacheQueue = DispatchQueue(label: "cache", qos: .userInitiated)
-
     
     //MARK: - Initialization
     
@@ -112,14 +112,14 @@ class PostService: NSObject {
         let plane = explorePostFilter.currentMapPlaneAndRegion.0
         let region = explorePostFilter.currentMapPlaneAndRegion.1
         
-        let loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: region.center.latitude, longitude: region.center.longitude, radius: convertLatDeltaToKms(region.span.latitudeDelta))
+        let loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: region.center.latitude, longitude: region.center.longitude, radius: convertLatDeltaToKms(region.span.latitudeDelta)) //adding the /2 bc we were using too large of a region to find the best posts
         
         if explorePostFilter.searchedMapRegions[plane] != nil {
             explorePostFilter.searchedMapRegions[plane]!.append(region)
         } else {
             explorePostFilter.searchedMapRegions[plane] = [region]
         }
-        
+                
         allExploreMapPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts)
         newExploreMapPostIds =  allExploreMapPostIds
     }
@@ -137,7 +137,7 @@ class PostService: NSObject {
         } else {
             explorePostFilter.searchedMapRegions[plane] = [region]
         }
-        
+                
         let uniqueNewPosts = loadedPosts.filter { !allExploreMapPostIds.contains($0.id) }
         allExploreMapPostIds.append(contentsOf: uniqueNewPosts.map { $0.id })
         newExploreMapPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: uniqueNewPosts)
@@ -204,6 +204,11 @@ class PostService: NSObject {
     
     func getAllExploreMapPosts() -> [Post] {
         return getLoadedPostsFor(postIds: allExploreMapPostIds)
+    }
+    
+    //so that we don't have to iterate through all the map posts from the cache when sorting cluster annotations
+    func getExploreMapPostsSortedIds() -> [Int] {
+        return allExploreMapPostIds
     }
     
     func getNewExploreMapPosts() -> [Post] {
