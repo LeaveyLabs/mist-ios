@@ -236,6 +236,16 @@ class PostAPI {
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
+    static func fetchPostsByLatitudeLongitude(latitude:Double,
+                                              longitude:Double,
+                                              radius:Double,
+                                              order:SortOrder) async throws -> [Post] {
+        let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(LATITUDE_PARAM)=\(latitude)&\(LONGITUDE_PARAM)=\(longitude)&\(RADIUS_PARAM)=\(radius)&\(ORDER_PARAM)=\(order.rawValue)"
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterPostErrors(data: data, response: response)
+        return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
     static func fetchPostsByLocationDescription(locationDescription:String) async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(LOC_DESCRIPTION_PARAM)=\(locationDescription)"
         let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
