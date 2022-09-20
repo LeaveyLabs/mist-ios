@@ -45,7 +45,7 @@ extension SettingsTapDelegate where Self: UIViewController {
     }
     
     func handleShareFeedback(setting: Setting) {
-        let settingsVC = SettingsViewController.create(settings: [.contactUs, .rateMist, .leaveReview], title: setting.displayName)
+        let settingsVC = SettingsViewController.create(settings: [.feedbackForm, .rateMist, .leaveReview, .contactUs], title: setting.displayName)
         navigationController?.pushViewController(settingsVC, animated: true)
     }
     
@@ -60,12 +60,13 @@ extension SettingsTapDelegate where Self: UIViewController {
         } else if setting == .terms {
             openURL(URL(string: "https://www.getmist.app/terms-of-use")!)
         } else if setting == .contactUs {
-            
             UIApplication.shared.open(URL(string: "mailto:whatsup@getmist.app")!) //mailto can't use safari
         } else if setting == .contentGuidelines {
             openURL(URL(string: "https://www.getmist.app/content-guidelines")!)
         } else if setting == .faq {
             openURL(URL(string: "https://www.getmist.app/faq")!)
+        } else if setting == .feedbackForm {
+            openURL(URL(string: "https://forms.gle/FQQpw2hfVqHLb5jU8")!)
         }
     }
     

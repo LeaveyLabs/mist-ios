@@ -68,6 +68,8 @@ class SettingCell: UITableViewCell {
             accessoryLabel.text = "whatsup@getmist.app"
         case .leaveReview:
             break
+        case .feedbackForm:
+            break
         case .faq:
             break
         case .contentGuidelines:

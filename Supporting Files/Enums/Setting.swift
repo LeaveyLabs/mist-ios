@@ -17,7 +17,7 @@ enum Setting {
     //other
     case settings, shareFeedback, learnMore
         case phoneNumber, deleteAccount
-        case rateMist, leaveReview, contactUs
+        case rateMist, feedbackForm, leaveReview, contactUs
         case faq, contentGuidelines, privacyPolicy, terms
     
     var displayName : String {
@@ -60,6 +60,8 @@ enum Setting {
             return ""
         case .avatar:
             return ""
+        case .feedbackForm:
+            return "Mist feedback form".lowercased()
         }
     }
     
@@ -107,6 +109,8 @@ enum Setting {
             return UIImage()
         case .avatar:
             return UIImage()
+        case .feedbackForm:
+            return UIImage(systemName: "doc.text")!
         }
     }
     
@@ -154,6 +158,8 @@ enum Setting {
             settingsTapDelegate.handleProfile()
         case .avatar:
             settingsTapDelegate.handleAvatar()
+        case .feedbackForm:
+            settingsTapDelegate.handleLink(setting: self)
         }
     }
 }
