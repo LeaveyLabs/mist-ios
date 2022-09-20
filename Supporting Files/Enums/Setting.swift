@@ -16,7 +16,7 @@ enum Setting {
     case mentions, submissions, favorites
     //other
     case settings, shareFeedback, learnMore
-        case email, phoneNumber, deleteAccount
+        case phoneNumber, deleteAccount
         case rateMist, leaveReview, contactUs
         case faq, contentGuidelines, privacyPolicy, terms
     
@@ -28,8 +28,8 @@ enum Setting {
             return "Mentions".lowercased()
         case .favorites:
             return "Favorites".lowercased()
-        case .email:
-            return "Email".lowercased()
+//        case .email:
+//            return "Email".lowercased()
         case .phoneNumber:
             return "Phone Number".lowercased()
         case .contentGuidelines:
@@ -65,8 +65,8 @@ enum Setting {
     
     var iconImage: UIImage {
         switch self {
-        case .email:
-            return UIImage(systemName: "envelope")!
+//        case .email:
+//            return UIImage(systemName: "envelope")!
         case .phoneNumber:
             return UIImage(systemName: "phone")!
         case .leaveReview:
@@ -120,10 +120,10 @@ enum Setting {
             settingsTapDelegate.handlePosts(setting: self)
         case .favorites:
             settingsTapDelegate.handlePosts(setting: self)
-        case .email:
-            break
+//        case .email:
+//            break
         case .phoneNumber:
-            settingsTapDelegate.handlePhoneNumber()
+            break
 //        case .notifications:
 //            break
 //        case .shareMist:

@@ -63,10 +63,9 @@ class PhoneNumberAPI {
         throw APIError.Unknown
     }
     
-    static func registerNewPhoneNumber(email:String, phoneNumber:String) async throws {
+    static func registerNewPhoneNumber(phoneNumber:String) async throws {
         let url = "\(Env.BASE_URL)\(PATH_TO_REGISTER_PHONE_NUMBER)"
         let params:[String:String] = [
-            EMAIL_PARAM: email,
             PHONE_NUMBER_PARAM: phoneNumber,
         ]
         let json = try JSONEncoder().encode(params)
@@ -105,52 +104,5 @@ class PhoneNumberAPI {
         let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterPhoneNumberErrors(data: data, response: response)
         return try JSONDecoder().decode(APIToken.self, from: data).token
-    }
-    
-    static func requestResetEmail(email:String) async throws {
-        let url = "\(Env.BASE_URL)\(PATH_TO_REQUEST_RESET_EMAIL)"
-        let params:[String:String] = [
-            EMAIL_PARAM: email,
-        ]
-        let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
-        try filterPhoneNumberErrors(data: data, response: response)
-    }
-    
-    static func validateResetEmail(email:String, code:String) async throws -> ResetToken {
-        let url = "\(Env.BASE_URL)\(PATH_TO_VALIDATE_RESET_EMAIL)"
-        let params:[String:String] = [
-            EMAIL_PARAM: email,
-            CODE_PARAM: code,
-        ]
-        let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
-        try filterPhoneNumberErrors(data: data, response: response)
-        let apiToken = try JSONDecoder().decode(APIToken.self, from: data)
-        return apiToken.token
-    }
-    
-    static func requestResetText(email:String, phoneNumber:String, resetToken:ResetToken) async throws {
-        let url = "\(Env.BASE_URL)\(PATH_TO_REQUEST_RESET_TEXT)"
-        let params:[String:String] = [
-            EMAIL_PARAM: email,
-            PHONE_NUMBER_PARAM: phoneNumber,
-            TOKEN_PARAM: resetToken,
-        ]
-        let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
-        try filterPhoneNumberErrors(data: data, response: response)
-    }
-    
-    static func validateResetText(phoneNumber:String, code:String, resetToken:ResetToken) async throws {
-        let url = "\(Env.BASE_URL)\(PATH_TO_VALIDATE_RESET_TEXT)"
-        let params:[String:String] = [
-            PHONE_NUMBER_PARAM: phoneNumber,
-            CODE_PARAM: code,
-            TOKEN_PARAM: resetToken,
-        ]
-        let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
-        try filterPhoneNumberErrors(data: data, response: response)
     }
 }

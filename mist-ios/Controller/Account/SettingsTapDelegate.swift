@@ -19,7 +19,6 @@ protocol SettingsTapDelegate: MFMailComposeViewControllerDelegate {
     func handleDeleteAccount()
     func handleLeaveReview()
     func handleLink(setting: Setting)
-    func handlePhoneNumber()
 }
 
 extension SettingsTapDelegate where Self: UIViewController {
@@ -41,7 +40,7 @@ extension SettingsTapDelegate where Self: UIViewController {
     }
     
     func handleSettings(setting: Setting) {
-        let settingsVC = SettingsViewController.create(settings: [.email, .phoneNumber, .deleteAccount], title: setting.displayName)
+        let settingsVC = SettingsViewController.create(settings: [.phoneNumber, .deleteAccount], title: setting.displayName)
         navigationController?.pushViewController(settingsVC, animated: true)
     }
     
@@ -97,27 +96,6 @@ extension SettingsTapDelegate where Self: UIViewController {
         guard let writeReviewURL = components?.url else { return }
         UIApplication.shared.open(writeReviewURL)
     }
-    
-    func handlePhoneNumber() {
-        let requestPasswordVC = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.RequestReset)
-        let navigationController = UINavigationController(rootViewController: requestPasswordVC)
-        navigationController.navigationBar.tintColor = Constants.Color.mistBlack
-        if view.frame.size.width < 350 { //otherwise the content gets clipped
-            navigationController.modalPresentationStyle = .fullScreen
-        }
-        present(navigationController, animated: true)
-    }
-    
-    //Deprecated
-    
-//    func handleShare() {
-//        presentMistShareActivity()
-//    }
-    
-    //    func handlePassword() {
-    //        let passwordSettingVC = PasswordSettingViewController.create()
-    //        navigationController?.pushViewController(passwordSettingVC, animated: true)
-    //    }
 
 }
 

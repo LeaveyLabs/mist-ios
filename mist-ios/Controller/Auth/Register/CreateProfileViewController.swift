@@ -210,9 +210,7 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
                     firstName: firstName,
                     lastName: lastName,
                     profilePic: uploadedProfilePic,
-                    email: AuthContext.email,
                     phoneNumber: AuthContext.phoneNumber,
-                    dob: AuthContext.dob,
                     accessCode: AuthContext.accessCode)
                 try await loadEverything()
                 AuthContext.reset()

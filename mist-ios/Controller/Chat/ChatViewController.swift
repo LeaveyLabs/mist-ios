@@ -79,11 +79,12 @@ class ChatViewController: MessagesViewController {
         
     var isAuthedUserProfileHidden: Bool! {
         didSet {
-            senderProfileNameButton.setTitle(UserService.singleton.getFirstName(), for: .normal)
             senderProfileNameButton.setImage(UserService.singleton.isVerified() ? UIImage(systemName: "checkmark.seal.fill") : nil, for: .normal)
             if isAuthedUserProfileHidden {
+                senderProfileNameButton.setTitle("???", for: .normal)
                 senderProfilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getSilhouette())
             } else {
+                senderProfileNameButton.setTitle(UserService.singleton.getFirstName(), for: .normal)
                 senderProfilePicButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
             }
         }

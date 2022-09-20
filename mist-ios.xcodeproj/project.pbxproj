@@ -1174,7 +1174,6 @@
 				5B879E7928B804B900D2DFC1 /* ConfirmCodeViewController.swift */,
 				5B879E7228B6EFD100D2DFC1 /* Register */,
 				5B879E7328B6EFE700D2DFC1 /* Login */,
-				5BE110002876CD6C00CB54A6 /* ResetPhoneNumber */,
 				5B1F16CC28791EF700035F93 /* Misc */,
 				5B879E7428B6F3E700D2DFC1 /* Decomissioned */,
 				5BC2531128BB1A6800D4F49A /* CarouselCollectionView.swift */,
@@ -1808,6 +1807,16 @@
 			path = Mistbox;
 			sourceTree = "<group>";
 		};
+		5B080B2228D9386D002CA6C5 /* AfterLaunch */ = {
+			isa = PBXGroup;
+			children = (
+				5BE110002876CD6C00CB54A6 /* ResetPhoneNumber */,
+				5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */,
+				4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */,
+			);
+			path = AfterLaunch;
+			sourceTree = "<group>";
+		};
 		5B1F16CC28791EF700035F93 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
@@ -1922,9 +1931,7 @@
 		5B879E7228B6EFD100D2DFC1 /* Register */ = {
 			isa = PBXGroup;
 			children = (
-				4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */,
 				5B235B0028ADE3B200FD27A9 /* EnterNumberViewController.swift */,
-				5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */,
 				433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */,
 				5B879E7528B7E3C000D2DFC1 /* CreateProfileViewController.swift */,
 			);
@@ -1942,6 +1949,7 @@
 		5B879E7428B6F3E700D2DFC1 /* Decomissioned */ = {
 			isa = PBXGroup;
 			children = (
+				5B080B2228D9386D002CA6C5 /* AfterLaunch */,
 				43770C4A27EE8C0F00F31CCF /* PasswordLoginViewController.swift */,
 				5B235B0328ADE43800FD27A9 /* ConfirmNumberViewController.swift */,
 				436EE80827F40CEA000D2887 /* ConfirmEmailViewController.swift */,
