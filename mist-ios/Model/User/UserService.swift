@@ -238,6 +238,7 @@ class UserService: NSObject {
             }
         }
         PostService.singleton.resetEverything()
+        ConversationService.singleton.clearLocalData()
         setGlobalAuthToken(token: "")
         eraseUserFromFilesystem()
         frontendCompleteUser = nil

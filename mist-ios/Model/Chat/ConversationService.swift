@@ -223,6 +223,10 @@ class ConversationService: NSObject {
 
 extension ConversationService {
     
+    func clearLocalData() {
+        conversations = [:]
+    }
+    
     //MARK: - Filesystem
     
     func saveToFilesystem() async {

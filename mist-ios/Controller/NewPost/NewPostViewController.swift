@@ -104,11 +104,11 @@ class NewPostViewController: UIViewController {
         validateAllFields()
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default)), style: .plain, target: self, action: #selector(cancelButtonDidPressed(_:)))
 
-        if !DeviceService.shared.hasBeenShowedGuidelines() {
-            presentExplanationVC()
-        } else {
+//        if !DeviceService.shared.hasBeenShowedGuidelines() {
+//            presentExplanationVC()
+//        } else {
             titleTextView.becomeFirstResponder()
-        }
+//        }
         addKeyboardObservers()
     }
     
