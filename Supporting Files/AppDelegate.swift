@@ -46,7 +46,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
         let token = tokenParts.joined()
         setGlobalDeviceToken(token: token)
-        print("SET GLOBAL DEVICE TOKEN")
+        Task {
+            try await DeviceAPI.registerCurrentDeviceWithUser(user: UserService.singleton.getId())
+        }
     }
     
     //user was not in app
