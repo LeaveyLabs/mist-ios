@@ -90,15 +90,20 @@ class EnterNumberViewController: KUIViewController, UITextFieldDelegate {
         tryToContinue()
     }
     
+    @IBAction func gotAnAccessCodeButton(_ sender: Any) {
+        let vc = ConfirmCodeViewController.create(confirmMethod: .accessCode)
+        present(vc, animated: true)
+    }
+    
     //MARK: - TextField Delegate
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let didAutofillTextfield = range == NSRange(location: 0, length: 0) && string.count > 1
-        if didAutofillTextfield {
-            DispatchQueue.main.async {
-                self.tryToContinue()
-            }
-        }
+//        if didAutofillTextfield {
+//            DispatchQueue.main.async {
+//                self.tryToContinue()
+//            }
+//        } //disabling this for now while we have access codes, so people can enter it if need be
         return true
     }
     

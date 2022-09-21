@@ -50,11 +50,11 @@ class DeviceService: NSObject {
         }
         return unreadPostUniqueTags.count
     }
-    func getStartingScreen() -> Settings.StartingScreen {
-        return device.settings.startingScreen
+    func getStartingScreen() -> StartingScreen {
+        return device.startingScreen
     }
     func getDefaultSort() -> SortOrder {
-        return device.settings.sortOrder
+        return device.sortOrder
     }
 
     //MARK: - Doers
@@ -100,12 +100,12 @@ class DeviceService: NSObject {
         Task { await saveToFilesystem() }
     }
     
-    func updateStartingScreen(_ screen: Settings.StartingScreen) {
-        device.settings.startingScreen = screen
+    func updateStartingScreen(_ screen: StartingScreen) {
+        device.startingScreen = screen
         Task { await saveToFilesystem() }
     }
     func updateDefaultSort(_ sort: SortOrder) {
-        device.settings.sortOrder = sort
+        device.sortOrder = sort
         Task { await saveToFilesystem() }
     }
     

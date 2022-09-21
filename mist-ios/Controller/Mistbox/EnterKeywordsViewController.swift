@@ -43,12 +43,15 @@ class EnterKeywordsViewController: UIViewController, UITableViewDataSource, UITa
     }
     
     func setupFooterLabel() {
-        let footerLabel = UILabel(frame: .init(x: 0, y: 0, width: view.bounds.width, height: 15))
+        let footerLabel: UILabel
         
         if MistboxManager.shared.hasUserActivatedMistbox {
+            footerLabel = UILabel(frame: .init(x: 0, y: 0, width: view.bounds.width, height: 30))
             footerLabel.text = "updates won't affect your current mistbox"
         } else {
-            footerLabel.text = "enter up to 10 keywords"
+            footerLabel = UILabel(frame: .init(x: 0, y: 0, width: view.bounds.width, height: 60))
+            footerLabel.numberOfLines = 2
+            footerLabel.text = "enter up to 10 keywords that describe you,\nplaces you frequent, brands you wear, etc"
         }
         footerLabel.font = UIFont(name: Constants.Font.Roman, size: 13)
         footerLabel.textColor = .lightGray

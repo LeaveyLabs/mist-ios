@@ -127,7 +127,7 @@ class UserService: NSObject {
                                                     token: token)
         authedUser = frontendCompleteUser!
         await self.saveUserToFilesystem()
-        Task { try await waitAndRegisterDeviceToken(id: completeUser.id) }
+        Task { await waitAndRegisterDeviceToken(id: completeUser.id) }
         Task {
             setupFirebaseAnalyticsProperties() //must come later at the end of this process so that we dont access authedUser while it's null and kick the user to the home screen
         }
@@ -137,7 +137,7 @@ class UserService: NSObject {
     func logInWith(authToken token: String) async throws {
         setGlobalAuthToken(token: token)
         let completeUser = try await UserAPI.fetchAuthedUserByToken(token: getGlobalAuthToken())
-        Task { try await waitAndRegisterDeviceToken(id: completeUser.id) }
+        Task { await waitAndRegisterDeviceToken(id: completeUser.id) }
         let profilePicUIImage = try await UserAPI.UIImageFromURLString(url: completeUser.picture)
         frontendCompleteUser = FrontendCompleteUser(completeUser: completeUser,
                                                     profilePicWrapper: ProfilePicWrapper(image: profilePicUIImage,withCompresssion: false),
@@ -309,7 +309,7 @@ class UserService: NSObject {
             frontendCompleteUser = try JSONDecoder().decode(FrontendCompleteUser.self, from: data)
             guard let frontendCompleteUser = frontendCompleteUser else { return }
             setGlobalAuthToken(token: frontendCompleteUser.token) //this shouldn't be necessary, but to be safe
-            Task { try await waitAndRegisterDeviceToken(id: frontendCompleteUser.id) }
+            Task { await waitAndRegisterDeviceToken(id: frontendCompleteUser.id) }
         } catch {
             print("COULD NOT LOAD: \(error)")
         }
@@ -326,12 +326,16 @@ class UserService: NSObject {
     
     // MARK: - Device Notifications
     
-    func waitAndRegisterDeviceToken(id:Int) async throws {
-        while true {
-            if getGlobalDeviceToken() != "" && getGlobalAuthToken() != "" {
-                try await DeviceAPI.registerCurrentDeviceWithUser(user: id)
+    func waitAndRegisterDeviceToken(id:Int) async {
+        do {
+            while true {
+                if getGlobalDeviceToken() != "" && getGlobalAuthToken() != "" {
+                    try await DeviceAPI.registerCurrentDeviceWithUser(user: id)
+                }
+                try await Task.sleep(nanoseconds: NSEC_PER_SEC * UInt64(SLEEP_INTERVAL))
             }
-            try await Task.sleep(nanoseconds: NSEC_PER_SEC * UInt64(SLEEP_INTERVAL))
+        } catch {
+            print("ERROR WAITING TO REGISTER DEVICE TOKEN")
         }
     }
 }

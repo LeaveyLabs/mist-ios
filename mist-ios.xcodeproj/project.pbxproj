@@ -1962,7 +1962,6 @@
 			isa = PBXGroup;
 			children = (
 				5B235B0028ADE3B200FD27A9 /* EnterNumberViewController.swift */,
-				433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */,
 				5B879E7528B7E3C000D2DFC1 /* CreateProfileViewController.swift */,
 				5B4CE2E928DA493600FB9E8B /* ExplainProfileVC.swift */,
 			);
@@ -1980,6 +1979,7 @@
 		5B879E7428B6F3E700D2DFC1 /* Decomissioned */ = {
 			isa = PBXGroup;
 			children = (
+				433970DE27FE501700876026 /* WelcomeTutorialViewController.swift */,
 				5B080B2228D9386D002CA6C5 /* AfterLaunch */,
 				43770C4A27EE8C0F00F31CCF /* PasswordLoginViewController.swift */,
 				5B235B0328ADE43800FD27A9 /* ConfirmNumberViewController.swift */,

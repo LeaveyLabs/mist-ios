@@ -31,11 +31,11 @@ class MapFilterSheetViewController: UIViewController {
     let boldFont = UIFont(name: Constants.Font.Heavy, size: 25)
     let regFont = UIFont(name: Constants.Font.Medium, size: 25)
 
-    var filterDelegate: FilterDelegate!
+    var exploreDelegate: ExploreChildDelegate!
     
-    class func create(delegate: FilterDelegate) -> MapFilterSheetViewController {
+    class func create(delegate: ExploreChildDelegate) -> MapFilterSheetViewController {
         let filterSheetVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.MapFilter) as! MapFilterSheetViewController
-        filterSheetVC.filterDelegate = delegate
+        filterSheetVC.exploreDelegate = delegate
         return filterSheetVC
     }
     
@@ -97,7 +97,7 @@ class MapFilterSheetViewController: UIViewController {
     
     @IBAction func trendingButtonDidPressed(_ sender: UIButton) {
         PostService.singleton.updateFilter(newPostSort: .TRENDING)
-        filterDelegate.handleUpdatedExploreFilter()
+        exploreDelegate.handleUpdatedExploreFilter()
         deselectAllButtons()
         trendingButton.titleLabel?.font = boldFont
         trendingButton.isSelected = true
@@ -109,7 +109,7 @@ class MapFilterSheetViewController: UIViewController {
     
     @IBAction func bestButtonDidPressed(_ sender: UIButton) {
         PostService.singleton.updateFilter(newPostSort: .BEST)
-        filterDelegate.handleUpdatedExploreFilter()
+        exploreDelegate.handleUpdatedExploreFilter()
         deselectAllButtons()
         bestButton.titleLabel?.font = boldFont
         bestButton.isSelected = true
@@ -121,7 +121,7 @@ class MapFilterSheetViewController: UIViewController {
     
     @IBAction func newButtonDidPressed(_ sender: UIButton) {
         PostService.singleton.updateFilter(newPostSort: .RECENT)
-        filterDelegate.handleUpdatedExploreFilter()
+        exploreDelegate.handleUpdatedExploreFilter()
         deselectAllButtons()
         newButton.titleLabel?.font = boldFont
         newButton.isSelected = true

@@ -8,10 +8,6 @@
 import Foundation
 import UIKit
 
-protocol FilterDelegate {
-    func handleUpdatedExploreFilter()
-}
-
 class FeedFilterSheetViewController: UIViewController {
         
     @IBOutlet weak var closeButton: UIButton!
@@ -25,14 +21,14 @@ class FeedFilterSheetViewController: UIViewController {
     let boldFont = UIFont(name: Constants.Font.Heavy, size: 25)
     let regFont = UIFont(name: Constants.Font.Medium, size: 25)
 
-    var filterDelegate: FilterDelegate!
+    var exploreDelegate: ExploreChildDelegate!
     
-    class func create(delegate: FilterDelegate) -> FeedFilterSheetViewController {
+    class func create(delegate: ExploreChildDelegate) -> FeedFilterSheetViewController {
         let filterSheetVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.FeedFilter) as! FeedFilterSheetViewController
-        filterSheetVC.filterDelegate = delegate
+        filterSheetVC.exploreDelegate = delegate
         return filterSheetVC
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBackgroundView()
@@ -91,7 +87,7 @@ class FeedFilterSheetViewController: UIViewController {
     
     @IBAction func trendingButtonDidPressed(_ sender: UIButton) {
         PostService.singleton.updateFilter(newPostSort: .TRENDING)
-        filterDelegate.handleUpdatedExploreFilter()
+        exploreDelegate.handleUpdatedExploreFilter()
         deselectAllButtons()
         trendingButton.titleLabel?.font = boldFont
         trendingButton.isSelected = true
@@ -103,7 +99,7 @@ class FeedFilterSheetViewController: UIViewController {
     
     @IBAction func bestButtonDidPressed(_ sender: UIButton) {
         PostService.singleton.updateFilter(newPostSort: .BEST)
-        filterDelegate.handleUpdatedExploreFilter()
+        exploreDelegate.handleUpdatedExploreFilter()
         deselectAllButtons()
         bestButton.titleLabel?.font = boldFont
         bestButton.isSelected = true
@@ -115,7 +111,7 @@ class FeedFilterSheetViewController: UIViewController {
     
     @IBAction func newButtonDidPressed(_ sender: UIButton) {
         PostService.singleton.updateFilter(newPostSort: .RECENT)
-        filterDelegate.handleUpdatedExploreFilter()
+        exploreDelegate.handleUpdatedExploreFilter()
         deselectAllButtons()
         newButton.titleLabel?.font = boldFont
         newButton.isSelected = true

@@ -61,6 +61,13 @@ class ExploreFeedViewController: UIViewController {
         feed.showsVerticalScrollIndicator = false
         feed.separatorStyle = .none
         feed.register(PostCell.self, forCellReuseIdentifier: Constants.SBID.Cell.Post)
+        feed.refreshControl = UIRefreshControl()
+        feed.refreshControl!.addTarget(self, action: #selector(pullToRefreshFeed), for: .valueChanged)
+    }
+    
+    @objc func pullToRefreshFeed() {
+        PostService.singleton.updateFilter(newPostSort: PostService.singleton.getExploreFilter().postSort)
+        exploreDelegate.handleUpdatedExploreFilter()
     }
     
     //MARK: - UserInteraction
@@ -136,6 +143,15 @@ extension ExploreFeedViewController {
             }
             self.view.layoutIfNeeded()
         } completion: { completed in
+        }
+    }
+    
+    func handleFeedWentSlightlyDown(duration: Double) {
+        UIView.animate(withDuration: duration, delay: 0, options: .curveLinear) {
+            self.notchViewHeightConstraint.constant = 65
+            self.notchView.layer.cornerRadius = 20
+            self.notchTopConstraint.constant = 5
+            self.view.layoutIfNeeded()
         }
     }
     

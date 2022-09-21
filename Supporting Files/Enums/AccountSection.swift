@@ -36,7 +36,7 @@ enum AccountSection: Int, CaseIterable {
         case .posts:
             return [.mentions, .submissions, .favorites]
         case .settings:
-            return [.account, .defaults, .notifications]
+            return [.account, .defaults]
         case .other:
             return [.shareFeedback, .learnMore]
         case .logout:

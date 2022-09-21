@@ -23,6 +23,7 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
     var confirmMethod: ConfirmMethod!
 
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var sentToLabel: UILabel!
     @IBOutlet weak var confirmTextField: UITextField!
     @IBOutlet weak var continueButton: UIButton!
@@ -97,8 +98,9 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
         if confirmMethod == .accessCode {
             resendButton.isHidden = true
             sentToLabel.numberOfLines = 2
-            sentToLabel.text = "enter it here for your first profile badge\n(or skip if you don't have one)"
-            titleLabel.text = "got an access code?"
+            titleLabel.text = "access code"
+            sentToLabel.text = "enter it here for your first profile badge"
+            titleTopConstraint.constant += 25
         }
     }
     
@@ -292,7 +294,7 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
     func continueToNextScreen() {
         switch confirmMethod {
         case .signupText:
-            let vc = ConfirmCodeViewController.create(confirmMethod: .accessCode)
+            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.CreateProfile)
             self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
                 self?.isSubmitting = false
             })
@@ -300,10 +302,11 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
             transitionToHomeAndRequestPermissions() { }
             AuthContext.reset()
         case .accessCode:
-            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.CreateProfile)
-            self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
-                self?.isSubmitting = false
-            })
+            if AuthContext.accessCode != nil {
+                CustomSwiftMessages.showInfoCard("success!", "check your profile after signing up", emoji: "💁‍♀️")
+                dismiss(animated: true)
+            }
+            dismiss(animated: true)
         case .none:
             break
         }

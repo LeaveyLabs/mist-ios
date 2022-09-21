@@ -34,12 +34,14 @@ class HomeExploreParentViewController: ExploreParentViewController {
     }
     
     func setupTabBar() {
-        guard let tabBarVC = tabBarController as? SpecialTabBarController else { return }
         switch DeviceService.shared.getStartingScreen() {
-        case .explore:
+        case .map:
             break
-        case .mistbox:
-            tabBarVC.selectedIndex = 1
+        case .feed:
+            overlayController.moveOverlay(toNotchAt: OverlayNotch.maximum.rawValue, animated: false)
+            exploreMapVC.handleFeedWentUp(duration: 0)
+            exploreFeedVC.handleFeedWentUp(duration: 0)
+            exploreMapVC.mapView.camera.centerCoordinate = Constants.Coordinates.USC
         }
     }
     
@@ -61,7 +63,7 @@ class HomeExploreParentViewController: ExploreParentViewController {
         guard isFirstLoad else { return }
         
         
-        guard let firstPostAnnotation = firstPostAnnotation else { return }
+        guard let firstPostAnnotation = firstPostAnnotation, DeviceService.shared.getStartingScreen() == .map else { return }
         //set camera first
         let dynamicLatOffset = (exploreMapVC.latitudeOffsetForOneKMDistance / 1000) * self.exploreMapVC.mapView.camera.centerCoordinateDistance
         exploreMapVC.mapView.camera.centerCoordinate = CLLocationCoordinate2D(latitude: firstPostAnnotation.coordinate.latitude + dynamicLatOffset, longitude: firstPostAnnotation.coordinate.longitude)
@@ -83,7 +85,7 @@ class HomeExploreParentViewController: ExploreParentViewController {
             }
         }
         
-        guard let firstPostAnnotation = firstPostAnnotation else { return }
+        guard let firstPostAnnotation = firstPostAnnotation, DeviceService.shared.getStartingScreen() == .map else { return }
         //then select post nearest to you
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in//waiting .1 seconds because otherwise the cluster annotation isn't found sometimes
             let firstAnnotation: MKAnnotation = exploreMapVC.mapView.greatestClusterContaining(firstPostAnnotation) ?? firstPostAnnotation
@@ -121,6 +123,50 @@ class HomeExploreParentViewController: ExploreParentViewController {
             } catch {
                 isFetchingMorePosts = false
                 print("ERROR LOADING IN MAP POSTS IN BACKGROUND WHILE SCROLLING")
+            }
+        }
+    }
+    
+    @objc func reloadNewFeedPostsFromTheStart() {
+        guard !isFetchingMorePosts else { return }
+        isFetchingMorePosts = true
+        
+        Task {
+            do {
+                try await PostService.singleton.loadExploreFeedPostsIfPossible() //page count is set to 0 when resetting sorting
+                try await PostService.singleton.loadAndOverwriteExploreMapPosts()
+                DispatchQueue.main.async {
+                    self.renderNewPostsOnFeed(withType: .firstLoad)
+                    self.renderNewPostsOnMap(withType: .firstLoad)
+                }
+            } catch {
+                isFetchingMorePosts = false
+                print("ERROR LOADING IN MAP POSTS IN BACKGROUND WHILE SCROLLING")
+                exploreFeedVC.feed.refreshControl?.endRefreshing()
+            }
+        }
+    }
+    
+    //Also handles pull down to refresh
+    @MainActor
+    override func handleUpdatedExploreFilter() {
+        //We should scroll to top before we alter the dataSource for the feed or else we risk scrolling through rows which were full but are nowed empty
+        exploreMapVC.reloadButton.loadingIndicator(true)
+        exploreMapVC.reloadButton.setImage(nil, for: .normal)
+        if !feedPosts.isEmpty {
+            exploreFeedVC.feed.isUserInteractionEnabled = false
+            exploreFeedVC.feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            exploreFeedVC.feed.isUserInteractionEnabled = true
+        }
+        Task {
+            try await PostService.singleton.loadExploreFeedPostsIfPossible() //page count is set to 0 when resetting sorting
+            try await PostService.singleton.loadAndOverwriteExploreMapPosts()
+            DispatchQueue.main.async {
+                self.renderNewPostsOnFeed(withType: .firstLoad)
+                self.renderNewPostsOnMap(withType: .firstLoad)
+                self.exploreFeedVC.feed.refreshControl?.endRefreshing()
+                self.exploreMapVC.reloadButton.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: UIImage.SymbolConfiguration(pointSize: 18, weight: .medium)), for: .normal)
+                self.exploreMapVC.reloadButton.loadingIndicator(false)
             }
         }
     }
@@ -171,25 +217,8 @@ extension HomeExploreParentViewController {
 
 // MARK: - Filter
 
-extension HomeExploreParentViewController: FilterDelegate {
-    
-    @MainActor
-    func handleUpdatedExploreFilter() {
-        //We should scroll to top before we alter the dataSource for the feed or else we risk scrolling through rows which were full but are nowed empty
-        if !feedPosts.isEmpty {
-            exploreFeedVC.feed.isUserInteractionEnabled = false
-            exploreFeedVC.feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-            exploreFeedVC.feed.isUserInteractionEnabled = true
-        }
-        Task {
-            try await PostService.singleton.loadExploreFeedPostsIfPossible() //page count is set to 0 when resetting sorting
-            try await PostService.singleton.loadAndOverwriteExploreMapPosts()
-            DispatchQueue.main.async {
-                self.renderNewPostsOnFeed(withType: .firstLoad)
-                self.renderNewPostsOnMap(withType: .firstLoad)
-            }
-        }
-    }
+extension HomeExploreParentViewController {
+
     
 }
 

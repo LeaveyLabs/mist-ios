@@ -7,13 +7,8 @@
 
 import Foundation
 
-struct Settings: Codable {
-    var startingScreen: StartingScreen = .explore
-    var sortOrder: SortOrder = .TRENDING
-
-    enum StartingScreen: String, CaseIterable, Codable {
-        case explore, mistbox
-    }
+enum StartingScreen: String, CaseIterable, Codable {
+    case map, feed
 }
 
 struct Device: Codable {
@@ -28,7 +23,8 @@ struct Device: Codable {
     var hasBeenRequestedContactsBeforeTagging: Bool = false
     var lastMentionsOpenTime: Double = .leastNormalMagnitude
     
-    var settings: Settings = Settings()
+    var startingScreen: StartingScreen = .map
+    var sortOrder: SortOrder = .TRENDING
     
     enum CodingKeys: String, CodingKey {
         case hasBeenShownGuidelines
@@ -41,7 +37,9 @@ struct Device: Codable {
         case hasBeenRequestedLocationOnNewPostPin
         case hasBeenRequestedContactsBeforeTagging
         case hasBeenRequestedContactsOnPost
-        case settings
+
+        case startingScreen
+        case sortOrder
     }
     
     init(from decoder: Decoder) throws {
@@ -56,7 +54,8 @@ struct Device: Codable {
         hasBeenRequestedLocationOnNewPostPin = try values.decodeIfPresent(Bool.self, forKey: .hasBeenRequestedLocationOnNewPostPin) ?? false
         hasBeenRequestedContactsBeforeTagging = try values.decodeIfPresent(Bool.self, forKey: .hasBeenRequestedContactsBeforeTagging) ?? false
         hasBeenRequestedContactsOnPost = try values.decodeIfPresent(Bool.self, forKey: .hasBeenRequestedContactsOnPost) ?? false
-        settings = try values.decodeIfPresent(Settings.self, forKey: .settings) ?? Settings()
+        startingScreen = try values.decodeIfPresent(StartingScreen.self, forKey: .startingScreen) ?? StartingScreen.map
+        sortOrder = try values.decodeIfPresent(SortOrder.self, forKey: .sortOrder) ?? SortOrder.TRENDING
     }
     
     init() {
@@ -70,7 +69,8 @@ struct Device: Codable {
         hasBeenRequestedContactsBeforeTagging = false
         hasBeenRequestedContactsOnPost = false
         lastMentionsOpenTime = .leastNormalMagnitude
-        settings = Settings()
+        startingScreen = .map
+        sortOrder = .TRENDING
     }
     
 }

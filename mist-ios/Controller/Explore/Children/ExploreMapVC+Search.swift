@@ -78,7 +78,7 @@ extension ExploreMapViewController: UISearchBarDelegate {
 //    }
     
     func presentExploreSearchController() {
-        mySearchController.searchBar.placeholder = "find a place or address"
+        mySearchController.searchBar.placeholder = "search a place or address"
 //        mySearchController.searchBar.placeholder = MapSearchResultType.randomPlaceholder()
         present(mySearchController, animated: true) { [self] in
             searchSuggestionsVC.startProvidingCompletions(for: MKCoordinateRegion(center: mapView.region.center, latitudinalMeters: 100, longitudinalMeters: 100))

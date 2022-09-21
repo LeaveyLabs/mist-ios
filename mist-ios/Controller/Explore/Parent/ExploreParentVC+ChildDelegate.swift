@@ -15,6 +15,7 @@ protocol ExploreChildDelegate {
     func reloadData()
     func toggleNotchHiddenAndMinimum(hidden: Bool)
     
+    func handleUpdatedExploreFilter()
     func reloadNewMapPostsIfNecessary()
     func reloadNewFeedPostsIfNecessary()
 
@@ -28,10 +29,11 @@ extension ExploreParentViewController: ExploreChildDelegate {
     
     @MainActor
     func toggleNotchHiddenAndMinimum(hidden: Bool) {
+        isProgrammaticallyMovingOverlay = true
         if hidden {
-            overlayController.moveOverlay(toNotchAt: OverlayNotch.hidden.rawValue, animated: true, completion: nil)
+            overlayController.moveOverlay(toNotchAt: OverlayNotch.hidden.rawValue, animated: true)
         } else {
-            overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: true, completion: nil)
+            overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: true)
         }
     }
     

@@ -715,7 +715,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="zzu-N7-u3W" customClass="PostTableView" customModule="mist_ios" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="99" width="390" height="711"/>
+                                <rect key="frame" x="0.0" y="109" width="390" height="701"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q8l-dH-sRt" userLabel="Notch View">
@@ -791,7 +791,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="O0A-Hn-V9g" firstAttribute="trailing" secondItem="zzu-N7-u3W" secondAttribute="trailing" id="Bov-7D-iKX"/>
-                            <constraint firstItem="zzu-N7-u3W" firstAttribute="top" secondItem="Q8l-dH-sRt" secondAttribute="bottom" constant="-10" id="Erc-7x-I9f"/>
+                            <constraint firstItem="zzu-N7-u3W" firstAttribute="top" secondItem="Q8l-dH-sRt" secondAttribute="bottom" id="Erc-7x-I9f"/>
                             <constraint firstItem="Q8l-dH-sRt" firstAttribute="top" secondItem="O0A-Hn-V9g" secondAttribute="top" id="LuU-EU-kDA"/>
                             <constraint firstItem="Q8l-dH-sRt" firstAttribute="trailing" secondItem="O0A-Hn-V9g" secondAttribute="trailing" id="WWE-PZ-HjP"/>
                             <constraint firstItem="O0A-Hn-V9g" firstAttribute="bottom" secondItem="zzu-N7-u3W" secondAttribute="bottom" id="c9s-EY-SvF"/>
@@ -867,10 +867,48 @@
                                 <color key="tintColor" name="mist-lilac"/>
                             </mapView>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XDC-QO-zBy" userLabel="DimensionNav Stack View">
-                                <rect key="frame" x="12" y="51" width="40" height="40"/>
+                                <rect key="frame" x="12" y="51" width="80.666666666666671" height="40"/>
                                 <subviews>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R81-a2-tHs">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xse-Ra-6WG" userLabel="User Tracking Button">
                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="xse-Ra-6WG" secondAttribute="height" id="V0e-cu-SAt"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal">
+                                            <imageReference key="image" image="location" catalog="system" symbolScale="default"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="17" weight="medium"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="exploreUserTrackingButtonPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="Xpq-m2-QLa"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cXp-9I-VMZ">
+                                        <rect key="frame" x="40" y="0.0" width="0.6666666666666643" height="40"/>
+                                        <color key="backgroundColor" systemColor="systemGray3Color"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="0.5" id="ZJN-73-OGt"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2GO-Xh-Ctl">
+                                        <rect key="frame" x="40.666666666666664" y="0.0" width="39.999999999999993" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="2GO-Xh-Ctl" secondAttribute="height" multiplier="1:1" id="Tw2-lW-yTm"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="magnifyingglass" catalog="system">
+                                            <color key="titleColor" name="mist-black"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="19" weight="medium"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="searchButtonPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="890-3p-ijd"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R81-a2-tHs">
+                                        <rect key="frame" x="80.666666666666671" y="0.0" width="40" height="40"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="40" id="AGR-08-cub"/>
@@ -883,28 +921,6 @@
                                         </state>
                                         <connections>
                                             <action selector="exploreMapDimensionButtonDidPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="9YK-5Y-C2k"/>
-                                        </connections>
-                                    </button>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cXp-9I-VMZ">
-                                        <rect key="frame" x="0.0" y="0.0" width="1" height="40"/>
-                                        <color key="backgroundColor" systemColor="systemGray3Color"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="1" id="ZJN-73-OGt"/>
-                                        </constraints>
-                                    </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xse-Ra-6WG" userLabel="User Tracking Button">
-                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="40" id="uCV-vf-uu1"/>
-                                        </constraints>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal">
-                                            <imageReference key="image" image="location" catalog="system" symbolScale="default"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="18" weight="medium"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="exploreUserTrackingButtonPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="Xpq-m2-QLa"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -926,40 +942,36 @@
                                 </buttonConfiguration>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eID-0S-u8K" userLabel="ExploreStackView">
-                                <rect key="frame" x="278" y="51" width="100" height="50"/>
+                                <rect key="frame" x="279.33333333333331" y="51" width="98.666666666666686" height="49"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2GO-Xh-Ctl">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f1k-lH-jkO" userLabel="User Tracking Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="49" height="49"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="2GO-Xh-Ctl" secondAttribute="height" multiplier="1:1" id="Tw2-lW-yTm"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" image="magnifyingglass" catalog="system">
-                                            <color key="titleColor" name="mist-black"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="26" weight="medium"/>
+                                        <inset key="imageEdgeInsets" minX="9.5" minY="9.5" maxX="9.5" maxY="9.5"/>
+                                        <state key="normal" image="arrow.2.circlepath" catalog="system">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="19" weight="medium"/>
                                         </state>
                                         <connections>
-                                            <action selector="searchButtonPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="890-3p-ijd"/>
+                                            <action selector="reloadButtonPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="Pky-ZL-I2u"/>
                                         </connections>
                                     </button>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nTC-Te-OIR">
-                                        <rect key="frame" x="50" y="0.0" width="1" height="50"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nTC-Te-OIR">
+                                        <rect key="frame" x="49" y="0.0" width="0.6666666666666643" height="49"/>
                                         <color key="backgroundColor" systemColor="systemGray3Color"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="1" id="n2Y-aj-JO1"/>
+                                            <constraint firstAttribute="width" constant="0.69999999999999996" id="n2Y-aj-JO1"/>
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Fw-w1-bhF" userLabel="User Tracking Button">
-                                        <rect key="frame" x="50" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="49.666666666666686" y="0.0" width="49" height="49"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="7Fw-w1-bhF" secondAttribute="height" id="ap0-FF-fEz"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <inset key="imageEdgeInsets" minX="9.5" minY="9.5" maxX="9.5" maxY="9.5"/>
                                         <state key="normal" image="slider.horizontal.3" catalog="system">
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="26" weight="medium"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="24" weight="medium"/>
                                         </state>
                                         <connections>
                                             <action selector="handleFilterButtonPress" destination="oJQ-b2-Es1" eventType="touchUpInside" id="sXS-dP-dcg"/>
@@ -967,12 +979,12 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="HC9-sS-81w"/>
-                                    <constraint firstAttribute="width" constant="100" id="ZUv-yv-Nec"/>
+                                    <constraint firstAttribute="height" constant="49" id="HC9-sS-81w"/>
+                                    <constraint firstItem="f1k-lH-jkO" firstAttribute="width" secondItem="f1k-lH-jkO" secondAttribute="height" id="Igp-cD-46K"/>
                                 </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VHe-77-zY4">
-                                <rect key="frame" x="145" y="51" width="100" height="50"/>
+                                <rect key="frame" x="145" y="51" width="100" height="48"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2.4k active" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CKp-ro-cwq">
                                         <rect key="frame" x="9.3333333333333428" y="7" width="81.333333333333329" height="22"/>
@@ -981,7 +993,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="last 24hrs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="35t-zU-3HN">
-                                        <rect key="frame" x="24.333333333333346" y="29.333333333333329" width="51.333333333333343" height="16.666666666666671"/>
+                                        <rect key="frame" x="24.333333333333346" y="27.333333333333329" width="51.333333333333343" height="16.666666666666671"/>
                                         <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="12"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -991,6 +1003,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="IoS-2r-uTy"/>
                                     <constraint firstItem="35t-zU-3HN" firstAttribute="centerX" secondItem="VHe-77-zY4" secondAttribute="centerX" id="JqR-k2-uv1"/>
+                                    <constraint firstAttribute="height" constant="48" id="QSR-cz-w58"/>
                                     <constraint firstItem="CKp-ro-cwq" firstAttribute="top" secondItem="VHe-77-zY4" secondAttribute="top" constant="7" id="TKQ-uw-Iig"/>
                                     <constraint firstAttribute="bottom" secondItem="35t-zU-3HN" secondAttribute="bottom" constant="4" id="b4H-YL-mMV"/>
                                     <constraint firstItem="CKp-ro-cwq" firstAttribute="centerX" secondItem="VHe-77-zY4" secondAttribute="centerX" id="vQv-ve-lf0"/>
@@ -1025,7 +1038,6 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="cr5-Jn-Gzm" firstAttribute="centerX" secondItem="4Ti-Yh-6iG" secondAttribute="trailing" constant="-15" id="0Rg-nP-a4p"/>
-                            <constraint firstItem="VHe-77-zY4" firstAttribute="height" secondItem="7Fw-w1-bhF" secondAttribute="height" id="50U-Vj-ABn"/>
                             <constraint firstItem="RYg-vv-3jO" firstAttribute="trailing" secondItem="cr5-Jn-Gzm" secondAttribute="trailing" id="5lV-sk-NAf"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="4Ti-Yh-6iG" secondAttribute="trailing" id="8r7-k1-G5u"/>
                             <constraint firstItem="RYg-vv-3jO" firstAttribute="leading" secondItem="cr5-Jn-Gzm" secondAttribute="leading" id="GIG-v8-rzs"/>
@@ -1038,12 +1050,12 @@
                             <constraint firstItem="4Ti-Yh-6iG" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" id="Xj8-ql-Hva"/>
                             <constraint firstItem="XDC-QO-zBy" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" constant="12" id="euh-YB-Zwc"/>
                             <constraint firstItem="4Ti-Yh-6iG" firstAttribute="top" secondItem="K85-Np-RZT" secondAttribute="top" id="g3b-nd-5g9"/>
-                            <constraint firstItem="VHe-77-zY4" firstAttribute="centerY" secondItem="7Fw-w1-bhF" secondAttribute="centerY" id="hxk-ui-lzo"/>
                             <constraint firstItem="RYg-vv-3jO" firstAttribute="bottom" secondItem="cr5-Jn-Gzm" secondAttribute="bottom" id="iqT-GO-zX0"/>
                             <constraint firstItem="NEs-wN-Rkh" firstAttribute="height" secondItem="4Ti-Yh-6iG" secondAttribute="height" multiplier="0.75" constant="-70" id="j6m-8x-dff"/>
                             <constraint firstItem="onH-Fn-vzF" firstAttribute="leading" secondItem="PwX-9i-D1c" secondAttribute="leading" constant="10" id="jfv-gL-wd7"/>
                             <constraint firstItem="PwX-9i-D1c" firstAttribute="trailing" secondItem="NEs-wN-Rkh" secondAttribute="trailing" constant="12" id="kZr-2g-hzj"/>
                             <constraint firstItem="VHe-77-zY4" firstAttribute="centerX" secondItem="K85-Np-RZT" secondAttribute="centerX" id="odp-n9-TNc"/>
+                            <constraint firstItem="VHe-77-zY4" firstAttribute="top" secondItem="PwX-9i-D1c" secondAttribute="top" constant="7" id="q5x-iN-rQi"/>
                             <constraint firstItem="XDC-QO-zBy" firstAttribute="top" secondItem="PwX-9i-D1c" secondAttribute="top" constant="7" id="qvo-of-81n"/>
                             <constraint firstItem="cr5-Jn-Gzm" firstAttribute="width" secondItem="NEs-wN-Rkh" secondAttribute="height" multiplier="0.99" id="stb-XR-qzA"/>
                             <constraint firstItem="eID-0S-u8K" firstAttribute="top" secondItem="PwX-9i-D1c" secondAttribute="top" constant="7" id="tP7-KK-nwj"/>
@@ -1057,6 +1069,7 @@
                         <outlet property="filterButton" destination="7Fw-w1-bhF" id="UNw-vW-o8E"/>
                         <outlet property="mapDimensionButton" destination="R81-a2-tHs" id="h1L-rm-Fqh"/>
                         <outlet property="mapView" destination="4Ti-Yh-6iG" id="Udo-mW-dpg"/>
+                        <outlet property="reloadButton" destination="f1k-lH-jkO" id="BGT-3D-aTM"/>
                         <outlet property="searchButton" destination="2GO-Xh-Ctl" id="moY-Xo-E8S"/>
                         <outlet property="trackingDimensionStackView" destination="XDC-QO-zBy" id="Sb2-TX-4KS"/>
                         <outlet property="trojansActiveLabel" destination="CKp-ro-cwq" id="myo-Xz-Cm7"/>
@@ -4117,6 +4130,7 @@
     <color key="tintColor" name="mist-black"/>
     <resources>
         <image name="adam" width="893" height="880"/>
+        <image name="arrow.2.circlepath" catalog="system" width="128" height="101"/>
         <image name="arrow.clockwise" catalog="system" width="115" height="128"/>
         <image name="arrow.turn.right.up" catalog="system" width="120" height="128"/>
         <image name="bookmark" catalog="system" width="112" height="128"/>

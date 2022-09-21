@@ -20,7 +20,7 @@ extension UIButton {
     func loadingIndicator(_ show: Bool) {
         if show {
             self.isEnabled = false
-            self.alpha = 0.5
+//            self.alpha = 0.5
             let indicator = UIActivityIndicatorView()
             indicator.color = Constants.Color.mistBlack
             let buttonHeight = self.bounds.size.height
@@ -32,7 +32,7 @@ extension UIButton {
         } else {
             self.imageView?.isHidden = false
             self.isEnabled = true
-            self.alpha = 1.0
+//            self.alpha = 1.0
             if let indicator = self.viewWithTag(UIButton.LoadingIndicatorTag) as? UIActivityIndicatorView {
                 indicator.stopAnimating()
                 indicator.removeFromSuperview()

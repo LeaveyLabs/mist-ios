@@ -279,8 +279,8 @@ extension CustomSwiftMessages {
     static func showNoMoreOpensMessage() {
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
-            let title = "you're out of opens"
-            let body = "come back at 10am for more"
+            let title = "you're out of opens!"
+            let body = "your 5 opens refresh daily at 10am"
             messageView.configureContent(title: title, body: body, iconText: "🤷‍♀️")
             messageView.customConfig(approveText: "", dismissText: "ok")
             messageView.approveAction = {

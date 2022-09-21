@@ -30,6 +30,8 @@ class ExploreParentViewController: UIViewController, OverlayContainerViewControl
     var keyboardHeight: CGFloat = 0 //emoji keyboard autodismiss flag
     var isKeyboardForEmojiReaction: Bool = false
     var reactingPostIndex: Int? //for scrolling to the right index on the feed when react keyboard raises
+    
+    var isProgrammaticallyMovingOverlay: Bool = false
 
     //ExploreChildDelegate
     var feedPosts: [Post] {
@@ -82,6 +84,10 @@ class ExploreParentViewController: UIViewController, OverlayContainerViewControl
         fatalError("requires subclass implementation")
     }
     
+    func handleUpdatedExploreFilter() {
+        fatalError("requires subclass implementation")
+    }
+    
     // MARK: - OverlayContainer
     
     func setupOverlay() {
@@ -107,13 +113,14 @@ class ExploreParentViewController: UIViewController, OverlayContainerViewControl
     }
         
     @objc func didTapFeedNotch() {
+        isProgrammaticallyMovingOverlay = true
         switch currentNotch {
         case .hidden:
             break
         case .minimum:
-            overlayController.moveOverlay(toNotchAt: OverlayNotch.maximum.rawValue, animated: true, completion: nil)
+            overlayController.moveOverlay(toNotchAt: OverlayNotch.maximum.rawValue, animated: true)
         case .maximum:
-            overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: true, completion: nil)
+            overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: true)
         }
     }
     
@@ -129,6 +136,7 @@ class ExploreParentViewController: UIViewController, OverlayContainerViewControl
     }
     
     func overlayContainerViewController(_ containerViewController: OverlayContainerViewController, willMoveOverlay overlayViewController: UIViewController, toNotchAt index: Int) {
+        print("OVERLAY WILL MOVE", index)
         guard
             let notch = OverlayNotch.init(rawValue: index),
             !isFirstLoad
@@ -145,15 +153,21 @@ class ExploreParentViewController: UIViewController, OverlayContainerViewControl
     }
     
     func overlayContainerViewController(_ containerViewController: OverlayContainerViewController, didMoveOverlay overlayViewController: UIViewController, toNotchAt index: Int) {
+        print("OVERLAY DID MOVE", index)
         guard let notch = OverlayNotch.init(rawValue: index) else { return }
         if notch == .maximum {
             exploreMapVC.dismissPost()
+        }
+        if notch == .hidden && !isProgrammaticallyMovingOverlay {
+            overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: true, completion: nil)
+            return
         }
         if currentNotch == .maximum && notch == .hidden { //don't allow going from max to hidden
             currentNotch = .minimum
             overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: true, completion: nil)
         }
         currentNotch = notch
+        isProgrammaticallyMovingOverlay = false
     }
     
     //to fix: slight unideal animation when dragging down and then immediatley letting go on feed overlay
@@ -161,7 +175,7 @@ class ExploreParentViewController: UIViewController, OverlayContainerViewControl
     func overlayContainerViewController(_ containerViewController: OverlayContainerViewController, willStartDraggingOverlay overlayViewController: UIViewController) {
         if currentNotch == .maximum {
 //            didJustStartDraggingDown = true
-            exploreFeedVC.handleFeedWentDown(duration: 0.15)
+            exploreFeedVC.handleFeedWentSlightlyDown(duration: 0.15)
             exploreMapVC.handleFeedWentDown(duration: 0.15)
 //            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
 //                self.didJustStartDragginDown = false
@@ -171,8 +185,9 @@ class ExploreParentViewController: UIViewController, OverlayContainerViewControl
 
     func overlayContainerViewController(_ containerViewController: OverlayContainerViewController,
                                         scrollViewDrivingOverlay overlayViewController: UIViewController) -> UIScrollView? {
+        return nil
 //        guard currentNotch == .maximum else { return nil } //don't allow dragging while the notch is down
-        return (overlayViewController as? ExploreFeedViewController)?.feed
+//        return (overlayViewController as? ExploreFeedViewController)?.feed
     }
     
     func overlayContainerViewController(_ containerViewController: OverlayContainerViewController,

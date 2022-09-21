@@ -23,8 +23,9 @@ extension ExploreMapViewController {
     //MARK: - Setup
     
     func setupExploreMapButtons() {
-        searchButton.roundCorners(corners: [.topLeft, .bottomLeft], radius: 10)
+        searchButton.roundCorners(corners: [.topRight, .bottomRight], radius: 10)
         filterButton.roundCorners(corners: [.topRight, .bottomRight], radius: 10)
+        reloadButton.roundCorners(corners: [.topLeft, .bottomLeft], radius: 10)
         applyShadowOnView(exploreButtonStackView)
     }
     
@@ -32,6 +33,10 @@ extension ExploreMapViewController {
     
     @IBAction func searchButtonPressed(_ sender: UIButton) {
         presentExploreSearchController()
+    }
+    
+    @IBAction func reloadButtonPressed(_ sender: UIButton) {
+        exploreDelegate.handleUpdatedExploreFilter()
     }
     
     @IBAction func exploreUserTrackingButtonPressed(_ sender: UIButton) {

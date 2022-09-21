@@ -204,7 +204,7 @@ class MapViewController: UIViewController {
     
     private func setupMapButtons() {
         mapDimensionButton.roundCorners(corners: [.topLeft, .bottomLeft], radius: 10)
-        userTrackingButton.roundCorners(corners: [.topRight, .bottomRight, .bottomLeft, .topLeft], radius: 10)
+        userTrackingButton.roundCorners(corners: [.bottomLeft, .topLeft], radius: 10)
         applyShadowOnView(trackingDimensionStackView)
     }
     

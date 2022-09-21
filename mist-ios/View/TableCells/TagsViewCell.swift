@@ -17,9 +17,10 @@ class TagsViewCell: UITableViewCell {
     static var RandomPlacehodler: String {
         return ["tall", "puppy", "jansport", "brunette", "blonde", "sigchi", "ucla", "ellendale",
                 "mccarthy", "village", "parkside", "starbucks", "dulce", "doheny", "pardee", "carhartt",
-                "af1s", "birks", "crocs",
+                "ra", "lifeguard", "library", "kappa", 
+                "af1s", "birks", "crocs", "pigtail",
                 "skateboard", "beanie", "football", "basketball", "airpods", "tennis", "gold", "cat", "sunglasses", "northface", 
-                "csci103", "writ150", "hist264", "chem105a", ""].randomElement()!
+                "csci103", "writ150", "eacl150", "chem105a", "hist266"].randomElement()!
     }
     //we should have a "suggestions" area
 

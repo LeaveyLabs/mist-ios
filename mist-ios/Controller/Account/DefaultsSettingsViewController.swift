@@ -76,9 +76,9 @@ class DefaultsSettingsViewController: UIViewController, UITableViewDelegate, UIT
     
     func setFirstSelectedCells() {
         switch DeviceService.shared.getStartingScreen() {
-        case .explore:
+        case .map:
             (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ToggleSettingsCell)?.setToggled(true)
-        case .mistbox:
+        case .feed:
             (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? ToggleSettingsCell)?.setToggled(true)
         }
         switch DeviceService.shared.getDefaultSort() {
@@ -104,7 +104,7 @@ class DefaultsSettingsViewController: UIViewController, UITableViewDelegate, UIT
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return Settings.StartingScreen.allCases.count
+            return StartingScreen.allCases.count
         } else {
             return SortOrder.allCases.count
         }
@@ -124,9 +124,9 @@ class DefaultsSettingsViewController: UIViewController, UITableViewDelegate, UIT
         case 0:
             switch indexPath.row {
             case 0:
-                toggleSettingsCell.configure(labelText: "explore")
+                toggleSettingsCell.configure(labelText: "map")
             case 1:
-                toggleSettingsCell.configure(labelText: "mistbox")
+                toggleSettingsCell.configure(labelText: "feed")
             default:
                 break
             }
@@ -167,9 +167,9 @@ class DefaultsSettingsViewController: UIViewController, UITableViewDelegate, UIT
         case 0:
             switch indexPath.row {
             case 0:
-                DeviceService.shared.updateStartingScreen(.explore)
+                DeviceService.shared.updateStartingScreen(.map)
             case 1:
-                DeviceService.shared.updateStartingScreen(.mistbox)
+                DeviceService.shared.updateStartingScreen(.feed)
             default:
                 break
             }

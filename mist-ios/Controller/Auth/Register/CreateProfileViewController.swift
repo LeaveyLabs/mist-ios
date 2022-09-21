@@ -18,6 +18,11 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
     
+    @IBOutlet weak var firstNameIndicatorView: UIView!
+    @IBOutlet weak var lastNameIndicatorView: UIView!
+    @IBOutlet weak var usernameIndicatorView: UIView!
+    @IBOutlet weak var profilePicIndicatorView: UIView!
+
     @IBOutlet weak var headerTitleView: UIView!
     @IBOutlet weak var headerSpacingView: UIView!
     @IBOutlet weak var imageViewWidthConstraint: NSLayoutConstraint!
@@ -54,6 +59,7 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
         setupTextFields()
         setupHeaderAndImageBasedOnScreenSize()
         firstNameTextField.becomeFirstResponder()
+        setupIndicatorViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,6 +86,13 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
     }
     
     //MARK: - Setup
+    
+    func setupIndicatorViews() {
+        profilePicIndicatorView.roundCornersViaCornerRadius(radius: 4)
+        firstNameIndicatorView.roundCornersViaCornerRadius(radius: 4)
+        lastNameIndicatorView.roundCornersViaCornerRadius(radius: 4)
+        usernameIndicatorView.roundCornersViaCornerRadius(radius: 4)
+    }
     
     func setupButtons() {
         continueButton.roundCornersViaCornerRadius(radius: 10)
@@ -244,6 +257,11 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
         let validUsername = Validate.validateUsername(usernameTextField.text ?? "")
         let validName = firstNameTextField.text!.count > 0 && lastNameTextField.text!.count > 0
         isValidInput = validPic && validUsername && validName
+        
+        firstNameIndicatorView.isHidden = firstNameTextField.text!.count > 0
+        lastNameIndicatorView.isHidden = lastNameTextField.text!.count > 0
+        usernameIndicatorView.isHidden = usernameTextField.text!.count > 0
+        profilePicIndicatorView.isHidden = validPic
     }
 
 }

@@ -124,6 +124,7 @@ class ConversationService: NSObject {
 //        }) //not safe:: we don't want to overwrite existing conversations
         frontendUsers.forEach { userId, user in
             conversations[userId] = Conversation(sangdaebang: user, messageThread: newMessageThreadsByUserIds[userId]!)
+            conversations[userId]?.sangdaebang.profilePic = profilePics[userId]
         }
         conversations.forEach { $1.sangdaebang.profilePic = profilePics[$0] }
     }

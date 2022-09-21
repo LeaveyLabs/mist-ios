@@ -69,6 +69,14 @@ class ExplainProfileViewController: UIViewController, LargeImageCollectionCellDe
         collectionView.delegate = self
         collectionView.bounces = true
         collectionView.showsHorizontalScrollIndicator = false
+                
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            collectionView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: view.frame.height * -0.05),
+            collectionView.heightAnchor.constraint(equalTo: view.heightAnchor),
+            collectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
+        ])
     }
     
     func setupPageControl() {
@@ -85,7 +93,6 @@ class ExplainProfileViewController: UIViewController, LargeImageCollectionCellDe
     }
     
     func setupGuidelinesLabel() {
-        guidelinesLabel.text = "anonymist"
         guidelinesLabel.font = UIFont(name: Constants.Font.Heavy, size: 50)
         guidelinesLabel.textColor = Constants.Color.mistBlack
         guidelinesLabel.numberOfLines = 1

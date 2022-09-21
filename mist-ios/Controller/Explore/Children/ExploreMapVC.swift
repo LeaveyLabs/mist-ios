@@ -59,6 +59,7 @@ class ExploreMapViewController: MapViewController {
     
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var filterButton: UIButton!
+    @IBOutlet weak var reloadButton: UIButton!
     @IBOutlet weak var exploreButtonStackView: UIStackView!
     @IBOutlet weak var trojansActiveView: UIView!
     @IBOutlet weak var trojansActiveLabel: UILabel!

@@ -67,8 +67,9 @@ class CustomExploreParentViewController: ExploreParentViewController {
             DeviceService.shared.didViewMentions()
         }
         overlayController.moveOverlay(toNotchAt: OverlayNotch.medium.rawValue, animated: false, completion: nil)
-        exploreFeedVC.refreshButton.isHidden = false
         exploreFeedVC.filterButton.isHidden = true
+        exploreMapVC.filterButton.isHidden = true
+        exploreMapVC.reloadButton.roundCorners(corners: .allCorners, radius: 10)
     }
     
     //MARK: - Override Overlay
@@ -141,7 +142,7 @@ class CustomExploreParentViewController: ExploreParentViewController {
     override func overlayContainerViewController(_ containerViewController: OverlayContainerViewController, willStartDraggingOverlay overlayViewController: UIViewController) {
         if currentCustomNotch == .maximum {
 //            didJustStartDraggingDown = true
-            exploreFeedVC.handleFeedWentDown(duration: 0.15)
+            exploreFeedVC.handleFeedWentSlightlyDown(duration: 0.15)
             exploreMapVC.handleFeedWentDown(duration: 0.15)
 //            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
 //                self.didJustStartDragginDown = false
@@ -151,8 +152,9 @@ class CustomExploreParentViewController: ExploreParentViewController {
 
     override func overlayContainerViewController(_ containerViewController: OverlayContainerViewController,
                                         scrollViewDrivingOverlay overlayViewController: UIViewController) -> UIScrollView? {
-//        guard currentCustomNotch == .maximum else { return nil } //don't allow dragging while the notch is down
-        return (overlayViewController as? ExploreFeedViewController)?.feed
+        return nil
+//        guard currentCustomNotch != .maximum else { return nil } //don't allow dragging while the notch is down
+//        return (overlayViewController as? ExploreFeedViewController)?.feed
     }
     
     override func overlayContainerViewController(_ containerViewController: OverlayContainerViewController,
@@ -202,6 +204,29 @@ class CustomExploreParentViewController: ExploreParentViewController {
         //do nothing
     }
     
+    
+    @MainActor
+    override func handleUpdatedExploreFilter() {
+        //We should scroll to top before we alter the dataSource for the feed or else we risk scrolling through rows which were full but are nowed empty
+        exploreMapVC.reloadButton.loadingIndicator(true)
+        exploreMapVC.reloadButton.setImage(nil, for: .normal)
+        if !feedPosts.isEmpty {
+            exploreFeedVC.feed.isUserInteractionEnabled = false
+            exploreFeedVC.feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            exploreFeedVC.feed.isUserInteractionEnabled = true
+        }
+        Task {
+            try await PostService.singleton.loadExploreFeedPostsIfPossible() //page count is set to 0 when resetting sorting
+            try await PostService.singleton.loadAndOverwriteExploreMapPosts()
+            DispatchQueue.main.async {
+                self.renderNewPostsOnFeed(withType: .firstLoad)
+                self.renderNewPostsOnMap(withType: .firstLoad)
+                self.exploreFeedVC.feed.refreshControl?.endRefreshing()
+                self.exploreMapVC.reloadButton.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: UIImage.SymbolConfiguration(pointSize: 18, weight: .medium)), for: .normal)
+                self.exploreMapVC.reloadButton.loadingIndicator(false)
+            }
+        }
+    }
     
 }
 

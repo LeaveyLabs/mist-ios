@@ -218,7 +218,7 @@ class NewPostViewController: UIViewController {
     @IBAction func cancelButtonDidPressed(_ sender: UIBarButtonItem) {
         let hasMadeEdits = !bodyTextView.text.isEmpty || !titleTextView.text.isEmpty || currentPin != nil
         if hasMadeEdits {
-            CustomSwiftMessages.showAlert(title: "save this post as a draft?", body: "", emoji: "🗑", dismissText: "no thanks", approveText: "save", onDismiss: {
+            CustomSwiftMessages.showAlert(title: "save this mist as a draft?", body: "", emoji: "🗑", dismissText: "nah", approveText: "save", onDismiss: {
                 NewPostContext.clear()
                 self.dismiss(animated: true)
             }, onApprove: {
