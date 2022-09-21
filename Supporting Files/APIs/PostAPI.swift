@@ -25,7 +25,7 @@ struct MistboxError: Codable {
     let detail: String?
 }
 
-enum SortOrder: Int, CaseIterable {
+enum SortOrder: Int, CaseIterable, Codable {
     case RECENT
     case BEST
     case TRENDING

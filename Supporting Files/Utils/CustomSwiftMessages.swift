@@ -163,8 +163,8 @@ extension CustomSwiftMessages {
             var title, body, emoji: String
             switch permissionType {
             case .userLocation:
-                title = "would you like to share your current location?"
-                body = "this makes finding and submitting mists even easier"
+                title = "share your current location"
+                body = "this makes finding and posting mists even easier"
                 emoji = "📍"
                 messageView.customConfig(approveText: "sure", dismissText: "no thanks")
             case .contacts:

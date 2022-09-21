@@ -51,7 +51,7 @@ class MapViewController: UIViewController {
     let locationManager = CLLocationManager()
     
     // Camera
-    static let STARTING_ZOOM_DISTANCE: Double = 5000
+    static let STARTING_ZOOM_DISTANCE: Double = 7500
     static let MIN_CAMERA_DISTANCE: Double = 500
     var maxCameraPitch: Double = 0
 //    static let MIN_CAMERA_PITCH: Double = 0 //not implemented yet
@@ -204,7 +204,7 @@ class MapViewController: UIViewController {
     
     private func setupMapButtons() {
         mapDimensionButton.roundCorners(corners: [.topLeft, .bottomLeft], radius: 10)
-        userTrackingButton.roundCorners(corners: [.topRight, .bottomRight], radius: 10)
+        userTrackingButton.roundCorners(corners: [.topRight, .bottomRight, .bottomLeft, .topLeft], radius: 10)
         applyShadowOnView(trackingDimensionStackView)
     }
     

@@ -36,7 +36,7 @@ struct Constants {
         
     static let maxPasswordLength = 1000
     
-    static let searchPlaceholder = "search a place or address"
+    static let searchPlaceholder = "find a place or address"
     
     struct Coordinates {
         static let USC = CLLocationCoordinate2D(latitude: 34.0209 + 0.0019, longitude: -118.2861)
@@ -67,6 +67,7 @@ struct Constants {
             static let CommentHeaderCell = "CommentHeaderCell"
             static let BadgesCell = "BadgesCell"
             static let BadgeCell = "BadgeCell"
+            static let ToggleSettingsCell = "ToggleSettingsCell"
         }
         struct VC {
             //Post
@@ -89,14 +90,15 @@ struct Constants {
             static let Settings = "SettingsViewController"
             static let PasswordSetting = "PasswordSettingViewController"
             static let UpdateProfile = "UpdateProfileSettingViewController"
+            static let DefaultSettings = "DefaultsSettingsViewController"
             //Explore
             static let CustomExploreParent = "CustomExploreParentViewController"
             static let HomeExploreParent = "HomeExploreParentViewController"
             static let ExploreMap = "ExploreMapViewController"
             static let ExploreFeed = "ExploreFeedViewController"
             static let SearchSuggestions = "SearchSuggestionsTableViewController"
-            static let Filter = "FilterSheetViewController"
-            static let NewFilter = "NewFilterSheetViewController"
+            static let MapFilter = "MapFilterSheetViewController"
+            static let FeedFilter = "FeedFilterSheetViewController"
             //Messages
             static let Chat = "ChatViewController"
             static let ChatMore = "ChatMoreViewController"
@@ -126,6 +128,7 @@ struct Constants {
             static let ConfirmCode = "ConfirmCodeViewController"
             static let RequestReset = "RequestResetNumberViewController"
             static let ResetNumber = "ResetNumberViewController"
+            static let ExplainProfile = "ExplainProfileViewController"
             //Reset password
 //            static let RequestResetPassword = "RequestResetPasswordViewController"
 //            static let ValidateResetPassword = "ValidateResetPasswordViewController"

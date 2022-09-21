@@ -104,11 +104,11 @@ class NewPostViewController: UIViewController {
         validateAllFields()
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default)), style: .plain, target: self, action: #selector(cancelButtonDidPressed(_:)))
 
-//        if !DeviceService.shared.hasBeenShowedGuidelines() {
-//            presentExplanationVC()
-//        } else {
+        if !DeviceService.shared.hasBeenShowedGuidelines() {
+            presentExplanationVC()
+        } else {
             titleTextView.becomeFirstResponder()
-//        }
+        }
         addKeyboardObservers()
     }
     
@@ -218,7 +218,7 @@ class NewPostViewController: UIViewController {
     @IBAction func cancelButtonDidPressed(_ sender: UIBarButtonItem) {
         let hasMadeEdits = !bodyTextView.text.isEmpty || !titleTextView.text.isEmpty || currentPin != nil
         if hasMadeEdits {
-            CustomSwiftMessages.showAlert(title: "would you like to save this post as a draft?", body: "", emoji: "🗑", dismissText: "no thanks", approveText: "save", onDismiss: {
+            CustomSwiftMessages.showAlert(title: "save this post as a draft?", body: "", emoji: "🗑", dismissText: "no thanks", approveText: "save", onDismiss: {
                 NewPostContext.clear()
                 self.dismiss(animated: true)
             }, onApprove: {

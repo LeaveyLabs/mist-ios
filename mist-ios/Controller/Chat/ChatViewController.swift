@@ -113,8 +113,10 @@ class ChatViewController: MessagesViewController {
                 if conversation.sangdaebang.profilePic == nil {
                     Task {
                         let newlyLoadedPic = try await UsersService.singleton.loadAndCacheProfilePic(frontendUser: conversation.sangdaebang)
+                        ConversationService.singleton.updateProfilePicWith(userId: sangdaebangId, image: newlyLoadedPic)
                         DispatchQueue.main.async { [weak self] in
                             self?.receiverProfilePicButton.imageView?.becomeProfilePicImageView(with: newlyLoadedPic)
+                            self?.messagesCollectionView.reloadData() //refresh the avatar pics
                         }
                     }
                 }

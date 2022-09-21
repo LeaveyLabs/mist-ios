@@ -8,9 +8,7 @@
 import Foundation
 import MapKit
 
-struct PostFilter {
-    var postType: PostType = .All
-    
+struct PostFilter {    
     static let MIN_PAGE_NUMBER = 1
     var pageNumber: Int = PostFilter.MIN_PAGE_NUMBER
     var isFeedFullyLoaded: Bool = false
@@ -18,13 +16,15 @@ struct PostFilter {
         didSet {
             pageNumber = PostFilter.MIN_PAGE_NUMBER
             isFeedFullyLoaded = false
+            searchedMapRegions = [:]
         }
     }
+//    var mapFilterMethod: MapFilterMethod = .top100
     
     var currentMapPlaneAndRegion: (Int, MKCoordinateRegion) = (1, MKCoordinateRegion(center: Constants.Coordinates.USC, span: MKCoordinateSpan(latitudeDelta: MapViewController.MIN_SPAN_DELTA, longitudeDelta: MapViewController.MIN_SPAN_DELTA)))
     var searchedMapRegions: [Int:[MKCoordinateRegion]] = [:]
 }
 
-enum PostType: String {
-    case All, Featured, Matches, Friends
-}
+//enum MapFilterMethod: String {
+//    case all, top100
+//}

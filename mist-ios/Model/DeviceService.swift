@@ -50,6 +50,12 @@ class DeviceService: NSObject {
         }
         return unreadPostUniqueTags.count
     }
+    func getStartingScreen() -> Settings.StartingScreen {
+        return device.settings.startingScreen
+    }
+    func getDefaultSort() -> SortOrder {
+        return device.settings.sortOrder
+    }
 
     //MARK: - Doers
     
@@ -91,6 +97,15 @@ class DeviceService: NSObject {
     }
     func didViewMentions() {
         device.lastMentionsOpenTime = Date().timeIntervalSince1970
+        Task { await saveToFilesystem() }
+    }
+    
+    func updateStartingScreen(_ screen: Settings.StartingScreen) {
+        device.settings.startingScreen = screen
+        Task { await saveToFilesystem() }
+    }
+    func updateDefaultSort(_ sort: SortOrder) {
+        device.settings.sortOrder = sort
         Task { await saveToFilesystem() }
     }
     

@@ -150,6 +150,14 @@ extension ExploreMapViewController {
             }
         }
     }
+    
+    //MARK: - UserInteraction
+    
+    @IBAction func handleFilterButtonPress() {
+        guard let parent = exploreDelegate as? HomeExploreParentViewController else { return }
+        let filterVC = FeedFilterSheetViewController.create(delegate: parent)
+        present(filterVC, animated: true)
+    }
 }
 //
 //MARK: - Post Interaction

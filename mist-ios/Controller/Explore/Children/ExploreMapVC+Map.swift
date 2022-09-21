@@ -23,7 +23,7 @@ extension ExploreMapViewController {
     //MARK: - Setup
     
     func setupExploreMapButtons() {
-        searchButton.roundCorners(corners: [.topLeft, .bottomLeft, .topRight, .bottomRight], radius: 10)
+        searchButton.roundCorners(corners: [.topLeft, .bottomLeft], radius: 10)
         filterButton.roundCorners(corners: [.topRight, .bottomRight], radius: 10)
         applyShadowOnView(exploreButtonStackView)
     }

@@ -8,7 +8,7 @@
 import Foundation
 
 enum AccountSection: Int, CaseIterable {
-    case profile, posts, other, logout //friends
+    case profile, posts, settings, other, logout //friends
     
     var displayName : String {
         switch self {
@@ -18,6 +18,8 @@ enum AccountSection: Int, CaseIterable {
 //            return "FRIENDS"
         case .posts:
             return "MISTS"
+        case .settings:
+            return "SETTINGS"
         case .other:
             return "OTHER"
         case .logout:
@@ -33,8 +35,10 @@ enum AccountSection: Int, CaseIterable {
 //            return [.friends]
         case .posts:
             return [.mentions, .submissions, .favorites]
+        case .settings:
+            return [.account, .defaults, .notifications]
         case .other:
-            return [.settings, .shareFeedback, .learnMore]
+            return [.shareFeedback, .learnMore]
         case .logout:
             return []
         }

@@ -268,6 +268,11 @@ class UpdateProfileSettingViewController: UITableViewController {
         }
     }
     
+    @IBAction func didPressExplainProfileButton(_ sender: UIButton) {
+        let explainProfileVC = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ExplainProfile) as! ExplainProfileViewController
+        present(explainProfileVC, animated: true)
+    }
+    
     //MARK: - Helpers
     
     func validateInput() {

@@ -22,6 +22,7 @@ func loadEverything() async throws {
 }
 
 func loadPostStuff() async throws {
+    PostService.singleton.updateFilter(newPostSort: DeviceService.shared.getDefaultSort()) //a second check, just to be sure
     try await withThrowingTaskGroup(of: Void.self) { group in
         group.addTask { try await PostService.singleton.loadExploreFeedPostsIfPossible() }
         group.addTask { try await PostService.singleton.loadAndOverwriteExploreMapPosts() }

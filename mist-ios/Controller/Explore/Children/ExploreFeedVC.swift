@@ -67,7 +67,7 @@ class ExploreFeedViewController: UIViewController {
     
     @IBAction func filterButtonDidPressed() {
         guard let parent = exploreDelegate as? HomeExploreParentViewController else { return }
-        let filterVC = FilterSheetViewController.create(delegate: parent)
+        let filterVC = FeedFilterSheetViewController.create(delegate: parent)
         present(filterVC, animated: true)
     }
     

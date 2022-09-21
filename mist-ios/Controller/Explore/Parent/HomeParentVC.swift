@@ -34,10 +34,13 @@ class HomeExploreParentViewController: ExploreParentViewController {
     }
     
     func setupTabBar() {
-//        guard let tabBarVC = tabBarController as? SpecialTabBarController else { return }
-//        if MistboxManager.shared.getMistboxMists().count > 0 || DeviceService.shared.unreadMentionsCount() > 0 {
-//            tabBarVC.selectedIndex = 1
-//        }
+        guard let tabBarVC = tabBarController as? SpecialTabBarController else { return }
+        switch DeviceService.shared.getStartingScreen() {
+        case .explore:
+            break
+        case .mistbox:
+            tabBarVC.selectedIndex = 1
+        }
     }
     
     func setupActiveLabel() {
@@ -71,14 +74,6 @@ class HomeExploreParentViewController: ExploreParentViewController {
         firstAppearance = false
         
         guard !isHandlingNewPost else { return }
-        
-        if !DeviceService.shared.hasBeenRequestedLocationOnHome() && (CLLocationManager.authorizationStatus() == .denied ||
-            CLLocationManager.authorizationStatus() == .notDetermined) {
-            DeviceService.shared.showHomeLocationRequest()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.exploreMapVC.requestUserLocationPermissionIfNecessary()
-            }
-        }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             UIView.animate(withDuration: 1, delay: 0, options: .curveLinear) {
@@ -188,10 +183,22 @@ extension HomeExploreParentViewController: FilterDelegate {
         }
         Task {
             try await PostService.singleton.loadExploreFeedPostsIfPossible() //page count is set to 0 when resetting sorting
+            try await PostService.singleton.loadAndOverwriteExploreMapPosts()
             DispatchQueue.main.async {
                 self.renderNewPostsOnFeed(withType: .firstLoad)
+                self.renderNewPostsOnMap(withType: .firstLoad)
             }
         }
     }
     
 }
+
+
+//NO LONGER ASK FOR PERMISSION ON VIEW DID APPEAR
+//        if !DeviceService.shared.hasBeenRequestedLocationOnHome() && (CLLocationManager.authorizationStatus() == .denied ||
+//            CLLocationManager.authorizationStatus() == .notDetermined) {
+//            DeviceService.shared.showHomeLocationRequest()
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                self.exploreMapVC.requestUserLocationPermissionIfNecessary()
+//            }
+//        }

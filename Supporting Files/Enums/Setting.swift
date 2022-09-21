@@ -14,8 +14,10 @@ enum Setting {
     case friends
     //mists
     case mentions, submissions, favorites
+    //settings
+    case account, defaults, notifications
     //other
-    case settings, shareFeedback, learnMore
+    case shareFeedback, learnMore
         case phoneNumber, deleteAccount
         case rateMist, feedbackForm, leaveReview, contactUs
         case faq, contentGuidelines, privacyPolicy, terms
@@ -41,15 +43,13 @@ enum Setting {
         case .faq:
             return "FAQ".lowercased()
         case .contactUs:
-            return "Contact us".lowercased()
+            return "Email us".lowercased()
         case .deleteAccount:
             return "Delete Account".lowercased()
         case .privacyPolicy:
             return "Privacy Policy".lowercased()
         case .terms:
             return "Terms of Use".lowercased()
-        case .settings:
-            return "Settings".lowercased()
         case .shareFeedback:
             return "Share your feedback".lowercased()
         case .learnMore:
@@ -62,6 +62,12 @@ enum Setting {
             return ""
         case .feedbackForm:
             return "Mist feedback form".lowercased()
+        case .account:
+            return "Account".lowercased()
+        case .defaults:
+            return "Defaults".lowercased()
+        case .notifications:
+            return "Notifications".lowercased()
         }
     }
     
@@ -101,8 +107,6 @@ enum Setting {
             return UIImage(systemName: "doc.plaintext")!
         case .terms:
             return UIImage(systemName: "doc.plaintext")!
-        case .settings:
-            return UIImage(systemName: "gearshape")!
         case .rateMist:
             return UIImage(systemName: "star")!
         case .myProfile:
@@ -111,6 +115,12 @@ enum Setting {
             return UIImage()
         case .feedbackForm:
             return UIImage(systemName: "doc.text")!
+        case .account:
+            return UIImage(systemName: "person.crop.circle")!
+        case .defaults:
+            return UIImage(systemName: "iphone")!
+        case .notifications:
+            return UIImage(systemName: "bell.badge")!
         }
     }
     
@@ -148,8 +158,6 @@ enum Setting {
             settingsTapDelegate.handleLink(setting: self)
         case .terms:
             settingsTapDelegate.handleLink(setting: self)
-        case .settings:
-            settingsTapDelegate.handleSettings(setting: self)
         case .rateMist:
             AppStoreReviewManager.offerViewPromptUponUserRequest()
         case .leaveReview:
@@ -160,6 +168,12 @@ enum Setting {
             settingsTapDelegate.handleAvatar()
         case .feedbackForm:
             settingsTapDelegate.handleLink(setting: self)
+        case .account:
+            settingsTapDelegate.handleAccount(setting: self)
+        case .defaults:
+            settingsTapDelegate.handleDefaults(setting: self)
+        case .notifications:
+            break
         }
     }
 }

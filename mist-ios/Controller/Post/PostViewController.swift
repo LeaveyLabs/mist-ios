@@ -116,11 +116,11 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         if !DeviceService.shared.hasBeenRequestedContactsOnPost() {
             DeviceService.shared.requestContactsOnPost()
             requestContactsAccess { wasShownPermissionRequest in
-                DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [self] in
+//                DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [self] in
 //                    if shouldStartWithRaisedKeyboard {
 //                        inputBar.inputTextView.becomeFirstResponder()
 //                    }
-                })
+//                })
             }
         } else {
 //            if shouldStartWithRaisedKeyboard {
@@ -221,25 +221,24 @@ extension PostViewController: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         let commentAutocompletions = extractAutocompletionsFromInputBarText()
         let tags = turnCommentAutocompletionsIntoTags(commentAutocompletions)
-        requestPermissionToTextIfNecessary(autocompletions: commentAutocompletions, tags: tags) { [self] permission in
-            guard permission else { return }
-            DispatchQueue.main.async {
-                self.inputBar.sendButton.setTitleColor(Constants.Color.mistLilac.withAlphaComponent(0.4), for: .disabled)
-                self.inputBar.sendButton.isEnabled = false
+        self.inputBar.sendButton.setTitleColor(Constants.Color.mistLilac.withAlphaComponent(0.4), for: .disabled)
+        self.inputBar.sendButton.isEnabled = false
 //              inputBar.inputTextView.isEditable = false
-            }
-            Task {
-                do {
-                    let trimmedCommentText = inputBar.inputTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
-                    let newComment = try await CommentService.singleton.uploadComment(text: trimmedCommentText, postId: post.id, tags: tags)
-                    handleSuccessfulCommentSubmission(newComment: newComment)
-                } catch {
-                    CustomSwiftMessages.displayError(error)
-                    DispatchQueue.main.async { [weak self] in
-                        self?.inputBar.sendButton.setTitleColor(.clear, for: .disabled)
-                        self?.inputBar.sendButton.isEnabled = true
-                        self?.inputBar.inputTextView.isEditable = true
-                    }
+        
+        Task {
+            do {
+                let trimmedCommentText = inputBar.inputTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+                let newComment = try await CommentService.singleton.uploadComment(text: trimmedCommentText, postId: post.id, tags: tags)
+                handleSuccessfulCommentSubmission(newComment: newComment)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                    self.displayTextSuccessIfTextWasSent(autocompletions: commentAutocompletions, tags: tags)
+                })
+            } catch {
+                CustomSwiftMessages.displayError(error)
+                DispatchQueue.main.async { [weak self] in
+                    self?.inputBar.sendButton.setTitleColor(.clear, for: .disabled)
+                    self?.inputBar.sendButton.isEnabled = true
+                    self?.inputBar.inputTextView.isEditable = true
                 }
             }
         }
@@ -280,10 +279,9 @@ extension PostViewController: InputBarAccessoryViewDelegate {
         return commentAutocompletions
     }
     
-    func requestPermissionToTextIfNecessary(autocompletions commentAutocompletions: [String: AnyObject], tags: [Tag], closure: @escaping (_ permission: Bool) -> Void) {
+    func displayTextSuccessIfTextWasSent(autocompletions commentAutocompletions: [String: AnyObject], tags: [Tag]) {
         let tagsFromContacts = tags.filter({ $0.tagged_phone_number != nil })
         guard tagsFromContacts.count > 0 else {
-            closure(true)
             return
         }
         
@@ -302,18 +300,13 @@ extension PostViewController: InputBarAccessoryViewDelegate {
             }
         }
         
-        let alertTitle: String = namesAsString + (firstNamesToText.count == 1 ? "isn't on mist yet" : "aren't on mist yet")
-        let alert = UIAlertController(title: alertTitle,
-                                      message: "we'll send a text to let them know you mentioned them",
+        let alert = UIAlertController(title: "success!",
+                                      message: "we sent a text to " + namesAsString + "to let them know you mentioned them",
                                       preferredStyle: UIAlertController.Style.alert)
         alert.view.tintColor = Constants.Color.mistLilac
-        alert.addAction(UIAlertAction(title: "cancel",
-                                      style: UIAlertAction.Style.destructive, handler: { alertAction in
-            closure(false)
-        }))
-        alert.addAction(UIAlertAction(title: "ok",
+        alert.addAction(UIAlertAction(title: "nice",
                                       style: UIAlertAction.Style.default, handler: { alertAction in
-            closure(true)
+
         }))
         self.present(alert, animated: true)
     }

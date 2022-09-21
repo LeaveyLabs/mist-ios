@@ -31,6 +31,7 @@ class SettingCell: UITableViewCell {
         selectionStyle = .default
         accessoryIndicatorBackgroundView.isHidden = true
         accessoryLabel.font = UIFont(name: Constants.Font.Medium, size: 13)
+        accessoryImageView.isHidden = false
         
         switch setting {
         case .friends, .avatar, .myProfile:
@@ -52,8 +53,12 @@ class SettingCell: UITableViewCell {
         case .favorites:
             accessoryLabel.text = String(PostService.singleton.getFavorites().count)
             accessoryLabel.font = UIFont(name: Constants.Font.Medium, size: 15)
-        case .settings:
+        case .account:
             break
+        case .notifications:
+            selectionStyle = .none
+            accessoryImageView.isHidden = true
+            accessoryLabel.text = "coming soon"
         case .shareFeedback:
             break
         case .learnMore:
@@ -79,6 +84,8 @@ class SettingCell: UITableViewCell {
         case .terms:
             break
         case .rateMist:
+            break
+        case .defaults:
             break
         }
     }

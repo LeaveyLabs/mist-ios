@@ -14,7 +14,8 @@ protocol SettingsTapDelegate: MFMailComposeViewControllerDelegate {
     func handlePosts(setting: Setting)
     func handleLearnMore(setting: Setting)
     func handleShareFeedback(setting: Setting)
-    func handleSettings(setting: Setting)
+    func handleAccount(setting: Setting)
+    func handleDefaults(setting: Setting)
     //other
     func handleDeleteAccount()
     func handleLeaveReview()
@@ -39,8 +40,13 @@ extension SettingsTapDelegate where Self: UIViewController {
         navigationController?.pushViewController(customExplore, animated: true)
     }
     
-    func handleSettings(setting: Setting) {
+    func handleAccount(setting: Setting) {
         let settingsVC = SettingsViewController.create(settings: [.phoneNumber, .deleteAccount], title: setting.displayName)
+        navigationController?.pushViewController(settingsVC, animated: true)
+    }
+    
+    func handleDefaults(setting: Setting) {
+        let settingsVC = DefaultsSettingsViewController.create()
         navigationController?.pushViewController(settingsVC, animated: true)
     }
     

@@ -151,6 +151,12 @@ class ConversationService: NSObject {
         }
     }
     
+    //MARK: - Updaters
+    
+    func updateProfilePicWith(userId: Int, image: UIImage) {
+        conversations[userId]?.sangdaebang.profilePic = image
+    }
+    
     //MARK: - Getters
     
     func getCount() -> Int {

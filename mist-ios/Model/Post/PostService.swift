@@ -27,7 +27,11 @@ class PostService: NSObject {
     private var favoritePostIds = [Int]()
     private var mentionPostIds = [Int]()
     
-    private var explorePostFilter = PostFilter()
+    private var explorePostFilter: PostFilter = {
+        var postfilter = PostFilter()
+        postfilter.postSort = DeviceService.shared.getDefaultSort()
+        return postfilter
+    }()
     
     //NOTE: i considered making PostService an actor, but that requires us to await any access to the cachedPosts throughout the app
     //This is probably the way to go down the road (if someone clicks on a post, the screen should immediately open up, and there could be a loading screen for half a second or so until the cache is able to be accessed
@@ -105,21 +109,23 @@ class PostService: NSObject {
         return true
     }
     
-    //TODO: we might want to reset postfilter here
-    func loadAndOverwriteExploreMapPosts() async throws {
-        guard isReadyForNewMapSearch() else { return }
-        
+    func loadAndOverwriteExploreMapPosts() async throws {        
         let plane = explorePostFilter.currentMapPlaneAndRegion.0
         let region = explorePostFilter.currentMapPlaneAndRegion.1
-        
-        let loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: region.center.latitude, longitude: region.center.longitude, radius: convertLatDeltaToKms(region.span.latitudeDelta)) //adding the /2 bc we were using too large of a region to find the best posts
+                
+        let loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(
+            latitude: region.center.latitude,
+            longitude: region.center.longitude,
+            radius: convertLatDeltaToKms(region.span.latitudeDelta),
+            order: explorePostFilter.postSort) //adding the /2 bc we were using too large of a region to find the best posts
+
         
         if explorePostFilter.searchedMapRegions[plane] != nil {
             explorePostFilter.searchedMapRegions[plane]!.append(region)
         } else {
             explorePostFilter.searchedMapRegions[plane] = [region]
         }
-                
+                        
         allExploreMapPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts)
         newExploreMapPostIds =  allExploreMapPostIds
     }
@@ -130,8 +136,12 @@ class PostService: NSObject {
         let plane = explorePostFilter.currentMapPlaneAndRegion.0
         let region = explorePostFilter.currentMapPlaneAndRegion.1
         
-        let loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(latitude: region.center.latitude, longitude: region.center.longitude, radius: convertLatDeltaToKms(region.span.latitudeDelta))
-        
+        let loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(
+            latitude: region.center.latitude,
+            longitude: region.center.longitude,
+            radius: convertLatDeltaToKms(region.span.latitudeDelta),
+            order: explorePostFilter.postSort) //adding the /2 bc we were using too large of a region to find the best posts
+                
         if explorePostFilter.searchedMapRegions[plane] != nil {
             explorePostFilter.searchedMapRegions[plane]!.append(region)
         } else {
@@ -256,10 +266,6 @@ class PostService: NSObject {
     
     func updateFilter(newPostSort: SortOrder) {
         explorePostFilter.postSort = newPostSort //page and wasFeedFullyReloaded are automatically reset
-    }
-    
-    func updateFilter(newPostType: PostType) {
-        explorePostFilter.postType = newPostType
     }
     
     func updateFilter(newPlaneAndRegion: (Int,MKCoordinateRegion)) {
