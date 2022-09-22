@@ -57,6 +57,8 @@ class UserAPI {
     static let PATH_TO_VERIFY_PROFILE_PICTURE = "api-verify-profile-picture/"
     static let PATH_TO_USER_POPULATION = "api/user-population/"
     static let PATH_TO_ACCESS_CODES = "api/access-codes/"
+    static let PATH_TO_COLLECTIBLES = "api/collectibles/"
+    
     static let EMAIL_PARAM = "email"
     static let USERNAME_PARAM = "username"
     static let PASSWORD_PARAM = "password"
@@ -72,6 +74,7 @@ class UserAPI {
     static let LATITUDE_PARAM = "latitude"
     static let LONGITUDE_PARAM = "longitude"
     static let CODE_PARAM = "code"
+    static let COLLECTIBLE_PARAM = "collectible_type"
     
     static let USER_RECOVERY_MESSAGE = "try again later"
     
@@ -243,6 +246,16 @@ class UserAPI {
         let url = "\(Env.BASE_URL)\(PATH_TO_ACCESS_CODES)"
         let params:[String:String] = [
             CODE_PARAM: code
+        ]
+        let json = try JSONEncoder().encode(params)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData:json, method: HTTPMethods.POST.rawValue)
+        try filterUserErrors(data: data, response: response)
+    }
+    
+    static func postCollectible(collectible_type:Int) async throws {
+        let url = "\(Env.BASE_URL)\(PATH_TO_COLLECTIBLES)"
+        let params:[String:Int] = [
+            COLLECTIBLE_PARAM: collectible_type
         ]
         let json = try JSONEncoder().encode(params)
         let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData:json, method: HTTPMethods.POST.rawValue)
