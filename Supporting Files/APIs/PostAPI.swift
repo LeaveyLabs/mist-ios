@@ -273,6 +273,7 @@ class PostAPI {
     
     // Fetches all posts from database (searching with location description)
     // TODO: Rewrite the function earlier signatures so that we can do this
+    
 
     // Posts post in the database
     static func createPost(title: String,
@@ -290,6 +291,29 @@ class PostAPI {
                         longitude: longitude,
                         timestamp: timestamp,
                         author: author)
+        let json = try JSONEncoder().encode(post)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
+        try filterPostErrors(data: data, response: response)
+        return try JSONDecoder().decode(Post.self, from: data)
+    }
+    
+    static func createPost(title: String,
+                           text: String,
+                           locationDescription: String,
+                           latitude: Double,
+                           longitude: Double,
+                           timestamp: Double,
+                           author: Int,
+                           collectible_type:Int?) async throws -> Post {
+        let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)"
+        let post = Post(title: title,
+                        body: text,
+                        location_description: locationDescription,
+                        latitude: latitude,
+                        longitude: longitude,
+                        timestamp: timestamp,
+                        author: author,
+                        collectible_type: collectible_type)
         let json = try JSONEncoder().encode(post)
         let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterPostErrors(data: data, response: response)

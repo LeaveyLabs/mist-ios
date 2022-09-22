@@ -252,16 +252,6 @@ class UserAPI {
         try filterUserErrors(data: data, response: response)
     }
     
-    static func postCollectible(collectible_type:Int) async throws {
-        let url = "\(Env.BASE_URL)\(PATH_TO_COLLECTIBLES)"
-        let params:[String:Int] = [
-            COLLECTIBLE_PARAM: collectible_type
-        ]
-        let json = try JSONEncoder().encode(params)
-        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData:json, method: HTTPMethods.POST.rawValue)
-        try filterUserErrors(data: data, response: response)
-    }
-    
     static func isAccessCodeAvailable(code:String) async throws -> Bool {
         let url = "\(Env.BASE_URL)\(PATH_TO_ACCESS_CODES)?code=\(code)"
         let (data, response) = try await BasicAPI.basicHTTPCallWithoutToken(url: url, jsonData:Data(), method: HTTPMethods.GET.rawValue)
