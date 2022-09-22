@@ -278,8 +278,8 @@ extension PostAnnotationView: UIGestureRecognizerDelegate {
 extension PostAnnotationView {
     
     private func setupPanGesture() {
-        pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gestureRecognizer:)))
-//        addGestureRecognizer(pan)
+        pan = UIPanGestureRecognizer(target: self, action: nil)// #selector(handlePan(gestureRecognizer:))) //adding this default pan gesture recognizer prevents the post view from being dismissed on drag
+        addGestureRecognizer(pan)
     }
     
     @objc func handlePan(gestureRecognizer: UIPanGestureRecognizer) {

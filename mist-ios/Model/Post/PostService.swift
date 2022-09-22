@@ -221,6 +221,10 @@ class PostService: NSObject {
         return allExploreMapPostIds
     }
     
+    func getExploreFeedPostsSortedIds() -> [Int] {
+        return exploreFeedPostIds
+    }
+    
     func getNewExploreMapPosts() -> [Post] {
         return getLoadedPostsFor(postIds: newExploreMapPostIds)
     }

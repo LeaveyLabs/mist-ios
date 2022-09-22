@@ -56,6 +56,9 @@ class DeviceService: NSObject {
     func getDefaultSort() -> SortOrder {
         return device.sortOrder
     }
+    func getHasUserOpenedFeed() -> Bool {
+        return device.hasUserOpenedFeed
+    }
 
     //MARK: - Doers
     
@@ -97,6 +100,11 @@ class DeviceService: NSObject {
     }
     func didViewMentions() {
         device.lastMentionsOpenTime = Date().timeIntervalSince1970
+        Task { await saveToFilesystem() }
+    }
+    
+    func didOpenFeed() {
+        device.hasUserOpenedFeed = true
         Task { await saveToFilesystem() }
     }
     

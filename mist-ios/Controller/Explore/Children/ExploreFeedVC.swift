@@ -201,7 +201,7 @@ extension ExploreFeedViewController: UITableViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let greatestIndex = feed.indexPathsForVisibleRows?.last?.row else { return }
-        let postsUntilEnd = exploreDelegate.feedPosts.count - greatestIndex
+        let postsUntilEnd = PostService.singleton.getExploreFeedPostsSortedIds().count - greatestIndex
         guard postsUntilEnd == 50 else { return }
         exploreDelegate.reloadNewFeedPostsIfNecessary()
     }

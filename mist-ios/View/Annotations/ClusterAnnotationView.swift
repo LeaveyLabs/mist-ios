@@ -228,6 +228,10 @@ extension ClusterAnnotationView {
                 longPress.minimumPressDuration = 0.2 //in order to prevent long presses from falling through to the map behind
                 self.addGestureRecognizer(longPress)
                 longPress.require(toFail: collectionView.panGestureRecognizer) //so that long pressing on the post doesnt prevent the pan
+                
+                let preventDismissOnPanGesture = UIPanGestureRecognizer(target: self, action: nil)
+                self.addGestureRecognizer(preventDismissOnPanGesture)
+                preventDismissOnPanGesture.require(toFail: collectionView.panGestureRecognizer)
                         
                 if duration != 0 { //produces an error on the very first selection sometimes
                     if memberCount > 0  {

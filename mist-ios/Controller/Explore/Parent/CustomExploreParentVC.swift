@@ -210,7 +210,8 @@ class CustomExploreParentViewController: ExploreParentViewController {
         //We should scroll to top before we alter the dataSource for the feed or else we risk scrolling through rows which were full but are nowed empty
         exploreMapVC.reloadButton.loadingIndicator(true)
         exploreMapVC.reloadButton.setImage(nil, for: .normal)
-        if !feedPosts.isEmpty {
+        
+        if !feedPosts.isEmpty && !(exploreFeedVC.feed.refreshControl?.isRefreshing ?? false) {
             exploreFeedVC.feed.isUserInteractionEnabled = false
             exploreFeedVC.feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
             exploreFeedVC.feed.isUserInteractionEnabled = true
@@ -222,7 +223,7 @@ class CustomExploreParentViewController: ExploreParentViewController {
                 self.renderNewPostsOnFeed(withType: .firstLoad)
                 self.renderNewPostsOnMap(withType: .firstLoad)
                 self.exploreFeedVC.feed.refreshControl?.endRefreshing()
-                self.exploreMapVC.reloadButton.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: UIImage.SymbolConfiguration(pointSize: 18, weight: .medium)), for: .normal)
+                self.exploreMapVC.reloadButton.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)), for: .normal)
                 self.exploreMapVC.reloadButton.loadingIndicator(false)
             }
         }

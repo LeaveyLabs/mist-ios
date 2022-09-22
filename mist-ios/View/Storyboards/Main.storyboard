@@ -505,13 +505,14 @@
                                         <segue destination="nbf-2g-8V2" kind="presentation" id="0va-C5-n27"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bVd-pf-R6D">
+                                <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bVd-pf-R6D">
                                     <rect key="frame" x="103" y="18" width="184" height="18"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="18" id="fMV-vl-qAi"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <inset key="imageEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <color key="tintColor" name="mist-black"/>
+                                    <inset key="imageEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     <state key="normal" title="when is my profile visible?" image="questionmark.circle" catalog="system">
                                         <color key="titleColor" name="mist-black"/>
                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="13"/>
@@ -722,10 +723,10 @@
                                 <rect key="frame" x="0.0" y="44" width="390" height="65"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QEY-mC-Y0S">
-                                        <rect key="frame" x="165" y="5" width="60" height="4"/>
-                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                        <rect key="frame" x="165" y="7" width="60" height="5"/>
+                                        <color key="backgroundColor" systemColor="systemGray4Color"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="4" id="0hf-VI-lHZ"/>
+                                            <constraint firstAttribute="height" constant="5" id="0hf-VI-lHZ"/>
                                             <constraint firstAttribute="width" constant="60" id="ffB-MD-Glv"/>
                                         </constraints>
                                     </view>
@@ -781,7 +782,7 @@
                                     <constraint firstItem="QEY-mC-Y0S" firstAttribute="centerX" secondItem="Q8l-dH-sRt" secondAttribute="centerX" id="2zE-Iz-fmV"/>
                                     <constraint firstAttribute="height" constant="65" id="54q-TE-9wd"/>
                                     <constraint firstItem="zdD-fI-8bA" firstAttribute="leading" secondItem="Q8l-dH-sRt" secondAttribute="leading" constant="20" id="Elb-5e-WY6"/>
-                                    <constraint firstItem="QEY-mC-Y0S" firstAttribute="top" secondItem="Q8l-dH-sRt" secondAttribute="top" constant="5" id="Vov-kW-SUp"/>
+                                    <constraint firstItem="QEY-mC-Y0S" firstAttribute="top" secondItem="Q8l-dH-sRt" secondAttribute="top" constant="7" id="Vov-kW-SUp"/>
                                     <constraint firstItem="zdD-fI-8bA" firstAttribute="centerY" secondItem="Q8l-dH-sRt" secondAttribute="centerY" id="lKA-rr-6lY"/>
                                     <constraint firstAttribute="trailing" secondItem="zdD-fI-8bA" secondAttribute="trailing" constant="15" id="oMa-A8-SUp"/>
                                 </constraints>
@@ -942,28 +943,28 @@
                                 </buttonConfiguration>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eID-0S-u8K" userLabel="ExploreStackView">
-                                <rect key="frame" x="279.33333333333331" y="51" width="98.666666666666686" height="49"/>
+                                <rect key="frame" x="281.33333333333331" y="51" width="96.666666666666686" height="48"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f1k-lH-jkO" userLabel="User Tracking Button">
-                                        <rect key="frame" x="0.0" y="0.0" width="49" height="49"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <inset key="imageEdgeInsets" minX="9.5" minY="9.5" maxX="9.5" maxY="9.5"/>
                                         <state key="normal" image="arrow.2.circlepath" catalog="system">
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="19" weight="medium"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" weight="medium"/>
                                         </state>
                                         <connections>
                                             <action selector="reloadButtonPressed:" destination="oJQ-b2-Es1" eventType="touchUpInside" id="Pky-ZL-I2u"/>
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nTC-Te-OIR">
-                                        <rect key="frame" x="49" y="0.0" width="0.6666666666666643" height="49"/>
+                                        <rect key="frame" x="48" y="0.0" width="0.6666666666666643" height="48"/>
                                         <color key="backgroundColor" systemColor="systemGray3Color"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="0.69999999999999996" id="n2Y-aj-JO1"/>
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Fw-w1-bhF" userLabel="User Tracking Button">
-                                        <rect key="frame" x="49.666666666666686" y="0.0" width="49" height="49"/>
+                                        <rect key="frame" x="48.666666666666686" y="0.0" width="48" height="48"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="7Fw-w1-bhF" secondAttribute="height" id="ap0-FF-fEz"/>
@@ -979,7 +980,7 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="49" id="HC9-sS-81w"/>
+                                    <constraint firstAttribute="height" constant="48" id="HC9-sS-81w"/>
                                     <constraint firstItem="f1k-lH-jkO" firstAttribute="width" secondItem="f1k-lH-jkO" secondAttribute="height" id="Igp-cD-46K"/>
                                 </constraints>
                             </stackView>

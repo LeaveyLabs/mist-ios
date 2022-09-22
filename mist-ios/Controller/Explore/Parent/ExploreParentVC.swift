@@ -101,6 +101,24 @@ class ExploreParentViewController: UIViewController, OverlayContainerViewControl
         exploreFeedVC.notchView.addGestureRecognizer(notchTap)
     }
     
+    var isPerformingDemo = false
+    func performFeedDemoAnimation() {
+        isPerformingDemo = true
+        UIView.animate(withDuration: 1.5, delay: 0, options: [.curveLinear, .allowAnimatedContent, .allowUserInteraction]) {
+            self.overlayContainerView.transform = CGAffineTransform(translationX: 0, y: -200)
+        } completion: { finished in
+            UIView.animate(withDuration: 0.75,
+                           delay: 0,
+                           usingSpringWithDamping: 0.75,
+                           initialSpringVelocity: 1,
+                           options: [.curveEaseOut, .allowAnimatedContent, .allowUserInteraction]) {
+                self.overlayContainerView.transform = CGAffineTransform(translationX: 0, y: 0)
+            } completion: { completed in
+                self.isPerformingDemo = false
+            }
+        }
+    }
+    
     func notchHeight(for notch: OverlayNotch, availableSpace: CGFloat) -> CGFloat {
         switch notch {
         case .hidden:
@@ -136,7 +154,6 @@ class ExploreParentViewController: UIViewController, OverlayContainerViewControl
     }
     
     func overlayContainerViewController(_ containerViewController: OverlayContainerViewController, willMoveOverlay overlayViewController: UIViewController, toNotchAt index: Int) {
-        print("OVERLAY WILL MOVE", index)
         guard
             let notch = OverlayNotch.init(rawValue: index),
             !isFirstLoad
@@ -153,14 +170,20 @@ class ExploreParentViewController: UIViewController, OverlayContainerViewControl
     }
     
     func overlayContainerViewController(_ containerViewController: OverlayContainerViewController, didMoveOverlay overlayViewController: UIViewController, toNotchAt index: Int) {
-        print("OVERLAY DID MOVE", index)
         guard let notch = OverlayNotch.init(rawValue: index) else { return }
         if notch == .maximum {
+            DeviceService.shared.didOpenFeed()
             exploreMapVC.dismissPost()
         }
         if notch == .hidden && !isProgrammaticallyMovingOverlay {
             overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: true, completion: nil)
             return
+        }
+        if notch == .minimum && !DeviceService.shared.getHasUserOpenedFeed() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                guard self.currentNotch == .minimum && !DeviceService.shared.getHasUserOpenedFeed() else { return }
+                self.performFeedDemoAnimation()
+            }
         }
         if currentNotch == .maximum && notch == .hidden { //don't allow going from max to hidden
             currentNotch = .minimum
@@ -194,7 +217,6 @@ class ExploreParentViewController: UIViewController, OverlayContainerViewControl
                                         shouldStartDraggingOverlay overlayViewController: UIViewController,
                                         at point: CGPoint,
                                         in coordinateSpace: UICoordinateSpace) -> Bool {
-        
         guard let header = (overlayViewController as? ExploreFeedViewController)?.notchView
         else {
             return false

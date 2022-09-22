@@ -23,6 +23,8 @@ struct Device: Codable {
     var hasBeenRequestedContactsBeforeTagging: Bool = false
     var lastMentionsOpenTime: Double = .leastNormalMagnitude
     
+    var hasUserOpenedFeed: Bool = false
+    
     var startingScreen: StartingScreen = .map
     var sortOrder: SortOrder = .TRENDING
     
@@ -37,6 +39,8 @@ struct Device: Codable {
         case hasBeenRequestedLocationOnNewPostPin
         case hasBeenRequestedContactsBeforeTagging
         case hasBeenRequestedContactsOnPost
+        
+        case hasUserOpenedFeed
 
         case startingScreen
         case sortOrder
@@ -54,6 +58,9 @@ struct Device: Codable {
         hasBeenRequestedLocationOnNewPostPin = try values.decodeIfPresent(Bool.self, forKey: .hasBeenRequestedLocationOnNewPostPin) ?? false
         hasBeenRequestedContactsBeforeTagging = try values.decodeIfPresent(Bool.self, forKey: .hasBeenRequestedContactsBeforeTagging) ?? false
         hasBeenRequestedContactsOnPost = try values.decodeIfPresent(Bool.self, forKey: .hasBeenRequestedContactsOnPost) ?? false
+        
+        hasUserOpenedFeed = try values.decodeIfPresent(Bool.self, forKey: .hasUserOpenedFeed) ?? false
+        
         startingScreen = try values.decodeIfPresent(StartingScreen.self, forKey: .startingScreen) ?? StartingScreen.map
         sortOrder = try values.decodeIfPresent(SortOrder.self, forKey: .sortOrder) ?? SortOrder.TRENDING
     }
@@ -71,6 +78,7 @@ struct Device: Codable {
         lastMentionsOpenTime = .leastNormalMagnitude
         startingScreen = .map
         sortOrder = .TRENDING
+        hasUserOpenedFeed = false
     }
     
 }

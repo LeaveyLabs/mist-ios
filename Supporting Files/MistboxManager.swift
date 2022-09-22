@@ -34,6 +34,10 @@ class MistboxManager: NSObject {
         startOccasionalRefreshTask()
     }
     
+    func reset() {
+        mistbox = nil
+    }
+    
     func createMistox(withKeywords keywords: [String]) {
         mistbox = Mistbox(posts: [], keywords: keywords, creation_time: Date().timeIntervalSince1970, opens_used_today: 0)
     }
