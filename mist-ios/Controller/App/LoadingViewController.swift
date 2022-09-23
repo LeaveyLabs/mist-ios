@@ -229,6 +229,8 @@ class LoadingViewController: UIViewController {
         case .make_someones_day:
             tabbarVC.selectedIndex = 0
             tabbarVC.presentNewPostNavVC(animated: false)
+        case .comment:
+            break
         }
     }
     
