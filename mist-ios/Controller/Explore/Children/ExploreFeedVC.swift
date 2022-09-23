@@ -22,7 +22,7 @@ class ExploreFeedViewController: UIViewController {
     @IBOutlet weak var notchView: UIView!
     @IBOutlet weak var notchViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var filterButton: UIButton!
-    @IBOutlet weak var refreshButton: UIButton!
+    @IBOutlet weak var mapButton: UIButton!
     @IBOutlet weak var notchTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var navStackView: UIStackView!
     
@@ -84,9 +84,6 @@ class ExploreFeedViewController: UIViewController {
     }
     
     func refreshCustomExplorePosts(setting: Setting) {
-        refreshButton.isUserInteractionEnabled = false
-        refreshButton.loadingIndicator(true)
-        refreshButton.setImage(nil, for: .normal)
         Task {
             do {
                 switch setting {
@@ -102,17 +99,9 @@ class ExploreFeedViewController: UIViewController {
                 DispatchQueue.main.async { [weak self] in
                     self?.exploreDelegate.renderNewPostsOnFeed(withType: .newSearch) //to reposition
                     self?.exploreDelegate.renderNewPostsOnMap(withType: .newSearch)
-                    self?.refreshButton.isUserInteractionEnabled = true
-                    self?.refreshButton.loadingIndicator(false)
-                    self?.refreshButton.setImage(UIImage(systemName: "arrow.clockwise", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium))!, for: .normal)
                 }
             } catch {
                 CustomSwiftMessages.displayError(error)
-                DispatchQueue.main.async { [weak self] in
-                    self?.refreshButton.isUserInteractionEnabled = true
-                    self?.refreshButton.loadingIndicator(false)
-                    self?.refreshButton.setImage(UIImage(systemName: "arrow.clockwise", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium))!, for: .normal)
-                }
             }
         }
     }
@@ -134,6 +123,7 @@ extension ExploreFeedViewController {
             self.notchViewHeightConstraint.constant = 55
             self.notchView.applyLightBottomOnlyShadow()
             self.filterButton.alpha = 1
+            self.mapButton.alpha = 1
 //            self.refreshButton.alpha = 1
 //            self.filterButton.alpha = 1
             self.notchView.layer.cornerRadius = 0
@@ -160,6 +150,7 @@ extension ExploreFeedViewController {
             self.notchViewHeightConstraint.constant = 65
             self.notchView.applyMediumTopOnlyShadow()
             self.filterButton.alpha = 0
+            self.mapButton.alpha = 0
 //            self.refreshButton.alpha = 0
 //            self.filterButton.alpha = 0
             self.notchView.layer.cornerRadius = 20
@@ -220,7 +211,6 @@ extension ExploreFeedViewController {
         var desiredOffset = postBottomY - keyboardTopY
         
         desiredOffset -= 100 //for some reason i need to add 50 to my new implementation of this with the feed
-        print(postIndex, desiredOffset)
 
         if postIndex == 0 && desiredOffset < 0 { return }  //dont scroll up for the very first post
         feed.setContentOffset(feed.contentOffset.applying(.init(translationX: 0, y: desiredOffset)), animated: true)

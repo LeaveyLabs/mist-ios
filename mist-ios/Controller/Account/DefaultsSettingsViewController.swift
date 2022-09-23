@@ -76,9 +76,9 @@ class DefaultsSettingsViewController: UIViewController, UITableViewDelegate, UIT
     
     func setFirstSelectedCells() {
         switch DeviceService.shared.getStartingScreen() {
-        case .map:
-            (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ToggleSettingsCell)?.setToggled(true)
         case .feed:
+            (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ToggleSettingsCell)?.setToggled(true)
+        case .map:
             (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? ToggleSettingsCell)?.setToggled(true)
         }
         switch DeviceService.shared.getDefaultSort() {
@@ -124,9 +124,9 @@ class DefaultsSettingsViewController: UIViewController, UITableViewDelegate, UIT
         case 0:
             switch indexPath.row {
             case 0:
-                toggleSettingsCell.configure(labelText: "map")
-            case 1:
                 toggleSettingsCell.configure(labelText: "feed")
+            case 1:
+                toggleSettingsCell.configure(labelText: "map")
             default:
                 break
             }
@@ -167,9 +167,9 @@ class DefaultsSettingsViewController: UIViewController, UITableViewDelegate, UIT
         case 0:
             switch indexPath.row {
             case 0:
-                DeviceService.shared.updateStartingScreen(.map)
-            case 1:
                 DeviceService.shared.updateStartingScreen(.feed)
+            case 1:
+                DeviceService.shared.updateStartingScreen(.map)
             default:
                 break
             }
