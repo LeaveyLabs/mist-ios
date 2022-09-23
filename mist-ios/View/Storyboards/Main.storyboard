@@ -2256,7 +2256,7 @@
                                                         <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="18"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textView>
-                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="a cute title" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Iic-TR-uAk" customClass="NewPostTextView" customModule="mist_ios" customModuleProvider="target">
+                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="title" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Iic-TR-uAk" customClass="NewPostTextView" customModule="mist_ios" customModuleProvider="target">
                                                         <rect key="frame" x="15" y="57.999999999999986" width="333" height="54.333333333333329"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="49" id="TyY-Qg-LLG"/>
@@ -2343,11 +2343,6 @@
                                                             <constraint firstAttribute="width" constant="8" id="rys-YP-UUs"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HnQ-cj-uHb">
-                                                        <rect key="frame" x="165" y="83" width="8" height="8"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <color key="backgroundColor" name="mist-lilac"/>
-                                                    </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qoP-vE-2go">
                                                         <rect key="frame" x="184" y="124.33333333333331" width="8" height="8"/>
                                                         <color key="backgroundColor" name="mist-lilac"/>
@@ -2355,6 +2350,11 @@
                                                             <constraint firstAttribute="width" constant="8" id="8RJ-Pj-PhF"/>
                                                             <constraint firstAttribute="width" secondItem="qoP-vE-2go" secondAttribute="height" multiplier="1:1" id="E5u-lY-sHP"/>
                                                         </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HnQ-cj-uHb">
+                                                        <rect key="frame" x="79" y="81" width="8" height="8"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <color key="backgroundColor" name="mist-lilac"/>
                                                     </view>
                                                 </subviews>
                                                 <color key="backgroundColor" name="mist-pink"/>

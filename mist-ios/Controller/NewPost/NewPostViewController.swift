@@ -10,9 +10,14 @@ import CoreLocation
 import MapKit
 import InputBarAccessoryView
 
-let BODY_PLACEHOLDER_TEXT = "pour your heart out"
-let TITLE_PLACEHOLDER_TEXT = "a cute title"
+let BODY_PLACEHOLDER_TEXT = ["pour your heart out"
+//                             "make someone's day",
+//                             "take a chance",
+//                             "get it off your chest"
+                                ].randomElement()!
+let TITLE_PLACEHOLDER_TEXT = "title"
 let LOCATION_PLACEHOLDER_TEXT = "location name"
+let TIME_PLACEHOLDER_TEXT = "just now"
 let TEXT_LENGTH_BEYOND_MAX_PERMITTED = 0 //if we want this > 0, we need a way to indicate to the user that theyre beyond the limit. setting text color to red is too harsh
 
 let TITLE_CHARACTER_LIMIT = 40
@@ -161,7 +166,7 @@ class NewPostViewController: UIViewController {
         dateTimeTextField.initializerToolbar(target: self, doneSelector: #selector(dismissKeyboard), withProgressBar: false)
         datePicker.addTarget(self, action: #selector(updateDateTime), for: .valueChanged)
         dateTimeTextField.applyLightShadow()
-        dateTimeTextField.text = "just now"
+        dateTimeTextField.text = TIME_PLACEHOLDER_TEXT
         dateTimeTextField.layer.cornerRadius = 10
         dateTimeTextField.layer.cornerCurve = .continuous
     }
@@ -264,6 +269,10 @@ class NewPostViewController: UIViewController {
             CustomSwiftMessages.displayError("incorrect formatting", "please try again")
             return
         }
+        
+        if dateTimeTextField.text == TIME_PLACEHOLDER_TEXT { //they didn't change the post time, so update the time to right now
+            datePicker.date = Date()
+        }
 
         view.endEditing(true)
         scrollView.scrollToTop()
@@ -275,7 +284,13 @@ class NewPostViewController: UIViewController {
                 PostService.singleton.resetFilter()
                 try await PostService.singleton.loadExploreFeedPostsIfPossible()
                 try await PostService.singleton.loadAndOverwriteExploreMapPosts()
-                try await PostService.singleton.uploadPost(title: trimmedTitleText, text: trimmedBodyText, locationDescription: postLocationText, latitude: postLocationCoordinate.latitude, longitude: postLocationCoordinate.longitude, timestamp: datePicker.date.timeIntervalSince1970)
+                try await PostService.singleton.uploadPost(
+                    title: trimmedTitleText,
+                    text: trimmedBodyText,
+                    locationDescription: postLocationText,
+                    latitude: postLocationCoordinate.latitude,
+                    longitude: postLocationCoordinate.longitude,
+                    timestamp: datePicker.date.timeIntervalSince1970)
                 NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .dmNotificationsAfterNewPost, onVC: self) { didDisplayRequest in
                     DispatchQueue.main.async {
                         self.handleSuccessfulNewPost(wasOfferedNotifications: didDisplayRequest)

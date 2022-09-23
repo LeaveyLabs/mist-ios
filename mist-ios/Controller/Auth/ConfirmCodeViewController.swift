@@ -99,9 +99,9 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
         
         if confirmMethod == .accessCode {
             resendButton.isHidden = true
-            sentToLabel.numberOfLines = 2
-            titleLabel.text = "access code"
-            sentToLabel.text = "enter it here for your first profile badge"
+            titleLabel.text = "enter your access code"
+            sentToLabel.text = "for your first profile badge 🎉"
+            sentToLabel.font = UIFont(name: Constants.Font.Medium, size: 16)
             titleTopConstraint.constant += 25
         }
     }
