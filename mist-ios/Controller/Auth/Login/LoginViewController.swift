@@ -41,7 +41,6 @@ class LoginViewController: KUIViewController, UITextFieldDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         enableInteractivePopGesture()
-        AuthContext.reset()
         print(isSubmitting)
     }
     

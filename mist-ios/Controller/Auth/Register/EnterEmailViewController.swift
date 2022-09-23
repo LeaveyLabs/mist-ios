@@ -38,7 +38,6 @@ class EnterEmailViewController: KUIViewController, UITextFieldDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         enableInteractivePopGesture()
-        AuthContext.reset()
     }
     
     override func viewWillAppear(_ animated: Bool) {

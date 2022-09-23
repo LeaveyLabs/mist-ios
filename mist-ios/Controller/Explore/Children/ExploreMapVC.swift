@@ -93,7 +93,7 @@ extension ExploreMapViewController {
         setupWhiteStatusBar()
         setupBlurredStatusBar()
         setupExploreMapButtons()
-        setupTrojansActiveView()
+//        setupTrojansActiveView()
 
         if let userLocation = locationManager.location {
             mapView.camera.centerCoordinate = userLocation.coordinate
