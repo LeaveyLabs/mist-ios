@@ -13,6 +13,7 @@ class EnterKeywordsViewController: UIViewController, UITableViewDataSource, UITa
     
     @IBOutlet weak var customNavBar: CustomNavBar!
     @IBOutlet weak var tableView: UITableView!
+    var saveButton = UIButton()
     var localTags: [String] = MistboxManager.shared.getCurrentKeywords()
         
     class func create() -> EnterKeywordsViewController {
@@ -22,6 +23,12 @@ class EnterKeywordsViewController: UIViewController, UITableViewDataSource, UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupTableView()
+        setupFooterLabel()
+        setupCustomNavBar()
+    }
+    
+    func setupTableView() {
         tableView.bounces = true
         tableView.dataSource = self
         tableView.delegate = self
@@ -31,15 +38,38 @@ class EnterKeywordsViewController: UIViewController, UITableViewDataSource, UITa
         
         //keyboard will always be raised, so this is the estimated keyboard height
         tableView.contentInset.bottom = 300 + (window?.safeAreaInsets.bottom ?? 0)
-        
-        if MistboxManager.shared.hasUserActivatedMistbox { //we dont want them slide to pop back on the very first flow
-            navigationController?.fullscreenInteractivePopGestureRecognizer(delegate: self)
-        }
-
-        customNavBar.configure(title: "keywords", leftItems: [.back, .title], rightItems: [])
-        customNavBar.backButton.addTarget(self, action: #selector(didPressBack), for: .touchUpInside)
         tableView.register(TagsViewCell.self, forCellReuseIdentifier: String(describing: TagsViewCell.self))
-        setupFooterLabel()
+    }
+    
+    func setupCustomNavBar() {
+        if MistboxManager.shared.hasUserActivatedMistbox { //we dont want them slide to pop back on the very first flow
+            customNavBar.configure(title: "keywords", leftItems: [.back, .title], rightItems: [])
+            customNavBar.backButton.addTarget(self, action: #selector(didPressBack), for: .touchUpInside)
+            navigationController?.fullscreenInteractivePopGestureRecognizer(delegate: self)
+        } else {
+            customNavBar.configure(title: "keywords", leftItems: [.title], rightItems: [])
+//            customNavBar.backButton.setImage(UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)), for: .normal)
+        }
+        
+        saveButton.clipsToBounds = true
+        saveButton.setBackgroundImage(UIImage.imageFromColor(color: Constants.Color.mistLilac), for: .normal)
+        saveButton.setTitle("save", for: .normal)
+        saveButton.setTitleColor(.white, for: .normal)
+        saveButton.roundCornersViaCornerRadius(radius: 5)
+        saveButton.setTitleColor(.lightGray, for: .disabled)
+        saveButton.titleLabel?.font = UIFont(name: Constants.Font.Heavy, size: 18)
+        saveButton.setBackgroundImage(UIImage.imageFromColor(color: .systemGray5.withAlphaComponent(0.5)), for: .disabled)
+        saveButton.isEnabled = false
+        saveButton.adjustsImageWhenDisabled = true
+        saveButton.adjustsImageWhenHighlighted = true
+        saveButton.backgroundColor = .clear
+        saveButton.addTarget(self, action: #selector(didPressSaveButton), for: .touchUpInside)
+        customNavBar.stackView.addArrangedSubview(saveButton)
+        saveButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            saveButton.heightAnchor.constraint(equalToConstant: 35),
+            saveButton.widthAnchor.constraint(equalToConstant: 70)
+        ])
     }
     
     func setupFooterLabel() {
@@ -50,8 +80,8 @@ class EnterKeywordsViewController: UIViewController, UITableViewDataSource, UITa
             footerLabel.text = "updates won't affect your current mistbox"
         } else {
             footerLabel = UILabel(frame: .init(x: 0, y: 0, width: view.bounds.width, height: 60))
-            footerLabel.numberOfLines = 2
-            footerLabel.text = "enter up to 10 keywords that describe you,\nplaces you frequent, brands you wear, etc"
+            footerLabel.numberOfLines = 4
+            footerLabel.text = "enter up to 10 keywords that describe you &\nfind out when someone posts a mist with them"
         }
         footerLabel.font = UIFont(name: Constants.Font.Roman, size: 13)
         footerLabel.textColor = .lightGray
@@ -69,11 +99,6 @@ class EnterKeywordsViewController: UIViewController, UITableViewDataSource, UITa
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        didPressSaveButton()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -95,11 +120,7 @@ class EnterKeywordsViewController: UIViewController, UITableViewDataSource, UITa
     //MARK: - User interactiopn
     
     @objc func didPressBack() {
-        if MistboxManager.shared.hasUserActivatedMistbox {
-            navigationController?.popViewController(animated: true)
-        } else {
-            dismiss(animated: true)
-        }
+        navigationController?.popViewController(animated: true)
     }
     
 }
@@ -108,9 +129,35 @@ extension EnterKeywordsViewController: TagsViewDelegate {
     
     func didUpdateTags(tags: [String]) {
         localTags = tags
+        saveButton.isEnabled = localTags != MistboxManager.shared.getCurrentKeywords()
     }
     
-    func didPressSaveButton() {
-        MistboxManager.shared.updateKeywords(to: localTags)
+    @objc func didPressSaveButton() {
+        let hasActivatedBeforeSave = MistboxManager.shared.hasUserActivatedMistbox
+        saveButton.loadingIndicator(true)
+        saveButton.setTitle("", for: .disabled)
+        
+        print("DID PRESS SAVE BUTTON")
+        
+        Task {
+            do {
+                try await MistboxManager.shared.updateKeywords(to: localTags)
+                DispatchQueue.main.async {
+                    self.saveButton.loadingIndicator(false)
+                    self.saveButton.setTitle("saved", for: .disabled)
+                    self.saveButton.isEnabled = self.localTags != MistboxManager.shared.getCurrentKeywords()
+                    if !hasActivatedBeforeSave {
+                        self.dismiss(animated: true)
+                    }
+                }
+            } catch {
+                CustomSwiftMessages.displayError(error)
+                DispatchQueue.main.async {
+                    self.saveButton.loadingIndicator(false)
+                    self.saveButton.setTitle("save", for: .disabled)
+                }
+            }
+        }
     }
+    
 }

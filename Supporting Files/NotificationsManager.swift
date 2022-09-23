@@ -8,7 +8,6 @@
 import Foundation
 
 enum NotificationTypes: String {
-    case comment = "comment"
     case tag = "tag"
     case message = "message"
     case match = "match"

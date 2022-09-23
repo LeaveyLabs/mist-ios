@@ -69,6 +69,7 @@ class ConversationsViewController: UIViewController {
             try await ConversationService.singleton.loadInitialMessageThreads()
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.tableView.refreshControl?.endRefreshing()
             }
         }
     }
@@ -79,6 +80,7 @@ extension ConversationsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
+        guard !(tableView.refreshControl?.isRefreshing ?? false) else { return }
         if ConversationService.singleton.getCount() > 0 {
             let chatVC = ChatViewController.create(conversation: ConversationService.singleton.getConversationAt(index: indexPath.row)!)
             navigationController?.pushViewController(chatVC, animated: true)

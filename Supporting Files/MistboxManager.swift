@@ -131,7 +131,7 @@ class MistboxManager: NSObject {
         }
     }
     
-    func updateKeywords(to newKeywords: [String]) {
+    func updateKeywords(to newKeywords: [String]) async throws {
         if mistbox == nil {
             guard newKeywords.count > 0 else {
                 return
@@ -140,13 +140,7 @@ class MistboxManager: NSObject {
         }
         
         mistbox?.keywords = newKeywords
-        Task {
-            do {
-                try await UserService.singleton.updateKeywords(to: newKeywords)
-            } catch {
-                CustomSwiftMessages.displayError(error)
-            }
-        }
+        try await UserService.singleton.updateKeywords(to: newKeywords)
     }
     
 }
