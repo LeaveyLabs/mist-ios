@@ -109,14 +109,16 @@ class UserService: NSObject {
                     lastName: String,
                     profilePic: UIImage,
                     phoneNumber: String,
-                    accessCode: String?) async throws {
+                    accessCode: String?,
+                    email: String) async throws {
         let newProfilePicWrapper = ProfilePicWrapper(image: profilePic, withCompresssion: true)
         let compressedProfilePic = newProfilePicWrapper.image
         let token = try await AuthAPI.createUser(username: username,
                                             first_name: firstName,
                                             last_name: lastName,
                                             picture: compressedProfilePic,
-                                            phone_number: phoneNumber)
+                                            phone_number: phoneNumber,
+                                            email: email)
         setGlobalAuthToken(token: token)
         if let accessCode = AuthContext.accessCode {
             await UserService.singleton.tryToEnterAccessCode(accessCode)

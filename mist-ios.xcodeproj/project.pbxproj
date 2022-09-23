@@ -1833,7 +1833,6 @@
 			children = (
 				5BE110002876CD6C00CB54A6 /* ResetPhoneNumber */,
 				5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */,
-				4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */,
 			);
 			path = AfterLaunch;
 			sourceTree = "<group>";
@@ -1962,6 +1961,7 @@
 			isa = PBXGroup;
 			children = (
 				5B235B0028ADE3B200FD27A9 /* EnterNumberViewController.swift */,
+				4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */,
 				5B879E7528B7E3C000D2DFC1 /* CreateProfileViewController.swift */,
 				5B4CE2E928DA493600FB9E8B /* ExplainProfileVC.swift */,
 			);

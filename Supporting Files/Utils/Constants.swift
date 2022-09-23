@@ -129,6 +129,7 @@ struct Constants {
             static let RequestReset = "RequestResetNumberViewController"
             static let ResetNumber = "ResetNumberViewController"
             static let ExplainProfile = "ExplainProfileViewController"
+            static let EnterEmail = "EnterEmailViewController"
             //Reset password
 //            static let RequestResetPassword = "RequestResetPasswordViewController"
 //            static let ValidateResetPassword = "ValidateResetPasswordViewController"

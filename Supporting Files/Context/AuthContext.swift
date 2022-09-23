@@ -12,7 +12,7 @@ struct AuthContext {
     static let APPLE_CODE: String = "123456"
     
     static var username: String = ""
-//    static var email: String = ""
+    static var email: String = ""
     static var phoneNumber: String = ""
 //    static var password: String = "" //depcreated
     static var firstName: String = ""
@@ -25,7 +25,7 @@ struct AuthContext {
     
     static func reset() {
         username = ""
-//        email = ""
+        email = ""
         phoneNumber = ""
 //        password = ""
         firstName = ""

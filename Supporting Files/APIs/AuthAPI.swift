@@ -164,12 +164,14 @@ class AuthAPI {
                            first_name:String,
                            last_name:String,
                            picture:UIImage?,
-                           phone_number:String) async throws -> String {
-        var params:[String:String] = [
+                           phone_number:String,
+                           email:String) async throws -> String {
+        let params:[String:String] = [
             UserAPI.USERNAME_PARAM: username,
             UserAPI.FIRST_NAME_PARAM: first_name,
             UserAPI.LAST_NAME_PARAM: last_name,
             UserAPI.PHONE_NUMBER_PARAM: phone_number,
+            UserAPI.EMAIL_PARAM: email,
         ]
         let request = AF.upload(
             multipartFormData:

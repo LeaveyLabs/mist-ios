@@ -98,7 +98,7 @@ extension PostView {
         locationLabel.text = post.location_description.lowercased()
         messageLabel.text = post.body
         postTitleLabel.text = post.title
-        commentButton.setTitle(post.commentcount >= 3 ? String(updatedCommentCount ?? post.commentcount) : "comment", for: .normal)
+        commentButton.setTitle(post.commentcount >= 1 ? String(updatedCommentCount ?? post.commentcount) : "comment", for: .normal)
         if post.author == UserService.singleton.getId() {
             dmButton.setTitleColor(.lightGray.withAlphaComponent(0.5), for: .normal)
             dmButton.imageView?.tintColor = .lightGray.withAlphaComponent(0.5)

@@ -12,7 +12,7 @@ import UIKit
 class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
     
     enum ConfirmMethod: CaseIterable {
-        case signupText, loginText, accessCode, appleLogin //signupEmail, signupText, loginText, resetPhoneNumberEmail, resetPhoneNumberText, accessCode, appleLogin
+        case signupText, loginText, accessCode, appleLogin, signupEmail//, signupText, loginText, resetPhoneNumberEmail, resetPhoneNumberText, accessCode, appleLogin
     }
     
     enum ResendState {
@@ -80,6 +80,8 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
             vc.recipient = ""
         case .appleLogin:
             vc.recipient = AuthContext.phoneNumber
+        case .signupEmail:
+            vc.recipient = AuthContext.email
         }
         vc.confirmMethod = confirmMethod
         return vc
@@ -265,6 +267,8 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
             try await PhoneNumberAPI.registerNewPhoneNumber(phoneNumber: AuthContext.phoneNumber)
         case .loginText:
             try await PhoneNumberAPI.requestLoginCode(phoneNumber: AuthContext.phoneNumber)
+        case .signupEmail:
+            try await AuthAPI.registerEmail(email: AuthContext.email)
         case .none, .accessCode, .appleLogin:
             break
         }
@@ -275,7 +279,6 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
         case .signupText:
             try await PhoneNumberAPI.validateNewPhoneNumber(phoneNumber: AuthContext.phoneNumber, code: validationCode)
         case .loginText, .appleLogin:
-            print(AuthContext.phoneNumber)
             let authToken = try await PhoneNumberAPI.validateLoginCode(phoneNumber: AuthContext.phoneNumber, code: validationCode)
             try await UserService.singleton.logInWith(authToken: authToken)
             try await loadEverything()
@@ -285,6 +288,8 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
                 throw APIError.ClientError("invalid code", "please try again")
             }
             AuthContext.accessCode = validationCode
+        case .signupEmail:
+            try await AuthAPI.validateEmail(email: AuthContext.email, code: validationCode)
         case .none:
             break
         }
@@ -294,7 +299,7 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
     func continueToNextScreen() {
         switch confirmMethod {
         case .signupText:
-            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.CreateProfile)
+            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.EnterEmail)
             self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
                 self?.isSubmitting = false
             })
@@ -307,6 +312,11 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
                 dismiss(animated: true)
             }
             dismiss(animated: true)
+        case .signupEmail:
+            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.CreateProfile)
+            self.navigationController?.pushViewController(vc, animated: true, completion: { [weak self] in
+                self?.isSubmitting = false
+            })
         case .none:
             break
         }

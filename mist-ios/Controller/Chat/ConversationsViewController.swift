@@ -46,6 +46,8 @@ class ConversationsViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
         tableView.tableHeaderView = UIView(frame: .init(x: 0, y: 0, width: tableView.frame.width, height: 5)) //balance out the cell distance visually
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl!.addTarget(self, action: #selector(reloadConvos), for: .valueChanged)
     }
     
     private func registerNibs() {
@@ -58,6 +60,17 @@ class ConversationsViewController: UIViewController {
         view.addSubview(customNavBar)
         customNavBar.configure(title: "dms", leftItems: [.title], rightItems: [.profile])
         customNavBar.accountButton.addTarget(self, action: #selector(handleProfileButtonTap), for: .touchUpInside)
+    }
+    
+    //MARK: - UserInteraction
+    
+    @objc func reloadConvos() {
+        Task {
+            try await ConversationService.singleton.loadInitialMessageThreads()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
     }
     
 }

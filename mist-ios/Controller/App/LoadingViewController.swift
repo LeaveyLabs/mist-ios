@@ -229,6 +229,8 @@ class LoadingViewController: UIViewController {
         case .make_someones_day:
             tabbarVC.selectedIndex = 0
             tabbarVC.presentNewPostNavVC(animated: false)
+        case .comment:
+            break
         }
     }
     
@@ -248,6 +250,8 @@ class LoadingViewController: UIViewController {
         case .daily_mistbox:
             break
         case .make_someones_day:
+            break
+        case .comment:
             break
         }
     }

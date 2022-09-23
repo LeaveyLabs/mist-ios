@@ -115,7 +115,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 //                } else {
 //                    //if we do have a converation open, this code is handled in Conversation
 //                }
-            case .daily_mistbox, .make_someones_day:
+            case .daily_mistbox, .make_someones_day, .comment:
                 break
             }
         } catch {
