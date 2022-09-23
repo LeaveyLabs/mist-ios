@@ -40,6 +40,7 @@ struct UsernameValidationError: Codable {
 struct UserCreationError: Codable {
     let username: [String]?
     let first_name: [String]?
+    let phone_number: [String]?
     let last_name: [String]?
     let picture: [String]?
     let email: [String]?
@@ -216,6 +217,10 @@ class AuthAPI {
             if let lastNameErrors = error.last_name,
                let lastNameError = lastNameErrors.first {
                 throw APIError.ClientError(lastNameError, LAST_NAME_RECOVERY_MESSAGE)
+            }
+            if let phoneNumberErrors = error.phone_number,
+               let phoneNumberError = phoneNumberErrors.first {
+                throw APIError.ClientError(phoneNumberError, LAST_NAME_RECOVERY_MESSAGE)
             }
             if let pictureErrors = error.picture,
                let pictureError = pictureErrors.first {
