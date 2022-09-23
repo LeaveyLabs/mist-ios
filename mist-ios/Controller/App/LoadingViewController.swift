@@ -249,6 +249,8 @@ class LoadingViewController: UIViewController {
             break
         case .make_someones_day:
             break
+        case .comment:
+            break
         }
     }
     
