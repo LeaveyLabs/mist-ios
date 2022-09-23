@@ -14,6 +14,7 @@ enum NotificationTypes: String {
     case match = "match"
     case daily_mistbox = "dailymistbox"
     case make_someones_day = "makesomeonesday"
+    case comment = "comment"
 }
 
 extension Notification.Name {
