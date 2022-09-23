@@ -169,7 +169,7 @@ extension CustomSwiftMessages {
                 messageView.customConfig(approveText: "sure", dismissText: "no thanks")
             case .contacts:
                 title = "share your contacts for better tagging"
-                body = "if you tag a friend who doesn't have mist, we'll shoot them a text"
+                body = "if you find a mist about your friend without the app, tag them and we'll shoot them a text"
                 emoji = "＠"
                 messageView.customConfig(approveText: "share", dismissText: "nah")
             case .dmNotificationsAfterDm:

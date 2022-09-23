@@ -137,8 +137,6 @@ extension EnterKeywordsViewController: TagsViewDelegate {
         saveButton.loadingIndicator(true)
         saveButton.setTitle("", for: .disabled)
         
-        print("DID PRESS SAVE BUTTON")
-        
         Task {
             do {
                 try await MistboxManager.shared.updateKeywords(to: localTags)

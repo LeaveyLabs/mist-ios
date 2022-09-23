@@ -218,8 +218,11 @@ extension ExploreFeedViewController {
         
         let keyboardTopY = view.bounds.height - keyboardHeight
         var desiredOffset = postBottomY - keyboardTopY
-        if postIndex == 0 && desiredOffset < 0 { return } //dont scroll up for the very first post
+        
         desiredOffset -= 100 //for some reason i need to add 50 to my new implementation of this with the feed
+        print(postIndex, desiredOffset)
+
+        if postIndex == 0 && desiredOffset < 0 { return }  //dont scroll up for the very first post
         feed.setContentOffset(feed.contentOffset.applying(.init(translationX: 0, y: desiredOffset)), animated: true)
     }
     

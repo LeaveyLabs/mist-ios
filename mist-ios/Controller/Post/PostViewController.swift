@@ -9,7 +9,7 @@ import UIKit
 import Contacts
 import InputBarAccessoryView //dependency of MessageKit. If we remove MessageKit, we should install this package independently
 
-let COMMENT_PLACEHOLDER_TEXT = "comment & tag your contacts"
+let COMMENT_PLACEHOLDER_TEXT = "comment & tag your friends"
 typealias PostCompletionHandler = (() -> Void)
 
 extension AutocompleteManagerDelegate {

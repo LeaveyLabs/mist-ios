@@ -89,14 +89,12 @@ extension PostView {
         self.postId = post.id
         self.authorId = post.author
         self.postDelegate = delegate
-        
         //if we are in PostViewController, make the body longer
         if postDelegate.isKind(of: PostViewController.self) {
             messageLabel.numberOfLines = 0
         }
         timestampLabel.text = getFormattedTimeStringForPost(timestamp: post.timestamp).lowercased()
         locationLabel.text = post.location_description.lowercased()
-        messageLabel.text = post.body
         postTitleLabel.text = post.title
         commentButton.setTitle(post.commentcount >= 1 ? String(updatedCommentCount ?? post.commentcount) : "comment", for: .normal)
         if post.author == UserService.singleton.getId() {
@@ -118,6 +116,12 @@ extension PostView {
         //We keep greatest efficiency on the casting and removing of votes, but we lose some efficiency on the rendering of votes because we have to resort them each time
         let sortedEmojiVotes = post.emoji_dict.map( { ($0, $1) }).sorted(by: { $0.1 > $1.1 })
         setupEmojiButtons(topThreeVotes: Array(sortedEmojiVotes.prefix(3)))
+
+        if delegate .isKind(of: PostViewController.self) {
+            messageLabel.text = post.body
+        } else {
+            messageLabel.text = post.body.components(separatedBy: .newlines).joined(separator: "\n") //replace any occurences of several new lines with one single newline
+        }
     }
     
     func reconfigureVotes() {

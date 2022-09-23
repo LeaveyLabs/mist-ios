@@ -108,17 +108,14 @@ class EnvelopeView: UIView {
     //MARK: - User Interaction
     
     @IBAction func openButtonDidTapped(_ sender: UIButton) {
-        guard !isAnimating else { return }
-        isAnimating = true
         if let remainingOpens = MistboxManager.shared.getRemainingOpens(),
            remainingOpens == 0 {
             CustomSwiftMessages.showNoMoreOpensMessage()
         } else {
+            guard !isAnimating else { return }
+            isAnimating = true
             finishSwiping(.up)
         }
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-//            self.isAnimating = false
-//        }
     }
     
     @IBAction func skipButtonDidtapped(_ sender: UIButton) {
@@ -229,6 +226,7 @@ extension EnvelopeView {
             } completion: { finished in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                     self.delegate.didOpenMist(postId: self.postId)
+                    self.isAnimating = false
                 }
             }
         case .incomplete:

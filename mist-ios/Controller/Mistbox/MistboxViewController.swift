@@ -342,9 +342,8 @@ extension MistboxViewController: MistboxCellDelegate {
             self.isPostPushed = false
             
             if MistboxManager.shared.getRemainingOpens() == 3 {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
                     AppStoreReviewManager.requestReviewIfAppropriate()
-                    AppStoreReviewManager.offerViewPromptUponUserRequest()
                 }
             }
         })
