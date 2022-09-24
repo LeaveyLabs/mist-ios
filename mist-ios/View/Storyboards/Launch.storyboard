@@ -20,7 +20,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mistwidewhite" translatesAutoresizingMaskIntoConstraints="NO" id="8z6-k5-vbJ">
-                                <rect key="frame" x="56.333333333333343" y="318.66666666666669" width="262.33333333333326" height="105"/>
+                                <rect key="frame" x="56.333333333333343" y="313.66666666666669" width="262.33333333333326" height="105"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="8z6-k5-vbJ" secondAttribute="height" multiplier="5:2" id="Baj-QK-PEq"/>
                                 </constraints>
@@ -32,7 +32,7 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="4yf-Ra-KFd" secondAttribute="trailing" id="DAj-hd-lwo"/>
                             <constraint firstAttribute="bottom" secondItem="4yf-Ra-KFd" secondAttribute="bottom" id="Zhg-qG-d6z"/>
-                            <constraint firstItem="8z6-k5-vbJ" firstAttribute="centerY" secondItem="rcR-iq-DKf" secondAttribute="centerY" constant="-40" id="gwO-ap-ZBm"/>
+                            <constraint firstItem="8z6-k5-vbJ" firstAttribute="centerY" secondItem="3ei-L9-LM3" secondAttribute="centerY" constant="-40" id="gwO-ap-ZBm"/>
                             <constraint firstItem="4yf-Ra-KFd" firstAttribute="leading" secondItem="3ei-L9-LM3" secondAttribute="leading" id="qNN-D9-PLg"/>
                             <constraint firstItem="8z6-k5-vbJ" firstAttribute="centerX" secondItem="3ei-L9-LM3" secondAttribute="centerX" id="sp4-Pt-1bJ"/>
                             <constraint firstItem="8z6-k5-vbJ" firstAttribute="width" secondItem="4yf-Ra-KFd" secondAttribute="width" multiplier="0.7" id="uPW-wp-JdH"/>
