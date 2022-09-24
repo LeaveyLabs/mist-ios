@@ -180,10 +180,11 @@ class ExploreParentViewController: UIViewController, OverlayContainerViewControl
             return
         }
         if notch == .minimum && !DeviceService.shared.getHasUserOpenedFeed() {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-                guard self.currentNotch == .minimum && !DeviceService.shared.getHasUserOpenedFeed() else { return }
-                self.performFeedDemoAnimation()
-            }
+            //turning off demo animation for now
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+//                guard self.currentNotch == .minimum && !DeviceService.shared.getHasUserOpenedFeed() else { return }
+//                self.performFeedDemoAnimation()
+//            }
         }
         if currentNotch == .maximum && notch == .hidden { //don't allow going from max to hidden
             currentNotch = .minimum

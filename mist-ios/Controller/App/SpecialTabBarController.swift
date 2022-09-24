@@ -97,8 +97,10 @@ extension SpecialTabBarController {
         if MistboxManager.shared.hasUserActivatedMistbox {
             mistboxTabBadgeCount = MistboxManager.shared.getMistboxMists().count + DeviceService.shared.unreadMentionsCount()
         } else {
-            mistboxTabBadgeCount = 1
+            tabBar.items![1].badgeValue = ""
+            repositionBadges() //necessary or else badge position is incorrect
         }
+            
         dmTabBadgeCount = ConversationService.singleton.getUnreadConversations().count
     }
     

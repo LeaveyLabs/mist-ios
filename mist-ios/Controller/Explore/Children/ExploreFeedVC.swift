@@ -39,6 +39,7 @@ class ExploreFeedViewController: UIViewController {
         setupTableView()
         view.backgroundColor = .clear
         filterButton.alpha = 0
+        mapButton.alpha = 0
     }
 
     func setupNotchView() {

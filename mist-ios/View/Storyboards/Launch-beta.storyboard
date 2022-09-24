@@ -20,13 +20,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mistwidewhite" translatesAutoresizingMaskIntoConstraints="NO" id="BR8-Ru-btt">
-                                <rect key="frame" x="56.5" y="251" width="262.5" height="105"/>
+                                <rect key="frame" x="56.5" y="241" width="262.5" height="105"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="BR8-Ru-btt" secondAttribute="height" multiplier="5:2" id="Mpa-b3-5ML"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="beta" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h8A-5o-Uqf">
-                                <rect key="frame" x="166" y="361" width="43" height="27.5"/>
+                                <rect key="frame" x="166" y="351" width="43" height="27.5"/>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -43,7 +43,7 @@
                             <constraint firstItem="BR8-Ru-btt" firstAttribute="width" secondItem="aTv-Z2-YyM" secondAttribute="width" multiplier="0.7" id="bUc-YK-2Yc"/>
                             <constraint firstItem="aTv-Z2-YyM" firstAttribute="leading" secondItem="3ei-L9-LM3" secondAttribute="leading" id="lha-7m-7fB"/>
                             <constraint firstAttribute="trailing" secondItem="aTv-Z2-YyM" secondAttribute="trailing" id="m2z-HM-McQ"/>
-                            <constraint firstItem="BR8-Ru-btt" firstAttribute="centerY" secondItem="3ei-L9-LM3" secondAttribute="centerY" constant="-30" id="oJA-Su-FEO"/>
+                            <constraint firstItem="BR8-Ru-btt" firstAttribute="centerY" secondItem="3ei-L9-LM3" secondAttribute="centerY" constant="-40" id="oJA-Su-FEO"/>
                             <constraint firstItem="h8A-5o-Uqf" firstAttribute="top" secondItem="BR8-Ru-btt" secondAttribute="bottom" constant="5" id="z8F-z1-DHN"/>
                         </constraints>
                     </view>
@@ -55,6 +55,6 @@
     </scenes>
     <resources>
         <image name="landingpage_lessgradient" width="471" height="1019"/>
-        <image name="mistwidewhite" width="32768" height="8940"/>
+        <image name="mistwidewhite" width="4915" height="1341"/>
     </resources>
 </document>

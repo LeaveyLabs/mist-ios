@@ -175,7 +175,7 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
                     self.lastNameTextField.becomeFirstResponder()
                 }
             }
-            return textField.shouldChangeCharactersGivenMaxLengthOf(30, range, string)
+            return textField.shouldChangeCharactersGivenMaxLengthOf(20, range, string)
         }
         if textField == lastNameTextField {
             if didAutofillTextfield {
@@ -183,7 +183,7 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
                     self.usernameTextField.becomeFirstResponder()
                 }
             }
-            return textField.shouldChangeCharactersGivenMaxLengthOf(30, range, string)
+            return textField.shouldChangeCharactersGivenMaxLengthOf(20, range, string)
         }
         if textField == usernameTextField {
             return textField.shouldChangeCharactersGivenMaxLengthOf(30, range, string)
@@ -244,7 +244,6 @@ class CreateProfileViewController: KUIViewController, UITextFieldDelegate {
     //TODO: make sure these error messages are descriptive
     func handleFailure(_ error: Error) {
         isSubmitting = false
-        isValidInput = false
         CustomSwiftMessages.displayError(error)
         //        DispatchQueue.main.async { [self] in
         //            transitionToStoryboard(storyboardID: Constants.SBID.SB.Auth,

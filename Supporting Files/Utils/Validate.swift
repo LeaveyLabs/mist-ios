@@ -13,7 +13,7 @@ struct Validate {
     static func validateUsername(_ username: String) -> Bool {
         var usernamePermittedCharacters: CharacterSet = [".", "_"]
         usernamePermittedCharacters.formUnion(.alphanumerics)
-        let isValidUsername = usernamePermittedCharacters.isSuperset(of: CharacterSet(charactersIn: username)) && username.count > 3 && username.count < 25
+        let isValidUsername = usernamePermittedCharacters.isSuperset(of: CharacterSet(charactersIn: username)) && username.count > 3 && username.count <= 25
         
         return isValidUsername
     }

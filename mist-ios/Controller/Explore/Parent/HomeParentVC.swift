@@ -27,7 +27,7 @@ class HomeExploreParentViewController: ExploreParentViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupActiveLabel()
+//        setupActiveLabel()
         setupTabBar()
         renderNewPostsOnFeed(withType: .firstLoad)
         renderNewPostsOnMap(withType: .firstLoad)

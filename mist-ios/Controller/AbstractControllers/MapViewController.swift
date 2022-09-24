@@ -122,7 +122,7 @@ class MapViewController: UIViewController {
         zoomSliderVisual.maximumTrackTintColor = .clear
         zoomSliderVisual.setThumbImage(UIImage(named: "thumb"), for: .normal)
         zoomSliderVisual.setThumbImage(UIImage(named: "thumb"), for: .highlighted)
-        zoomSliderVisual.thumbRectHorizontalOffset = 17
+        zoomSliderVisual.thumbRectHorizontalOffset = 20
         zoomSliderVisual.isUserInteractionEnabled = false
         
         zoomSliderDrag.transform = CGAffineTransform(rotationAngle: -.pi/2)
@@ -130,7 +130,7 @@ class MapViewController: UIViewController {
         zoomSliderDrag.minimumTrackTintColor = .clear
         zoomSliderDrag.maximumTrackTintColor = .clear
         zoomSliderDrag.thumbTintColor = .clear
-        zoomSliderDrag.thumbRectHorizontalOffset = 17
+        zoomSliderDrag.thumbRectHorizontalOffset = 20
         zoomSliderDrag.addTarget(self, action: #selector(onZoomSlide(slider:event:)), for: .valueChanged)
         
         zoomSliderGradientImageView.alpha = 0.3
