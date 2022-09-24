@@ -40,6 +40,7 @@ protocol CompleteUserType: ReadOnlyUserType {
     var date_of_birth: String? { get }
     var sex: String? { get }
     var phone_number: String { get }
+    var daily_prompts: [Int] { get }
 }
 
 //MARK: - Structs
@@ -123,6 +124,7 @@ struct CompleteUser: Codable, CompleteUserType {
     let phone_number: String
     let badges: [String]
     let is_superuser: Bool
+    var daily_prompts: [Int]
     
     //Equatable
     static func == (lhs: CompleteUser, rhs: CompleteUser) -> Bool { return lhs.id == rhs.id }
@@ -145,6 +147,7 @@ struct FrontendCompleteUser: Codable, CompleteUserType, ReadOnlyUserType, Sender
     let phone_number: String
     let badges: [String]
     let is_superuser: Bool
+    var daily_prompts: [Int]
     
     // Complete-only properties
     var profilePicWrapper: ProfilePicWrapper
@@ -171,12 +174,13 @@ struct FrontendCompleteUser: Codable, CompleteUserType, ReadOnlyUserType, Sender
         self.profilePicWrapper = profilePicWrapper
         self.thumbnail = completeUser.thumbnail
         self.token = token
+        self.daily_prompts = completeUser.daily_prompts
     }
     
     //Equatable
     static func == (lhs: FrontendCompleteUser, rhs: FrontendCompleteUser) -> Bool { return lhs.id == rhs.id }
     
-    static let nilUser = FrontendCompleteUser(completeUser: CompleteUser(id: 0, username: "", first_name: "", last_name: "", picture: "", thumbnail: "", email: "", date_of_birth: "", sex: "", latitude: 0, longitude: 0, phone_number: "", badges: [], is_superuser: false), profilePicWrapper: ProfilePicWrapper(image: Constants.defaultProfilePic, withCompresssion: false), token: "")
+    static let nilUser = FrontendCompleteUser(completeUser: CompleteUser(id: 0, username: "", first_name: "", last_name: "", picture: "", thumbnail: "", email: "", date_of_birth: "", sex: "", latitude: 0, longitude: 0, phone_number: "", badges: [], is_superuser: false, daily_prompts: []), profilePicWrapper: ProfilePicWrapper(image: Constants.defaultProfilePic, withCompresssion: false), token: "")
 }
 
 //    var age: Int? {

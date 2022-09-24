@@ -7,8 +7,8 @@
 
 import Foundation
 
-protocol CollectibleDelegate {
-    
+protocol CollectibleViewDelegate {
+    func collectibleDidTapped(type: Int)
 }
 
 class CollectibleView: UIView {
@@ -16,12 +16,11 @@ class CollectibleView: UIView {
     //MARK: - Properties
     
     //UI
-    @IBOutlet weak var firstCollectibleBackgroundView: UIView!
-    @IBOutlet weak var firstCollectibleTitleLabel: UILabel!
-    @IBOutlet weak var firstCollectibleImageView: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
     
     var collectibleType: Int!
-    var delegate: CollectibleDelegate!
+    var delegate: CollectibleViewDelegate!
         
     static let boldAttributes: [NSAttributedString.Key : Any] = [
         .font: UIFont(name: Constants.Font.Heavy, size: 18)!,
@@ -45,39 +44,21 @@ class CollectibleView: UIView {
     }
         
     private func customInit() {
-        guard let contentView = loadViewFromNib(nibName: "EnvelopeView") else { return }
+        guard let contentView = loadViewFromNib(nibName: "CollectibleView") else { return }
         contentView.frame = self.bounds
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(contentView)
-        envelopeImageView.applyMediumShadow()
-        titleShadowView.applyMediumShadow()
-        titleMaskingView.clipsToBounds = true
-        skipButton.setImage(UIImage(systemName: "bin.xmark"), for: .normal) //to avoid name deprecation warning
-    }
-    
-    
-    func setupButtons() {
-        openButton.roundCornersViaCornerRadius(radius: 8)
-        openButton.clipsToBounds = true
-        openButtonShadowSuperView.applyMediumShadow()
-        skipButton.roundCornersViaCornerRadius(radius: 5)
-        skipButton.clipsToBounds = true
         
-        if #available(iOS 14, *) {
-            skipButton.setImage(UIImage(systemName: "xmark.bin"), for: .normal)
-        }
-        else {
-            skipButton.setImage(UIImage(systemName: "bin.xmark"), for: .normal)
-        }
-        skipButton.applyMediumShadow()
-        openButton.setBackgroundColor(Constants.Color.mistPurple, for: .normal)
-        openButton.setBackgroundColor(Constants.Color.mistLilac, for: .highlighted)
+        applyLightMediumShadow()
+        roundCornersViaCornerRadius(radius: 10)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(collectibleDidTapped))
+        self.addGestureRecognizer(tapGesture)
     }
         
     //MARK: - User Interaction
     
     @objc func collectibleDidTapped() {
-        
+        delegate.collectibleDidTapped(type: collectibleType)
     }
     
 }
@@ -88,9 +69,12 @@ extension CollectibleView {
     
     // Note: the constraints for the PostView should already be set-up when this is called.
     // Otherwise you'll get loads of constraint errors in the console
-    func configureForCollectible(collectibleType: Int, delegate: CollectibleDelegate) {
+    func configureForCollectible(collectibleType: Int, delegate: CollectibleViewDelegate) {
         self.collectibleType = collectibleType
         self.delegate = delegate
+        let collectible = Collectible(type: collectibleType)
+        imageView.image = collectible.image
+        titleLabel.text = collectible.title
     }
     
 }

@@ -27,18 +27,24 @@ class PromptsViewController: UIViewController {
     @IBOutlet weak var titleButton: UIButton!
     @IBOutlet weak var navBar: CustomNavBar!
     
-    @IBOutlet weak var centerStackView: UIStackView!
-    @IBOutlet weak var centerImageView: UIImageView!
-    @IBOutlet weak var centerButton: UIButton!
-    @IBOutlet weak var centerDescriptionLabel: UILabel!
+//    @IBOutlet weak var answeredStackView: UIStackView!
+//    @IBOutlet weak var answeredImageView: UIImageView!
+//    @IBOutlet weak var answeredTitleButton: UIButton!
+//    @IBOutlet weak var answeredSubtitleLabel: UILabel!
     
-    @IBOutlet weak var collectiblesStackView: UIStackView!
+    @IBOutlet weak var promptsStackView: UIStackView!
+    @IBOutlet weak var promptOne: CollectibleView!
+    @IBOutlet weak var promptTwo: CollectibleView!
+    @IBOutlet weak var promptThree: CollectibleView!
     
     @IBOutlet weak var collectiblesBackgroundView: UIView!
-    @IBOutlet weak var collectiblesLabel: UILabel!
+    
+    var promptViews: [CollectibleView] {
+        return [promptOne, promptTwo, promptThree]
+    }
 
-    var prompts: [Post] {
-        MistboxManager.shared.getMistboxMists()
+    var todaysPrompts: [Int] {
+        UserService.singleton.getTodaysPrompts()
     }
     
     //Other
@@ -51,11 +57,15 @@ class PromptsViewController: UIViewController {
         super.viewDidLoad()
         setupNavBar()
         setupLabelsAndButtons()
-        updateUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        updateBadges()
+        updateUI()
+    }
+    
+    func updateBadges() {
         (tabBarController as? SpecialTabBarController)?.refreshBadgeCount()
         let prevCount = navBar.accountBadgeHub.getCurrentCount()
         navBar.accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
@@ -84,7 +94,7 @@ class PromptsViewController: UIViewController {
         titleButton.titleLabel?.adjustsFontSizeToFitWidth = true
         titleButton.titleLabel?.lineBreakMode = NSLineBreakMode.byClipping
         
-        //keywordsButton
+        //collectiblesButton
         collectiblesBackgroundView.applyLightMediumShadow()
         collectiblesBackgroundView.roundCornersViaCornerRadius(radius: 8)
         let keywordsTap = UITapGestureRecognizer(target: self, action: #selector(didPressCollectiblesButton))
@@ -95,80 +105,83 @@ class PromptsViewController: UIViewController {
     
     @MainActor
     func updateUI() {
-        switch currentLayout {
-        case .normal:
-            //if they have no more collectibles available, then they answered
-            //if they have 50 collectibles, they have allAnswered
-            break
-        case .answered:
-            //if they have collectibles available, normal
-            //if they have all answered, allAnswered
-            break
-        case .allAnswered:
-            
-            break
+        if CollectibleManager.shared.hasUserEarnedAllCollectibles {
+            setupAllAnsweredLayout()
+        } else if CollectibleManager.shared.hasUserEarnedACollectibleToday {
+            setupAnsweredLayout()
+        } else {
+            setupNormalLayout()
         }
     }
     
     func setupNormalLayout() {
         currentLayout = .normal
         
-        centerStackView.isHidden = true
-        collectiblesBackgroundView.isHidden = false
+        promptsStackView.isHidden = false
         titleButton.isHidden = false
-        titleButton.alpha = 1
+        
+        var viewIndex = 0
+        todaysPrompts.forEach { prompt in
+            promptViews[viewIndex].configureForCollectible(collectibleType: prompt, delegate: self)
+            promptViews[viewIndex].roundCornersViaCornerRadius(radius: 10)
+            viewIndex += 1
+        }
+        let areSomePromptsEmpty = viewIndex < 3
+        if areSomePromptsEmpty {
+            for invisibleIndex in viewIndex...2 {
+                promptViews[invisibleIndex].isHidden = true
+            }
+        }
+        
+        //        centerStackView.isHidden = true
     }
     
     func setupAnsweredLayout() {
         currentLayout = .answered
         
-        centerStackView.isHidden = false
-        centerStackView.spacing = 10
-        centerImageView.image = UIImage(named: "empty-mistbox-graphic")
-        centerButton.isHidden = false
-        centerDescriptionLabel.text = "when someone drops a mist containing one of your keywords, it'll appear here"
-        collectiblesBackgroundView.isHidden = false
+        promptsStackView.isHidden = true
         titleButton.isHidden = true
+
+//        centerStackView.isHidden = false
+//        centerStackView.spacing = 10
+//        centerImageView.image = UIImage(named: "empty-mistbox-graphic")
+//        centerButton.isHidden = false
+//        centerDescriptionLabel.text = "when someone drops a mist containing one of your keywords, it'll appear here"
     }
     
     func setupAllAnsweredLayout() {
         currentLayout = .allAnswered
         
-        centerStackView.isHidden = false
-        centerStackView.spacing = 20
-        centerImageView.image = UIImage(named: "mistbox-graphic-nowords-1")
-        centerButton.isHidden = true
-        centerDescriptionLabel.text = ""
-        collectiblesBackgroundView.isHidden = true
+        promptsStackView.isHidden = true
         titleButton.isHidden = true
+
+//        centerStackView.isHidden = false
+//        centerStackView.spacing = 20
+//        centerImageView.image = UIImage(named: "mistbox-graphic-nowords-1")
+//        centerButton.isHidden = true
+//        centerDescriptionLabel.text = ""
     }
     
     //MARK: - User Interaction
     
     @objc func didPressCollectiblesButton() {
-        let keywordsVC = EnterKeywordsViewController.create()
-        self.navigationController?.pushViewController(keywordsVC, animated: true)
+        let collectiblesVC = CollectiblesViewController.create()
+        self.navigationController?.pushViewController(collectiblesVC, animated: true)
     }
     
     @IBAction func didPressLearnMoreButton(_ sender: UIButton) {
-        let learnMoreVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.WhatIsMistbox) as! WhatIsMistboxViewController
+        let learnMoreVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.WhatIsPrompts) as! WhatIsPromptsViewController
         present(learnMoreVC, animated: true)
     }
 }
 
 //MARK: - MistboxCellDelegate
 
-extension PromptsViewController: MistboxCellDelegate {
+extension PromptsViewController: CollectibleViewDelegate {
     
-    func didSkipMist(postId: Int) {
-        guard let postIndex = posts.firstIndex(where: { $0.id == postId }) else { return }
-        do {
-            try MistboxManager.shared.skipMist(index: postIndex, postId: postId)
-        } catch {
-            CustomSwiftMessages.displayError(error)
-        }
-        
-        visuallyRemoveMist(postIndex: postIndex)
+    func collectibleDidTapped(type: Int) {
+        //do the suches
+        print("COLLECTIBLE DID TAPPED")
     }
     
 }

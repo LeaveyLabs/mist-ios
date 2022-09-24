@@ -64,7 +64,6 @@ class MistboxViewController: UIViewController {
     
     func setupTabBar() {
         guard let tabBarController = tabBarController as? SpecialTabBarController else { return }
-        tabBarController.selectedIndex = 1
         tabBarController.refreshBadgeCount()
         tabBarController.repositionBadges()
     }

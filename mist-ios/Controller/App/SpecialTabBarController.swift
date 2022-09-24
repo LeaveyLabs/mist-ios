@@ -8,6 +8,10 @@
 import UIKit
 import Foundation
 
+enum Tabs: Int, CaseIterable {
+    case explore, prompts, mistbox, dms
+}
+
 class SpecialTabBarController: UITabBarController {
     
 //    var promptsTabBadgeCount: Int! {
@@ -22,7 +26,7 @@ class SpecialTabBarController: UITabBarController {
     var mistboxTabBadgeCount: Int! {
         didSet {
             DispatchQueue.main.async { [self] in
-                tabBar.items![2].badgeValue = mistboxTabBadgeCount == 0 ? nil : String(mistboxTabBadgeCount)
+                tabBar.items![Tabs.mistbox.rawValue].badgeValue = mistboxTabBadgeCount == 0 ? nil : String(mistboxTabBadgeCount)
                 repositionBadges() //necessary or else badge position is incorrect
             }
         }
@@ -31,7 +35,7 @@ class SpecialTabBarController: UITabBarController {
     var dmTabBadgeCount: Int! {
         didSet {
             DispatchQueue.main.async { [self] in
-                tabBar.items![3].badgeValue = dmTabBadgeCount == 0 ? nil : String(dmTabBadgeCount)
+                tabBar.items![Tabs.dms.rawValue].badgeValue = dmTabBadgeCount == 0 ? nil : String(dmTabBadgeCount)
                 repositionBadges()
             }
         }
@@ -107,12 +111,13 @@ extension SpecialTabBarController {
         if MistboxManager.shared.hasUserActivatedMistbox {
             mistboxTabBadgeCount = MistboxManager.shared.getMistboxMists().count + DeviceService.shared.unreadMentionsCount()
         } else {
-            tabBar.items![1].badgeValue = ""
+            tabBar.items![Tabs.mistbox.rawValue].badgeValue = ""
             repositionBadges() //necessary or else badge position is incorrect
         }
         
-        let hasAnsweredPromptToday = false
-        tabBar.items![1].badgeValue = hasAnsweredPromptToday ? nil : ""
+        dmTabBadgeCount = ConversationService.singleton.getUnreadConversations().count
+        
+        tabBar.items![Tabs.prompts.rawValue].badgeValue = CollectibleManager.shared.hasUserEarnedACollectibleToday ? nil : ""
     }
     
 }

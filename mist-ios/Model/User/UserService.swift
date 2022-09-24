@@ -97,7 +97,7 @@ class UserService: NSObject {
     func getProfilePic() -> UIImage { return authedUser.profilePicWrapper.image }
     func getSilhouette() -> UIImage { return authedUser.silhouette }
     func isSuperuser() -> Bool { return authedUser.is_superuser }
-    
+    func getTodaysPrompts() -> [Int] { return authedUser.daily_prompts }
     func getBadges() -> [String] { return authedUser.badges }
     func isVerified() -> Bool { return false }
     
@@ -134,6 +134,11 @@ class UserService: NSObject {
             setupFirebaseAnalyticsProperties() //must come later at the end of this process so that we dont access authedUser while it's null and kick the user to the home screen
         }
         isLoggedIntoApp = true
+    }
+    
+    func reloadTodaysPrompts() async throws {
+        let completeUser = try await UserAPI.fetchAuthedUserByToken(token: getGlobalAuthToken())
+        authedUser.daily_prompts = completeUser.daily_prompts
     }
     
     func logInWith(authToken token: String) async throws {

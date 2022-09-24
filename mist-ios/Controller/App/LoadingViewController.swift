@@ -194,7 +194,7 @@ class LoadingViewController: UIViewController {
                 let myAccountNavigation = mainSB.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation) as? UINavigationController,
                 let customExplore = CustomExploreParentViewController.create(setting: .mentions)
             else { return }
-            tabbarVC.selectedIndex = 0
+            tabbarVC.selectedIndex = Tabs.explore.rawValue
             myAccountNavigation.modalPresentationStyle = .fullScreen
             tabbarVC.present(myAccountNavigation, animated: false)
             myAccountNavigation.pushViewController(customExplore, animated: false)
@@ -206,7 +206,7 @@ class LoadingViewController: UIViewController {
                 CustomSwiftMessages.displayError("not found", "these message have been deleted")
                 return
             }
-            tabbarVC.selectedIndex = 2
+            tabbarVC.selectedIndex = Tabs.dms.rawValue
             guard
                 let conversationsNavVC = tabbarVC.selectedViewController as? UINavigationController
             else { return }
@@ -218,16 +218,16 @@ class LoadingViewController: UIViewController {
                 CustomSwiftMessages.displayError("not found", "these message have been deleted")
                 return
             }
-            tabbarVC.selectedIndex = 2
+            tabbarVC.selectedIndex = Tabs.dms.rawValue
             guard
                 let conversationsNavVC = tabbarVC.selectedViewController as? UINavigationController
             else { return }
             let chatVC = ChatViewController.create(conversation: convo)
             conversationsNavVC.pushViewController(chatVC, animated: false)
         case .daily_mistbox:
-            tabbarVC.selectedIndex = 1
+            tabbarVC.selectedIndex = Tabs.mistbox.rawValue
         case .make_someones_day:
-            tabbarVC.selectedIndex = 0
+            tabbarVC.selectedIndex = Tabs.prompts.rawValue
             tabbarVC.presentNewPostNavVC(animated: false)
         case .comment:
             break

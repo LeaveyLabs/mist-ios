@@ -73,10 +73,9 @@ class MistboxManager: NSObject {
     func fetchSyncedMistbox() async throws {
         guard let newMistbox = try await PostAPI.fetchMistbox() else { return }
         let _ = await PostService.singleton.cachePostsAndGetArrayOfPostIdsFrom(posts: newMistbox.posts)
-        print("FETCHED NEW MISTBOX")
         if newMistbox.posts.count > (mistbox?.posts.count ?? 0),
            let tabBarVC = await UIApplication.shared.windows.first?.rootViewController as? SpecialTabBarController,
-           await tabBarVC.selectedIndex != 2 {
+           await tabBarVC.selectedIndex != Tabs.mistbox.rawValue {
             DispatchQueue.main.async {
                 tabBarVC.refreshBadgeCount()
             }

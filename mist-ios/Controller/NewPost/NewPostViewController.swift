@@ -313,7 +313,7 @@ class NewPostViewController: UIViewController {
     @MainActor
     func handleSuccessfulNewPost(wasOfferedNotifications: Bool) {
         let tbc = presentingViewController as! UITabBarController
-        tbc.selectedIndex = 0
+        tbc.selectedIndex = Tabs.explore.rawValue
         let homeNav = tbc.selectedViewController as! UINavigationController
         let homeParent = homeNav.topViewController as! HomeExploreParentViewController
         
