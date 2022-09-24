@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "bubble.left.and.bubble 1.pdf",
+      "filename" : "bubble.left.and.bubble 2.pdf",
       "idiom" : "universal"
     }
   ],
@@ -11,6 +11,6 @@
   },
   "properties" : {
     "preserves-vector-representation" : true,
-    "template-rendering-intent" : "original"
+    "template-rendering-intent" : "template"
   }
 }

@@ -45,7 +45,7 @@
                             </connections>
                         </button>
                         <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YJY-MB-ihA" userLabel="Top Stack">
-                            <rect key="frame" x="15" y="14" width="362" height="20"/>
+                            <rect key="frame" x="15" y="14" width="357" height="20"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="doheny library" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KSk-NV-QiT">
                                     <rect key="frame" x="0.0" y="0.0" width="85" height="20"/>
@@ -63,7 +63,7 @@
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="3" scale="default"/>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 days ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hUc-aP-KHZ">
-                                    <rect key="frame" x="100" y="0.0" width="262" height="20"/>
+                                    <rect key="frame" x="100" y="0.0" width="257" height="20"/>
                                     <constraints>
                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="06l-2N-gXl"/>
                                     </constraints>
@@ -77,9 +77,10 @@
                             </constraints>
                         </stackView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9PV-NB-WGv" userLabel="MoreButton">
-                            <rect key="frame" x="377" y="14" width="25" height="22"/>
+                            <rect key="frame" x="372" y="5" width="35" height="35"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="25" id="tnF-kC-EM2"/>
+                                <constraint firstAttribute="height" constant="35" id="7na-aO-3FK"/>
+                                <constraint firstAttribute="width" constant="35" id="tnF-kC-EM2"/>
                             </constraints>
                             <color key="tintColor" systemColor="systemGrayColor"/>
                             <state key="normal" image="ellipsis" catalog="system">
@@ -296,13 +297,13 @@
                         <constraint firstItem="Yma-w3-rs6" firstAttribute="leading" secondItem="bob-45-2Dc" secondAttribute="leading" id="CQF-lh-EJO"/>
                         <constraint firstItem="uno-sj-oMK" firstAttribute="leading" secondItem="bob-45-2Dc" secondAttribute="leading" id="DID-yT-rg4"/>
                         <constraint firstItem="YJY-MB-ihA" firstAttribute="top" secondItem="bob-45-2Dc" secondAttribute="top" constant="14" id="FGp-XB-Te4"/>
-                        <constraint firstAttribute="trailing" secondItem="9PV-NB-WGv" secondAttribute="trailing" constant="8" id="IoS-XZ-siV"/>
+                        <constraint firstAttribute="trailing" secondItem="9PV-NB-WGv" secondAttribute="trailing" constant="3" id="IoS-XZ-siV"/>
                         <constraint firstItem="H2e-sd-bfE" firstAttribute="top" secondItem="YJY-MB-ihA" secondAttribute="bottom" constant="16" id="JJV-Y9-tLQ"/>
                         <constraint firstItem="n8O-is-nrf" firstAttribute="top" secondItem="H2e-sd-bfE" secondAttribute="bottom" constant="8" id="QBe-05-iUm"/>
                         <constraint firstItem="uno-sj-oMK" firstAttribute="top" secondItem="bob-45-2Dc" secondAttribute="top" id="Y9v-rc-D5a"/>
                         <constraint firstAttribute="trailing" secondItem="Yma-w3-rs6" secondAttribute="trailing" id="Yxw-Sw-fDZ"/>
                         <constraint firstItem="Yma-w3-rs6" firstAttribute="top" secondItem="n8O-is-nrf" secondAttribute="bottom" constant="15" id="b5a-tN-Qb9"/>
-                        <constraint firstItem="9PV-NB-WGv" firstAttribute="top" secondItem="bob-45-2Dc" secondAttribute="top" constant="14" id="b8X-qH-dDf"/>
+                        <constraint firstItem="9PV-NB-WGv" firstAttribute="top" secondItem="bob-45-2Dc" secondAttribute="top" constant="5" id="b8X-qH-dDf"/>
                         <constraint firstItem="9PV-NB-WGv" firstAttribute="leading" secondItem="YJY-MB-ihA" secondAttribute="trailing" id="bfh-Ow-L8Y"/>
                         <constraint firstAttribute="trailing" secondItem="H2e-sd-bfE" secondAttribute="trailing" constant="15" id="jAz-ac-4at"/>
                         <constraint firstAttribute="bottom" secondItem="uno-sj-oMK" secondAttribute="bottom" id="mtP-cu-aZM"/>

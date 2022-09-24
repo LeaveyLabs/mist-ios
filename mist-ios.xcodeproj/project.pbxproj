@@ -250,6 +250,14 @@
 		5B235B1228AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B1128AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift */; };
 		5B235B1328AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B235B1128AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift */; };
 		5B29262A28974E10008A1F5D /* CommentVote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43529E282890BBD000B3A484 /* CommentVote.swift */; };
+		5B29F90A28DEE0400062145B /* PromptsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B29F90928DEE0400062145B /* PromptsViewController.swift */; };
+		5B29F90B28DEE0400062145B /* PromptsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B29F90928DEE0400062145B /* PromptsViewController.swift */; };
+		5B29F90D28DEE3FB0062145B /* CollectiblesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B29F90C28DEE3FB0062145B /* CollectiblesViewController.swift */; };
+		5B29F90E28DEE3FB0062145B /* CollectiblesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B29F90C28DEE3FB0062145B /* CollectiblesViewController.swift */; };
+		5B29F91128DEEC340062145B /* CollectibleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B29F91028DEEC340062145B /* CollectibleView.swift */; };
+		5B29F91228DEEC340062145B /* CollectibleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B29F91028DEEC340062145B /* CollectibleView.swift */; };
+		5B29F91428DEED920062145B /* CollectibleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B29F91328DEED920062145B /* CollectibleView.xib */; };
+		5B29F91528DEED920062145B /* CollectibleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B29F91328DEED920062145B /* CollectibleView.xib */; };
 		5B37A36B28784A4B00279B2A /* EnterBiosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */; };
 		5B41529028BDCFBB00592A55 /* MistboxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41528F28BDCFBB00592A55 /* MistboxManager.swift */; };
 		5B41529128BDCFBB00592A55 /* MistboxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41528F28BDCFBB00592A55 /* MistboxManager.swift */; };
@@ -970,6 +978,10 @@
 		5B235B0928AEB11900FD27A9 /* InputBarAccessoryView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InputBarAccessoryView+.swift"; sourceTree = "<group>"; };
 		5B235B0D28AEFDFC00FD27A9 /* PanGesture+Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PanGesture+Direction.swift"; sourceTree = "<group>"; };
 		5B235B1128AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationController+FullscreenInteractivePopGesture.swift"; sourceTree = "<group>"; };
+		5B29F90928DEE0400062145B /* PromptsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptsViewController.swift; sourceTree = "<group>"; };
+		5B29F90C28DEE3FB0062145B /* CollectiblesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectiblesViewController.swift; sourceTree = "<group>"; };
+		5B29F91028DEEC340062145B /* CollectibleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectibleView.swift; sourceTree = "<group>"; };
+		5B29F91328DEED920062145B /* CollectibleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectibleView.xib; sourceTree = "<group>"; };
 		5B37A36A28784A4B00279B2A /* EnterBiosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBiosViewController.swift; sourceTree = "<group>"; };
 		5B41528F28BDCFBB00592A55 /* MistboxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistboxManager.swift; sourceTree = "<group>"; };
 		5B41529228BDE1F000592A55 /* EnterKeywordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterKeywordsViewController.swift; sourceTree = "<group>"; };
@@ -1478,6 +1490,7 @@
 		479AA1F927DD0EC000EA0DFC /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				5B29F90F28DEEBDE0062145B /* Collectibles */,
 				47E295D5284BB79600A680CC /* PostView.swift */,
 				47E295D7284BB7B000A680CC /* PostView.xib */,
 				474A5DA427F40606004215F9 /* RoundedImageView.swift */,
@@ -1679,6 +1692,7 @@
 				43770C4927EE8BED00F31CCF /* Auth */,
 				5B1F16D4287D41FD00035F93 /* Explore */,
 				47F4EFD127E10C1300861F30 /* Post */,
+				5B29F90828DEE02A0062145B /* Prompts */,
 				5B068CBC28BD69D700DFC89F /* Mistbox */,
 				47FF86A427DC76000076A1CA /* NewPost */,
 				5B4D58A82860E22B002E2F94 /* Friends */,
@@ -1890,6 +1904,24 @@
 				5B235B1128AEFE5500FD27A9 /* NavigationController+FullscreenInteractivePopGesture.swift */,
 			);
 			path = NavigationController;
+			sourceTree = "<group>";
+		};
+		5B29F90828DEE02A0062145B /* Prompts */ = {
+			isa = PBXGroup;
+			children = (
+				5B29F90928DEE0400062145B /* PromptsViewController.swift */,
+				5B29F90C28DEE3FB0062145B /* CollectiblesViewController.swift */,
+			);
+			path = Prompts;
+			sourceTree = "<group>";
+		};
+		5B29F90F28DEEBDE0062145B /* Collectibles */ = {
+			isa = PBXGroup;
+			children = (
+				5B29F91028DEEC340062145B /* CollectibleView.swift */,
+				5B29F91328DEED920062145B /* CollectibleView.xib */,
+			);
+			path = Collectibles;
 			sourceTree = "<group>";
 		};
 		5B4CE2F828DA9CBF00FB9E8B /* UITableView */ = {
@@ -2371,6 +2403,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BB624DA2867DD8400DCD45B /* ConversationCell.xib in Resources */,
+				5B29F91428DEED920062145B /* CollectibleView.xib in Resources */,
 				47527193285584F400DDF84D /* SimpleInputCell.xib in Resources */,
 				47C2835027DED77500A19128 /* FeedHeaderCell.xib in Resources */,
 				47E295D8284BB7B000A680CC /* PostView.xib in Resources */,
@@ -2423,6 +2456,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B739E7128935B9500E4EED0 /* ConversationCell.xib in Resources */,
+				5B29F91528DEED920062145B /* CollectibleView.xib in Resources */,
 				5B739E7228935B9500E4EED0 /* SimpleInputCell.xib in Resources */,
 				5B739E7328935B9500E4EED0 /* FeedHeaderCell.xib in Resources */,
 				5B739E7428935B9500E4EED0 /* PostView.xib in Resources */,
@@ -2568,6 +2602,7 @@
 				474A5DA527F40606004215F9 /* RoundedImageView.swift in Sources */,
 				4780E5B42832F0560012B741 /* ChatViewController.swift in Sources */,
 				4700F8BE27DD807C006C2E08 /* CommentCell.swift in Sources */,
+				5B29F91128DEEC340062145B /* CollectibleView.swift in Sources */,
 				47A3D72327D5A0D2003DBEA5 /* ProfileViewController.swift in Sources */,
 				4700F8BB27DD7BE3006C2E08 /* PostVote.swift in Sources */,
 				5B235B0E28AEFDFC00FD27A9 /* PanGesture+Direction.swift in Sources */,
@@ -2584,6 +2619,7 @@
 				478BA27F283E85F500C35507 /* AuthContext.swift in Sources */,
 				478A789B284E73970058C845 /* CLLocationCoordiante+Midpoint.swift in Sources */,
 				47FF86A127DC712F0076A1CA /* Comment.swift in Sources */,
+				5B29F90D28DEE3FB0062145B /* CollectiblesViewController.swift in Sources */,
 				5BD8E07E28C1FB1C00E722D4 /* PinSearchVC.swift in Sources */,
 				47EA3E0227E0151200381218 /* MapViewController.swift in Sources */,
 				5BDE1F7028C5C92800B8B108 /* MistboxCollectionCell.swift in Sources */,
@@ -2731,6 +2767,7 @@
 				431767DF28B025F1000B2E32 /* DeviceAPI.swift in Sources */,
 				5B774DFA286D4F9B00CCCF28 /* MessageKitMatchRequest.swift in Sources */,
 				472F8D1A28505F4600DB69C4 /* PostDelegate.swift in Sources */,
+				5B29F90A28DEE0400062145B /* PromptsViewController.swift in Sources */,
 				5B4152B528BF1F2000592A55 /* ExploreMapVC+OverlayDelegate.swift in Sources */,
 				478A7899284E708D0058C845 /* CLLocationCoordinate+Distance.swift in Sources */,
 				4700F8B727DD7BBA006C2E08 /* PostVoteAPI.swift in Sources */,
@@ -2905,6 +2942,7 @@
 				5B739DB128935B9500E4EED0 /* TransitionManager.swift in Sources */,
 				5B739DB228935B9500E4EED0 /* UIViewController+SBTransition.swift in Sources */,
 				5B739DB328935B9500E4EED0 /* RoundedImageView.swift in Sources */,
+				5B29F91228DEEC340062145B /* CollectibleView.swift in Sources */,
 				5B739DB428935B9500E4EED0 /* ChatViewController.swift in Sources */,
 				5B739DB528935B9500E4EED0 /* CommentCell.swift in Sources */,
 				431767E028B025F1000B2E32 /* DeviceAPI.swift in Sources */,
@@ -2921,6 +2959,7 @@
 				5BBF5C51289B9FE1000B2D31 /* InputAvatar.swift in Sources */,
 				5B739DBE28935B9500E4EED0 /* MKClusterAnnotation+*.swift in Sources */,
 				5B739DBF28935B9500E4EED0 /* AuthContext.swift in Sources */,
+				5B29F90E28DEE3FB0062145B /* CollectiblesViewController.swift in Sources */,
 				5BD8E07F28C1FB1C00E722D4 /* PinSearchVC.swift in Sources */,
 				5B739DC028935B9500E4EED0 /* CLLocationCoordiante+Midpoint.swift in Sources */,
 				5BDE1F7128C5C92800B8B108 /* MistboxCollectionCell.swift in Sources */,
@@ -3068,6 +3107,7 @@
 				5B739E2A28935B9500E4EED0 /* MessageKitMatchRequest.swift in Sources */,
 				5B739E2B28935B9500E4EED0 /* PostDelegate.swift in Sources */,
 				5B739E2C28935B9500E4EED0 /* CLLocationCoordinate+Distance.swift in Sources */,
+				5B29F90B28DEE0400062145B /* PromptsViewController.swift in Sources */,
 				5B4152B628BF1F2000592A55 /* ExploreMapVC+OverlayDelegate.swift in Sources */,
 				5B739E2D28935B9500E4EED0 /* PostVoteAPI.swift in Sources */,
 				5B739E2E28935B9500E4EED0 /* ConfirmEmailViewController.swift in Sources */,

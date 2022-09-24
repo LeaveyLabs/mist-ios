@@ -26,7 +26,7 @@ struct Device: Codable {
     var hasUserOpenedFeed: Bool = false
     
     var startingScreen: StartingScreen = .feed
-    var sortOrder: SortOrder = .TRENDING
+    var sortOrder: SortOrder = .RECENT
     
     enum CodingKeys: String, CodingKey {
         case hasBeenShownGuidelines
@@ -62,7 +62,7 @@ struct Device: Codable {
         hasUserOpenedFeed = try values.decodeIfPresent(Bool.self, forKey: .hasUserOpenedFeed) ?? false
         
         startingScreen = try values.decodeIfPresent(StartingScreen.self, forKey: .startingScreen) ?? StartingScreen.feed
-        sortOrder = try values.decodeIfPresent(SortOrder.self, forKey: .sortOrder) ?? SortOrder.TRENDING
+        sortOrder = try values.decodeIfPresent(SortOrder.self, forKey: .sortOrder) ?? SortOrder.RECENT
     }
     
     init() {
@@ -77,7 +77,7 @@ struct Device: Codable {
         hasBeenRequestedContactsOnPost = false
         lastMentionsOpenTime = .leastNormalMagnitude
         startingScreen = .feed
-        sortOrder = .TRENDING
+        sortOrder = .RECENT
         hasUserOpenedFeed = false
     }
     

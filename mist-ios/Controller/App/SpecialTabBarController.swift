@@ -10,10 +10,19 @@ import Foundation
 
 class SpecialTabBarController: UITabBarController {
     
+//    var promptsTabBadgeCount: Int! {
+//        didSet {
+//            DispatchQueue.main.async { [self] in
+//                tabBar.items![1].badgeValue = promptsTabBadgeCount == 0 ? nil : String(promptsTabBadgeCount)
+//                repositionBadges() //necessary or else badge position is incorrect
+//            }
+//        }
+//    }
+    
     var mistboxTabBadgeCount: Int! {
         didSet {
             DispatchQueue.main.async { [self] in
-                tabBar.items![1].badgeValue = mistboxTabBadgeCount == 0 ? nil : String(mistboxTabBadgeCount)
+                tabBar.items![2].badgeValue = mistboxTabBadgeCount == 0 ? nil : String(mistboxTabBadgeCount)
                 repositionBadges() //necessary or else badge position is incorrect
             }
         }
@@ -22,7 +31,7 @@ class SpecialTabBarController: UITabBarController {
     var dmTabBadgeCount: Int! {
         didSet {
             DispatchQueue.main.async { [self] in
-                tabBar.items![2].badgeValue = dmTabBadgeCount == 0 ? nil : String(dmTabBadgeCount)
+                tabBar.items![3].badgeValue = dmTabBadgeCount == 0 ? nil : String(dmTabBadgeCount)
                 repositionBadges()
             }
         }
@@ -93,6 +102,7 @@ extension SpecialTabBarController {
         mistboxTabBadgeCount -= 1
     }
     
+    @MainActor
     func refreshBadgeCount() {
         if MistboxManager.shared.hasUserActivatedMistbox {
             mistboxTabBadgeCount = MistboxManager.shared.getMistboxMists().count + DeviceService.shared.unreadMentionsCount()
@@ -100,8 +110,9 @@ extension SpecialTabBarController {
             tabBar.items![1].badgeValue = ""
             repositionBadges() //necessary or else badge position is incorrect
         }
-            
-        dmTabBadgeCount = ConversationService.singleton.getUnreadConversations().count
+        
+        let hasAnsweredPromptToday = false
+        tabBar.items![1].badgeValue = hasAnsweredPromptToday ? nil : ""
     }
     
 }

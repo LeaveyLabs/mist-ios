@@ -137,25 +137,25 @@ extension ExploreMapViewController {
 
 extension ExploreMapViewController {
     
-    func setupTrojansActiveView() {
-        trojansActiveView.isHidden = true //default. it's only unhidden for the home version
-        Task {
-            guard let usersCount = await UsersService.singleton.getTotalUsersCount() else {
-                DispatchQueue.main.async {
-                    self.trojansActiveView.isHidden = true
-                }
-                return
-            }
-            let hourOfDay = Calendar.current.component(.hour, from: Date())
-            let hourlyFactor = 1 - Double(abs(hourOfDay - 12)) * 0.01
-            let dayOfWeek = Calendar.current.component(.weekday, from: Date())
-            let dailyFactor = 1 - Double(abs(dayOfWeek-4)) * 0.02
-            let varied = Double(usersCount) * 2.0 * hourlyFactor * dailyFactor
-            await MainActor.run {
-                trojansActiveLabel.text = formattedVoteCount(Double(varied)) + " active"
-            }
-        }
-    }
+//    func setupTrojansActiveView() {
+//        trojansActiveView.isHidden = true //default. it's only unhidden for the home version
+//        Task {
+//            guard let usersCount = await UsersService.singleton.getTotalUsersCount() else {
+//                DispatchQueue.main.async {
+//                    self.trojansActiveView.isHidden = true
+//                }
+//                return
+//            }
+//            let hourOfDay = Calendar.current.component(.hour, from: Date())
+//            let hourlyFactor = 1 - Double(abs(hourOfDay - 12)) * 0.01
+//            let dayOfWeek = Calendar.current.component(.weekday, from: Date())
+//            let dailyFactor = 1 - Double(abs(dayOfWeek-4)) * 0.02
+//            let varied = Double(usersCount) * 2.0 * hourlyFactor * dailyFactor
+//            await MainActor.run {
+//                trojansActiveLabel.text = formattedVoteCount(Double(varied)) + " active"
+//            }
+//        }
+//    }
     
     //MARK: - UserInteraction
     
