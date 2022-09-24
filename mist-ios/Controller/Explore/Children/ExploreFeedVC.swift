@@ -130,7 +130,7 @@ extension ExploreFeedViewController {
             self.notchView.layer.cornerRadius = 0
             
             if let _ = self.exploreDelegate as? HomeExploreParentViewController { //otherwise it cuts off the title
-                self.notchTopConstraint.constant = 12
+                self.notchTopConstraint.constant = 9
             }
             self.view.layoutIfNeeded()
         } completion: { completed in

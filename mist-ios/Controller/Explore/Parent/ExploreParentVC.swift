@@ -101,23 +101,23 @@ class ExploreParentViewController: UIViewController, OverlayContainerViewControl
         exploreFeedVC.notchView.addGestureRecognizer(notchTap)
     }
     
-    var isPerformingDemo = false
-    func performFeedDemoAnimation() {
-        isPerformingDemo = true
-        UIView.animate(withDuration: 1.5, delay: 0, options: [.curveLinear, .allowAnimatedContent, .allowUserInteraction]) {
-            self.overlayContainerView.transform = CGAffineTransform(translationX: 0, y: -200)
-        } completion: { finished in
-            UIView.animate(withDuration: 0.75,
-                           delay: 0,
-                           usingSpringWithDamping: 0.75,
-                           initialSpringVelocity: 1,
-                           options: [.curveEaseOut, .allowAnimatedContent, .allowUserInteraction]) {
-                self.overlayContainerView.transform = CGAffineTransform(translationX: 0, y: 0)
-            } completion: { completed in
-                self.isPerformingDemo = false
-            }
-        }
-    }
+//    var isPerformingDemo = false
+//    func performFeedDemoAnimation() {
+//        isPerformingDemo = true
+//        UIView.animate(withDuration: 1.5, delay: 0, options: [.curveLinear, .allowAnimatedContent, .allowUserInteraction]) {
+//            self.overlayContainerView.transform = CGAffineTransform(translationX: 0, y: -200)
+//        } completion: { finished in
+//            UIView.animate(withDuration: 0.75,
+//                           delay: 0,
+//                           usingSpringWithDamping: 0.75,
+//                           initialSpringVelocity: 1,
+//                           options: [.curveEaseOut, .allowAnimatedContent, .allowUserInteraction]) {
+//                self.overlayContainerView.transform = CGAffineTransform(translationX: 0, y: 0)
+//            } completion: { completed in
+//                self.isPerformingDemo = false
+//            }
+//        }
+//    }
     
     func notchHeight(for notch: OverlayNotch, availableSpace: CGFloat) -> CGFloat {
         switch notch {
