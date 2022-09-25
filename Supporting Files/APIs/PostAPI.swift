@@ -220,6 +220,30 @@ class PostAPI {
         return try JSONDecoder().decode([Post].self, from: data)
     }
     
+    static func fetchPostsByWords(words:[String], page:Int) async throws -> [Post] {
+        var url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?"
+        for word in words {
+            url += "\(WORDS_PARAM)=\(word)&"
+        }
+        url += "\(PAGE_PARAM)=\(page)"
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterPostErrors(data: data, response: response)
+        return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
+    // Fetches all posts from database (searching for the below text)
+    static func fetchPostsByWords(words:[String], order:SortOrder, page:Int) async throws -> [Post] {
+        var url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?"
+        for word in words {
+            url += "\(WORDS_PARAM)=\(word)&"
+        }
+        url += "\(ORDER_PARAM)=\(order.rawValue)&"
+        url += "\(PAGE_PARAM)=\(page)"
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterPostErrors(data: data, response: response)
+        return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
     // Fetches top 100 trending posts around a latlong with default radius
     static func fetchPostsByLatitudeLongitude(latitude:Double, longitude:Double) async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(LATITUDE_PARAM)=\(latitude)&\(LONGITUDE_PARAM)=\(longitude)"
@@ -241,6 +265,27 @@ class PostAPI {
                                               radius:Double,
                                               order:SortOrder) async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(LATITUDE_PARAM)=\(latitude)&\(LONGITUDE_PARAM)=\(longitude)&\(RADIUS_PARAM)=\(radius)&\(ORDER_PARAM)=\(order.rawValue)"
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterPostErrors(data: data, response: response)
+        return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
+    static func fetchPostsByLatitudeLongitude(latitude:Double,
+                                              longitude:Double,
+                                              radius:Double,
+                                              order:SortOrder,
+                                              page:Int) async throws -> [Post] {
+        let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(LATITUDE_PARAM)=\(latitude)&\(LONGITUDE_PARAM)=\(longitude)&\(RADIUS_PARAM)=\(radius)&\(ORDER_PARAM)=\(order.rawValue)&\(PAGE_PARAM)=\(page)"
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterPostErrors(data: data, response: response)
+        return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
+    static func fetchPostsByLatitudeLongitude(latitude:Double,
+                                              longitude:Double,
+                                              order:SortOrder,
+                                              page:Int) async throws -> [Post] {
+        let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(LATITUDE_PARAM)=\(latitude)&\(LONGITUDE_PARAM)=\(longitude)&\(ORDER_PARAM)=\(order.rawValue)&\(PAGE_PARAM)=\(page)"
         let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
