@@ -14,7 +14,7 @@ struct Collectible {
     var type: Int
     
     var image: UIImage {
-        return UIImage(named: "collectible-1")!// + String(type))!
+        return UIImage(named: "collectible-" + String(type))!
     }
     
     var title: String {
@@ -24,7 +24,7 @@ struct Collectible {
         case 2:
             return "someone who you look up to"
         case 3:
-            return "someone you can't live without"
+            return "something you've got to get off your chest"
         case 4:
             return "someone who always has your back"
         case 5:
@@ -38,9 +38,9 @@ struct Collectible {
         case 9:
             return "your bestie since day 1"
         case 10:
-            return "someone with an upcoming birthday"
+            return "someone you can't live without"
         case 11:
-            return "a stranger with a cute smile"
+            return "describe your crush without using their name"
         case 12:
             return "someone with a contagious laugh"
         case 13:
@@ -62,7 +62,7 @@ struct Collectible {
         case 21:
             return "write a haiku about someone"
         case 22:
-            return "describe your crush without using their name"
+            return "a stranger with a cute smile"
         case 23:
             return "describe the perfect date you'd take your crush on"
         case 24:
@@ -70,7 +70,7 @@ struct Collectible {
         case 25:
             return "ok sis, what's the tea"
         case 26:
-            return "something you've got to get off your chest"
+            return "someone with an upcoming birthday"
         case 27:
             return "manifest your inner Shakespeare with a romantic letter"
         case 28:

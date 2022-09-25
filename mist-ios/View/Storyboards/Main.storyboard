@@ -884,10 +884,10 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="oeB-Ve-PpW">
-                                <rect key="frame" x="29.333333333333343" y="211.33333333333337" width="331.33333333333326" height="379"/>
+                                <rect key="frame" x="26.333333333333343" y="204" width="337.33333333333326" height="394"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="today's prompts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LPW-Rd-M5M">
-                                        <rect key="frame" x="58.333333333333357" y="0.0" width="214.66666666666663" height="55"/>
+                                        <rect key="frame" x="61.333333333333357" y="0.0" width="214.66666666666663" height="55"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="55" id="dXv-Zl-4zL"/>
                                         </constraints>
@@ -896,24 +896,24 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wbc-Vs-ZAj" customClass="CollectibleView" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="72.999999999999972" width="331.33333333333331" height="90"/>
+                                        <rect key="frame" x="0.0" y="73" width="337.33333333333331" height="95"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="90" id="PCS-C7-dOC"/>
+                                            <constraint firstAttribute="height" constant="95" id="PCS-C7-dOC"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GHa-k9-8Pv" customClass="CollectibleView" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="180.99999999999997" width="331.33333333333331" height="90.000000000000028"/>
+                                        <rect key="frame" x="0.0" y="186" width="337.33333333333331" height="95"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="90" id="DJG-xO-ExF"/>
+                                            <constraint firstAttribute="height" constant="95" id="DJG-xO-ExF"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Dy-Yt-thw" customClass="CollectibleView" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="289" width="331.33333333333331" height="90"/>
+                                        <rect key="frame" x="0.0" y="299" width="337.33333333333331" height="95"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="90" id="RbA-z5-h9j"/>
+                                            <constraint firstAttribute="height" constant="95" id="RbA-z5-h9j"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -924,8 +924,8 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y9H-p5-Jm1">
-                                <rect key="frame" x="40" y="124" width="310" height="25"/>
-                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="18"/>
+                                <rect key="frame" x="40" y="119" width="310" height="24"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="10" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="get inspiration for your mist" image="questionmark.circle" catalog="system">
@@ -967,11 +967,11 @@
                         <viewLayoutGuide key="safeArea" id="gVb-cC-NhX"/>
                         <color key="backgroundColor" name="off-white"/>
                         <constraints>
-                            <constraint firstItem="oeB-Ve-PpW" firstAttribute="width" secondItem="BuG-Bv-Rfd" secondAttribute="width" multiplier="0.85" id="2Os-PT-b38"/>
+                            <constraint firstItem="oeB-Ve-PpW" firstAttribute="width" secondItem="BuG-Bv-Rfd" secondAttribute="width" multiplier="0.865" id="2Os-PT-b38"/>
                             <constraint firstItem="oeB-Ve-PpW" firstAttribute="centerY" secondItem="BuG-Bv-Rfd" secondAttribute="centerY" multiplier="0.95" id="7WC-iv-BFG"/>
                             <constraint firstItem="Y9H-p5-Jm1" firstAttribute="leading" secondItem="gVb-cC-NhX" secondAttribute="leading" constant="40" id="Ehn-V5-QMk"/>
                             <constraint firstItem="Olv-Ya-2BF" firstAttribute="leading" secondItem="gVb-cC-NhX" secondAttribute="leading" id="QJD-8g-IfC"/>
-                            <constraint firstItem="Y9H-p5-Jm1" firstAttribute="top" secondItem="Olv-Ya-2BF" secondAttribute="bottom" constant="25" id="VSc-7D-mdg"/>
+                            <constraint firstItem="Y9H-p5-Jm1" firstAttribute="top" secondItem="Olv-Ya-2BF" secondAttribute="bottom" constant="20" id="VSc-7D-mdg"/>
                             <constraint firstItem="Olv-Ya-2BF" firstAttribute="top" secondItem="gVb-cC-NhX" secondAttribute="top" id="grO-V0-nIH"/>
                             <constraint firstItem="lLa-F2-FSv" firstAttribute="leading" secondItem="gVb-cC-NhX" secondAttribute="leading" constant="17" id="rAH-u1-TIZ"/>
                             <constraint firstItem="gVb-cC-NhX" firstAttribute="trailing" secondItem="Olv-Ya-2BF" secondAttribute="trailing" id="rae-1J-fcJ"/>
@@ -3518,8 +3518,8 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WNZ-hk-iwF">
-                                <rect key="frame" x="40" y="124" width="310" height="25"/>
-                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="18"/>
+                                <rect key="frame" x="40" y="119" width="310" height="24"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
                                 <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="10" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="a special delivery of 12 mists" image="questionmark.circle" catalog="system">
@@ -3606,7 +3606,7 @@
                             <constraint firstItem="Vzn-MI-2Mg" firstAttribute="leading" secondItem="n3u-lG-dv3" secondAttribute="leading" id="PAJ-cP-q3d"/>
                             <constraint firstItem="lM2-Bt-kiu" firstAttribute="leading" secondItem="3jn-9H-2Yp" secondAttribute="leading" constant="17" id="RnC-ez-yXU"/>
                             <constraint firstItem="d6X-25-JVq" firstAttribute="centerX" secondItem="n3u-lG-dv3" secondAttribute="centerX" id="VEe-LV-KkE"/>
-                            <constraint firstItem="WNZ-hk-iwF" firstAttribute="top" secondItem="uX6-Gb-idv" secondAttribute="bottom" constant="25" id="WxF-Sx-NCc"/>
+                            <constraint firstItem="WNZ-hk-iwF" firstAttribute="top" secondItem="uX6-Gb-idv" secondAttribute="bottom" constant="20" id="WxF-Sx-NCc"/>
                             <constraint firstItem="uX6-Gb-idv" firstAttribute="leading" secondItem="3jn-9H-2Yp" secondAttribute="leading" id="Xe3-bg-Nm8"/>
                             <constraint firstItem="3jn-9H-2Yp" firstAttribute="bottom" secondItem="lM2-Bt-kiu" secondAttribute="bottom" constant="17" id="cmS-HK-09c"/>
                             <constraint firstItem="3jn-9H-2Yp" firstAttribute="trailing" secondItem="WNZ-hk-iwF" secondAttribute="trailing" constant="40" id="mcN-1d-f5j"/>

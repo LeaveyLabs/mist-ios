@@ -26,6 +26,7 @@ struct Post: Codable, Equatable {
     var emoji_dict: EmojiCountDict
     let commentcount: Int
     let collectible_type: Int?
+    let is_matched: Bool
     
     //MARK: - Initializers
     
@@ -57,6 +58,7 @@ struct Post: Codable, Equatable {
         self.creation_time = Date().timeIntervalSince1970
         self.emoji_dict = emojiDict
         self.collectible_type = collectible_type
+        self.is_matched = false
     }
     
     static func == (lhs: Post, rhs: Post) -> Bool {
@@ -79,6 +81,7 @@ struct Post: Codable, Equatable {
         let decodedEmojiCountDict = try container.decode(EmojiCountDict.self, forKey: .emoji_dict)
         self.emoji_dict = Post.insertUpToThreePlaceholderEmojis(on: decodedEmojiCountDict)
         self.collectible_type = try container.decodeIfPresent(Int.self, forKey: .collectible_type)
+        self.is_matched = try container.decode(Bool.self, forKey: .is_matched)
     }
     
     static private func insertUpToThreePlaceholderEmojis(on emojiDict: EmojiCountDict) -> EmojiCountDict {
@@ -102,6 +105,6 @@ struct Post: Codable, Equatable {
     }
     
     enum CodingKeys: CodingKey {
-        case id, title, body, location_description, latitude, longitude, timestamp, creation_time, author, emoji_dict, commentcount, collectible_type
+        case id, title, body, location_description, latitude, longitude, timestamp, creation_time, author, emoji_dict, commentcount, collectible_type, is_matched
     }
 }
