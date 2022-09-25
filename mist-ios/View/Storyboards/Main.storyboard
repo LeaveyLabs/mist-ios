@@ -723,11 +723,11 @@
                                 <rect key="frame" x="0.0" y="44" width="390" height="65"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QEY-mC-Y0S">
-                                        <rect key="frame" x="170" y="7" width="50" height="4"/>
+                                        <rect key="frame" x="175" y="7" width="40" height="4"/>
                                         <color key="backgroundColor" systemColor="systemGray5Color"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="4" id="0hf-VI-lHZ"/>
-                                            <constraint firstAttribute="width" constant="50" id="ffB-MD-Glv"/>
+                                            <constraint firstAttribute="width" constant="40" id="ffB-MD-Glv"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="zdD-fI-8bA">
@@ -740,11 +740,11 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ViQ-UT-cZU">
-                                                <rect key="frame" x="104.66666666666667" y="0.0" width="160.33333333333331" height="40"/>
+                                                <rect key="frame" x="104.66666666666667" y="0.0" width="205.33333333333331" height="40"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             </view>
                                             <button hidden="YES" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="40m-kt-KIm">
-                                                <rect key="frame" x="267.66666666666669" y="0.0" width="40" height="40"/>
+                                                <rect key="frame" x="312.66666666666669" y="0.0" width="40" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="40m-kt-KIm" secondAttribute="height" id="Xjj-Gd-Qdb"/>
                                                     <constraint firstAttribute="width" constant="40" id="teI-J4-Wim"/>
@@ -756,17 +756,6 @@
                                                 <connections>
                                                     <action selector="refreshButtonDidPressed" destination="tSr-wA-K5t" eventType="touchUpInside" id="Ytu-0e-HFq"/>
                                                 </connections>
-                                            </button>
-                                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GpS-wG-Hzj">
-                                                <rect key="frame" x="270" y="0.0" width="40" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="40" id="KWg-Jf-jbd"/>
-                                                    <constraint firstAttribute="width" secondItem="GpS-wG-Hzj" secondAttribute="height" id="qM4-mR-Wvx"/>
-                                                </constraints>
-                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" image="map" catalog="system">
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="23" weight="medium"/>
-                                                </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1hc-Od-W8a">
                                                 <rect key="frame" x="315" y="0.0" width="40" height="40"/>
@@ -788,6 +777,17 @@
                                             <constraint firstAttribute="height" constant="40" id="bkY-YO-2b3"/>
                                         </constraints>
                                     </stackView>
+                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dXs-Ku-FFz">
+                                        <rect key="frame" x="124.66666666666669" y="21.666666666666671" width="19" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="19" id="3Vd-m2-FtA"/>
+                                            <constraint firstAttribute="height" constant="22" id="q45-1e-ndL"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="chevron.down" catalog="system">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="17" weight="medium"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -796,7 +796,9 @@
                                     <constraint firstItem="zdD-fI-8bA" firstAttribute="leading" secondItem="Q8l-dH-sRt" secondAttribute="leading" constant="20" id="Elb-5e-WY6"/>
                                     <constraint firstItem="QEY-mC-Y0S" firstAttribute="top" secondItem="Q8l-dH-sRt" secondAttribute="top" constant="7" id="Vov-kW-SUp"/>
                                     <constraint firstItem="zdD-fI-8bA" firstAttribute="centerY" secondItem="Q8l-dH-sRt" secondAttribute="centerY" id="lKA-rr-6lY"/>
+                                    <constraint firstItem="dXs-Ku-FFz" firstAttribute="leading" secondItem="OdL-yN-tWy" secondAttribute="trailing" constant="5" id="mjv-SU-H6e"/>
                                     <constraint firstAttribute="trailing" secondItem="zdD-fI-8bA" secondAttribute="trailing" constant="15" id="oMa-A8-SUp"/>
+                                    <constraint firstItem="dXs-Ku-FFz" firstAttribute="centerY" secondItem="OdL-yN-tWy" secondAttribute="centerY" id="pZu-1t-NMW"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -815,7 +817,7 @@
                     <connections>
                         <outlet property="feed" destination="zzu-N7-u3W" id="R54-Vn-MD1"/>
                         <outlet property="filterButton" destination="1hc-Od-W8a" id="AmJ-td-nqX"/>
-                        <outlet property="mapButton" destination="GpS-wG-Hzj" id="uOf-0Y-vdU"/>
+                        <outlet property="mapButton" destination="dXs-Ku-FFz" id="nc4-AW-ce6"/>
                         <outlet property="navStackView" destination="zdD-fI-8bA" id="FTm-9f-TEB"/>
                         <outlet property="notchHandleView" destination="QEY-mC-Y0S" id="jtl-iU-PfZ"/>
                         <outlet property="notchTopConstraint" destination="Vov-kW-SUp" id="aqF-et-dx1"/>
@@ -4356,6 +4358,7 @@
         <image name="chat" width="21" height="17"/>
         <image name="chat-filled" width="21" height="17"/>
         <image name="checkmark.seal.fill" catalog="system" width="128" height="128"/>
+        <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
         <image name="clock" catalog="system" width="128" height="121"/>
@@ -4373,7 +4376,6 @@
         <image name="hand.raised" catalog="system" width="128" height="128"/>
         <image name="location" catalog="system" width="128" height="118"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
-        <image name="map" catalog="system" width="128" height="110"/>
         <image name="minus" catalog="system" width="128" height="24"/>
         <image name="nodms-graphic" width="804" height="776"/>
         <image name="person.crop.circle" catalog="system" width="128" height="121"/>
