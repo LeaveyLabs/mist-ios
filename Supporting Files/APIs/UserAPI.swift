@@ -17,6 +17,16 @@ extension NSMutableData {
   }
 }
 
+struct IntermediateReadOnlyUser: Codable {
+    var badges: [String]
+    var id: Int
+    var username: String
+    var first_name: String
+    var last_name: String
+    var picture: String?
+    var thumbnail: String?
+}
+
 //https://github.com/kean/Nuke
 
 typealias PhoneNumber = String;
