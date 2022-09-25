@@ -615,11 +615,21 @@ extension MapViewController {
     }
     
     func turnPostsIntoAnnotationsAndAppendToPostAnnotations(_ posts: [Post]) {
-        postAnnotations.append(contentsOf: posts.map { post in PostAnnotation(withPost: post) })
+        postAnnotations.append(contentsOf: posts.compactMap { post in
+            guard let lat = post.latitude,
+                  let long = post.longitude
+            else { return nil }
+            return PostAnnotation(withPost: post, postCoordinate: CLLocationCoordinate2D(latitude: lat, longitude: long))
+        })
     }
     
     func turnPostsIntoAnnotationsAndReplacePostAnnotations(_ posts: [Post]) {
-        postAnnotations = posts.map { post in PostAnnotation(withPost: post) }
+        postAnnotations = posts.compactMap { post in
+            guard let lat = post.latitude,
+                  let long = post.longitude
+            else { return nil }
+            return PostAnnotation(withPost: post, postCoordinate: CLLocationCoordinate2D(latitude: lat, longitude: long))
+        }
     }
     
     func turnPlacesIntoAnnotations(_ places: [MKMapItem]) {

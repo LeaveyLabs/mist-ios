@@ -17,9 +17,9 @@ struct Post: Codable, Equatable {
     let id: Int
     let title: String
     let body: String
-    let location_description: String
-    let latitude: Double
-    let longitude: Double
+    let location_description: String?
+    let latitude: Double?
+    let longitude: Double?
     let timestamp: Double
     let creation_time: Double
     let author: Int

@@ -71,6 +71,7 @@ extension CollectibleView {
     // Note: the constraints for the PostView should already be set-up when this is called.
     // Otherwise you'll get loads of constraint errors in the console
     func configureForCollectible(collectibleType: Int, delegate: CollectibleViewDelegate) {
+        guard CollectibleManager.shared.isValidCollectibleType(collectibleType) else { return }
         self.collectibleType = collectibleType
         self.delegate = delegate
         let collectible = Collectible(type: collectibleType)

@@ -17,10 +17,10 @@ class PostAnnotation: NSObject, MKAnnotation, Comparable {
     var title: String?
     var post: Post!
     
-    init(withPost post: Post) {
+    init(withPost post: Post, postCoordinate: CLLocationCoordinate2D) {
         self.post = post
         self.title = post.title
-        self.coordinate = CLLocationCoordinate2D(latitude: post.latitude, longitude: post.longitude)
+        self.coordinate = postCoordinate
         super.init()
     }
     

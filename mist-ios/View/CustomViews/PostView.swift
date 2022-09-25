@@ -20,6 +20,7 @@ import MapKit
     
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
+    @IBOutlet weak var locationTimestampDivider: UIView!
     @IBOutlet weak var postTitleLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
     
@@ -94,7 +95,14 @@ extension PostView {
             messageLabel.numberOfLines = 0
         }
         timestampLabel.text = getFormattedTimeStringForPost(timestamp: post.timestamp).lowercased()
-        locationLabel.text = post.location_description.lowercased()
+        
+        if let locationDescription = post.location_description {
+            locationLabel.text = locationDescription.lowercased()
+            locationTimestampDivider.isHidden = false
+        } else {
+            locationLabel.text = ""
+            locationTimestampDivider.isHidden = true
+        }
         postTitleLabel.text = post.title
         commentButton.setTitle(post.commentcount >= 1 ? String(updatedCommentCount ?? post.commentcount) : "comment", for: .normal)
         if post.author == UserService.singleton.getId() {

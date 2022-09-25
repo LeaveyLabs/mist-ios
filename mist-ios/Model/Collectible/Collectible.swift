@@ -24,7 +24,7 @@ struct Collectible {
         case 2:
             return "someone who you look up to"
         case 3:
-            return "something you've got to get off your chest"
+            return "something you've gotta get off your chest"
         case 4:
             return "someone who always has your back"
         case 5:

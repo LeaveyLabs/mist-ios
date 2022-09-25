@@ -20,6 +20,7 @@
                 <outlet property="emojiButton2" destination="Ya0-s7-J3U" id="heZ-HR-3AW"/>
                 <outlet property="emojiButton3" destination="i0w-0o-6ZG" id="Qkn-4R-zbH"/>
                 <outlet property="locationLabel" destination="KSk-NV-QiT" id="NnM-4J-fKT"/>
+                <outlet property="locationTimestampDivider" destination="ONX-nQ-yOJ" id="tla-ML-c8c"/>
                 <outlet property="messageLabel" destination="n8O-is-nrf" id="fQi-FD-JH8"/>
                 <outlet property="moreButton" destination="9PV-NB-WGv" id="Ib9-j3-DOd"/>
                 <outlet property="postTitleLabel" destination="H2e-sd-bfE" id="KeB-Bk-4yj"/>

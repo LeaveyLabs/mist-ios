@@ -53,4 +53,8 @@ class CollectibleManager: NSObject {
             }
         }
     }
+    
+    func isValidCollectibleType(_ collectibleType: Int) -> Bool {
+        return collectibleType >= 1 && collectibleType <= Collectible.COLLECTIBLES_COUNT
+    }
 }
