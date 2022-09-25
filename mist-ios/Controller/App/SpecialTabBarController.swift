@@ -71,14 +71,20 @@ class SpecialTabBarController: UITabBarController {
     }
     
     func repositionBadges() {
-         tabBar.subviews.forEach({ tab in
-             tab.subviews.forEach { badgeView in
+        for tab in tabBar.subviews {
+            for badgeView in tab.subviews {
                  if NSStringFromClass(badgeView.classForCoder) == "_UIBadgeView" {
-                    badgeView.layer.transform = CATransform3DIdentity
+                     print("TABB", tab)
+                     badgeView.layer.transform = CATransform3DIdentity
+                     //shift the middle tab bar button differently
+                     guard tab.center.x < 100 || tab.center.x > 200 else {
+                         badgeView.layer.transform = CATransform3DMakeTranslation(-8.0, -1.0, 1.0)
+                         continue
+                     }
                      badgeView.layer.transform = CATransform3DMakeTranslation(-13.0, -1.0, 1.0)
                   }
              }
-         })
+         }
      }
 }
 

@@ -920,60 +920,63 @@
                                     <constraint firstAttribute="height" constant="55" id="grv-1F-fMh"/>
                                 </constraints>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="oeB-Ve-PpW">
-                                <rect key="frame" x="26.333333333333343" y="204" width="337.33333333333326" height="394"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="oeB-Ve-PpW">
+                                <rect key="frame" x="26.333333333333343" y="135" width="337.33333333333326" height="412"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="today's prompts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LPW-Rd-M5M">
-                                        <rect key="frame" x="61.333333333333357" y="0.0" width="214.66666666666663" height="55"/>
+                                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y9H-p5-Jm1">
+                                        <rect key="frame" x="51.333333333333357" y="0.0" width="234.66666666666663" height="30"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="55" id="dXv-Zl-4zL"/>
+                                            <constraint firstAttribute="height" constant="30" id="ljy-5i-miw"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="28"/>
+                                        <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="imageEdgeInsets" minX="10" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="today's prompts" image="questionmark.circle" catalog="system">
+                                            <color key="titleColor" name="mist-black"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didPressLearnMoreButton:" destination="QKr-Pg-fwt" eventType="touchUpInside" id="5Gf-lX-zjZ"/>
+                                            <action selector="didPressLearnMoreButton:" destination="I2k-JH-Jf0" eventType="touchUpInside" id="COx-oO-vAQ"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="write a mist about..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LPW-Rd-M5M">
+                                        <rect key="frame" x="88.333333333333343" y="45" width="161" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="dXv-Zl-4zL"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="18"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wbc-Vs-ZAj" customClass="CollectibleView" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="73" width="337.33333333333331" height="95"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bb3-Wz-CrG">
+                                        <rect key="frame" x="48.666666666666686" y="80" width="240" height="2"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="95" id="PCS-C7-dOC"/>
+                                            <constraint firstAttribute="height" constant="2" id="2SN-g5-XpJ"/>
                                         </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wbc-Vs-ZAj" customClass="CollectibleView" customModule="mist_ios" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="97" width="337.33333333333331" height="95"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GHa-k9-8Pv" customClass="CollectibleView" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="186" width="337.33333333333331" height="95"/>
+                                        <rect key="frame" x="0.0" y="207" width="337.33333333333331" height="95"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="95" id="DJG-xO-ExF"/>
-                                        </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Dy-Yt-thw" customClass="CollectibleView" customModule="mist_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="299" width="337.33333333333331" height="95"/>
+                                        <rect key="frame" x="0.0" y="317" width="337.33333333333331" height="95"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="95" id="RbA-z5-h9j"/>
-                                        </constraints>
                                     </view>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="5Dy-Yt-thw" firstAttribute="height" secondItem="Wbc-Vs-ZAj" secondAttribute="height" id="F4c-4h-7k2"/>
                                     <constraint firstItem="GHa-k9-8Pv" firstAttribute="width" secondItem="oeB-Ve-PpW" secondAttribute="width" id="Qmb-xt-KNZ"/>
+                                    <constraint firstItem="GHa-k9-8Pv" firstAttribute="height" secondItem="Wbc-Vs-ZAj" secondAttribute="height" id="ane-1Z-F8o"/>
                                     <constraint firstItem="5Dy-Yt-thw" firstAttribute="width" secondItem="oeB-Ve-PpW" secondAttribute="width" id="jlt-wv-nZP"/>
                                     <constraint firstItem="Wbc-Vs-ZAj" firstAttribute="width" secondItem="oeB-Ve-PpW" secondAttribute="width" id="txj-Nc-1Sr"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y9H-p5-Jm1">
-                                <rect key="frame" x="40" y="119" width="310" height="24"/>
-                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
-                                <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <inset key="imageEdgeInsets" minX="10" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="get inspiration for your mist" image="questionmark.circle" catalog="system">
-                                    <color key="titleColor" name="mist-black"/>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="small"/>
-                                </state>
-                                <connections>
-                                    <action selector="didPressLearnMoreButton:" destination="QKr-Pg-fwt" eventType="touchUpInside" id="5Gf-lX-zjZ"/>
-                                    <action selector="didPressLearnMoreButton:" destination="I2k-JH-Jf0" eventType="touchUpInside" id="COx-oO-vAQ"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lLa-F2-FSv" userLabel="KeywordButtonShadowView">
                                 <rect key="frame" x="17" y="696" width="170" height="48"/>
                                 <subviews>
@@ -1006,10 +1009,9 @@
                         <constraints>
                             <constraint firstItem="iCc-7T-y8Y" firstAttribute="width" secondItem="BuG-Bv-Rfd" secondAttribute="width" multiplier="0.6" id="0t2-X2-dag"/>
                             <constraint firstItem="oeB-Ve-PpW" firstAttribute="width" secondItem="BuG-Bv-Rfd" secondAttribute="width" multiplier="0.865" id="2Os-PT-b38"/>
-                            <constraint firstItem="oeB-Ve-PpW" firstAttribute="centerY" secondItem="BuG-Bv-Rfd" secondAttribute="centerY" multiplier="0.95" id="7WC-iv-BFG"/>
-                            <constraint firstItem="Y9H-p5-Jm1" firstAttribute="leading" secondItem="gVb-cC-NhX" secondAttribute="leading" constant="40" id="Ehn-V5-QMk"/>
+                            <constraint firstItem="oeB-Ve-PpW" firstAttribute="top" secondItem="Olv-Ya-2BF" secondAttribute="bottom" constant="36" id="ECf-pN-qsV"/>
+                            <constraint firstItem="Wbc-Vs-ZAj" firstAttribute="height" secondItem="BuG-Bv-Rfd" secondAttribute="height" multiplier="0.112559" id="Lwa-Wc-Zoe"/>
                             <constraint firstItem="Olv-Ya-2BF" firstAttribute="leading" secondItem="gVb-cC-NhX" secondAttribute="leading" id="QJD-8g-IfC"/>
-                            <constraint firstItem="Y9H-p5-Jm1" firstAttribute="top" secondItem="Olv-Ya-2BF" secondAttribute="bottom" constant="20" id="VSc-7D-mdg"/>
                             <constraint firstItem="IN3-9N-3Ay" firstAttribute="centerY" secondItem="BuG-Bv-Rfd" secondAttribute="centerY" id="ger-xf-sb2"/>
                             <constraint firstItem="Olv-Ya-2BF" firstAttribute="top" secondItem="gVb-cC-NhX" secondAttribute="top" id="grO-V0-nIH"/>
                             <constraint firstItem="IN3-9N-3Ay" firstAttribute="width" secondItem="BuG-Bv-Rfd" secondAttribute="width" id="oO6-ZH-WJJ"/>
@@ -1017,7 +1019,6 @@
                             <constraint firstItem="gVb-cC-NhX" firstAttribute="trailing" secondItem="Olv-Ya-2BF" secondAttribute="trailing" id="rae-1J-fcJ"/>
                             <constraint firstItem="IN3-9N-3Ay" firstAttribute="centerX" secondItem="BuG-Bv-Rfd" secondAttribute="centerX" id="rda-tW-81p"/>
                             <constraint firstItem="oeB-Ve-PpW" firstAttribute="centerX" secondItem="BuG-Bv-Rfd" secondAttribute="centerX" id="vjk-iL-qEG"/>
-                            <constraint firstItem="gVb-cC-NhX" firstAttribute="trailing" secondItem="Y9H-p5-Jm1" secondAttribute="trailing" constant="40" id="xNM-cb-W57"/>
                             <constraint firstItem="gVb-cC-NhX" firstAttribute="bottom" secondItem="lLa-F2-FSv" secondAttribute="bottom" constant="17" id="yY7-r8-xuR"/>
                         </constraints>
                     </view>
@@ -3369,7 +3370,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="76h-DH-iGW" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="compass-outlined" selectedImage="compass-filled" id="q53-cw-Qok">
-                        <inset key="imageInsets" minX="-12" minY="-8" maxX="-16" maxY="-6"/>
+                        <inset key="imageInsets" minX="-14" minY="-9" maxX="-18" maxY="-6"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="UMG-zr-feC">
@@ -4341,8 +4342,8 @@
         <scene sceneID="oEU-qc-wlj">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="hNP-sz-azG" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="questionbox" selectedImage="quesitonbox-fill" id="WLt-Bw-Fud">
-                        <inset key="imageInsets" minX="-15" minY="-7" maxX="-8" maxY="-5"/>
+                    <tabBarItem key="tabBarItem" title="" image="prompt" selectedImage="prompt-filled" id="WLt-Bw-Fud">
+                        <inset key="imageInsets" minX="-10" minY="-9" maxX="-6" maxY="-4"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <nil key="simulatedTopBarMetrics"/>
@@ -4451,8 +4452,8 @@
         <image name="person.crop.circle.badge.plus" catalog="system" width="128" height="113"/>
         <image name="pic2" width="1024" height="769"/>
         <image name="plus" catalog="system" width="128" height="113"/>
-        <image name="quesitonbox-fill" width="17" height="17"/>
-        <image name="questionbox" width="17" height="17"/>
+        <image name="prompt" width="18" height="18"/>
+        <image name="prompt-filled" width="18" height="18"/>
         <image name="questionmark.circle" catalog="system" width="128" height="121"/>
         <image name="slider.horizontal.3" catalog="system" width="128" height="100"/>
         <image name="sparkles" catalog="system" width="112" height="128"/>

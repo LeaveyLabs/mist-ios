@@ -46,7 +46,7 @@ final class PostAnnotationView: MKMarkerAnnotationView {
             canShowCallout = false
 //            glyphImage = UIImage(named: "dropicon_white")
 //            glyphTintColor = .white
-            markerTintColor = Constants.Color.mistLilac
+            markerTintColor = UIColor.init(hex: "#E5CFFF") //Constants.Color.mistLilac
             displayPriority = .required
             clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
         }
@@ -83,7 +83,7 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         
     override func setSelected(_ selected: Bool, animated: Bool) {        
         super.setSelected(selected, animated: animated)
-        glyphTintColor = selected ? Constants.Color.mistLilac : .white
+        glyphTintColor = selected ? UIColor.init(hex: "#E5CFFF") : .white
         markerTintColor = selected ? Constants.Color.mistPink : Constants.Color.mistLilac
     }
     
