@@ -27,16 +27,17 @@ class PromptsViewController: UIViewController {
     @IBOutlet weak var titleButton: UIButton!
     @IBOutlet weak var navBar: CustomNavBar!
     
-//    @IBOutlet weak var answeredStackView: UIStackView!
-//    @IBOutlet weak var answeredImageView: UIImageView!
-//    @IBOutlet weak var answeredTitleButton: UIButton!
-//    @IBOutlet weak var answeredSubtitleLabel: UILabel!
+    @IBOutlet weak var answeredStackView: UIStackView!
+    @IBOutlet weak var answeredImageView: UIImageView!
+    @IBOutlet weak var answeredTitleButton: UIButton!
+    @IBOutlet weak var answeredSubtitleLabel: UILabel!
     
     @IBOutlet weak var promptsStackView: UIStackView!
     @IBOutlet weak var promptOne: CollectibleView!
     @IBOutlet weak var promptTwo: CollectibleView!
     @IBOutlet weak var promptThree: CollectibleView!
     
+    @IBOutlet weak var collectiblesLabel: UILabel!
     @IBOutlet weak var collectiblesBackgroundView: UIView!
     
     var promptViews: [CollectibleView] {
@@ -44,7 +45,6 @@ class PromptsViewController: UIViewController {
     }
 
     var todaysPrompts: [Int] {
-        print("PROMPTS", UserService.singleton.getTodaysPrompts())
         return UserService.singleton.getTodaysPrompts()
     }
     
@@ -106,6 +106,7 @@ class PromptsViewController: UIViewController {
     
     @MainActor
     func updateUI() {
+        recalculateCollectiblesCount()
         if CollectibleManager.shared.hasUserEarnedAllCollectibles {
             setupAllAnsweredLayout()
         } else if CollectibleManager.shared.hasUserEarnedACollectibleToday {
@@ -134,7 +135,11 @@ class PromptsViewController: UIViewController {
             }
         }
         
-        //        centerStackView.isHidden = true
+        answeredStackView.isHidden = true
+    }
+    
+    func recalculateCollectiblesCount() {
+        collectiblesLabel.text = String(CollectibleManager.shared.earned_collectibles.count) + "/" + String(Collectible.COLLECTIBLES_COUNT) + " collectibles"
     }
     
     func setupAnsweredLayout() {
@@ -143,11 +148,9 @@ class PromptsViewController: UIViewController {
         promptsStackView.isHidden = true
         titleButton.isHidden = true
 
-//        centerStackView.isHidden = false
-//        centerStackView.spacing = 10
-//        centerImageView.image = UIImage(named: "empty-mistbox-graphic")
-//        centerButton.isHidden = false
-//        centerDescriptionLabel.text = "when someone drops a mist containing one of your keywords, it'll appear here"
+        answeredStackView.isHidden = false
+        answeredTitleButton.setTitle("you made someone's day!", for: .normal)
+        answeredSubtitleLabel.text = "come back tomorrow at 10am\nfor three new prompts"
     }
     
     func setupAllAnsweredLayout() {
@@ -156,11 +159,9 @@ class PromptsViewController: UIViewController {
         promptsStackView.isHidden = true
         titleButton.isHidden = true
 
-//        centerStackView.isHidden = false
-//        centerStackView.spacing = 20
-//        centerImageView.image = UIImage(named: "mistbox-graphic-nowords-1")
-//        centerButton.isHidden = true
-//        centerDescriptionLabel.text = ""
+        answeredStackView.isHidden = false
+        answeredTitleButton.setTitle("you've earned every collectible!", for: .normal)
+        answeredSubtitleLabel.text = "you are such an incredible person 🤩"
     }
     
     //MARK: - User Interaction
@@ -181,8 +182,10 @@ class PromptsViewController: UIViewController {
 extension PromptsViewController: CollectibleViewDelegate {
     
     func collectibleDidTapped(type: Int) {
-        //do the suches
-        print("COLLECTIBLE DID TAPPED")
+        let newPostNav = storyboard!.instantiateViewController(withIdentifier: Constants.SBID.VC.NewPostNavigation) as! UINavigationController
+        newPostNav.modalPresentationStyle = .fullScreen
+        (newPostNav.topViewController as! NewPostViewController).collectibleType = type
+        present(newPostNav, animated: true)
     }
     
 }

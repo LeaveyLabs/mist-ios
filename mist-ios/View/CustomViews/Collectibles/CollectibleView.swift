@@ -19,9 +19,10 @@ class CollectibleView: UIView {
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var arrowImageView: UIImageView!
     
     var collectibleType: Int!
-    var delegate: CollectibleViewDelegate!
+    var delegate: CollectibleViewDelegate?
         
     static let boldAttributes: [NSAttributedString.Key : Any] = [
         .font: UIFont(name: Constants.Font.Heavy, size: 18)!,
@@ -50,7 +51,6 @@ class CollectibleView: UIView {
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(contentView)
         
-        backgroundView.applyLightMediumShadow()
         backgroundView.roundCornersViaCornerRadius(radius: 13)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(collectibleDidTapped))
         self.addGestureRecognizer(tapGesture)
@@ -59,7 +59,7 @@ class CollectibleView: UIView {
     //MARK: - User Interaction
     
     @objc func collectibleDidTapped() {
-        delegate.collectibleDidTapped(type: collectibleType)
+        delegate?.collectibleDidTapped(type: collectibleType)
     }
     
 }
@@ -70,13 +70,19 @@ extension CollectibleView {
     
     // Note: the constraints for the PostView should already be set-up when this is called.
     // Otherwise you'll get loads of constraint errors in the console
-    func configureForCollectible(collectibleType: Int, delegate: CollectibleViewDelegate) {
+    func configureForCollectible(collectibleType: Int, delegate: CollectibleViewDelegate? = nil, onNewPost: Bool = false) {
         guard CollectibleManager.shared.isValidCollectibleType(collectibleType) else { return }
         self.collectibleType = collectibleType
         self.delegate = delegate
         let collectible = Collectible(type: collectibleType)
         imageView.image = collectible.image
         titleLabel.text = collectible.title
+        if onNewPost {
+            arrowImageView.isHidden = true
+            backgroundView.applyLightShadow()
+        } else {
+            backgroundView.applyLightMediumShadow()
+        }
     }
     
 }

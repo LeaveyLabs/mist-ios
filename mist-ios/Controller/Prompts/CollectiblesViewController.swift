@@ -13,11 +13,11 @@ class CollectiblesViewController: UIViewController, UITableViewDataSource, UITab
     
     @IBOutlet weak var customNavBar: CustomNavBar!
     @IBOutlet weak var tableView: UITableView!
-    var collectibles: [String] = []//UserService.singleton.getBad
+    var collectibles: [Int] = CollectibleManager.shared.earned_collectibles
         
     class func create() -> CollectiblesViewController {
-        let keywordsVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Collectibles) as! CollectiblesViewController
-        return keywordsVC
+        let vc = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Collectibles) as! CollectiblesViewController
+        return vc
     }
     
     override func viewDidLoad() {
@@ -32,9 +32,8 @@ class CollectiblesViewController: UIViewController, UITableViewDataSource, UITab
         tableView.delegate = self
         tableView.allowsSelection = false
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 50
-        
-//        tableView.register(TagsViewCell.self, forCellReuseIdentifier: String(describing: TagsViewCell.self))
+        tableView.estimatedRowHeight = 80
+        tableView.register(CollectibleCell.self, forCellReuseIdentifier: String(describing: CollectibleCell.self))
     }
     
     func setupCustomNavBar() {
@@ -49,24 +48,13 @@ class CollectiblesViewController: UIViewController, UITableViewDataSource, UITab
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: true)
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         collectibles.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "asdf", for: indexPath)
-//        cell.configure(existingKeywords: localTags, delegate: self)
-//        
-//        cell.tagsField.onDidChangeHeightTo = { [weak tableView] _, _ in
-//            tableView?.beginUpdates()
-//            tableView?.endUpdates()
-//        }
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: String.init(describing: CollectibleCell.self), for: indexPath) as! CollectibleCell
+        cell.configure(collectibleType: collectibles[indexPath.row], delegate: self)
         return cell
     }
     
@@ -74,6 +62,16 @@ class CollectiblesViewController: UIViewController, UITableViewDataSource, UITab
     
     @objc func didPressBack() {
         navigationController?.popViewController(animated: true)
+    }
+    
+}
+
+extension CollectiblesViewController: CollectibleViewDelegate {
+    
+    func collectibleDidTapped(type: Int) {
+        guard let collectiblePost = PostService.singleton.getSubmissions().first(where: { $0.collectible_type == type }) else { return }
+        let postVC = PostViewController.createPostVC(with: collectiblePost, shouldStartWithRaisedKeyboard: false, completionHandler: nil)
+        navigationController!.pushViewController(postVC, animated: true)
     }
     
 }

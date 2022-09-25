@@ -283,14 +283,16 @@ class PostService: NSObject {
                     locationDescription: String?,
                     latitude: Double?,
                     longitude: Double?,
-                    timestamp: Double) async throws {
+                    timestamp: Double,
+                    collectibleType: Int?) async throws {
         let newPost = try await PostAPI.createPost(title: title,
                                                    text: text,
                                                    locationDescription: locationDescription,
                                                    latitude: latitude,
                                                    longitude: longitude,
                                                    timestamp: timestamp,
-                                                   author: UserService.singleton.getId())
+                                                   author: UserService.singleton.getId(),
+                                                   collectibleType: collectibleType)
         cachedPosts[newPost.id] = newPost
         
         submissionPostIds.insert(newPost.id, at: 0)

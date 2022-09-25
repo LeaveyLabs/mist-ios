@@ -41,6 +41,7 @@ class MyAccountViewController: SettingsViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         reloadAllData()
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     func reloadAllData() {
@@ -78,7 +79,7 @@ class MyAccountViewController: SettingsViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let settingsSection = AccountSection.init(rawValue: indexPath.section)!
         
-        if settingsSection == .profile {
+        if settingsSection == .profile && indexPath.row == 0 {
             let profileCell = tableView.dequeueReusableCell(withIdentifier: String(describing: ProfileCell.self), for: indexPath) as! ProfileCell
             profileCell.configure(setting: settingsSection.settings[indexPath.row])
             return profileCell

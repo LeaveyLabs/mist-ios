@@ -33,7 +33,7 @@ extension UIView {
     }
     
     func applyLightShadow() {
-        layer.applySketchShadow(color: .black, alpha: 0.10, x: 0, y: 1, blur: 5, spread: 0)
+        layer.applySketchShadow(color: .black, alpha: 0.15, x: 0, y: 1, blur: 5, spread: 0)
     }
     
     func applyLightRightLeaningShadow() {

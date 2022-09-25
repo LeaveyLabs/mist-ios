@@ -22,7 +22,7 @@ class LargeImageAndButtonCollectionCell: UICollectionViewCell {
                 
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8),
+            imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.88),
             imageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.6),
             imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0),
         ])

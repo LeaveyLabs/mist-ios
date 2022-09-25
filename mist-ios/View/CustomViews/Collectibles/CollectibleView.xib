@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CollectibleView" customModule="mist_ios" customModuleProvider="target">
             <connections>
+                <outlet property="arrowImageView" destination="WqO-d1-xXg" id="Azn-wX-fhH"/>
                 <outlet property="backgroundView" destination="hY9-pA-N80" id="W9M-Ya-B2h"/>
                 <outlet property="imageView" destination="eFE-Ew-3vm" id="njc-QW-LHP"/>
                 <outlet property="titleLabel" destination="qIh-bO-MbE" id="Med-zS-w9I"/>
@@ -25,44 +26,37 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hY9-pA-N80" userLabel="BackgroundView">
                     <rect key="frame" x="0.0" y="0.0" width="357" height="100"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="collectible-1" translatesAutoresizingMaskIntoConstraints="NO" id="eFE-Ew-3vm">
-                            <rect key="frame" x="16" y="17" width="66" height="66"/>
-                            <constraints>
-                                <constraint firstAttribute="width" secondItem="eFE-Ew-3vm" secondAttribute="height" id="M5r-tm-eos"/>
-                            </constraints>
-                        </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="qIh-bO-MbE">
-                            <rect key="frame" x="99" y="0.0" width="213.5" height="100"/>
-                            <attributedString key="attributedText">
-                                <fragment content="someone who's always got your back">
-                                    <attributes>
-                                        <font key="NSFont" size="20" name="Avenir-Medium"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="truncatingTail" baseWritingDirection="natural" lineHeightMultiple="1" tighteningFactorForTruncation="0.0"/>
-                                    </attributes>
-                                </fragment>
-                            </attributedString>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="WqO-d1-xXg">
-                            <rect key="frame" x="332.5" y="12" width="12.5" height="76.5"/>
-                            <color key="tintColor" name="mist-black"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="12.5" id="vif-6K-5Gb"/>
-                            </constraints>
-                        </imageView>
+                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="Rtz-Fs-Zoy">
+                            <rect key="frame" x="15" y="15" width="327" height="70"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="collectible-1" translatesAutoresizingMaskIntoConstraints="NO" id="eFE-Ew-3vm">
+                                    <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="eFE-Ew-3vm" secondAttribute="height" id="M5r-tm-eos"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="someone who's always got your back" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="qIh-bO-MbE">
+                                    <rect key="frame" x="85" y="7.5" width="214.5" height="55"/>
+                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="WqO-d1-xXg">
+                                    <rect key="frame" x="314.5" y="27" width="12.5" height="16.5"/>
+                                    <color key="tintColor" name="mist-black"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="12.5" id="vif-6K-5Gb"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                        </stackView>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstItem="eFE-Ew-3vm" firstAttribute="leading" secondItem="hY9-pA-N80" secondAttribute="leading" constant="16" id="4fp-x6-4Xb"/>
-                        <constraint firstAttribute="bottom" secondItem="qIh-bO-MbE" secondAttribute="bottom" id="5pQ-cK-7Pk"/>
-                        <constraint firstItem="qIh-bO-MbE" firstAttribute="leading" secondItem="eFE-Ew-3vm" secondAttribute="trailing" constant="17" id="8dg-PO-BJC"/>
-                        <constraint firstItem="WqO-d1-xXg" firstAttribute="top" secondItem="hY9-pA-N80" secondAttribute="top" constant="10" id="HxW-6r-vWX"/>
-                        <constraint firstItem="eFE-Ew-3vm" firstAttribute="top" secondItem="hY9-pA-N80" secondAttribute="top" constant="17" id="Tja-6Y-SrA"/>
-                        <constraint firstAttribute="bottom" secondItem="eFE-Ew-3vm" secondAttribute="bottom" constant="17" id="gx2-PM-N3u"/>
-                        <constraint firstItem="qIh-bO-MbE" firstAttribute="top" secondItem="hY9-pA-N80" secondAttribute="top" id="jQS-rx-tv9"/>
-                        <constraint firstItem="WqO-d1-xXg" firstAttribute="leading" secondItem="qIh-bO-MbE" secondAttribute="trailing" constant="20" id="swG-QM-MaL"/>
-                        <constraint firstAttribute="bottom" secondItem="WqO-d1-xXg" secondAttribute="bottom" constant="10" id="tnw-U8-uQP"/>
-                        <constraint firstAttribute="trailing" secondItem="WqO-d1-xXg" secondAttribute="trailing" constant="12" id="wzf-Si-1Lo"/>
+                        <constraint firstItem="Rtz-Fs-Zoy" firstAttribute="height" secondItem="hY9-pA-N80" secondAttribute="height" multiplier="0.7" id="ADs-Zs-OZm"/>
+                        <constraint firstAttribute="trailing" secondItem="Rtz-Fs-Zoy" secondAttribute="trailing" constant="15" id="Ble-1v-anG"/>
+                        <constraint firstItem="Rtz-Fs-Zoy" firstAttribute="leading" secondItem="hY9-pA-N80" secondAttribute="leading" constant="15" id="EeE-w9-W3s"/>
+                        <constraint firstItem="Rtz-Fs-Zoy" firstAttribute="centerY" secondItem="hY9-pA-N80" secondAttribute="centerY" id="Lxp-6F-3UF"/>
                     </constraints>
                 </view>
             </subviews>

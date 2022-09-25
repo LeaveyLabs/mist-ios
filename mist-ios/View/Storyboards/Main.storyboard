@@ -877,6 +877,42 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="IN3-9N-3Ay">
+                                <rect key="frame" x="0.0" y="259" width="390" height="326"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="you-made-someones-day" translatesAutoresizingMaskIntoConstraints="NO" id="iCc-7T-y8Y">
+                                        <rect key="frame" x="78" y="0.0" width="234" height="234"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="iCc-7T-y8Y" secondAttribute="height" id="Qoz-wg-R5d"/>
+                                        </constraints>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wnr-Pa-1FQ">
+                                        <rect key="frame" x="46.666666666666657" y="244" width="296.66666666666674" height="32"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="23"/>
+                                        <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="titleEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="you made someone's day!">
+                                            <color key="titleColor" name="mist-black"/>
+                                            <imageReference key="image" image="questionmark.circle" catalog="system" symbolScale="small"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didPressLearnMoreButton:" destination="QKr-Pg-fwt" eventType="touchUpInside" id="ToR-cv-u2G"/>
+                                            <action selector="didPressLearnMoreButton:" destination="I2k-JH-Jf0" eventType="touchUpInside" id="mUa-qX-GF5"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="come back tomorrow at 10am for three more prompts" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ISn-gc-Qsx">
+                                        <rect key="frame" x="66" y="286" width="258" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="IgL-1u-MQU"/>
+                                            <constraint firstAttribute="width" constant="258" id="dPx-d1-YBU"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
+                                        <color key="textColor" name="mist-black"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Olv-Ya-2BF" customClass="CustomNavBar" customModule="mist_ios" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44" width="390" height="55"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -968,14 +1004,18 @@
                         <viewLayoutGuide key="safeArea" id="gVb-cC-NhX"/>
                         <color key="backgroundColor" name="off-white"/>
                         <constraints>
+                            <constraint firstItem="iCc-7T-y8Y" firstAttribute="width" secondItem="BuG-Bv-Rfd" secondAttribute="width" multiplier="0.6" id="0t2-X2-dag"/>
                             <constraint firstItem="oeB-Ve-PpW" firstAttribute="width" secondItem="BuG-Bv-Rfd" secondAttribute="width" multiplier="0.865" id="2Os-PT-b38"/>
                             <constraint firstItem="oeB-Ve-PpW" firstAttribute="centerY" secondItem="BuG-Bv-Rfd" secondAttribute="centerY" multiplier="0.95" id="7WC-iv-BFG"/>
                             <constraint firstItem="Y9H-p5-Jm1" firstAttribute="leading" secondItem="gVb-cC-NhX" secondAttribute="leading" constant="40" id="Ehn-V5-QMk"/>
                             <constraint firstItem="Olv-Ya-2BF" firstAttribute="leading" secondItem="gVb-cC-NhX" secondAttribute="leading" id="QJD-8g-IfC"/>
                             <constraint firstItem="Y9H-p5-Jm1" firstAttribute="top" secondItem="Olv-Ya-2BF" secondAttribute="bottom" constant="20" id="VSc-7D-mdg"/>
+                            <constraint firstItem="IN3-9N-3Ay" firstAttribute="centerY" secondItem="BuG-Bv-Rfd" secondAttribute="centerY" id="ger-xf-sb2"/>
                             <constraint firstItem="Olv-Ya-2BF" firstAttribute="top" secondItem="gVb-cC-NhX" secondAttribute="top" id="grO-V0-nIH"/>
+                            <constraint firstItem="IN3-9N-3Ay" firstAttribute="width" secondItem="BuG-Bv-Rfd" secondAttribute="width" id="oO6-ZH-WJJ"/>
                             <constraint firstItem="lLa-F2-FSv" firstAttribute="leading" secondItem="gVb-cC-NhX" secondAttribute="leading" constant="17" id="rAH-u1-TIZ"/>
                             <constraint firstItem="gVb-cC-NhX" firstAttribute="trailing" secondItem="Olv-Ya-2BF" secondAttribute="trailing" id="rae-1J-fcJ"/>
+                            <constraint firstItem="IN3-9N-3Ay" firstAttribute="centerX" secondItem="BuG-Bv-Rfd" secondAttribute="centerX" id="rda-tW-81p"/>
                             <constraint firstItem="oeB-Ve-PpW" firstAttribute="centerX" secondItem="BuG-Bv-Rfd" secondAttribute="centerX" id="vjk-iL-qEG"/>
                             <constraint firstItem="gVb-cC-NhX" firstAttribute="trailing" secondItem="Y9H-p5-Jm1" secondAttribute="trailing" constant="40" id="xNM-cb-W57"/>
                             <constraint firstItem="gVb-cC-NhX" firstAttribute="bottom" secondItem="lLa-F2-FSv" secondAttribute="bottom" constant="17" id="yY7-r8-xuR"/>
@@ -983,7 +1023,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="ETJ-4f-gwS"/>
                     <connections>
+                        <outlet property="answeredImageView" destination="iCc-7T-y8Y" id="X9n-dS-u5J"/>
+                        <outlet property="answeredStackView" destination="IN3-9N-3Ay" id="YEK-Jo-hap"/>
+                        <outlet property="answeredSubtitleLabel" destination="ISn-gc-Qsx" id="h4H-SD-lFK"/>
+                        <outlet property="answeredTitleButton" destination="wnr-Pa-1FQ" id="Upl-Cn-DhJ"/>
                         <outlet property="collectiblesBackgroundView" destination="lLa-F2-FSv" id="fVC-1r-e55"/>
+                        <outlet property="collectiblesLabel" destination="huP-sL-OtX" id="6dZ-Lm-Qv8"/>
                         <outlet property="navBar" destination="Olv-Ya-2BF" id="Hlf-vS-bt1"/>
                         <outlet property="promptOne" destination="Wbc-Vs-ZAj" id="4dA-00-pZ1"/>
                         <outlet property="promptThree" destination="5Dy-Yt-thw" id="tmU-nf-jFH"/>
@@ -2380,157 +2425,180 @@
                                 <rect key="frame" x="0.0" y="94" width="390" height="716"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qc3-QU-TX3" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="269"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="345.33333333333331"/>
                                         <subviews>
                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.0099999997764825821" translatesAutoresizingMaskIntoConstraints="NO" id="JSX-W4-xgB">
                                                 <rect key="frame" x="0.0" y="0.0" width="390" height="2.666666666666667"/>
                                             </progressView>
-                                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x2W-5m-lTz" userLabel="PostBubbleView">
-                                                <rect key="frame" x="12" y="13.666666666666671" width="363" height="243.33333333333331"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="zbt-Q1-XD5">
+                                                <rect key="frame" x="0.0" y="0.0" width="390" height="333.33333333333331"/>
                                                 <subviews>
-                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="pour your heart out" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="OVP-oT-mo6" customClass="NewPostTextView" customModule="mist_ios" customModuleProvider="target">
-                                                        <rect key="frame" x="15" y="108.33333333333331" width="333" height="120"/>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hpo-w6-M1p">
+                                                        <rect key="frame" x="75" y="0.0" width="240" height="0.0"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="120" id="VRm-Oa-ncq"/>
+                                                            <constraint firstAttribute="height" id="kAS-AE-AZF"/>
                                                         </constraints>
-                                                        <color key="textColor" name="mist-black"/>
-                                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits"/>
-                                                    </textView>
-                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="title" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Iic-TR-uAk" customClass="NewPostTextView" customModule="mist_ios" customModuleProvider="target">
-                                                        <rect key="frame" x="15" y="57.999999999999986" width="333" height="54.333333333333329"/>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TK5-9z-sTD" customClass="CollectibleView" customModule="mist_ios" customModuleProvider="target">
+                                                        <rect key="frame" x="12.666666666666657" y="10" width="365" height="70"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="49" id="TyY-Qg-LLG"/>
+                                                            <constraint firstAttribute="height" constant="70" id="lPD-Dx-mGv"/>
                                                         </constraints>
-                                                        <color key="textColor" name="mist-black"/>
-                                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="28"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="next"/>
-                                                    </textView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="d76-Ur-nhi">
-                                                        <rect key="frame" x="11" y="13" width="341" height="35"/>
+                                                    </view>
+                                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x2W-5m-lTz" userLabel="PostBubbleView">
+                                                        <rect key="frame" x="12.666666666666657" y="90.000000000000014" width="365" height="243.33333333333337"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Scd-dZ-nEi" userLabel="Pin Button">
-                                                                <rect key="frame" x="0.0" y="0.0" width="48" height="35"/>
-                                                                <color key="backgroundColor" name="mist-pink"/>
+                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="pour your heart out" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="OVP-oT-mo6" customClass="NewPostTextView" customModule="mist_ios" customModuleProvider="target">
+                                                                <rect key="frame" x="15" y="108.33333333333331" width="335" height="120"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" constant="48" id="Sti-2a-oVO"/>
+                                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="120" id="VRm-Oa-ncq"/>
                                                                 </constraints>
-                                                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="15"/>
+                                                                <color key="textColor" name="mist-black"/>
+                                                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="18"/>
+                                                                <textInputTraits key="textInputTraits"/>
+                                                            </textView>
+                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="title" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Iic-TR-uAk" customClass="NewPostTextView" customModule="mist_ios" customModuleProvider="target">
+                                                                <rect key="frame" x="15" y="58" width="335" height="54.333333333333343"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="49" id="TyY-Qg-LLG"/>
+                                                                </constraints>
+                                                                <color key="textColor" name="mist-black"/>
+                                                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="28"/>
+                                                                <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                                                            </textView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="d76-Ur-nhi">
+                                                                <rect key="frame" x="11" y="13" width="343" height="35"/>
+                                                                <subviews>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Scd-dZ-nEi" userLabel="Pin Button">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="48" height="35"/>
+                                                                        <color key="backgroundColor" name="mist-pink"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="48" id="Sti-2a-oVO"/>
+                                                                        </constraints>
+                                                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="15"/>
+                                                                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <inset key="imageEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                                        <state key="normal">
+                                                                            <color key="titleColor" name="mist-black"/>
+                                                                            <imageReference key="image" image="location" catalog="system" symbolScale="small"/>
+                                                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" scale="default" weight="light"/>
+                                                                        </state>
+                                                                        <connections>
+                                                                            <action selector="userDidTappedPinButton:" destination="MOo-nm-fo2" eventType="touchUpInside" id="5zD-u4-btY"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="location name" textAlignment="center" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="qaR-57-CDg" customClass="NewPostTextField" customModule="mist_ios" customModuleProvider="target">
+                                                                        <rect key="frame" x="58" y="0.0" width="165" height="35"/>
+                                                                        <color key="backgroundColor" name="mist-pink"/>
+                                                                        <color key="tintColor" name="mist-lilac"/>
+                                                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
+                                                                        <textInputTraits key="textInputTraits"/>
+                                                                        <connections>
+                                                                            <action selector="textFieldEditingChanged:" destination="MOo-nm-fo2" eventType="editingChanged" id="OMJ-gP-l0R"/>
+                                                                        </connections>
+                                                                    </textField>
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="just now" textAlignment="center" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="eIX-1L-Jri" customClass="NewPostTextField" customModule="mist_ios" customModuleProvider="target">
+                                                                        <rect key="frame" x="233" y="0.0" width="110" height="35"/>
+                                                                        <color key="backgroundColor" name="mist-pink"/>
+                                                                        <color key="tintColor" name="mist-lilac"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="110" id="JPT-H2-bmw"/>
+                                                                        </constraints>
+                                                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
+                                                                        <textInputTraits key="textInputTraits"/>
+                                                                        <connections>
+                                                                            <action selector="textFieldEditingChanged:" destination="MOo-nm-fo2" eventType="editingChanged" id="bII-Ed-x3L"/>
+                                                                        </connections>
+                                                                    </textField>
+                                                                </subviews>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="35" id="4qA-5a-P25"/>
+                                                                </constraints>
+                                                            </stackView>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QFY-T2-i4P" userLabel="Pin Arrow Button">
+                                                                <rect key="frame" x="43" y="24.666666666666657" width="8" height="12"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="8" id="Jhz-8J-Lts"/>
+                                                                    <constraint firstAttribute="width" secondItem="QFY-T2-i4P" secondAttribute="height" multiplier="2:3" id="iGV-U1-F8z"/>
+                                                                </constraints>
                                                                 <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <inset key="imageEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                                <state key="normal">
-                                                                    <color key="titleColor" name="mist-black"/>
-                                                                    <imageReference key="image" image="location" catalog="system" symbolScale="small"/>
-                                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" scale="default" weight="light"/>
-                                                                </state>
+                                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                                <state key="normal" image="chevron.right" catalog="system"/>
                                                                 <connections>
-                                                                    <action selector="userDidTappedPinButton:" destination="MOo-nm-fo2" eventType="touchUpInside" id="5zD-u4-btY"/>
+                                                                    <action selector="userDidTappedPinButton:" destination="MOo-nm-fo2" eventType="touchUpInside" id="wCD-UT-eIh"/>
                                                                 </connections>
                                                             </button>
-                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="location name" textAlignment="center" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="qaR-57-CDg" customClass="NewPostTextField" customModule="mist_ios" customModuleProvider="target">
-                                                                <rect key="frame" x="58" y="0.0" width="163" height="35"/>
-                                                                <color key="backgroundColor" name="mist-pink"/>
-                                                                <color key="tintColor" name="mist-lilac"/>
-                                                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
-                                                                <textInputTraits key="textInputTraits"/>
-                                                                <connections>
-                                                                    <action selector="textFieldEditingChanged:" destination="MOo-nm-fo2" eventType="editingChanged" id="OMJ-gP-l0R"/>
-                                                                </connections>
-                                                            </textField>
-                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="just now" textAlignment="center" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="eIX-1L-Jri" customClass="NewPostTextField" customModule="mist_ios" customModuleProvider="target">
-                                                                <rect key="frame" x="231" y="0.0" width="110" height="35"/>
-                                                                <color key="backgroundColor" name="mist-pink"/>
-                                                                <color key="tintColor" name="mist-lilac"/>
+                                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CUc-2u-pl4">
+                                                                <rect key="frame" x="228" y="11" width="8" height="8"/>
+                                                                <color key="backgroundColor" name="mist-lilac"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" constant="110" id="JPT-H2-bmw"/>
+                                                                    <constraint firstAttribute="width" constant="8" id="ABT-Al-aSc"/>
+                                                                    <constraint firstAttribute="width" secondItem="CUc-2u-pl4" secondAttribute="height" multiplier="1:1" id="rUR-JW-azi"/>
                                                                 </constraints>
-                                                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
-                                                                <textInputTraits key="textInputTraits"/>
-                                                                <connections>
-                                                                    <action selector="textFieldEditingChanged:" destination="MOo-nm-fo2" eventType="editingChanged" id="bII-Ed-x3L"/>
-                                                                </connections>
-                                                            </textField>
+                                                            </view>
+                                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Vf-n4-Nfw">
+                                                                <rect key="frame" x="53.000000000000007" y="11" width="8" height="8"/>
+                                                                <color key="backgroundColor" name="mist-lilac"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="8" id="YXe-bH-IHR"/>
+                                                                    <constraint firstAttribute="width" constant="8" id="rys-YP-UUs"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qoP-vE-2go">
+                                                                <rect key="frame" x="184" y="124.33333333333331" width="8" height="8"/>
+                                                                <color key="backgroundColor" name="mist-lilac"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="8" id="8RJ-Pj-PhF"/>
+                                                                    <constraint firstAttribute="width" secondItem="qoP-vE-2go" secondAttribute="height" multiplier="1:1" id="E5u-lY-sHP"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HnQ-cj-uHb">
+                                                                <rect key="frame" x="79" y="81" width="8" height="8"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                <color key="backgroundColor" name="mist-lilac"/>
+                                                            </view>
                                                         </subviews>
+                                                        <color key="backgroundColor" name="mist-pink"/>
+                                                        <color key="tintColor" name="mist-lilac"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="35" id="4qA-5a-P25"/>
+                                                            <constraint firstAttribute="trailing" secondItem="Iic-TR-uAk" secondAttribute="trailing" constant="15" id="1RP-sE-j0w"/>
+                                                            <constraint firstItem="d76-Ur-nhi" firstAttribute="leading" secondItem="x2W-5m-lTz" secondAttribute="leading" constant="11" id="3vO-eI-SX5"/>
+                                                            <constraint firstItem="qoP-vE-2go" firstAttribute="top" secondItem="OVP-oT-mo6" secondAttribute="top" constant="16" id="5fE-dN-ROd"/>
+                                                            <constraint firstItem="QFY-T2-i4P" firstAttribute="trailing" secondItem="Scd-dZ-nEi" secondAttribute="trailing" constant="-8" id="8lz-Cj-rXb"/>
+                                                            <constraint firstAttribute="bottom" secondItem="OVP-oT-mo6" secondAttribute="bottom" constant="15" id="HwN-QZ-Kcy"/>
+                                                            <constraint firstItem="OVP-oT-mo6" firstAttribute="leading" secondItem="x2W-5m-lTz" secondAttribute="leading" constant="15" id="IIy-Jb-L8W"/>
+                                                            <constraint firstItem="QFY-T2-i4P" firstAttribute="centerY" secondItem="Scd-dZ-nEi" secondAttribute="centerY" id="Mim-st-N9L"/>
+                                                            <constraint firstItem="Iic-TR-uAk" firstAttribute="top" secondItem="d76-Ur-nhi" secondAttribute="bottom" constant="10" id="Vdb-Af-Yhu"/>
+                                                            <constraint firstAttribute="trailing" secondItem="d76-Ur-nhi" secondAttribute="trailing" constant="11" id="bGo-bB-7em"/>
+                                                            <constraint firstItem="7Vf-n4-Nfw" firstAttribute="top" secondItem="Scd-dZ-nEi" secondAttribute="top" constant="-2" id="etP-oN-9sx"/>
+                                                            <constraint firstItem="CUc-2u-pl4" firstAttribute="top" secondItem="qaR-57-CDg" secondAttribute="top" constant="-2" id="i6X-Vv-XW6"/>
+                                                            <constraint firstItem="7Vf-n4-Nfw" firstAttribute="trailing" secondItem="Scd-dZ-nEi" secondAttribute="trailing" constant="2" id="koP-Cp-yFc"/>
+                                                            <constraint firstItem="OVP-oT-mo6" firstAttribute="top" secondItem="Iic-TR-uAk" secondAttribute="bottom" constant="-4" id="n71-a7-YxE"/>
+                                                            <constraint firstAttribute="trailing" secondItem="OVP-oT-mo6" secondAttribute="trailing" constant="15" id="obi-ik-ZK9"/>
+                                                            <constraint firstItem="CUc-2u-pl4" firstAttribute="trailing" secondItem="qaR-57-CDg" secondAttribute="trailing" constant="2" id="pIv-tc-BGr"/>
+                                                            <constraint firstItem="d76-Ur-nhi" firstAttribute="top" secondItem="x2W-5m-lTz" secondAttribute="top" constant="13" id="sIb-Df-92u"/>
+                                                            <constraint firstItem="qoP-vE-2go" firstAttribute="leading" secondItem="x2W-5m-lTz" secondAttribute="leading" constant="184" id="sdr-r6-xNJ"/>
+                                                            <constraint firstItem="Iic-TR-uAk" firstAttribute="leading" secondItem="x2W-5m-lTz" secondAttribute="leading" constant="15" id="veK-7D-xPr"/>
                                                         </constraints>
-                                                    </stackView>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QFY-T2-i4P" userLabel="Pin Arrow Button">
-                                                        <rect key="frame" x="43" y="24.666666666666671" width="8" height="12"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="8" id="Jhz-8J-Lts"/>
-                                                            <constraint firstAttribute="width" secondItem="QFY-T2-i4P" secondAttribute="height" multiplier="2:3" id="iGV-U1-F8z"/>
-                                                        </constraints>
-                                                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" image="chevron.right" catalog="system"/>
-                                                        <connections>
-                                                            <action selector="userDidTappedPinButton:" destination="MOo-nm-fo2" eventType="touchUpInside" id="wCD-UT-eIh"/>
-                                                        </connections>
-                                                    </button>
-                                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CUc-2u-pl4">
-                                                        <rect key="frame" x="226" y="11" width="8" height="8"/>
-                                                        <color key="backgroundColor" name="mist-lilac"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="8" id="ABT-Al-aSc"/>
-                                                            <constraint firstAttribute="width" secondItem="CUc-2u-pl4" secondAttribute="height" multiplier="1:1" id="rUR-JW-azi"/>
-                                                        </constraints>
-                                                    </view>
-                                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Vf-n4-Nfw">
-                                                        <rect key="frame" x="53" y="11" width="8" height="8"/>
-                                                        <color key="backgroundColor" name="mist-lilac"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="8" id="YXe-bH-IHR"/>
-                                                            <constraint firstAttribute="width" constant="8" id="rys-YP-UUs"/>
-                                                        </constraints>
-                                                    </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qoP-vE-2go">
-                                                        <rect key="frame" x="184" y="124.33333333333331" width="8" height="8"/>
-                                                        <color key="backgroundColor" name="mist-lilac"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="8" id="8RJ-Pj-PhF"/>
-                                                            <constraint firstAttribute="width" secondItem="qoP-vE-2go" secondAttribute="height" multiplier="1:1" id="E5u-lY-sHP"/>
-                                                        </constraints>
-                                                    </view>
-                                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HnQ-cj-uHb">
-                                                        <rect key="frame" x="79" y="81" width="8" height="8"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <color key="backgroundColor" name="mist-lilac"/>
                                                     </view>
                                                 </subviews>
-                                                <color key="backgroundColor" name="mist-pink"/>
-                                                <color key="tintColor" name="mist-lilac"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="trailing" secondItem="Iic-TR-uAk" secondAttribute="trailing" constant="15" id="1RP-sE-j0w"/>
-                                                    <constraint firstItem="d76-Ur-nhi" firstAttribute="leading" secondItem="x2W-5m-lTz" secondAttribute="leading" constant="11" id="3vO-eI-SX5"/>
-                                                    <constraint firstItem="qoP-vE-2go" firstAttribute="top" secondItem="OVP-oT-mo6" secondAttribute="top" constant="16" id="5fE-dN-ROd"/>
-                                                    <constraint firstItem="QFY-T2-i4P" firstAttribute="trailing" secondItem="Scd-dZ-nEi" secondAttribute="trailing" constant="-8" id="8lz-Cj-rXb"/>
-                                                    <constraint firstAttribute="bottom" secondItem="OVP-oT-mo6" secondAttribute="bottom" constant="15" id="HwN-QZ-Kcy"/>
-                                                    <constraint firstItem="OVP-oT-mo6" firstAttribute="leading" secondItem="x2W-5m-lTz" secondAttribute="leading" constant="15" id="IIy-Jb-L8W"/>
-                                                    <constraint firstItem="QFY-T2-i4P" firstAttribute="centerY" secondItem="Scd-dZ-nEi" secondAttribute="centerY" id="Mim-st-N9L"/>
-                                                    <constraint firstItem="Iic-TR-uAk" firstAttribute="top" secondItem="d76-Ur-nhi" secondAttribute="bottom" constant="10" id="Vdb-Af-Yhu"/>
-                                                    <constraint firstAttribute="trailing" secondItem="d76-Ur-nhi" secondAttribute="trailing" constant="11" id="bGo-bB-7em"/>
-                                                    <constraint firstItem="7Vf-n4-Nfw" firstAttribute="top" secondItem="Scd-dZ-nEi" secondAttribute="top" constant="-2" id="etP-oN-9sx"/>
-                                                    <constraint firstItem="CUc-2u-pl4" firstAttribute="top" secondItem="qaR-57-CDg" secondAttribute="top" constant="-2" id="i6X-Vv-XW6"/>
-                                                    <constraint firstItem="7Vf-n4-Nfw" firstAttribute="trailing" secondItem="Scd-dZ-nEi" secondAttribute="trailing" constant="2" id="koP-Cp-yFc"/>
-                                                    <constraint firstItem="OVP-oT-mo6" firstAttribute="top" secondItem="Iic-TR-uAk" secondAttribute="bottom" constant="-4" id="n71-a7-YxE"/>
-                                                    <constraint firstAttribute="trailing" secondItem="OVP-oT-mo6" secondAttribute="trailing" constant="15" id="obi-ik-ZK9"/>
-                                                    <constraint firstItem="CUc-2u-pl4" firstAttribute="trailing" secondItem="qaR-57-CDg" secondAttribute="trailing" constant="2" id="pIv-tc-BGr"/>
-                                                    <constraint firstItem="d76-Ur-nhi" firstAttribute="top" secondItem="x2W-5m-lTz" secondAttribute="top" constant="13" id="sIb-Df-92u"/>
-                                                    <constraint firstItem="qoP-vE-2go" firstAttribute="leading" secondItem="x2W-5m-lTz" secondAttribute="leading" constant="184" id="sdr-r6-xNJ"/>
-                                                    <constraint firstItem="Iic-TR-uAk" firstAttribute="leading" secondItem="x2W-5m-lTz" secondAttribute="leading" constant="15" id="veK-7D-xPr"/>
+                                                    <constraint firstItem="TK5-9z-sTD" firstAttribute="width" secondItem="x2W-5m-lTz" secondAttribute="width" id="DT0-zL-L3h"/>
+                                                    <constraint firstItem="x2W-5m-lTz" firstAttribute="width" secondItem="zbt-Q1-XD5" secondAttribute="width" constant="-25" id="wck-cu-beS"/>
                                                 </constraints>
-                                            </view>
+                                            </stackView>
                                         </subviews>
                                         <color key="tintColor" name="mist-lilac"/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="JSX-W4-xgB" secondAttribute="trailing" id="8KV-Mv-bLJ"/>
-                                            <constraint firstAttribute="trailing" secondItem="x2W-5m-lTz" secondAttribute="trailing" constant="15" id="Mxh-Tf-xGu"/>
-                                            <constraint firstAttribute="bottom" secondItem="x2W-5m-lTz" secondAttribute="bottom" constant="12" id="Ndo-0C-cYc"/>
-                                            <constraint firstItem="JSX-W4-xgB" firstAttribute="top" secondItem="qc3-QU-TX3" secondAttribute="top" id="UNb-n4-uX9"/>
-                                            <constraint firstItem="x2W-5m-lTz" firstAttribute="top" secondItem="JSX-W4-xgB" secondAttribute="bottom" constant="12" id="eYu-oi-yZ9"/>
-                                            <constraint firstItem="JSX-W4-xgB" firstAttribute="leading" secondItem="qc3-QU-TX3" secondAttribute="leading" id="hMs-4L-RKq"/>
-                                            <constraint firstItem="x2W-5m-lTz" firstAttribute="leading" secondItem="qc3-QU-TX3" secondAttribute="leading" constant="12" id="qec-9c-CaJ"/>
+                                            <constraint firstAttribute="bottom" secondItem="zbt-Q1-XD5" secondAttribute="bottom" constant="12" id="2qu-6p-Q0f"/>
+                                            <constraint firstItem="JSX-W4-xgB" firstAttribute="top" secondItem="qc3-QU-TX3" secondAttribute="top" id="OZC-AZ-nvB"/>
+                                            <constraint firstAttribute="trailing" secondItem="zbt-Q1-XD5" secondAttribute="trailing" id="Opm-om-EnT"/>
+                                            <constraint firstAttribute="trailing" secondItem="JSX-W4-xgB" secondAttribute="trailing" id="RjP-KR-hXj"/>
+                                            <constraint firstItem="zbt-Q1-XD5" firstAttribute="top" secondItem="qc3-QU-TX3" secondAttribute="top" id="WB8-Cq-dQu"/>
+                                            <constraint firstItem="JSX-W4-xgB" firstAttribute="leading" secondItem="qc3-QU-TX3" secondAttribute="leading" id="dgL-CO-A1v"/>
+                                            <constraint firstItem="zbt-Q1-XD5" firstAttribute="leading" secondItem="qc3-QU-TX3" secondAttribute="leading" id="fpu-ov-y0r"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -2566,6 +2634,7 @@
                     <connections>
                         <outlet property="bodyLilacIndicator" destination="qoP-vE-2go" id="k4J-f8-Qp1"/>
                         <outlet property="bodyTextView" destination="OVP-oT-mo6" id="YZB-BM-lFV"/>
+                        <outlet property="collectibleView" destination="TK5-9z-sTD" id="mEp-6Y-cZC"/>
                         <outlet property="dateTimeTextField" destination="eIX-1L-Jri" id="VNz-rb-Jyj"/>
                         <outlet property="guidelinesButton" destination="FfO-4g-Uge" id="kGI-R5-uQD"/>
                         <outlet property="locationNameLilacIndicator" destination="CUc-2u-pl4" id="6ND-rI-jzH"/>
@@ -4394,6 +4463,7 @@
         <image name="tray" width="24" height="17"/>
         <image name="tray-fill" width="24" height="17"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
+        <image name="you-made-someones-day" width="992" height="1071"/>
         <namedColor name="mist-black">
             <color red="0.066666666666666666" green="0.066666666666666666" blue="0.066666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

@@ -38,6 +38,9 @@ class NewPostViewController: UIViewController {
     @IBOutlet weak var pinArrowButton: UIButton!
     @IBOutlet weak var dateTimeTextField: NewPostTextField!
     @IBOutlet var locationNameTextField: NewPostTextField!
+    
+    var collectibleType: Int?
+    @IBOutlet weak var collectibleView: CollectibleView!
         
     var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker(frame: .zero)
@@ -98,6 +101,16 @@ class NewPostViewController: UIViewController {
     var mySearchController: UISearchController!
     var searchSuggestionsVC: SearchSuggestionsTableViewController!
     
+    //MARK: - Instantiation
+    
+    class func create(collectibleType: Int? = nil) -> NewPostViewController {
+        let vc = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.NewPost) as! NewPostViewController
+        vc.collectibleType = collectibleType
+        return vc
+    }
+    
+    //MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupButtons()
@@ -109,6 +122,8 @@ class NewPostViewController: UIViewController {
         validateAllFields()
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default)), style: .plain, target: self, action: #selector(cancelButtonDidPressed(_:)))
 
+        setupCollectibleView()
+        
         if !DeviceService.shared.hasBeenShowedGuidelines() {
             presentExplanationVC()
         } else {
@@ -118,6 +133,15 @@ class NewPostViewController: UIViewController {
     }
     
     // MARK: - Setup
+    
+    func setupCollectibleView() {
+        if let collectibleType = collectibleType {
+            collectibleView.isHidden = false
+            collectibleView.configureForCollectible(collectibleType: collectibleType, onNewPost: true)
+        } else {
+            collectibleView.isHidden = true
+        }
+    }
     
     func loadFromNewPostContext() {
         datePicker.date = Date(timeIntervalSince1970: NewPostContext.timestamp ?? Date().timeIntervalSince1970)
@@ -195,7 +219,7 @@ class NewPostViewController: UIViewController {
     }
     
     func setupProgressView() {
-        progressView.isHidden = true
+        progressView.alpha = 0
     }
 
     // MARK: - User Interaction
@@ -280,7 +304,8 @@ class NewPostViewController: UIViewController {
                     locationDescription: postLocationText,
                     latitude: postLocationCoordinate?.latitude,
                     longitude: postLocationCoordinate?.longitude,
-                    timestamp: datePicker.date.timeIntervalSince1970)
+                    timestamp: datePicker.date.timeIntervalSince1970,
+                    collectibleType: collectibleType)
                 NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .dmNotificationsAfterNewPost, onVC: self) { didDisplayRequest in
                     DispatchQueue.main.async {
                         self.handleSuccessfulNewPost(wasOfferedNotifications: didDisplayRequest)
@@ -422,7 +447,7 @@ extension NewPostViewController: UITextViewDelegate {
     //MARK: - ProgressBar
     
     func animateProgressBar() {
-        progressView.isHidden = false
+        progressView.alpha = 1
         progressView.setProgress(PROGRESS_DEFAULT_MAX, animated: false)
         postStartTime = DispatchTime.now()
         UIView.animate(withDuration: PROGRESS_DEFAULT_DURATION,
@@ -466,7 +491,7 @@ extension NewPostViewController: UITextViewDelegate {
         titleTextView.text = ""
         bodyPlaceholderLabel.isHidden = false
         titlePlaceholderLabel.isHidden = false
-        progressView.isHidden = true
+        progressView.alpha = 0
         progressView.progress = 0.01
         pinButton.titleLabel?.text = LOCATION_PLACEHOLDER_TEXT
         datePicker.date = Date()

@@ -68,7 +68,7 @@ struct Collectible {
         case 24:
             return "if you could describe your crush using three ____, what would you say?"
         case 25:
-            return "ok sis, what's the tea"
+            return "alright, what's the tea"
         case 26:
             return "someone with an upcoming birthday"
         case 27:

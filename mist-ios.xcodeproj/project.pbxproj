@@ -301,6 +301,8 @@
 		5B4CE2F728DA78B300FB9E8B /* ToggleSettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B4CE2F328DA78B300FB9E8B /* ToggleSettingsCell.xib */; };
 		5B4D589D28603A46002E2F94 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D589B28603A46002E2F94 /* PostCell.swift */; };
 		5B4D58A72860D7FB002E2F94 /* UIImageView+ProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */; };
+		5B5DF07B28E0352F00ABAF7D /* CollectibleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5DF07A28E0352F00ABAF7D /* CollectibleCell.swift */; };
+		5B5DF07C28E0352F00ABAF7D /* CollectibleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5DF07A28E0352F00ABAF7D /* CollectibleCell.swift */; };
 		5B6208A228B4B367005610A9 /* AppStoreReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6208A128B4B367005610A9 /* AppStoreReviewManager.swift */; };
 		5B6208A328B4B367005610A9 /* AppStoreReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6208A128B4B367005610A9 /* AppStoreReviewManager.swift */; };
 		5B6208A628B4B6F7005610A9 /* FeedbackFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6208A428B4B6F7005610A9 /* FeedbackFormCell.swift */; };
@@ -1009,6 +1011,7 @@
 		5B4CE2F328DA78B300FB9E8B /* ToggleSettingsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ToggleSettingsCell.xib; sourceTree = "<group>"; };
 		5B4D589B28603A46002E2F94 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ProfilePic.swift"; sourceTree = "<group>"; };
+		5B5DF07A28E0352F00ABAF7D /* CollectibleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectibleCell.swift; sourceTree = "<group>"; };
 		5B6208A128B4B367005610A9 /* AppStoreReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreReviewManager.swift; sourceTree = "<group>"; };
 		5B6208A428B4B6F7005610A9 /* FeedbackFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackFormCell.swift; sourceTree = "<group>"; };
 		5B6208A528B4B6F7005610A9 /* FeedbackFormCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedbackFormCell.xib; sourceTree = "<group>"; };
@@ -1283,6 +1286,7 @@
 				4752717F28556A3F00DDF84D /* Search */,
 				47CEEE9928546B49008947FC /* MyAccount */,
 				5B41529E28BDEA2A00592A55 /* TagsViewCell.swift */,
+				5B5DF07A28E0352F00ABAF7D /* CollectibleCell.swift */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
@@ -2721,6 +2725,7 @@
 				439E44FA27DFE20600E244D6 /* Word.swift in Sources */,
 				5B235AEC28A8857F00FD27A9 /* PostViewController+Keyboard.swift in Sources */,
 				5BE4D9BE285C018000197080 /* String+Capitalization.swift in Sources */,
+				5B5DF07B28E0352F00ABAF7D /* CollectibleCell.swift in Sources */,
 				5B29F91B28DFB6850062145B /* Collectible.swift in Sources */,
 				5B29F92228DFBE1F0062145B /* WhatIsPromptsViewController.swift in Sources */,
 				434E333228DD88D100A9E88A /* OpenNotificationsAPI.swift in Sources */,
@@ -3064,6 +3069,7 @@
 				5B739DF428935B9500E4EED0 /* Post.swift in Sources */,
 				5B739DF528935B9500E4EED0 /* FavoriteAPI.swift in Sources */,
 				5B739DF628935B9500E4EED0 /* UIImage+Resize.swift in Sources */,
+				5B5DF07C28E0352F00ABAF7D /* CollectibleCell.swift in Sources */,
 				5B29F91C28DFB6850062145B /* Collectible.swift in Sources */,
 				5B29F92328DFBE1F0062145B /* WhatIsPromptsViewController.swift in Sources */,
 				434E333328DD88D100A9E88A /* OpenNotificationsAPI.swift in Sources */,

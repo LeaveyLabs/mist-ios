@@ -36,6 +36,9 @@ class SettingCell: UITableViewCell {
         switch setting {
         case .friends, .avatar, .myProfile:
             break
+        case .collectibles:
+            accessoryLabel.text = String(CollectibleManager.shared.earned_collectibles.count) + "/" + String(Collectible.COLLECTIBLES_COUNT)
+            accessoryLabel.font = UIFont(name: Constants.Font.Medium, size: 15)
         case .mentions:
             if DeviceService.shared.unreadMentionsCount() > 0 {
                 accessoryIndicatorBackgroundView.roundCornersViaCornerRadius(radius: 12.5)

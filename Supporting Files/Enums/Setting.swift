@@ -9,7 +9,7 @@ import Foundation
 
 enum Setting {
     //profile
-    case myProfile, avatar
+    case myProfile, avatar, collectibles
     //friends
     case friends
     //mists
@@ -68,6 +68,8 @@ enum Setting {
             return "Defaults".lowercased()
         case .notifications:
             return "Notifications".lowercased()
+        case .collectibles:
+            return "Collectibles".lowercased()
         }
     }
     
@@ -121,6 +123,8 @@ enum Setting {
             return UIImage(systemName: "iphone")!
         case .notifications:
             return UIImage(systemName: "bell.badge")!
+        case .collectibles:
+            return UIImage(systemName: "tshirt")!
         }
     }
     
@@ -174,6 +178,8 @@ enum Setting {
             settingsTapDelegate.handleDefaults(setting: self)
         case .notifications:
             break
+        case .collectibles:
+            settingsTapDelegate.handleCollectibles()
         }
     }
 }

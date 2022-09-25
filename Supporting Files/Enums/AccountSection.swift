@@ -30,7 +30,7 @@ enum AccountSection: Int, CaseIterable {
     var settings: [Setting] {
         switch self {
         case .profile:
-            return [.myProfile]
+            return [.myProfile, .collectibles]
 //        case .friends:
 //            return [.friends]
         case .posts:

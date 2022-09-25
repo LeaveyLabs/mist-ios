@@ -282,7 +282,8 @@ class PostAPI {
                            latitude: Double?,
                            longitude: Double?,
                            timestamp: Double,
-                           author: Int) async throws -> Post {
+                           author: Int,
+                           collectibleType: Int?) async throws -> Post {
         let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)"
         let post = Post(title: title,
                         body: text,
@@ -290,7 +291,8 @@ class PostAPI {
                         latitude: latitude,
                         longitude: longitude,
                         timestamp: timestamp,
-                        author: author)
+                        author: author,
+                        collectible_type: collectibleType)
         let json = try JSONEncoder().encode(post)
         let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterPostErrors(data: data, response: response)

@@ -20,6 +20,7 @@ protocol SettingsTapDelegate: MFMailComposeViewControllerDelegate {
     func handleDeleteAccount()
     func handleLeaveReview()
     func handleLink(setting: Setting)
+    func handleCollectibles()
 }
 
 extension SettingsTapDelegate where Self: UIViewController {
@@ -33,6 +34,11 @@ extension SettingsTapDelegate where Self: UIViewController {
     
     func handleAvatar() {
         //do nothing as of now
+    }
+    
+    func handleCollectibles() {
+        let collectiblesVC = CollectiblesViewController.create()
+        self.navigationController?.pushViewController(collectiblesVC, animated: true)
     }
     
     func handlePosts(setting: Setting) {

@@ -11,8 +11,8 @@ import UIKit
 class WhatIsPromptsViewController: UIViewController, LargeImageCollectionCellDelegate {
     
     let images: [UIImage] = [
-        UIImage(named: "mistbox-graphic-1")!,
-        UIImage(named: "mistbox-graphic-2")!,
+        UIImage(named: "choose-a-prompt")!,
+        UIImage(named: "earn-a-collectible")!,
     ]
     
     let guidelinesLabel = UILabel()
