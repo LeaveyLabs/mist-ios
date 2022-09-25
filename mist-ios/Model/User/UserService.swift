@@ -246,7 +246,7 @@ class UserService: NSObject {
         }
         PostService.singleton.resetEverything()
         ConversationService.singleton.clearLocalData()
-        MistboxManager.shared.reset()
+//        MistboxManager.shared.reset()
         setGlobalAuthToken(token: "")
         eraseUserFromFilesystem()
         frontendCompleteUser = nil

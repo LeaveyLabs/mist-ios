@@ -44,7 +44,8 @@ class PromptsViewController: UIViewController {
     }
 
     var todaysPrompts: [Int] {
-        UserService.singleton.getTodaysPrompts()
+        print("PROMPTS", UserService.singleton.getTodaysPrompts())
+        return UserService.singleton.getTodaysPrompts()
     }
     
     //Other
@@ -121,9 +122,9 @@ class PromptsViewController: UIViewController {
         titleButton.isHidden = false
         
         var viewIndex = 0
-        todaysPrompts.forEach { prompt in
+        for prompt in todaysPrompts { 
+            guard CollectibleManager.shared.isValidCollectibleType(prompt) else { continue }
             promptViews[viewIndex].configureForCollectible(collectibleType: prompt, delegate: self)
-            promptViews[viewIndex].roundCornersViaCornerRadius(radius: 10)
             viewIndex += 1
         }
         let areSomePromptsEmpty = viewIndex < 3

@@ -64,9 +64,9 @@ class PostService: NSObject {
             guard let tabVC = UIApplication.shared.windows.first?.rootViewController as? SpecialTabBarController else { return }
             tabVC.refreshBadgeCount()
             let visibleVC = SceneDelegate.visibleViewController
-            if let mistboxVC = visibleVC as? MistboxViewController {
-                mistboxVC.navBar.accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
-                mistboxVC.navBar.accountBadgeHub.bump()
+            if let promptsVC = visibleVC as? PromptsViewController {
+                promptsVC.navBar.accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
+                promptsVC.navBar.accountBadgeHub.bump()
             } else if let conversationsVC = visibleVC as? ConversationsViewController {
                 conversationsVC.customNavBar.accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
                 conversationsVC.customNavBar.accountBadgeHub.bump()
@@ -280,9 +280,9 @@ class PostService: NSObject {
     
     func uploadPost(title: String,
                     text: String,
-                    locationDescription: String,
-                    latitude: Double,
-                    longitude: Double,
+                    locationDescription: String?,
+                    latitude: Double?,
+                    longitude: Double?,
                     timestamp: Double) async throws {
         let newPost = try await PostAPI.createPost(title: title,
                                                    text: text,

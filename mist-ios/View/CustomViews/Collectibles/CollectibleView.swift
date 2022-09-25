@@ -16,6 +16,7 @@ class CollectibleView: UIView {
     //MARK: - Properties
     
     //UI
+    @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     
@@ -49,8 +50,8 @@ class CollectibleView: UIView {
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(contentView)
         
-        applyLightMediumShadow()
-        roundCornersViaCornerRadius(radius: 10)
+        backgroundView.applyLightMediumShadow()
+        backgroundView.roundCornersViaCornerRadius(radius: 13)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(collectibleDidTapped))
         self.addGestureRecognizer(tapGesture)
     }
@@ -70,6 +71,7 @@ extension CollectibleView {
     // Note: the constraints for the PostView should already be set-up when this is called.
     // Otherwise you'll get loads of constraint errors in the console
     func configureForCollectible(collectibleType: Int, delegate: CollectibleViewDelegate) {
+        guard CollectibleManager.shared.isValidCollectibleType(collectibleType) else { return }
         self.collectibleType = collectibleType
         self.delegate = delegate
         let collectible = Collectible(type: collectibleType)

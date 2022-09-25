@@ -17,15 +17,16 @@ struct Post: Codable, Equatable {
     let id: Int
     let title: String
     let body: String
-    let location_description: String
-    let latitude: Double
-    let longitude: Double
+    let location_description: String?
+    let latitude: Double?
+    let longitude: Double?
     let timestamp: Double
     let creation_time: Double
     let author: Int
     var emoji_dict: EmojiCountDict
     let commentcount: Int
     let collectible_type: Int?
+    let is_matched: Bool
     
     //MARK: - Initializers
     
@@ -36,9 +37,9 @@ struct Post: Codable, Equatable {
     init(id: Int = DUMMY_POST_ID,
          title: String,
          body: String,
-         location_description: String,
-         latitude: Double,
-         longitude: Double,
+         location_description: String? = nil,
+         latitude: Double? = nil,
+         longitude: Double? = nil,
          timestamp: Double,
          author: Int,
          emojiDict: EmojiCountDict = [:],
@@ -57,6 +58,7 @@ struct Post: Codable, Equatable {
         self.creation_time = Date().timeIntervalSince1970
         self.emoji_dict = emojiDict
         self.collectible_type = collectible_type
+        self.is_matched = false
     }
     
     static func == (lhs: Post, rhs: Post) -> Bool {
@@ -69,9 +71,9 @@ struct Post: Codable, Equatable {
         self.id = try container.decode(Int.self, forKey: .id)
         self.title = try container.decode(String.self, forKey: .title)
         self.body = try container.decode(String.self, forKey: .body)
-        self.location_description = try container.decode(String.self, forKey: .location_description)
-        self.latitude = try container.decode(Double.self, forKey: .latitude)
-        self.longitude = try container.decode(Double.self, forKey: .longitude)
+        self.location_description = try container.decodeIfPresent(String.self, forKey: .location_description)
+        self.latitude = try container.decodeIfPresent(Double.self, forKey: .latitude)
+        self.longitude = try container.decodeIfPresent(Double.self, forKey: .longitude)
         self.timestamp = try container.decode(Double.self, forKey: .timestamp)
         self.creation_time = try container.decode(Double.self, forKey: .creation_time)
         self.author = try container.decode(Int.self, forKey: .author)
@@ -79,6 +81,7 @@ struct Post: Codable, Equatable {
         let decodedEmojiCountDict = try container.decode(EmojiCountDict.self, forKey: .emoji_dict)
         self.emoji_dict = Post.insertUpToThreePlaceholderEmojis(on: decodedEmojiCountDict)
         self.collectible_type = try container.decodeIfPresent(Int.self, forKey: .collectible_type)
+        self.is_matched = try container.decode(Bool.self, forKey: .is_matched)
     }
     
     static private func insertUpToThreePlaceholderEmojis(on emojiDict: EmojiCountDict) -> EmojiCountDict {
@@ -102,6 +105,6 @@ struct Post: Codable, Equatable {
     }
     
     enum CodingKeys: CodingKey {
-        case id, title, body, location_description, latitude, longitude, timestamp, creation_time, author, emoji_dict, commentcount, collectible_type
+        case id, title, body, location_description, latitude, longitude, timestamp, creation_time, author, emoji_dict, commentcount, collectible_type, is_matched
     }
 }

@@ -55,10 +55,6 @@ class HomeExploreParentViewController: ExploreParentViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if isHandlingNewPost {
-            isHandlingNewPost = false
-            overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: false)
-        }
         
         guard isFirstLoad else { return }
         
@@ -180,15 +176,24 @@ extension HomeExploreParentViewController {
     
     @MainActor
     func handleNewlySubmittedPost(didJustShowNotificaitonsRequest: Bool) {
+        isHandlingNewPost = false
         exploreMapVC.annotationSelectionType = .submission
         renderNewPostsOnFeed(withType: .newPost)
         renderNewPostsOnMap(withType: .newPost)
+        
+        guard let newSubmission = PostService.singleton.getSubmissions().first else { return }
         guard let newPostAnnotation = exploreMapVC.postAnnotations.first else { return }
-        
+                
         //Feed
-        exploreFeedVC.feed.reloadData() //need to reload data after rearranging posts
         exploreFeedVC.feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
-        
+        exploreFeedVC.feed.reloadData() //need to reload data after rearranging posts
+
+        guard newSubmission.id == newPostAnnotation.post.id else { //they didn't include an annotation in their post
+            overlayController.moveOverlay(toNotchAt: OverlayNotch.maximum.rawValue, animated: true)
+            return
+        }
+        overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: true)
+
         //Map
         exploreMapVC.slowFlyWithoutZoomTo(lat: newPostAnnotation.coordinate.latitude, long: newPostAnnotation.coordinate.longitude, withDuration: exploreMapVC.cameraAnimationDuration + 1.5, withLatitudeOffset: true) { [self] completed in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [self] in //delay prevents cluster annotations from getting immediatley deselected

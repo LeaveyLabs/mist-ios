@@ -110,58 +110,58 @@ class MessageThread: WebSocketDelegate {
     
     func didReceive(event: WebSocketEvent, client: WebSocketClient) {
         switch event {
-            case .connected(let headers):
+        case .connected( _):
 //                print("websocket is connected: \(headers)")
-                self.connected = true
-                self.connection_in_progress = false
-                self.socket.write(data: init_data)
-                Task {
+            self.connected = true
+            self.connection_in_progress = false
+            self.socket.write(data: init_data)
+            Task {
 //                    try await fetchOfflineMessages()
-                    clearUnsentMessages()
+                clearUnsentMessages()
+            }
+        case .disconnected(let reason, let code):
+            self.connected = false
+            self.connection_in_progress = false
+            Task {
+                while(!self.connected) {
+                    self.connection_in_progress = true
+                    connect()
+                    self.connection_in_progress = false
+                    sleep(5)
                 }
-            case .disconnected(let reason, let code):
-                self.connected = false
-                self.connection_in_progress = false
-                Task {
-                    while(!self.connected) {
-                        self.connection_in_progress = true
-                        connect()
-                        self.connection_in_progress = false
-                        sleep(5)
-                    }
-                }
-                print("websocket is disconnected: \(reason) with code: \(code)")
-            case .text(let string):
+            }
+            print("websocket is disconnected: \(reason) with code: \(code)")
+        case .text(let string):
 //                print("Received text: \(string)")
-                Task {
-                    do {
-                        let new_message = try JSONDecoder().decode(Message.self, from: string.data(using: .utf8)!)
-                        self.server_messages.append(new_message)
-                    } catch {}
-                }
-            case .binary(let data):
-                print("Received data: \(data.count)")
-                Task {
-                    do {
-                        let new_message = try JSONDecoder().decode(Message.self, from: data)
-                        self.server_messages.append(new_message)
-                    } catch {}
-                }
-            case .ping(_):
-                break
-            case .pong(_):
-                break
-            case .viabilityChanged(_):
-                break
-            case .reconnectSuggested(_):
-                break
-            case .cancelled:
-                break
-            case .error(let error):
-                self.connected = false
-                self.connection_in_progress = false
-                print(error!)
-                break
+            Task {
+                do {
+                    let new_message = try JSONDecoder().decode(Message.self, from: string.data(using: .utf8)!)
+                    self.server_messages.append(new_message)
+                } catch {}
+            }
+        case .binary(let data):
+            print("Received data: \(data.count)")
+            Task {
+                do {
+                    let new_message = try JSONDecoder().decode(Message.self, from: data)
+                    self.server_messages.append(new_message)
+                } catch {}
+            }
+        case .ping(_):
+            break
+        case .pong(_):
+            break
+        case .viabilityChanged(_):
+            break
+        case .reconnectSuggested(_):
+            break
+        case .cancelled:
+            break
+        case .error(let error):
+            self.connected = false
+            self.connection_in_progress = false
+            print(error!)
+            break
         }
     }
 }

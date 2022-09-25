@@ -13,7 +13,7 @@ func loadEverything() async throws {
         group.addTask { try await loadPostStuff() }
         group.addTask { try await ConversationService.singleton.loadInitialMessageThreads() }
         group.addTask { try await FriendRequestService.singleton.loadFriendRequests() }
-        group.addTask { try await MistboxManager.shared.fetchSyncedMistbox() }
+//        group.addTask { try await MistboxManager.shared.fetchSyncedMistbox() }
         group.addTask { try await CommentService.singleton.fetchTaggedTags() }
         group.addTask { try await UsersService.singleton.loadTotalUserCount() }
         group.addTask { await UsersService.singleton.loadUsersAssociatedWithContacts() }
@@ -224,8 +224,8 @@ class LoadingViewController: UIViewController {
             else { return }
             let chatVC = ChatViewController.create(conversation: convo)
             conversationsNavVC.pushViewController(chatVC, animated: false)
-        case .daily_mistbox:
-            tabbarVC.selectedIndex = Tabs.mistbox.rawValue
+//        case .daily_mistbox:
+//            tabbarVC.selectedIndex = Tabs.mistbox.rawValue
         case .make_someones_day:
             tabbarVC.selectedIndex = Tabs.prompts.rawValue
             tabbarVC.presentNewPostNavVC(animated: false)
@@ -247,8 +247,6 @@ class LoadingViewController: UIViewController {
             }
         case .message, .match:
             break //we will already have loaded in the data in fetchConversations
-        case .daily_mistbox:
-            break
         case .make_someones_day:
             break
         case .comment:
