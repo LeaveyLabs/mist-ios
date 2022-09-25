@@ -44,7 +44,8 @@ class PromptsViewController: UIViewController {
     }
 
     var todaysPrompts: [Int] {
-        UserService.singleton.getTodaysPrompts()
+        print("PROMPTS", UserService.singleton.getTodaysPrompts())
+        return UserService.singleton.getTodaysPrompts()
     }
     
     //Other

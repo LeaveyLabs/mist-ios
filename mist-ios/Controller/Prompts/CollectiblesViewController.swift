@@ -34,7 +34,7 @@ class CollectiblesViewController: UIViewController, UITableViewDataSource, UITab
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 50
         
-        tableView.register(TagsViewCell.self, forCellReuseIdentifier: String(describing: TagsViewCell.self))
+//        tableView.register(TagsViewCell.self, forCellReuseIdentifier: String(describing: TagsViewCell.self))
     }
     
     func setupCustomNavBar() {
@@ -59,7 +59,7 @@ class CollectiblesViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TagsViewCell.self), for: indexPath) as! TagsViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "asdf", for: indexPath)
 //        cell.configure(existingKeywords: localTags, delegate: self)
 //        
 //        cell.tagsField.onDidChangeHeightTo = { [weak tableView] _, _ in

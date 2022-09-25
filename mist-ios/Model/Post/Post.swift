@@ -37,9 +37,9 @@ struct Post: Codable, Equatable {
     init(id: Int = DUMMY_POST_ID,
          title: String,
          body: String,
-         location_description: String,
-         latitude: Double,
-         longitude: Double,
+         location_description: String? = nil,
+         latitude: Double? = nil,
+         longitude: Double? = nil,
          timestamp: Double,
          author: Int,
          emojiDict: EmojiCountDict = [:],
@@ -71,9 +71,9 @@ struct Post: Codable, Equatable {
         self.id = try container.decode(Int.self, forKey: .id)
         self.title = try container.decode(String.self, forKey: .title)
         self.body = try container.decode(String.self, forKey: .body)
-        self.location_description = try container.decode(String.self, forKey: .location_description)
-        self.latitude = try container.decode(Double.self, forKey: .latitude)
-        self.longitude = try container.decode(Double.self, forKey: .longitude)
+        self.location_description = try container.decodeIfPresent(String.self, forKey: .location_description)
+        self.latitude = try container.decodeIfPresent(Double.self, forKey: .latitude)
+        self.longitude = try container.decodeIfPresent(Double.self, forKey: .longitude)
         self.timestamp = try container.decode(Double.self, forKey: .timestamp)
         self.creation_time = try container.decode(Double.self, forKey: .creation_time)
         self.author = try container.decode(Int.self, forKey: .author)

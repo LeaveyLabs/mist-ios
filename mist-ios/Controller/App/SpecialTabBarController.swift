@@ -9,7 +9,7 @@ import UIKit
 import Foundation
 
 enum Tabs: Int, CaseIterable {
-    case explore, prompts, mistbox, dms
+    case explore, prompts, dms //mistbox, dms
 }
 
 class SpecialTabBarController: UITabBarController {
@@ -23,14 +23,14 @@ class SpecialTabBarController: UITabBarController {
 //        }
 //    }
     
-    var mistboxTabBadgeCount: Int! {
-        didSet {
-            DispatchQueue.main.async { [self] in
-                tabBar.items![Tabs.mistbox.rawValue].badgeValue = mistboxTabBadgeCount == 0 ? nil : String(mistboxTabBadgeCount)
-                repositionBadges() //necessary or else badge position is incorrect
-            }
-        }
-    }
+//    var mistboxTabBadgeCount: Int! {
+//        didSet {
+//            DispatchQueue.main.async { [self] in
+//                tabBar.items![Tabs.mistbox.rawValue].badgeValue = mistboxTabBadgeCount == 0 ? nil : String(mistboxTabBadgeCount)
+//                repositionBadges() //necessary or else badge position is incorrect
+//            }
+//        }
+//    }
     
     var dmTabBadgeCount: Int! {
         didSet {
@@ -102,22 +102,22 @@ extension SpecialTabBarController: UITabBarControllerDelegate {
 
 extension SpecialTabBarController {
     
-    func decrementMistboxBadgeCount() {
-        mistboxTabBadgeCount -= 1
-    }
+//    func decrementMistboxBadgeCount() {
+//        mistboxTabBadgeCount -= 1
+//    }
     
     @MainActor
     func refreshBadgeCount() {
-        if MistboxManager.shared.hasUserActivatedMistbox {
-            mistboxTabBadgeCount = MistboxManager.shared.getMistboxMists().count + DeviceService.shared.unreadMentionsCount()
-        } else {
-            tabBar.items![Tabs.mistbox.rawValue].badgeValue = ""
-            repositionBadges() //necessary or else badge position is incorrect
-        }
+//        if MistboxManager.shared.hasUserActivatedMistbox {
+//            mistboxTabBadgeCount = MistboxManager.shared.getMistboxMists().count + DeviceService.shared.unreadMentionsCount()
+//        } else {
+//            tabBar.items![Tabs.mistbox.rawValue].badgeValue = ""
+//            repositionBadges() //necessary or else badge position is incorrect
+//        }
         
         dmTabBadgeCount = ConversationService.singleton.getUnreadConversations().count
         
-        tabBar.items![Tabs.prompts.rawValue].badgeValue = CollectibleManager.shared.hasUserEarnedACollectibleToday ? nil : ""
+        tabBar.items![Tabs.prompts.rawValue].badgeValue = CollectibleManager.shared.hasUserEarnedACollectibleToday ? nil : "1"
     }
     
 }

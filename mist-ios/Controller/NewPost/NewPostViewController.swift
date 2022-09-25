@@ -242,33 +242,23 @@ class NewPostViewController: UIViewController {
         } else {
             switch LocationManager.Shared.authorizationStatus {
             case .authorizedAlways, .authorizedWhenInUse:
-                guard let coordinate = LocationManager.Shared.currentLocation?.coordinate
-                else {
-                    CustomSwiftMessages.showInfoCard("still updating your location", "try again in just a second", emoji: " 🫠 ")
-                    return
+                if let coordinate = LocationManager.Shared.currentLocation?.coordinate {
+                    postLocationCoordinate = coordinate
                 }
-                postLocationCoordinate = coordinate
             default:
-                CustomSwiftMessages.showPermissionRequest(permissionType: .newpostUserLocation) { granted in
-                    if LocationManager.Shared.authorizationStatus == .notDetermined {
-                        LocationManager.Shared.requestLocation()
-                    } else {
-                        CustomSwiftMessages.showSettingsAlertController(title: "turn on location services for mist in settings", message: "", on: self)
-                    }
-                    return
-                }
+                break
             }
         }
         
         guard
             let trimmedTitleText = titleTextView?.text.trimmingCharacters(in: .whitespacesAndNewlines),
-            let trimmedBodyText = bodyTextView?.text.trimmingCharacters(in: .whitespacesAndNewlines),
-            let postLocationText = locationNameTextField?.text?.trimmingCharacters(in: .whitespaces).lowercased(),
-            let postLocationCoordinate = postLocationCoordinate
+            let trimmedBodyText = bodyTextView?.text.trimmingCharacters(in: .whitespacesAndNewlines)
         else {
             CustomSwiftMessages.displayError("incorrect formatting", "please try again")
             return
         }
+        
+        let postLocationText = (locationNameTextField?.text ?? "").isEmpty ? nil : locationNameTextField?.text?.trimmingCharacters(in: .whitespaces).lowercased()
         
         if dateTimeTextField.text == TIME_PLACEHOLDER_TEXT { //they didn't change the post time, so update the time to right now
             datePicker.date = Date()
@@ -288,8 +278,8 @@ class NewPostViewController: UIViewController {
                     title: trimmedTitleText,
                     text: trimmedBodyText,
                     locationDescription: postLocationText,
-                    latitude: postLocationCoordinate.latitude,
-                    longitude: postLocationCoordinate.longitude,
+                    latitude: postLocationCoordinate?.latitude,
+                    longitude: postLocationCoordinate?.longitude,
                     timestamp: datePicker.date.timeIntervalSince1970)
                 NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .dmNotificationsAfterNewPost, onVC: self) { didDisplayRequest in
                     DispatchQueue.main.async {
@@ -495,8 +485,8 @@ extension NewPostViewController: UITextViewDelegate {
     
     //my guess is it had something to do with this validate all fields
     func validateAllFields() {
-        locationNameLilacIndicator.isHidden = !locationNameTextField.text!.trimmingCharacters(in: .whitespaces).isEmpty
-        pinLilacIndicator.isHidden = currentPin != nil || LocationManager.Shared.authorizationStatus == .authorizedWhenInUse || LocationManager.Shared.authorizationStatus == .authorizedAlways
+//        locationNameLilacIndicator.isHidden = !locationNameTextField.text!.trimmingCharacters(in: .whitespaces).isEmpty
+//        pinLilacIndicator.isHidden = currentPin != nil || LocationManager.Shared.authorizationStatus == .authorizedWhenInUse || LocationManager.Shared.authorizationStatus == .authorizedAlways
         
         //note: the text indicator being hidden and the field being valid are two different things. the user can input in text longer than the field allows, which shouldnt rerender the indicator view, but which should disable submit button
         titleLilacIndicator.isHidden = titleTextView.text.count != 0

@@ -278,9 +278,9 @@ class PostAPI {
     // Posts post in the database
     static func createPost(title: String,
                            text: String,
-                           locationDescription: String,
-                           latitude: Double,
-                           longitude: Double,
+                           locationDescription: String?,
+                           latitude: Double?,
+                           longitude: Double?,
                            timestamp: Double,
                            author: Int) async throws -> Post {
         let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)"

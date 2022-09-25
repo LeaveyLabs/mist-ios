@@ -107,12 +107,7 @@ class WhatIsPromptsViewController: UIViewController, LargeImageCollectionCellDel
     //MARK: - Guidelines delegate
     
     func closeButtonPressed() {
-        if MistboxManager.shared.hasUserActivatedMistbox {
-            dismiss(animated: true)
-        } else {
-            let keywordsVC = EnterKeywordsViewController.create()
-            navigationController?.pushViewController(keywordsVC, animated: true)
-        }
+        dismiss(animated: true)
     }
 }
 

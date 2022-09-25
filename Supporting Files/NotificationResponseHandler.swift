@@ -35,7 +35,7 @@ func generateNotificationResponseHandler(_ notificationResponse: UNNotificationR
             handler.newMessage = try JSONDecoder().decode(Message.self, from: data)
         case .match:
             handler.newMatchRequest = try JSONDecoder().decode(MatchRequest.self, from: data)
-        case .daily_mistbox, .make_someones_day:
+        case .make_someones_day:
             break
         case .comment:
             break
