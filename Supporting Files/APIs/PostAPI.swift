@@ -210,6 +210,16 @@ class PostAPI {
     }
     
     // Fetches all posts from database (searching for the below text)
+    static func fetchPostsByWords(words:[String]) async throws -> [Post] {
+        var url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?"
+        for word in words {
+            url += "\(WORDS_PARAM)=\(word)&"
+        }
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterPostErrors(data: data, response: response)
+        return try JSONDecoder().decode([Post].self, from: data)
+    }
+    
     static func fetchPostsByWords(words:[String], page:Int) async throws -> [Post] {
         var url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?"
         for word in words {
