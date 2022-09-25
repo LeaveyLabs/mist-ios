@@ -303,6 +303,10 @@
 		5B4D58A72860D7FB002E2F94 /* UIImageView+ProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */; };
 		5B5DF07B28E0352F00ABAF7D /* CollectibleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5DF07A28E0352F00ABAF7D /* CollectibleCell.swift */; };
 		5B5DF07C28E0352F00ABAF7D /* CollectibleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5DF07A28E0352F00ABAF7D /* CollectibleCell.swift */; };
+		5B5DF07E28E0475800ABAF7D /* StickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5DF07D28E0475800ABAF7D /* StickerView.swift */; };
+		5B5DF07F28E0475800ABAF7D /* StickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5DF07D28E0475800ABAF7D /* StickerView.swift */; };
+		5B5DF08128E0482800ABAF7D /* StickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B5DF08028E0482800ABAF7D /* StickerView.xib */; };
+		5B5DF08228E0482800ABAF7D /* StickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B5DF08028E0482800ABAF7D /* StickerView.xib */; };
 		5B6208A228B4B367005610A9 /* AppStoreReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6208A128B4B367005610A9 /* AppStoreReviewManager.swift */; };
 		5B6208A328B4B367005610A9 /* AppStoreReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6208A128B4B367005610A9 /* AppStoreReviewManager.swift */; };
 		5B6208A628B4B6F7005610A9 /* FeedbackFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6208A428B4B6F7005610A9 /* FeedbackFormCell.swift */; };
@@ -1012,6 +1016,8 @@
 		5B4D589B28603A46002E2F94 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		5B4D58A62860D7FB002E2F94 /* UIImageView+ProfilePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ProfilePic.swift"; sourceTree = "<group>"; };
 		5B5DF07A28E0352F00ABAF7D /* CollectibleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectibleCell.swift; sourceTree = "<group>"; };
+		5B5DF07D28E0475800ABAF7D /* StickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerView.swift; sourceTree = "<group>"; };
+		5B5DF08028E0482800ABAF7D /* StickerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StickerView.xib; sourceTree = "<group>"; };
 		5B6208A128B4B367005610A9 /* AppStoreReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreReviewManager.swift; sourceTree = "<group>"; };
 		5B6208A428B4B6F7005610A9 /* FeedbackFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackFormCell.swift; sourceTree = "<group>"; };
 		5B6208A528B4B6F7005610A9 /* FeedbackFormCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedbackFormCell.xib; sourceTree = "<group>"; };
@@ -1519,6 +1525,8 @@
 				5BC2530E28BACFAC00D4F49A /* PostTableCollectionViews.swift */,
 				5BDE1F7228C5CD5A00B8B108 /* EnvelopeView.swift */,
 				5BDE1F7528C5CD8800B8B108 /* EnvelopeView.xib */,
+				5B5DF07D28E0475800ABAF7D /* StickerView.swift */,
+				5B5DF08028E0482800ABAF7D /* StickerView.xib */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -2458,6 +2466,7 @@
 				5B739D6E2891F9DF00E4EED0 /* GoogleService-Info.plist in Resources */,
 				470F271D27DE764F00C6DDAF /* UserResultCell.xib in Resources */,
 				5BAD626B2875500E00DCFE45 /* InformationCollectionCell.xib in Resources */,
+				5B5DF08128E0482800ABAF7D /* StickerView.xib in Resources */,
 				5B4CE2F628DA78B300FB9E8B /* ToggleSettingsCell.xib in Resources */,
 				5BDE1F7628C5CD8800B8B108 /* EnvelopeView.xib in Resources */,
 				5BC2763F286AE9BD00DA5A3D /* Main.storyboard in Resources */,
@@ -2511,6 +2520,7 @@
 				5B739E97289368A800E4EED0 /* GoogleService-Info.plist in Resources */,
 				5B739E8328935B9500E4EED0 /* UserResultCell.xib in Resources */,
 				5B739E8428935B9500E4EED0 /* InformationCollectionCell.xib in Resources */,
+				5B5DF08228E0482800ABAF7D /* StickerView.xib in Resources */,
 				5B4CE2F728DA78B300FB9E8B /* ToggleSettingsCell.xib in Resources */,
 				5BDE1F7728C5CD8800B8B108 /* EnvelopeView.xib in Resources */,
 				5B739E8528935B9500E4EED0 /* Main.storyboard in Resources */,
@@ -2657,6 +2667,7 @@
 				47EA3E0227E0151200381218 /* MapViewController.swift in Sources */,
 				5BDE1F7028C5C92800B8B108 /* MistboxCollectionCell.swift in Sources */,
 				43483BB228025179001C7C6A /* ChooseUsernameViewController.swift in Sources */,
+				5B5DF07E28E0475800ABAF7D /* StickerView.swift in Sources */,
 				479683F32826494100CA23BA /* UIColor+Theme.swift in Sources */,
 				472A4BFE28408BD800FD52B7 /* SpringTextField.swift in Sources */,
 				479AA1F327DCF2BD00EA0DFC /* PostViewController.swift in Sources */,
@@ -3001,6 +3012,7 @@
 				5B739DC028935B9500E4EED0 /* CLLocationCoordiante+Midpoint.swift in Sources */,
 				5BDE1F7128C5C92800B8B108 /* MistboxCollectionCell.swift in Sources */,
 				5B739DC128935B9500E4EED0 /* Comment.swift in Sources */,
+				5B5DF07F28E0475800ABAF7D /* StickerView.swift in Sources */,
 				5B739DC228935B9500E4EED0 /* MapViewController.swift in Sources */,
 				5B739DC328935B9500E4EED0 /* ChooseUsernameViewController.swift in Sources */,
 				5B739DC528935B9500E4EED0 /* UIColor+Theme.swift in Sources */,

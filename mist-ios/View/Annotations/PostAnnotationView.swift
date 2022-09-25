@@ -40,10 +40,12 @@ final class PostAnnotationView: MKMarkerAnnotationView {
     // so everytime they're set, you should prepare them
     override var annotation: MKAnnotation? {
         willSet {
+            guard let willSetPostAnnotation = annotation as? PostAnnotation else { return }
+            glyphText = willSetPostAnnotation.post.topEmoji
             animatesWhenAdded = true
             canShowCallout = false
-            glyphImage = UIImage(named: "dropicon_white")
-            glyphTintColor = .white
+//            glyphImage = UIImage(named: "dropicon_white")
+//            glyphTintColor = .white
             markerTintColor = Constants.Color.mistLilac
             displayPriority = .required
             clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier

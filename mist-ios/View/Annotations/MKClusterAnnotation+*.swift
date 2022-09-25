@@ -13,7 +13,7 @@ extension MKClusterAnnotation {
     
     func updateClusterTitle(newTitle: String?) {
         title = newTitle
-        subtitle = ""
+//        subtitle = ""
     }
     
 //    func getMostCommonAnnotationLocation(among memberAnnotations: [MKAnnotation]) -> String? {

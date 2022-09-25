@@ -27,6 +27,7 @@ struct Post: Codable, Equatable {
     let commentcount: Int
     let collectible_type: Int?
     let is_matched: Bool
+    let topEmoji: Emoji
     
     //MARK: - Initializers
     
@@ -59,6 +60,7 @@ struct Post: Codable, Equatable {
         self.emoji_dict = emojiDict
         self.collectible_type = collectible_type
         self.is_matched = false
+        self.topEmoji = ""
     }
     
     static func == (lhs: Post, rhs: Post) -> Bool {
@@ -82,6 +84,17 @@ struct Post: Codable, Equatable {
         self.emoji_dict = Post.insertUpToThreePlaceholderEmojis(on: decodedEmojiCountDict)
         self.collectible_type = try container.decodeIfPresent(Int.self, forKey: .collectible_type)
         self.is_matched = try container.decode(Bool.self, forKey: .is_matched)
+        self.topEmoji = Post.getTopEmojiFrom(emojiDict: emoji_dict)
+    }
+    
+    static private func getTopEmojiFrom(emojiDict: EmojiCountDict) -> Emoji {
+        var topEmojiTuple: EmojiCountTuple = ("", -1)
+        emojiDict.forEach { emoji, count in
+            if count > topEmojiTuple.count {
+                topEmojiTuple = (emoji, count)
+            }
+        }
+        return topEmojiTuple.emoji
     }
     
     static private func insertUpToThreePlaceholderEmojis(on emojiDict: EmojiCountDict) -> EmojiCountDict {

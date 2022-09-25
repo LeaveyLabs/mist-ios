@@ -10,8 +10,8 @@ import CoreLocation
 import MapKit
 import InputBarAccessoryView
 
-let BODY_PLACEHOLDER_TEXT = ["pour your heart out"
-//                             "make someone's day",
+let BODY_PLACEHOLDER_TEXT = ["pour your heart out",
+//                             "make their day",
 //                             "take a chance",
 //                             "get it off your chest"
                                 ].randomElement()!

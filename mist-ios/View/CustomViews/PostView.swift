@@ -44,6 +44,8 @@ import MapKit
     var emojiButtons: [EmojiButton] {
         get { return [emojiButton1, emojiButton2, emojiButton3] }
     }
+    
+    @IBOutlet weak var stickersStackView: UIStackView!
 
     //Data
     var postId: Int!
@@ -130,6 +132,19 @@ extension PostView {
         } else {
             messageLabel.text = post.body.components(separatedBy: .newlines).joined(separator: "\n") //replace any occurences of several new lines with one single newline
         }
+        
+//        if let collectibleType = post.collectible_type {
+//            stickersStackView.isHidden = false
+//            let sticker = StickerView(frame: .init(x: 0, y: 0, width: 50, height: 40))
+//            sticker.configure(stickerType: .prompt, promptNumber: collectibleType)
+//            stickersStackView.insertArrangedSubview(sticker, at: 0)
+//        }
+//        if true {
+//            stickersStackView.isHidden = false
+//            let sticker = StickerView(frame: .init(x: 0, y: 0, width: 50, height: 40))
+//            sticker.configure(stickerType: .connected)
+//            stickersStackView.insertArrangedSubview(sticker, at: 0)
+//        }
     }
     
     func reconfigureVotes() {

@@ -50,19 +50,10 @@ class ExploreParentViewController: UIViewController, OverlayContainerViewControl
         setupOverlay()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        isFirstLoad = false
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         reloadData()
+        (tabBarController as? SpecialTabBarController)?.refreshBadgeCount()
         
         //Emoji keyboard autodismiss notification
         NotificationCenter.default.addObserver(self,
@@ -74,6 +65,16 @@ class ExploreParentViewController: UIViewController, OverlayContainerViewControl
             selector: #selector(keyboardWillDismiss(sender:)),
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        isFirstLoad = false
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
     
     func reloadNewMapPostsIfNecessary() {

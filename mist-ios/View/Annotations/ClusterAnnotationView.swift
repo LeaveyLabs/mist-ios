@@ -79,13 +79,16 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
             setupMarkerTintColor(newCluster)
             displayPriority = .required
             currentlyVisiblePostIndex = nil
+//            glyphText = newCluster.memberAnnotations..post.emoji_dict.first?.key
+
             localCopyOfAllMapPostIds = PostService.singleton.getExploreMapPostsSortedIds()
                                 
             sortMemberPostsTask = Task {
                 sortedMemberPosts = sortMemberPosts(from: newCluster.memberAnnotations)
                 //on main thread:
-                DispatchQueue.main.async {
-                    newCluster.updateClusterTitle(newTitle: self.sortedMemberPosts.first?.title)
+                DispatchQueue.main.async { [weak self] in
+                    newCluster.updateClusterTitle(newTitle: self?.sortedMemberPosts.first?.title)
+                    self?.glyphText = self?.sortedMemberPosts.first?.topEmoji
                     return
                 }
             }
@@ -456,4 +459,14 @@ extension ClusterAnnotationView: UICollectionViewDataSource {
         print("Did end animation. Current centered index: \(String(describing: centeredCollectionViewFlowLayout.currentCenteredPage ?? nil))")
         currentlyVisiblePostIndex = centeredCollectionViewFlowLayout.currentCenteredPage
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        recalculateClusterEmoji(scrollView)
+    }
+    
+    func recalculateClusterEmoji(_ scrollView: UIScrollView) {
+        guard let index = centeredCollectionViewFlowLayout.currentCenteredPage else { return }
+        glyphText = sortedMemberPosts[index].topEmoji
+    }
+    
 }
