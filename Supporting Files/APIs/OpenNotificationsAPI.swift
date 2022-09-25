@@ -22,9 +22,18 @@ struct OpenNotification: Codable {
     let type: String
 }
 
+struct OpenedTimestamp: Codable {
+    let timestamp: Double
+}
+
 class OpenNotificationsAPI {
     static let PATH_TO_OPEN_NOTIFICATIONS = "api/open-notifications/"
+    static let PATH_TO_LAST_OPEN_TIME = "api/last-opened-time/"
+    
     static let NOTIFICATION_RECOVERY_MESSAGE = "Please try again"
+    
+    static let TYPE_PARAM = "type"
+    static let SANGDAEBANG_PARAM = "sangdaebang"
     
     static func filterOpenNotificationErrors(data:Data, response:HTTPURLResponse) throws {
         let statusCode = response.statusCode
@@ -63,5 +72,17 @@ class OpenNotificationsAPI {
         let json = try JSONEncoder().encode(notification)
         let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.POST.rawValue)
         try filterOpenNotificationErrors(data: data, response: response)
+    }
+    
+    static func fetchLastOpenedNotificationTime(type:NotificationTypes) async throws -> Double {
+        let url = "\(Env.BASE_URL)\(PATH_TO_LAST_OPEN_TIME)?\(TYPE_PARAM)=\(type.rawValue)"
+        let (data, _) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        return try JSONDecoder().decode(OpenedTimestamp.self, from: data).timestamp
+    }
+    
+    static func fetchLastOpenedNotificationTime(type:NotificationTypes, sangdaebang:UserID) async throws -> Double {
+        let url = "\(Env.BASE_URL)\(PATH_TO_LAST_OPEN_TIME)?\(TYPE_PARAM)=\(type.rawValue)&\(SANGDAEBANG_PARAM)=\(sangdaebang)"
+        let (data, _) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        return try JSONDecoder().decode(OpenedTimestamp.self, from: data).timestamp
     }
 }
