@@ -26,7 +26,7 @@ struct Collectible {
         case 3:
             return "something you've gotta get off your chest"
         case 4:
-            return "someone who always has your back"
+            return "someone who's always got your back"
         case 5:
             return "someone who makes the world a better place"
         case 6:
@@ -66,7 +66,7 @@ struct Collectible {
         case 23:
             return "describe the perfect date you'd take your crush on"
         case 24:
-            return "if you could describe your crush using three ____, what would you say?"
+            return "describe someone with your 3 favorite things about them"
         case 25:
             return "alright, what's the tea"
         case 26:

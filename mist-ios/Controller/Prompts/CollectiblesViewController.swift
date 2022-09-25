@@ -13,7 +13,7 @@ class CollectiblesViewController: UIViewController, UITableViewDataSource, UITab
     
     @IBOutlet weak var customNavBar: CustomNavBar!
     @IBOutlet weak var tableView: UITableView!
-    var collectibles: [Int] = CollectibleManager.shared.earned_collectibles
+    var collectibles: [Int] = CollectibleManager.shared.earned_collectibles 
         
     class func create() -> CollectiblesViewController {
         let vc = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Collectibles) as! CollectiblesViewController

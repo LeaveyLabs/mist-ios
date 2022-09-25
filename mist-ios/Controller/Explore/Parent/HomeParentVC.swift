@@ -185,20 +185,22 @@ extension HomeExploreParentViewController {
         guard let newPostAnnotation = exploreMapVC.postAnnotations.first else { return }
                 
         //Feed
-        exploreFeedVC.feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
-        exploreFeedVC.feed.reloadData() //need to reload data after rearranging posts
 
         guard newSubmission.id == newPostAnnotation.post.id else { //they didn't include an annotation in their post
+            exploreFeedVC.feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            exploreFeedVC.feed.reloadData() //need to reload data after rearranging posts
             overlayController.moveOverlay(toNotchAt: OverlayNotch.maximum.rawValue, animated: true)
             return
         }
+        exploreFeedVC.feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        exploreFeedVC.feed.reloadData() //need to reload data after rearranging posts
         overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: true)
 
         //Map
         exploreMapVC.slowFlyWithoutZoomTo(lat: newPostAnnotation.coordinate.latitude, long: newPostAnnotation.coordinate.longitude, withDuration: exploreMapVC.cameraAnimationDuration + 1.5, withLatitudeOffset: true) { [self] completed in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [self] in //delay prevents cluster annotations from getting immediatley deselected
                 if !didJustShowNotificaitonsRequest {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                         AppStoreReviewManager.requestReviewIfAppropriate()
                     }
                 }
