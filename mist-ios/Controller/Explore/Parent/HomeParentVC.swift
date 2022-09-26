@@ -16,8 +16,8 @@ class HomeExploreParentViewController: ExploreParentViewController {
     var firstAppearance = true
     var isHandlingNewPost = false
     var isFetchingMorePosts: Bool = false
-    var isReadyForNotificationsRequest = true
-    var hasRequestedNotifications = true
+    var isReadyForNotificationsRequest = false
+    var hasRequestedNotifications = false
     
     lazy var firstPostAnnotation: PostAnnotation? = {
 //        if let userCenter = exploreMapVC.locationManager.location {
@@ -41,7 +41,7 @@ class HomeExploreParentViewController: ExploreParentViewController {
     func waitAndAskForNotifications() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [self] in
             isReadyForNotificationsRequest = true
-            if tabBarController?.selectedIndex == Tabs.explore.rawValue {
+            if SceneDelegate.visibleViewController == self {
                 hasRequestedNotifications = true
                 NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .feedNotifications, onVC: self)
             }
@@ -84,7 +84,7 @@ class HomeExploreParentViewController: ExploreParentViewController {
         super.viewDidAppear(animated)
         
         if !hasRequestedNotifications && isReadyForNotificationsRequest {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
                 hasRequestedNotifications = true
                 NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .feedNotifications, onVC: self)
             }

@@ -16,6 +16,7 @@ class CollectiblesViewController: UIViewController, UITableViewDataSource, UITab
     var collectibles: [Int] {
         CollectibleManager.shared.earned_collectibles
     }
+    @IBOutlet weak var explanationStackView: UIStackView!
         
     class func create() -> CollectiblesViewController {
         let vc = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Collectibles) as! CollectiblesViewController
@@ -26,6 +27,7 @@ class CollectiblesViewController: UIViewController, UITableViewDataSource, UITab
         super.viewDidLoad()
         setupTableView()
         setupCustomNavBar()
+        explanationStackView.isHidden = !collectibles.isEmpty
     }
     
     func setupTableView() {

@@ -18,7 +18,7 @@ enum Setting {
     case account, defaults, notifications
     //other
     case shareFeedback, learnMore
-        case phoneNumber, deleteAccount
+        case phoneNumber, deleteAccount, logout
         case rateMist, feedbackForm, leaveReview, contactUs
         case faq, contentGuidelines, privacyPolicy, terms
     //faq
@@ -44,7 +44,7 @@ enum Setting {
         case .rateMist:
             return "Rate Mist".lowercased()
         case .faq:
-            return "FAQ".lowercased()
+            return "Site FAQ".lowercased()
         case .contactUs:
             return "Email us".lowercased()
         case .deleteAccount:
@@ -81,6 +81,8 @@ enum Setting {
             return "What's a mistable moment?".lowercased()
         case .inHouseFaq:
             return "FAQ".lowercased()
+        case .logout:
+            return "Logout".lowercased()
         }
     }
     
@@ -144,6 +146,8 @@ enum Setting {
             return UIImage(systemName: "person.fill.questionmark")!
         case .inHouseFaq:
             return UIImage(systemName: "questionmark.circle")!
+        case .logout:
+            return UIImage(systemName: "arrow.uturn.left.square")!
         }
     }
     
@@ -207,6 +211,8 @@ enum Setting {
             settingsTapDelegate.handlePresentFaq(setting: self)
         case .inHouseFaq:
             settingsTapDelegate.handleInHouseFaq(setting: self)
+        case .logout:
+            settingsTapDelegate.handleLogout()
         }
     }
 }

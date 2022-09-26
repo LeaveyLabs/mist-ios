@@ -23,6 +23,7 @@ protocol SettingsTapDelegate: MFMailComposeViewControllerDelegate {
     func handleLink(setting: Setting)
     func handleCollectibles()
     func handleInHouseFaq(setting: Setting)
+    func handleLogout()
 }
 
 extension SettingsTapDelegate where Self: UIViewController {
@@ -65,7 +66,7 @@ extension SettingsTapDelegate where Self: UIViewController {
     }
     
     func handleAccount(setting: Setting) {
-        let settingsVC = SettingsViewController.create(settings: [.phoneNumber, .deleteAccount], title: setting.displayName)
+        let settingsVC = SettingsViewController.create(settings: [.phoneNumber, .logout, .deleteAccount], title: setting.displayName)
         navigationController?.pushViewController(settingsVC, animated: true)
     }
     
@@ -89,6 +90,10 @@ extension SettingsTapDelegate where Self: UIViewController {
         navigationController?.pushViewController(settingsVC, animated: true)
     }
         
+    func handleLogout() {
+        logoutAndGoToAuth()
+    }
+    
     func handleLink(setting: Setting) {
         if setting == .privacyPolicy {
             openURL(URL(string: "https://www.getmist.app/privacy-policy")!)

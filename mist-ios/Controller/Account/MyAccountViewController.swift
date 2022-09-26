@@ -83,8 +83,6 @@ class MyAccountViewController: SettingsViewController {
             let profileCell = tableView.dequeueReusableCell(withIdentifier: String(describing: ProfileCell.self), for: indexPath) as! ProfileCell
             profileCell.configure(setting: settingsSection.settings[indexPath.row])
             return profileCell
-        } else if settingsSection == .logout {
-            return tableView.dequeueReusableCell(withIdentifier: "SettingsLogoutCell", for: indexPath)
         } else {
             let settingCell = tableView.dequeueReusableCell(withIdentifier: String(describing: SettingCell.self), for: indexPath) as! SettingCell
             settingCell.configure(setting: settingsSection.settings[indexPath.row])
@@ -97,18 +95,7 @@ class MyAccountViewController: SettingsViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         let settingsSection = AccountSection.init(rawValue: indexPath.section)!
-        
-        if settingsSection == .logout {
-            handleLogoutButtonPressed()
-        } else {
-            settingsSection.settings[indexPath.row].tapAction(with: self)
-        }
-    }
-    
-    //MARK: - Helpers
-    
-    func handleLogoutButtonPressed() {
-        logoutAndGoToAuth()
+        settingsSection.settings[indexPath.row].tapAction(with: self)
     }
 
 }

@@ -58,6 +58,8 @@ class SettingCell: UITableViewCell {
             accessoryLabel.font = UIFont(name: Constants.Font.Medium, size: 15)
         case .account:
             break
+        case .logout:
+            break
         case .notifications:
             selectionStyle = .none
             accessoryImageView.isHidden = true

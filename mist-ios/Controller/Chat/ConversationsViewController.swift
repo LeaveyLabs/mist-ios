@@ -66,10 +66,16 @@ class ConversationsViewController: UIViewController {
     
     @objc func reloadConvos() {
         Task {
-            try await ConversationService.singleton.loadInitialMessageThreads()
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.tableView.refreshControl?.endRefreshing()
+            do {
+                try await ConversationService.singleton.loadInitialMessageThreads()
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    self.tableView.refreshControl?.endRefreshing()
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    self.tableView.refreshControl?.endRefreshing()
+                }
             }
         }
     }

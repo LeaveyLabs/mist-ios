@@ -4384,21 +4384,61 @@
                                 <rect key="frame" x="0.0" y="107" width="390" height="703"/>
                                 <color key="backgroundColor" name="off-white"/>
                             </tableView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Dgb-EC-0Z6">
+                                <rect key="frame" x="0.0" y="253" width="390" height="338"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="you-made-someones-day" translatesAutoresizingMaskIntoConstraints="NO" id="LPq-1b-D1S">
+                                        <rect key="frame" x="78" y="0.0" width="234" height="234"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="LPq-1b-D1S" secondAttribute="height" id="Mzw-PJ-3JP"/>
+                                        </constraints>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xos-aW-V2h">
+                                        <rect key="frame" x="52" y="244" width="286" height="44"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="23"/>
+                                        <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="titleEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="post a mist with a prompt!">
+                                            <color key="titleColor" name="mist-black"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didPressLearnMoreButton:" destination="QKr-Pg-fwt" eventType="touchUpInside" id="Ayy-EX-6oL"/>
+                                            <action selector="didPressLearnMoreButton:" destination="I2k-JH-Jf0" eventType="touchUpInside" id="JqH-xn-d0p"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="earn a collectible for each prompt you post about" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U4I-5m-A3A">
+                                        <rect key="frame" x="66" y="298" width="258" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="258" id="klm-le-fax"/>
+                                            <constraint firstAttribute="height" constant="40" id="yIp-6q-Amb"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
+                                        <color key="textColor" name="mist-black"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Llx-MD-8cG"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Llx-MD-8cG" firstAttribute="trailing" secondItem="4BY-te-SEb" secondAttribute="trailing" id="90B-oS-g9i"/>
+                            <constraint firstItem="Dgb-EC-0Z6" firstAttribute="width" secondItem="7kZ-rD-vwH" secondAttribute="width" id="91O-zZ-acC"/>
                             <constraint firstItem="4BY-te-SEb" firstAttribute="leading" secondItem="Llx-MD-8cG" secondAttribute="leading" id="9yT-wA-3Kq"/>
                             <constraint firstItem="4BY-te-SEb" firstAttribute="top" secondItem="Llx-MD-8cG" secondAttribute="top" id="FrY-hH-MLG"/>
+                            <constraint firstItem="LPq-1b-D1S" firstAttribute="width" secondItem="7kZ-rD-vwH" secondAttribute="width" multiplier="0.6" id="P3r-s4-T1P"/>
+                            <constraint firstItem="Dgb-EC-0Z6" firstAttribute="centerX" secondItem="7kZ-rD-vwH" secondAttribute="centerX" id="PtE-Kk-F5W"/>
                             <constraint firstItem="Llx-MD-8cG" firstAttribute="bottom" secondItem="j2C-W4-gZi" secondAttribute="bottom" id="WN2-qG-Hl6"/>
                             <constraint firstItem="j2C-W4-gZi" firstAttribute="trailing" secondItem="Llx-MD-8cG" secondAttribute="trailing" id="oJx-ue-lgM"/>
+                            <constraint firstItem="Dgb-EC-0Z6" firstAttribute="centerY" secondItem="7kZ-rD-vwH" secondAttribute="centerY" id="pKR-Uq-Zdm"/>
                             <constraint firstItem="j2C-W4-gZi" firstAttribute="leading" secondItem="Llx-MD-8cG" secondAttribute="leading" id="rUJ-uu-7DM"/>
                             <constraint firstItem="j2C-W4-gZi" firstAttribute="top" secondItem="4BY-te-SEb" secondAttribute="bottom" constant="8" symbolic="YES" id="tiV-NS-5tw"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="customNavBar" destination="4BY-te-SEb" id="boF-Co-tCZ"/>
+                        <outlet property="explanationStackView" destination="Dgb-EC-0Z6" id="aZR-CO-9bP"/>
                         <outlet property="tableView" destination="j2C-W4-gZi" id="a89-V0-kMa"/>
                     </connections>
                 </viewController>
