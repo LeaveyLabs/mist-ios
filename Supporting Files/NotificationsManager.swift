@@ -11,17 +11,15 @@ enum NotificationTypes: String {
     case tag = "tag"
     case message = "message"
     case match = "match"
-//    case daily_mistbox = "dailymistbox"
-    case make_someones_day = "makesomeonesday"
     case comment = "comment"
+    case prompts = "prompts"
 }
 
-extension Notification.Name {
-    static let newMistboxMist = Notification.Name("newMistboxMist")
-    static let sdfv = Notification.Name("dailyOpensRefreshed")
-    static let newDM = Notification.Name("newDM")
-    static let newMentionedMist = Notification.Name("tag")
-}
+//extension Notification.Name {
+//    static let newMistboxMist = Notification.Name("newMistboxMist")
+//    static let newDM = Notification.Name("newDM")
+//    static let newMentionedMist = Notification.Name("tag")
+//}
 
 extension Notification {
     enum extra: String {

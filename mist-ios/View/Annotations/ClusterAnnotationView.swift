@@ -115,7 +115,6 @@ class ClusterAnnotationView: MKMarkerAnnotationView {
         let density = Double(memberAnnotations) / Double(totalNumberOfAnnotationsRendered)
         if density < 0.1 {
             markerTintColor = Constants.Color.mistLilac
-//            markerTintColor = UIColor(hex: "#AE75F7")
         } else if density < 0.25 {
             markerTintColor = Constants.Color.mistPurple
         } else {

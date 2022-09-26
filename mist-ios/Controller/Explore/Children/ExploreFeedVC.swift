@@ -141,6 +141,7 @@ extension ExploreFeedViewController {
         UIView.animate(withDuration: duration, delay: 0, options: .curveLinear) {
             self.notchViewHeightConstraint.constant = 65
             self.notchView.layer.cornerRadius = 20
+            self.notchView.applyMediumTopOnlyShadow()
             self.notchTopConstraint.constant = 5
             self.view.layoutIfNeeded()
         }

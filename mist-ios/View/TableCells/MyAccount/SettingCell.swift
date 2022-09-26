@@ -64,6 +64,8 @@ class SettingCell: UITableViewCell {
             accessoryLabel.text = "coming soon"
         case .shareFeedback:
             break
+        case .mistableMoments, .whenAmIAnonymous, .howDoesMistWork, .inHouseFaq:
+            break
         case .learnMore:
             break
         case .phoneNumber:

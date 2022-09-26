@@ -88,7 +88,7 @@
 //    
 //    func setupGuidelinesLabel() {
 //        guidelinesLabel.text = "mistbox"
-//        guidelinesLabel.font = UIFont(name: Constants.Font.Heavy, size: 50)
+//        guidelinesLabel.font = UIFont(name: Constants.Font.Heavy, size: 35)
 //        guidelinesLabel.textColor = Constants.Color.mistBlack
 //        guidelinesLabel.numberOfLines = 1
 //        guidelinesLabel.minimumScaleFactor = 0.5

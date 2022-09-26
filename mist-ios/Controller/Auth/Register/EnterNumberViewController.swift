@@ -98,7 +98,7 @@ class EnterNumberViewController: KUIViewController, UITextFieldDelegate {
     //MARK: - TextField Delegate
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let didAutofillTextfield = range == NSRange(location: 0, length: 0) && string.count > 1
+        let _ = range == NSRange(location: 0, length: 0) && string.count > 1
 //        if didAutofillTextfield {
 //            DispatchQueue.main.async {
 //                self.tryToContinue()

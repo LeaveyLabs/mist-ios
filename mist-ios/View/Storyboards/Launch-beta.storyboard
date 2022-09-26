@@ -20,13 +20,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mistwidewhite" translatesAutoresizingMaskIntoConstraints="NO" id="BR8-Ru-btt">
-                                <rect key="frame" x="56.5" y="241" width="262.5" height="105"/>
+                                <rect key="frame" x="94" y="256" width="187.5" height="75"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="BR8-Ru-btt" secondAttribute="height" multiplier="5:2" id="Mpa-b3-5ML"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="beta" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h8A-5o-Uqf">
-                                <rect key="frame" x="166" y="351" width="43" height="27.5"/>
+                                <rect key="frame" x="166" y="336" width="43" height="27.5"/>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -40,7 +40,7 @@
                             <constraint firstItem="h8A-5o-Uqf" firstAttribute="centerX" secondItem="3ei-L9-LM3" secondAttribute="centerX" id="DIQ-Pw-Cec"/>
                             <constraint firstItem="aTv-Z2-YyM" firstAttribute="top" secondItem="3ei-L9-LM3" secondAttribute="top" id="JnG-om-F8f"/>
                             <constraint firstItem="BR8-Ru-btt" firstAttribute="centerX" secondItem="3ei-L9-LM3" secondAttribute="centerX" id="WdW-ir-vEb"/>
-                            <constraint firstItem="BR8-Ru-btt" firstAttribute="width" secondItem="aTv-Z2-YyM" secondAttribute="width" multiplier="0.7" id="bUc-YK-2Yc"/>
+                            <constraint firstItem="BR8-Ru-btt" firstAttribute="width" secondItem="aTv-Z2-YyM" secondAttribute="width" multiplier="0.5" id="bUc-YK-2Yc"/>
                             <constraint firstItem="aTv-Z2-YyM" firstAttribute="leading" secondItem="3ei-L9-LM3" secondAttribute="leading" id="lha-7m-7fB"/>
                             <constraint firstAttribute="trailing" secondItem="aTv-Z2-YyM" secondAttribute="trailing" id="m2z-HM-McQ"/>
                             <constraint firstItem="BR8-Ru-btt" firstAttribute="centerY" secondItem="3ei-L9-LM3" secondAttribute="centerY" constant="-40" id="oJA-Su-FEO"/>

@@ -307,6 +307,10 @@
 		5B5DF07F28E0475800ABAF7D /* StickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5DF07D28E0475800ABAF7D /* StickerView.swift */; };
 		5B5DF08128E0482800ABAF7D /* StickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B5DF08028E0482800ABAF7D /* StickerView.xib */; };
 		5B5DF08228E0482800ABAF7D /* StickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B5DF08028E0482800ABAF7D /* StickerView.xib */; };
+		5B5DF08528E117D700ABAF7D /* HowMistWorksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5DF08428E117D700ABAF7D /* HowMistWorksViewController.swift */; };
+		5B5DF08628E117D700ABAF7D /* HowMistWorksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5DF08428E117D700ABAF7D /* HowMistWorksViewController.swift */; };
+		5B5DF08828E1182D00ABAF7D /* MistableMomentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5DF08728E1182D00ABAF7D /* MistableMomentsViewController.swift */; };
+		5B5DF08928E1182D00ABAF7D /* MistableMomentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5DF08728E1182D00ABAF7D /* MistableMomentsViewController.swift */; };
 		5B6208A228B4B367005610A9 /* AppStoreReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6208A128B4B367005610A9 /* AppStoreReviewManager.swift */; };
 		5B6208A328B4B367005610A9 /* AppStoreReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6208A128B4B367005610A9 /* AppStoreReviewManager.swift */; };
 		5B6208A628B4B6F7005610A9 /* FeedbackFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6208A428B4B6F7005610A9 /* FeedbackFormCell.swift */; };
@@ -1018,6 +1022,8 @@
 		5B5DF07A28E0352F00ABAF7D /* CollectibleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectibleCell.swift; sourceTree = "<group>"; };
 		5B5DF07D28E0475800ABAF7D /* StickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerView.swift; sourceTree = "<group>"; };
 		5B5DF08028E0482800ABAF7D /* StickerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StickerView.xib; sourceTree = "<group>"; };
+		5B5DF08428E117D700ABAF7D /* HowMistWorksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowMistWorksViewController.swift; sourceTree = "<group>"; };
+		5B5DF08728E1182D00ABAF7D /* MistableMomentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistableMomentsViewController.swift; sourceTree = "<group>"; };
 		5B6208A128B4B367005610A9 /* AppStoreReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreReviewManager.swift; sourceTree = "<group>"; };
 		5B6208A428B4B6F7005610A9 /* FeedbackFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackFormCell.swift; sourceTree = "<group>"; };
 		5B6208A528B4B6F7005610A9 /* FeedbackFormCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedbackFormCell.xib; sourceTree = "<group>"; };
@@ -1709,6 +1715,7 @@
 		47E74E3D27CA14C600467A0C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				5B5DF08328E117B000ABAF7D /* Demos */,
 				4752719B2855A6ED00DDF84D /* AbstractControllers */,
 				478A789F284EBD5A0058C845 /* App */,
 				43770C4927EE8BED00F31CCF /* Auth */,
@@ -1728,6 +1735,7 @@
 		47E74E3E27CA14CE00467A0C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5B83673C28D44C77001BF4B1 /* NotificationResponseHandler.swift */,
 				5BD7481E28C1EB68005C7820 /* LocationManager.swift */,
 				5B6208A128B4B367005610A9 /* AppStoreReviewManager.swift */,
 				5B068CC628BD80DB00DFC89F /* NotificationsManager.swift */,
@@ -1740,7 +1748,6 @@
 				47E74E4027CA152800467A0C /* Utils */,
 				47E74E3F27CA152100467A0C /* APIs */,
 				4369DB08282EC413009215D4 /* Socket */,
-				5B83673C28D44C77001BF4B1 /* NotificationResponseHandler.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -1992,6 +1999,16 @@
 			path = Friends;
 			sourceTree = "<group>";
 		};
+		5B5DF08328E117B000ABAF7D /* Demos */ = {
+			isa = PBXGroup;
+			children = (
+				5B4CE2E928DA493600FB9E8B /* ExplainProfileVC.swift */,
+				5B5DF08428E117D700ABAF7D /* HowMistWorksViewController.swift */,
+				5B5DF08728E1182D00ABAF7D /* MistableMomentsViewController.swift */,
+			);
+			path = Demos;
+			sourceTree = "<group>";
+		};
 		5B62F59728C3F992002931E5 /* Pin */ = {
 			isa = PBXGroup;
 			children = (
@@ -2039,7 +2056,6 @@
 				5B235B0028ADE3B200FD27A9 /* EnterNumberViewController.swift */,
 				4329571B27F4008300FA48A9 /* EnterEmailViewController.swift */,
 				5B879E7528B7E3C000D2DFC1 /* CreateProfileViewController.swift */,
-				5B4CE2E928DA493600FB9E8B /* ExplainProfileVC.swift */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -2599,6 +2615,7 @@
 			files = (
 				47D5B3672844116A004CDE6C /* UIView+AddBorders.swift in Sources */,
 				5BB624CF2867A50F00DCD45B /* FavoriteService.swift in Sources */,
+				5B5DF08528E117D700ABAF7D /* HowMistWorksViewController.swift in Sources */,
 				5BFBA83E28C7B30A00414A99 /* BadgesCell.swift in Sources */,
 				472A4C0128408BD800FD52B7 /* AsyncButton.swift in Sources */,
 				479AA1F527DCFFCB00EA0DFC /* UIView+TopBorder.swift in Sources */,
@@ -2641,6 +2658,7 @@
 				472A4BF028408BD800FD52B7 /* TransitionManager.swift in Sources */,
 				5B235B0A28AEB11900FD27A9 /* InputBarAccessoryView+.swift in Sources */,
 				478BA283283EF2DB00C35507 /* UIViewController+SBTransition.swift in Sources */,
+				5B5DF08828E1182D00ABAF7D /* MistableMomentsViewController.swift in Sources */,
 				5B4152BE28BFDB8600592A55 /* HomeParentVC.swift in Sources */,
 				474A5DA527F40606004215F9 /* RoundedImageView.swift in Sources */,
 				4780E5B42832F0560012B741 /* ChatViewController.swift in Sources */,
@@ -2944,6 +2962,7 @@
 			files = (
 				5B739D9328935B9500E4EED0 /* UIView+AddBorders.swift in Sources */,
 				5B739D9428935B9500E4EED0 /* FavoriteService.swift in Sources */,
+				5B5DF08628E117D700ABAF7D /* HowMistWorksViewController.swift in Sources */,
 				5BFBA83F28C7B30A00414A99 /* BadgesCell.swift in Sources */,
 				5B739D9528935B9500E4EED0 /* AsyncButton.swift in Sources */,
 				5B739D9628935B9500E4EED0 /* UIView+TopBorder.swift in Sources */,
@@ -2986,6 +3005,7 @@
 				5B739DAE28935B9500E4EED0 /* SpecialTabBarController.swift in Sources */,
 				5B739DAF28935B9500E4EED0 /* AppDelegate.swift in Sources */,
 				5B739DB028935B9500E4EED0 /* UIBarButtonItem+Image.swift in Sources */,
+				5B5DF08928E1182D00ABAF7D /* MistableMomentsViewController.swift in Sources */,
 				5B4152BF28BFDB8600592A55 /* HomeParentVC.swift in Sources */,
 				5B739DB128935B9500E4EED0 /* TransitionManager.swift in Sources */,
 				5B739DB228935B9500E4EED0 /* UIViewController+SBTransition.swift in Sources */,

@@ -21,6 +21,9 @@ enum Setting {
         case phoneNumber, deleteAccount
         case rateMist, feedbackForm, leaveReview, contactUs
         case faq, contentGuidelines, privacyPolicy, terms
+    //faq
+    case inHouseFaq
+        case howDoesMistWork, mistableMoments, whenAmIAnonymous
     
     var displayName : String {
         switch self {
@@ -70,6 +73,14 @@ enum Setting {
             return "Notifications".lowercased()
         case .collectibles:
             return "Collectibles".lowercased()
+        case .howDoesMistWork:
+            return "How does Mist work?".lowercased()
+        case .whenAmIAnonymous:
+            return "When am I anonymous?".lowercased()
+        case .mistableMoments:
+            return "What's a mistable moment?".lowercased()
+        case .inHouseFaq:
+            return "FAQ".lowercased()
         }
     }
     
@@ -125,6 +136,14 @@ enum Setting {
             return UIImage(systemName: "bell.badge")!
         case .collectibles:
             return UIImage(systemName: "tshirt")!
+        case .howDoesMistWork:
+            return UIImage(systemName: "questionmark.circle")!
+        case .mistableMoments:
+            return UIImage(systemName: "camera")!
+        case .whenAmIAnonymous:
+            return UIImage(systemName: "person.fill.questionmark")!
+        case .inHouseFaq:
+            return UIImage(systemName: "questionmark.circle")!
         }
     }
     
@@ -180,6 +199,14 @@ enum Setting {
             break
         case .collectibles:
             settingsTapDelegate.handleCollectibles()
+        case .howDoesMistWork:
+            settingsTapDelegate.handlePresentFaq(setting: self)
+        case .mistableMoments:
+            settingsTapDelegate.handlePresentFaq(setting: self)
+        case .whenAmIAnonymous:
+            settingsTapDelegate.handlePresentFaq(setting: self)
+        case .inHouseFaq:
+            settingsTapDelegate.handleInHouseFaq(setting: self)
         }
     }
 }

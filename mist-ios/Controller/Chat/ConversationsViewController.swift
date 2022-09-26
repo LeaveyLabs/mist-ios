@@ -74,6 +74,11 @@ class ConversationsViewController: UIViewController {
         }
     }
     
+    @IBAction func keepMistingButtonDidPressed() {
+        let vc = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.HowMistWorks) as! HowMistWorksViewController
+        present(vc, animated: true)
+    }
+    
 }
 
 extension ConversationsViewController: UITableViewDelegate {

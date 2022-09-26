@@ -224,13 +224,17 @@ class LoadingViewController: UIViewController {
             else { return }
             let chatVC = ChatViewController.create(conversation: convo)
             conversationsNavVC.pushViewController(chatVC, animated: false)
-//        case .daily_mistbox:
-//            tabbarVC.selectedIndex = Tabs.mistbox.rawValue
-        case .make_someones_day:
+        case .prompts:
             tabbarVC.selectedIndex = Tabs.prompts.rawValue
-            tabbarVC.presentNewPostNavVC(animated: false)
         case .comment:
-            break
+            guard let commentPost = handler.newCommentPost else {
+                CustomSwiftMessages.displayError("not found", "this comment has been deleted")
+                return
+            }
+            tabbarVC.selectedIndex = Tabs.explore.rawValue
+            let newCommentPostVC = PostViewController.createPostVC(with: commentPost, shouldStartWithRaisedKeyboard: false, completionHandler: nil)
+            (tabbarVC.selectedViewController as? UINavigationController)?.pushViewController(newCommentPostVC, animated: false)
+            
         }
     }
     
@@ -247,10 +251,16 @@ class LoadingViewController: UIViewController {
             }
         case .message, .match:
             break //we will already have loaded in the data in fetchConversations
-        case .make_someones_day:
+        case .prompts:
             break
         case .comment:
-            break
+            guard let comment = handler.newComment else { return }
+            do {
+                let loadedPost = try await PostAPI.fetchPostByPostID(postId: comment.post)
+                self.notificationResponseHandler?.newCommentPost = loadedPost
+            } catch {
+                //error will be handled in transitionToNotificaitonScreen
+            }
         }
     }
     

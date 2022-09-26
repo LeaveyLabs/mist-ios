@@ -1,18 +1,19 @@
 //
-//  ExplainProfileVC.swift
+//  HowMistWorksViewController.swift
 //  mist-ios
 //
-//  Created by Adam Monterey on 9/20/22.
+//  Created by Adam Monterey on 9/25/22.
 //
 
 import Foundation
 import UIKit
 
-class ExplainProfileViewController: UIViewController, LargeImageCollectionCellDelegate {
+class HowMistWorksViewController: UIViewController, LargeImageCollectionCellDelegate {
     
     let images: [UIImage] = [
-        UIImage(named: "auth-graphic-text-2")!,
-        UIImage(named: "auth-graphic-text-3")!
+        UIImage(named: "how-mist-works-1")!,
+        UIImage(named: "how-mist-works-2")!,
+        UIImage(named: "how-mist-works-3")!
     ]
     
     let guidelinesLabel = UILabel()
@@ -69,14 +70,6 @@ class ExplainProfileViewController: UIViewController, LargeImageCollectionCellDe
         collectionView.delegate = self
         collectionView.bounces = true
         collectionView.showsHorizontalScrollIndicator = false
-                
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            collectionView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: view.frame.height * -0.05),
-            collectionView.heightAnchor.constraint(equalTo: view.heightAnchor),
-            collectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
-        ])
     }
     
     func setupPageControl() {
@@ -93,7 +86,8 @@ class ExplainProfileViewController: UIViewController, LargeImageCollectionCellDe
     }
     
     func setupGuidelinesLabel() {
-        guidelinesLabel.font = UIFont(name: Constants.Font.Heavy, size: 50)
+        guidelinesLabel.text = "how mist works"
+        guidelinesLabel.font = UIFont(name: Constants.Font.Heavy, size: 35)
         guidelinesLabel.textColor = Constants.Color.mistBlack
         guidelinesLabel.numberOfLines = 1
         guidelinesLabel.minimumScaleFactor = 0.5
@@ -118,7 +112,7 @@ class ExplainProfileViewController: UIViewController, LargeImageCollectionCellDe
     }
 }
 
-extension ExplainProfileViewController: UICollectionViewDataSource {
+extension HowMistWorksViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: LargeImageAndButtonCollectionCell.self), for: indexPath) as! LargeImageAndButtonCollectionCell
@@ -135,7 +129,7 @@ extension ExplainProfileViewController: UICollectionViewDataSource {
     }
 }
 
-extension ExplainProfileViewController: UICollectionViewDelegate {
+extension HowMistWorksViewController: UICollectionViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         recalculatePageControlCurrentPage(scrollView)

@@ -16,11 +16,13 @@ protocol SettingsTapDelegate: MFMailComposeViewControllerDelegate {
     func handleShareFeedback(setting: Setting)
     func handleAccount(setting: Setting)
     func handleDefaults(setting: Setting)
+    func handlePresentFaq(setting: Setting)
     //other
     func handleDeleteAccount()
     func handleLeaveReview()
     func handleLink(setting: Setting)
     func handleCollectibles()
+    func handleInHouseFaq(setting: Setting)
 }
 
 extension SettingsTapDelegate where Self: UIViewController {
@@ -46,6 +48,22 @@ extension SettingsTapDelegate where Self: UIViewController {
         navigationController?.pushViewController(customExplore, animated: true)
     }
     
+    func handlePresentFaq(setting: Setting) {
+        switch setting {
+        case .howDoesMistWork:
+            let vc = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.HowMistWorks) as! HowMistWorksViewController
+            present(vc, animated: true)
+        case .mistableMoments:
+            let vc = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.MistableMoments) as! MistableMomentsViewController
+            present(vc, animated: true)
+        case .whenAmIAnonymous:
+            let vc = UIStoryboard(name: Constants.SBID.SB.Auth, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.ExplainProfile) as! ExplainProfileViewController
+            present(vc, animated: true)
+        default:
+            return
+        }
+    }
+    
     func handleAccount(setting: Setting) {
         let settingsVC = SettingsViewController.create(settings: [.phoneNumber, .deleteAccount], title: setting.displayName)
         navigationController?.pushViewController(settingsVC, animated: true)
@@ -63,6 +81,11 @@ extension SettingsTapDelegate where Self: UIViewController {
     
     func handleLearnMore(setting: Setting) {
         let settingsVC = SettingsViewController.create(settings: [.faq, .contentGuidelines, .terms, .privacyPolicy], title: setting.displayName)
+        navigationController?.pushViewController(settingsVC, animated: true)
+    }
+    
+    func handleInHouseFaq(setting: Setting) {
+        let settingsVC = SettingsViewController.create(settings: [.howDoesMistWork, .whenAmIAnonymous, .mistableMoments], title: setting.displayName)
         navigationController?.pushViewController(settingsVC, animated: true)
     }
         

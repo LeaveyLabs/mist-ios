@@ -506,14 +506,14 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bVd-pf-R6D">
-                                    <rect key="frame" x="103" y="18" width="184" height="18"/>
+                                    <rect key="frame" x="112" y="18" width="166" height="18"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="18" id="fMV-vl-qAi"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="tintColor" name="mist-black"/>
                                     <inset key="imageEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                    <state key="normal" title="when is my profile visible?" image="questionmark.circle" catalog="system">
+                                    <state key="normal" title="when am i anonymous?" image="questionmark.circle" catalog="system">
                                         <color key="titleColor" name="mist-black"/>
                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="13"/>
                                     </state>
@@ -1973,7 +1973,7 @@
                                 </prototypes>
                             </tableView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="oJh-Sm-MKi">
-                                <rect key="frame" x="66" y="260" width="258" height="324"/>
+                                <rect key="frame" x="66" y="259" width="258" height="326"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nodms-graphic" translatesAutoresizingMaskIntoConstraints="NO" id="QPs-JF-kR4">
                                         <rect key="frame" x="12" y="0.0" width="234" height="234"/>
@@ -1981,17 +1981,23 @@
                                             <constraint firstAttribute="width" secondItem="QPs-JF-kR4" secondAttribute="height" id="6W0-no-zBV"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="keep misting!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hmR-he-T4G">
-                                        <rect key="frame" x="53.000000000000014" y="244" width="152.33333333333337" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="7cj-Xh-rmS"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
-                                        <color key="textColor" name="mist-black"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wT2-aj-S5y">
+                                        <rect key="frame" x="48.333333333333329" y="244" width="161.66666666666669" height="32"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="23"/>
+                                        <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="titleEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="keep misting!">
+                                            <color key="titleColor" name="mist-black"/>
+                                            <imageReference key="image" image="questionmark.circle" catalog="system" symbolScale="small"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didPressLearnMoreButton:" destination="I2k-JH-Jf0" eventType="touchUpInside" id="Pis-nk-N9Y"/>
+                                            <action selector="keepMistingButtonDidPressed" destination="TZq-b6-4xZ" eventType="touchUpInside" id="LoM-90-vkB"/>
+                                        </connections>
+                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="when you reply to someone’s mist or they reply to yours, you can chat here" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uh5-EF-10m">
-                                        <rect key="frame" x="0.0" y="284" width="258" height="40"/>
+                                        <rect key="frame" x="0.0" y="286" width="258" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="258" id="qfZ-Dl-VHf"/>
                                             <constraint firstAttribute="height" constant="40" id="rEt-oZ-gNS"/>
@@ -2040,7 +2046,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sgT-Cj-JbC" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="chat" selectedImage="chat-filled" id="Nyq-Td-DCa">
-                        <inset key="imageInsets" minX="-7" minY="-7" maxX="-18" maxY="-5"/>
+                        <inset key="imageInsets" minX="-7" minY="-7" maxX="-7" maxY="-5"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mRG-4Y-hFV">
@@ -3347,7 +3353,7 @@
         <!--Navigation Controller-->
         <scene sceneID="KKX-IH-Bd4">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="L3R-Wv-k2S" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="asdffffff" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="L3R-Wv-k2S" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="tray" selectedImage="tray-fill" id="e0l-3A-dlF">
                         <inset key="imageInsets" minX="-9" minY="-5" maxX="-12" maxY="-4"/>
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-40"/>
@@ -3370,7 +3376,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="76h-DH-iGW" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="compass-outlined" selectedImage="compass-filled" id="q53-cw-Qok">
-                        <inset key="imageInsets" minX="-14" minY="-9" maxX="-18" maxY="-6"/>
+                        <inset key="imageInsets" minX="-16" minY="-9" maxX="-16" maxY="-6"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="UMG-zr-feC">
@@ -4343,7 +4349,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="hNP-sz-azG" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="prompt" selectedImage="prompt-filled" id="WLt-Bw-Fud">
-                        <inset key="imageInsets" minX="-10" minY="-9" maxX="-6" maxY="-4"/>
+                        <inset key="imageInsets" minX="-8" minY="-9" maxX="-8" maxY="-4"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <nil key="simulatedTopBarMetrics"/>
@@ -4413,7 +4419,37 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zx6-UB-9rH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-806" y="1184"/>
+            <point key="canvasLocation" x="-2314" y="-1683"/>
+        </scene>
+        <!--How Mist Works View Controller-->
+        <scene sceneID="dyv-CT-Het">
+            <objects>
+                <viewController storyboardIdentifier="HowMistWorksViewController" id="Maw-Jw-Bdk" customClass="HowMistWorksViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1ng-7x-gNH">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="AbH-FV-HlI"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UwK-r1-lTD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-989" y="-1683"/>
+        </scene>
+        <!--Mistable Moments View Controller-->
+        <scene sceneID="9Xz-Hr-od2">
+            <objects>
+                <viewController storyboardIdentifier="MistableMomentsViewController" id="q9s-1V-MYd" customClass="MistableMomentsViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="EYK-0W-jh1">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="TWO-4z-ecT"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Por-Hh-Pt2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1652" y="-1683"/>
         </scene>
     </scenes>
     <color key="tintColor" name="mist-black"/>

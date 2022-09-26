@@ -59,7 +59,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mistwidelilac" translatesAutoresizingMaskIntoConstraints="NO" id="uIQ-Ty-cZB">
-                                <rect key="frame" x="62" y="350" width="290" height="116"/>
+                                <rect key="frame" x="103.66666666666669" y="366.66666666666669" width="207" height="82.666666666666686"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="uIQ-Ty-cZB" secondAttribute="height" multiplier="5:2" id="nkq-tW-OLN"/>
                                 </constraints>
@@ -75,7 +75,7 @@
                             <constraint firstItem="yet-V7-pLL" firstAttribute="top" secondItem="CZN-Hl-vez" secondAttribute="bottom" constant="15" id="c1d-6s-E9m"/>
                             <constraint firstItem="CZN-Hl-vez" firstAttribute="leading" secondItem="UUV-KT-ah5" secondAttribute="leading" constant="25" id="eVa-fU-hJt"/>
                             <constraint firstItem="uIQ-Ty-cZB" firstAttribute="centerY" secondItem="g07-uP-5a9" secondAttribute="centerY" constant="-40" id="mED-HA-b8l"/>
-                            <constraint firstItem="uIQ-Ty-cZB" firstAttribute="width" secondItem="g07-uP-5a9" secondAttribute="width" multiplier="0.7" id="sUe-hC-Ek5"/>
+                            <constraint firstItem="uIQ-Ty-cZB" firstAttribute="width" secondItem="g07-uP-5a9" secondAttribute="width" multiplier="0.5" id="sUe-hC-Ek5"/>
                             <constraint firstItem="UUV-KT-ah5" firstAttribute="trailing" secondItem="yet-V7-pLL" secondAttribute="trailing" constant="25" id="tXp-Bf-BRm"/>
                             <constraint firstItem="yet-V7-pLL" firstAttribute="leading" secondItem="UUV-KT-ah5" secondAttribute="leading" constant="25" id="v5e-JD-HkS"/>
                             <constraint firstItem="855-FN-OIn" firstAttribute="top" secondItem="yet-V7-pLL" secondAttribute="bottom" constant="10" id="xuS-rh-Vmw"/>
@@ -797,14 +797,14 @@
             <objects>
                 <viewController storyboardIdentifier="EnterNumberViewController" title="EnterEmailViewController" id="gJj-BM-Q35" userLabel="CreatePasswordViewController" customClass="EnterNumberViewController" customModule="mist_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NJS-BK-ZPf">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6XG-56-vND">
-                                <rect key="frame" x="0.0" y="44" width="414" height="798"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oU0-AU-P2B">
-                                        <rect key="frame" x="25" y="738" width="364" height="45"/>
+                                        <rect key="frame" x="25" y="714" width="364" height="45"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="45" id="nn1-T3-qBK"/>
                                         </constraints>
@@ -977,7 +977,7 @@
                                                 <color key="tintColor" name="mist-black"/>
                                                 <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 <inset key="imageEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="when is my profile visible?" image="questionmark.circle" catalog="system">
+                                                <state key="normal" title="when am i anonymous?" image="questionmark.circle" catalog="system">
                                                     <color key="titleColor" name="mist-black"/>
                                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="15"/>
                                                 </state>
@@ -1211,7 +1211,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="Tsf-zN-gbx"/>
-        <segue reference="WeX-Le-tjh"/>
+        <segue reference="Jjd-n9-Hbr"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="mist-lilac"/>
     <resources>

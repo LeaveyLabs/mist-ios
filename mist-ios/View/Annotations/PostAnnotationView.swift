@@ -83,8 +83,8 @@ final class PostAnnotationView: MKMarkerAnnotationView {
         
     override func setSelected(_ selected: Bool, animated: Bool) {        
         super.setSelected(selected, animated: animated)
-        glyphTintColor = selected ? UIColor.init(hex: "#E5CFFF") : .white
-        markerTintColor = selected ? Constants.Color.mistPink : Constants.Color.mistLilac
+        glyphTintColor = selected ? Constants.Color.mistLilac : .white
+        markerTintColor = selected ? Constants.Color.mistPink : UIColor.init(hex: "#E5CFFF")
     }
     
     // For detecting taps on postCalloutView subview

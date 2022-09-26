@@ -53,7 +53,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
     //user was not in app
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        print("DID RECEIVE NOTIFIATION")
         
         guard var _ = UIApplication.shared.windows.first?.rootViewController else {
             return //the app wasn't running in the background. scene delegate will handle
@@ -94,8 +93,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         else { return }
         
         do {
-            let json = userInfo[Notification.extra.data.rawValue]
-            _ = try JSONSerialization.data(withJSONObject: json as Any, options: .prettyPrinted)
+            //Note: we actually only want to deserialize the data if the notification has data. the below code should be moved out of match
+//            let json = userInfo[Notification.extra.data.rawValue]
+//            _ = try JSONSerialization.data(withJSONObject: json as Any, options: .prettyPrinted)
             switch notificationType {
             case .tag:
                 break //handled in PostService background task
@@ -115,7 +115,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 //                } else {
 //                    //if we do have a converation open, this code is handled in Conversation
 //                }
-            case .make_someones_day, .comment:
+            case .prompts, .comment:
                 break
             }
         } catch {

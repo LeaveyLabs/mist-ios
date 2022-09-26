@@ -115,6 +115,9 @@ struct Constants {
             //Mistbox
             static let Prompts = "PromptsViewController"
             static let Collectibles = "CollectiblesViewController"
+            //Demo
+            static let HowMistWorks = "HowMistWorksViewController"
+            static let MistableMoments = "MistableMomentsViewController"
             static let WhatIsPrompts = "WhatIsPromptsViewController"
             //Auth
             static let ConfirmEmail = "ConfirmEmailViewController"
