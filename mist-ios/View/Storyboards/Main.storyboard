@@ -4407,7 +4407,7 @@
                                             <action selector="didPressLearnMoreButton:" destination="I2k-JH-Jf0" eventType="touchUpInside" id="JqH-xn-d0p"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="earn a collectible for each prompt you post about" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U4I-5m-A3A">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="earn a collectible for each prompt you answer" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U4I-5m-A3A">
                                         <rect key="frame" x="66" y="298" width="258" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="258" id="klm-le-fax"/>
