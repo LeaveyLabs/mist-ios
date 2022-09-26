@@ -40,7 +40,7 @@ class ConfirmCodeViewController: KUIViewController, UITextFieldDelegate {
     var isSubmitting: Bool = false {
         didSet {
             if confirmMethod == .accessCode {
-                continueButton.setTitle("skip", for: .normal)
+                continueButton.setTitle(isSubmitting ? "" : "skip", for: .normal)
             } else {
                 continueButton.setTitle(isSubmitting ? "" : "continue", for: .normal)
             }
