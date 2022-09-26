@@ -12,9 +12,13 @@ class HomeExploreParentViewController: ExploreParentViewController {
     
     //MARK: - Properties
     
+    //Flags
     var firstAppearance = true
     var isHandlingNewPost = false
     var isFetchingMorePosts: Bool = false
+    var isReadyForNotificationsRequest = true
+    var hasRequestedNotifications = true
+    
     lazy var firstPostAnnotation: PostAnnotation? = {
 //        if let userCenter = exploreMapVC.locationManager.location {
 //            return exploreMapVC.postAnnotations.sorted(by: { $0.coordinate.distanceInKilometers(from: userCenter.coordinate) < $1.coordinate.distanceInKilometers(from: userCenter.coordinate) } ).first!
@@ -31,6 +35,17 @@ class HomeExploreParentViewController: ExploreParentViewController {
         setupTabBar()
         renderNewPostsOnFeed(withType: .firstLoad)
         renderNewPostsOnMap(withType: .firstLoad)
+        waitAndAskForNotifications()
+    }
+    
+    func waitAndAskForNotifications() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [self] in
+            isReadyForNotificationsRequest = true
+            if tabBarController?.selectedIndex == Tabs.explore.rawValue {
+                hasRequestedNotifications = true
+                NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .feedNotifications, onVC: self)
+            }
+        }
     }
     
     func setupTabBar() {
@@ -67,6 +82,13 @@ class HomeExploreParentViewController: ExploreParentViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if !hasRequestedNotifications && isReadyForNotificationsRequest {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
+                hasRequestedNotifications = true
+                NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .feedNotifications, onVC: self)
+            }
+        }
         
         guard firstAppearance else { return }
         firstAppearance = false

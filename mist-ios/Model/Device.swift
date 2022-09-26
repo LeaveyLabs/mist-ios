@@ -13,9 +13,12 @@ enum StartingScreen: String, CaseIterable, Codable {
 
 struct Device: Codable {
     var hasBeenShownGuidelines: Bool = false
+    
+    var hasBeenOfferedNotificationsEarlyOn: Bool = false
     var hasBeenOfferedNotificationsAfterDM: Bool = false
     var hasBeenOfferedNotificationsAfterPost: Bool = false
     var hasBeenOfferedNotificationsBeforeMistbox: Bool = false
+    
     var hasBeenRequestedARating: Bool = false
     var hasBeenRequestedLocationOnHome: Bool = false
     var hasBeenRequestedLocationOnNewPostPin: Bool = false
@@ -30,9 +33,12 @@ struct Device: Codable {
     
     enum CodingKeys: String, CodingKey {
         case hasBeenShownGuidelines
+        
         case hasBeenOfferedNotificationsAfterDM
         case hasBeenOfferedNotificationsAfterPost
         case hasBeenOfferedNotificationsBeforeMistbox
+        case hasBeenOfferedNotificationsEarlyOn
+        
         case hasBeenRequestedARating
         case lastMentionsOpenTime
         case hasBeenRequestedLocationOnHome
@@ -52,6 +58,9 @@ struct Device: Codable {
         hasBeenOfferedNotificationsAfterDM = try values.decodeIfPresent(Bool.self, forKey: .hasBeenOfferedNotificationsAfterDM) ?? false
         hasBeenOfferedNotificationsAfterDM = try values.decodeIfPresent(Bool.self, forKey: .hasBeenOfferedNotificationsAfterPost) ?? false
         hasBeenOfferedNotificationsBeforeMistbox = try values.decodeIfPresent(Bool.self, forKey: .hasBeenOfferedNotificationsBeforeMistbox) ?? false
+        hasBeenOfferedNotificationsEarlyOn = try values.decodeIfPresent(Bool.self, forKey: .hasBeenOfferedNotificationsEarlyOn) ?? false
+        
+        
         hasBeenRequestedARating = try values.decodeIfPresent(Bool.self, forKey: .hasBeenRequestedARating) ?? false
         lastMentionsOpenTime = try values.decodeIfPresent(Double.self, forKey: .lastMentionsOpenTime) ?? .leastNormalMagnitude
         hasBeenRequestedLocationOnHome = try values.decodeIfPresent(Bool.self, forKey: .hasBeenRequestedLocationOnHome) ?? false
@@ -69,6 +78,7 @@ struct Device: Codable {
         hasBeenShownGuidelines = false
         hasBeenOfferedNotificationsAfterDM = false
         hasBeenOfferedNotificationsAfterPost = false
+        hasBeenOfferedNotificationsEarlyOn = false
         hasBeenRequestedARating = false
         hasBeenRequestedLocationOnHome = false
         hasBeenRequestedLocationOnNewPostPin = false

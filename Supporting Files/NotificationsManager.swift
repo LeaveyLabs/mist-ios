@@ -28,6 +28,10 @@ extension Notification {
     }
 }
 
+enum PermissionType {
+    case userLocation, newpostUserLocation, mistboxNotifications, dmNotificationsAfterNewPost, dmNotificationsAfterDm, contacts, feedNotifications
+}
+
 class NotificationsManager: NSObject {
     
     private var center: UNUserNotificationCenter!
@@ -91,6 +95,13 @@ class NotificationsManager: NSObject {
                 return
             } else {
                 DeviceService.shared.showedNotificationRequestAfterDM()
+            }
+        case .feedNotifications:
+            if DeviceService.shared.hasBeenOfferedNotificationsEarlyOn() {
+                closure(false)
+                return
+            } else {
+                DeviceService.shared.showedNotificationRequestEarlyOn()
             }
         }
         

@@ -9,10 +9,6 @@ import Foundation
 import SwiftMessages
 import MapKit
 
-enum PermissionType {
-    case userLocation, newpostUserLocation, mistboxNotifications, dmNotificationsAfterNewPost, dmNotificationsAfterDm, contacts
-}
-
 //MARK: Errors
 
 struct CustomSwiftMessages {
@@ -176,22 +172,27 @@ extension CustomSwiftMessages {
                 title = "enable notifications"
                 body = "find out when they\nget back with you"
                 emoji = "💬"
-                messageView.customConfig(approveText: "of course", dismissText: "nah")
+                messageView.customConfig(approveText: "sure", dismissText: "nah")
             case .dmNotificationsAfterNewPost:
                 title = "enable notifications"
-                body = "find out if someone\nreplies to your mist 👀"
-                emoji = "💌"
-                messageView.customConfig(approveText: "of course", dismissText: "i'd rather mist out")
+                body = "find out if someone\nreplies to or\ncomments on your mist"
+                emoji = "👀"
+                messageView.customConfig(approveText: "sure", dismissText: "i'd rather mist out")
             case .mistboxNotifications:
                 title = "enable notifications"
                 body = "find out when someone drops a mist with one of your keywords"
                 emoji = "💌"
-                messageView.customConfig(approveText: "of course", dismissText: "i'd rather mist out")
+                messageView.customConfig(approveText: "sure", dismissText: "i'd rather mist out")
             case .newpostUserLocation:
                 title = "mists require a location"
                 body = "share your current location or drop a pin on the map"
                 emoji = "📍"
                 messageView.customConfig(approveText: "share location", dismissText: "drop a pin")
+            case .feedNotifications:
+                title = "enable notifications"
+                body = "find out if your friend\ntags you in a mist"
+                emoji = "👀"
+                messageView.customConfig(approveText: "sure", dismissText: "i'd rather mist out")
             }
             
             messageView.configureContent(title: title, body: body, iconText: emoji)

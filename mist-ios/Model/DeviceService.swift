@@ -37,6 +37,7 @@ class DeviceService: NSObject {
     func hasBeenOfferedNotificationsAfterPost() -> Bool { return device.hasBeenOfferedNotificationsAfterPost }
     func hasBeenOfferedNotificationsAfterDM() -> Bool {
         return device.hasBeenOfferedNotificationsAfterDM }
+    func hasBeenOfferedNotificationsEarlyOn() -> Bool { return device.hasBeenOfferedNotificationsEarlyOn }
     func hasBeenOfferedNotificationsBeforeMistbox() -> Bool { return device.hasBeenOfferedNotificationsBeforeMistbox }
     func hasBeenRequestedARating() -> Bool { return device.hasBeenRequestedARating }
     func hasBeenRequestedLocationOnHome() -> Bool { return device.hasBeenRequestedLocationOnHome }
@@ -84,6 +85,10 @@ class DeviceService: NSObject {
     }
     func showedNotificationRequestBeforeMistbox() {
         device.hasBeenOfferedNotificationsBeforeMistbox = true
+        Task { await saveToFilesystem() }
+    }
+    func showedNotificationRequestEarlyOn() {
+        device.hasBeenOfferedNotificationsEarlyOn = true
         Task { await saveToFilesystem() }
     }
     func showRatingRequest() {
