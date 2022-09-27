@@ -177,14 +177,23 @@ class HomeExploreParentViewController: ExploreParentViewController {
             exploreFeedVC.feed.isUserInteractionEnabled = true
         }
         Task {
-            try await PostService.singleton.loadExploreFeedPostsIfPossible() //page count is set to 0 when resetting sorting
-            try await PostService.singleton.loadAndOverwriteExploreMapPosts()
-            DispatchQueue.main.async {
-                self.renderNewPostsOnFeed(withType: .firstLoad)
-                self.renderNewPostsOnMap(withType: .firstLoad)
-                self.exploreFeedVC.feed.refreshControl?.endRefreshing()
-                self.exploreMapVC.reloadButton.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)), for: .normal)
-                self.exploreMapVC.reloadButton.loadingIndicator(false)
+            do {
+                try await PostService.singleton.loadExploreFeedPostsIfPossible() //page count is set to 0 when resetting sorting
+                try await PostService.singleton.loadAndOverwriteExploreMapPosts()
+                DispatchQueue.main.async {
+                    self.renderNewPostsOnFeed(withType: .firstLoad)
+                    self.renderNewPostsOnMap(withType: .firstLoad)
+                    self.exploreFeedVC.feed.refreshControl?.endRefreshing()
+                    self.exploreMapVC.reloadButton.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)), for: .normal)
+                    self.exploreMapVC.reloadButton.loadingIndicator(false)
+                }
+            } catch {
+                CustomSwiftMessages.displayError(error)
+                DispatchQueue.main.async {
+                    self.exploreFeedVC.feed.refreshControl?.endRefreshing()
+                    self.exploreMapVC.reloadButton.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)), for: .normal)
+                    self.exploreMapVC.reloadButton.loadingIndicator(false)
+                }
             }
         }
     }

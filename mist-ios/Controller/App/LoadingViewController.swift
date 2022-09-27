@@ -13,6 +13,7 @@ func loadEverything() async throws {
         group.addTask { try await loadPostStuff() }
         group.addTask { try await ConversationService.singleton.loadInitialMessageThreads() }
         group.addTask { try await FriendRequestService.singleton.loadFriendRequests() }
+        group.addTask { try await UserService.singleton.reloadTodaysPrompts() }
 //        group.addTask { try await MistboxManager.shared.fetchSyncedMistbox() }
         group.addTask { try await CommentService.singleton.fetchTaggedTags() }
         group.addTask { try await UsersService.singleton.loadTotalUserCount() }
@@ -110,6 +111,9 @@ class LoadingViewController: UIViewController {
     }
     
     func checkForNewUpdate() {
+//        CustomSwiftMessages.showUpdateAvailableCard()
+//
+        
         _ = try? isUpdateAvailable { (isUpdateAvailable, error) in
             if let error = error {
                 print(error)
