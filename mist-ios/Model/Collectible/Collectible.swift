@@ -44,7 +44,7 @@ struct Collectible {
         case 12:
             return "someone with a contagious laugh"
         case 13:
-            return "a stranger with who held the door for you"
+            return "a stranger who held the door for you"
         case 14:
             return "someone who's been grinding this week"
         case 15:
