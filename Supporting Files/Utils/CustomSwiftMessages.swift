@@ -63,11 +63,12 @@ struct CustomSwiftMessages {
 
 extension CustomSwiftMessages {
     
+    
     static func showUpdateAvailableCard() {
         let url = Constants.downloadLink
         DispatchQueue.main.async { //ensures that these ui actions occur on the main thread
             let messageView: CustomCenteredView = try! SwiftMessages.viewFromNib()
-            messageView.configureContent(title: "a new update is available!", body: "", iconText: "")
+            messageView.configureContent(title: "a new update is available 👀", body: "", iconText: "")
             messageView.customConfig(approveText: "download", dismissText: "")
             messageView.approveAction = {
                 UIApplication.shared.open(url as URL)

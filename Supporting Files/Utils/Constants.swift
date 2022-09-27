@@ -30,7 +30,7 @@ struct Constants {
         static let offWhite = UIColor.init(named: "off-white")!
     }
     
-    static let downloadLink = NSURL(string: "https://www.getmist.app/download")!
+    static let downloadLink = NSURL(string: "https://apps.apple.com/app/mist/id1631426995")!
     
     static let defaultProfilePic = ReadOnlyUser.RandomSilhouette()
         
