@@ -150,7 +150,7 @@ class PromptsViewController: UIViewController {
 
         answeredStackView.isHidden = false
         answeredTitleButton.setTitle("you made someone's day!", for: .normal)
-        answeredSubtitleLabel.text = "come back tomorrow for\nthree new prompts"
+        answeredSubtitleLabel.text = "come back tomorrow at 9am\nfor three new prompts"
     }
     
     func setupAllAnsweredLayout() {
