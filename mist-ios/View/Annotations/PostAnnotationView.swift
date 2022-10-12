@@ -44,9 +44,7 @@ final class PostAnnotationView: MKMarkerAnnotationView {
             glyphText = willSetPostAnnotation.post.topEmoji
             animatesWhenAdded = true
             canShowCallout = false
-//            glyphImage = UIImage(named: "dropicon_white")
-//            glyphTintColor = .white
-            markerTintColor = UIColor.init(hex: "#E5CFFF") //Constants.Color.mistLilac
+            markerTintColor = UIColor(hex: "#E5CFFF")
             displayPriority = .required
             clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
         }

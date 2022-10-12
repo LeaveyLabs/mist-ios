@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import MessageUI
 
-protocol PostDelegate: ShareActivityDelegate, UITextFieldDelegate { // , AnyObject not needed bc UITextFieldDelegate
+protocol PostDelegate: ShareActivityDelegate, UITextFieldDelegate, MFMessageComposeViewControllerDelegate { // , AnyObject not needed bc UITextFieldDelegate
     // Implemented below
     func handleMoreTap(postId: Int, postAuthor: Int)
     func handleFavorite(postId: Int, isAdding: Bool)
@@ -15,6 +16,12 @@ protocol PostDelegate: ShareActivityDelegate, UITextFieldDelegate { // , AnyObje
     func handleDmTap(postId: Int, authorId: Int, dmButton: UIButton, title: String)
 //    func beginLoadingAuthorProfilePic(postId: Int, author: ReadOnlyUser)
     func emojiKeyboardDidDelete()
+    
+    //Share
+    func handleShareTap(postId: Int, screenshot: UIImage)
+//    func handleiMessageShare(postId: Int, screenshot: UIImage)
+//    func handleInstagramShare(postId: Int, screenshot: UIImage)
+//    func handleMoreShare(postId: Int, screenshot: UIImage)
 
     // Require subclass implementation
     func handleVote(postId: Int, emoji: String, emojiBeforePatch: String?, existingVoteRating: Int?, action: VoteAction)
@@ -38,6 +45,13 @@ extension PostDelegate where Self: UIViewController {
 //            }
 //        }
 //    }
+    
+    //MARK: - Share
+    
+    func handleShareTap(postId: Int, screenshot: UIImage) {
+        view.endEditing(true)
+        shareImage(imageToShare: screenshot, url: Constants.landingPageLink as URL)
+    }
 
     @MainActor func handleDmTap(postId: Int, authorId: Int, dmButton: UIButton, title: String) {
         guard !BlockService.singleton.isBlockedByOrHasBlocked(authorId) else {
@@ -107,7 +121,55 @@ extension PostDelegate where Self: UIViewController {
     func emojiKeyboardDidDelete() {
         view.endEditing(true)
     }
-    
-    
 
 }
+
+extension MFMessageComposeViewControllerDelegate where Self: UIViewController {
+    
+    func openTextDraftWith(image: UIImage) {
+        guard
+            let imageData = image.pngData(),
+            (MFMessageComposeViewController.canSendText())
+        else {
+            CustomSwiftMessages.displayError("something went wrong", "")
+            return
+        }
+        let textComposer = MFMessageComposeViewController()
+        textComposer.body = ""
+//        let imageData = UIImageJPEGRepresentation(imageView.image!, 1.0)
+        textComposer.addAttachmentData(imageData, typeIdentifier: "image/jpg", filename: "photo.jpg")
+        textComposer.recipients = []
+        textComposer.messageComposeDelegate = self
+        self.present(textComposer, animated: true)
+    }
+    
+}
+
+
+
+//    func handleiMessageShare(postId: Int, screenshot: UIImage) {
+//        openTextDraftWith(image: screenshot)
+//    }
+//
+//    func handleInstagramShare(postId: Int, screenshot: UIImage) {
+//         guard let urlScheme = URL(string: "instagram-stories://share"),
+//               let imageData = screenshot.pngData() else {
+//             return
+//         }
+//
+//         guard UIApplication.shared.canOpenURL(urlScheme) else {
+//             print("INSTAGRAM NOT INSTALLED")
+//             return
+//         }
+//
+//         let pasterboardItems = [["com.instagram.sharedSticker.backgroundImage": imageData]]
+//         let pasterboardOptions = [UIPasteboard.OptionsKey.expirationDate: Date().addingTimeInterval(60*5)]
+//
+//         UIPasteboard.general.setItems(pasterboardItems, options: pasterboardOptions)
+//
+//         UIApplication.shared.open(urlScheme, options: [:], completionHandler: nil)
+//    }
+//
+//    func handleMoreShare(postId: Int, screenshot: UIImage) {
+//
+//    }

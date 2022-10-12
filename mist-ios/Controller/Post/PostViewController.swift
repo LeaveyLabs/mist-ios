@@ -8,6 +8,7 @@
 import UIKit
 import Contacts
 import InputBarAccessoryView //dependency of MessageKit. If we remove MessageKit, we should install this package independently
+import MessageUI
 
 let COMMENT_PLACEHOLDER_TEXT = "comment & tag your friends"
 typealias PostCompletionHandler = (() -> Void)
@@ -116,16 +117,16 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         if !DeviceService.shared.hasBeenRequestedContactsOnPost() {
             DeviceService.shared.requestContactsOnPost()
             requestContactsAccess { wasShownPermissionRequest in
-//                DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [self] in
-//                    if shouldStartWithRaisedKeyboard {
-//                        inputBar.inputTextView.becomeFirstResponder()
-//                    }
-//                })
+                DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [self] in
+                    if shouldStartWithRaisedKeyboard {
+                        inputBar.inputTextView.becomeFirstResponder()
+                    }
+                })
             }
         } else {
-//            if shouldStartWithRaisedKeyboard {
-//                inputBar.inputTextView.becomeFirstResponder()
-//            }
+            if shouldStartWithRaisedKeyboard {
+                inputBar.inputTextView.becomeFirstResponder()
+            }
         }
     }
     
@@ -582,6 +583,13 @@ extension PostViewController: CommentDelegate {
 //MARK: - PostDelegate
 
 extension PostViewController: PostDelegate {
+    
+    //MFMessageComposeVC
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        //... handle sms screen actions
+        self.dismiss(animated: true, completion: nil)
+    }
     
     func handleVote(postId: Int, emoji: String, emojiBeforePatch: String? = nil, existingVoteRating: Int?, action: VoteAction) {
         guard

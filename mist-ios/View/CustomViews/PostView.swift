@@ -37,7 +37,6 @@ import MapKit
         return emojiTextField
     }()
     @IBOutlet weak var commentButton: UIButton!
-    @IBOutlet weak var reactionsButton: UIButton!
     @IBOutlet weak var emojiButton1: EmojiButton!
     @IBOutlet weak var emojiButton2: EmojiButton!
     @IBOutlet weak var emojiButton3: EmojiButton!
@@ -196,6 +195,39 @@ extension PostView {
     
     @IBAction func commentButtonDidPressed(_ sender: UIButton) {
         postDelegate.handleCommentButtonTap(postId: postId)
+    }
+    
+    func getScreenshot(view: UIView) -> UIImage? {
+        //creates new image context with same size as view
+        // UIGraphicsBeginImageContextWithOptions (scale=0.0) for high res capture
+        UIGraphicsBeginImageContextWithOptions(view.frame.size, true, 0.0)
+
+        // renders the view's layer into the current graphics context
+        if let context = UIGraphicsGetCurrentContext() { view.layer.render(in: context) }
+
+        // creates UIImage from what was drawn into graphics context
+        let screenshot: UIImage? = UIGraphicsGetImageFromCurrentImageContext()
+
+        // clean up newly created context and return screenshot
+        UIGraphicsEndImageContext()
+        return screenshot
+    }
+    
+    func generateMistScreenshot() -> UIImage? {
+        let screenshotView = MistScreenshotVIew(frame: CGRect(x: 0, y: 0, width: self.bounds.width + 50, height: self.bounds.height + 125))
+        guard let cachedPost = PostService.singleton.getPost(withPostId: postId) else { return nil }
+        screenshotView.configure(post: cachedPost, postDelegate: postDelegate)
+        
+        self.addSubview(screenshotView)
+        let screenshot = getScreenshot(view: screenshotView)
+        screenshotView.removeFromSuperview()
+        
+        return screenshot
+    }
+    
+    @IBAction func shareButtonDidPressed(_ sender: UIButton) {
+        guard let screenshot = generateMistScreenshot() else { return }
+        postDelegate.handleShareTap(postId: postId, screenshot: screenshot)
     }
     
     @IBAction func dmButtonDidPressed(_ sender: UIButton) {

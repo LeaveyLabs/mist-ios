@@ -7,7 +7,7 @@
 
 import Foundation
 import MapKit
-
+import MessageUI
 
 protocol ExploreChildDelegate {
     func renderNewPostsOnFeed(withType reloadType: ReloadType)
@@ -83,6 +83,13 @@ extension ExploreParentViewController: ExploreChildDelegate {
 //MARK: - Post Delegate
 
 extension ExploreParentViewController: PostDelegate {
+    
+    //MFMessageComposeVC
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        //... handle sms screen actions
+        self.dismiss(animated: true, completion: nil)
+    }
     
     func handleFavorite(postId: Int, isAdding: Bool) { // Singleton & remote update
         do {

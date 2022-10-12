@@ -31,7 +31,8 @@ struct Constants {
     }
     
     static let downloadLink = NSURL(string: "https://apps.apple.com/app/mist/id1631426995")!
-    
+    static let landingPageLink = NSURL(string: "https://getmist.app")!
+
     static let defaultProfilePic = ReadOnlyUser.RandomSilhouette()
         
     static let maxPasswordLength = 1000
@@ -74,6 +75,7 @@ struct Constants {
             static let Post = "PostViewController"
             static let SortBy = "SortByViewController"
             static let PostMore = "PostMoreViewController"
+            static let PostShare = "PostShareViewController"
             static let CommentMore = "CommentMoreViewController"
             //NewPost
             static let NewPost = "NewPostViewController"
