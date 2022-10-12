@@ -18,9 +18,8 @@ import MapKit
     @IBOutlet weak var backgroundBubbleView: UIView!
     // Note: When rendered as a callout of PostAnnotationView, in order to prevent touches from being detected on the map, there is a background button which sits at the very back of backgroundBubbleView, with an IBAction hooked up to it. Each view on top of it must either have user interaction disabled so the touches pass back to the button, or they should be a button themselves. Stack views with spacing >0 whose user interaction is enabled will also create undesired behavior where a tap will dismiss the post
     
-    @IBOutlet weak var locationLabel: UILabel!
-    @IBOutlet weak var timestampLabel: UILabel!
-    @IBOutlet weak var locationTimestampDivider: UIView!
+    @IBOutlet weak var timestampButton: UIButton!
+    @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var postTitleLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
     
@@ -73,6 +72,16 @@ import MapKit
     }
     
     private func customInit() {
+        viewInit()
+        
+        locationButton.applyLightShadow()
+        locationButton.layer.cornerRadius = 5
+        locationButton.layer.cornerCurve = .circular
+        
+        moreButton.transform = CGAffineTransform(rotationAngle: degreesToRadians(degrees: 90))
+    }
+    
+    func viewInit() {
         guard let contentView = loadViewFromNib(nibName: "PostView") else { return }
         contentView.frame = self.bounds
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -95,30 +104,21 @@ extension PostView {
         if postDelegate.isKind(of: PostViewController.self) {
             messageLabel.numberOfLines = 0
         }
-        timestampLabel.text = getFormattedTimeStringForPost(timestamp: post.timestamp).lowercased()
+
+        timestampButton.setTitle(getFormattedTimeStringForPost(timestamp: post.timestamp).lowercased(), for: .normal)
+        locationButton.isHidden = post.location_description == nil
+        locationButton.setTitle(post.location_description?.lowercased(), for: .normal)
         
-        if let locationDescription = post.location_description {
-            locationLabel.text = locationDescription.lowercased()
-            locationTimestampDivider.isHidden = false
-        } else {
-            locationLabel.text = ""
-            locationTimestampDivider.isHidden = true
-        }
         postTitleLabel.text = post.title
         commentButton.setTitle(post.commentcount >= 1 ? String(updatedCommentCount ?? post.commentcount) : "comment", for: .normal)
-        if post.author == UserService.singleton.getId() {
-            dmButton.setTitleColor(.lightGray.withAlphaComponent(0.5), for: .normal)
-            dmButton.imageView?.tintColor = .lightGray.withAlphaComponent(0.5)
-        } else {
-            dmButton.setTitleColor(.darkGray, for: .normal)
-            dmButton.imageView?.tintColor = .darkGray
-            dmButton.loadingIndicator(false) // just to be sure
-        }
+        
+        dmButton.isEnabled = post.author != UserService.singleton.getId()
+        dmButton.setTitleColor(.darkGray, for: .normal)
+        dmButton.setTitleColor(.lightGray.withAlphaComponent(0.5), for: .disabled)
+        dmButton.imageView?.tintColor = dmButton.isEnabled ? .darkGray :  .lightGray.withAlphaComponent(0.5)
         
         backgroundBubbleView.transformIntoPostBubble(arrowPosition: arrowPosition ?? (post.author == UserService.singleton.getId() ? .right : .left))
-        
-        moreButton.transform = CGAffineTransform(rotationAngle: degreesToRadians(degrees: 90))
-        
+                
         //Whenever the user votes, we update the local copy of the post's emoji_dict
         //Whenever we display votes, we must sort through the dict to find the top three votes
         //This is especially important for superusers, because they could cast or remove a vote that was not originally in the topThreeVotes, and we want to be sure that the display of all emojis accurately reflects that
@@ -214,9 +214,9 @@ extension PostView {
     }
     
     func generateMistScreenshot() -> UIImage? {
-        let screenshotView = MistScreenshotVIew(frame: CGRect(x: 0, y: 0, width: self.bounds.width + 50, height: self.bounds.height + 125))
+        let screenshotView = MistScreenshotVIew(frame: CGRect(x: 0, y: 0, width: self.bounds.width + 40, height: self.bounds.height + 110)) //40 and 110 are the additional height and width from MistScreenshotView
         guard let cachedPost = PostService.singleton.getPost(withPostId: postId) else { return nil }
-        screenshotView.configure(post: cachedPost, postDelegate: postDelegate)
+        screenshotView.configure(post: cachedPost, postDelegate: postDelegate, postHeight: self.bounds.height)
         
         self.addSubview(screenshotView)
         let screenshot = getScreenshot(view: screenshotView)
@@ -225,17 +225,18 @@ extension PostView {
         return screenshot
     }
     
+    @IBAction func locationButtonDidPressed(_ sender: UIButton) {
+        endEditing(true)
+        postDelegate.handleLocationTap(postId: postId)
+    }
+    
     @IBAction func shareButtonDidPressed(_ sender: UIButton) {
         guard let screenshot = generateMistScreenshot() else { return }
         postDelegate.handleShareTap(postId: postId, screenshot: screenshot)
     }
     
     @IBAction func dmButtonDidPressed(_ sender: UIButton) {
-        if authorId == UserService.singleton.getId() {
-            //do nothing
-        } else {
-            postDelegate.handleDmTap(postId: postId, authorId: authorId, dmButton: dmButton, title: postTitleLabel.text!)
-        }
+        postDelegate.handleDmTap(postId: postId, authorId: authorId, dmButton: dmButton, title: postTitleLabel.text!)
     }
     
     @IBAction func moreButtonDidPressed(_ sender: UIButton) {

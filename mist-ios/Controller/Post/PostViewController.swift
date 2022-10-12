@@ -591,6 +591,10 @@ extension PostViewController: PostDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
+    func handleLocationTap(postId: Int) {
+        
+    }
+    
     func handleVote(postId: Int, emoji: String, emojiBeforePatch: String? = nil, existingVoteRating: Int?, action: VoteAction) {
         guard
             let emojiDict = PostService.singleton.getPost(withPostId: postId)?.emoji_dict

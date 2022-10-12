@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -22,38 +22,38 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" restorationIdentifier="MistScreenshotView" id="RJy-Fw-4rI">
-            <rect key="frame" x="0.0" y="0.0" width="390" height="397"/>
+            <rect key="frame" x="0.0" y="0.0" width="390" height="331"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xhx-rB-WNV" userLabel="BgView">
-                    <rect key="frame" x="0.0" y="0.0" width="390" height="397"/>
+                    <rect key="frame" x="0.0" y="0.0" width="390" height="331"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4mn-qh-51g" customClass="PostView" customModule="mist_ios" customModuleProvider="target">
-                            <rect key="frame" x="20" y="20" width="350" height="284"/>
+                            <rect key="frame" x="20" y="20" width="350" height="221"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="postpin" translatesAutoresizingMaskIntoConstraints="NO" id="i5i-iN-HnL">
-                            <rect key="frame" x="169.5" y="328" width="51" height="55"/>
+                            <rect key="frame" x="169.5" y="266" width="51" height="50"/>
                             <constraints>
-                                <constraint firstAttribute="width" secondItem="i5i-iN-HnL" secondAttribute="height" multiplier="51:55" id="FjS-TH-zWS"/>
+                                <constraint firstAttribute="height" constant="50" id="1yI-Zi-vaL"/>
                                 <constraint firstAttribute="width" constant="51" id="l7o-L6-OPX"/>
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🐿" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VOR-60-Q6e">
-                            <rect key="frame" x="169.5" y="325.5" width="51" height="55"/>
+                            <rect key="frame" x="169.5" y="263.5" width="51" height="50"/>
                             <fontDescription key="fontDescription" type="system" pointSize="25"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mistwidewhite" translatesAutoresizingMaskIntoConstraints="NO" id="kcY-aB-tVG">
-                            <rect key="frame" x="10" y="354.5" width="90" height="37.5"/>
+                            <rect key="frame" x="15" y="285.5" width="90" height="37.5"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="90" id="HgM-Jo-b0Q"/>
                                 <constraint firstAttribute="width" secondItem="kcY-aB-tVG" secondAttribute="height" multiplier="77:32" id="Tf7-kN-VoP"/>
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="getmist.app" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5m3-hw-6jH">
-                            <rect key="frame" x="270.5" y="359.5" width="109.5" height="27.5"/>
+                            <rect key="frame" x="265.5" y="293.5" width="109.5" height="27.5"/>
                             <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
                             <color key="textColor" name="off-white"/>
                             <nil key="highlightedColor"/>
@@ -65,13 +65,13 @@
                         <constraint firstItem="4mn-qh-51g" firstAttribute="top" secondItem="xhx-rB-WNV" secondAttribute="top" constant="20" id="7Tq-2c-l1y"/>
                         <constraint firstAttribute="trailing" secondItem="4mn-qh-51g" secondAttribute="trailing" constant="20" id="Ad0-XR-nGC"/>
                         <constraint firstItem="VOR-60-Q6e" firstAttribute="centerY" secondItem="i5i-iN-HnL" secondAttribute="centerY" constant="-2.5" id="CZI-jD-fmv"/>
-                        <constraint firstAttribute="trailing" secondItem="5m3-hw-6jH" secondAttribute="trailing" constant="10" id="HZr-Ps-ePd"/>
-                        <constraint firstItem="kcY-aB-tVG" firstAttribute="leading" secondItem="xhx-rB-WNV" secondAttribute="leading" constant="10" id="Qmc-lf-fvp"/>
+                        <constraint firstAttribute="trailing" secondItem="5m3-hw-6jH" secondAttribute="trailing" constant="15" id="HZr-Ps-ePd"/>
+                        <constraint firstItem="kcY-aB-tVG" firstAttribute="leading" secondItem="xhx-rB-WNV" secondAttribute="leading" constant="15" id="Qmc-lf-fvp"/>
                         <constraint firstItem="VOR-60-Q6e" firstAttribute="height" secondItem="i5i-iN-HnL" secondAttribute="height" id="UgR-Pf-glm"/>
-                        <constraint firstAttribute="bottom" secondItem="i5i-iN-HnL" secondAttribute="bottom" constant="14" id="VwD-RE-AGj"/>
+                        <constraint firstAttribute="bottom" secondItem="i5i-iN-HnL" secondAttribute="bottom" constant="15" id="VwD-RE-AGj"/>
                         <constraint firstItem="VOR-60-Q6e" firstAttribute="width" secondItem="i5i-iN-HnL" secondAttribute="width" id="b9o-Ra-5dc"/>
-                        <constraint firstItem="i5i-iN-HnL" firstAttribute="top" secondItem="4mn-qh-51g" secondAttribute="bottom" constant="24" id="fXK-g1-1UP"/>
-                        <constraint firstAttribute="bottom" secondItem="kcY-aB-tVG" secondAttribute="bottom" constant="5" id="kuh-vA-4e8"/>
+                        <constraint firstItem="i5i-iN-HnL" firstAttribute="top" secondItem="4mn-qh-51g" secondAttribute="bottom" constant="25" id="fXK-g1-1UP"/>
+                        <constraint firstAttribute="bottom" secondItem="kcY-aB-tVG" secondAttribute="bottom" constant="8" id="kuh-vA-4e8"/>
                         <constraint firstItem="4mn-qh-51g" firstAttribute="leading" secondItem="xhx-rB-WNV" secondAttribute="leading" constant="20" id="qGH-Y4-EvI"/>
                         <constraint firstItem="i5i-iN-HnL" firstAttribute="centerX" secondItem="xhx-rB-WNV" secondAttribute="centerX" id="uiI-cS-ih2"/>
                         <constraint firstAttribute="bottom" secondItem="5m3-hw-6jH" secondAttribute="bottom" constant="10" id="ydk-yP-wRS"/>
@@ -88,7 +88,7 @@
                 <constraint firstAttribute="bottom" secondItem="xhx-rB-WNV" secondAttribute="bottom" id="T3J-jx-7RN"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="65.217391304347828" y="26.450892857142858"/>
+            <point key="canvasLocation" x="65.217391304347828" y="4.3526785714285712"/>
         </view>
     </objects>
     <resources>

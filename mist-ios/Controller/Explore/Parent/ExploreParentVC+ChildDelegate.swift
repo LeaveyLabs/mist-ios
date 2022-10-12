@@ -91,6 +91,10 @@ extension ExploreParentViewController: PostDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
+    func handleLocationTap(postId: Int) {
+        
+    }
+    
     func handleFavorite(postId: Int, isAdding: Bool) { // Singleton & remote update
         do {
             try FavoriteService.singleton.handleFavoriteUpdate(postId: postId, isAdding)

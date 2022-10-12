@@ -9,8 +9,10 @@ import Foundation
 
 extension UIViewController {
     
-    func shareImage(imageToShare: UIImage, url: URL, completion: @escaping () -> Void? = {() -> Void in } ) {
-        let activityViewController = UIActivityViewController(activityItems: [imageToShare, url], applicationActivities: nil)
+    func shareImage(imageToShare: UIImage,
+                    url: URL,
+                    completion: @escaping () -> Void? = {() -> Void in } ) {
+        let activityViewController = UIActivityViewController(activityItems: [imageToShare], applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
         
         // present the view controller

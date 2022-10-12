@@ -29,6 +29,7 @@ protocol PostDelegate: ShareActivityDelegate, UITextFieldDelegate, MFMessageComp
     func handleBackgroundTap(postId: Int)
     func handleDeletePost(postId: Int)    
     func handleReactTap(postId: Int)
+    func handleLocationTap(postId: Int)
 }
 
 // Defining functions which are consistent across all PostDelegates
@@ -128,7 +129,8 @@ extension MFMessageComposeViewControllerDelegate where Self: UIViewController {
     
     func openTextDraftWith(image: UIImage) {
         guard
-            let imageData = image.pngData(),
+//            let imageData = image.pngData(),
+            let imageData = image.jpegData(compressionQuality: 1.0),
             (MFMessageComposeViewController.canSendText())
         else {
             CustomSwiftMessages.displayError("something went wrong", "")
@@ -136,7 +138,7 @@ extension MFMessageComposeViewControllerDelegate where Self: UIViewController {
         }
         let textComposer = MFMessageComposeViewController()
         textComposer.body = ""
-//        let imageData = UIImageJPEGRepresentation(imageView.image!, 1.0)
+        
         textComposer.addAttachmentData(imageData, typeIdentifier: "image/jpg", filename: "photo.jpg")
         textComposer.recipients = []
         textComposer.messageComposeDelegate = self

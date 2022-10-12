@@ -47,10 +47,12 @@ extension MistScreenshotVIew {
     
     // Note: the constraints for the PostView should already be set-up when this is called.
     // Otherwise you'll get loads of constraint errors in the console
-    func configure(post: Post, postDelegate: PostDelegate) {
+    func configure(post: Post, postDelegate: PostDelegate, postHeight: Double) {
         postView.configurePost(post: post, delegate: postDelegate, arrowPosition: .bottom)
         emojiLabel.text = post.topEmoji
         postView.backgroundColor = Constants.Color.mistLilac //TODO: we can't use gradient for now, because for some reason, even though the background color is clear, there's some color behind the postView
+        postView.dmButton.isEnabled = true //make sure it's not dimmed out
+        postView.dmButton.imageView?.tintColor = .darkGray
     }
 
 }
