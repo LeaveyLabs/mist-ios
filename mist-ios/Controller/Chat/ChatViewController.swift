@@ -362,7 +362,7 @@ class ChatViewController: MessagesViewController {
         if isAuthedUserProfileHidden {
             //do nothing for now
         } else {
-            let profileVC = ProfileViewController.create(for: UserService.singleton.getUserAsFrontendReadOnlyUser())
+            let profileVC = ProfileViewController.create(for: UserService.singleton.getUserAsFrontendReadOnlyUser(), isAvatar: false)
             navigationController!.present(profileVC, animated: true)
         }
     }
@@ -375,7 +375,7 @@ class ChatViewController: MessagesViewController {
         if isSangdaebangProfileHidden {
             //somehow tell the user //hey! they're hidden right now!
         } else {
-            let profileVC = ProfileViewController.create(for: conversation.sangdaebang)
+            let profileVC = ProfileViewController.create(for: conversation.sangdaebang, isAvatar: false)
             navigationController!.present(profileVC, animated: true)
         }
     }

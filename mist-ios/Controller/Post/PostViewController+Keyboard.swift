@@ -40,12 +40,12 @@ extension PostViewController {
         keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
         
         keyboardManager.on(event: .didHide) { [weak self] keyboardNotification in
-            self?.setAutocompleteManager(active: false)
+//            self?.setAutocompleteManager(active: false)
         }
         
         keyboardManager.on(event: .didShow) { [self] keyboardNotification in
             keyboardHeight = keyboardNotification.endFrame.height
-            updateMaxAutocompleteRows(keyboardHeight: keyboardHeight)
+//            updateMaxAutocompleteRows(keyboardHeight: keyboardHeight)
         }
         
         //Emoji keyboard autodismiss notification

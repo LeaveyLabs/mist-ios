@@ -270,7 +270,7 @@ extension ClusterAnnotationView: AnnotationViewWithPosts {
         UIView.animate(withDuration: 0.25) { [self] in
             guard let index = currentlyVisiblePostIndex else { return }
             let currentlyVisiblePostView = collectionView?.cellForItem(at: IndexPath(item: index, section: 0)) as! ClusterCarouselCell
-            currentlyVisiblePostView.bottomConstraint.constant = -80
+            currentlyVisiblePostView.bottomConstraint.constant = -100
             layoutIfNeeded()
 //                constraints.first { $0.firstAnchor == collectionView?.bottomAnchor }?.constant = -152
 //                layoutIfNeeded()

@@ -32,12 +32,16 @@ struct Constants {
     
     static let downloadLink = NSURL(string: "https://apps.apple.com/app/mist/id1631426995")!
     static let landingPageLink = NSURL(string: "https://getmist.app")!
+    static let merchLink = NSURL(string: "https://mist.fit")!
+    static let instagramLink = NSURL(string: "https://www.instagram.com/mist_usc/")!
+    static let instagramHandle = "@misc_usc"
+    static let merchLinkName = "www.mist.fit"
 
     static let defaultProfilePic = ReadOnlyUser.RandomSilhouette()
         
     static let maxPasswordLength = 1000
     
-    static let searchPlaceholder = "search a place or address"
+    static let searchPlaceholder = "search for mists"
     
     struct Coordinates {
         static let USC = CLLocationCoordinate2D(latitude: 34.0209 + 0.0019, longitude: -118.2861)
@@ -88,6 +92,8 @@ struct Constants {
             static let PhotoDetail = "PhotoDetailViewController"
             static let Feed = "FeedTableViewController"
             static let MyProfile = "MyProfileViewController"
+            static let MyAccount = "MyAccountViewController"
+            static let MyActivity = "MyActivityViewController"
             //Settings
             static let Settings = "SettingsViewController"
             static let PasswordSetting = "PasswordSettingViewController"
@@ -106,7 +112,7 @@ struct Constants {
             static let ChatMore = "ChatMoreViewController"
             //Navigation Controllers
             static let NewPostNavigation = "NewPostNavigationController"
-            static let MyAccountNavigation = "MyAccountNavigationController"
+            static let MyActivityNavigation = "MyActivityNavigationController"
             static let AuthNavigation = "AuthNavigationController"
             //TabBar
             static let TabBarController = "TabBarController"

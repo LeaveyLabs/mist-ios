@@ -8,15 +8,15 @@
 import Foundation
 
 enum MapSearchResultType: Int, CaseIterable {
-    case nearby // 0
     case containing // 0 disabling this for now by setting searchSuggestionsVC to only allow display the first type of MapSearchResultTYpe
+    case nearby // 0
     
     var sectionName : String {
         switch self {
         case .containing:
-            return "" //"mists containing:"
+            return "containing"
         case .nearby:
-            return "suggested places:"
+            return "nearby"
         }
     }
     

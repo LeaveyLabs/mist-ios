@@ -107,12 +107,6 @@ class PostMoreViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    @IBAction func shareButton(_ sender: UIButton) {
-        dismiss(animated: true) { [self] in
-            postDelegate.presentShareActivityVC()
-        }
-    }
-    
     @IBAction func favoriteButtonDidpressed(_ sender: UIButton) {
         // UI Updates
         favoriteButton.isEnabled = false

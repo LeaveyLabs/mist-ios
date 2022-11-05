@@ -11,12 +11,10 @@ extension UIViewController {
     
     @objc func handleProfileButtonTap() {
         guard
-            let myAccountNavigation = storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation) as? UINavigationController,
-            let myAccountVC = myAccountNavigation.topViewController as? MyAccountViewController
+            let myActivityNav = storyboard?.instantiateViewController(withIdentifier: Constants.SBID.VC.MyActivityNavigation) as? UINavigationController
         else { return }
-        myAccountNavigation.modalPresentationStyle = .fullScreen
-        myAccountVC.rerenderProfileCallback = { } //no longer needed, since we update the accountButton on moveToSuperview
-        self.navigationController?.present(myAccountNavigation, animated: true, completion: nil)
+        myActivityNav.modalPresentationStyle = .fullScreen
+        self.navigationController?.present(myActivityNav, animated: true, completion: nil)
     }
     
 }
@@ -24,7 +22,7 @@ extension UIViewController {
 class CustomNavBar: UIView {
 
     enum CustomNavBarItem: CaseIterable {
-        case title, profile, search, filter, mapFeedToggle, back, close, favorite, save
+        case title, profile, search, filter, mapFeedToggle, back, close, favorite, save, searchQuery
 
         var image: UIImage {
             switch self {
@@ -46,28 +44,16 @@ class CustomNavBar: UIView {
                 return UIImage(systemName: "bookmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .default))!
             case .save:
                 return UIImage()
+            case .searchQuery:
+                return UIImage(systemName: "magnifyingglass")!.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular, scale: .default))
             }
         }
         
         var selectedImage: UIImage {
             switch self {
-            case .title:
-                return UIImage()
-            case .profile:
-                return UIImage()
-            case .search:
-                return UIImage()
-            case .filter:
-                return UIImage()
-            case .mapFeedToggle:
-                return UIImage()
-            case .back:
-                return UIImage()
-            case .close:
-                return UIImage()
             case .favorite:
                 return UIImage(systemName: "bookmark.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .default))!
-            case .save:
+            default:
                 return UIImage()
             }
         }
@@ -82,6 +68,7 @@ class CustomNavBar: UIView {
     lazy var accountBadgeHub = BadgeHub(view: accountButton) // Initially count set to 0
 
     var searchButton = CustomNavBar.navBarButton(for: .search)
+    var searchQueryButton = CustomNavBar.navBarButton(for: .searchQuery)
     var titleLabel = UILabel()
     var filterButton = CustomNavBar.navBarButton(for: .filter)
     var mapFeedToggleButton = CustomNavBar.navBarButton(for: .mapFeedToggle)
@@ -149,6 +136,14 @@ class CustomNavBar: UIView {
             button.setTitleColor(.lightGray, for: .disabled)
             button.titleLabel?.font = UIFont(name: Constants.Font.Roman, size: 18)!
         }
+        if item == .searchQuery {
+            button.setTitleColor(Constants.Color.mistBlack, for: .normal)
+            button.titleLabel?.font = UIFont(name: Constants.Font.Medium, size: 25)!
+            button.titleLabel?.lineBreakMode = .byTruncatingTail
+            button.imageEdgeInsets = .init(top: 0, left: -6, bottom: 0, right: 0)
+            button.contentEdgeInsets = .init(top: 0, left: 2.5, bottom: 0, right: 0)
+            button.contentHorizontalAlignment = .left
+        }
         button.tintColor = Constants.Color.mistBlack
         
         let buttonWidth: CGFloat
@@ -165,6 +160,8 @@ class CustomNavBar: UIView {
             buttonWidth = 25
         case .save:
             buttonWidth = 50
+        case .searchQuery:
+            buttonWidth = 300
         }
         button.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: item == .favorite ? 25 : buttonWidth)
         button.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
@@ -188,11 +185,13 @@ extension CustomNavBar {
     
     // Note: the constraints for the PostView should already be set-up when this is called.
     // Otherwise you'll get loads of constraint errors in the console
-    func configure(title: String, leftItems: [CustomNavBarItem], rightItems: [CustomNavBarItem], height: CGFloat = 55.0) {
+    func configure(title: String, leftItems: [CustomNavBarItem], rightItems: [CustomNavBarItem], height: CGFloat = 55.0, animated: Bool = false) {
         guard let superview = superview else {
             print("custom nav bar must be added to superview before being configured")
             return
         }
+        
+        stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         setupConstraints(with: superview, height: height)
         
         leftItems.forEach { item in
@@ -201,6 +200,21 @@ extension CustomNavBar {
         stackView.addArrangedSubview(UIView())
         rightItems.forEach { item in
             configureItem(item, withTitle: title)
+        }
+        
+        if animated {
+            guard let snapshotOfNavBar = self.snapshotView(afterScreenUpdates: false) else {
+                return
+            }
+            stackView.alpha = 0
+            self.addSubview(snapshotOfNavBar)
+            snapshotOfNavBar.frame = self.bounds
+            UIView.animate(withDuration: 0.3) {
+                self.stackView.alpha = 1
+                snapshotOfNavBar.alpha = 0
+            } completion: { completed in
+                snapshotOfNavBar.removeFromSuperview()
+            }
         }
     }
     
@@ -225,6 +239,8 @@ extension CustomNavBar {
             stackView.addArrangedSubview(favoriteButton)
         case .save:
             stackView.addArrangedSubview(saveButton)
+        case .searchQuery:
+            stackView.addArrangedSubview(searchQueryButton)
         }
     }
     

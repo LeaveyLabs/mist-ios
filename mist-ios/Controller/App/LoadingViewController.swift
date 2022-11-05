@@ -14,7 +14,6 @@ func loadEverything() async throws {
         group.addTask { try await ConversationService.singleton.loadInitialMessageThreads() }
         group.addTask { try await FriendRequestService.singleton.loadFriendRequests() }
         group.addTask { try await UserService.singleton.reloadTodaysPrompts() }
-//        group.addTask { try await MistboxManager.shared.fetchSyncedMistbox() }
         group.addTask { try await CommentService.singleton.fetchTaggedTags() }
         group.addTask { try await UsersService.singleton.loadTotalUserCount() }
         group.addTask { await UsersService.singleton.loadUsersAssociatedWithContacts() }
@@ -23,9 +22,9 @@ func loadEverything() async throws {
 }
 
 func loadPostStuff() async throws {
-    PostService.singleton.updateFilter(newPostSort: DeviceService.shared.getDefaultSort()) //a second check, just to be sure
     try await withThrowingTaskGroup(of: Void.self) { group in
-        group.addTask { try await PostService.singleton.loadExploreFeedPostsIfPossible() }
+        group.addTask { try await PostService.singleton.loadExploreFeedPostsIfPossible(feed: .TRENDING) }
+        group.addTask { try await PostService.singleton.loadExploreFeedPostsIfPossible(feed: .RECENT) }
         group.addTask { try await PostService.singleton.loadAndOverwriteExploreMapPosts() }
         group.addTask { try await PostService.singleton.loadSubmissions() }
         group.addTask { try await PostService.singleton.loadMentions() }
@@ -195,15 +194,13 @@ class LoadingViewController: UIViewController {
                 return
             }
             guard
-                let myAccountNavigation = mainSB.instantiateViewController(withIdentifier: Constants.SBID.VC.MyAccountNavigation) as? UINavigationController,
-                let customExplore = CustomExploreParentViewController.create(setting: .mentions)
+                let myActivityNavigation = mainSB.instantiateViewController(withIdentifier: Constants.SBID.VC.MyActivityNavigation) as? UINavigationController
             else { return }
             tabbarVC.selectedIndex = Tabs.explore.rawValue
-            myAccountNavigation.modalPresentationStyle = .fullScreen
-            tabbarVC.present(myAccountNavigation, animated: false)
-            myAccountNavigation.pushViewController(customExplore, animated: false)
+            myActivityNavigation.modalPresentationStyle = .fullScreen
+            tabbarVC.present(myActivityNavigation, animated: false)
             let newMentionsPostVC = PostViewController.createPostVC(with: taggedPost, shouldStartWithRaisedKeyboard: false, completionHandler: nil)
-            myAccountNavigation.pushViewController(newMentionsPostVC, animated: false)
+            myActivityNavigation.pushViewController(newMentionsPostVC, animated: false)
         case .message:
             guard let message = handler.newMessage,
                   let convo = ConversationService.singleton.getConversationWith(userId: message.sender) else {

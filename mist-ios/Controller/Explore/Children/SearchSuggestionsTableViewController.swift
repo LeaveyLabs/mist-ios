@@ -8,22 +8,28 @@
 import UIKit
 import MapKit
 
+struct SearchResults {
+    var wordResults: [Word]
+    var completerResults: [MKLocalSearchCompletion]
+}
+
 class SearchSuggestionsTableViewController: UITableViewController {
     
     //MARK: - Properties
     
     //Search
     private var searchText = ""
-    private var didOneSearchAlreadyFinish: Bool = false //a flag to determine when both async searches have finished
     
-    //Text Search
-    var wordResults = [Word]()
+    var searchResults = SearchResults(wordResults: [], completerResults: [])
+    var searchResultsCache = [String: SearchResults]()
+    var searchResultsTasks = [String: Task<Void, Never>]()
     
     //Map Search
     private var searchCompleter = MKLocalSearchCompleter()
-    var completerResults = [MKLocalSearchCompletion]()
     
     var isFragmentSearchEnabled = false
+    
+    var activityIndicator = UIActivityIndicatorView(style: .medium)
     
     
     //MARK: - Life Cycle
@@ -31,6 +37,10 @@ class SearchSuggestionsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCells()
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        activityIndicator.isHidden = true
+        activityIndicator.frame = .init(x: tableView.frame.width - 30, y: -10, width: 20, height: 20)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -61,7 +71,7 @@ extension SearchSuggestionsTableViewController {
 extension SearchSuggestionsTableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1 //2
+        return 2
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -82,9 +92,9 @@ extension SearchSuggestionsTableViewController {
         if searchText.isEmpty { return 0 }
         switch resultType {
         case .containing:
-            return max(wordResults.count, 1) //return 1 "no results" cell
+            return max(searchResults.wordResults.count, 1) //return 1 "no results" cell
         case .nearby:
-            return max(completerResults.count + (isFragmentSearchEnabled ? 1 : 0), 1)
+            return max(searchResults.completerResults.count + (isFragmentSearchEnabled ? 1 : 0), 1)
         }
     }
     
@@ -93,8 +103,8 @@ extension SearchSuggestionsTableViewController {
         switch resultType {
         case .containing:
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.SearchResult, for: indexPath) as! SearchResultCell
-            if !wordResults.isEmpty {
-                cell.configureWordCell(word: wordResults[indexPath.row])
+            if !searchResults.wordResults.isEmpty {
+                cell.configureWordCell(word: searchResults.wordResults[indexPath.row])
             } else {
                 cell.configureNoWordResultsCell()
             }
@@ -104,14 +114,14 @@ extension SearchSuggestionsTableViewController {
         case .nearby:
             let cell = tableView.dequeueReusableCell(withIdentifier: SuggestedCompletionTableViewCell.reuseID, for: indexPath)
             cell.imageView?.image = UIImage(systemName: "mappin.circle")
-            if !completerResults.isEmpty {
+            if !searchResults.completerResults.isEmpty {
                 if isFragmentSearchEnabled && indexPath.row == 0 {
                     cell.textLabel?.text = searchText // + "\""
                     cell.detailTextLabel?.text = "nearby search"
                     cell.accessoryType = .disclosureIndicator
                     cell.isUserInteractionEnabled = true
                 } else {
-                    let suggestion = completerResults[isFragmentSearchEnabled ? indexPath.row-1 : indexPath.row]
+                    let suggestion = searchResults.completerResults[isFragmentSearchEnabled ? indexPath.row-1 : indexPath.row]
                     cell.textLabel?.text = suggestion.title.lowercased()
                     cell.detailTextLabel?.text = suggestion.subtitle.lowercased()
                     cell.accessoryType = .disclosureIndicator
@@ -137,11 +147,13 @@ extension SearchSuggestionsTableViewController: MKLocalSearchCompleterDelegate {
     
     /// - Tag: QueryResults
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        completerResults = completer.results
-        completerResults.forEach({ completion in
-            //make a call to our personal data base for an icon & number of posts nearby
-        })
-        handleFinishedSearch()
+        if searchResultsCache.keys.contains(completer.queryFragment) {
+            searchResultsCache[completer.queryFragment]?.completerResults = completer.results
+            handleFinishedSearch(forQuery: completer.queryFragment)
+        } else {
+            searchResultsCache[completer.queryFragment] = SearchResults(wordResults: [], completerResults: completer.results)
+            //wait for word search to finish
+        }
     }
     
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
@@ -157,18 +169,39 @@ extension SearchSuggestionsTableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let untrimmedSearchText = searchController.searchBar.text else { return }
         searchText = untrimmedSearchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        //Check if search was cancelled
         guard !searchText.isEmpty else {
             //Remove all results immediately when the user deletes all the searchText
             searchCompleter.queryFragment = "" //reset searchQuery. important in case the user types in "b", deletes "b", then types in "b" again
-            completerResults = []
-            wordResults = []
+            searchResults = .init(wordResults: [], completerResults: [])
+            activityIndicator.isHidden = true
             tableView.reloadData()
             return
         }
         
-        didOneSearchAlreadyFinish = false
+        //Check if the search was already cached
+        if let cachedSearch = searchResultsCache[searchText] {
+            DispatchQueue.main.async { [weak self] in
+                self?.searchResults = cachedSearch
+                self?.tableView.reloadData()
+                self?.tableView.flashScrollIndicators()
+                self?.activityIndicator.isHidden = true
+            }
+            return
+        }
+        
+        //Check if search is in progress
+        if let inProgressTask = searchResultsTasks[searchText],
+            !inProgressTask.isCancelled {
+            //the autocompletion is currently loading: wait for it to finish
+            activityIndicator.isHidden = false
+            return
+        }
+        
         startNearbySearch(with: searchText)
-//        startWordSearch(with: searchText)
+        startWordSearch(with: searchText)
+        activityIndicator.isHidden = false
     }
 }
 
@@ -181,40 +214,52 @@ extension SearchSuggestionsTableViewController {
     }
     
     func startWordSearch(with searchText: String) {
-        Task {
+        searchResultsTasks[searchText] = Task {
             do {
                 let searchWords = searchText.components(separatedBy: .whitespaces)
                 guard let lastWord = searchWords.last else { return }
                 let wrapperWords = Array(searchWords.prefix(searchWords.count - 1))
-                let allResults = try await WordAPI.fetchWords(search_word: lastWord,
+                let loadedWords = try await WordAPI.fetchWords(search_word: lastWord,
                                                               wrapper_words: wrapperWords)
-                sortAndTrimNewWordResults(allResults)
-                handleFinishedSearch()
+                let trimmedResults = sortAndTrimNewWordResults(loadedWords)
+                
+                if searchResultsCache.keys.contains(searchText) {
+                    searchResultsCache[searchText]?.wordResults = trimmedResults
+                    handleFinishedSearch(forQuery: searchText)
+                } else {
+                    searchResultsCache[searchText] = SearchResults(wordResults: trimmedResults,
+                                                                   completerResults: [])
+                    //wait for location search to finish
+                }
             } catch {
-//                if (error as! APIError).rawValue == APIError.Throttled.rawValue {
-//                    print("throttled. not throwing a custom swift message for now")
-//                } else {
-                    CustomSwiftMessages.displayError(error)
-//                }
+                searchResultsTasks[searchText]?.cancel()
+                CustomSwiftMessages.displayError(error)
+                DispatchQueue.main.async { [weak self] in
+                    self?.searchResults = .init(wordResults: [], completerResults: [])
+                    self?.tableView.reloadData()
+                    self?.activityIndicator.isHidden = true
+                    self?.tableView.flashScrollIndicators()
+                }
             }
         }
     }
     
-    private func sortAndTrimNewWordResults(_ allResults: [Word]) {
-        wordResults = Array(allResults.sorted(by: { wordOne, wordTwo in
+    private func sortAndTrimNewWordResults(_ allResults: [Word]) -> [Word] {
+        return Array(allResults.sorted(by: { wordOne, wordTwo in
             wordOne.occurrences > wordTwo.occurrences
         }).prefix(5))
     }
     
-    private func handleFinishedSearch() {
-//        if !didOneSearchAlreadyFinish { //necessary when searching for both nearby and words
-//            didOneSearchAlreadyFinish = true
-//            return
-//        }
-        
-        guard !searchText.isEmpty else { return } //If the user deleted all the searchText before the searchQuery finished, we don't want to display any results
-        
+    @MainActor
+    private func handleFinishedSearch(forQuery query: String) {
+        guard
+            query == self.searchText,
+            let cachedResults = searchResultsCache[query]
+        else { return }
+        searchResults = cachedResults
         tableView.reloadData()
+        tableView.flashScrollIndicators()
+        activityIndicator.isHidden = true
     }
     
 }

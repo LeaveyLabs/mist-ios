@@ -15,7 +15,7 @@ extension InputBarAccessoryView {
         maxTextViewHeight = 110 //max of 3 lines with the given font
         inputTextView.keyboardType = .twitter
         inputTextView.placeholder = COMMENT_PLACEHOLDER_TEXT
-//        inputTextView.font = UIFont(name: Constants.Font.Medium, size: 16) this is disregarded when using autocompleteManager
+        inputTextView.font = Comment.normalInputAttributes[.font] as? UIFont //NOTE: this is disregarded when using autocompleteManager
         inputTextView.placeholderLabel.font = Comment.normalInputAttributes[.font] as? UIFont
         inputTextView.placeholderTextColor = UIColor.systemGray2
 //        inputBar.backgroundView.backgroundColor = UIColor(hex: "F8F8F8")
@@ -47,7 +47,7 @@ extension InputBarAccessoryView {
         setStackViewItems([sendButton, InputBarButtonItem.fixedSpace(10)], forStack: .right, animated: false)
 
         //Left
-        let inputAvatar = InputAvatar(frame: CGRect(x: 0, y: 0, width: 40, height: 40), profilePic: UserService.singleton.getProfilePic())
+        let inputAvatar = InputAvatar(frame: CGRect(x: 0, y: 0, width: 40, height: 40), profilePic: UserService.singleton.getSilhouette())
         setLeftStackViewWidthConstant(to: 48, animated: false)
         setStackViewItems([inputAvatar, InputBarButtonItem.fixedSpace(8)], forStack: .left, animated: false)
     }

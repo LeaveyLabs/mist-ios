@@ -209,7 +209,7 @@ extension PostAnnotationView: AnnotationViewWithPosts {
             mapView?.removeAnnotation(deletedPostAnnotation)
             return
         }
-        postCalloutView.reconfigureVotes()
+        postCalloutView.reconfigurePost()
     }
     
     func movePostUpAfterEmojiKeyboardRaised() {

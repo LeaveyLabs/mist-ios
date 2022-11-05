@@ -23,6 +23,7 @@ class ProfileViewController: UIViewController {
     var userIdForLoading: Int?
     var userPhoneNumberForLoading: String?
     var userHandleForLoading: String?
+    var isAvatar: Bool = false
 
     enum ProfileStatus: String {
         case loaded, loading, nonexisting, notclaimed
@@ -34,15 +35,14 @@ class ProfileViewController: UIViewController {
             renderUser()
         }
     }
-    
-    //OOOOHH ADAM: instead of a default black icon, show their character
-    
+        
     //MARK: - Constructors
     
-    class func create(for user: ThumbnailReadOnlyUser) -> ProfileViewController {
+    class func create(for user: ThumbnailReadOnlyUser, isAvatar: Bool) -> ProfileViewController {
         let profileVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Profile) as! ProfileViewController
         profileVC.user = user
         profileVC.status = .loading
+        profileVC.isAvatar = isAvatar
         return profileVC
     }
     
@@ -60,11 +60,23 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         hasViewLoaded = true
-        loadUser()
-        renderUser()
+        if isAvatar {
+            renderAvatar()
+        } else {
+            loadUser()
+            renderUser()
+        }
     }
     
     //MARK: - Helpers
+    
+    func renderAvatar() {
+        guard let user = user else { return }
+        profilePicButton.imageView?.becomeProfilePicImageView(with: user.silhouette)
+        nameLabel.text = user.username
+        usernameLabel.text = ""
+        verifiedImageView.isHidden = true
+    }
     
     func renderUser() {
         switch status {

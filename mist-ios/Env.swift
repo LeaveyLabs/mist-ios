@@ -16,7 +16,7 @@ class Env {
     #if DEV
     static let environment: EnvType = .dev
     static let TRANSITION_TO_AUTH_DURATION: Double = 1
-    static let TRANSITION_TO_HOME_DURATION: Double = 1.5
+    static let TRANSITION_TO_HOME_DURATION: Double = 0.8
     static let BASE_URL: String = "https://mist-backend-test.herokuapp.com/"
     static let AI_URL: String = "https://mist-ai-test.herokuapp.com/"
     static let CHAT_URL: String = "wss://mist-chat-test.herokuapp.com/"
@@ -24,7 +24,7 @@ class Env {
     #elseif DEBUG
     static let environment: EnvType = .dev
     static let TRANSITION_TO_AUTH_DURATION: Double = 1
-    static let TRANSITION_TO_HOME_DURATION: Double = 1.5
+    static let TRANSITION_TO_HOME_DURATION: Double = 0.8
     static let BASE_URL: String = "https://mist-backend-test.herokuapp.com/"
     static let AI_URL: String = "https://mist-ai-test.herokuapp.com/"
     static let CHAT_URL: String = "wss://mist-chat-test.herokuapp.com/"
@@ -34,7 +34,7 @@ class Env {
     #else
     static let environment: EnvType = .prod
     static let TRANSITION_TO_AUTH_DURATION: Double = 1
-    static let TRANSITION_TO_HOME_DURATION: Double = 1.5
+    static let TRANSITION_TO_HOME_DURATION: Double = 0.8
     static let BASE_URL: String = "https://mist-backend.herokuapp.com/"
     static let AI_URL: String = "https://mist-ai-production.herokuapp.com/"
     static let CHAT_URL: String = "wss://mist-chat.herokuapp.com/"

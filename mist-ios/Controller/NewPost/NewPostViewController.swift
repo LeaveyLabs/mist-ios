@@ -16,7 +16,7 @@ let BODY_PLACEHOLDER_TEXT = ["pour your heart out",
 //                             "get it off your chest"
                                 ].randomElement()!
 let TITLE_PLACEHOLDER_TEXT = "title"
-let LOCATION_PLACEHOLDER_TEXT = "location name"
+let LOCATION_PLACEHOLDER_TEXT = "place"
 let TIME_PLACEHOLDER_TEXT = "just now"
 let TEXT_LENGTH_BEYOND_MAX_PERMITTED = 0 //if we want this > 0, we need a way to indicate to the user that theyre beyond the limit. setting text color to red is too harsh
 
@@ -284,9 +284,8 @@ class NewPostViewController: UIViewController {
         
         let postLocationText = (locationNameTextField?.text ?? "").isEmpty ? nil : locationNameTextField?.text?.trimmingCharacters(in: .whitespaces).lowercased()
         
-        if dateTimeTextField.text == TIME_PLACEHOLDER_TEXT { //they didn't change the post time, so update the time to right now
-            datePicker.date = Date()
-        }
+        let isPostFromRightNow = dateTimeTextField.text == TIME_PLACEHOLDER_TEXT
+        let postDate = isPostFromRightNow ? Date().timeIntervalSince1970 : datePicker.date.timeIntervalSince1970
 
         view.endEditing(true)
         scrollView.scrollToTop()
@@ -295,8 +294,8 @@ class NewPostViewController: UIViewController {
         Task {
             do {
                 //We need to reset the filter and reload posts before uploading because uploading the post will immediately insert it at index 0 of explorePosts
-                PostService.singleton.resetFilter()
-                try await PostService.singleton.loadExploreFeedPostsIfPossible()
+                PostService.singleton.resetNewPostFilter()
+                try await PostService.singleton.loadExploreFeedPostsIfPossible(feed: .RECENT)
                 try await PostService.singleton.loadAndOverwriteExploreMapPosts()
                 try await PostService.singleton.uploadPost(
                     title: trimmedTitleText,
@@ -304,7 +303,7 @@ class NewPostViewController: UIViewController {
                     locationDescription: postLocationText,
                     latitude: postLocationCoordinate?.latitude,
                     longitude: postLocationCoordinate?.longitude,
-                    timestamp: datePicker.date.timeIntervalSince1970,
+                    timestamp: postDate,
                     collectibleType: collectibleType)
                 NotificationsManager.shared.askForNewNotificationPermissionsIfNecessary(permission: .dmNotificationsAfterNewPost, onVC: self) { didDisplayRequest in
                     DispatchQueue.main.async {
@@ -330,7 +329,7 @@ class NewPostViewController: UIViewController {
         let tbc = presentingViewController as! UITabBarController
         tbc.selectedIndex = Tabs.explore.rawValue
         let homeNav = tbc.selectedViewController as! UINavigationController
-        let homeParent = homeNav.topViewController as! HomeExploreParentViewController
+        let homeParent = homeNav.topViewController as! MistCollectionViewController
         
         finishAnimationProgress() {
             homeParent.isHandlingNewPost = true

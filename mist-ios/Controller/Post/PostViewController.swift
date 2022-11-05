@@ -10,7 +10,7 @@ import Contacts
 import InputBarAccessoryView //dependency of MessageKit. If we remove MessageKit, we should install this package independently
 import MessageUI
 
-let COMMENT_PLACEHOLDER_TEXT = "comment & tag your friends"
+let COMMENT_PLACEHOLDER_TEXT = "leave a comment"// & tag your friends"
 typealias PostCompletionHandler = (() -> Void)
 
 extension AutocompleteManagerDelegate {
@@ -52,19 +52,19 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     var mostRecentAutocompleteQuery = ""
     var autocompletionCache = [String: [AutocompleteCompletion]]()
     var autocompletionTasks = [String: Task<Void, Never>]()
-    open lazy var autocompleteManager: CommentAutocompleteManager = { [unowned self] in
-        let manager = CommentAutocompleteManager(for: self.inputBar.inputTextView)
-        inputBar.inputTextView.delegate = self //re-claim delegate status after AutocompleteManager became it
-        manager.delegate = self
-        manager.dataSource = self
-        manager.filterBlock = { session, completion in
-            if let id = completion.context?[AutocompleteContext.id.rawValue] as? Int, id == UserService.singleton.getId() {
-                return false //dont display yourself in the suggestions
-            }
-            return true
-        }
-        return manager
-    }()
+//    open lazy var autocompleteManager: CommentAutocompleteManager = { [unowned self] in
+//        let manager = CommentAutocompleteManager(for: self.inputBar.inputTextView)
+//        inputBar.inputTextView.delegate = self //re-claim delegate status after AutocompleteManager became it
+//        manager.delegate = self
+//        manager.dataSource = self
+//        manager.filterBlock = { session, completion in
+//            if let id = completion.context?[AutocompleteContext.id.rawValue] as? Int, id == UserService.singleton.getId() {
+//                return false //dont display yourself in the suggestions
+//            }
+//            return true
+//        }
+//        return manager
+//    }()
     
     //Data
     var postId: Int!
@@ -114,20 +114,21 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         enableInteractivePopGesture()
         inputBar.inputTextView.canBecomeFirstResponder = true // to offset viewWillDisappear
         
-        if !DeviceService.shared.hasBeenRequestedContactsOnPost() {
-            DeviceService.shared.requestContactsOnPost()
-            requestContactsAccess { wasShownPermissionRequest in
-                DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [self] in
-                    if shouldStartWithRaisedKeyboard {
-                        inputBar.inputTextView.becomeFirstResponder()
-                    }
-                })
-            }
-        } else {
+        //No longer ask them for contacts access since we are removing tagging
+//        if !DeviceService.shared.hasBeenRequestedContactsOnPost() {
+//            DeviceService.shared.requestContactsOnPost()
+//            requestContactsAccess { wasShownPermissionRequest in
+//                DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [self] in
+//                    if shouldStartWithRaisedKeyboard {
+//                        inputBar.inputTextView.becomeFirstResponder()
+//                    }
+//                })
+//            }
+//        } else {
             if shouldStartWithRaisedKeyboard {
                 inputBar.inputTextView.becomeFirstResponder()
             }
-        }
+//        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -248,20 +249,20 @@ extension PostViewController: InputBarAccessoryViewDelegate {
     
     func inputBar(_ inputBar: InputBarAccessoryView, didChangeIntrinsicContentTo size: CGSize) {
         print("didchangeinputbarintrinsicsizeto:", size)
-        updateMaxAutocompleteRows(keyboardHeight: keyboardHeight)
+//        updateMaxAutocompleteRows(keyboardHeight: keyboardHeight)
         updateMessageCollectionViewBottomInset()
         tableView.keyboardDismissMode = asyncCompletions.isEmpty ? .interactive : .none
     }
     
-    func updateMaxAutocompleteRows(keyboardHeight: Double) {
-        let inputHeight = inputBar.inputTextView.frame.height + 10
-//        let maxSpaceBetween = tableView.frame.height - keyboardHeight - inputHeight //this method results in slightly off sizing for large iphones
-        autocompleteManager.tableView.maxVisibleRows = Int(inputHeight) //we are manipulating maxVisibleRows to use as the InputBarHeight when calculating the fullTableViewHeight. this is bad practice but the best workaround for now
-    }
+//    func updateMaxAutocompleteRows(keyboardHeight: Double) {
+//        let inputHeight = inputBar.inputTextView.frame.height + 10
+////        let maxSpaceBetween = tableView.frame.height - keyboardHeight - inputHeight //this method results in slightly off sizing for large iphones
+//        autocompleteManager.tableView.maxVisibleRows = Int(inputHeight) //we are manipulating maxVisibleRows to use as the InputBarHeight when calculating the fullTableViewHeight. this is bad practice but the best workaround for now
+//    }
 
     @objc func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
         inputBar.inputTextView.placeholderLabel.isHidden = !inputBar.inputTextView.text.isEmpty
-        processAutocompleteOnNextText(text)
+//        processAutocompleteOnNextText(text)
         inputBar.sendButton.isEnabled = inputBar.inputTextView.text != ""
     }
     
@@ -364,12 +365,12 @@ extension PostViewController: UITextViewDelegate {
         
         guard textView.shouldChangeTextGivenMaxLengthOf(MAX_COMMENT_LENGTH, range, text) else { return false }
         
-        return autocompleteManager.textView(textView, shouldChangeTextIn: range, replacementText: text)
+        return true //autocompleteManager.textView(textView, shouldChangeTextIn: range, replacementText: text)
     }
     
-    func textViewDidChange(_ textView: UITextView) {
-        autocompleteManager.textViewDidChange(textView)
-    }
+//    func textViewDidChange(_ textView: UITextView) {
+//        autocompleteManager.textViewDidChange(textView)
+//    }
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         //no idea why, but this delegate function is just not being called
@@ -503,7 +504,7 @@ extension PostViewController: UITableViewDataSource {
 extension PostViewController: CommentDelegate {
     
     func handleCommentProfilePicTap(commentAuthor: ThumbnailReadOnlyUser) {
-        let profileVC = ProfileViewController.create(for: commentAuthor)
+        let profileVC = ProfileViewController.create(for: commentAuthor, isAvatar: true)
         navigationController?.present(profileVC, animated: true)
     }
     
@@ -592,7 +593,10 @@ extension PostViewController: PostDelegate {
     }
     
     func handleLocationTap(postId: Int) {
-        
+        guard let mistCollectionVC = navigationController?.previousViewController as? MistCollectionViewController else { return }
+        navigationController?.popViewController(animated: true, completion: {
+            mistCollectionVC.handleLocationTap(postId: postId)
+        })
     }
     
     func handleVote(postId: Int, emoji: String, emojiBeforePatch: String? = nil, existingVoteRating: Int?, action: VoteAction) {
@@ -630,7 +634,7 @@ extension PostViewController: PostDelegate {
         } catch {
             PostService.singleton.updateCachedPostWith(postId: postId, updatedEmojiDict: emojiDict)
             DispatchQueue.main.async { [weak self] in
-                (self?.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigureVotes() //reload data
+                (self?.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PostCell).postView.reconfigurePost() //reload data
             }
             CustomSwiftMessages.displayError(error)
         }
@@ -722,11 +726,9 @@ extension PostViewController {
         let keyboardTopYWithinView = view.bounds.height - keyboardHeight
         let spaceBetweenPostCellAndPostView: Double = 15
         let desiredOffset = postBottomYWithinView - keyboardTopYWithinView - spaceBetweenPostCellAndPostView
-//        if desiredOffset < 0 { return } //dont scroll up for the post
+        if desiredOffset < 0 { return } //dont scroll up for the post
 //        tableView.setContentOffset(tableView.contentOffset.applying(.init(translationX: 0, y: desiredOffset)), animated: true)
         tableView.setContentOffset(CGPoint(x: 0, y: desiredOffset), animated: true)
-        
-//        tableView.setContentOffset(.init(x: 0, y: 500), animated: true)
     }
     
 }

@@ -25,18 +25,18 @@ extension ExploreMapViewController {
     func setupExploreMapButtons() {
         searchButton.roundCorners(corners: [.topRight, .bottomRight], radius: 10)
         filterButton.roundCorners(corners: [.topRight, .bottomRight], radius: 10)
-        reloadButton.roundCorners(corners: [.topLeft, .bottomLeft], radius: 10)
+        reloadButton.roundCorners(corners: [.topRight, .bottomRight], radius: 10)
         applyShadowOnView(exploreButtonStackView)
     }
     
     //MARK: - User Interaction
     
-    @IBAction func searchButtonPressed(_ sender: UIButton) {
-        presentExploreSearchController()
-    }
+//    @IBAction func searchButtonPressed(_ sender: UIButton) {
+//        presentExploreSearchController()
+//    }
     
     @IBAction func reloadButtonPressed(_ sender: UIButton) {
-        exploreDelegate.handleUpdatedExploreFilter()
+        exploreDelegate.refreshMapPosts(completion: nil)
     }
     
     @IBAction func exploreUserTrackingButtonPressed(_ sender: UIButton) {
@@ -122,6 +122,9 @@ extension ExploreMapViewController {
         let annotationSelectionTypeBeforeSlowFly = annotationSelectionType
         mapView.isZoomEnabled = true // AnnotationQuickSelect: 3 of 3, just in case
         switch annotationSelectionType {
+        case .withoutPostCallout:
+            selectedAnnotationView = nil
+            break
         case .submission:
             if let clusterView = view as? ClusterAnnotationView { //slow fly again after slow flying originally, because the clusterView could be offset from the post within the cluster, adn we want the cluster to be centered
                 slowFlyWithoutZoomTo(lat: clusterView.annotation!.coordinate.latitude,
@@ -219,7 +222,7 @@ extension ExploreMapViewController {
         let plane = Int(Double(log10(zoomWidth)) - 9.0 / 4.0 + 1.5) //range beteween 1 and 4
 
         PostService.singleton.updateFilter(newPlaneAndRegion:(plane, mapView.region))
-        exploreDelegate.reloadNewMapPostsIfNecessary()
+//        exploreDelegate.reloadNewMapPostsIfNecessary()
     }
     
     //MARK: Map Helpers
@@ -230,7 +233,7 @@ extension ExploreMapViewController {
     
     func renderNewPlacesOnMap() {
         removeExistingPlaceAnnotationsFromMap()
-        mapView.setRegion(getRegionCenteredAround(placeAnnotations) ?? PostService.singleton.getExploreFilter().currentMapPlaneAndRegion.1, animated: true)
+        mapView.setRegion(getRegionCenteredAround(placeAnnotations) ?? PostService.singleton.getMapPostFilter().currentMapPlaneAndRegion.1, animated: true)
         mapView.addAnnotations(placeAnnotations)
     }
     

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Map view configurations" minToolsVersion="14.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" restorationIdentifier="MistScreenshotView" id="VnZ-mA-Qdh">
+            <rect key="frame" x="0.0" y="0.0" width="446" height="785"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4I1-7K-34M">
+                    <rect key="frame" x="0.0" y="0.0" width="446" height="785"/>
+                    <standardMapConfiguration key="preferredConfiguration"/>
+                </mapView>
+                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tV3-VC-fHo" userLabel="DimensionNav Stack View">
+                    <rect key="frame" x="182.66666666666666" y="725" width="80.666666666666657" height="40"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eg9-vm-WAE" userLabel="User Tracking Button">
+                            <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="Eg9-vm-WAE" secondAttribute="height" id="4pv-ar-T3i"/>
+                            </constraints>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal">
+                                <imageReference key="image" image="location" catalog="system" symbolScale="default"/>
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="17" weight="medium"/>
+                            </state>
+                        </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IhR-8B-59Q">
+                            <rect key="frame" x="40" y="0.0" width="0.6666666666666643" height="40"/>
+                            <color key="backgroundColor" systemColor="systemGray3Color"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="0.5" id="ZHL-sS-5Cv"/>
+                            </constraints>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V1V-8Q-nPa">
+                            <rect key="frame" x="40.666666666666686" y="0.0" width="40" height="40"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="V1V-8Q-nPa" secondAttribute="height" multiplier="1:1" id="iNy-5l-Hma"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" image="arrow.clockwise" catalog="system">
+                                <color key="titleColor" name="mist-black"/>
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="19" weight="medium"/>
+                            </state>
+                        </button>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wl5-vF-P0V">
+                            <rect key="frame" x="80.666666666666657" y="0.0" width="40" height="40"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="Ugw-xW-2wt"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
+                            <inset key="contentEdgeInsets" minX="2" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="2D">
+                                <color key="titleColor" name="mist-black"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="tintColor" name="mist-black"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="90o-9c-W0T"/>
+                    </constraints>
+                </stackView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient-slider" translatesAutoresizingMaskIntoConstraints="NO" id="GeH-Jn-fTS">
+                    <rect key="frame" x="425" y="35" width="12" height="715"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="12" id="Jub-NR-gHl"/>
+                    </constraints>
+                </imageView>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="BqB-a7-oAD" userLabel="ZoomSliderVisual" customClass="TapUISlider" customModule="mist_ios" customModuleProvider="target">
+                    <rect key="frame" x="75" y="370" width="712" height="46"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="dZy-NV-Zlc"/>
+                    </constraints>
+                    <color key="minimumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="maximumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="thumbTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </slider>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="l5J-Lx-EwR" userLabel="ZoomSliderDrag" customClass="TapUISlider" customModule="mist_ios" customModuleProvider="target">
+                    <rect key="frame" x="75" y="370" width="712" height="46"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="ivZ-BQ-bn2"/>
+                    </constraints>
+                    <color key="minimumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="maximumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="thumbTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </slider>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="tintColor" name="mist-lilac"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="4I1-7K-34M" secondAttribute="trailing" id="1fB-uG-oeG"/>
+                <constraint firstItem="4I1-7K-34M" firstAttribute="leading" secondItem="VnZ-mA-Qdh" secondAttribute="leading" id="8yz-ma-hIf"/>
+                <constraint firstItem="BqB-a7-oAD" firstAttribute="centerY" secondItem="4I1-7K-34M" secondAttribute="centerY" id="E27-0R-u5J"/>
+                <constraint firstAttribute="bottom" secondItem="4I1-7K-34M" secondAttribute="bottom" id="Fy0-BD-3Bw"/>
+                <constraint firstItem="l5J-Lx-EwR" firstAttribute="leading" secondItem="BqB-a7-oAD" secondAttribute="leading" id="GxK-d1-Aez"/>
+                <constraint firstItem="BqB-a7-oAD" firstAttribute="centerX" secondItem="4I1-7K-34M" secondAttribute="trailing" constant="-15" id="R1k-aR-lZh"/>
+                <constraint firstAttribute="trailing" secondItem="GeH-Jn-fTS" secondAttribute="trailing" constant="9" id="TFF-fR-OQl"/>
+                <constraint firstItem="BqB-a7-oAD" firstAttribute="width" secondItem="GeH-Jn-fTS" secondAttribute="height" multiplier="0.99" id="eDS-rI-gz3"/>
+                <constraint firstItem="GeH-Jn-fTS" firstAttribute="centerY" secondItem="VnZ-mA-Qdh" secondAttribute="centerY" id="gwl-Cp-RXi"/>
+                <constraint firstItem="l5J-Lx-EwR" firstAttribute="trailing" secondItem="BqB-a7-oAD" secondAttribute="trailing" id="h7L-eQ-e6q"/>
+                <constraint firstItem="4I1-7K-34M" firstAttribute="top" secondItem="VnZ-mA-Qdh" secondAttribute="top" id="kON-4H-wDg"/>
+                <constraint firstItem="GeH-Jn-fTS" firstAttribute="height" secondItem="4I1-7K-34M" secondAttribute="height" constant="-70" id="nIh-1z-Tzk"/>
+                <constraint firstItem="l5J-Lx-EwR" firstAttribute="top" secondItem="BqB-a7-oAD" secondAttribute="top" id="oWl-La-Khb"/>
+                <constraint firstItem="l5J-Lx-EwR" firstAttribute="bottom" secondItem="BqB-a7-oAD" secondAttribute="bottom" id="uqS-Wm-lDl"/>
+                <constraint firstAttribute="bottom" secondItem="tV3-VC-fHo" secondAttribute="bottom" constant="20" id="yH4-aM-0KL"/>
+                <constraint firstItem="tV3-VC-fHo" firstAttribute="centerX" secondItem="VnZ-mA-Qdh" secondAttribute="centerX" id="zol-B0-a9z"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="107.69230769230769" y="284.71563981042652"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="arrow.clockwise" catalog="system" width="113" height="128"/>
+        <image name="gradient-slider" width="7" height="370"/>
+        <image name="location" catalog="system" width="128" height="121"/>
+        <namedColor name="mist-black">
+            <color red="0.066666666666666666" green="0.066666666666666666" blue="0.066666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="mist-lilac">
+            <color red="0.78431372549019607" green="0.62352941176470589" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemGray3Color">
+            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

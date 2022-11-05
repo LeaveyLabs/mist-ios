@@ -19,19 +19,18 @@ class PostService: NSObject {
     private var cachedPosts = [Int: Post]() //[postId: post]
     
     private var allExploreMapPostIds = [Int]()
-    
     private var newExploreMapPostIds = [Int]()
-    private var exploreFeedPostIds = [Int]()
+    private var exploreNewPostIds = [Int]()
+    private var exploreBestPostIds = [Int]()
+
     private var conversationPostIds = [Int]()
     private var submissionPostIds = [Int]()
     private var favoritePostIds = [Int]()
     private var mentionPostIds = [Int]()
     
-    private var explorePostFilter: PostFilter = {
-        var postfilter = PostFilter()
-        postfilter.postSort = DeviceService.shared.getDefaultSort()
-        return postfilter
-    }()
+    private var exploreNewPostFilter = FeedPostFilter(postSort: .RECENT)
+    private var exploreBestPostFilter = FeedPostFilter(postSort: .TRENDING)
+    private var mapPostFilter = MapPostFilter()
     
     //NOTE: i considered making PostService an actor, but that requires us to await any access to the cachedPosts throughout the app
     //This is probably the way to go down the road (if someone clicks on a post, the screen should immediately open up, and there could be a loading screen for half a second or so until the cache is able to be accessed
@@ -77,29 +76,52 @@ class PostService: NSObject {
     //MARK: - Load and setup
     
     func loadFeederPosts() async {
-        exploreFeedPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: FeederData.posts)
+        exploreNewPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: FeederData.posts)
+        exploreBestPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: FeederData.posts)
     }
     
-    func loadExploreFeedPostsIfPossible() async throws {
-        guard !explorePostFilter.isFeedFullyLoaded else { return }
-        let loadedPosts: [Post] = try await PostAPI.fetchPosts(order: explorePostFilter.postSort, page: explorePostFilter.pageNumber)
+    func loadExploreFeedPostsIfPossible(feed: SortOrder) async throws {
+        guard feed != .BEST else { return } //for now, only consider feeds new and best
+        var filter = feed == .RECENT ? exploreNewPostFilter : exploreBestPostFilter
+        var postIds = feed == .RECENT ? exploreNewPostIds : exploreBestPostIds
+        
+        guard !filter.isFeedFullyLoaded else { return }
+        
+        let loadedPosts: [Post]
+        if let queryWords = filter.textFilter {
+            loadedPosts = try await PostAPI.fetchPostsByWords(words: queryWords, order: filter.postSort, page: filter.pageNumber)
+        } else {
+            loadedPosts = try await PostAPI.fetchPosts(order: filter.postSort, page: filter.pageNumber)
+        }
         guard !loadedPosts.isEmpty else {
-            explorePostFilter.isFeedFullyLoaded = true
+            filter.isFeedFullyLoaded = true
             return
         }
-        if explorePostFilter.pageNumber == PostFilter.MIN_PAGE_NUMBER {
-            exploreFeedPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts)
+        if filter.pageNumber == FeedPostFilter.MIN_PAGE_NUMBER {
+            postIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts)
         } else {
-            exploreFeedPostIds.append(contentsOf: await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts))
+            postIds.append(contentsOf: await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts))
         }
-        explorePostFilter.pageNumber += 1
+        filter.pageNumber += 1
+        
+        //update filter, since it's a struct
+        switch feed {
+        case .RECENT:
+            exploreNewPostFilter = filter
+            exploreNewPostIds = postIds
+        case .TRENDING:
+            exploreBestPostFilter = filter
+            exploreBestPostIds = postIds
+        case .BEST:
+            break
+        }
     }
     
     func isReadyForNewMapSearch() -> Bool {
-        let plane = explorePostFilter.currentMapPlaneAndRegion.0
-        let region = explorePostFilter.currentMapPlaneAndRegion.1
+        let plane = mapPostFilter.currentMapPlaneAndRegion.0
+        let region = mapPostFilter.currentMapPlaneAndRegion.1
 
-        guard let mapRegionsForPlane = explorePostFilter.searchedMapRegions[plane] else { return true }
+        guard let mapRegionsForPlane = mapPostFilter.searchedMapRegions[plane] else { return true }
         for searchedRegion in mapRegionsForPlane {
             if searchedRegion.center.distanceInKilometers(from: region.center) < convertLatDeltaToKms(searchedRegion.span.latitudeDelta) / 2 {
                 return false
@@ -110,20 +132,24 @@ class PostService: NSObject {
     }
     
     func loadAndOverwriteExploreMapPosts() async throws {        
-        let plane = explorePostFilter.currentMapPlaneAndRegion.0
-        let region = explorePostFilter.currentMapPlaneAndRegion.1
+        let plane = mapPostFilter.currentMapPlaneAndRegion.0
+        let region = mapPostFilter.currentMapPlaneAndRegion.1
                 
-        let loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(
-            latitude: region.center.latitude,
-            longitude: region.center.longitude,
-            radius: convertLatDeltaToKms(region.span.latitudeDelta),
-            order: explorePostFilter.postSort) //adding the /2 bc we were using too large of a region to find the best posts
-
-        
-        if explorePostFilter.searchedMapRegions[plane] != nil {
-            explorePostFilter.searchedMapRegions[plane]!.append(region)
+        let loadedPosts: [Post]
+        if let queryWords = mapPostFilter.textFilter {
+            loadedPosts = try await PostAPI.fetchPostsByWords(words: queryWords)
         } else {
-            explorePostFilter.searchedMapRegions[plane] = [region]
+            loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(
+                latitude: region.center.latitude,
+                longitude: region.center.longitude,
+                radius: convertLatDeltaToKms(region.span.latitudeDelta) / 2,
+                order: mapPostFilter.postSort) //adding the /2 bc we were using too large of a region to find the best posts
+        }
+        
+        if mapPostFilter.searchedMapRegions[plane] != nil {
+            mapPostFilter.searchedMapRegions[plane]!.append(region)
+        } else {
+            mapPostFilter.searchedMapRegions[plane] = [region]
         }
                         
         allExploreMapPostIds = await cachePostsAndGetArrayOfPostIdsFrom(posts: loadedPosts)
@@ -133,19 +159,21 @@ class PostService: NSObject {
     func loadAndAppendExploreMapPosts() async throws {
         guard isReadyForNewMapSearch() else { return }
         
-        let plane = explorePostFilter.currentMapPlaneAndRegion.0
-        let region = explorePostFilter.currentMapPlaneAndRegion.1
+        guard mapPostFilter.textFilter == nil else { return }
+        
+        let plane = mapPostFilter.currentMapPlaneAndRegion.0
+        let region = mapPostFilter.currentMapPlaneAndRegion.1
         
         let loadedPosts = try await PostAPI.fetchPostsByLatitudeLongitude(
             latitude: region.center.latitude,
             longitude: region.center.longitude,
             radius: convertLatDeltaToKms(region.span.latitudeDelta),
-            order: explorePostFilter.postSort) //adding the /2 bc we were using too large of a region to find the best posts
+            order: mapPostFilter.postSort) //adding the /2 bc we were using too large of a region to find the best posts
                 
-        if explorePostFilter.searchedMapRegions[plane] != nil {
-            explorePostFilter.searchedMapRegions[plane]!.append(region)
+        if mapPostFilter.searchedMapRegions[plane] != nil {
+            mapPostFilter.searchedMapRegions[plane]!.append(region)
         } else {
-            explorePostFilter.searchedMapRegions[plane] = [region]
+            mapPostFilter.searchedMapRegions[plane] = [region]
         }
                 
         let uniqueNewPosts = loadedPosts.filter { !allExploreMapPostIds.contains($0.id) }
@@ -208,8 +236,12 @@ class PostService: NSObject {
     
     //MARK: - Getting
     
-    func getExploreFeedPosts() -> [Post] {
-        return getLoadedPostsFor(postIds: exploreFeedPostIds)
+    func getExploreNewPosts() -> [Post] {
+        return getLoadedPostsFor(postIds: exploreNewPostIds)
+    }
+    
+    func getExploreBestPosts() -> [Post] {
+        return getLoadedPostsFor(postIds: exploreBestPostIds)
     }
     
     func getAllExploreMapPosts() -> [Post] {
@@ -221,8 +253,12 @@ class PostService: NSObject {
         return allExploreMapPostIds
     }
     
-    func getExploreFeedPostsSortedIds() -> [Int] {
-        return exploreFeedPostIds
+    func getExploreBestPostsSortedIds() -> [Int] {
+        return exploreBestPostIds
+    }
+    
+    func getExploreNewPostsSortedIds() -> [Int] {
+        return exploreNewPostIds
     }
     
     func getNewExploreMapPosts() -> [Post] {
@@ -241,8 +277,8 @@ class PostService: NSObject {
         return getLoadedPostsFor(postIds: mentionPostIds)
     }
     
-    func getExploreFilter() -> PostFilter {
-        return explorePostFilter
+    func getMapPostFilter() -> MapPostFilter {
+        return mapPostFilter
     }
         
     func getPost(withPostId postId: Int) -> Post? {
@@ -252,28 +288,42 @@ class PostService: NSObject {
     //MARK: - Explore Filter
     
     func resetEverything() {
-        resetFilter()
+        resetFilters()
         
         cachedPosts = [:]
         allExploreMapPostIds = [Int]()
         newExploreMapPostIds = [Int]()
-        exploreFeedPostIds = [Int]()
+        exploreNewPostIds = [Int]()
+        exploreBestPostIds = [Int]()
         conversationPostIds = [Int]()
         submissionPostIds = [Int]()
         favoritePostIds = [Int]()
         mentionPostIds = [Int]()
     }
     
-    func resetFilter() {
-        explorePostFilter = PostFilter()
+    func resetFilters() {
+        mapPostFilter = .init()
+        exploreNewPostFilter = .init(postSort: .RECENT)
+        exploreBestPostFilter = .init(postSort: .TRENDING)
     }
     
-    func updateFilter(newPostSort: SortOrder) {
-        explorePostFilter.postSort = newPostSort //page and wasFeedFullyReloaded are automatically reset
+    func resetNewPostFilter() {
+        exploreNewPostFilter = .init(postSort: .RECENT)
     }
+    
+    func updateFiltersWithWords(words: [String]?) {
+        exploreNewPostFilter.textFilter = words
+        exploreBestPostFilter.textFilter = words
+        mapPostFilter.textFilter = words
+    }
+    
+    //Could be used by bestFilter later on
+//    func updateFilter(newPostSort: SortOrder) {
+//        exploreBestPostIds.postSort = newPostSort //page and wasFeedFullyReloaded are automatically reset
+//    }
     
     func updateFilter(newPlaneAndRegion: (Int,MKCoordinateRegion)) {
-        explorePostFilter.currentMapPlaneAndRegion = newPlaneAndRegion
+        mapPostFilter.currentMapPlaneAndRegion = newPlaneAndRegion
     }
     
     //MARK: - Major user actions
@@ -296,7 +346,7 @@ class PostService: NSObject {
         cachedPosts[newPost.id] = newPost
         
         submissionPostIds.insert(newPost.id, at: 0)
-        exploreFeedPostIds.insert(newPost.id, at: 0)
+        exploreNewPostIds.insert(newPost.id, at: 0)
         allExploreMapPostIds.insert(newPost.id, at: 0)
     }
     
@@ -304,7 +354,8 @@ class PostService: NSObject {
         try await PostAPI.deletePost(post_id: postId)
         cachedPosts.removeValue(forKey: postId)
         
-        exploreFeedPostIds.removeFirstAppearanceOf(object: postId)
+        exploreNewPostIds.removeFirstAppearanceOf(object: postId)
+        exploreBestPostIds.removeFirstAppearanceOf(object: postId)
         conversationPostIds.removeFirstAppearanceOf(object: postId)
         submissionPostIds.removeFirstAppearanceOf(object: postId)
         favoritePostIds.removeFirstAppearanceOf(object: postId)

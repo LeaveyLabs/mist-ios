@@ -72,12 +72,17 @@ class UpdateProfileSettingViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupIsVerifiedButton()
+        navigationController?.navigationBar.backgroundColor = .white
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupImagePicker()
         enableInteractivePopGesture()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
     
     override func viewDidDisappear(_ animated: Bool) {

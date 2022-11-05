@@ -68,11 +68,7 @@ class PromptsViewController: UIViewController {
     
     func updateBadges() {
         (tabBarController as? SpecialTabBarController)?.refreshBadgeCount()
-        let prevCount = navBar.accountBadgeHub.getCurrentCount()
         navBar.accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
-        if prevCount < DeviceService.shared.unreadMentionsCount() {
-            navBar.accountBadgeHub.bump()
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

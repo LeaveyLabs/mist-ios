@@ -18,13 +18,11 @@ class MyAccountViewController: SettingsViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        registerNibs()
         setupTableView()
-        navigationItem.title = UserService.singleton.getUsername()
+        navigationItem.title = ""
         
         tableView.tableFooterView = mistFooterView
         appVersionLabel.text = "version " + (Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default)), style: .plain, target: self, action: #selector(cancelButtonDidPressed(_:)))
     }
     
     override func setupTableView() {
@@ -46,13 +44,7 @@ class MyAccountViewController: SettingsViewController {
     
     func reloadAllData() {
         tableView.reloadData()
-        navigationItem.title = UserService.singleton.getUsername()
-    }
-    
-    override func registerNibs() {
-        super.registerNibs()
-        let myProfileNib = UINib(nibName: String(describing: ProfileCell.self), bundle: nil)
-        tableView.register(myProfileNib, forCellReuseIdentifier: String(describing: ProfileCell.self))
+        navigationItem.title = ""
     }
     
     //MARK: - User Interaction
@@ -78,16 +70,9 @@ class MyAccountViewController: SettingsViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let settingsSection = AccountSection.init(rawValue: indexPath.section)!
-        
-        if settingsSection == .profile && indexPath.row == 0 {
-            let profileCell = tableView.dequeueReusableCell(withIdentifier: String(describing: ProfileCell.self), for: indexPath) as! ProfileCell
-            profileCell.configure(setting: settingsSection.settings[indexPath.row])
-            return profileCell
-        } else {
-            let settingCell = tableView.dequeueReusableCell(withIdentifier: String(describing: SettingCell.self), for: indexPath) as! SettingCell
-            settingCell.configure(setting: settingsSection.settings[indexPath.row])
-            return settingCell
-        }
+        let settingCell = tableView.dequeueReusableCell(withIdentifier: String(describing: SettingCell.self), for: indexPath) as! SettingCell
+        settingCell.configure(setting: settingsSection.settings[indexPath.row])
+        return settingCell
     }
     
     //MARK: - Table View Delegate

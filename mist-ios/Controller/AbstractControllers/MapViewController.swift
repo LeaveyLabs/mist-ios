@@ -20,6 +20,7 @@ import FirebaseAnalytics
 
 extension MKMapView {
     
+    //TODO: this code is not reliable
     func greatestClusterContaining(_ postAnnotation: PostAnnotation) -> MKClusterAnnotation? {
         var candidateClusters = [MKClusterAnnotation]()
         for annotation in self.annotations {
@@ -67,7 +68,7 @@ class MapViewController: UIViewController {
     var cameraDistance: Double = 0
     var isCameraZooming: Bool = false
     var modifyingMap: Bool = false
-    var latitudeOffsetForOneKMDistance: Double = 0.00145
+    var latitudeOffsetForOneKMDistance: Double = 0.0018
     //remove one of these three
     var prevZoomFactor: Int = 4
     var prevZoomWidth: Double! //when the pitch increases, zoomWidth's value increases
@@ -133,7 +134,7 @@ class MapViewController: UIViewController {
         zoomSliderDrag.thumbRectHorizontalOffset = 20
         zoomSliderDrag.addTarget(self, action: #selector(onZoomSlide(slider:event:)), for: .valueChanged)
         
-        zoomSliderGradientImageView.alpha = 0.3
+        zoomSliderGradientImageView.alpha = 0.5
         zoomSliderGradientImageView.applyMediumShadow()
     }
     
@@ -315,7 +316,7 @@ extension MapViewController: MKMapViewDelegate {
         
         if !zoomSliderDrag.isTracking {
             UIView.animate(withDuration: 0.5) {
-                self.zoomSliderGradientImageView.alpha = 0.3
+                self.zoomSliderGradientImageView.alpha = 0.5
                 self.zoomSliderVisual.tintColor = .clear
             }
         }
@@ -346,7 +347,7 @@ extension MapViewController: MKMapViewDelegate {
         }
         
         if abs(cameraDistance - mapView.camera.centerCoordinateDistance) > 5 && !isCameraFlying {
-            if zoomSliderGradientImageView.alpha < 0.35 {
+            if zoomSliderGradientImageView.alpha < 0.55 {
                 UIView.animate(withDuration: 0.3) {
                     self.zoomSliderGradientImageView.alpha = 1
                     self.zoomSliderVisual.tintColor = .white
@@ -405,17 +406,21 @@ extension MapViewController {
                    long: Double,
                    incrementalZoom: Bool,
                    withDuration duration: Double,
+                   allTheWayIn: Bool = false,
                    withLatitudeOffset: Bool = false,
                    completion: @escaping (Bool) -> Void) {
         isCameraFlying = true
         var newCLLDistance: Double = 2000
+        if incrementalZoom {
+            newCLLDistance = pow(self.mapView.camera.centerCoordinateDistance, 8/10)
+        }
+        if allTheWayIn {
+            newCLLDistance = MapViewController.MIN_CAMERA_DISTANCE
+        }
         let dynamicLatOffset = (latitudeOffsetForOneKMDistance / 1000) * newCLLDistance
         
         let newLat = withLatitudeOffset ? lat + dynamicLatOffset : lat
         let destination = CLLocationCoordinate2D(latitude: newLat, longitude: long)
-        if incrementalZoom {
-            newCLLDistance = pow(self.mapView.camera.centerCoordinateDistance, 8/10)
-        }
         let finalCamera = MKMapCamera(lookingAtCenter: destination,
                                          fromDistance: newCLLDistance,
                                       pitch: maxCameraPitch,

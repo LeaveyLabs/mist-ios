@@ -25,7 +25,7 @@ class PlaceAnnotation: NSObject, MKAnnotation {
     
     init(withPlace place: MKMapItem) {
         self.coordinate = place.placemark.coordinate
-        self.title = place.placemark.name
+        self.title = place.placemark.name?.lowercased()
         self.category = place.pointOfInterestCategory
         super.init()
     }

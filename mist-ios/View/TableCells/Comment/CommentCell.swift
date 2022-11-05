@@ -50,7 +50,7 @@ class CommentCell: UITableViewCell {
         timestampLabel.text = getShortFormattedTimeString(timestamp: comment.timestamp)
         authorUsernameButton.setTitle(author.username, for: .normal)
         UIView.performWithoutAnimation {
-            authorProfilePicButton.imageView?.becomeProfilePicImageView(with: author.thumbnailPic)
+            authorProfilePicButton.imageView?.becomeProfilePicImageView(with: author.silhouette)
         }
         setupCommentTextView(text: comment.body, tags: comment.tags, delegate: delegate)
 //        if (comment.id == 249) {

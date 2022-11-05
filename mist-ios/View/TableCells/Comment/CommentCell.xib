@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -19,13 +19,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="Omg this is so cute @adam" translatesAutoresizingMaskIntoConstraints="NO" id="3aT-vI-aN2" customClass="LinkTextView" customModule="mist_ios" customModuleProvider="target">
-                        <rect key="frame" x="59" y="27" width="281" height="43"/>
+                        <rect key="frame" x="53" y="25" width="287" height="45"/>
                         <color key="textColor" name="mist-black"/>
                         <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="15"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="NxU-m6-kFX">
-                        <rect key="frame" x="64" y="14" width="115" height="20"/>
+                        <rect key="frame" x="58" y="12" width="115" height="20"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OeR-EL-HNX">
                                 <rect key="frame" x="0.0" y="1" width="89.5" height="18"/>
@@ -72,9 +72,9 @@
                         </constraints>
                     </stackView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IXa-b6-del">
-                        <rect key="frame" x="16" y="16" width="38" height="38"/>
+                        <rect key="frame" x="16" y="16" width="32" height="32"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="38" id="4cL-Uh-zOV"/>
+                            <constraint firstAttribute="width" constant="32" id="4cL-Uh-zOV"/>
                             <constraint firstAttribute="width" secondItem="IXa-b6-del" secondAttribute="height" id="kWA-k9-wm9"/>
                         </constraints>
                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -99,7 +99,7 @@
                         </connections>
                     </button>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N1U-p2-2I2">
-                        <rect key="frame" x="65" y="75.5" width="325" height="0.5"/>
+                        <rect key="frame" x="59" y="75.5" width="331" height="0.5"/>
                         <color key="backgroundColor" systemColor="systemGray5Color"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="0.5" id="7Ne-Kj-7Zd"/>
@@ -133,7 +133,7 @@
                     <constraint firstItem="IXa-b6-del" firstAttribute="leading" secondItem="41s-gV-vCI" secondAttribute="leading" constant="16" id="TYD-BM-unK"/>
                     <constraint firstAttribute="trailing" secondItem="N1U-p2-2I2" secondAttribute="trailing" id="bxW-f4-XDF"/>
                     <constraint firstAttribute="bottom" secondItem="3aT-vI-aN2" secondAttribute="bottom" constant="6" id="d4r-wp-Wb6"/>
-                    <constraint firstItem="NxU-m6-kFX" firstAttribute="top" secondItem="IXa-b6-del" secondAttribute="top" constant="-2" id="dtn-uA-cVQ"/>
+                    <constraint firstItem="NxU-m6-kFX" firstAttribute="top" secondItem="IXa-b6-del" secondAttribute="top" constant="-4" id="dtn-uA-cVQ"/>
                     <constraint firstItem="NxU-m6-kFX" firstAttribute="leading" secondItem="IXa-b6-del" secondAttribute="trailing" constant="10" id="eFd-TA-1uM"/>
                     <constraint firstItem="sbr-89-qtc" firstAttribute="centerX" secondItem="hBJ-p2-o9a" secondAttribute="centerX" id="h7w-Y2-zm7"/>
                     <constraint firstAttribute="bottom" secondItem="N1U-p2-2I2" secondAttribute="bottom" id="t7Y-vA-QlX"/>
@@ -154,10 +154,10 @@
     </objects>
     <resources>
         <image name="adam" width="893" height="880"/>
-        <image name="checkmark.seal.fill" catalog="system" width="128" height="128"/>
-        <image name="circle.fill" catalog="system" width="128" height="121"/>
+        <image name="checkmark.seal.fill" catalog="system" width="128" height="124"/>
+        <image name="circle.fill" catalog="system" width="128" height="123"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
-        <image name="heart" catalog="system" width="128" height="109"/>
+        <image name="heart" catalog="system" width="128" height="107"/>
         <namedColor name="mist-black">
             <color red="0.066666666666666666" green="0.066666666666666666" blue="0.066666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

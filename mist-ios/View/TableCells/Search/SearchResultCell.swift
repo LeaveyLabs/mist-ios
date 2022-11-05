@@ -36,7 +36,7 @@ class SearchResultCell: UITableViewCell {
         imageView?.image = UIImage(systemName: "magnifyingglass")
         titleLabel.text = word.text
 //        subtitleLabel.text = ""
-        accessoryLabel.text = String(word.occurrences)
+        accessoryLabel.text = word.occurrences > 99 ? "99+" : String(word.occurrences)
         accessoryType = .disclosureIndicator
         isUserInteractionEnabled = true
     }

@@ -21,6 +21,11 @@ class Conversation {
             return MatchRequestService.singleton.getAllMatchRequestsWith(sangdaebang.id).first
         }
     }
+    //save profile pictures in Conversation
+    //or... just save entire conversation? and only load in Chat
+    //don't worry about updating their profile picture for now
+    //if there is no saved conversation, then save
+    //well, we can't save the MessageThread
 
     var chatObjects = [MessageType]()
     var placeholderMessageKitMatchRequest: MessageKitMatchRequest?

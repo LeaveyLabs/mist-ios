@@ -24,6 +24,23 @@ struct ConversationsLastMessageReadTime: Codable {
     }
 }
 
+//struct ConversationProfilePics: Codable {
+//    var profilePics = [ProfilePicWrapper]()
+//    
+//    enum CodkingKeys: String, CodingKey {
+//        case profilePics
+//    }
+//    
+//    init() {
+//        profilePics = [:]
+//    }
+//    
+//    init(from decoder: Decoder) throws {
+//        let values = try decoder.container(keyedBy: CodingKeys.self)
+//        profilePics = try values.decodeIfPresent([ProfilePicWrapper].self, forKey: .profilePics) ?? [:]
+//    }
+//}
+
 class ConversationService: NSObject {
     
     //MARK: - Properties

@@ -19,6 +19,7 @@ import MapKit
     // Note: When rendered as a callout of PostAnnotationView, in order to prevent touches from being detected on the map, there is a background button which sits at the very back of backgroundBubbleView, with an IBAction hooked up to it. Each view on top of it must either have user interaction disabled so the touches pass back to the button, or they should be a button themselves. Stack views with spacing >0 whose user interaction is enabled will also create undesired behavior where a tap will dismiss the post
     
     @IBOutlet weak var timestampButton: UIButton!
+    @IBOutlet weak var locationButtonDot: UIImageView!
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var postTitleLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
@@ -106,12 +107,15 @@ extension PostView {
         }
 
         timestampButton.setTitle(getFormattedTimeStringForPost(timestamp: post.timestamp).lowercased(), for: .normal)
-        locationButton.isHidden = post.location_description == nil
+        
         locationButton.setTitle(post.location_description?.lowercased(), for: .normal)
+        locationButtonDot.isHidden = !(post.latitude == nil && post.location_description != nil)
+        locationButton.layer.shadowOpacity = (post.latitude == nil || post.location_description == nil || post.location_description == "") ? 0 : 0.15
         
         postTitleLabel.text = post.title
-        commentButton.setTitle(post.commentcount >= 1 ? String(updatedCommentCount ?? post.commentcount) : "comment", for: .normal)
         
+        commentButton.setTitle(post.commentcount >= 1 ? String(updatedCommentCount ?? post.commentcount) : "comment", for: .normal)
+
         dmButton.isEnabled = post.author != UserService.singleton.getId()
         dmButton.setTitleColor(.darkGray, for: .normal)
         dmButton.setTitleColor(.lightGray.withAlphaComponent(0.5), for: .disabled)
@@ -146,10 +150,16 @@ extension PostView {
 //        }
     }
     
-    func reconfigureVotes() {
+    func reconfigurePost() {
         guard let emojiDict = PostService.singleton.getPost(withPostId: postId)?.emoji_dict else { return }
         let sortedEmojiVotes = emojiDict.map( { ($0, $1) }).sorted(by: { $0.1 > $1.1 })
         setupEmojiButtons(topThreeVotes: Array(sortedEmojiVotes.prefix(3)))
+        
+//        setupCommentButton()
+    }
+    
+    func setupCommentButton() {
+//        commentButton.setTitle(post.commentcount >= 1 ? String(updatedCommentCount ?? post.commentcount) : "comment", for: .normal)
     }
     
 }

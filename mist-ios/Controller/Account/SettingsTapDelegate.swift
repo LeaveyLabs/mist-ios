@@ -9,13 +9,9 @@ import Foundation
 
 protocol SettingsTapDelegate: MFMailComposeViewControllerDelegate {
     //push new vc
-    func handleProfile()
-    func handleAvatar()
-    func handlePosts(setting: Setting)
     func handleLearnMore(setting: Setting)
     func handleShareFeedback(setting: Setting)
     func handleAccount(setting: Setting)
-    func handleDefaults(setting: Setting)
     func handlePresentFaq(setting: Setting)
     //other
     func handleDeleteAccount()
@@ -30,23 +26,9 @@ extension SettingsTapDelegate where Self: UIViewController {
     
     //MARK: - Push VC
     
-    func handleProfile() {
-        let updateprofileVC = UpdateProfileSettingViewController.create()
-        navigationController?.pushViewController(updateprofileVC, animated: true)
-    }
-    
-    func handleAvatar() {
-        //do nothing as of now
-    }
-    
     func handleCollectibles() {
         let collectiblesVC = CollectiblesViewController.create()
         self.navigationController?.pushViewController(collectiblesVC, animated: true)
-    }
-    
-    func handlePosts(setting: Setting) {
-        guard let customExplore = CustomExploreParentViewController.create(setting: setting) else { return }
-        navigationController?.pushViewController(customExplore, animated: true)
     }
     
     func handlePresentFaq(setting: Setting) {
@@ -67,11 +49,6 @@ extension SettingsTapDelegate where Self: UIViewController {
     
     func handleAccount(setting: Setting) {
         let settingsVC = SettingsViewController.create(settings: [.phoneNumber, .logout, .deleteAccount], title: setting.displayName)
-        navigationController?.pushViewController(settingsVC, animated: true)
-    }
-    
-    func handleDefaults(setting: Setting) {
-        let settingsVC = DefaultsSettingsViewController.create()
         navigationController?.pushViewController(settingsVC, animated: true)
     }
     
@@ -107,6 +84,10 @@ extension SettingsTapDelegate where Self: UIViewController {
             openURL(URL(string: "https://www.getmist.app/faq")!)
         } else if setting == .feedbackForm {
             openURL(URL(string: "https://forms.gle/FQQpw2hfVqHLb5jU8")!)
+        } else if setting == .merch {
+            openURL(Constants.merchLink as URL)
+        } else if setting == .instagram {
+            openURL(Constants.instagramLink as URL)
         }
     }
     

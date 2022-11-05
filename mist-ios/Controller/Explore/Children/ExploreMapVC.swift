@@ -40,7 +40,7 @@ class ExploreMapViewController: MapViewController {
         didSet {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in //because we might immediately deselect and select
                 let shouldZoomBeHidden = selectedAnnotationView != nil
-                exploreDelegate.toggleNotchHiddenAndMinimum(hidden: shouldZoomBeHidden)
+                exploreDelegate.toggleHeaderVisibility(visible: !shouldZoomBeHidden)
                 exploreButtonStackView.isHidden = false
                 trackingDimensionStackView.isHidden = false
                 zoomSliderDrag.isEnabled = !shouldZoomBeHidden
@@ -80,11 +80,6 @@ extension ExploreMapViewController {
         exploreMapVC.postDelegate = postDelegate
         exploreMapVC.exploreDelegate = exploreDelegate
         return exploreMapVC
-    }
-
-    override func loadView() {
-        super.loadView()
-        setupSearchBar()
     }
     
     override func viewDidLoad() {
@@ -156,14 +151,6 @@ extension ExploreMapViewController {
 //            }
 //        }
 //    }
-    
-    //MARK: - UserInteraction
-    
-    @IBAction func handleFilterButtonPress() {
-        guard let parent = exploreDelegate as? HomeExploreParentViewController else { return }
-        let filterVC = FeedFilterSheetViewController.create(delegate: parent)
-        present(filterVC, animated: true)
-    }
 }
 //
 //MARK: - Post Interaction

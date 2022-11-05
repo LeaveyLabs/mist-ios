@@ -7,9 +7,9 @@
 
 import Foundation
 
-enum FeedType {
-    case home
-    case query
-    case mine
-    case hotspot
-}
+//enum FeedType {
+//    case home
+//    case query
+//    case mine
+//    case hotspot
+//}

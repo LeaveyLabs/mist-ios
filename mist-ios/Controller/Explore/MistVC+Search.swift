@@ -13,16 +13,7 @@ import MapKit
 
 let cornerButtonGrey = UIColor.black.withAlphaComponent(0.7)
 
-extension ExploreMapViewController {
-    
-    //Not using searchbarbutton implementation anymore
-//    func setupSearchBarButton() {
-//        searchBarButton.delegate = self
-//        searchBarButton.setImage(UIImage(), for: .clear, state: .normal)
-//        searchBarButton.searchTextField.leftView?.tintColor = .secondaryLabel
-//        searchBarButton.searchTextField.font = UIFont(name: Constants.Font.Medium, size: 18)
-//        searchBarButton.searchTextField.textColor = cornerButtonGrey
-//    }
+extension MistCollectionViewController {
     
     func setupSearchBar() {
         //self
@@ -41,9 +32,10 @@ extension ExploreMapViewController {
         mySearchController.showsSearchResultsController = true //so white background is always visible
         
         //searchBar
+        mySearchController.searchBar.enablesReturnKeyAutomatically = false
         mySearchController.searchBar.setValue("cancel", forKey: "cancelButtonText")
         mySearchController.searchBar.delegate = self // Monitor when the search button is tapped.
-        mySearchController.searchBar.tintColor = cornerButtonGrey
+        mySearchController.searchBar.tintColor = Constants.Color.mistBlack
         mySearchController.searchBar.searchTextField.tintColor = Constants.Color.mistLilac
         mySearchController.searchBar.autocapitalizationType = .none
         mySearchController.searchBar.searchBarStyle = .prominent //when setting to .minimal, the background disappears and you can see nav bar underneath. if using .minimal, add a background color to searchBar to fix this.
@@ -54,45 +46,39 @@ extension ExploreMapViewController {
 
 // MARK: - SearchController Delegate
 
-extension ExploreMapViewController: UISearchControllerDelegate {
+extension MistCollectionViewController: UISearchControllerDelegate {
+    
+    func didDismissSearchController(_ searchController: UISearchController) {
+        collectionView.isHidden = currentPage == 2 //because it gets unhidden for some reason
+    }
     
     func willDismissSearchController(_ searchController: UISearchController) {
-//        Swift.debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-//        searchBarButton.centerText()
+        toggleHeaderVisibility(visible: true)
     }
     
 }
 
     // MARK: - UISearchBarDelegate
 
-extension ExploreMapViewController: UISearchBarDelegate {
+extension MistCollectionViewController: UISearchBarDelegate {
     
-    //not using a searchbarbutton anymore
-//    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-//        if searchBar == searchBarButton {
-//            if mySearchController.isActive || mySearchController.isBeingPresented { return false }
-//            presentExploreSearchController()
-//            return false
-//        }
-//        return true
-//    }
-    
-    func presentExploreSearchController() {
-        mySearchController.searchBar.placeholder = "search a place or address"
-//        mySearchController.searchBar.placeholder = MapSearchResultType.randomPlaceholder()
+    @objc func presentExploreSearchController() {
+        mySearchController.searchBar.placeholder = "search for mists"
+        mySearchController.searchBar.text = customNavBar.searchQueryButton.currentTitle
         present(mySearchController, animated: true) { [self] in
             searchSuggestionsVC.startProvidingCompletions(for: MKCoordinateRegion(center: mapView.region.center, latitudinalMeters: 100, longitudinalMeters: 100))
             mySearchController.searchBar.becomeFirstResponder() //needed bc after dismissing the newpost vc and then presenting mysearchcontroller, the keyboard doenst go up. not perfect, but it works
-//            resetCurrentFilter() //TODO: change this. if they press search and then cancel, we dont want to relocate them to a new part of the world
         }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if searchSuggestionsVC.completerResults.count > 0 {
+        if searchSuggestionsVC.searchResults.wordResults.count > 0 {
             tableView(searchSuggestionsVC.tableView, didSelectRowAt: IndexPath(row: 0, section: 0)) //cals the tableviewdelegate function just down below, as if they searched for that word
         } else {
-            CustomSwiftMessages.showInfoCard("no results found", "please try again", emoji: "🙄")
-            mySearchController.isActive = false
+            //do nothing. the search results just haven't loaded yet.
+            
+//            CustomSwiftMessages.showInfoCard("no results found", "please try again", emoji: "🙄")
+//            mySearchController.isActive = false
         }
 //        mySearchController.searchBar.resignFirstResponder() //DONT RESIGN bc otherwise the modal will be visible below
     }
@@ -101,7 +87,7 @@ extension ExploreMapViewController: UISearchBarDelegate {
 
 // MARK: - UITableViewDelegate
 
-extension ExploreMapViewController: UITableViewDelegate {
+extension MistCollectionViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
@@ -109,28 +95,103 @@ extension ExploreMapViewController: UITableViewDelegate {
         
         switch resultType {
         case .containing:
-            break
-//            let query = searchSuggestionsVC.wordResults[indexPath.row]
-//            searchBarButton.text = query.text
-//            PostService.singleton.updateFilter(newText: query.text)
-//            PostService.singleton.updateFilter(newSearchBy: .text)
-//            reloadPosts(withType: .newSearch) //when we allowed search by words
+            let query = searchSuggestionsVC.searchResults.wordResults[indexPath.row]
+            updateNavBarWithSearchQuery(searchText: query.text)
+            handleTextSearchFor(searchText: query.text)
         case .nearby:
             if indexPath.row == 0 {
-                let query = searchSuggestionsVC.completerResults[indexPath.row].title
-//                searchBarButton.text = query
+                let query = searchSuggestionsVC.searchResults.completerResults[indexPath.row].title
+                updateNavBarWithSearchQuery(searchText: query.lowercased())
 //                PostService.singleton.updateFilter(newSearchBy: .location)
                 search(for: query)
             } else {
-                let suggestion = searchSuggestionsVC.completerResults[indexPath.row-1]
-//                searchBarButton.text = suggestion.title
+                let suggestion = searchSuggestionsVC.searchResults.completerResults[indexPath.row-1]
+                updateNavBarWithSearchQuery(searchText: suggestion.title.lowercased())
 //                PostService.singleton.updateFilter(newSearchBy: .location)
                 search(for: suggestion) //first gets places from Apple, then calls reloadPosts(0
             }
         }
-//        searchBarButton.searchTextField.leftView?.tintColor = cornerButtonGrey
         mySearchController.isActive = false
     }
+    
+    @MainActor
+    func handleTextSearchFor(searchText: String) {
+        (collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? FeedCollectionCell)?.tableView.scrollToTop()
+        (collectionView.cellForItem(at: IndexPath(item: 1, section: 0)) as? FeedCollectionCell)?.tableView.scrollToTop()
+        PostService.singleton.updateFiltersWithWords(words: [searchText])
+        Task {
+            do {
+                try await PostService.singleton.loadExploreFeedPostsIfPossible(feed: .RECENT)
+                try await PostService.singleton.loadExploreFeedPostsIfPossible(feed: .TRENDING)
+                try await PostService.singleton.loadAndOverwriteExploreMapPosts()
+                DispatchQueue.main.async {
+                    self.newFeedContentOffsetY = self.BASE_CONTENT_OFFSET
+                    self.reloadAllData(animated: true)
+                    self.renderNewPostsOnMap(withType: .firstLoad)
+
+                    self.customNavBar.closeButton.loadingIndicator(false)
+                    self.customNavBar.closeButton.setImage(CustomNavBar.CustomNavBarItem.close.image, for: .normal)
+                }
+            } catch {
+                CustomSwiftMessages.displayError(error)
+            }
+        }
+    }
+    
+    func updateNavBarWithSearchQuery(searchText: String) {
+        customNavBar.configure(title: "", leftItems: [.searchQuery], rightItems: [.close])
+        
+        customNavBar.closeButton.addTarget(self, action: #selector(cancelSearchButtonPressed), for: .touchUpInside)
+        customNavBar.closeButton.loadingIndicator(true)
+        customNavBar.closeButton.setImage(nil, for: .normal)
+        
+        customNavBar.searchQueryButton.setTitle(searchText, for: .normal)
+        customNavBar.searchQueryButton.addTarget(self, action: #selector(presentExploreSearchController), for: .touchUpInside)
+    }
+    
+    @MainActor
+    @objc func cancelSearchButtonPressed() {
+        reloadButton.loadingIndicator(true)
+        reloadButton.setImage(nil, for: .normal)
+        customNavBar.closeButton.loadingIndicator(true)
+        customNavBar.closeButton.setImage(nil, for: .normal)
+        isFetchingMorePosts = true
+        
+        toggleHeaderVisibility(visible: true)
+        PostService.singleton.updateFiltersWithWords(words: nil)
+        removeExistingPlaceAnnotationsFromMap()
+        (collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? FeedCollectionCell)?.tableView.scrollToTop()
+        (collectionView.cellForItem(at: IndexPath(item: 1, section: 0)) as? FeedCollectionCell)?.tableView.scrollToTop()
+        Task {
+            do {
+                try await PostService.singleton.loadExploreFeedPostsIfPossible(feed: .RECENT)
+                try await PostService.singleton.loadExploreFeedPostsIfPossible(feed: .TRENDING)
+                try await PostService.singleton.loadAndOverwriteExploreMapPosts()
+                DispatchQueue.main.async {
+                    self.renderNewPostsOnMap(withType: .firstLoad)
+                    self.newFeedContentOffsetY = self.BASE_CONTENT_OFFSET
+                    self.reloadAllData(animated: true)
+                    
+                    self.reloadButton.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: UIImage.SymbolConfiguration(pointSize: 15, weight: .medium)), for: .normal)
+                    self.reloadButton.loadingIndicator(false)
+                    self.isFetchingMorePosts = false
+                    self.setupCustomNavBar(animated: true)
+                    self.customNavBar.closeButton.loadingIndicator(false)
+                    self.customNavBar.closeButton.setImage(CustomNavBar.CustomNavBarItem.close.image, for: .normal)
+                    self.customNavBar.searchQueryButton.setTitle(nil, for: .normal)
+                }
+            } catch {
+                CustomSwiftMessages.displayError(error)
+                DispatchQueue.main.async {
+                    self.reloadButton.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: UIImage.SymbolConfiguration(pointSize: 15, weight: .medium)), for: .normal)
+                    self.reloadButton.loadingIndicator(false)
+                    self.isFetchingMorePosts = false
+                }
+            }
+        }
+    }
+    
+    
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard
@@ -146,8 +207,7 @@ extension ExploreMapViewController: UITableViewDelegate {
 
 // MARK: - Map Search
 
-extension ExploreMapViewController {
-    
+extension MistCollectionViewController {
     
     /// - Parameter suggestedCompletion: A search completion provided by `MKLocalSearchCompleter` when tapping on a search completion table row
     private func search(for suggestedCompletion: MKLocalSearchCompletion) {
@@ -175,12 +235,18 @@ extension ExploreMapViewController {
                 if didAppleOverrideLocalSearchRegion(response.boundingRegion) {
                     CustomSwiftMessages.showInfoCard("no results found", "try adjusting the map and search again", emoji: "🧐")
                 } else {
-                    appleregion = response.boundingRegion
-                    turnPlacesIntoAnnotations(response.mapItems)
-                    renderNewPlacesOnMap()
-//                    PostService.singleton.updateFilter(newRegion: getRegionCenteredAround(placeAnnotations)!)
-//                    reloadPosts(withType: .newSearch)
-//                    renderNewPostsOnFeedAndMap(withType: .newSearch)
+                    DispatchQueue.main.async { [self] in
+                        appleregion = response.boundingRegion
+                        flowLayout.scrollToPage(index: 2, animated: true)
+                        turnPlacesIntoAnnotations(response.mapItems)
+                        renderNewPlacesOnMap()
+                        
+                        self.customNavBar.closeButton.loadingIndicator(false)
+                        self.customNavBar.closeButton.setImage(CustomNavBar.CustomNavBarItem.close.image, for: .normal)
+                        //                    PostService.singleton.updateFilter(newRegion: getRegionCenteredAround(placeAnnotations)!)
+                        //                    reloadPosts(withType: .newSearch)
+                        //                    renderNewPostsOnFeedAndMap(withType: .newSearch)
+                    }
                 }
             } catch {
                 if let error = error as? MKError {
