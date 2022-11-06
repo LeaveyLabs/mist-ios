@@ -89,6 +89,8 @@ class MistCollectionViewController: UIViewController {
         if !isFirstLoad {
             visibleFeed?.reloadData()
         }
+        
+        customNavBar.accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -109,7 +111,7 @@ class MistCollectionViewController: UIViewController {
     //MARK: - Setup
     
     func setupCustomNavBar(animated: Bool) {
-        customNavBar.configure(title: "mist", leftItems: [.title], rightItems: [.search, .profile], animated: animated)
+        customNavBar.configure(title: "mists", leftItems: [.title], rightItems: [.search, .profile], animated: animated)
         customNavBar.accountButton.addTarget(self, action: #selector(handleProfileButtonTap), for: .touchUpInside)
         customNavBar.searchButton.addTarget(self, action: #selector(presentExploreSearchController), for: .touchUpInside)
     }

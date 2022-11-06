@@ -12,7 +12,45 @@ enum Tabs: Int, CaseIterable {
     case feed, map, dms
 }
 
+class FadePushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        return 0.5
+    }
+
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        guard
+                let toViewController = transitionContext.viewController(forKey: .to)
+                else {
+            return
+        }
+
+        transitionContext.containerView.addSubview(toViewController.view)
+        toViewController.view.alpha = 0
+
+        let duration = self.transitionDuration(using: transitionContext)
+        UIView.animate(withDuration: duration, animations: {
+            toViewController.view.alpha = 1
+        }, completion: { _ in
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+        })
+
+    }
+}
+
 class SpecialTabBarController: UITabBarController {
+    
+    var shouldAnimateTransition: Bool = false
+    
+    public func tabBarController(
+            _ tabBarController: UITabBarController,
+            animationControllerForTransitionFrom fromVC: UIViewController,
+            to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+                defer {
+                    shouldAnimateTransition = false
+                }
+        return shouldAnimateTransition ? FadePushAnimator() : nil
+    }
     
 //    var promptsTabBadgeCount: Int! {
 //        didSet {
@@ -52,6 +90,7 @@ class SpecialTabBarController: UITabBarController {
         removeLineAndAddShadow()
         tabBar.applyLightMediumShadow()
         refreshBadgeCount()
+        self.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {

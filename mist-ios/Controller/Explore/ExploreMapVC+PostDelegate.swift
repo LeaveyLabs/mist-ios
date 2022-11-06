@@ -21,40 +21,35 @@ extension ExploreMapViewController: PostDelegate {
     func handleLocationTap(postId: Int) {
         guard
             let post = PostService.singleton.getPost(withPostId: postId),
-            let _ = post.latitude,
-            let _ = post.longitude
+            let lat = post.latitude,
+            let long = post.longitude
         else { return }
         
-        //TODO: move to middle VC
-//        if currentPage != 2 {
-//            flowLayout.scrollToPage(index: 2, animated: true)
-//        } else {
-//            deselectAllAnnotations()
-//        }
-//        slowFlyTo(lat: lat, long: long, incrementalZoom: false, withDuration: cameraAnimationDuration, allTheWayIn: true) { [self] completed in
-//            refreshMapPosts() { [self] in
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.03) { [self] in
-//                    guard let tappedPostAnnotation = postAnnotations.first(where: { $0.post.id == postId }) else { return }
-//                    let tappedPostCluster = mapView.greatestClusterContaining(tappedPostAnnotation)
-//                    annotationSelectionType = .withoutPostCallout
-////                    print("SELECTING:", tappedPostCluster, tappedPostAnnotation)
-//                    mapView.selectAnnotation(tappedPostCluster ?? tappedPostAnnotation, animated: true)
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-//                        self.annotationSelectionType = .normal
-//                    }
-//                    //Put the tapped post first in the cluster
-//                    //the below code could be replaced with a "put the post at the proper index in PostService, before rendering posts on map in refreshMapPosts()^
-//                    guard let cluster = tappedPostCluster,
-//                          let clusterView = mapView.view(for: cluster) as? ClusterAnnotationView
-//                    else { return }
-//                    guard let postIndex = clusterView.sortedMemberPosts.firstIndex(where: { $0.id == postId }) else { return }
-//                    let post = clusterView.sortedMemberPosts.remove(at: postIndex)
-//                    clusterView.sortedMemberPosts.insert(post, at: 0)
-//                    (clusterView.annotation as? MKClusterAnnotation)?.updateClusterTitle(newTitle: clusterView.sortedMemberPosts.first?.title)
-//                    clusterView.glyphText = post.topEmoji
-//                }
-//            }
-//        }
+        dismissPost()
+        slowFlyTo(lat: lat, long: long, incrementalZoom: false, withDuration: cameraAnimationDuration, allTheWayIn: true) { [self] completed in
+            refreshMapPosts() { [self] in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.03) { [self] in
+                    guard let tappedPostAnnotation = postAnnotations.first(where: { $0.post.id == postId }) else { return }
+                    let tappedPostCluster = mapView.greatestClusterContaining(tappedPostAnnotation)
+                    annotationSelectionType = .withoutPostCallout
+//                    print("SELECTING:", tappedPostCluster, tappedPostAnnotation)
+                    mapView.selectAnnotation(tappedPostCluster ?? tappedPostAnnotation, animated: true)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self.annotationSelectionType = .normal
+                    }
+                    //Put the tapped post first in the cluster
+                    //the below code could be replaced with a "put the post at the proper index in PostService, before rendering posts on map in refreshMapPosts()^
+                    guard let cluster = tappedPostCluster,
+                          let clusterView = mapView.view(for: cluster) as? ClusterAnnotationView
+                    else { return }
+                    guard let postIndex = clusterView.sortedMemberPosts.firstIndex(where: { $0.id == postId }) else { return }
+                    let post = clusterView.sortedMemberPosts.remove(at: postIndex)
+                    clusterView.sortedMemberPosts.insert(post, at: 0)
+                    (clusterView.annotation as? MKClusterAnnotation)?.updateClusterTitle(newTitle: clusterView.sortedMemberPosts.first?.title)
+                    clusterView.glyphText = post.topEmoji
+                }
+            }
+        }
     }
     
     func handleFavorite(postId: Int, isAdding: Bool) { // Singleton & remote update
@@ -109,14 +104,12 @@ extension ExploreMapViewController: PostDelegate {
     func handleBackgroundTap(postId: Int) {
         view.endEditing(true)
         let tappedPost = PostService.singleton.getPost(withPostId: postId)!
-//        let tappedPost = posts.first { $0.id == postId }!
         sendToPostViewFor(tappedPost, withRaisedKeyboard: false)
     }
     
     func handleCommentButtonTap(postId: Int) {
         view.endEditing(true)
         let tappedPost = PostService.singleton.getPost(withPostId: postId)!
-//        let tappedPost = posts.first { $0.id == postId }!
         sendToPostViewFor(tappedPost, withRaisedKeyboard: true)
     }
     
@@ -134,9 +127,6 @@ extension ExploreMapViewController: PostDelegate {
     //MARK: - React interaction
     
     func handleReactTap(postId: Int) {
-//        reactingPostIndex = feedPosts.firstIndex { $0.id == postId }
-        //TODO: - how to get for map^??
-        
         isKeyboardForEmojiReaction = true
     }
     
@@ -168,6 +158,7 @@ extension ExploreMapViewController: PostDelegate {
         if keyboardHeight > previousK && isKeyboardForEmojiReaction { //keyboard is appearing for the first time && we don't want to scroll the feed when the search controller keyboard is presented
             isKeyboardForEmojiReaction = false
             if let _ = selectedAnnotationView, keyboardHeight > 100 { //keyboardHeight of 90 appears with postVC keyboard
+                print("MOVING POST UP")
                 movePostUpAfterEmojiKeyboardRaised()
             }
         }

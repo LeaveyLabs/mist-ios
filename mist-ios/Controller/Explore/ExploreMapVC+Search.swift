@@ -61,8 +61,8 @@ extension ExploreMapViewController: UISearchControllerDelegate {
 extension ExploreMapViewController: UISearchBarDelegate {
     
     @objc func presentExploreSearchController() {
-        mySearchController.searchBar.placeholder = "search for mists"
-        mySearchController.searchBar.text = MapSearchResultType.randomPlaceholder()
+        mySearchController.searchBar.placeholder = "search for a location"
+        mySearchController.searchBar.text = ""
         present(mySearchController, animated: true) { [self] in
             searchSuggestionsVC.startProvidingCompletions(for: MKCoordinateRegion(center: mapView.region.center, latitudinalMeters: 100, longitudinalMeters: 100), searchType: .nearby)
             mySearchController.searchBar.becomeFirstResponder() //needed bc after dismissing the newpost vc and then presenting mysearchcontroller, the keyboard doenst go up. not perfect, but it works

@@ -23,20 +23,28 @@ extension ExploreMapViewController {
     //MARK: - Setup
     
     func setupExploreMapButtons() {
-        searchButton.roundCorners(corners: [.topRight, .bottomRight], radius: 10)
+        searchButton.roundCorners(corners: [.topLeft, .bottomLeft], radius: 10)
+        profileBackgroundView.roundCorners(corners: [.topRight, .bottomRight], radius: 10)
+        profileButton.imageView?.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
         filterButton.roundCorners(corners: [.topRight, .bottomRight], radius: 10)
         reloadButton.roundCorners(corners: [.topRight, .bottomRight], radius: 10)
         applyShadowOnView(exploreButtonStackView)
+        titleBackgroundView.roundCornersViaCornerRadius(radius: 10)
+        applyShadowOnView(titleBackgroundView)
     }
     
     //MARK: - User Interaction
     
-//    @IBAction func searchButtonPressed(_ sender: UIButton) {
-//        presentExploreSearchController()
-//    }
+    @IBAction func searchButtonPressed(_ sender: UIButton) {
+        presentExploreSearchController()
+    }
     
     @IBAction func reloadButtonPressed(_ sender: UIButton) {
         exploreDelegate.refreshMapPosts(completion: nil)
+    }
+    
+    @IBAction func profilePictureButtonPressed(_ sender: UIButton) {
+        handleProfileButtonTap()
     }
     
     @IBAction func exploreUserTrackingButtonPressed(_ sender: UIButton) {
@@ -218,11 +226,14 @@ extension ExploreMapViewController {
     override func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
         super.mapViewDidChangeVisibleRegion(mapView)
         
-        let zoomWidth = mapView.visibleMapRect.size.width
-        let plane = Int(Double(log10(zoomWidth)) - 9.0 / 4.0 + 1.5) //range beteween 1 and 4
-
+        let plane = calculatePlaneFromMapView(mapVew: mapView)
         PostService.singleton.updateFilter(newPlaneAndRegion:(plane, mapView.region))
-//        exploreDelegate.reloadNewMapPostsIfNecessary()
+        exploreDelegate?.loadNewMapPostsIfNecessary() //the ? is necessary because the delegate is not set until exploreMapVC.viewDidLoad but the mapViewDidChange is called beforehand for MapViewController
+    }
+    
+    func calculatePlaneFromMapView(mapVew: MKMapView) -> Int {
+        let zoomWidth = mapView.visibleMapRect.size.width
+        return Int(Double(log10(zoomWidth)) - 9.0 / 4.0 + 1.5) //range beteween 1 and 4
     }
     
     //MARK: Map Helpers

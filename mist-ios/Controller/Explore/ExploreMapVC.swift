@@ -15,7 +15,14 @@ enum ReloadType {
     case firstLoad, addMore, newSearch, newPost
 }
 
+struct LocationTapContext {
+    var lat, long: Double
+    var postId: Int
+}
+
 class ExploreMapViewController: MapViewController {
+    
+    static var locationTapContext: LocationTapContext? = nil
     
     // UI
     let whiteStatusBar = UIImageView(image: UIImage.imageFromColor(color: .white))
@@ -54,6 +61,7 @@ class ExploreMapViewController: MapViewController {
                     self.exploreButtonStackView.alpha = shouldZoomBeHidden ? 0 : 1
                     self.trackingDimensionStackView.alpha = shouldZoomBeHidden ? 0 : 1
                     self.zoomSliderGradientImageView.alpha = shouldZoomBeHidden ? 0 : 0.3
+                    self.titleBackgroundView.alpha = shouldZoomBeHidden ? 0 : 1
                 } completion: { completed in
                     self.exploreButtonStackView.isHidden = shouldZoomBeHidden
                     self.trackingDimensionStackView.isHidden = shouldZoomBeHidden
@@ -63,6 +71,9 @@ class ExploreMapViewController: MapViewController {
         }
     }
     
+    @IBOutlet weak var titleBackgroundView: UIView!
+    @IBOutlet weak var profileBackgroundView: UIView!
+    @IBOutlet weak var profileButton: UIButton!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var reloadButton: UIButton!
@@ -108,10 +119,31 @@ extension ExploreMapViewController {
             mapView.camera.pitch = maxCameraPitch
         }
     }
-    
+
+    var accountBadgeHub: BadgeHub {
+        let hub = BadgeHub(view: profileButton)
+        hub.scaleCircleSize(by: 0.65) //match the bottm notification height
+        hub.setCountLabelFont(UIFont(name: Constants.Font.Medium, size: 12))
+        hub.setCircleColor(Constants.Color.mistLilacPurple, label: .white)
+        return hub
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false) //for a better searchcontroller animation
+        
+        accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
+        
+        //Emoji keyboard autodismiss notification
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(keyboardWillChangeFrame),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(keyboardWillDismiss(sender:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
         
         guard isFirstAppearance else { return }
     }
@@ -127,6 +159,11 @@ extension ExploreMapViewController {
         else {
             // Controller is being shown as result of pop/dismiss/unwind.
             mySearchController.searchBar.becomeFirstResponder()
+        }
+        
+        if let locationTapContext = ExploreMapViewController.locationTapContext {
+            handleFeedLocationTap(lat: locationTapContext.lat, long: locationTapContext.long, postId: locationTapContext.postId)
+            ExploreMapViewController.locationTapContext = nil
         }
         
         guard isFirstAppearance else { return }
@@ -168,7 +205,35 @@ extension ExploreMapViewController {
     
     @MainActor
     func reloadAllData(animated: Bool = false) {
-        
+        fatalError("Not implemented yet")
+    }
+    
+    func handleFeedLocationTap(lat: Double, long: Double, postId: Int) {
+        slowFlyTo(lat: lat, long: long, incrementalZoom: false, withDuration: cameraAnimationDuration, allTheWayIn: true) { [self] completed in
+            exploreDelegate.refreshMapPosts() { [self] in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) { [self] in
+                    guard let tappedPostAnnotation = postAnnotations.first(where: { $0.post.id == postId }) else { return }
+                    let tappedPostCluster = mapView.greatestClusterContaining(tappedPostAnnotation)
+                    annotationSelectionType = .withoutPostCallout
+    //                    print("SELECTING:", tappedPostCluster, tappedPostAnnotation)
+                    mapView.selectAnnotation(tappedPostCluster ?? tappedPostAnnotation, animated: true)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self.annotationSelectionType = .normal
+                    }
+                    //Put the tapped post first in the cluster
+                    //the below code could be replaced with a "put the post at the proper index in PostService, before rendering posts on map in refreshMapPosts()^
+                    guard let cluster = tappedPostCluster,
+                          let clusterView = mapView.view(for: cluster) as? ClusterAnnotationView
+                    else { return }
+                    guard let postIndex = clusterView.sortedMemberPosts.firstIndex(where: { $0.id == postId }) else { return }
+                    let post = clusterView.sortedMemberPosts.remove(at: postIndex)
+                    clusterView.sortedMemberPosts.insert(post, at: 0)
+                    (clusterView.annotation as? MKClusterAnnotation)?.updateClusterTitle(newTitle: clusterView.sortedMemberPosts.first?.title)
+                    clusterView.glyphText = post.topEmoji
+                }
+            }
+        }
+            
     }
 }
 //

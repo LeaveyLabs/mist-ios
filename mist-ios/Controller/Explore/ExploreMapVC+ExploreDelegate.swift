@@ -15,9 +15,7 @@ extension ExploreMapViewController: ExploreChildDelegate {
     }
     
     func loadNewMapPostsIfNecessary() {
-        print("TRYING NEW MAP POSTS IF NECESSARY")
         guard !isFetchingMorePosts && PostService.singleton.isReadyForNewMapSearch() else { return }
-        print("SUCCESS")
         isFetchingMorePosts = true
         Task {
             do {
@@ -52,6 +50,7 @@ extension ExploreMapViewController: ExploreChildDelegate {
                 try await PostService.singleton.loadAndOverwriteExploreMapPosts()
                 DispatchQueue.main.async {
                     self.isFetchingMorePosts = false
+                    self.renderNewPostsOnMap(withType: .firstLoad)
                     completion?()
                 }
             } catch {

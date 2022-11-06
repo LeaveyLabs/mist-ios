@@ -21,40 +21,13 @@ extension MistCollectionViewController: PostDelegate {
     func handleLocationTap(postId: Int) {
         guard
             let post = PostService.singleton.getPost(withPostId: postId),
-            let _ = post.latitude,
-            let _ = post.longitude
+            let lat = post.latitude,
+            let long = post.longitude
         else { return }
         
-        //TODO: move to middle VC
-//        if currentPage != 2 {
-//            flowLayout.scrollToPage(index: 2, animated: true)
-//        } else {
-//            deselectAllAnnotations()
-//        }
-//        slowFlyTo(lat: lat, long: long, incrementalZoom: false, withDuration: cameraAnimationDuration, allTheWayIn: true) { [self] completed in
-//            refreshMapPosts() { [self] in
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.03) { [self] in
-//                    guard let tappedPostAnnotation = postAnnotations.first(where: { $0.post.id == postId }) else { return }
-//                    let tappedPostCluster = mapView.greatestClusterContaining(tappedPostAnnotation)
-//                    annotationSelectionType = .withoutPostCallout
-////                    print("SELECTING:", tappedPostCluster, tappedPostAnnotation)
-//                    mapView.selectAnnotation(tappedPostCluster ?? tappedPostAnnotation, animated: true)
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-//                        self.annotationSelectionType = .normal
-//                    }
-//                    //Put the tapped post first in the cluster
-//                    //the below code could be replaced with a "put the post at the proper index in PostService, before rendering posts on map in refreshMapPosts()^
-//                    guard let cluster = tappedPostCluster,
-//                          let clusterView = mapView.view(for: cluster) as? ClusterAnnotationView
-//                    else { return }
-//                    guard let postIndex = clusterView.sortedMemberPosts.firstIndex(where: { $0.id == postId }) else { return }
-//                    let post = clusterView.sortedMemberPosts.remove(at: postIndex)
-//                    clusterView.sortedMemberPosts.insert(post, at: 0)
-//                    (clusterView.annotation as? MKClusterAnnotation)?.updateClusterTitle(newTitle: clusterView.sortedMemberPosts.first?.title)
-//                    clusterView.glyphText = post.topEmoji
-//                }
-//            }
-//        }
+        (tabBarController as? SpecialTabBarController)?.shouldAnimateTransition = true
+        ExploreMapViewController.locationTapContext = .init(lat: lat, long: long, postId: post.id)
+        tabBarController?.selectedIndex = Tabs.map.rawValue
     }
     
     func handleFavorite(postId: Int, isAdding: Bool) { // Singleton & remote update

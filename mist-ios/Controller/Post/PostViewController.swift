@@ -593,7 +593,7 @@ extension PostViewController: PostDelegate {
     }
     
     func handleLocationTap(postId: Int) {
-        guard let mistCollectionVC = navigationController?.previousViewController as? MistCollectionViewController else { return }
+        guard let mistCollectionVC = navigationController?.previousViewController as? PostDelegate else { return }
         navigationController?.popViewController(animated: true, completion: {
             mistCollectionVC.handleLocationTap(postId: postId)
         })
