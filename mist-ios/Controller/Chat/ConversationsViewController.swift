@@ -26,9 +26,15 @@ class ConversationsViewController: UIViewController {
         tableView.bounces = ConversationService.singleton.getCount() > 0 ? true : false
         noConvosStackView.isHidden = ConversationService.singleton.getCount() > 0
         
+        (tabBarController?.tabBar as? SpecialTabBar)?.middleButton.isHidden = true
         (tabBarController as? SpecialTabBarController)?.refreshBadgeCount()
         
         customNavBar.accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        (tabBarController?.tabBar as? SpecialTabBar)?.middleButton.isHidden = false
     }
     
     //MARK: - Setup

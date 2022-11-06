@@ -195,6 +195,14 @@
 		47C1D49127DF00B200970B3D /* PostMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C1D49027DF00B200970B3D /* PostMoreViewController.swift */; };
 		47C2834F27DED77500A19128 /* FeedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C2834D27DED77500A19128 /* FeedHeaderCell.swift */; };
 		47C2835027DED77500A19128 /* FeedHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C2834E27DED77500A19128 /* FeedHeaderCell.xib */; };
+		47CBCCEA29171EB20053BBC9 /* ExploreMapVC+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CBCCE929171EB20053BBC9 /* ExploreMapVC+Search.swift */; };
+		47CBCCEB29171EB20053BBC9 /* ExploreMapVC+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CBCCE929171EB20053BBC9 /* ExploreMapVC+Search.swift */; };
+		47CBCCED291738800053BBC9 /* ExploreMapVC+ExploreDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CBCCEC291738800053BBC9 /* ExploreMapVC+ExploreDelegate.swift */; };
+		47CBCCEE291738800053BBC9 /* ExploreMapVC+ExploreDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CBCCEC291738800053BBC9 /* ExploreMapVC+ExploreDelegate.swift */; };
+		47CBCCF0291738990053BBC9 /* ExploreMapVC+PostDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CBCCEF291738990053BBC9 /* ExploreMapVC+PostDelegate.swift */; };
+		47CBCCF1291738990053BBC9 /* ExploreMapVC+PostDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CBCCEF291738990053BBC9 /* ExploreMapVC+PostDelegate.swift */; };
+		47CBCCF329174A1C0053BBC9 /* String+Condensed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CBCCF229174A1C0053BBC9 /* String+Condensed.swift */; };
+		47CBCCF429174A1C0053BBC9 /* String+Condensed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CBCCF229174A1C0053BBC9 /* String+Condensed.swift */; };
 		47CBF6F128356A7C00096514 /* OldFilterSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CBF6F028356A7C00096514 /* OldFilterSheetViewController.swift */; };
 		47CE900A27E058090004B756 /* PinMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900927E058090004B756 /* PinMapVC.swift */; };
 		47CE900C27E059DC0004B756 /* PinMapModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE900B27E059DC0004B756 /* PinMapModalViewController.swift */; };
@@ -973,6 +981,10 @@
 		47C1D49027DF00B200970B3D /* PostMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMoreViewController.swift; sourceTree = "<group>"; };
 		47C2834D27DED77500A19128 /* FeedHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedHeaderCell.swift; sourceTree = "<group>"; };
 		47C2834E27DED77500A19128 /* FeedHeaderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedHeaderCell.xib; sourceTree = "<group>"; };
+		47CBCCE929171EB20053BBC9 /* ExploreMapVC+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExploreMapVC+Search.swift"; sourceTree = "<group>"; };
+		47CBCCEC291738800053BBC9 /* ExploreMapVC+ExploreDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExploreMapVC+ExploreDelegate.swift"; sourceTree = "<group>"; };
+		47CBCCEF291738990053BBC9 /* ExploreMapVC+PostDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExploreMapVC+PostDelegate.swift"; sourceTree = "<group>"; };
+		47CBCCF229174A1C0053BBC9 /* String+Condensed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Condensed.swift"; sourceTree = "<group>"; };
 		47CBF6ED283556E600096514 /* SwiftyAttributes.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SwiftyAttributes.xcframework; path = Carthage/Build/SwiftyAttributes.xcframework; sourceTree = "<group>"; };
 		47CBF6F028356A7C00096514 /* OldFilterSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldFilterSheetViewController.swift; sourceTree = "<group>"; };
 		47CE900927E058090004B756 /* PinMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinMapVC.swift; sourceTree = "<group>"; };
@@ -1514,6 +1526,10 @@
 				47BE8F7728F881C0003857A1 /* MistVC+PostDelegate.swift */,
 				5B1F16CF287D1B0700035F93 /* MistVC+Search.swift */,
 				47BE8F7A28F884EF003857A1 /* FeedCollectionCell.swift */,
+				4700F8C527DE4652006C2E08 /* ExploreMapVC.swift */,
+				47CBCCE929171EB20053BBC9 /* ExploreMapVC+Search.swift */,
+				47CBCCEC291738800053BBC9 /* ExploreMapVC+ExploreDelegate.swift */,
+				47CBCCEF291738990053BBC9 /* ExploreMapVC+PostDelegate.swift */,
 			);
 			name = "New Approach";
 			sourceTree = "<group>";
@@ -2319,7 +2335,6 @@
 			isa = PBXGroup;
 			children = (
 				5B4152B128BEBC7D00592A55 /* ExploreFeedVC.swift */,
-				4700F8C527DE4652006C2E08 /* ExploreMapVC.swift */,
 				4752719C2855A80C00DDF84D /* ExploreMapVC+Map.swift */,
 				5B4152B428BF1F2000592A55 /* ExploreMapVC+OverlayDelegate.swift */,
 				470F271227DE6F5800C6DDAF /* SearchSuggestionsTableViewController.swift */,
@@ -2347,6 +2362,7 @@
 				5BE1473E289F1A7C0096FEBE /* String+Random.swift */,
 				5BE14741289F8E750096FEBE /* String+Pattern.swift */,
 				5BE147D028A2A1E80096FEBE /* String+Ranges.swift */,
+				47CBCCF229174A1C0053BBC9 /* String+Condensed.swift */,
 			);
 			path = String;
 			sourceTree = "<group>";
@@ -2762,9 +2778,11 @@
 				478A789B284E73970058C845 /* CLLocationCoordiante+Midpoint.swift in Sources */,
 				47FF86A127DC712F0076A1CA /* Comment.swift in Sources */,
 				5B29F90D28DEE3FB0062145B /* CollectiblesViewController.swift in Sources */,
+				47CBCCEA29171EB20053BBC9 /* ExploreMapVC+Search.swift in Sources */,
 				5BD8E07E28C1FB1C00E722D4 /* PinSearchVC.swift in Sources */,
 				47EA3E0227E0151200381218 /* MapViewController.swift in Sources */,
 				5BDE1F7028C5C92800B8B108 /* MistboxCollectionCell.swift in Sources */,
+				47CBCCED291738800053BBC9 /* ExploreMapVC+ExploreDelegate.swift in Sources */,
 				43483BB228025179001C7C6A /* ChooseUsernameViewController.swift in Sources */,
 				5B5DF07E28E0475800ABAF7D /* StickerView.swift in Sources */,
 				479683F32826494100CA23BA /* UIColor+Theme.swift in Sources */,
@@ -2806,6 +2824,7 @@
 				5BC2531228BB1A6800D4F49A /* CarouselCollectionView.swift in Sources */,
 				470F271327DE6F5800C6DDAF /* SearchSuggestionsTableViewController.swift in Sources */,
 				4369DB0C282EC465009215D4 /* Message.swift in Sources */,
+				47CBCCF329174A1C0053BBC9 /* String+Condensed.swift in Sources */,
 				47C1D49127DF00B200970B3D /* PostMoreViewController.swift in Sources */,
 				472A4C0728408BD800FD52B7 /* UnwindSegue.swift in Sources */,
 				5B1F16D0287D1B0700035F93 /* MistVC+Search.swift in Sources */,
@@ -2843,6 +2862,7 @@
 				47501DAC28F9F7B200E83C3B /* UITableView+AnimateReload.swift in Sources */,
 				434E333228DD88D100A9E88A /* OpenNotificationsAPI.swift in Sources */,
 				476971DE2847CCAB00123F72 /* UIView+ParentVC.swift in Sources */,
+				47CBCCF0291738990053BBC9 /* ExploreMapVC+PostDelegate.swift in Sources */,
 				472A4BF828408BD800FD52B7 /* DesignableTextField.swift in Sources */,
 				472A4BFD28408BD800FD52B7 /* DesignableButton.swift in Sources */,
 				5B4CE2EA28DA493600FB9E8B /* ExplainProfileVC.swift in Sources */,
@@ -3119,6 +3139,7 @@
 				5B739DBC28935B9500E4EED0 /* UITextView+Placeholder.swift in Sources */,
 				5B739DBD28935B9500E4EED0 /* FlagService.swift in Sources */,
 				5BBF5C51289B9FE1000B2D31 /* InputAvatar.swift in Sources */,
+				47CBCCF429174A1C0053BBC9 /* String+Condensed.swift in Sources */,
 				5B739DBE28935B9500E4EED0 /* MKClusterAnnotation+*.swift in Sources */,
 				5B739DBF28935B9500E4EED0 /* AuthContext.swift in Sources */,
 				5B29F90E28DEE3FB0062145B /* CollectiblesViewController.swift in Sources */,
@@ -3186,6 +3207,7 @@
 				5BC8822D28B15192007E83F8 /* UIViewController+Logout.swift in Sources */,
 				5B739DEB28935B9500E4EED0 /* MessageKitMessage.swift in Sources */,
 				5B739DEC28935B9500E4EED0 /* MatchRequestService.swift in Sources */,
+				47CBCCF1291738990053BBC9 /* ExploreMapVC+PostDelegate.swift in Sources */,
 				5B739DED28935B9500E4EED0 /* ValidateResetPasswordViewController.swift in Sources */,
 				5B739DEE28935B9500E4EED0 /* ProfilePicWrapper.swift in Sources */,
 				5BE14737289EB68B0096FEBE /* CommentAutocompleteManager.swift in Sources */,
@@ -3251,6 +3273,7 @@
 				5B739E1528935B9500E4EED0 /* UITextField+Padding.swift in Sources */,
 				5B739E1628935B9500E4EED0 /* MKPointOfInterestCategory+Extension.swift in Sources */,
 				5B739E1728935B9500E4EED0 /* WelcomeTutorialViewController.swift in Sources */,
+				47CBCCEB29171EB20053BBC9 /* ExploreMapVC+Search.swift in Sources */,
 				5B739E1828935B9500E4EED0 /* NewPostContext.swift in Sources */,
 				5B739E1928935B9500E4EED0 /* LoadingView.swift in Sources */,
 				5B739E1A28935B9500E4EED0 /* PasswordSettingViewController.swift in Sources */,
@@ -3311,6 +3334,7 @@
 				5B739E4028935B9500E4EED0 /* FinalizeResetPasswordViewController.swift in Sources */,
 				5B739E4128935B9500E4EED0 /* ConversationsViewController.swift in Sources */,
 				5B739E4228935B9500E4EED0 /* UIViewController+MistShareActivity.swift in Sources */,
+				47CBCCEE291738800053BBC9 /* ExploreMapVC+ExploreDelegate.swift in Sources */,
 				5B739E4328935B9500E4EED0 /* Conversation.swift in Sources */,
 				5BC2531C28BC0EC300D4F49A /* CollectionImageCell.swift in Sources */,
 				5B739E4428935B9500E4EED0 /* EnterNameViewController.swift in Sources */,

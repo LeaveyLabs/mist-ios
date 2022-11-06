@@ -9,9 +9,19 @@ import Foundation
 import MapKit
 import CenteredCollectionView
 
-class MistCollectionViewController: ExploreMapViewController {
+
+//Note: this doesn't need to be an exploreMapVC anymore, but it's a relic of when we previously had the map underneath. would be better to phase this out, but not worth the work rn
+class MistCollectionViewController: UIViewController {
     
     //MARK: - Properties
+    
+    // Delegate
+    var postDelegate: PostDelegate!
+    var exploreDelegate: ExploreChildDelegate!
+    
+    // Search
+    var mySearchController: UISearchController!
+    var searchSuggestionsVC: SearchSuggestionsTableViewController!
     
     //UI
     @IBOutlet weak var collectionView: PostCollectionView!
@@ -21,7 +31,7 @@ class MistCollectionViewController: ExploreMapViewController {
     
     lazy var newFeedContentOffsetY: CGFloat = BASE_CONTENT_OFFSET
     lazy var BASE_CONTENT_OFFSET = flowLayout.itemSize.height * -0.15 - 14
-    var currentPage: Int = 1 {
+    var currentPage: Int = 0 {
         didSet {
             feedToggleView.toggleFeed(labelIndex: currentPage)
         }
@@ -60,14 +70,10 @@ class MistCollectionViewController: ExploreMapViewController {
         
         self.exploreDelegate = self //mapViewController has an exploreDelegate, too. we'll set ourselves to that (as if we were the parentVC)
         self.postDelegate = self
-        
-        renderNewPostsOnMap(withType: .firstLoad)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        reloadAllData()
         
         //Emoji keyboard autodismiss notification
         NotificationCenter.default.addObserver(self,
@@ -79,6 +85,10 @@ class MistCollectionViewController: ExploreMapViewController {
             selector: #selector(keyboardWillDismiss(sender:)),
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
+        
+        if !isFirstLoad {
+            visibleFeed?.reloadData()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -87,7 +97,8 @@ class MistCollectionViewController: ExploreMapViewController {
         guard isFirstLoad else { return }
         isFirstLoad = false
 
-        flowLayout.scrollToPage(index: 1, animated: false) //viewDidAppear & viewDidLayoutSubviews is too soon
+        currentPage = 0
+        flowLayout.scrollToPage(index: 0, animated: false) //viewDidAppear & viewDidLayoutSubviews is too soon
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -98,7 +109,7 @@ class MistCollectionViewController: ExploreMapViewController {
     //MARK: - Setup
     
     func setupCustomNavBar(animated: Bool) {
-        customNavBar.configure(title: "mists", leftItems: [.title], rightItems: [.search, .profile], animated: animated)
+        customNavBar.configure(title: "mist", leftItems: [.title], rightItems: [.search, .profile], animated: animated)
         customNavBar.accountButton.addTarget(self, action: #selector(handleProfileButtonTap), for: .touchUpInside)
         customNavBar.searchButton.addTarget(self, action: #selector(presentExploreSearchController), for: .touchUpInside)
     }
@@ -128,7 +139,7 @@ class MistCollectionViewController: ExploreMapViewController {
     }
     
     func setupFeedToggleView() {
-        feedToggleView.configure(labelNames: ["new", "trending", "nearby"], startingSelectedIndex: 1, delegate: self)
+        feedToggleView.configure(labelNames: ["new", "best"], startingSelectedIndex: 0, delegate: self)
     }
     
     //MARK: - Helpers
@@ -137,18 +148,17 @@ class MistCollectionViewController: ExploreMapViewController {
     func reloadAllData(animated: Bool = false) {
         (tabBarController as? SpecialTabBarController)?.refreshBadgeCount()
         customNavBar.accountBadgeHub.setCount(DeviceService.shared.unreadMentionsCount())
-
-        rerenderCollectionViewForUpdatedPostData()
-        let tableViewOne = (collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? FeedCollectionCell)?.tableView
-        let tableViewTwo = (collectionView.cellForItem(at: IndexPath(item: 1, section: 0)) as? FeedCollectionCell)?.tableView
         
-        if animated {
-            tableViewOne?.reloadDataWithViewAnimation(.transitionCrossDissolve, duration: 0.3)
-            tableViewTwo?.reloadDataWithViewAnimation(.transitionCrossDissolve, duration: 0.3)
-        } else {
-            tableViewOne?.reloadData()
-            tableViewTwo?.reloadData()
-        }
+        self.collectionView.performBatchUpdates({
+            let indexSet = IndexSet(integersIn: 0...0)
+            self.collectionView.reloadSections(indexSet)
+        }, completion: nil)
+        
+//        if animated {
+//            visibleFeed?.reloadDataWithViewAnimation(.transitionCrossDissolve, duration: 0.3)
+//        } else {
+//            visibleFeed?.reloadData()
+//        }
     }
     
 }
@@ -211,7 +221,7 @@ extension MistCollectionViewController: UICollectionViewDelegate {
 extension MistCollectionViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        3
+        2
     }
         
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -223,7 +233,6 @@ extension MistCollectionViewController: UICollectionViewDataSource {
                 posts = PostService.singleton.getExploreNewPosts()
             } else {
                 posts = PostService.singleton.getExploreBestPosts()
-                print("BEST POST COUNT", posts.count)
             }
             let feedCollectionCell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: FeedCollectionCell.self), for: indexPath) as! FeedCollectionCell
             feedCollectionCell.configure(postDelegate: self,

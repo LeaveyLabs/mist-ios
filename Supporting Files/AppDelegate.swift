@@ -115,12 +115,13 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 //                } else {
 //                    //if we do have a converation open, this code is handled in Conversation
 //                }
-            case .prompts, .comment:
+            case .comment:
                 break
             }
-        } catch {
-            print("failed to load data after notification:", error.localizedDescription)
         }
+//        catch {
+//            print("failed to load data after notification:", error.localizedDescription)
+//        }
     }
 
     // MARK: UISceneSession Lifecycle

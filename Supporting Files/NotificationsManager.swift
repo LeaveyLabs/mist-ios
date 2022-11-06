@@ -12,7 +12,6 @@ enum NotificationTypes: String {
     case message = "message"
     case match = "match"
     case comment = "comment"
-    case prompts = "prompts"
 }
 
 //extension Notification.Name {

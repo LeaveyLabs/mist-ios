@@ -41,8 +41,6 @@ func generateNotificationResponseHandler(_ notificationResponse: UNNotificationR
             guard let json = userInfo[Notification.extra.data.rawValue] else { return nil }
             let data = try JSONSerialization.data(withJSONObject: json as Any, options: .prettyPrinted)
             handler.newMatchRequest = try JSONDecoder().decode(MatchRequest.self, from: data)
-        case .prompts:
-            break
         case .comment:
             guard let json = userInfo[Notification.extra.data.rawValue] else { return nil }
             let data = try JSONSerialization.data(withJSONObject: json as Any, options: .prettyPrinted)

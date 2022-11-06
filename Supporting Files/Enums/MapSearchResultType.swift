@@ -14,9 +14,9 @@ enum MapSearchResultType: Int, CaseIterable {
     var sectionName : String {
         switch self {
         case .containing:
-            return "containing"
+            return "mists containing:"
         case .nearby:
-            return "nearby"
+            return "mists nearby:"
         }
     }
     

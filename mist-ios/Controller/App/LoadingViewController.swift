@@ -196,7 +196,7 @@ class LoadingViewController: UIViewController {
             guard
                 let myActivityNavigation = mainSB.instantiateViewController(withIdentifier: Constants.SBID.VC.MyActivityNavigation) as? UINavigationController
             else { return }
-            tabbarVC.selectedIndex = Tabs.explore.rawValue
+            tabbarVC.selectedIndex = Tabs.feed.rawValue
             myActivityNavigation.modalPresentationStyle = .fullScreen
             tabbarVC.present(myActivityNavigation, animated: false)
             let newMentionsPostVC = PostViewController.createPostVC(with: taggedPost, shouldStartWithRaisedKeyboard: false, completionHandler: nil)
@@ -225,14 +225,12 @@ class LoadingViewController: UIViewController {
             else { return }
             let chatVC = ChatViewController.create(conversation: convo)
             conversationsNavVC.pushViewController(chatVC, animated: false)
-        case .prompts:
-            tabbarVC.selectedIndex = Tabs.prompts.rawValue
         case .comment:
             guard let commentPost = handler.newCommentPost else {
                 CustomSwiftMessages.displayError("not found", "this comment has been deleted")
                 return
             }
-            tabbarVC.selectedIndex = Tabs.explore.rawValue
+            tabbarVC.selectedIndex = Tabs.feed.rawValue
             let newCommentPostVC = PostViewController.createPostVC(with: commentPost, shouldStartWithRaisedKeyboard: false, completionHandler: nil)
             (tabbarVC.selectedViewController as? UINavigationController)?.pushViewController(newCommentPostVC, animated: false)
             
@@ -252,8 +250,6 @@ class LoadingViewController: UIViewController {
             }
         case .message, .match:
             break //we will already have loaded in the data in fetchConversations
-        case .prompts:
-            break
         case .comment:
             guard let comment = handler.newComment else { return }
             do {

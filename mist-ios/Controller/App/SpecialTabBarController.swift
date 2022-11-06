@@ -9,7 +9,7 @@ import UIKit
 import Foundation
 
 enum Tabs: Int, CaseIterable {
-    case explore, prompts, dms //mistbox, dms
+    case feed, map, dms
 }
 
 class SpecialTabBarController: UITabBarController {
@@ -126,7 +126,7 @@ extension SpecialTabBarController {
         
         dmTabBadgeCount = ConversationService.singleton.getUnreadConversations().count
         
-        tabBar.items![Tabs.prompts.rawValue].badgeValue = CollectibleManager.shared.hasUserEarnedACollectibleToday ? nil : "1"
+//        tabBar.items![Tabs.prompts.rawValue].badgeValue = CollectibleManager.shared.hasUserEarnedACollectibleToday ? nil : "1"
     }
     
 }

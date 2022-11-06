@@ -20,6 +20,7 @@ class SearchSuggestionsTableViewController: UITableViewController {
     //Search
     private var searchText = ""
     
+    var searchType: MapSearchResultType = .containing
     var searchResults = SearchResults(wordResults: [], completerResults: [])
     var searchResultsCache = [String: SearchResults]()
     var searchResultsTasks = [String: Task<Void, Never>]()
@@ -59,10 +60,11 @@ class SearchSuggestionsTableViewController: UITableViewController {
 
 extension SearchSuggestionsTableViewController {
     
-    func startProvidingCompletions(for region: MKCoordinateRegion) {
+    func startProvidingCompletions(for region: MKCoordinateRegion, searchType: MapSearchResultType) {
         searchCompleter.delegate = self
         searchCompleter.resultTypes = [.pointOfInterest, .address]
         searchCompleter.region = region
+        self.searchType = searchType
     }
 }
 
@@ -71,13 +73,12 @@ extension SearchSuggestionsTableViewController {
 extension SearchSuggestionsTableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard !searchText.isEmpty else { return "" }
-        let resultType = MapSearchResultType.init(rawValue: section)!
-        return resultType.sectionName
+        return searchType.sectionName
     }
     
     //Fix font
@@ -88,9 +89,8 @@ extension SearchSuggestionsTableViewController {
     }
             
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let resultType = MapSearchResultType.init(rawValue: section)!
         if searchText.isEmpty { return 0 }
-        switch resultType {
+        switch searchType {
         case .containing:
             return max(searchResults.wordResults.count, 1) //return 1 "no results" cell
         case .nearby:
@@ -99,12 +99,17 @@ extension SearchSuggestionsTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let resultType = MapSearchResultType.init(rawValue: indexPath.section)!
-        switch resultType {
+        switch searchType {
         case .containing:
+            var wrapperWords: [String] = []
+            let searchWords = searchText.condensed.components(separatedBy: .whitespaces)
+            if searchWords.count > 0 {
+                wrapperWords = Array(searchWords.prefix(searchWords.count - 1))
+            }
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.SBID.Cell.SearchResult, for: indexPath) as! SearchResultCell
             if !searchResults.wordResults.isEmpty {
-                cell.configureWordCell(word: searchResults.wordResults[indexPath.row])
+                cell.configureWordCell(word: searchResults.wordResults[indexPath.row], wrapperWords: wrapperWords)
             } else {
                 cell.configureNoWordResultsCell()
             }
@@ -147,13 +152,8 @@ extension SearchSuggestionsTableViewController: MKLocalSearchCompleterDelegate {
     
     /// - Tag: QueryResults
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        if searchResultsCache.keys.contains(completer.queryFragment) {
-            searchResultsCache[completer.queryFragment]?.completerResults = completer.results
-            handleFinishedSearch(forQuery: completer.queryFragment)
-        } else {
-            searchResultsCache[completer.queryFragment] = SearchResults(wordResults: [], completerResults: completer.results)
-            //wait for word search to finish
-        }
+        searchResultsCache[completer.queryFragment] = SearchResults(wordResults: [], completerResults: completer.results)
+        handleFinishedSearch(forQuery: completer.queryFragment)
     }
     
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
@@ -199,8 +199,12 @@ extension SearchSuggestionsTableViewController: UISearchResultsUpdating {
             return
         }
         
-        startNearbySearch(with: searchText)
-        startWordSearch(with: searchText)
+        switch searchType {
+        case .containing:
+            startWordSearch(with: searchText)
+        case .nearby:
+            startNearbySearch(with: searchText)
+        }
         activityIndicator.isHidden = false
     }
 }
@@ -223,14 +227,9 @@ extension SearchSuggestionsTableViewController {
                                                               wrapper_words: wrapperWords)
                 let trimmedResults = sortAndTrimNewWordResults(loadedWords)
                 
-                if searchResultsCache.keys.contains(searchText) {
-                    searchResultsCache[searchText]?.wordResults = trimmedResults
-                    handleFinishedSearch(forQuery: searchText)
-                } else {
-                    searchResultsCache[searchText] = SearchResults(wordResults: trimmedResults,
-                                                                   completerResults: [])
-                    //wait for location search to finish
-                }
+                searchResultsCache[searchText] = SearchResults(wordResults: trimmedResults, completerResults: [])
+                handleFinishedSearch(forQuery: searchText)
+                
             } catch {
                 searchResultsTasks[searchText]?.cancel()
                 CustomSwiftMessages.displayError(error)

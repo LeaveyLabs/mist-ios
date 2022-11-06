@@ -32,11 +32,18 @@ class SearchResultCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func configureWordCell(word: Word) {
+    func configureWordCell(word: Word, wrapperWords: [String]) {
         imageView?.image = UIImage(systemName: "magnifyingglass")
-        titleLabel.text = word.text
+        print("WORDS", wrapperWords, word)
+        
+        accessoryLabel.text = ""
+        titleLabel.text = ""
+        for i in 0..<wrapperWords.count {
+            titleLabel.text! += wrapperWords[i] + ", "
+        }
+        titleLabel.text! += word.text
 //        subtitleLabel.text = ""
-        accessoryLabel.text = word.occurrences > 99 ? "99+" : String(word.occurrences)
+//        accessoryLabel.text = word.occurrences > 99 ? "99+" : String(word.occurrences)
         accessoryType = .disclosureIndicator
         isUserInteractionEnabled = true
     }

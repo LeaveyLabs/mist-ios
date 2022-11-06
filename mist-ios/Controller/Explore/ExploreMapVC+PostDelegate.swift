@@ -1,15 +1,15 @@
 //
-//  MistVC+PostDelegate.swift
+//  ExploreMapVC+PostDelegate.swift
 //  mist-ios
 //
-//  Created by Adam Novak on 2022/10/13.
+//  Created by Adam Novak on 2022/11/05.
 //
 
 import Foundation
 import MessageUI
 import MapKit
 
-extension MistCollectionViewController: PostDelegate {
+extension ExploreMapViewController: PostDelegate {
     
     //MFMessageComposeVC
     
@@ -134,11 +134,9 @@ extension MistCollectionViewController: PostDelegate {
     //MARK: - React interaction
     
     func handleReactTap(postId: Int) {
-        if currentPage == 0 {
-            reactingPostIndex = PostService.singleton.getExploreNewPostsSortedIds().firstIndex { $0 == postId }
-        } else {
-            reactingPostIndex = PostService.singleton.getExploreBestPostsSortedIds().firstIndex { $0 == postId }
-        }
+//        reactingPostIndex = feedPosts.firstIndex { $0.id == postId }
+        //TODO: - how to get for map^??
+        
         isKeyboardForEmojiReaction = true
     }
     
@@ -165,19 +163,12 @@ extension MistCollectionViewController: PostDelegate {
         if keyboardHeight == previousK && isKeyboardForEmojiReaction {
             //already reacting to one post, tried to react on another post
             isKeyboardForEmojiReaction = false
-
-            //Feed:
-            if currentPage <= 1 {
-                if let reactingPostIndex = reactingPostIndex {
-                    (collectionView.visibleCells.first as? FeedCollectionCell)?.scrollFeedToPostRightAboveKeyboard(postIndex: reactingPostIndex, keyboardHeight: keyboardHeight)
-                }
-            }
         }
 
         if keyboardHeight > previousK && isKeyboardForEmojiReaction { //keyboard is appearing for the first time && we don't want to scroll the feed when the search controller keyboard is presented
             isKeyboardForEmojiReaction = false
-            if let reactingPostIndex = reactingPostIndex {
-                (collectionView.visibleCells.first as? FeedCollectionCell)?.scrollFeedToPostRightAboveKeyboard(postIndex: reactingPostIndex, keyboardHeight: keyboardHeight)
+            if let _ = selectedAnnotationView, keyboardHeight > 100 { //keyboardHeight of 90 appears with postVC keyboard
+                movePostUpAfterEmojiKeyboardRaised()
             }
         }
     }

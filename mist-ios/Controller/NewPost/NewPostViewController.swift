@@ -326,17 +326,21 @@ class NewPostViewController: UIViewController {
     
     @MainActor
     func handleSuccessfulNewPost(wasOfferedNotifications: Bool) {
-        let tbc = presentingViewController as! UITabBarController
-        tbc.selectedIndex = Tabs.explore.rawValue
-        let homeNav = tbc.selectedViewController as! UINavigationController
-        let homeParent = homeNav.topViewController as! MistCollectionViewController
+        //TODO: display pop-up saying your post is in a queue! Turn on notifications to find out if it gets approved
         
-        finishAnimationProgress() {
-            homeParent.isHandlingNewPost = true
-            self.dismiss(animated: true) {
-                homeParent.handleNewlySubmittedPost(didJustShowNotificaitonsRequest: wasOfferedNotifications)
-            }
-        }
+        self.dismiss(animated: true)
+        
+//        let tbc = presentingViewController as! UITabBarController
+//        tbc.selectedIndex = Tabs.feed.rawValue
+//        let homeNav = tbc.selectedViewController as! UINavigationController
+//        let homeParent = homeNav.topViewController as! MistCollectionViewController
+//
+//        finishAnimationProgress() {
+//            homeParent.isHandlingNewPost = true
+//            self.dismiss(animated: true) {
+//                homeParent.handleNewlySubmittedPost(didJustShowNotificaitonsRequest: wasOfferedNotifications)
+//            }
+//        }
     }
     
     @IBAction func userDidTappedPinButton(_ sender: UIButton) {

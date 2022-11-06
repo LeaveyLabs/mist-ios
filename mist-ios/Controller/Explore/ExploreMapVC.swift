@@ -19,14 +19,20 @@ class ExploreMapViewController: MapViewController {
     
     // UI
     let whiteStatusBar = UIImageView(image: UIImage.imageFromColor(color: .white))
-    
+        
     // Delegate
     var postDelegate: PostDelegate!
     var exploreDelegate: ExploreChildDelegate!
+    var keyboardHeight: CGFloat = 0 //emoji keyboard autodismiss flag
+    var isKeyboardForEmojiReaction: Bool = false
+    var reactingPostIndex: Int? //for scrolling to the right index on the feed when react keyboard raises
     
+    var isFirstLoad = true
+        
     //Flags
     var annotationSelectionType: AnnotationSelectionType = .normal
     var isFirstAppearance = true
+    var isFetchingMorePosts = false
 
     lazy var MAP_VIEW_WIDTH: Double = Double(mapView?.bounds.width ?? 350)
     lazy var POST_VIEW_WIDTH: Double = MAP_VIEW_WIDTH * 0.5 + 100
@@ -88,7 +94,13 @@ extension ExploreMapViewController {
         setupWhiteStatusBar()
         setupBlurredStatusBar()
         setupExploreMapButtons()
+        setupSearchBar()
 //        setupTrojansActiveView()
+        
+        self.exploreDelegate = self //mapViewController has an exploreDelegate, too. we'll set ourselves to that (as if we were the parentVC)
+        self.postDelegate = self
+        
+        renderNewPostsOnMap(withType: .firstLoad)
 
         if let userLocation = locationManager.location {
             mapView.camera.centerCoordinate = userLocation.coordinate
@@ -151,6 +163,13 @@ extension ExploreMapViewController {
 //            }
 //        }
 //    }
+    
+    //MARK: - Helpers
+    
+    @MainActor
+    func reloadAllData(animated: Bool = false) {
+        
+    }
 }
 //
 //MARK: - Post Interaction
