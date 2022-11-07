@@ -165,10 +165,10 @@ extension CustomSwiftMessages {
                 emoji = "📍"
                 messageView.customConfig(approveText: "sure", dismissText: "no thanks")
             case .contacts:
-                title = "share your contacts for better tagging"
-                body = "if you tag a friend who's not on mist, we'll shoot them a text"
+                title = "tag friends even if they aren't on mist"
+                body = "find a mist about your friend? share your contacts so you can tag friends who don't have mist yet"
                 emoji = "＠"
-                messageView.customConfig(approveText: "share", dismissText: "nah")
+                messageView.customConfig(approveText: "sure", dismissText: "nah")
             case .dmNotificationsAfterDm:
                 title = "enable notifications"
                 body = "find out when they\nget back with you"

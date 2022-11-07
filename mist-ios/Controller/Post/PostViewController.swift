@@ -10,7 +10,7 @@ import Contacts
 import InputBarAccessoryView //dependency of MessageKit. If we remove MessageKit, we should install this package independently
 import MessageUI
 
-let COMMENT_PLACEHOLDER_TEXT = "leave a comment"// & tag your friends"
+let COMMENT_PLACEHOLDER_TEXT = "comment & tag your friends"
 typealias PostCompletionHandler = (() -> Void)
 
 extension AutocompleteManagerDelegate {
@@ -52,19 +52,19 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     var mostRecentAutocompleteQuery = ""
     var autocompletionCache = [String: [AutocompleteCompletion]]()
     var autocompletionTasks = [String: Task<Void, Never>]()
-//    open lazy var autocompleteManager: CommentAutocompleteManager = { [unowned self] in
-//        let manager = CommentAutocompleteManager(for: self.inputBar.inputTextView)
-//        inputBar.inputTextView.delegate = self //re-claim delegate status after AutocompleteManager became it
-//        manager.delegate = self
-//        manager.dataSource = self
-//        manager.filterBlock = { session, completion in
-//            if let id = completion.context?[AutocompleteContext.id.rawValue] as? Int, id == UserService.singleton.getId() {
-//                return false //dont display yourself in the suggestions
-//            }
-//            return true
-//        }
-//        return manager
-//    }()
+    open lazy var autocompleteManager: CommentAutocompleteManager = { [unowned self] in
+        let manager = CommentAutocompleteManager(for: self.inputBar.inputTextView)
+        inputBar.inputTextView.delegate = self //re-claim delegate status after AutocompleteManager became it
+        manager.delegate = self
+        manager.dataSource = self
+        manager.filterBlock = { session, completion in
+            if let id = completion.context?[AutocompleteContext.id.rawValue] as? Int, id == UserService.singleton.getId() {
+                return false //dont display yourself in the suggestions
+            }
+            return true
+        }
+        return manager
+    }()
     
     //Data
     var postId: Int!
@@ -75,8 +75,8 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
     var commentAuthors = [Int: ThumbnailReadOnlyUser]() //[authorId: author]
     
     //PostDelegate
-//    var loadAuthorProfilePicTasks: [Int: Task<FrontendReadOnlyUser?, Never>] = [:]
-//    var loadTaggedProfileTasks: [Int : Task<FrontendReadOnlyUser?, Error>] = [:] //Error, not Never, because we're doing 2 layers of DoTry calls
+    var loadAuthorProfilePicTasks: [Int: Task<ThumbnailReadOnlyUser?, Never>] = [:]
+    var loadTaggedProfileTasks: [Int : Task<ThumbnailReadOnlyUser?, Error>] = [:] //Error, not Never, because we're doing 2 layers of DoTry calls
 
     var didDismiss: PostCompletionHandler?
 
@@ -115,20 +115,20 @@ class PostViewController: UIViewController, UIViewControllerTransitioningDelegat
         inputBar.inputTextView.canBecomeFirstResponder = true // to offset viewWillDisappear
         
         //No longer ask them for contacts access since we are removing tagging
-//        if !DeviceService.shared.hasBeenRequestedContactsOnPost() {
-//            DeviceService.shared.requestContactsOnPost()
-//            requestContactsAccess { wasShownPermissionRequest in
-//                DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [self] in
-//                    if shouldStartWithRaisedKeyboard {
-//                        inputBar.inputTextView.becomeFirstResponder()
-//                    }
-//                })
-//            }
-//        } else {
+        if !DeviceService.shared.hasBeenRequestedContactsOnPost() {
+            DeviceService.shared.requestContactsOnPost()
+            requestContactsAccess { wasShownPermissionRequest in
+                DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [self] in
+                    if shouldStartWithRaisedKeyboard {
+                        inputBar.inputTextView.becomeFirstResponder()
+                    }
+                })
+            }
+        } else {
             if shouldStartWithRaisedKeyboard {
                 inputBar.inputTextView.becomeFirstResponder()
             }
-//        }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -249,20 +249,20 @@ extension PostViewController: InputBarAccessoryViewDelegate {
     
     func inputBar(_ inputBar: InputBarAccessoryView, didChangeIntrinsicContentTo size: CGSize) {
         print("didchangeinputbarintrinsicsizeto:", size)
-//        updateMaxAutocompleteRows(keyboardHeight: keyboardHeight)
+        updateMaxAutocompleteRows(keyboardHeight: keyboardHeight)
         updateMessageCollectionViewBottomInset()
         tableView.keyboardDismissMode = asyncCompletions.isEmpty ? .interactive : .none
     }
     
-//    func updateMaxAutocompleteRows(keyboardHeight: Double) {
-//        let inputHeight = inputBar.inputTextView.frame.height + 10
-////        let maxSpaceBetween = tableView.frame.height - keyboardHeight - inputHeight //this method results in slightly off sizing for large iphones
-//        autocompleteManager.tableView.maxVisibleRows = Int(inputHeight) //we are manipulating maxVisibleRows to use as the InputBarHeight when calculating the fullTableViewHeight. this is bad practice but the best workaround for now
-//    }
+    func updateMaxAutocompleteRows(keyboardHeight: Double) {
+        let inputHeight = inputBar.inputTextView.frame.height + 10
+//        let maxSpaceBetween = tableView.frame.height - keyboardHeight - inputHeight //this method results in slightly off sizing for large iphones
+        autocompleteManager.tableView.maxVisibleRows = Int(inputHeight) //we are manipulating maxVisibleRows to use as the InputBarHeight when calculating the fullTableViewHeight. this is bad practice but the best workaround for now
+    }
 
     @objc func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
         inputBar.inputTextView.placeholderLabel.isHidden = !inputBar.inputTextView.text.isEmpty
-//        processAutocompleteOnNextText(text)
+        processAutocompleteOnNextText(text)
         inputBar.sendButton.isEnabled = inputBar.inputTextView.text != ""
     }
     
@@ -368,9 +368,9 @@ extension PostViewController: UITextViewDelegate {
         return true //autocompleteManager.textView(textView, shouldChangeTextIn: range, replacementText: text)
     }
     
-//    func textViewDidChange(_ textView: UITextView) {
-//        autocompleteManager.textViewDidChange(textView)
-//    }
+    func textViewDidChange(_ textView: UITextView) {
+        autocompleteManager.textViewDidChange(textView)
+    }
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         //no idea why, but this delegate function is just not being called

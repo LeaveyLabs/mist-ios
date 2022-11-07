@@ -9,17 +9,17 @@
 //import OverlayContainer
 //
 //class CustomExploreParentViewController: ExploreParentViewController {
-//    
+//
 //    enum OverlayNotch: Int, CaseIterable {
 //        case hidden, minimum, medium, maximum
 //    }
-//    
+//
 //    //MARK: - Properties
-//    
+//
 //    var setting: Setting!
 //    var feedBottomConstraint: NSLayoutConstraint!
 //    var currentCustomNotch: OverlayNotch = .minimum
-//    
+//
 //    override var mapPosts: [Post] {
 //        switch setting {
 //        case .submissions:
@@ -44,18 +44,18 @@
 //            return []
 //        }
 //    }
-//    
+//
 //    //MARK: - Initialization
-//    
+//
 //    class func create(setting: Setting) -> CustomExploreParentViewController? {
 //        guard setting == .favorites || setting == .submissions || setting == .mentions else { return nil }
 //        let vc = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.CustomExploreParent) as! CustomExploreParentViewController
 //        vc.setting = setting
 //        return vc
 //    }
-//    
+//
 //    //MARK: - Lifecycle
-//    
+//
 //    override func viewDidLoad() {
 //        super.viewDidLoad()
 //        setupTitleLabel()
@@ -71,9 +71,9 @@
 //        exploreMapVC.filterButton.isHidden = true
 //        exploreMapVC.reloadButton.roundCorners(corners: .allCorners, radius: 10)
 //    }
-//    
+//
 //    //MARK: - Override Overlay
-//    
+//
 //    func notchHeight(for notch: OverlayNotch, availableSpace: CGFloat) -> CGFloat {
 //        switch notch {
 //        case .hidden:
@@ -86,7 +86,7 @@
 //            return availableSpace
 //        }
 //    }
-//        
+//
 //    @objc override func didTapFeedNotch() {
 //        switch currentCustomNotch {
 //        case .hidden:
@@ -97,7 +97,7 @@
 //            overlayController.moveOverlay(toNotchAt: OverlayNotch.minimum.rawValue, animated: true, completion: nil)
 //        }
 //    }
-//    
+//
 //    override func numberOfNotches(in containerViewController: OverlayContainerViewController) -> Int {
 //        return OverlayNotch.allCases.count
 //    }
@@ -108,7 +108,7 @@
 //        let notch = OverlayNotch.allCases[index]
 //        return notchHeight(for: notch, availableSpace: availableSpace)
 //    }
-//    
+//
 //    override func overlayContainerViewController(_ containerViewController: OverlayContainerViewController, willMoveOverlay overlayViewController: UIViewController, toNotchAt index: Int) {
 //        guard
 //            let notch = OverlayNotch.init(rawValue: index),
@@ -124,7 +124,7 @@
 //            exploreMapVC.handleFeedWentUp(duration: 0.3)
 //        }
 //    }
-//    
+//
 //    override func overlayContainerViewController(_ containerViewController: OverlayContainerViewController, didMoveOverlay overlayViewController: UIViewController, toNotchAt index: Int) {
 //        guard let notch = OverlayNotch.init(rawValue: index) else { return }
 //        if notch == .maximum {
@@ -136,7 +136,7 @@
 //        }
 //        currentCustomNotch = notch
 //    }
-//    
+//
 //    //to fix: slight unideal animation when dragging down and then immediatley letting go on feed overlay
 ////    var didJustStartDragginDown = false
 //    override func overlayContainerViewController(_ containerViewController: OverlayContainerViewController, willStartDraggingOverlay overlayViewController: UIViewController) {
@@ -156,12 +156,12 @@
 ////        guard currentCustomNotch != .maximum else { return nil } //don't allow dragging while the notch is down
 ////        return (overlayViewController as? ExploreFeedViewController)?.feed
 //    }
-//    
+//
 //    override func overlayContainerViewController(_ containerViewController: OverlayContainerViewController,
 //                                        shouldStartDraggingOverlay overlayViewController: UIViewController,
 //                                        at point: CGPoint,
 //                                        in coordinateSpace: UICoordinateSpace) -> Bool {
-//        
+//
 //        guard let header = (overlayViewController as? ExploreFeedViewController)?.notchView
 //        else {
 //            return false
@@ -169,15 +169,15 @@
 //        let convertedPoint = coordinateSpace.convert(point, to: header)
 //        return header.bounds.contains(convertedPoint)
 //    }
-//    
-//    
+//
+//
 //    //MARK: - Helpers
-//    
+//
 //    func setupTitleLabel() {
 //        let titleLabel = exploreFeedVC.navStackView.arrangedSubviews.first(where: { $0 .isKind(of: UILabel.self )}) as? UILabel
 //        titleLabel?.text = setting.displayName
 //    }
-//    
+//
 //    func setupBackButton() {
 //        let backButton = UIButton()
 //        let backImage = UIImage(systemName: "chevron.backward", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default))!
@@ -187,30 +187,30 @@
 //        backButton.setImage(backImage, for: .normal)
 //        exploreFeedVC.navStackView.insertArrangedSubview(backButton, at: 0)
 //    }
-//    
+//
 //    //MARK: - User Interaction
 //
 //    @objc func backButtonDidTapped(_ sender: UIButton) {
 //        navigationController?.popViewController(animated: true)
 //    }
-//    
+//
 //    //MARK: - ExploreDelegate
-//    
+//
 //    override func reloadNewMapPostsIfNecessary() {
 //        //do nothing in custom parent
 //    }
-//    
+//
 //    override func reloadNewFeedPostsIfNecessary() {
 //        //do nothing
 //    }
-//    
-//    
+//
+//
 //    @MainActor
 //    override func handleUpdatedExploreFilter() {
 //        //We should scroll to top before we alter the dataSource for the feed or else we risk scrolling through rows which were full but are nowed empty
 //        exploreMapVC.reloadButton.loadingIndicator(true)
 //        exploreMapVC.reloadButton.setImage(nil, for: .normal)
-//        
+//
 //        if !feedPosts.isEmpty && !(exploreFeedVC.feed.refreshControl?.isRefreshing ?? false) {
 //            exploreFeedVC.feed.isUserInteractionEnabled = false
 //            exploreFeedVC.feed.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
@@ -228,7 +228,7 @@
 //            }
 //        }
 //    }
-//    
+//
 //}
 //
 //

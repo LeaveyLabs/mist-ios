@@ -42,7 +42,7 @@ class ProfileViewController: UIViewController {
         let profileVC = UIStoryboard(name: Constants.SBID.SB.Main, bundle: nil).instantiateViewController(withIdentifier: Constants.SBID.VC.Profile) as! ProfileViewController
         profileVC.user = user
         profileVC.status = .loading
-        profileVC.isAvatar = isAvatar
+//        profileVC.isAvatar = isAvatar
         return profileVC
     }
     

@@ -63,6 +63,9 @@ class MyActivityViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default)), style: .plain, target: self, action: #selector(cancelButtonDidPressed(_:)))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .default)), style: .plain, target: self, action: #selector(ellipsisButtonDidPressed(_:)))
         navBar.applyLightBottomOnlyShadow()
+        
+        //TODO: display the number of mentions to the right of "mentions" on the posts and on the top bar
+        DeviceService.shared.didViewMentions()
     }
     
     override func viewWillAppear(_ animated: Bool) {
