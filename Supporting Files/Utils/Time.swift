@@ -90,21 +90,33 @@ func getFormattedTimeStringForPost(timestamp: Double) -> String {
         }
         //if yesterday
         if getDayOfWeek(currentTimeMillis: timestamp) == getDayOfWeek(currentTimeMillis: Date.yesterday.timeIntervalSince1970) {
-            let myTimeInterval = TimeInterval(timestamp)
-            let thedate = Date(timeIntervalSince1970: myTimeInterval)
-            let dateFormatter = DateFormatter()
-            dateFormatter.locale = Locale(identifier: "en_US")
-            dateFormatter.dateFormat = "h:mma"
-            return "yesterday, " + dateFormatter.string(from: thedate).replacingOccurrences(of: "AM", with: "am").replacingOccurrences(of: "PM", with: "pm")
+//            let myTimeInterval = TimeInterval(timestamp)
+//            let thedate = Date(timeIntervalSince1970: myTimeInterval)
+//            let dateFormatter = DateFormatter()
+//            dateFormatter.locale = Locale(identifier: "en_US")
+//            dateFormatter.dateFormat = "h:mma"
+            return "yesterday" //+ dateFormatter.string(from: thedate).replacingOccurrences(of: "AM", with: "am").replacingOccurrences(of: "PM", with: "pm")
         }
     }
+    
     //if within the last week
     if elapsedTimeSincePost.days < 7 {
-        return getRecentFormattedDate(currentTimeMillis: timestamp)
+        let myTimeInterval = TimeInterval(timestamp)
+        let thedate = Date(timeIntervalSince1970: myTimeInterval)
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US")
+        dateFormatter.dateFormat = "EEEE"
+        return dateFormatter.string(from: thedate)
     }
+    
     //if within the last year
-    else if elapsedTimeSincePost.years < 1 {
-        return getFormattedDate(currentTimeMillis: timestamp)
+    if elapsedTimeSincePost.years < 1 {
+        let myTimeInterval = TimeInterval(timestamp)
+        let thedate = Date(timeIntervalSince1970: myTimeInterval)
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US")
+        dateFormatter.dateFormat = "EEEE, MMM d"
+        return dateFormatter.string(from: thedate)
     }
     return getDateNumbers(currentTimeMillis: timestamp)
 }

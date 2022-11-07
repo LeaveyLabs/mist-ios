@@ -108,9 +108,9 @@ extension PostView {
 
         timestampButton.setTitle(getFormattedTimeStringForPost(timestamp: post.timestamp).lowercased(), for: .normal)
         
-        locationButton.setTitle(post.location_description?.lowercased(), for: .normal)
-        locationButtonDot.isHidden = !(post.latitude == nil && post.location_description != nil)
-        locationButton.layer.shadowOpacity = (post.latitude == nil || post.location_description == nil || post.location_description == "") ? 0 : 0.15
+        locationButton.setTitle(post.latitude == nil ? nil : "see on map", for: .normal)
+        locationButtonDot.isHidden = true// !(post.latitude == nil && post.location_description != nil)
+        locationButton.layer.shadowOpacity = post.latitude == nil ? 0 : 0.15
         
         postTitleLabel.text = post.title
         

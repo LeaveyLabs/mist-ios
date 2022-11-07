@@ -2485,7 +2485,7 @@
                                 <rect key="frame" x="0.0" y="47" width="390" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gFc-Md-ncF">
-                                        <rect key="frame" x="10" y="6.6666666666666643" width="33" height="37.000000000000007"/>
+                                        <rect key="frame" x="10" y="6.6666666666666643" width="33" height="37"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="33" id="NAi-dO-Xu4"/>
                                             <constraint firstAttribute="height" constant="37" id="otI-Gz-uyQ"/>
@@ -2501,7 +2501,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wMs-lR-jk6">
-                                        <rect key="frame" x="302" y="7.6666666666666643" width="68" height="35.000000000000007"/>
+                                        <rect key="frame" x="302" y="7.6666666666666643" width="68" height="35"/>
                                         <color key="backgroundColor" name="mist-lilac"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="35" id="7eW-rJ-oSk"/>
@@ -2516,7 +2516,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FfO-4g-Uge">
-                                        <rect key="frame" x="198" y="7.6666666666666643" width="96" height="35.000000000000007"/>
+                                        <rect key="frame" x="198" y="7.6666666666666643" width="96" height="35"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="96" id="2Dd-dH-9AP"/>
                                             <constraint firstAttribute="height" constant="35" id="D9e-kJ-TyI"/>
@@ -2594,15 +2594,16 @@
                                                                 <rect key="frame" x="11" y="13" width="343" height="35"/>
                                                                 <subviews>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Scd-dZ-nEi" userLabel="Pin Button">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="48" height="35"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="165" height="35"/>
                                                                         <color key="backgroundColor" name="mist-pink"/>
                                                                         <constraints>
-                                                                            <constraint firstAttribute="width" constant="48" id="Sti-2a-oVO"/>
+                                                                            <constraint firstAttribute="width" constant="165" id="Sti-2a-oVO"/>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="15"/>
                                                                         <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <inset key="titleEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                                         <inset key="imageEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                                        <state key="normal">
+                                                                        <state key="normal" title="current location">
                                                                             <color key="titleColor" name="mist-black"/>
                                                                             <imageReference key="image" image="location" catalog="system" symbolScale="small"/>
                                                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" scale="default" weight="light"/>
@@ -2611,8 +2612,8 @@
                                                                             <action selector="userDidTappedPinButton:" destination="MOo-nm-fo2" eventType="touchUpInside" id="5zD-u4-btY"/>
                                                                         </connections>
                                                                     </button>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="place" textAlignment="center" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="qaR-57-CDg" customClass="NewPostTextField" customModule="mist_ios" customModuleProvider="target">
-                                                                        <rect key="frame" x="58" y="0.0" width="165" height="35"/>
+                                                                    <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="place" textAlignment="center" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="qaR-57-CDg" customClass="NewPostTextField" customModule="mist_ios" customModuleProvider="target">
+                                                                        <rect key="frame" x="170" y="0.0" width="0.0" height="35"/>
                                                                         <color key="backgroundColor" name="mist-pink"/>
                                                                         <color key="tintColor" name="mist-lilac"/>
                                                                         <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
@@ -2621,12 +2622,12 @@
                                                                             <action selector="textFieldEditingChanged:" destination="MOo-nm-fo2" eventType="editingChanged" id="OMJ-gP-l0R"/>
                                                                         </connections>
                                                                     </textField>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="just now" textAlignment="center" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="eIX-1L-Jri" customClass="NewPostTextField" customModule="mist_ios" customModuleProvider="target">
-                                                                        <rect key="frame" x="233" y="0.0" width="110" height="35"/>
+                                                                    <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="just now" textAlignment="center" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="eIX-1L-Jri" customClass="NewPostTextField" customModule="mist_ios" customModuleProvider="target">
+                                                                        <rect key="frame" x="170" y="0.0" width="200" height="35"/>
                                                                         <color key="backgroundColor" name="mist-pink"/>
                                                                         <color key="tintColor" name="mist-lilac"/>
                                                                         <constraints>
-                                                                            <constraint firstAttribute="width" constant="110" id="JPT-H2-bmw"/>
+                                                                            <constraint firstAttribute="width" constant="200" id="yXo-bp-pIC"/>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
                                                                         <textInputTraits key="textInputTraits"/>
@@ -2634,13 +2635,17 @@
                                                                             <action selector="textFieldEditingChanged:" destination="MOo-nm-fo2" eventType="editingChanged" id="bII-Ed-x3L"/>
                                                                         </connections>
                                                                     </textField>
+                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="smQ-ou-NTZ">
+                                                                        <rect key="frame" x="175" y="0.0" width="168" height="35"/>
+                                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    </view>
                                                                 </subviews>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="35" id="4qA-5a-P25"/>
                                                                 </constraints>
                                                             </stackView>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QFY-T2-i4P" userLabel="Pin Arrow Button">
-                                                                <rect key="frame" x="43" y="24.666666666666657" width="8" height="12"/>
+                                                                <rect key="frame" x="160" y="24.666666666666657" width="8" height="12"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="8" id="Jhz-8J-Lts"/>
                                                                     <constraint firstAttribute="width" secondItem="QFY-T2-i4P" secondAttribute="height" multiplier="2:3" id="iGV-U1-F8z"/>
@@ -2653,7 +2658,7 @@
                                                                 </connections>
                                                             </button>
                                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CUc-2u-pl4">
-                                                                <rect key="frame" x="228" y="11" width="8" height="8"/>
+                                                                <rect key="frame" x="175" y="11" width="8" height="8"/>
                                                                 <color key="backgroundColor" name="mist-lilac"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="8" id="ABT-Al-aSc"/>
@@ -2661,7 +2666,7 @@
                                                                 </constraints>
                                                             </view>
                                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Vf-n4-Nfw">
-                                                                <rect key="frame" x="53.000000000000007" y="11" width="8" height="8"/>
+                                                                <rect key="frame" x="170" y="11" width="8" height="8"/>
                                                                 <color key="backgroundColor" name="mist-lilac"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="8" id="YXe-bH-IHR"/>

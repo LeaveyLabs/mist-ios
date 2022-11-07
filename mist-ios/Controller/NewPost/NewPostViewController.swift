@@ -73,16 +73,22 @@ class NewPostViewController: UIViewController {
             if let _ = currentPin {
                 pinButton.tintColor = Constants.Color.mistBlack
                 pinArrowButton.tintColor = Constants.Color.mistBlack
+                pinButton.setTitleColor(Constants.Color.mistBlack, for: .normal)
+                pinButton.setTitle("pin dropped", for: .normal)
                 pinButton.setImage(UIImage(systemName: "mappin.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .small)), for: .normal)
             } else {
                 switch LocationManager.Shared.authorizationStatus {
                 case .authorizedAlways, .authorizedWhenInUse:
                     pinButton.tintColor = Constants.Color.mistBlack
                     pinArrowButton.tintColor = Constants.Color.mistBlack
+                    pinButton.setTitleColor(Constants.Color.mistBlack, for: .normal)
+                    pinButton.setTitle("current location", for: .normal)
                     pinButton.setImage(UIImage(systemName: "location", withConfiguration: UIImage.SymbolConfiguration(scale: .small)), for: .normal)
                 default:
                     pinButton.tintColor = .lightGray
                     pinArrowButton.tintColor = .lightGray
+                    pinButton.setTitleColor(.lightGray, for: .normal)
+                    pinButton.setTitle("drop a pin", for: .normal)
                     pinButton.setImage(UIImage(systemName: "mappin.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .small)), for: .normal)
                 }
             }
@@ -346,7 +352,7 @@ class NewPostViewController: UIViewController {
     @IBAction func userDidTappedPinButton(_ sender: UIButton) {
         let pinParentVC = PinParentViewController.create(currentPin: currentPin, completionHandler: { [self] newPin in
             currentPin = newPin
-            locationNameTextField.becomeFirstResponder() //they updated their pin, so they probably want to update the location name too
+            bodyTextView.becomeFirstResponder() //they updated their pin, so they probably want to update the location name too
         })
         navigationController?.pushViewController(pinParentVC, animated: true)
     }
@@ -514,7 +520,7 @@ extension NewPostViewController: UITextViewDelegate {
     //my guess is it had something to do with this validate all fields
     func validateAllFields() {
 //        locationNameLilacIndicator.isHidden = !locationNameTextField.text!.trimmingCharacters(in: .whitespaces).isEmpty
-//        pinLilacIndicator.isHidden = currentPin != nil || LocationManager.Shared.authorizationStatus == .authorizedWhenInUse || LocationManager.Shared.authorizationStatus == .authorizedAlways
+        pinLilacIndicator.isHidden = currentPin != nil || LocationManager.Shared.authorizationStatus == .authorizedWhenInUse || LocationManager.Shared.authorizationStatus == .authorizedAlways
         
         //note: the text indicator being hidden and the field being valid are two different things. the user can input in text longer than the field allows, which shouldnt rerender the indicator view, but which should disable submit button
         titleLilacIndicator.isHidden = titleTextView.text.count != 0
