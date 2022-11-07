@@ -49,8 +49,9 @@ class CommentCell: UITableViewCell {
         bottomDividerView.isHidden = true //shouldHideDivider
         timestampLabel.text = getShortFormattedTimeString(timestamp: comment.timestamp)
         authorUsernameButton.setTitle(author.username, for: .normal)
+        
         UIView.performWithoutAnimation {
-            authorProfilePicButton.imageView?.becomeProfilePicImageView(with: author.silhouette)
+            authorProfilePicButton.imageView?.becomeProfilePicImageView(with: isCommentingAnonymous ? author.silhouette : author.thumbnailPic)
         }
         setupCommentTextView(text: comment.body, tags: comment.tags, delegate: delegate)
 //        if (comment.id == 249) {

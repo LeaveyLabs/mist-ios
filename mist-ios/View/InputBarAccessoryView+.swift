@@ -8,6 +8,8 @@
 import Foundation
 import InputBarAccessoryView
 
+var isCommentingAnonymous: Bool = false
+
 extension InputBarAccessoryView {
     
     func configureForCommenting() {
@@ -47,7 +49,7 @@ extension InputBarAccessoryView {
         setStackViewItems([sendButton, InputBarButtonItem.fixedSpace(10)], forStack: .right, animated: false)
 
         //Left
-        let inputAvatar = InputAvatar(frame: CGRect(x: 0, y: 0, width: 40, height: 40), profilePic: UserService.singleton.getSilhouette())
+        let inputAvatar = InputAvatar(frame: CGRect(x: 0, y: 0, width: 40, height: 40), profilePic: isCommentingAnonymous ? UserService.singleton.getSilhouette() : UserService.singleton.getProfilePic())
         setLeftStackViewWidthConstant(to: 48, animated: false)
         setStackViewItems([inputAvatar, InputBarButtonItem.fixedSpace(8)], forStack: .left, animated: false)
     }
