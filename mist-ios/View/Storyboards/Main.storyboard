@@ -4128,7 +4128,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="hNP-sz-azG" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="toggle-map-button" selectedImage="map-fill" id="WLt-Bw-Fud">
-                        <inset key="imageInsets" minX="-5" minY="-5" maxX="-5" maxY="-5"/>
+                        <inset key="imageInsets" minX="-5" minY="-5" maxX="-5" maxY="-4"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <nil key="simulatedTopBarMetrics"/>

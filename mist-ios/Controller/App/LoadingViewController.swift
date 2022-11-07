@@ -27,6 +27,7 @@ func loadPostStuff() async throws {
         group.addTask { try await PostService.singleton.loadExploreFeedPostsIfPossible(feed: .RECENT) }
         group.addTask { try await PostService.singleton.loadAndOverwriteExploreMapPosts() }
         group.addTask { try await PostService.singleton.loadSubmissions() }
+        group.addTask { try await PostService.singleton.loadConnections() }
         group.addTask { try await PostService.singleton.loadMentions() }
         group.addTask { try await FavoriteService.singleton.loadFavorites() }
         group.addTask { try await VoteService.singleton.loadVotes() }

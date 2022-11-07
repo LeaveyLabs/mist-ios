@@ -23,20 +23,20 @@
                         <rect key="frame" x="15" y="35" width="366" height="110"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adam" translatesAutoresizingMaskIntoConstraints="NO" id="530-3v-mdd">
-                                <rect key="frame" x="10" y="10" width="80" height="90"/>
+                                <rect key="frame" x="15" y="15" width="80" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="999" constant="80" id="4if-5K-C8O"/>
                                     <constraint firstAttribute="width" constant="80" id="iNh-Gp-kls"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adam Novak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b2J-O4-Iv1">
-                                <rect key="frame" x="105" y="30" width="133.5" height="30.5"/>
+                                <rect key="frame" x="110" y="30" width="133.5" height="30.5"/>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="22"/>
                                 <color key="textColor" name="mist-black"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="adamvnovak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioR-4h-1Wk">
-                                <rect key="frame" x="105" y="62.5" width="223" height="21"/>
+                                <rect key="frame" x="110" y="62.5" width="218" height="21"/>
                                 <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="15"/>
                                 <color key="textColor" name="mist-black"/>
                                 <nil key="highlightedColor"/>
@@ -51,7 +51,7 @@
                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="25"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark.seal.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="iO6-lN-vg9">
-                                <rect key="frame" x="243.5" y="34.5" width="20" height="21.5"/>
+                                <rect key="frame" x="248.5" y="34.5" width="20" height="21.5"/>
                                 <color key="tintColor" name="mist-lilac"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="9Nd-Du-fVC"/>
@@ -63,14 +63,14 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="iO6-lN-vg9" firstAttribute="centerY" secondItem="b2J-O4-Iv1" secondAttribute="centerY" id="4dO-0w-JZm"/>
-                            <constraint firstItem="530-3v-mdd" firstAttribute="leading" secondItem="50f-Fm-pZg" secondAttribute="leading" constant="10" id="PK0-d7-L86"/>
+                            <constraint firstItem="530-3v-mdd" firstAttribute="leading" secondItem="50f-Fm-pZg" secondAttribute="leading" constant="15" id="PK0-d7-L86"/>
                             <constraint firstItem="ShR-VK-XoM" firstAttribute="centerY" secondItem="50f-Fm-pZg" secondAttribute="centerY" id="SAj-UD-LNS"/>
                             <constraint firstItem="ShR-VK-XoM" firstAttribute="leading" secondItem="ioR-4h-1Wk" secondAttribute="trailing" constant="10" id="bIW-ma-mDh"/>
                             <constraint firstItem="b2J-O4-Iv1" firstAttribute="leading" secondItem="530-3v-mdd" secondAttribute="trailing" constant="15" id="bN7-dm-bwT"/>
-                            <constraint firstAttribute="bottom" secondItem="530-3v-mdd" secondAttribute="bottom" constant="10" id="hEa-xH-1vn"/>
+                            <constraint firstAttribute="bottom" secondItem="530-3v-mdd" secondAttribute="bottom" constant="15" id="hEa-xH-1vn"/>
                             <constraint firstItem="iO6-lN-vg9" firstAttribute="leading" secondItem="b2J-O4-Iv1" secondAttribute="trailing" constant="5" id="j0F-wF-E4K"/>
                             <constraint firstItem="ioR-4h-1Wk" firstAttribute="top" secondItem="b2J-O4-Iv1" secondAttribute="bottom" constant="2" id="q0l-q7-nYc"/>
-                            <constraint firstItem="530-3v-mdd" firstAttribute="top" secondItem="50f-Fm-pZg" secondAttribute="top" constant="10" id="qTi-mX-4L4"/>
+                            <constraint firstItem="530-3v-mdd" firstAttribute="top" secondItem="50f-Fm-pZg" secondAttribute="top" constant="15" id="qTi-mX-4L4"/>
                             <constraint firstItem="b2J-O4-Iv1" firstAttribute="centerY" secondItem="530-3v-mdd" secondAttribute="centerY" constant="-10" id="rRk-2u-Tbf"/>
                             <constraint firstItem="ShR-VK-XoM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="iO6-lN-vg9" secondAttribute="trailing" constant="5" id="t4D-vu-1wK"/>
                             <constraint firstItem="ioR-4h-1Wk" firstAttribute="leading" secondItem="530-3v-mdd" secondAttribute="trailing" constant="15" id="tYG-3E-K5q"/>

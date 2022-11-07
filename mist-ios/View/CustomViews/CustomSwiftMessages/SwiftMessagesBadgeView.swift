@@ -22,6 +22,9 @@ class SwiftMessagesBadgeView: MessageView {
 //        approveButton.isHidden = true
 //        dismissButton.isHidden = true
         exitButton.isHidden = false
+        if titleLabel!.text!.isEmpty {
+            titleLabel?.isHidden = true
+        }
 //        bottomStackView.isHidden = true //not actually neeeded
     }
 

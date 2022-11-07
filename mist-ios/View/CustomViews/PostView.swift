@@ -23,6 +23,7 @@ import MapKit
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var postTitleLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var connectedButton: UIButton!
     
     @IBOutlet weak var dmButton: UIButton!
     @IBOutlet weak var moreButton: UIButton!
@@ -75,6 +76,10 @@ import MapKit
     private func customInit() {
         viewInit()
         
+        connectedButton.applyLightShadow()
+        connectedButton.layer.cornerCurve = .circular
+        connectedButton.layer.cornerRadius = 5
+        
         locationButton.applyLightShadow()
         locationButton.layer.cornerRadius = 5
         locationButton.layer.cornerCurve = .circular
@@ -105,8 +110,12 @@ extension PostView {
         if postDelegate.isKind(of: PostViewController.self) {
             messageLabel.numberOfLines = 0
         }
-
+        
+        let isConnected = PostService.singleton.isConnectedPost(postId: post.id)
+        connectedButton.isHidden = !isConnected
+        
         timestampButton.setTitle(getFormattedTimeStringForPost(timestamp: post.timestamp).lowercased(), for: .normal)
+        locationButton.isHidden = post.latitude == nil || !canBeSeenOnMap
         locationButton.setTitle(post.latitude != nil && canBeSeenOnMap ? "see on map" : nil, for: .normal)
         locationButtonDot.isHidden = true// !(post.latitude == nil && post.location_description != nil)
         locationButton.layer.shadowOpacity = post.latitude != nil && canBeSeenOnMap ? 0.15 : 0
@@ -242,6 +251,10 @@ extension PostView {
     @IBAction func shareButtonDidPressed(_ sender: UIButton) {
         guard let screenshot = generateMistScreenshot() else { return }
         postDelegate.handleShareTap(postId: postId, screenshot: screenshot)
+    }
+    
+    @IBAction func connectedButtonDidPressed(_ sender: UIButton) {
+        CustomSwiftMessages.displayBadgePopup(name: "", badge: "🥳")
     }
     
     @IBAction func dmButtonDidPressed(_ sender: UIButton) {

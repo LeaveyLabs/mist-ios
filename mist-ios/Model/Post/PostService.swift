@@ -28,6 +28,8 @@ class PostService: NSObject {
     private var favoritePostIds = [Int]()
     private var mentionPostIds = [Int]()
     
+    private var connectedPostIds = Set<Int>()
+    
     private var exploreNewPostFilter = FeedPostFilter(postSort: .RECENT)
     private var exploreBestPostFilter = FeedPostFilter(postSort: .TRENDING)
     private var mapPostFilter = MapPostFilter()
@@ -191,6 +193,11 @@ class PostService: NSObject {
         await mentionPostIds = cachePostsAndGetArrayOfPostIdsFrom(posts: posts)
     }
     
+    func loadConnections() async throws {
+        let posts = try await PostAPI.fetchMatchedPosts()
+        connectedPostIds = Set(await cachePostsAndGetArrayOfPostIdsFrom(posts: posts))
+    }
+    
     //Called by FavoriteService after favorites are loaded in
     func loadFavorites(favoritedPostIds: [Int]) async throws {
         guard !favoritedPostIds.isEmpty else { return }
@@ -267,6 +274,10 @@ class PostService: NSObject {
     
     func getSubmissions() -> [Post] {
         return getLoadedPostsFor(postIds: submissionPostIds)
+    }
+    
+    func isConnectedPost(postId: Int) -> Bool {
+        return connectedPostIds.contains(postId)
     }
     
     func getFavorites() -> [Post] {

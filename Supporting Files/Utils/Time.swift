@@ -115,7 +115,7 @@ func getFormattedTimeStringForPost(timestamp: Double) -> String {
         let thedate = Date(timeIntervalSince1970: myTimeInterval)
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US")
-        dateFormatter.dateFormat = "EEEE, MMM d"
+        dateFormatter.dateFormat = "E, MMM d"
         return dateFormatter.string(from: thedate)
     }
     return getDateNumbers(currentTimeMillis: timestamp)

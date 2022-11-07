@@ -63,13 +63,14 @@ class MistCollectionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupCustomNavBar(animated: false)
-        setupCollectionView()
-        setupFeedToggleView()
-        setupSearchBar()
         
         self.exploreDelegate = self //mapViewController has an exploreDelegate, too. we'll set ourselves to that (as if we were the parentVC)
         self.postDelegate = self
+        
+        setupCustomNavBar(animated: false)
+        setupSearchBar()
+        setupFeedToggleView()
+        setupCollectionView()
     }
     
     override func viewWillAppear(_ animated: Bool) {

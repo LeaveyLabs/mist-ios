@@ -371,6 +371,10 @@ extension CustomSwiftMessages {
                 title = "love, mist"
                 body = name + " participated in the on-campus event \"love, mist\" by entering a special access code"
             }
+            if badge == "🥳" {
+                title = ""
+                body = "this mist turned into a connection!"
+            }
             messageView.configureContent(title: title, body: body, iconText: badge)
             messageView.badgeConfig()
             messageView.dismissAction = {
