@@ -235,6 +235,8 @@
 		47F10DC32853169200E1A3DC /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F10DC22853169200E1A3DC /* PlaceAnnotation.swift */; };
 		47F10DC5285316AC00E1A3DC /* PlaceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F10DC4285316AC00E1A3DC /* PlaceAnnotationView.swift */; };
 		47F10DC72853DA0600E1A3DC /* UIImage+Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F10DC62853DA0600E1A3DC /* UIImage+Blur.swift */; };
+		47F995E62918C5C500CFEC22 /* MyActivityVC+PostDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F995E52918C5C500CFEC22 /* MyActivityVC+PostDelegate.swift */; };
+		47F995E72918C5C500CFEC22 /* MyActivityVC+PostDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F995E52918C5C500CFEC22 /* MyActivityVC+PostDelegate.swift */; };
 		47FB07062858592900BF1789 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FB07042858592900BF1789 /* CircularProgressView.swift */; };
 		47FF418128402EC600A44968 /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF418028402EC600A44968 /* UIImage+Resize.swift */; };
 		47FF418328403AE700A44968 /* CustomAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF418228403AE700A44968 /* CustomAttributedString.swift */; };
@@ -1020,6 +1022,7 @@
 		47F10DC22853169200E1A3DC /* PlaceAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
 		47F10DC4285316AC00E1A3DC /* PlaceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotationView.swift; sourceTree = "<group>"; };
 		47F10DC62853DA0600E1A3DC /* UIImage+Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Blur.swift"; sourceTree = "<group>"; };
+		47F995E52918C5C500CFEC22 /* MyActivityVC+PostDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyActivityVC+PostDelegate.swift"; sourceTree = "<group>"; };
 		47FB07042858592900BF1789 /* CircularProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		47FB07052858592900BF1789 /* CircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircularProgressView.h; sourceTree = "<group>"; };
 		47FF418028402EC600A44968 /* UIImage+Resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
@@ -1933,6 +1936,7 @@
 				47AE72A927F77B0B00A5E94C /* UpdateProfileSettingViewController.swift */,
 				5B879E8228B8A49C00D2DFC1 /* GetVerifiedViewController.swift */,
 				5B4CE2EF28DA76EF00FB9E8B /* DefaultsSettingsViewController.swift */,
+				47F995E52918C5C500CFEC22 /* MyActivityVC+PostDelegate.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -2734,6 +2738,7 @@
 				5B41529028BDCFBB00592A55 /* MistboxManager.swift in Sources */,
 				47527191285584F400DDF84D /* ProfileCell.swift in Sources */,
 				5BE147CE28A2937E0096FEBE /* CommentDelegate.swift in Sources */,
+				47F995E62918C5C500CFEC22 /* MyActivityVC+PostDelegate.swift in Sources */,
 				470F271C27DE764F00C6DDAF /* UserResultCell.swift in Sources */,
 				4752719D2855A80C00DDF84D /* ExploreMapVC+Map.swift in Sources */,
 				5BAD62792876938900DCFE45 /* SettingsTapDelegate.swift in Sources */,
@@ -3334,6 +3339,7 @@
 				5B739E4028935B9500E4EED0 /* FinalizeResetPasswordViewController.swift in Sources */,
 				5B739E4128935B9500E4EED0 /* ConversationsViewController.swift in Sources */,
 				5B739E4228935B9500E4EED0 /* UIViewController+MistShareActivity.swift in Sources */,
+				47F995E72918C5C500CFEC22 /* MyActivityVC+PostDelegate.swift in Sources */,
 				47CBCCEE291738800053BBC9 /* ExploreMapVC+ExploreDelegate.swift in Sources */,
 				5B739E4328935B9500E4EED0 /* Conversation.swift in Sources */,
 				5BC2531C28BC0EC300D4F49A /* CollectionImageCell.swift in Sources */,

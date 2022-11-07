@@ -97,7 +97,7 @@ extension PostView {
     
     // Note: the constraints for the PostView should already be set-up when this is called.
     // Otherwise you'll get loads of constraint errors in the console
-    func configurePost(post: Post, delegate: PostDelegate, arrowPosition: BubbleTrianglePosition? = nil, updatedCommentCount: Int? = nil) {
+    func configurePost(post: Post, delegate: PostDelegate, arrowPosition: BubbleTrianglePosition? = nil, updatedCommentCount: Int? = nil, canBeSeenOnMap: Bool = true) {
         self.postId = post.id
         self.authorId = post.author
         self.postDelegate = delegate
@@ -107,10 +107,9 @@ extension PostView {
         }
 
         timestampButton.setTitle(getFormattedTimeStringForPost(timestamp: post.timestamp).lowercased(), for: .normal)
-        
-        locationButton.setTitle(post.latitude == nil ? nil : "see on map", for: .normal)
+        locationButton.setTitle(post.latitude != nil && canBeSeenOnMap ? "see on map" : nil, for: .normal)
         locationButtonDot.isHidden = true// !(post.latitude == nil && post.location_description != nil)
-        locationButton.layer.shadowOpacity = post.latitude == nil ? 0 : 0.15
+        locationButton.layer.shadowOpacity = post.latitude != nil && canBeSeenOnMap ? 0.15 : 0
         
         postTitleLabel.text = post.title
         

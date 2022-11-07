@@ -8,12 +8,12 @@
 import Foundation
 
 enum AccountSection: Int, CaseIterable {
-    case links, settings, other
+    case settings, other //links
     
     var displayName : String {
         switch self {
-        case .links:
-            return "LINKS"
+//        case .links:
+//            return "LINKS"
         case .settings:
             return "SETTINGS"
         case .other:
@@ -23,8 +23,8 @@ enum AccountSection: Int, CaseIterable {
     
     var settings: [Setting] {
         switch self {
-        case .links:
-            return [.merch, .instagram]
+//        case .links:
+//            return [.merch, .instagram]
         case .settings:
             return [.account]
         case .other:

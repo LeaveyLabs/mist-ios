@@ -14,6 +14,7 @@ class ProfileCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var verifiedImageView: UIImageView!
     @IBOutlet weak var accessoryImageView: UIImageView!
+    @IBOutlet weak var shadowBGView: UIView!
     
     var profileType: ProfileType!
     
@@ -23,6 +24,9 @@ class ProfileCell: UITableViewCell {
         
     override func awakeFromNib() {
         super.awakeFromNib()
+        shadowBGView.applyMediumShadow()
+        shadowBGView.roundCornersViaCornerRadius(radius: 10)
+        selectionStyle = .none
     }
     
     override func prepareForReuse() {
@@ -42,16 +46,14 @@ class ProfileCell: UITableViewCell {
     }
     
     func configureMyProfileCell() {
-        selectionStyle = .default
-        nameLabel.text = "profile"
-        usernameLabel.text = UserService.singleton.getFirstLastName()
+        nameLabel.text = UserService.singleton.getFirstLastName()
+        usernameLabel.text = UserService.singleton.getUsername()
         profileImageView.becomeProfilePicImageView(with: UserService.singleton.getProfilePic())
         verifiedImageView.isHidden = false
         verifiedImageView.image = UserService.singleton.isVerified() ? UIImage(systemName: "checkmark.seal.fill") : nil
     }
     
     func configureAvatarCell() {
-        selectionStyle = .default
         nameLabel.text = "avatar"
         usernameLabel.text = UserService.singleton.getUsername()
         profileImageView.becomeProfilePicImageView(with: UserService.singleton.getSilhouette())

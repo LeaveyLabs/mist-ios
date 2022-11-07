@@ -175,6 +175,11 @@ extension ExploreMapViewController {
         navigationController?.setNavigationBarHidden(false, animated: false) //for a better searchcontroller animation
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
 }
 
 //MARK: - Setup

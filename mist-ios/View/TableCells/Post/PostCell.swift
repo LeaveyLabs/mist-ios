@@ -15,11 +15,16 @@ class PostCell: UITableViewCell {
     
     //MARK: - Public Interface
     
-    func configurePostCell(post: Post, nestedPostViewDelegate: PostDelegate, bubbleTrianglePosition: BubbleTrianglePosition, isWithinPostVC: Bool, updatedCommentCount: Int? = nil) {
+    func configurePostCell(post: Post,
+                           nestedPostViewDelegate: PostDelegate,
+                           bubbleTrianglePosition: BubbleTrianglePosition,
+                           isWithinPostVC: Bool,
+                           updatedCommentCount: Int? = nil,
+                           canBeSeenOnMap: Bool = true) {
         topConstraint.constant = isWithinPostVC ? 5 : 25
         bottomConstraint.constant = isWithinPostVC ? -20 : -10
         UIView.performWithoutAnimation { //this is necessary with our current approach to the input accessory view and keyboardlayoutguide. tableview ends up getting animated, but that creates weird animations for the cells, too. so dont allow the cell updates to animate
-            postView.configurePost(post: post, delegate: nestedPostViewDelegate, updatedCommentCount: updatedCommentCount) //must come after setting constraints
+            postView.configurePost(post: post, delegate: nestedPostViewDelegate, updatedCommentCount: updatedCommentCount, canBeSeenOnMap: canBeSeenOnMap) //must come after setting constraints
         }
     }
     
