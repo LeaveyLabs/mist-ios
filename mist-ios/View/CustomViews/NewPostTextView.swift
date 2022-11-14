@@ -74,7 +74,6 @@ class NewPostTextView: UITextView {
         doneButton.tintColor = .lightGray
         let customAttributes = [NSAttributedString.Key.font: UIFont(name: Constants.Font.Medium, size: 17)!]
         doneButton.setTitleTextAttributes(customAttributes, for: .normal)
-                
         let items = withProgressBar ? [doneButton, flexible, progressCircle] : [doneButton, flexible]
         toolBar.setItems(items, animated: false)//4
         

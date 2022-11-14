@@ -15,7 +15,7 @@ class UserService: NSObject {
     static var singleton = UserService()
     
     private var frontendCompleteUser: FrontendCompleteUser?
-    private var authedUser: FrontendCompleteUser { //a wrapper for the real underlying frontendCompleteUser. if for some unknown reason, frontendCompleteUser is nil, instead of the app crashing with a force unwrap, we kick them to the home screen and log them out
+    private var authedUser: FrontendCompleteUser { //a wrapper for the real underlying frontendCompleteUser. if for some unknown reason, frontendCompleteUser is nil, instead of the app crashing with a force unwrap, we kick them to the home screen and log them out3
         get {
             guard let authedUser = frontendCompleteUser else {
                 if isLoggedIntoApp { //another potential check: if the visible view controller belongs to Main storyboard

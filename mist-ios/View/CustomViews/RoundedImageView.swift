@@ -27,21 +27,3 @@ import UIKit
         clipsToBounds = true
     }
 }
-
-extension UIImageView {
-    func becomeRound() {
-        frame.size.height = frame.size.width
-        layer.cornerRadius = frame.size.height / 2
-        layer.cornerCurve = .continuous
-        clipsToBounds = true
-    }
-}
-
-extension UIButton {
-    func becomeRound() {
-        frame.size.height = frame.size.width
-        layer.cornerRadius = frame.size.height / 2
-        layer.cornerCurve = .continuous
-        clipsToBounds = true
-    }
-}
