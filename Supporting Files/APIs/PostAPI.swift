@@ -119,6 +119,16 @@ class PostAPI {
         try filterPostErrors(data: data, response: response)
         return try JSONDecoder().decode([Post].self, from: data)
     }
+
+    static let PENDING_PARAM = "pending"
+    static let trueStr = "true"
+    // New Addition Fetches all pending posts from database
+    static func fetchPendingPosts() async throws -> [Post] {
+        let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(PENDING_PARAM)=\(trueStr)"
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: Data(), method: HTTPMethods.GET.rawValue)
+        try filterPostErrors(data: data, response: response)
+        return try JSONDecoder().decode([Post].self, from: data)
+    }
     
     static func fetchPosts(order:SortOrder) async throws -> [Post] {
         let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)?\(ORDER_PARAM)=\(order)"
@@ -263,6 +273,27 @@ class PostAPI {
     
     // Fetches all posts from database (searching with location description)
     // TODO: Rewrite the function earlier signatures so that we can do this
+
+     // Approve a post with a specific postID. This will involve patching the is_pending and is_approved fields. 
+    static func approvePost(postId:Int) async throws -> Post {
+        let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)\(postId)/"
+        let post = Post(is_pending: false, is_approved: true)
+        let json = try JSONEncoder().encode(post)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
+        try filterPostErrors(data: data, response: response)
+        return try JSONDecoder().decode(Post.self, from: data)
+    }
+
+     // Reject a post with a specific postID. This will involve patching the is_pending and is_approved fields. 
+    static func rejectPost(postId:Int) async throws -> Post {
+        let url = "\(Env.BASE_URL)\(PATH_TO_POST_MODEL)\(postId)/"
+        let post = Post(is_pending: false, is_approved: false)
+        let json = try JSONEncoder().encode(post)
+        let (data, response) = try await BasicAPI.basicHTTPCallWithToken(url: url, jsonData: json, method: HTTPMethods.PATCH.rawValue)
+        try filterPostErrors(data: data, response: response)
+        return try JSONDecoder().decode(Post.self, from: data)
+    }
+
 
     // Posts post in the database
     static func createPost(title: String,
