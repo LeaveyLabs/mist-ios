@@ -5,7 +5,7 @@
 //  Created by Adam Monterey on 8/18/22.
 //
 
-import Foundation
+import UIKit
 
 //https://stackoverflow.com/questions/35388985/how-can-i-implement-drag-right-to-dismiss-a-view-controller-thats-in-a-naviga/57487724#57487724
 public extension UINavigationController {
