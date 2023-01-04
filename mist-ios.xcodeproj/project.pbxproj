@@ -161,10 +161,15 @@
 		478A789E284EBD510058C845 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A789D284EBD510058C845 /* LoadingViewController.swift */; };
 		478A78A1284EBF180058C845 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 478A78A0284EBF180058C845 /* Launch.storyboard */; };
 		478BA279283DD37E00C35507 /* UITextField+Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA278283DD37E00C35507 /* UITextField+Padding.swift */; };
-		478BA27B283E77C100C35507 /* UINavigationController+Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */; };
 		478BA27D283E85D400C35507 /* ButtonConfigs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA27C283E85D400C35507 /* ButtonConfigs.swift */; };
 		478BA27F283E85F500C35507 /* AuthContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA27E283E85F500C35507 /* AuthContext.swift */; };
 		478BA283283EF2DB00C35507 /* UIViewController+SBTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA282283EF2DB00C35507 /* UIViewController+SBTransition.swift */; };
+		478BECCD2965C1D200930DAF /* UINavigationController+Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BECCB2965C1D200930DAF /* UINavigationController+Completion.swift */; };
+		478BECCE2965C1D200930DAF /* UINavigationController+Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BECCB2965C1D200930DAF /* UINavigationController+Completion.swift */; };
+		478BECCF2965C1D200930DAF /* UINavigationItem+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BECCC2965C1D200930DAF /* UINavigationItem+UIButton.swift */; };
+		478BECD02965C1D200930DAF /* UINavigationItem+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BECCC2965C1D200930DAF /* UINavigationItem+UIButton.swift */; };
+		478BECD22965C22800930DAF /* UIView+BecomeRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BECD12965C22800930DAF /* UIView+BecomeRound.swift */; };
+		478BECD32965C22800930DAF /* UIView+BecomeRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BECD12965C22800930DAF /* UIView+BecomeRound.swift */; };
 		479683F32826494100CA23BA /* UIColor+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479683F22826494100CA23BA /* UIColor+Theme.swift */; };
 		479683F5282817CC00CA23BA /* PostAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479683F4282817CC00CA23BA /* PostAnnotationView.swift */; };
 		479683F82828180C00CA23BA /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479683F72828180C00CA23BA /* ClusterAnnotationView.swift */; };
@@ -369,7 +374,6 @@
 		5B739D9A28935B9500E4EED0 /* FinishProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16CA28791EDD00035F93 /* FinishProfileViewController.swift */; };
 		5B739D9B28935B9500E4EED0 /* UIView+SafeAreaConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4752719E2855AF1400DDF84D /* UIView+SafeAreaConstraints.swift */; };
 		5B739D9C28935B9500E4EED0 /* PostAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF869727DB1F470076A1CA /* PostAPI.swift */; };
-		5B739D9D28935B9500E4EED0 /* UINavigationController+Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */; };
 		5B739D9E28935B9500E4EED0 /* PlaceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F10DC4285316AC00E1A3DC /* PlaceAnnotationView.swift */; };
 		5B739D9F28935B9500E4EED0 /* TransitionZoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A4BD328408BD800FD52B7 /* TransitionZoom.swift */; };
 		5B739DA128935B9500E4EED0 /* MatchCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B774DFD286D570400CCCF28 /* MatchCollectionCell.swift */; };
@@ -413,7 +417,6 @@
 		5B739DC828935B9500E4EED0 /* SpecialTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A05BDC2835008B0085A99B /* SpecialTabBar.swift */; };
 		5B739DC928935B9500E4EED0 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624D22867A56100DCD45B /* CommentService.swift */; };
 		5B739DCA28935B9500E4EED0 /* MyAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE95F927F64C00003B351E /* MyAccountViewController.swift */; };
-		5B739DCB28935B9500E4EED0 /* UINavigationItem+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B82863CA2600DCD45B /* UINavigationItem+UIButton.swift */; };
 		5B739DCC28935B9500E4EED0 /* CustomExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F16D1287D1E5000035F93 /* CustomExploreViewController.swift */; };
 		5B739DCD28935B9500E4EED0 /* UploadProfilePictureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E30CFD2826355C00DBEB57 /* UploadProfilePictureViewController.swift */; };
 		5B739DCE28935B9500E4EED0 /* UIViewController+Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47266AD327FF69C9005DEDB1 /* UIViewController+Loading.swift */; };
@@ -667,7 +670,6 @@
 		5BB624B228620D4A00DCD45B /* CustomCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B128620D4A00DCD45B /* CustomCardView.swift */; };
 		5BB624B428620D5F00DCD45B /* CustomCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BB624B328620D5F00DCD45B /* CustomCardView.xib */; };
 		5BB624B628622C8500DCD45B /* UIViewController+DismissFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */; };
-		5BB624B92863CA2600DCD45B /* UINavigationItem+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624B82863CA2600DCD45B /* UINavigationItem+UIButton.swift */; };
 		5BB624BE2864308E00DCD45B /* ConversationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624BD2864308E00DCD45B /* ConversationService.swift */; };
 		5BB624C128678A8900DCD45B /* MatchRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624C028678A8900DCD45B /* MatchRequestService.swift */; };
 		5BB624C5286790D400DCD45B /* BlockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB624C4286790D400DCD45B /* BlockService.swift */; };
@@ -951,10 +953,12 @@
 		478A789D284EBD510058C845 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		478A78A0284EBF180058C845 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		478BA278283DD37E00C35507 /* UITextField+Padding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Padding.swift"; sourceTree = "<group>"; };
-		478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Completion.swift"; sourceTree = "<group>"; };
 		478BA27C283E85D400C35507 /* ButtonConfigs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonConfigs.swift; sourceTree = "<group>"; };
 		478BA27E283E85F500C35507 /* AuthContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthContext.swift; sourceTree = "<group>"; };
 		478BA282283EF2DB00C35507 /* UIViewController+SBTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+SBTransition.swift"; sourceTree = "<group>"; };
+		478BECCB2965C1D200930DAF /* UINavigationController+Completion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Completion.swift"; sourceTree = "<group>"; };
+		478BECCC2965C1D200930DAF /* UINavigationItem+UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationItem+UIButton.swift"; sourceTree = "<group>"; };
+		478BECD12965C22800930DAF /* UIView+BecomeRound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+BecomeRound.swift"; sourceTree = "<group>"; };
 		479683F22826494100CA23BA /* UIColor+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Theme.swift"; sourceTree = "<group>"; };
 		479683F4282817CC00CA23BA /* PostAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAnnotationView.swift; sourceTree = "<group>"; };
 		479683F72828180C00CA23BA /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
@@ -1134,7 +1138,6 @@
 		5BB624B128620D4A00DCD45B /* CustomCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCardView.swift; sourceTree = "<group>"; };
 		5BB624B328620D5F00DCD45B /* CustomCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCardView.xib; sourceTree = "<group>"; };
 		5BB624B528622C8500DCD45B /* UIViewController+DismissFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+DismissFlag.swift"; sourceTree = "<group>"; };
-		5BB624B82863CA2600DCD45B /* UINavigationItem+UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem+UIButton.swift"; sourceTree = "<group>"; };
 		5BB624BD2864308E00DCD45B /* ConversationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationService.swift; sourceTree = "<group>"; };
 		5BB624C028678A8900DCD45B /* MatchRequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchRequestService.swift; sourceTree = "<group>"; };
 		5BB624C4286790D400DCD45B /* BlockService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockService.swift; sourceTree = "<group>"; };
@@ -1576,6 +1579,15 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		478BECCA2965C1D200930DAF /* UINavigation */ = {
+			isa = PBXGroup;
+			children = (
+				478BECCB2965C1D200930DAF /* UINavigationController+Completion.swift */,
+				478BECCC2965C1D200930DAF /* UINavigationItem+UIButton.swift */,
+			);
+			path = UINavigation;
+			sourceTree = "<group>";
+		};
 		479683F6282817F900CA23BA /* Annotations */ = {
 			isa = PBXGroup;
 			children = (
@@ -1630,12 +1642,12 @@
 				5B99D3BB28C4732A009E63CD /* UIScrollView */,
 				5B235B1028AEFE1E00FD27A9 /* NavigationController */,
 				5B235B0C28AEFDEC00FD27A9 /* GestureRecognizer */,
-				5BB624B72863CA1300DCD45B /* UINavigation */,
 				5B4D58A52860D7E5002E2F94 /* UIImageView */,
 				5BE4D9BC285C017100197080 /* String */,
 				47CEEE96285451F7008947FC /* Buttons */,
 				47061CCE28510E230042F04C /* MapThings */,
 				47F93C4F284C065D00017947 /* UIViewController */,
+				478BECCA2965C1D200930DAF /* UINavigation */,
 				474A4AB3284A952200B39A98 /* UITextView */,
 				474A4AB2284A950100B39A98 /* UITextField */,
 				474A4AB1284A94DB00B39A98 /* UIImage */,
@@ -1684,6 +1696,7 @@
 		47D5B36828441180004CDE6C /* UIView */ = {
 			isa = PBXGroup;
 			children = (
+				478BECD12965C22800930DAF /* UIView+BecomeRound.swift */,
 				47D5B3662844116A004CDE6C /* UIView+AddBorders.swift */,
 				479AA1F427DCFFCB00EA0DFC /* UIView+TopBorder.swift */,
 				475B1F8C27FBAB2F00ED59CD /* UIView+Animations.swift */,
@@ -2186,15 +2199,6 @@
 				5B99D3BC28C4733C009E63CD /* UIScrollView+IsAt.swift */,
 			);
 			path = UIScrollView;
-			sourceTree = "<group>";
-		};
-		5BB624B72863CA1300DCD45B /* UINavigation */ = {
-			isa = PBXGroup;
-			children = (
-				478BA27A283E77C100C35507 /* UINavigationController+Completion.swift */,
-				5BB624B82863CA2600DCD45B /* UINavigationItem+UIButton.swift */,
-			);
-			path = UINavigation;
 			sourceTree = "<group>";
 		};
 		5BB624BA28641A0D00DCD45B /* Post */ = {
@@ -2725,7 +2729,6 @@
 				5B879E9128B9129100D2DFC1 /* CustomNavBar.swift in Sources */,
 				4752719F2855AF1400DDF84D /* UIView+SafeAreaConstraints.swift in Sources */,
 				47FF869827DB1F470076A1CA /* PostAPI.swift in Sources */,
-				478BA27B283E77C100C35507 /* UINavigationController+Completion.swift in Sources */,
 				47F10DC5285316AC00E1A3DC /* PlaceAnnotationView.swift in Sources */,
 				472A4BF128408BD800FD52B7 /* TransitionZoom.swift in Sources */,
 				5BE1474528A045CF0096FEBE /* UIImageView+Initials.swift in Sources */,
@@ -2745,6 +2748,7 @@
 				4746508727D8735B0014217C /* RulesViewController.swift in Sources */,
 				472A4BFB28408BD800FD52B7 /* Misc.swift in Sources */,
 				479AA20327DD4AA900EA0DFC /* KUIViewController.swift in Sources */,
+				478BECCF2965C1D200930DAF /* UINavigationItem+UIButton.swift in Sources */,
 				5B29F91E28DFB6B50062145B /* CollectibleManager.swift in Sources */,
 				470F271827DE758100C6DDAF /* SearchResultCell.swift in Sources */,
 				5BCE5F7D28B467AB002078E1 /* CommentHeaderCell.swift in Sources */,
@@ -2797,7 +2801,6 @@
 				43A05BDD2835008B0085A99B /* SpecialTabBar.swift in Sources */,
 				5BB624D32867A56100DCD45B /* CommentService.swift in Sources */,
 				47EE95FA27F64C00003B351E /* MyAccountViewController.swift in Sources */,
-				5BB624B92863CA2600DCD45B /* UINavigationItem+UIButton.swift in Sources */,
 				5B99D3C028C487F4009E63CD /* OldMistbox.swift in Sources */,
 				5B1F16D2287D1E5000035F93 /* CustomExploreViewController.swift in Sources */,
 				43E30CFE2826355C00DBEB57 /* UploadProfilePictureViewController.swift in Sources */,
@@ -2805,6 +2808,7 @@
 				472A4C0628408BD800FD52B7 /* SpringAnimation.swift in Sources */,
 				5BCD490E28714F920002BD02 /* WantToChatView.swift in Sources */,
 				5BC2532128BC545C00D4F49A /* CLLocationCoordinate.swift in Sources */,
+				478BECCD2965C1D200930DAF /* UINavigationController+Completion.swift in Sources */,
 				5BB624D92867DD8400DCD45B /* ConversationCell.swift in Sources */,
 				47AE72AA27F77B0B00A5E94C /* UpdateProfileSettingViewController.swift in Sources */,
 				47527194285584F400DDF84D /* SimpleInputCell.swift in Sources */,
@@ -2952,6 +2956,7 @@
 				436EE80927F40CEA000D2887 /* ConfirmEmailViewController.swift in Sources */,
 				43529E2F2890BD3D00B3A484 /* CommentFlagAPI.swift in Sources */,
 				5BE110022876CD9D00CB54A6 /* RequestResetNumberViewController.swift in Sources */,
+				478BECD22965C22800930DAF /* UIView+BecomeRound.swift in Sources */,
 				47A3D70E27D55BB3003DBEA5 /* Time.swift in Sources */,
 				5B4152B828BF691D00592A55 /* UIViewController+Child.swift in Sources */,
 				43770C4B27EE8C0F00F31CCF /* PasswordLoginViewController.swift in Sources */,
@@ -3090,7 +3095,6 @@
 				5B879E9228B9129100D2DFC1 /* CustomNavBar.swift in Sources */,
 				5B739D9B28935B9500E4EED0 /* UIView+SafeAreaConstraints.swift in Sources */,
 				5B739D9C28935B9500E4EED0 /* PostAPI.swift in Sources */,
-				5B739D9D28935B9500E4EED0 /* UINavigationController+Completion.swift in Sources */,
 				5B739D9E28935B9500E4EED0 /* PlaceAnnotationView.swift in Sources */,
 				5BE147CF28A2937E0096FEBE /* CommentDelegate.swift in Sources */,
 				5B235B0828AEAD4300FD27A9 /* UIViewController+Window.swift in Sources */,
@@ -3163,8 +3167,8 @@
 				5B739DC928935B9500E4EED0 /* CommentService.swift in Sources */,
 				5B99D3C128C487F4009E63CD /* OldMistbox.swift in Sources */,
 				5B739DCA28935B9500E4EED0 /* MyAccountViewController.swift in Sources */,
-				5B739DCB28935B9500E4EED0 /* UINavigationItem+UIButton.swift in Sources */,
 				5B739DCC28935B9500E4EED0 /* CustomExploreViewController.swift in Sources */,
+				478BECD02965C1D200930DAF /* UINavigationItem+UIButton.swift in Sources */,
 				5B739DCD28935B9500E4EED0 /* UploadProfilePictureViewController.swift in Sources */,
 				5B739DCE28935B9500E4EED0 /* UIViewController+Loading.swift in Sources */,
 				5BC2532228BC545C00D4F49A /* CLLocationCoordinate.swift in Sources */,
@@ -3230,6 +3234,7 @@
 				5B29F91C28DFB6850062145B /* Collectible.swift in Sources */,
 				5B29F92328DFBE1F0062145B /* WhatIsPromptsViewController.swift in Sources */,
 				434E333328DD88D100A9E88A /* OpenNotificationsAPI.swift in Sources */,
+				478BECD32965C22800930DAF /* UIView+BecomeRound.swift in Sources */,
 				5B739DF728935B9500E4EED0 /* CustomMessagesFlowLayout.swift in Sources */,
 				5B739DF828935B9500E4EED0 /* Word.swift in Sources */,
 				5B739DF928935B9500E4EED0 /* String+Capitalization.swift in Sources */,
@@ -3287,6 +3292,7 @@
 				5BD7482028C1EB68005C7820 /* LocationManager.swift in Sources */,
 				5B739E1C28935B9500E4EED0 /* Spring.swift in Sources */,
 				5B739E1D28935B9500E4EED0 /* HomeViewController.swift in Sources */,
+				478BECCE2965C1D200930DAF /* UINavigationController+Completion.swift in Sources */,
 				5B739E1E28935B9500E4EED0 /* DesignableLabel.swift in Sources */,
 				5B739E1F28935B9500E4EED0 /* KeyboardLayoutConstraint.swift in Sources */,
 				5B4CE2EE28DA607400FB9E8B /* MapFilterSheetViewController.swift in Sources */,

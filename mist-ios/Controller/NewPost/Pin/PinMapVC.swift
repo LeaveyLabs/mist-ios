@@ -14,14 +14,6 @@ protocol PinMapChildDelegate {
     func pinWasSaved(newPin: CLLocationCoordinate2D)
 }
 
-extension UIView {
-    
-    func roundCornersViaCornerRadius(radius: CGFloat) {
-        layer.cornerCurve = .continuous
-        layer.cornerRadius = radius
-    }
-}
-
 class PinMapViewController: MapViewController {
     
     //MARK: - Properties
