@@ -72,7 +72,7 @@ class SettingCell: UITableViewCell {
         case .deleteAccount:
             break
         case .contactUs:
-            accessoryLabel.text = "whatsup@getmist.app"
+            accessoryLabel.text = "getmist.app@gmail.com"
         case .leaveReview:
             break
         case .feedbackForm:

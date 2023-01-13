@@ -77,7 +77,7 @@ extension SettingsTapDelegate where Self: UIViewController {
         } else if setting == .terms {
             openURL(URL(string: "https://www.getmist.app/terms-of-use")!)
         } else if setting == .contactUs {
-            UIApplication.shared.open(URL(string: "mailto:whatsup@getmist.app")!) //mailto can't use safari
+            UIApplication.shared.open(URL(string: "getmist.app@gmail.com")!) //mailto can't use safari
         } else if setting == .contentGuidelines {
             openURL(URL(string: "https://www.getmist.app/content-guidelines")!)
         } else if setting == .faq {
