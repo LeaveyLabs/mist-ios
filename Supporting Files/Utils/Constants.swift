@@ -31,10 +31,10 @@ struct Constants {
     }
     
     static let downloadLink = NSURL(string: "https://apps.apple.com/app/mist/id1631426995")!
-    static let landingPageLink = NSURL(string: "https://getmist.app")!
+    static let landingPageLink = NSURL(string: "https://mist.social")!
     static let merchLink = NSURL(string: "https://mist.fit")!
-    static let instagramLink = NSURL(string: "https://www.instagram.com/mist_usc/")!
-    static let instagramHandle = "@misc_usc"
+    static let instagramLink = NSURL(string: "https://www.instagram.com/mist_app/")!
+    static let instagramHandle = "@mist_app"
     static let merchLinkName = "www.mist.fit"
 
     static let defaultProfilePic = ReadOnlyUser.RandomSilhouette()

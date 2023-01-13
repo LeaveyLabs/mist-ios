@@ -50,6 +50,7 @@ extension InputBarAccessoryView {
 
         //Left
         let inputAvatar = InputAvatar(frame: CGRect(x: 0, y: 0, width: 40, height: 40), profilePic: isCommentingAnonymous ? UserService.singleton.getSilhouette() : UserService.singleton.getProfilePic())
+        inputAvatar.roundCorners(corners: [.allCorners], radius: 20)
         setLeftStackViewWidthConstant(to: 48, animated: false)
         setStackViewItems([inputAvatar, InputBarButtonItem.fixedSpace(8)], forStack: .left, animated: false)
     }

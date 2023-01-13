@@ -73,15 +73,15 @@ extension SettingsTapDelegate where Self: UIViewController {
     
     func handleLink(setting: Setting) {
         if setting == .privacyPolicy {
-            openURL(URL(string: "https://www.getmist.app/privacy-policy")!)
+            openURL(URL(string: "https://www.mist.social/privacy-policy")!)
         } else if setting == .terms {
-            openURL(URL(string: "https://www.getmist.app/terms-of-use")!)
+            openURL(URL(string: "https://www.mist.social/terms-of-use")!)
         } else if setting == .contactUs {
             UIApplication.shared.open(URL(string: "getmist.app@gmail.com")!) //mailto can't use safari
         } else if setting == .contentGuidelines {
-            openURL(URL(string: "https://www.getmist.app/content-guidelines")!)
+            openURL(URL(string: "https://www.mist.social/content-guidelines")!)
         } else if setting == .faq {
-            openURL(URL(string: "https://www.getmist.app/faq")!)
+            openURL(URL(string: "https://www.mist.social/faq")!)
         } else if setting == .feedbackForm {
             openURL(URL(string: "https://forms.gle/FQQpw2hfVqHLb5jU8")!)
         } else if setting == .merch {

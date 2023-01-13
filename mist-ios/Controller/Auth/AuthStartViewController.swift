@@ -49,12 +49,12 @@ class AuthStartViewController: UIViewController, UITextViewDelegate {
         if let agreementText = agreementTextView.text {
             let attributedText = NSMutableAttributedString(string: agreementText)
             
-            let termsOfUseUrl = URL(string: "https://www.getmist.app/terms-of-use")!
+            let termsOfUseUrl = URL(string: "https://www.mist.social/terms-of-use")!
             if let termsOfUseRange = agreementText.range(of: "terms of use") {
                 attributedText.setAttributes([.link: termsOfUseUrl], range: NSRange(termsOfUseRange, in: agreementText))
             }
             
-            let privacyPolicyUrl = URL(string: "https://www.getmist.app/privacy-policy")!
+            let privacyPolicyUrl = URL(string: "https://www.mist.social/privacy-policy")!
             if let privacyPolicyRange = agreementText.range(of: "privacy policy") {
                 attributedText.setAttributes([.link: privacyPolicyUrl], range: NSRange(privacyPolicyRange, in: agreementText))
             }
